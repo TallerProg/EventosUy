@@ -7,6 +7,8 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
 public class Main extends JFrame{
+
+
 	public Main() {
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		
@@ -74,6 +76,9 @@ public class Main extends JFrame{
 		menuInstitucion.add(ConsultaPatrocinio);
 	
 	}
-	private static final long serialVersionUID = 7995911936507748724L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7048783952493771091L;
 
 }
