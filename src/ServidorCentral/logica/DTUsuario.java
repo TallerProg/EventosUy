@@ -1,11 +1,12 @@
 package ServidorCentral.logica;
 
-public class Usuario{
+public class DTUsuario{
+	
 	private String nickname;
 	private String correo;
 	private String nombre;
 	
-	public Usuario(String nick, String correo, String nom) {
+	public DTUsuario(String nick, String correo, String nom) {
 		this.nickname=nick;
 		this.correo=correo;
 		this.nombre=nom;
