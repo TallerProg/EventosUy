@@ -20,3 +20,4 @@ import java.awt.Component;
 public class ConsultarUsuario extends JFrame{
 	public ConsultarUsuario() {
 	}
+}
