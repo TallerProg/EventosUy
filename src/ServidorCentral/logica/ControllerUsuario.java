@@ -33,13 +33,24 @@ public class ControllerUsuario implements IControllerUsuario {
         // placeholder
     //}
 
-	public List<DTUsuarioLista> listarUsuarios() {
-	    List<DTUsuarioLista> lista = new ArrayList<>();
-	    for (Usuario u : ManejadorUsuario.listarUsuarios()) {
-	        lista.add(new DTUsuarioLista(u.getNickname(), u.getCorreo(), u.getNombre()));
-	    }
-	    return lista;
-	}
+    public List<DTUsuarioLista> listarUsuarios() {
+        List<DTUsuarioLista> lista = new ArrayList<>();
+        for (Usuario u : ManejadorUsuario.listarUsuarios()) {
+            List<Edicion> ediciones = new ArrayList<>();
+            List<Registro> registros = new ArrayList<>();
+            
+            if (u instanceof Asistente) {
+                Asistente a = (Asistente) u;
+                registros = a.getRegistros();
+            } else if (u instanceof Organizador) {
+                Organizador o = (Organizador) u;
+            }
+
+            lista.add(new DTUsuarioLista(u.getNickname(), u.getCorreo(), u.getNombre(), ediciones, registros));
+        }
+        return lista;
+    }
+
 	
     public void modificarUsuario(String nickname, String nombre, String apellido,
             LocalDate fNac, String descripcion, String url)
