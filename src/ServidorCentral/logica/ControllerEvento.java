@@ -20,17 +20,17 @@ public class ControllerEvento implements IControllerEvento {
        ManejadorEvento.agregarEdicion(evento, ed);
     }
 
-	public Edicion ConsultaEdicionDeEvento(Evento evento, String nombreEdicion) {
-	    if (evento == null || nombreEdicion == null) return null;
-	
-	    for (Edicion ed : evento.getEdiciones()) {
-	        if (ed.getNombre().equalsIgnoreCase(nombreEdicion)) {
-	            return ed;
-	        }
-	    }
-	
-	    return null; 
-	}
+    public Edicion consultaEdicionDeEvento(String nombreEvento, String nombreEdicion) {
+        ManejadorEvento manejador = ManejadorEvento.getInstancia();
+        Evento evento = manejador.findEvento(nombreEvento);
+
+        if (evento != null) {
+            return evento.findEdicion(nombreEdicion);
+        }
+
+        return null;
+    }
+
 	
 	public DTTipoRegistro consultaTipoRegistro(String nombreEdicion, String nombreTipoR) {
         ManejadorEvento manejador = ManejadorEvento.getInstancia();

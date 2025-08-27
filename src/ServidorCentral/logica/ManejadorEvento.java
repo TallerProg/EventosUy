@@ -54,8 +54,19 @@ public class ManejadorEvento {
         		}
         	}
         }
-        return null;
-    }
-}
+        	return null;
+    	}
+	}
+
+	public Evento findEvento(String nombreEvento) {
+	    if (nombreEvento == null) return null;
+	
+	    for (Evento e : eventos) {
+	        if (e.getNombre().equalsIgnoreCase(nombreEvento)) {
+	            return e;
+	        }
+	    }
+	    return null;
+	}
 
 
