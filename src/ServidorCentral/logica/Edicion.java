@@ -1,6 +1,6 @@
 package ServidorCentral.logica;
 
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,8 +8,8 @@ public class Edicion extends Evento {
 
     // Atributos 
     private String nombre;
-    private LocalDate fInicio;
-    private LocalDate fFin;
+    private Date fInicio;
+    private Date fFin;
     private String ciudad;
     private String pais;
 
@@ -20,8 +20,8 @@ public class Edicion extends Evento {
     private List<Patrocinio> patrocinios;
 
     // Constructor
-    public Edicion(String nombre, String sigla, String descripcion, java.util.Date fAlta, Categoria categoria,
-    LocalDate fInicio, LocalDate fFin, String ciudad, String pais) {
+    public Edicion(String nombre, String sigla, String descripcion, Date fAlta, Categoria categoria,
+    		Date fInicio, Date fFin, String ciudad, String pais) {
     	super(nombre, sigla, descripcion, fAlta, categoria);
     	this.fInicio = fInicio;
     	this.fFin = fFin;
@@ -38,11 +38,11 @@ public class Edicion extends Evento {
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }
 
-    public LocalDate getfInicio() { return fInicio; }
-    public void setfInicio(LocalDate fInicio) { this.fInicio = fInicio; }
+    public Date getfInicio() { return fInicio; }
+    public void setfInicio(Date fInicio) { this.fInicio = fInicio; }
 
-    public LocalDate getfFin() { return fFin; }
-    public void setfFin(LocalDate fFin) { this.fFin = fFin; }
+    public Date getfFin() { return fFin; }
+    public void setfFin(Date fFin) { this.fFin = fFin; }
 
     public String getCiudad() { return ciudad; }
     public void setCiudad(String ciudad) { this.ciudad = ciudad; }
@@ -63,8 +63,27 @@ public class Edicion extends Evento {
     public void setPatrocinios(List<Patrocinio> patrocinios) { this.patrocinios = patrocinios; }
 
     // Métodos 
-    // public void addLinkRegistro(Registro reg) { }
-    // public TipoRegistro getEdicionTR(String nombreTR) { return null; }
-    // public boolean habilitadoAsistente(String nombreTR, Asistente asistente) { return false; }
+    public void addLinkRegistro(Registro reg) {
+        if (reg != null && !this.registros.contains(reg)) {
+            this.registros.add(reg);
+            reg.setEdicion(this);
+        }
+    }
+    public TipoRegistro getEdicionTR(String nombreTR) {
+        if (nombreTR == null) return null;
+        for (TipoRegistro tr : tipoRegistros) {
+            if (tr.getNombre().equalsIgnoreCase(nombreTR)) {
+                return tr;
+            }
+        }
+        return null;
+    }
+    public boolean habilitadoAsistente(String nombreTR, Asistente asistente) {
+        TipoRegistro tr = getEdicionTR(nombreTR);
+        if (tr == null) {
+            return false;
+        }
+        return tr.habilitaAsistente(asistente);
+    }
 
 }

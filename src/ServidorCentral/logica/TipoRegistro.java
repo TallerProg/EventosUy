@@ -44,6 +44,16 @@ public class TipoRegistro {
 
     public List<Patrocinio> getPatrocinioList() { return patrocinioList; }
     public void setPatrocinioList(List<Patrocinio> patrocinioList) { this.patrocinioList = patrocinioList; }
+    
+    public boolean habilitaAsistente(Asistente asistente) {
+        if (asistente == null) return false;
+        if (this.cupo <= 0) return false;
+
+        this.cupo--;
+
+        return true;
+    }
+
 
     // Métodos relacionados (comentados)
     // public void addLinkRegistro(Registro reg) { /* implementar */ }
