@@ -1,14 +1,22 @@
 package ServidorCentral.logica;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Organizador extends Usuario {
 
     private String descripcion;
     private String url;
+    private List<Edicion> ediciones = new ArrayList<>();
 
     public Organizador(String nickname, String correo, String nombre, String descripcion, String url) {
         super(nickname, correo, nombre);
         this.descripcion = descripcion;
         this.url = url;
+    }
+    
+    public  List<Edicion> getEdiciones(){
+    	return new ArrayList<>(ediciones);
     }
 
     public String getDescripcion() { return descripcion; }

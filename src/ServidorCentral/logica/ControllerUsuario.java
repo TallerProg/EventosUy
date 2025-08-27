@@ -33,7 +33,7 @@ public class ControllerUsuario implements IControllerUsuario {
         // placeholder
     //}
 
-    public List<DTUsuarioLista> listarUsuarios() {
+    public List<DTUsuarioLista> getUsuarios() {
         List<DTUsuarioLista> lista = new ArrayList<>();
         for (Usuario u : ManejadorUsuario.listarUsuarios()) {
             List<Edicion> ediciones = new ArrayList<>();
@@ -44,6 +44,7 @@ public class ControllerUsuario implements IControllerUsuario {
                 registros = a.getRegistros();
             } else if (u instanceof Organizador) {
                 Organizador o = (Organizador) u;
+                ediciones = o.getEdiciones(); 
             }
 
             lista.add(new DTUsuarioLista(u.getNickname(), u.getCorreo(), u.getNombre(), ediciones, registros));

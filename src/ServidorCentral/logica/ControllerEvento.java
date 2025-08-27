@@ -48,8 +48,5 @@ public class ControllerEvento implements IControllerEvento {
 	    return ManejadorEvento.listarEventos();
 	}
 	
-	public List<Organizador> listarOrganizadores() {
-	    return ManejadorEvento.listarOrganizadores();
-	}
 }
 	

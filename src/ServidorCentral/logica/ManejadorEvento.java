@@ -6,14 +6,9 @@ import java.util.List;
 public class ManejadorEvento {
     private static ManejadorEvento instancia;
     private static List<Evento> eventos = new ArrayList<>();
-    private static List<Organizador> organizadores = new ArrayList<>();
 
     public static List<Evento> listarEventos() {
         return new ArrayList<>(eventos);
-    }
-
-    public static List<Organizador> listarOrganizadores() {
-        return new ArrayList<>(organizadores);
     }
 
     public static boolean existeEvento(String nombre) {
