@@ -86,4 +86,11 @@ public class Edicion extends Evento {
         return tr.habilitaAsistente(asistente);
     }
 
+    public DTTipoRegistro datosTipoRegistroEdicion(String nombreTipoR) {
+        TipoRegistro r = getEdicionTR(nombreTipoR);
+        if (r != null) {
+            return r.getDTTipoRegistro();
+        }
+        return null;
+    }
 }

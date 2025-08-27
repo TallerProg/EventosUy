@@ -50,6 +50,7 @@ public class ConsultaTipoRegistro extends JInternalFrame {
 			panel_2.add(comboBoxTipoRegistro, BorderLayout.SOUTH);
 			
 			JTextArea informacionTipoRegistro = new JTextArea();
+			informacionTipoRegistro.setEditable(false);
 			informacionTipoRegistro.setText("Aca irian los datos del tipo registro");
 			getContentPane().add(informacionTipoRegistro, BorderLayout.CENTER);
 

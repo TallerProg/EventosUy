@@ -52,6 +52,15 @@ public class Evento {
         }
         return false;
     }
+    
+    public Edicion findEdicion(String nombreEdicion) {
+        for (Edicion ed : ediciones) {
+            if (ed.getNombre().equalsIgnoreCase(nombreEdicion)) {
+                return ed;
+            }
+        }
+        return null;
+    }
 
     public List<Edicion> getEdiciones() {
         return new ArrayList<>(ediciones);

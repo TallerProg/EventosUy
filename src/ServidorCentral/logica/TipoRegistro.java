@@ -59,5 +59,8 @@ public class TipoRegistro {
     // public void addLinkRegistro(Registro reg) { /* implementar */ }
     // public boolean soldOutTipReg() { /* implementar */ return false; }
     // public boolean registradoTipReg(Asistente asistente) { /* implementar */ return false; }
-    // public DTTipoRegistro getDTTipoRegistro() { /* implementar */ return null; }
+    
+    public DTTipoRegistro getDTTipoRegistro() { 
+    	return new DTTipoRegistro(nombre,descripcion,costo,cupo);
+    }
 }

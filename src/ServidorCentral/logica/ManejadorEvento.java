@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ManejadorEvento {
-
+    private static ManejadorEvento instancia;
     private static List<Evento> eventos = new ArrayList<>();
     private static List<Organizador> organizadores = new ArrayList<>();
 
@@ -36,6 +36,25 @@ public class ManejadorEvento {
 
     public static void agregarEdicion(Evento evento, Edicion edicion) {
         evento.agregarEdicion(edicion);
+    }
+    
+    public static ManejadorEvento getInstancia() {
+        if (instancia == null) {
+            instancia = new ManejadorEvento();
+        }
+        return instancia;
+    }
+    
+    public Edicion findEdicion(String nombreEdicion) {
+        for (Evento ev : eventos) {
+        	if(ev.tieneEdicion(nombreEdicion)) {
+        		Edicion ed = ev.findEdicion(nombreEdicion);
+        		if (ed != null) {
+        			return ed;
+        		}
+        	}
+        }
+        return null;
     }
 }
 

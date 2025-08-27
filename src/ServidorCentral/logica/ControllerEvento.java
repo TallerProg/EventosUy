@@ -31,4 +31,16 @@ public class ControllerEvento implements IControllerEvento {
 	
 	    return null; 
 	}
+	
+	public DTTipoRegistro consultaTipoRegistro(String nombreEdicion, String nombreTipoR) {
+        ManejadorEvento manejador = ManejadorEvento.getInstancia();
+        Edicion e = manejador.findEdicion(nombreEdicion);
+        if (e != null) {
+            return e.datosTipoRegistroEdicion(nombreTipoR);
+        }
+        return null;
+		
+	}
 }
+
+	
