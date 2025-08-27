@@ -54,9 +54,9 @@ public class ManejadorEvento {
         		}
         	}
         }
-        	return null;
-    	}
-	}
+        return null;
+    }
+
 
 	public Evento findEvento(String nombreEvento) {
 	    if (nombreEvento == null) return null;
@@ -68,5 +68,5 @@ public class ManejadorEvento {
 	    }
 	    return null;
 	}
-
+}
 
