@@ -1,7 +1,8 @@
 package ServidorCentral.logica;
 
 import java.util.Date;
-
+import java.util.ArrayList;
+import java.util.List;
 public class ControllerEvento implements IControllerEvento {
 
     public void altaEdicionDeEvento(String nombre, String sigla, String ciudad, String pais,
@@ -41,6 +42,14 @@ public class ControllerEvento implements IControllerEvento {
         return null;
 		
 	}
-}
 
+
+	public List<Evento> listarEventos() {
+	    return ManejadorEvento.listarEventos();
+	}
+	
+	public List<Organizador> listarOrganizadores() {
+	    return ManejadorEvento.listarOrganizadores();
+	}
+}
 	
