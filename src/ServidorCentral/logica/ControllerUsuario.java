@@ -1,5 +1,7 @@
 package ServidorCentral.logica;
 
+import ServidorCentral.excepciones.*;
+
 public class ControllerUsuario implements IControllerUsuario {
 
     public ControllerUsuario() {
@@ -7,23 +9,23 @@ public class ControllerUsuario implements IControllerUsuario {
     }
 
     // Método de consulta
-    /*public DTUsuarioLista ConsultaDeUsuario(String nicknameUsu) {
+    public DTUsuarioLista ConsultaDeUsuario(String nicknameUsu) throws UsuarioNoExisteException {
         return null; // placeholder
     }
 
     // Métodos de alta
     public void AltaUsuarioAsistente(String nicknameUsu, String correo, String nombre,
-                                     String apellido, java.util.Date fNacimiento) {
+                                     String apellido, java.util.Date fNacimiento) throws UsuarioRepetidoException {
         // placeholder
     }
 
     public void AltaUsuarioOrganizador(String nicknameUsu, String correo, String nombre,
-                                       String descripcion, String url) {
+                                       String descripcion, String url) throws UsuarioRepetidoException {
         // placeholder
     }
 
     // Método de modificación
-    public void ModificarDatosUsuario() {
+    //public void ModificarDatosUsuario() {
         // placeholder
-    }*/
+    //}
 }
