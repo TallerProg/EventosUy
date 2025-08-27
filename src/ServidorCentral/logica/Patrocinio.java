@@ -9,7 +9,7 @@ public class Patrocinio {
     private Date fInicio;
     private int registroGratuito;
     private Float monto;
-    private TNivel nivel;
+    private ETipoNivel nivel;
 
     // Relaciones
     private Institucion institucion;          // muchos a uno
@@ -19,7 +19,7 @@ public class Patrocinio {
     private List<Registro> registros;        // uno a muchos
 
     // Constructor
-    public Patrocinio(String codigo, Date fInicio, int registroGratuito, Float monto, TNivel nivel,
+    public Patrocinio(String codigo, Date fInicio, int registroGratuito, Float monto, ETipoNivel nivel,
       Institucion institucion, Edicion edicion, TipoRegistro tipoRegistro) {
         this.codigo = codigo;
         this.fInicio = fInicio;
@@ -44,8 +44,8 @@ public class Patrocinio {
     public Float getMonto() { return monto; }
     public void setMonto(Float monto) { this.monto = monto; }
 
-    public TNivel getNivel() { return nivel; }
-    public void setNivel(TNivel nivel) { this.nivel = nivel; }
+    public ETipoNivel getNivel() { return nivel; }
+    public void setNivel(ETipoNivel nivel) { this.nivel = nivel; }
 
     public Institucion getInstitucion() { return institucion; }
     public void setInstitucion(Institucion institucion) { this.institucion = institucion; }
