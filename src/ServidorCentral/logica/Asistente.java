@@ -44,6 +44,8 @@ public class Asistente extends Usuario {
 
     public Patrocinio getPatrocinio() { return patrocinio; }
     public void setPatrocinio(Patrocinio patrocinio) { this.patrocinio = patrocinio; }
+    
+    
 
     // Métodos
     

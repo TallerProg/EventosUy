@@ -1,18 +1,21 @@
 package ServidorCentral.logica;
+
 public class Organizador extends Usuario {
 
-    public Organizador(String nombre, String descripcion, String url) {
-        super(nombre, descripcion, url);
+    private String descripcion;
+    private String url;
+
+    public Organizador(String nickname, String correo, String nombre, String descripcion, String url) {
+        super(nickname, correo, nombre);
+        this.descripcion = descripcion;
+        this.url = url;
     }
 
-    public void editarDatosOrganizador(String nombre, String descripcion, String url) {
-        // Implementación vacía por ahora
-    }
+    public String getDescripcion() { return descripcion; }
+    public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
 
-   /*
-     public DTUsuarioLista obtenerDataOrg() {
-     
-        // Retorno temporal para que compile
-        return null;}
-	*/
+    public String getUrl() { return url; }
+    public void setUrl(String url) { this.url = url; }
+
+
 }
