@@ -46,8 +46,12 @@ public class Principal{
     }
 	
 	public Principal() {
-        initialize();
-        
+		//para que compile nomas
+		  frmEventosUy = new JFrame();
+		    frmEventosUy.setTitle("EventosUY");
+		    frmEventosUy.setBounds(100, 100, 800, 600);
+		    frmEventosUy.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		   //---------
         Factory fabrica = Factory.getInstance();
         ICU = fabrica.getIControllerUsuario();
         ICE = fabrica.getIControllerEvento();
