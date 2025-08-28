@@ -165,7 +165,7 @@ public class AltaUsuario extends JInternalFrame {
 
         comboTipoUsuario.setSelectedIndex(0);
 
-        // Acción del botón Aceptar con validaciones
+        // Acción del botón Aceptar
         btnAceptar.addActionListener(e -> {
             String tipo = (String) comboTipoUsuario.getSelectedItem();
             String nick = textFieldNickName.getText().trim();
@@ -173,7 +173,7 @@ public class AltaUsuario extends JInternalFrame {
             String correo = textFieldCorreo.getText().trim();
 
             try {
-                // --- Validación de campos obligatorios comunes ---
+                
                 if (nick.isEmpty() || nombre.isEmpty() || correo.isEmpty()) {
                     JOptionPane.showMessageDialog(this,
                             "Nickname, Nombre y Correo son obligatorios.",
@@ -204,7 +204,7 @@ public class AltaUsuario extends JInternalFrame {
 
                     controlUsr.AltaAsistente(nick, correo, nombre, apellido, fecha, inst);
 
-                } else { // Organizador
+                } else {
                     String descripcion = textFieldDescripcion.getText().trim();
                     if (descripcion.isEmpty()) {
                         JOptionPane.showMessageDialog(this,
