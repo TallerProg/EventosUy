@@ -50,7 +50,7 @@ public class AltaEvento extends JInternalFrame {
 
         textFieldNombre = new JTextField();
         GridBagConstraints gbc_textNombre = new GridBagConstraints();
-        gbc_textNombre.insets = new Insets(5, 5, 5, 5);
+        gbc_textNombre.insets = new Insets(5, 5, 5, 60);
         gbc_textNombre.fill = GridBagConstraints.HORIZONTAL;
         gbc_textNombre.gridx = 1;
         gbc_textNombre.gridy = row;
@@ -68,7 +68,7 @@ public class AltaEvento extends JInternalFrame {
 
         textFieldSigla = new JTextField();
         GridBagConstraints gbc_textSigla = new GridBagConstraints();
-        gbc_textSigla.insets = new Insets(5, 5, 5, 5);
+        gbc_textSigla.insets = new Insets(5, 5, 5, 60);
         gbc_textSigla.fill = GridBagConstraints.HORIZONTAL;
         gbc_textSigla.gridx = 1;
         gbc_textSigla.gridy = row;
@@ -87,7 +87,7 @@ public class AltaEvento extends JInternalFrame {
         textAreaDescripcion = new JTextArea(4, 20);
         JScrollPane scrollDesc = new JScrollPane(textAreaDescripcion);
         GridBagConstraints gbc_textDesc = new GridBagConstraints();
-        gbc_textDesc.insets = new Insets(5, 5, 5, 5);
+        gbc_textDesc.insets = new Insets(5, 5, 5, 60);
         gbc_textDesc.fill = GridBagConstraints.BOTH;
         gbc_textDesc.gridx = 1;
         gbc_textDesc.gridy = row;
@@ -108,7 +108,7 @@ public class AltaEvento extends JInternalFrame {
         panelCategorias.setLayout(new BoxLayout(panelCategorias, BoxLayout.Y_AXIS));
         JScrollPane scrollCategorias = new JScrollPane(panelCategorias);
         GridBagConstraints gbc_listCategorias = new GridBagConstraints();
-        gbc_listCategorias.insets = new Insets(5, 5, 5, 5);
+        gbc_listCategorias.insets = new Insets(5, 5, 5, 60);
         gbc_listCategorias.fill = GridBagConstraints.BOTH;
         gbc_listCategorias.gridx = 1;
         gbc_listCategorias.gridy = row;
@@ -120,20 +120,23 @@ public class AltaEvento extends JInternalFrame {
         // Botones
         btnCancelar = new JButton("Cancelar");
         GridBagConstraints gbc_btnCancelar = new GridBagConstraints();
-        gbc_btnCancelar.insets = new Insets(10, 5, 5, 5); 
+        gbc_btnCancelar.insets = new Insets(10, 20, 5, 80); 
         gbc_btnCancelar.gridx = 1;  
         gbc_btnCancelar.gridy = row;
         gbc_btnCancelar.weightx = 0; 
         gbc_btnCancelar.anchor = GridBagConstraints.LINE_END; 
+        Dimension mismoTamaño = new Dimension(100, 25);
+        btnCancelar.setPreferredSize(mismoTamaño);
         getContentPane().add(btnCancelar, gbc_btnCancelar);
 
         btnAceptar = new JButton("Aceptar");
         GridBagConstraints gbc_btnAceptar = new GridBagConstraints();
-        gbc_btnAceptar.insets = new Insets(10, 5, 5, 5);
+        gbc_btnAceptar.insets = new Insets(10, 50, 5, 20);
         gbc_btnAceptar.gridx = 1; 
         gbc_btnAceptar.gridy = row;
         gbc_btnAceptar.weightx = 0;
         gbc_btnAceptar.anchor = GridBagConstraints.LINE_START;
+        btnAceptar.setPreferredSize(mismoTamaño);
         getContentPane().add(btnAceptar, gbc_btnAceptar);
 
         // Listeners
@@ -188,11 +191,11 @@ public class AltaEvento extends JInternalFrame {
     }
 
     private void cargarCategorias(JPanel panelCategorias) {
-        // Categorías de prueba
-        String[] categoriasPrueba = {"Conferencia", "Seminario", "Taller", "Charla", "Workshop"};
+        panelCategorias.removeAll();
+        checkBoxesCategorias.clear();
 
-        for (String nombreCat : categoriasPrueba) {
-            JCheckBox checkBox = new JCheckBox(nombreCat);
+        for (Categoria c : controlEvento.getCategorias()) {
+            JCheckBox checkBox = new JCheckBox(c.getNombre());
             checkBoxesCategorias.add(checkBox);
             panelCategorias.add(checkBox);
         }
