@@ -118,19 +118,23 @@ public class AltaEvento extends JInternalFrame {
         checkBoxesCategorias = new java.util.ArrayList<>();
 
         // Botones
+        btnCancelar = new JButton("Cancelar");
+        GridBagConstraints gbc_btnCancelar = new GridBagConstraints();
+        gbc_btnCancelar.insets = new Insets(10, 5, 5, 5); 
+        gbc_btnCancelar.gridx = 1;  
+        gbc_btnCancelar.gridy = row;
+        gbc_btnCancelar.weightx = 0; 
+        gbc_btnCancelar.anchor = GridBagConstraints.LINE_END; 
+        getContentPane().add(btnCancelar, gbc_btnCancelar);
+
         btnAceptar = new JButton("Aceptar");
         GridBagConstraints gbc_btnAceptar = new GridBagConstraints();
         gbc_btnAceptar.insets = new Insets(10, 5, 5, 5);
-        gbc_btnAceptar.gridx = 1;
+        gbc_btnAceptar.gridx = 1; 
         gbc_btnAceptar.gridy = row;
+        gbc_btnAceptar.weightx = 0;
+        gbc_btnAceptar.anchor = GridBagConstraints.LINE_START;
         getContentPane().add(btnAceptar, gbc_btnAceptar);
-
-        btnCancelar = new JButton("Cancelar");
-        GridBagConstraints gbc_btnCancelar = new GridBagConstraints();
-        gbc_btnCancelar.insets = new Insets(10, 5, 5, 5);
-        gbc_btnCancelar.gridx = 2;
-        gbc_btnCancelar.gridy = row;
-        getContentPane().add(btnCancelar, gbc_btnCancelar);
 
         // Listeners
         btnCancelar.addActionListener(e -> this.setVisible(false));
