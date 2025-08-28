@@ -13,8 +13,7 @@ public class ControllerEvento implements IControllerEvento {
             throw new Exception("Ya existe una edición con ese nombre para este evento");
         }
 
-        Edicion ed = new Edicion(nombre, sigla, evento.getDescripcion(), fechaAlta,
-                                 evento.getCategoria(), fechaIni, fechaFin, ciudad, pais);
+        Edicion ed = new Edicion(nombre, fechaIni, fechaFin, ciudad, pais);
 
         ed.getOrganizadores().add(org);
        ManejadorEvento me = ManejadorEvento.getInstancia();
@@ -74,6 +73,22 @@ public class ControllerEvento implements IControllerEvento {
     	Evento Ev = new Evento(nombre, sigla, desc, fAlta, categorias);
     	me.agregarEvento(Ev);
     }
+    /*
+	public void altaRegistro(String nombreEdicion, String nickAsistente, String nombreTR, String codigo) throws Exception {
+		ManejadorUsuario manejadorUsuario = ManejadorUsuario.getinstance()
+		ManejadorEvento manejadorEvento = ManejadorEvento.getinstance()
+	    if (!manejadorEvento.existeEedicion(nombreEdicion)) {
+	        throw new Exception("Edición no existe");
+	    }
+	    Edicion edicion = manejadorEvento.findEdicion(nombreEdicion);
+	    if (!manejadorUsuario.existeAsistente(nickAsistente)) {
+	        throw new Exception("Asistente no existe");
+	    }
+	    Asistente asistente = manejadorUsuario.findAsistente(nickAsistente);
+
+	    
+	    
+	}*/
 
 }
 	

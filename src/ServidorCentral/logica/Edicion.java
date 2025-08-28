@@ -4,12 +4,13 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Edicion extends Evento {
+public class Edicion {
 
     // Atributos 
     private String nombre;
     private LocalDate fInicio;
     private LocalDate fFin;
+    private LocalDate fAlta;
     private String ciudad;
     private String pais;
 
@@ -20,14 +21,13 @@ public class Edicion extends Evento {
     private List<Patrocinio> patrocinios;
 
     // Constructor
-    public Edicion(String nombre, String sigla, String descripcion, LocalDate fAlta, List<Categoria> categorias,
-    		LocalDate fInicio, LocalDate fFin, String ciudad, String pais) {
-    	super(nombre, sigla, descripcion, fAlta, categorias);
+    public Edicion(String nombre, LocalDate fInicio, LocalDate fFin, String ciudad, String pais) {
+    	this.nombre = nombre;
     	this.fInicio = fInicio;
     	this.fFin = fFin;
     	this.ciudad = ciudad;
     	this.pais = pais;
-
+    	this.fAlta = LocalDate.now();
     	this.tipoRegistros = new ArrayList<>();
     	this.organizadores = new ArrayList<>();
     	this.registros = new ArrayList<>();
@@ -43,6 +43,9 @@ public class Edicion extends Evento {
 
     public LocalDate getfFin() { return fFin; }
     public void setfFin(LocalDate fFin) { this.fFin = fFin; }
+    
+    public LocalDate getFAlta() { return fAlta; }
+    public void setFAlta(LocalDate fAlta) { this.fAlta = fAlta; }
 
     public String getCiudad() { return ciudad; }
     public void setCiudad(String ciudad) { this.ciudad = ciudad; }

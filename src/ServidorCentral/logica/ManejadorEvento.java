@@ -7,7 +7,7 @@ public class ManejadorEvento {
     private static ManejadorEvento instancia;
     private  List<Evento> eventos = new ArrayList<>();
     private  List<Categoria> categorias = new ArrayList<>();
-
+    private  List<Edicion> ediciones = new ArrayList<>();
     public static ManejadorEvento getInstancia() {
         if (instancia == null) {
             instancia = new ManejadorEvento();
@@ -37,7 +37,7 @@ public class ManejadorEvento {
     }
 
     public void agregarEdicion(Evento evento, Edicion edicion) {
-        evento.agregarEdicion(edicion);
+    	ediciones.add(edicion);
     }
 
     public Edicion findEdicion(String nombreEdicion) {
@@ -67,6 +67,16 @@ public class ManejadorEvento {
     	Categoria c = new Categoria(nombre);
     	categorias.add(c);
     }
+
+	public boolean existeEdicion(String nombreEdicion) {
+		for (Edicion e : ediciones) {
+            if (e.getNombre().equalsIgnoreCase(nombreEdicion)) {
+                return true;
+            }
+        }
+        return false;
+    }
+	
 }
 
 
