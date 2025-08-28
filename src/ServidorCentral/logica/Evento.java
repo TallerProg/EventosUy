@@ -12,7 +12,7 @@ public class Evento {
     private LocalDate fAlta;
     private List<Categoria> categorias = new ArrayList<>(); 
     private List<Edicion> ediciones = new ArrayList<>();
-
+    
     public Evento(String nombre, String sigla, String descripcion, LocalDate fAlta, List<Categoria> categorias) {
         this.nombre = nombre;
         this.sigla = sigla;

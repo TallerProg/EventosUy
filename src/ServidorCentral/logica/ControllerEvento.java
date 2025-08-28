@@ -5,14 +5,14 @@ import java.util.List;
 
 public class ControllerEvento implements IControllerEvento {
 
-    public void altaEdicionDeEvento(String nombre, String sigla, String ciudad, String pais,
-                                    LocalDate fechaIni, LocalDate fechaFin, LocalDate fechaAlta,
-                                    Evento evento, Organizador org) throws Exception {
-
-        if (evento.tieneEdicion(nombre)) {
-            throw new Exception("Ya existe una edición con ese nombre para este evento");
-        }
-
+    public void altaEdicionDeEvento(Evento evento, Organizador org, String  nombreEvento, String nombre, LocalDate fechaIni, LocalDate fechaFin,
+    String ciudad, String pais) throws Exception {
+    	ManejadorEvento mE = ManejadorEvento.getInstancia();
+        if (mE.existeEdicion(nombre)) {
+        	throw new IllegalArgumentException("Ya existe una edición con ese nombre");
+    	}
+        
+        
         Edicion ed = new Edicion(nombre, fechaIni, fechaFin, ciudad, pais);
 
         ed.getOrganizadores().add(org);
