@@ -1,7 +1,7 @@
 package ServidorCentral.logica;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 public class Evento {
@@ -9,16 +9,16 @@ public class Evento {
     private String nombre;
     private String sigla;
     private String descripcion;
-    private Date fAlta;
-    private Categoria categoria; 
+    private LocalDate fAlta;
+    private List<Categoria> categorias = new ArrayList<>(); 
     private List<Edicion> ediciones = new ArrayList<>();
-
-    public Evento(String nombre, String sigla, String descripcion, Date fAlta, Categoria categoria) {
+    
+    public Evento(String nombre, String sigla, String descripcion, LocalDate fAlta, List<Categoria> categorias) {
         this.nombre = nombre;
         this.sigla = sigla;
         this.descripcion = descripcion;
         this.fAlta = fAlta;
-        this.categoria = categoria;
+        this.categorias = categorias;
     }
 
     // Getters y setters
@@ -31,11 +31,11 @@ public class Evento {
     public String getDescripcion() { return descripcion; }
     public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
 
-    public Date getFAlta() { return fAlta; }
-    public void setFAlta(Date fAlta) { this.fAlta = fAlta; }
+    public LocalDate getFAlta() { return fAlta; }
+    public void setFAlta(LocalDate fAlta) { this.fAlta = fAlta; }
 
-    public Categoria getCategoria() { return categoria; }
-    public void setCategoria(Categoria categoria) { this.categoria = categoria; }
+    public List<Categoria> getCategoria() { return categorias; }
+
 
     // Métodos para ediciones
     public void agregarEdicion(Edicion edicion) {
@@ -66,3 +66,4 @@ public class Evento {
         return new ArrayList<>(ediciones);
     }
 }
+

@@ -1,25 +1,26 @@
 package ServidorCentral.logica;
 
-import java.util.Date;
-import java.util.ArrayList;
+import java.time.LocalDate;
 import java.util.List;
+
 public class ControllerEvento implements IControllerEvento {
 
-    public void altaEdicionDeEvento(String nombre, String sigla, String ciudad, String pais,
-                                    Date fechaIni, Date fechaFin, Date fechaAlta,
-                                    Evento evento, Organizador org) throws Exception {
+	public void altaEdicionDeEvento(String nombre, String sigla, String ciudad, String pais,
+            LocalDate fInicio, LocalDate fFin,
+            Evento evento, Organizador org) throws Exception {
 
-        if (evento.tieneEdicion(nombre)) {
-            throw new Exception("Ya existe una edición con ese nombre para este evento");
-        }
+			ManejadorEvento mE = ManejadorEvento.getInstancia();
+			if (mE.existeEdicion(nombre)) {
+			throw new IllegalArgumentException("Ya existe una edición con ese nombre");
+			}
+			
+			Edicion ed = new Edicion(nombre, sigla, fInicio, fFin, ciudad, pais);
+			
+			ed.getOrganizadores().add(org);
+			mE.agregarEdicion(evento, ed);
+		}
 
-        Edicion ed = new Edicion(nombre, sigla, evento.getDescripcion(), fechaAlta,
-                                 evento.getCategoria(), fechaIni, fechaFin, ciudad, pais);
 
-        ed.getOrganizadores().add(org);
-
-       ManejadorEvento.agregarEdicion(evento, ed);
-    }
 
     public Edicion consultaEdicionDeEvento(String nombreEvento, String nombreEdicion) {
         ManejadorEvento manejador = ManejadorEvento.getInstancia();
@@ -45,8 +46,63 @@ public class ControllerEvento implements IControllerEvento {
 
 
 	public List<Evento> listarEventos() {
-	    return ManejadorEvento.listarEventos();
+	       ManejadorEvento me = ManejadorEvento.getInstancia();
+
+	    return me.listarEventos();
 	}
 	
+    public List<Categoria> getCategorias(){
+        ManejadorEvento me = ManejadorEvento.getInstancia();
+
+        return me.listarCategorias();
+    }
+    
+    public boolean existeEvento(String nombre) {
+        ManejadorEvento me = ManejadorEvento.getInstancia();
+
+        return me.existeEvento(nombre);
+
+    }
+
+    public List<Organizador> listarOrganizadores(){
+    	ManejadorUsuario mu = ManejadorUsuario.getinstance();
+    	
+    	return mu.listarOrganizadores();
+    }
+    
+    public List<Edicion> listarEdiciones(){
+    	ManejadorEvento me = ManejadorEvento.getInstancia();
+    	 
+    	return me.listarEdiciones();
+    }
+
+    public void altaEvento(String nombre, String desc, LocalDate fAlta, String sigla, List<Categoria> categorias) throws Exception{
+        ManejadorEvento me = ManejadorEvento.getInstancia();
+
+    	boolean e = me.existeEvento(nombre);
+    	
+    	if(e)
+    		throw new Exception("El evento"+ nombre + "ya esta registrado");
+    	Evento Ev = new Evento(nombre, sigla, desc, fAlta, categorias);
+    	me.agregarEvento(Ev);
+    }
+    /*
+	public void altaRegistro(String nombreEdicion, String nickAsistente, String nombreTR, String codigo) throws Exception {
+		ManejadorUsuario manejadorUsuario = ManejadorUsuario.getinstance()
+		ManejadorEvento manejadorEvento = ManejadorEvento.getinstance()
+	    if (!manejadorEvento.existeEedicion(nombreEdicion)) {
+	        throw new Exception("Edición no existe");
+	    }
+	    Edicion edicion = manejadorEvento.findEdicion(nombreEdicion);
+	    if (!manejadorUsuario.existeAsistente(nickAsistente)) {
+	        throw new Exception("Asistente no existe");
+	    }
+	    Asistente asistente = manejadorUsuario.findAsistente(nickAsistente);
+
+	    
+	    
+	}*/
+
 }
 	
+

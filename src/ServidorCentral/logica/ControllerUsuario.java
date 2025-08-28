@@ -18,14 +18,41 @@ public class ControllerUsuario implements IControllerUsuario {
     }
 
     // Métodos de alta
-    public void AltaUsuarioAsistente(String nicknameUsu, String correo, String nombre,
-                                     String apellido, java.util.Date fNacimiento) throws UsuarioRepetidoException {
-        // placeholder
+    public void AltaAsistente(String nicknameUsu, String correo, String nombre,
+                                     String apellido, LocalDate fNacimiento,Institucion ins) throws UsuarioRepetidoException {
+    	ManejadorUsuario mu = ManejadorUsuario.getinstance();
+        Usuario u = mu.findUsuario(nicknameUsu);
+        Usuario ucorreo = mu.findUsuario(correo);
+        if (u != null || ucorreo!=null)
+            throw new UsuarioRepetidoException("El usuario " + nicknameUsu + " ya esta registrado");
+        if(ins==null) {
+        	Asistente a = new Asistente(nicknameUsu, correo, nombre, apellido, fNacimiento);
+        	mu.agregarAsistente(a);
+        	mu.agregarUsuario(a);
+        }else {
+            Asistente a = new Asistente(nicknameUsu, correo, nombre, apellido, fNacimiento,ins);
+            mu.agregarAsistente(a);
+            mu.agregarUsuario(a);
+        }
     }
 
-    public void AltaUsuarioOrganizador(String nicknameUsu, String correo, String nombre,
+    public void AltaOrganizador(String nicknameUsu, String correo, String nombre,
                                        String descripcion, String url) throws UsuarioRepetidoException {
-        // placeholder
+       	ManejadorUsuario mu = ManejadorUsuario.getinstance();
+        Usuario u = mu.findUsuario(nicknameUsu);
+        Usuario ucorreo = mu.findUsuario(correo);
+        if (u != null || ucorreo!=null)
+            throw new UsuarioRepetidoException("El usuario " + nicknameUsu + " ya esta registrado");
+        if (url!=null) {
+        	Organizador o = new Organizador(nicknameUsu, correo, nombre, descripcion, url);
+        	mu.agregarOrganizador(o);
+        	mu.agregarUsuario(o);
+        }else {
+        	Organizador o = new Organizador(nicknameUsu, correo, nombre, descripcion);
+        	mu.agregarOrganizador(o);
+        	mu.agregarUsuario(o);
+        }
+
     }
 
     // Método de modificación
@@ -35,7 +62,8 @@ public class ControllerUsuario implements IControllerUsuario {
 
     public List<DTUsuarioLista> getUsuarios() {
         List<DTUsuarioLista> lista = new ArrayList<>();
-        for (Usuario u : ManejadorUsuario.listarUsuarios()) {
+       	ManejadorUsuario mu = ManejadorUsuario.getinstance();
+        for (Usuario u : mu.listarUsuarios()) {
             List<Edicion> ediciones = new ArrayList<>();
             List<Registro> registros = new ArrayList<>();
             
@@ -56,8 +84,8 @@ public class ControllerUsuario implements IControllerUsuario {
     public void modificarUsuario(String nickname, String nombre, String apellido,
             LocalDate fNac, String descripcion, String url)
 				throws UsuarioNoExisteException {
-				
-				Usuario u = ManejadorUsuario.findUsuario(nickname);
+       			ManejadorUsuario mu = ManejadorUsuario.getinstance();
+				Usuario u = mu.findUsuario(nickname);
 				if (u == null) throw new UsuarioNoExisteException("No existe el usuario " + nickname);
 				
 				u.setNombre(nombre); 

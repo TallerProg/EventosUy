@@ -1,18 +1,19 @@
 package ServidorCentral.logica;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Edicion extends Evento {
+public class Edicion {
 
     // Atributos 
     private String nombre;
-    private Date fInicio;
-    private Date fFin;
+    private LocalDate fInicio;
+    private LocalDate fFin;
+    private LocalDate fAlta;
     private String ciudad;
     private String pais;
-
+    private String sigla;
     // Relaciones
     private List<TipoRegistro> tipoRegistros;
     private List<Organizador> organizadores;
@@ -20,29 +21,33 @@ public class Edicion extends Evento {
     private List<Patrocinio> patrocinios;
 
     // Constructor
-    public Edicion(String nombre, String sigla, String descripcion, Date fAlta, Categoria categoria,
-    		Date fInicio, Date fFin, String ciudad, String pais) {
-    	super(nombre, sigla, descripcion, fAlta, categoria);
-    	this.fInicio = fInicio;
-    	this.fFin = fFin;
-    	this.ciudad = ciudad;
-    	this.pais = pais;
-
-    	this.tipoRegistros = new ArrayList<>();
-    	this.organizadores = new ArrayList<>();
-    	this.registros = new ArrayList<>();
-    	this.patrocinios = new ArrayList<>();
-    }
+    public Edicion(String nombre, String sigla, LocalDate fInicio, LocalDate fFin,
+            String ciudad, String pais) {
+			 this.nombre = nombre;
+			 this.fInicio = fInicio;
+			 this.fFin = fFin;
+			 this.ciudad = ciudad;
+			 this.pais = pais;
+			 this.sigla = sigla;
+			 this.fAlta = LocalDate.now();
+			 this.tipoRegistros = new ArrayList<>();
+			 this.organizadores = new ArrayList<>();
+			 this.registros = new ArrayList<>();
+			 this.patrocinios = new ArrayList<>();
+		}
 
     // Getters y Setters
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }
 
-    public Date getfInicio() { return fInicio; }
-    public void setfInicio(Date fInicio) { this.fInicio = fInicio; }
+    public LocalDate getfInicio() { return fInicio; }
+    public void setfInicio(LocalDate fInicio) { this.fInicio = fInicio; }
 
-    public Date getfFin() { return fFin; }
-    public void setfFin(Date fFin) { this.fFin = fFin; }
+    public LocalDate getfFin() { return fFin; }
+    public void setfFin(LocalDate fFin) { this.fFin = fFin; }
+    
+    public LocalDate getFAlta() { return fAlta; }
+    public void setFAlta(LocalDate fAlta) { this.fAlta = fAlta; }
 
     public String getCiudad() { return ciudad; }
     public void setCiudad(String ciudad) { this.ciudad = ciudad; }
@@ -50,6 +55,9 @@ public class Edicion extends Evento {
     public String getPais() { return pais; }
     public void setPais(String pais) { this.pais = pais; }
 
+    public String getSigla() { return sigla;}
+    public void setSigla(String sigla) {this.sigla = sigla;}
+    
     public List<TipoRegistro> getTipoRegistros() { return tipoRegistros; }
     public void setTipoRegistros(List<TipoRegistro> tipoRegistros) { this.tipoRegistros = tipoRegistros; }
 
@@ -94,4 +102,5 @@ public class Edicion extends Evento {
         return null;
     }
 }
+
 
