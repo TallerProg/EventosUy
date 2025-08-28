@@ -87,6 +87,24 @@ public class AltaUsuario extends JInternalFrame {
             gbc_textNick.gridy = row;
             getContentPane().add(textFieldNickName, gbc_textNick);
             row++;
+            
+            // Correo
+            JLabel lblCorreo = new JLabel("Correo:");
+            GridBagConstraints gbc_lblCorreo = new GridBagConstraints();
+            gbc_lblCorreo.insets = new Insets(5, 5, 5, 5);
+            gbc_lblCorreo.gridx = 0;
+            gbc_lblCorreo.gridy = row;
+            gbc_lblCorreo.anchor = GridBagConstraints.EAST;
+            getContentPane().add(lblCorreo, gbc_lblCorreo);
+
+            textFieldCorreo = new JTextField();
+            GridBagConstraints gbc_textCorreo = new GridBagConstraints();
+            gbc_textCorreo.insets = new Insets(5, 5, 5, 5);
+            gbc_textCorreo.fill = GridBagConstraints.HORIZONTAL;
+            gbc_textCorreo.gridx = 1;
+            gbc_textCorreo.gridy = row;
+            getContentPane().add(textFieldCorreo, gbc_textCorreo);
+            row++;
 
             // Nombre
             JLabel lblNombre = new JLabel("Nombre:");
@@ -104,24 +122,6 @@ public class AltaUsuario extends JInternalFrame {
             gbc_textNombre.gridx = 1;
             gbc_textNombre.gridy = row;
             getContentPane().add(textFieldNombre, gbc_textNombre);
-            row++;
-
-            // Correo
-            JLabel lblCorreo = new JLabel("Correo:");
-            GridBagConstraints gbc_lblCorreo = new GridBagConstraints();
-            gbc_lblCorreo.insets = new Insets(5, 5, 5, 5);
-            gbc_lblCorreo.gridx = 0;
-            gbc_lblCorreo.gridy = row;
-            gbc_lblCorreo.anchor = GridBagConstraints.EAST;
-            getContentPane().add(lblCorreo, gbc_lblCorreo);
-
-            textFieldCorreo = new JTextField();
-            GridBagConstraints gbc_textCorreo = new GridBagConstraints();
-            gbc_textCorreo.insets = new Insets(5, 5, 5, 5);
-            gbc_textCorreo.fill = GridBagConstraints.HORIZONTAL;
-            gbc_textCorreo.gridx = 1;
-            gbc_textCorreo.gridy = row;
-            getContentPane().add(textFieldCorreo, gbc_textCorreo);
             row++;
 
             // Campos dinámicos
