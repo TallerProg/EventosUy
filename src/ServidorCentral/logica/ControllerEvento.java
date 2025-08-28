@@ -1,14 +1,12 @@
 package ServidorCentral.logica;
 
-import java.util.Date;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ControllerEvento implements IControllerEvento {
 
     public void altaEdicionDeEvento(String nombre, String sigla, String ciudad, String pais,
-                                    Date fechaIni, Date fechaFin, Date fechaAlta,
+                                    LocalDate fechaIni, LocalDate fechaFin, LocalDate fechaAlta,
                                     Evento evento, Organizador org) throws Exception {
 
         if (evento.tieneEdicion(nombre)) {
@@ -66,7 +64,7 @@ public class ControllerEvento implements IControllerEvento {
 
     }
 
-    public void altaEvento(String nombre, String desc, Date fAlta, String sigla, List<Categoria> categorias) throws Exception{
+    public void altaEvento(String nombre, String desc, LocalDate fAlta, String sigla, List<Categoria> categorias) throws Exception{
         ManejadorEvento me = ManejadorEvento.getInstancia();
 
     	boolean e = me.existeEvento(nombre);

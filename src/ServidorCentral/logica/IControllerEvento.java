@@ -1,12 +1,12 @@
 package ServidorCentral.logica;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 public interface IControllerEvento {
 
 	public void altaEdicionDeEvento(String nombre, String sigla, String ciudad, String pais,
-            Date fechaIni, Date fechaFin, Date fechaAlta,
+            LocalDate fechaIni, LocalDate fechaFin, LocalDate fechaAlta,
             Evento evento, Organizador org) throws Exception;
 	
 	public Edicion consultaEdicionDeEvento(String nombreEvento, String nombreEdicion);
@@ -20,5 +20,5 @@ public interface IControllerEvento {
     public boolean existeEvento(String nombre);
 
 
-    public void altaEvento(String nombre, String descripcion, Date fecha, String sigla, List<Categoria> categorias) throws Exception;
+    public void altaEvento(String nombre, String descripcion, LocalDate fecha, String sigla, List<Categoria> categorias) throws Exception;
 }

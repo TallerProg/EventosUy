@@ -1,6 +1,6 @@
 package ServidorCentral.logica;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,8 +8,8 @@ public class Edicion extends Evento {
 
     // Atributos 
     private String nombre;
-    private Date fInicio;
-    private Date fFin;
+    private LocalDate fInicio;
+    private LocalDate fFin;
     private String ciudad;
     private String pais;
 
@@ -20,8 +20,8 @@ public class Edicion extends Evento {
     private List<Patrocinio> patrocinios;
 
     // Constructor
-    public Edicion(String nombre, String sigla, String descripcion, Date fAlta, List<Categoria> categorias,
-    		Date fInicio, Date fFin, String ciudad, String pais) {
+    public Edicion(String nombre, String sigla, String descripcion, LocalDate fAlta, List<Categoria> categorias,
+    		LocalDate fInicio, LocalDate fFin, String ciudad, String pais) {
     	super(nombre, sigla, descripcion, fAlta, categorias);
     	this.fInicio = fInicio;
     	this.fFin = fFin;
@@ -38,11 +38,11 @@ public class Edicion extends Evento {
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }
 
-    public Date getfInicio() { return fInicio; }
-    public void setfInicio(Date fInicio) { this.fInicio = fInicio; }
+    public LocalDate getfInicio() { return fInicio; }
+    public void setfInicio(LocalDate fInicio) { this.fInicio = fInicio; }
 
-    public Date getfFin() { return fFin; }
-    public void setfFin(Date fFin) { this.fFin = fFin; }
+    public LocalDate getfFin() { return fFin; }
+    public void setfFin(LocalDate fFin) { this.fFin = fFin; }
 
     public String getCiudad() { return ciudad; }
     public void setCiudad(String ciudad) { this.ciudad = ciudad; }

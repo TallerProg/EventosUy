@@ -1,7 +1,7 @@
 package ServidorCentral.logica;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 public class Evento {
@@ -9,11 +9,11 @@ public class Evento {
     private String nombre;
     private String sigla;
     private String descripcion;
-    private Date fAlta;
+    private LocalDate fAlta;
     private List<Categoria> categorias = new ArrayList<>(); 
     private List<Edicion> ediciones = new ArrayList<>();
 
-    public Evento(String nombre, String sigla, String descripcion, Date fAlta, List<Categoria> categorias) {
+    public Evento(String nombre, String sigla, String descripcion, LocalDate fAlta, List<Categoria> categorias) {
         this.nombre = nombre;
         this.sigla = sigla;
         this.descripcion = descripcion;
@@ -31,8 +31,8 @@ public class Evento {
     public String getDescripcion() { return descripcion; }
     public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
 
-    public Date getFAlta() { return fAlta; }
-    public void setFAlta(Date fAlta) { this.fAlta = fAlta; }
+    public LocalDate getFAlta() { return fAlta; }
+    public void setFAlta(LocalDate fAlta) { this.fAlta = fAlta; }
 
     public List<Categoria> getCategoria() { return categorias; }
 

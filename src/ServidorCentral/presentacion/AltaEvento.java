@@ -5,7 +5,7 @@ import ServidorCentral.logica.Categoria;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 public class AltaEvento extends JInternalFrame {
@@ -18,6 +18,7 @@ public class AltaEvento extends JInternalFrame {
     private JList<String> listCategorias;
     private JButton btnAceptar;
     private JButton btnCancelar;
+    private java.util.List<JCheckBox> checkBoxesCategorias;
 
     private int row = 0;
 
@@ -93,7 +94,7 @@ public class AltaEvento extends JInternalFrame {
         getContentPane().add(scrollDesc, gbc_textDesc);
         row++;
 
-        // Categorías
+     // Categorías
         JLabel lblCategorias = new JLabel("Categorías:");
         GridBagConstraints gbc_lblCategorias = new GridBagConstraints();
         gbc_lblCategorias.insets = new Insets(5, 5, 5, 5);
@@ -102,9 +103,10 @@ public class AltaEvento extends JInternalFrame {
         gbc_lblCategorias.anchor = GridBagConstraints.NORTHEAST;
         getContentPane().add(lblCategorias, gbc_lblCategorias);
 
-        listCategorias = new JList<>();
-        listCategorias.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-        JScrollPane scrollCategorias = new JScrollPane(listCategorias);
+        // Panel con checkboxes
+        JPanel panelCategorias = new JPanel();
+        panelCategorias.setLayout(new BoxLayout(panelCategorias, BoxLayout.Y_AXIS));
+        JScrollPane scrollCategorias = new JScrollPane(panelCategorias);
         GridBagConstraints gbc_listCategorias = new GridBagConstraints();
         gbc_listCategorias.insets = new Insets(5, 5, 5, 5);
         gbc_listCategorias.fill = GridBagConstraints.BOTH;
@@ -112,6 +114,8 @@ public class AltaEvento extends JInternalFrame {
         gbc_listCategorias.gridy = row;
         getContentPane().add(scrollCategorias, gbc_listCategorias);
         row++;
+
+        checkBoxesCategorias = new java.util.ArrayList<>();
 
         // Botones
         btnAceptar = new JButton("Aceptar");
@@ -135,15 +139,24 @@ public class AltaEvento extends JInternalFrame {
             String nombre = textFieldNombre.getText().trim();
             String sigla = textFieldSigla.getText().trim();
             String descripcion = textAreaDescripcion.getText().trim();
-            List<String> categoriasSeleccionadas = listCategorias.getSelectedValuesList();
+
+            // Obtener las categorías seleccionadas desde los checkboxes
+            List<String> categoriasSeleccionadas = new java.util.ArrayList<>();
+            for (JCheckBox check : checkBoxesCategorias) {
+                if (check.isSelected()) {
+                    categoriasSeleccionadas.add(check.getText());
+                }
+            }
 
             if (nombre.isEmpty() || sigla.isEmpty() || descripcion.isEmpty() || categoriasSeleccionadas.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Debe completar todos los campos y seleccionar al menos una categoría.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this,
+                        "Debe completar todos los campos y seleccionar al menos una categoría.",
+                        "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
             try {
-                Date fechaAlta = new Date(); // Fecha actual del sistema
+                LocalDate fechaAlta = LocalDate.now(); 
 
                 // Convertir List<String> -> List<Categoria>
                 List<Categoria> listaCategorias = new java.util.ArrayList<>();
@@ -160,21 +173,28 @@ public class AltaEvento extends JInternalFrame {
                 JOptionPane.showMessageDialog(this, "Evento creado correctamente");
                 this.setVisible(false);
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(),
+                        "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
 
+
         // Cargar categorías
-        cargarCategorias();
+        cargarCategorias(panelCategorias);
     }
 
-    private void cargarCategorias() {
-        DefaultListModel<String> modelo = new DefaultListModel<>();
-        for (Categoria c : controlEvento.getCategorias()) {
-            modelo.addElement(c.getNombre()); // asumo que Categoria tiene getNombre()
+    private void cargarCategorias(JPanel panelCategorias) {
+        // Categorías de prueba
+        String[] categoriasPrueba = {"Conferencia", "Seminario", "Taller", "Charla", "Workshop"};
+
+        for (String nombreCat : categoriasPrueba) {
+            JCheckBox checkBox = new JCheckBox(nombreCat);
+            checkBoxesCategorias.add(checkBox);
+            panelCategorias.add(checkBox);
         }
-        listCategorias.setModel(modelo);
-    }
 
+        panelCategorias.revalidate();
+        panelCategorias.repaint();
+    }
     private static final long serialVersionUID = 1L;
 }
