@@ -127,7 +127,7 @@ public class AltaUsuario extends JInternalFrame {
             // Campos dinámicos
             JLabel lblApellido = new JLabel("Apellido:");
             textFieldApellido = new JTextField();
-            JLabel lblFecha = new JLabel("Fecha Nac. (dd/MM/yyyy):");
+            JLabel lblFecha = new JLabel("Fecha de Nac.:");
             textFieldFechaNacimiento = new JTextField();
 
             JLabel lblDescripcion = new JLabel("Descripción:");
@@ -135,7 +135,7 @@ public class AltaUsuario extends JInternalFrame {
             JLabel lblURL = new JLabel("URL (opcional):");
             textFieldURL = new JTextField();
 
-            JLabel lblInstitucion = new JLabel("Institución (opcional):");
+            JLabel lblInstitucion = new JLabel("Institución :");
             comboInstitucion = new JComboBox<>();
             comboInstitucion.addItem("Ninguna");
             for (Institucion ins : ManejadorInstitucion.getInstance().listarInstituciones()) {
@@ -149,6 +149,17 @@ public class AltaUsuario extends JInternalFrame {
             gbc_btnAceptar.gridx = 1;
             gbc_btnAceptar.gridy = 8;
             getContentPane().add(btnAceptar, gbc_btnAceptar);
+            
+         // Botón Cancelar
+            btnCancelar = new JButton("Cancelar");
+            GridBagConstraints gbc_btnCancelar = new GridBagConstraints();
+            gbc_btnCancelar.insets = new Insets(10, 5, 5, 5);
+            gbc_btnCancelar.gridx = 2; 
+            gbc_btnCancelar.gridy = 8;
+            getContentPane().add(btnCancelar, gbc_btnCancelar);
+            
+            // Acción del botón Cancelar
+            btnCancelar.addActionListener(e -> this.setVisible(false));
 
             // Listener tipo de usuario
             comboTipoUsuario.addActionListener(e -> actualizarCampos(row, lblApellido, textFieldApellido,

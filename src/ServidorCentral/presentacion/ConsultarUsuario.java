@@ -18,6 +18,11 @@ import javax.swing.JLayeredPane;
 import java.awt.Component;
 
 public class ConsultarUsuario extends JInternalFrame{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public ConsultarUsuario() {
 	}
 }

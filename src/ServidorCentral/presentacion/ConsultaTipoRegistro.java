@@ -5,6 +5,11 @@ import java.awt.*;
 import java.awt.event.*;
 public class ConsultaTipoRegistro extends JInternalFrame {
 
+		/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 		public ConsultaTipoRegistro() {
 			setResizable(true);
 	        setIconifiable(true);
