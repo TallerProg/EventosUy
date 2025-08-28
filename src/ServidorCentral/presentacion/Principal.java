@@ -1,6 +1,9 @@
 package ServidorCentral.presentacion;
 
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.*;
 
 import ServidorCentral.logica.Factory;
@@ -136,6 +139,12 @@ public class Principal {
                 menuEventos.add(menuAltaTipoReg);
                 
                         JMenuItem menuConsultaTipoReg = new JMenuItem("Consulta de Tipo de Registro");
+                        menuConsultaTipoReg.addActionListener(new ActionListener() {
+                            public void actionPerformed(ActionEvent e) {
+                            	conTRegInternalFrame.cargarEventos();
+                            	conTRegInternalFrame.setVisible(true);
+                            }
+                        });
                         menuEventos.add(menuConsultaTipoReg);
                         
                                 JMenuItem menuRegistroEdicion = new JMenuItem("Registro a Edición de Evento");

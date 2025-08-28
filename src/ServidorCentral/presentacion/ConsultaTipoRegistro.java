@@ -3,12 +3,27 @@ package ServidorCentral.presentacion;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.time.LocalDate;
+import java.util.List;
+
+import javax.swing.event.*;
+
+import ServidorCentral.logica.ControllerEvento;
+import ServidorCentral.logica.Edicion;
+import ServidorCentral.logica.Evento;
+import ServidorCentral.logica.Factory;
+import ServidorCentral.logica.ManejadorEvento;
+import ServidorCentral.logica.Organizador;
+import ServidorCentral.logica.TipoRegistro;
+
 public class ConsultaTipoRegistro extends JInternalFrame {
 	private JTextField textField_nombre;
 	private JTextField textField_1_desc;
 	private JTextField textField_2_costo;
 	private JTextField textField_3_cupo;
-
+	private JComboBox<String> comboBoxEvento;
+	private JComboBox<String> comboBoxEdicion;
+	private JComboBox<String> comboBoxTipoRegistro;
 		/**
 	 * 
 	 */
@@ -35,7 +50,7 @@ public class ConsultaTipoRegistro extends JInternalFrame {
 			JLabel lblSelecioneUnEvento = new JLabel("Selecione un evento:");
 			panel.add(lblSelecioneUnEvento, BorderLayout.NORTH);
 			
-			JComboBox comboBoxEvento = new JComboBox();
+			comboBoxEvento = new JComboBox<>();
 			panel.add(comboBoxEvento, BorderLayout.SOUTH);
 			
 			JPanel panel_1 = new JPanel();
@@ -45,8 +60,9 @@ public class ConsultaTipoRegistro extends JInternalFrame {
 			JLabel lblSelecioneUnaEdicin = new JLabel("Selecione una edición:");
 			panel_1.add(lblSelecioneUnaEdicin, BorderLayout.NORTH);
 			
-			JComboBox combroBoxEdicion = new JComboBox();
-			panel_1.add(combroBoxEdicion, BorderLayout.SOUTH);
+			comboBoxEdicion = new JComboBox<>();
+			comboBoxEdicion.setEnabled(false);
+			panel_1.add(comboBoxEdicion, BorderLayout.SOUTH);
 			
 			JPanel panel_2 = new JPanel();
 			panelCombos.add(panel_2);
@@ -55,7 +71,8 @@ public class ConsultaTipoRegistro extends JInternalFrame {
 			JLabel lblSelecioneElTipo = new JLabel("Selecione el tipo de registro:");
 			panel_2.add(lblSelecioneElTipo, BorderLayout.NORTH);
 			
-			JComboBox comboBoxTipoRegistro = new JComboBox();
+			comboBoxTipoRegistro = new JComboBox<>();
+			comboBoxTipoRegistro.setEnabled(false);
 			panel_2.add(comboBoxTipoRegistro, BorderLayout.SOUTH);
 			
 			JPanel panel_3 = new JPanel();
@@ -139,7 +156,88 @@ public class ConsultaTipoRegistro extends JInternalFrame {
 			panel_3.add(textField_3_cupo, gbc_textField_3_cupo);
 			textField_3_cupo.setColumns(10);
 			
-			
+			comboBoxEvento.addActionListener(e -> {
+				 String nombreEventoSeleccionado = (String) comboBoxEvento.getSelectedItem();
+				 if (nombreEventoSeleccionado != null) {
+					 	comboBoxEdicion.setEnabled(true);
+				        try {
+							cargarEdiciones(nombreEventoSeleccionado);
+						} catch (Exception e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 
-	}
+				 }else{
+					 	comboBoxEdicion.setEnabled(false);
+				        comboBoxEdicion.removeAllItems();
+				 }
+			});
+			
+			comboBoxEdicion.addActionListener(e -> {
+				 String nombreEdicionSeleccionado = (String) comboBoxEdicion.getSelectedItem();
+				 if (nombreEdicionSeleccionado != null) {
+					 	comboBoxTipoRegistro.setEnabled(true);
+				        try {
+							cargarTipoRegistros(nombreEdicionSeleccionado);
+						} catch (Exception e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+
+				 }else{
+					 	comboBoxTipoRegistro.setEnabled(false);
+					 	comboBoxTipoRegistro.removeAllItems();
+				 }
+			});	
+			}
+		
+		public void cargarEventos() {
+			List<Evento> eventos = ManejadorEvento.getInstancia().listarEventos(); 
+			List<String> nombres = new java.util.ArrayList<>();
+		    for (Evento e : eventos) {
+		        nombres.add(e.getNombre());
+		    }
+		    
+		    DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(
+		        nombres.toArray(new String[0])
+		    );
+		    comboBoxEvento.setModel(model);
+		    
+		    
+		}
+		
+		public void cargarEdiciones(String nombreEvento){
+			Evento evento = ManejadorEvento.getInstancia().findEvento(nombreEvento);
+			if (evento != null) {
+				List<Edicion> ediciones = evento.getEdiciones();
+				
+				List<String> nombresEdiciones = new java.util.ArrayList<>();
+				for (Edicion ed : ediciones) {
+					nombresEdiciones.add(ed.getNombre());
+				}
+
+				DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(
+						nombresEdiciones.toArray(new String[0])
+				);
+				comboBoxEdicion.setModel(model);
+			}
+		}
+		
+		public void cargarTipoRegistros(String nombreEdicion) {
+			Edicion edicion = ManejadorEvento.getInstancia().findEdicion(nombreEdicion);
+			if (edicion != null) {
+				List<TipoRegistro> tipoR = edicion.getTipoRegistros();			
+				List<String> nombreRegistros = new java.util.ArrayList<>();
+				for (TipoRegistro tr : tipoR) {
+				    nombreRegistros.add(tr.getNombre());
+				}
+
+				DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(
+						nombreRegistros.toArray(new String[0])
+				);
+				comboBoxTipoRegistro.setModel(model);
+			}
+			
+		}
+		
 }
