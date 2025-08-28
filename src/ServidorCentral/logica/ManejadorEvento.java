@@ -5,8 +5,8 @@ import java.util.List;
 
 public class ManejadorEvento {
     private static ManejadorEvento instancia;
-    private static List<Evento> eventos = new ArrayList<>();
-    private static List<Categoria> categorias = new ArrayList<>();
+    private  List<Evento> eventos = new ArrayList<>();
+    private  List<Categoria> categorias = new ArrayList<>();
 
     public static ManejadorEvento getInstancia() {
         if (instancia == null) {
@@ -15,15 +15,15 @@ public class ManejadorEvento {
         return instancia;
     }
 
-    public static List<Evento> listarEventos() {
+    public List<Evento> listarEventos() {
         return new ArrayList<>(eventos);
     }
 
-    public static List<Categoria> listarCategorias() {
+    public List<Categoria> listarCategorias() {
         return new ArrayList<>(categorias);
     }
 
-    public static boolean existeEvento(String nombre) {
+    public boolean existeEvento(String nombre) {
         for (Evento e : eventos) {
             if (e.getNombre().equalsIgnoreCase(nombre)) {
                 return true;
@@ -32,11 +32,11 @@ public class ManejadorEvento {
         return false;
     }
 
-    public static void agregarEvento(Evento e) {
+    public void agregarEvento(Evento e) {
         eventos.add(e);
     }
 
-    public static void agregarEdicion(Evento evento, Edicion edicion) {
+    public void agregarEdicion(Evento evento, Edicion edicion) {
         evento.agregarEdicion(edicion);
     }
 

@@ -19,8 +19,8 @@ public class ControllerEvento implements IControllerEvento {
                                  evento.getCategoria(), fechaIni, fechaFin, ciudad, pais);
 
         ed.getOrganizadores().add(org);
-
-       ManejadorEvento.agregarEdicion(evento, ed);
+       ManejadorEvento me = ManejadorEvento.getInstancia();
+       me.agregarEdicion(evento, ed);
     }
 
     public Edicion consultaEdicionDeEvento(String nombreEvento, String nombreEdicion) {
@@ -47,26 +47,34 @@ public class ControllerEvento implements IControllerEvento {
 
 
 	public List<Evento> listarEventos() {
-	    return ManejadorEvento.listarEventos();
+	       ManejadorEvento me = ManejadorEvento.getInstancia();
+
+	    return me.listarEventos();
 	}
 	
     public List<Categoria> getCategorias(){
-        return ManejadorEvento.listarCategorias();
+        ManejadorEvento me = ManejadorEvento.getInstancia();
+
+        return me.listarCategorias();
     }
     
 
     public boolean existeEvento(String nombre) {
-        return ManejadorEvento.existeEvento(nombre);
+        ManejadorEvento me = ManejadorEvento.getInstancia();
+
+        return me.existeEvento(nombre);
 
     }
 
     public void altaEvento(String nombre, String desc, Date fAlta, String sigla, List<Categoria> categorias) throws Exception{
-    	boolean e = ManejadorEvento.existeEvento(nombre);
+        ManejadorEvento me = ManejadorEvento.getInstancia();
+
+    	boolean e = me.existeEvento(nombre);
     	
     	if(e)
     		throw new Exception("El evento"+ nombre + "ya esta registrado");
     	Evento Ev = new Evento(nombre, sigla, desc, fAlta, categorias);
-    	ManejadorEvento.agregarEvento(Ev);
+    	me.agregarEvento(Ev);
     }
 
 }
