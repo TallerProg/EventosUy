@@ -19,15 +19,23 @@ public class Asistente extends Usuario {
     private Patrocinio patrocinio;
 
     // Constructor
-    public Asistente(String nickname, String correo, String nombre,
-    String apellido, LocalDate fNacimiento,Institucion institucion, Patrocinio patrocinio) {
+    public Asistente(String nickname, String correo, String nombre, String apellido, LocalDate fNacimiento, Institucion ins) {
     	
         super(nickname, correo, nombre);
         this.apellido = apellido;
         this.fNacimiento = fNacimiento;
         this.registros = new ArrayList<>();
-        this.institucion = institucion;
-        this.patrocinio = patrocinio;
+        this.institucion = ins;
+        this.patrocinio = null;
+    }
+    public Asistente(String nickname, String correo, String nombre, String apellido, LocalDate fNacimiento) {
+    	
+        super(nickname, correo, nombre);
+        this.apellido = apellido;
+        this.fNacimiento = fNacimiento;
+        this.registros = new ArrayList<>();
+        this.institucion = null;
+        this.patrocinio = null;
     }
 
     // Getters y Setters

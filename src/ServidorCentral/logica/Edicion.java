@@ -20,9 +20,9 @@ public class Edicion extends Evento {
     private List<Patrocinio> patrocinios;
 
     // Constructor
-    public Edicion(String nombre, String sigla, String descripcion, Date fAlta, Categoria categoria,
+    public Edicion(String nombre, String sigla, String descripcion, Date fAlta, List<Categoria> categorias,
     		Date fInicio, Date fFin, String ciudad, String pais) {
-    	super(nombre, sigla, descripcion, fAlta, categoria);
+    	super(nombre, sigla, descripcion, fAlta, categorias);
     	this.fInicio = fInicio;
     	this.fFin = fFin;
     	this.ciudad = ciudad;

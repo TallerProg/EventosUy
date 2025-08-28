@@ -9,6 +9,11 @@ public class ConsultaTipoRegistro extends JInternalFrame {
 	private JTextField textField_2_costo;
 	private JTextField textField_3_cupo;
 
+		/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 		public ConsultaTipoRegistro() {
 			setResizable(true);
 	        setIconifiable(true);

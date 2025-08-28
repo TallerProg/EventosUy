@@ -18,14 +18,39 @@ public class ControllerUsuario implements IControllerUsuario {
     }
 
     // Métodos de alta
-    public void AltaUsuarioAsistente(String nicknameUsu, String correo, String nombre,
-                                     String apellido, java.util.Date fNacimiento) throws UsuarioRepetidoException {
-        // placeholder
+    public void AltaAsistente(String nicknameUsu, String correo, String nombre,
+                                     String apellido, LocalDate fNacimiento,Institucion ins) throws UsuarioRepetidoException {
+        Usuario u = ManejadorUsuario.findUsuario(nicknameUsu);
+        Usuario ucorreo = ManejadorUsuario.findUsuario(correo);
+        if (u != null || ucorreo!=null)
+            throw new UsuarioRepetidoException("El usuario " + nicknameUsu + " ya esta registrado");
+        if(ins==null) {
+        	Asistente a = new Asistente(nicknameUsu, correo, nombre, apellido, fNacimiento);
+        	ManejadorUsuario.agregarAsistente(a);
+        	ManejadorUsuario.agregarUsuario(a);
+        }else {
+            Asistente a = new Asistente(nicknameUsu, correo, nombre, apellido, fNacimiento,ins);
+            ManejadorUsuario.agregarAsistente(a);
+            ManejadorUsuario.agregarUsuario(a);
+        }
     }
 
-    public void AltaUsuarioOrganizador(String nicknameUsu, String correo, String nombre,
+    public void AltaOrganizador(String nicknameUsu, String correo, String nombre,
                                        String descripcion, String url) throws UsuarioRepetidoException {
-        // placeholder
+        Usuario u = ManejadorUsuario.findUsuario(nicknameUsu);
+        Usuario ucorreo = ManejadorUsuario.findUsuario(correo);
+        if (u != null || ucorreo!=null)
+            throw new UsuarioRepetidoException("El usuario " + nicknameUsu + " ya esta registrado");
+        if (url!=null) {
+        	Organizador o = new Organizador(nicknameUsu, correo, nombre, descripcion, url);
+            ManejadorUsuario.agregarOrganizador(o);
+            ManejadorUsuario.agregarUsuario(o);
+        }else {
+        	Organizador o = new Organizador(nicknameUsu, correo, nombre, descripcion);
+            ManejadorUsuario.agregarOrganizador(o);
+            ManejadorUsuario.agregarUsuario(o);
+        }
+
     }
 
     // Método de modificación
