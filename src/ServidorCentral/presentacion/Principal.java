@@ -8,12 +8,7 @@ import ServidorCentral.logica.IControllerUsuario;
 import ServidorCentral.logica.IControllerEvento;
 
 import javax.swing.JMenu;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-
-
-import java.awt.event.ActionEvent;
 
 public class Principal {
 
@@ -58,7 +53,7 @@ public class Principal {
         creUsrInternalFrame = new AltaUsuario(ICU);
         conUsrInternalFrame = new ConsultarUsuario();
         creEdiEveInternalFrame = new AltaEdicionEvento();
-        creEveInternalFrame = new AltaEvento();
+        creEveInternalFrame = new AltaEvento(ICE);
         creTRegInternalFrame = new AltaTipoRegistro();
         conEveInternalFrame = new ConsultaEvento();
         conRegInternalFrame = new ConsultaRegistro();

@@ -10,15 +10,15 @@ public class Evento {
     private String sigla;
     private String descripcion;
     private Date fAlta;
-    private Categoria categoria; 
+    private List<Categoria> categorias = new ArrayList<>(); 
     private List<Edicion> ediciones = new ArrayList<>();
 
-    public Evento(String nombre, String sigla, String descripcion, Date fAlta, Categoria categoria) {
+    public Evento(String nombre, String sigla, String descripcion, Date fAlta, List<Categoria> categorias) {
         this.nombre = nombre;
         this.sigla = sigla;
         this.descripcion = descripcion;
         this.fAlta = fAlta;
-        this.categoria = categoria;
+        this.categorias = categorias;
     }
 
     // Getters y setters
@@ -34,8 +34,8 @@ public class Evento {
     public Date getFAlta() { return fAlta; }
     public void setFAlta(Date fAlta) { this.fAlta = fAlta; }
 
-    public Categoria getCategoria() { return categoria; }
-    public void setCategoria(Categoria categoria) { this.categoria = categoria; }
+    public List<Categoria> getCategoria() { return categorias; }
+
 
     // Métodos para ediciones
     public void agregarEdicion(Edicion edicion) {

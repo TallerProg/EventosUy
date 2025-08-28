@@ -1,8 +1,10 @@
 package ServidorCentral.logica;
 
 import java.util.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
 public class ControllerEvento implements IControllerEvento {
 
     public void altaEdicionDeEvento(String nombre, String sigla, String ciudad, String pais,
@@ -48,5 +50,24 @@ public class ControllerEvento implements IControllerEvento {
 	    return ManejadorEvento.listarEventos();
 	}
 	
+    public List<Categoria> getCategorias(){
+        return ManejadorEvento.listarCategorias();
+    }
+    
+
+    public boolean existeEvento(String nombre) {
+        return ManejadorEvento.existeEvento(nombre);
+
+    }
+
+    public void altaEvento(String nombre, String desc, Date fAlta, String sigla, List<Categoria> categorias) throws Exception{
+    	boolean e = ManejadorEvento.existeEvento(nombre);
+    	
+    	if(e)
+    		throw new Exception("El evento"+ nombre + "ya esta registrado");
+    	Evento Ev = new Evento(nombre, sigla, desc, fAlta, categorias);
+    	ManejadorEvento.agregarEvento(Ev);
+    }
+
 }
 	
