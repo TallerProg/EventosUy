@@ -36,9 +36,9 @@ public class ConsultaEvento extends JInternalFrame {
 		getContentPane().add(panel_3, BorderLayout.CENTER);
 		GridBagLayout gbl_panel_3 = new GridBagLayout();
 		gbl_panel_3.columnWidths = new int[]{71, 579}; 
-		gbl_panel_3.rowHeights = new int[]{0, 50, 50, 50, 50, 50, 0}; 
+		gbl_panel_3.rowHeights = new int[]{50, 50, 50, 50, 50, 50}; 
 		gbl_panel_3.columnWeights = new double[]{0.3, 1.0}; 
-		gbl_panel_3.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+		gbl_panel_3.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 
 		panel_3.setLayout(gbl_panel_3);
 		
@@ -133,24 +133,23 @@ public class ConsultaEvento extends JInternalFrame {
 		JLabel lblNewLabel_1 = new JLabel("Ediciones:");
 		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
 		gbc_lblNewLabel_1.anchor = GridBagConstraints.EAST;
-		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel_1.insets = new Insets(0, 0, 0, 5);
 		gbc_lblNewLabel_1.gridx = 0;
 		gbc_lblNewLabel_1.gridy = 5;
 		panel_3.add(lblNewLabel_1, gbc_lblNewLabel_1);
 		
 		JComboBox comboBox_Ediciones = new JComboBox();
 		GridBagConstraints gbc_comboBox_Ediciones = new GridBagConstraints();
-		gbc_comboBox_Ediciones.insets = new Insets(0, 0, 5, 0);
 		gbc_comboBox_Ediciones.fill = GridBagConstraints.HORIZONTAL;
 		gbc_comboBox_Ediciones.gridx = 1;
 		gbc_comboBox_Ediciones.gridy = 5;
 		panel_3.add(comboBox_Ediciones, gbc_comboBox_Ediciones);
 		
-		JButton btnVerDetallesEdicion = new JButton("Ver detalles edicion");
-		GridBagConstraints gbc_btnVerDetallesEdicion = new GridBagConstraints();
-		gbc_btnVerDetallesEdicion.gridx = 1;
-		gbc_btnVerDetallesEdicion.gridy = 6;
-		panel_3.add(btnVerDetallesEdicion, gbc_btnVerDetallesEdicion);
+		JPanel panel_btn = new JPanel();
+		getContentPane().add(panel_btn, BorderLayout.SOUTH);
+		
+		JButton btnNewButton = new JButton("Ver detalles edición");
+		panel_btn.add(btnNewButton);
 
 	}
 
