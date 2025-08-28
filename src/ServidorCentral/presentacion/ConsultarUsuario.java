@@ -1,6 +1,6 @@
 package ServidorCentral.presentacion;
 
-import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 
@@ -17,7 +17,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JLayeredPane;
 import java.awt.Component;
 
-public class ConsultarUsuario extends JFrame{
+public class ConsultarUsuario extends JInternalFrame{
 	public ConsultarUsuario() {
 	}
 }

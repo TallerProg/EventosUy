@@ -15,6 +15,12 @@ public class Organizador extends Usuario {
         this.url = url;
     }
     
+    public Organizador(String nickname, String correo, String nombre, String descripcion) {
+    	super(nickname,correo,nombre);
+    	this.descripcion=descripcion;
+    	this.url=null;
+    }
+    
     public  List<Edicion> getEdiciones(){
     	return new ArrayList<>(ediciones);
     }
