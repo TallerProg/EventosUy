@@ -118,4 +118,3 @@ public class ConsultarUsuario extends JInternalFrame{
 		getContentPane().add(textField_2);
 		textField_2.setColumns(10);
 	}}
-
