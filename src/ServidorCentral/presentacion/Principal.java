@@ -55,14 +55,14 @@ public class Principal {
         // Inicializar los InternalFrames (inicialmente ocultos)
         creUsrInternalFrame = new AltaUsuario(ICU);
         conUsrInternalFrame = new ConsultarUsuario();
-        creEdiEveInternalFrame = new AltaEdicionEvento();
+        creEdiEveInternalFrame = new AltaEdicionEvento(ICE);
         creEveInternalFrame = new AltaEvento(ICE);
         creTRegInternalFrame = new AltaTipoRegistro();
-        conEveInternalFrame = new ConsultaEvento();
+        conEveInternalFrame = new ConsultaEvento(ICE);
         conRegInternalFrame = new ConsultaRegistro();
-        conTRegInternalFrame = new ConsultaTipoRegistro();
-        regEdiEveInternalFrame = new RegistroEdicionEvento();
-        conEdiEveInternalFrame = new ConsultaEdicionEvento();
+        regEdiEveInternalFrame = new RegistroEdicionEvento(ICE, ICU);
+        conTRegInternalFrame = new ConsultaTipoRegistro(ICE);
+        conEdiEveInternalFrame = new ConsultaEdicionEvento(ICE);
 
         // Agregar los InternalFrames al DesktopPane
         desktopPane.add(creUsrInternalFrame);
@@ -124,7 +124,12 @@ public class Principal {
         menuEventos.add(menuAltaEvento);
 
         JMenuItem menuConsultaEvento = new JMenuItem("Consulta de Evento");
-        menuConsultaEvento.addActionListener(e -> mostrarInternalFrame(conEveInternalFrame));
+        menuConsultaEvento.addActionListener(e -> {
+            mostrarInternalFrame(conEveInternalFrame);
+            conEveInternalFrame.ConsultaEventocargar();
+            conEveInternalFrame.setVisible(true);
+        });
+
         menuEventos.add(menuConsultaEvento);
 
         JMenuItem menuAltaEdicion = new JMenuItem("Alta de Edición de Evento");

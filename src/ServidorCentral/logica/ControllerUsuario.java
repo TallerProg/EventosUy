@@ -79,6 +79,11 @@ public class ControllerUsuario implements IControllerUsuario {
         }
         return lista;
     }
+    
+    public List<Asistente> getAsistentes(){
+    	ManejadorUsuario mu = ManejadorUsuario.getinstance();
+    	return mu.listarAsistentes();
+    }
 
 	
     public void modificarUsuario(String nickname, String nombre, String apellido,
