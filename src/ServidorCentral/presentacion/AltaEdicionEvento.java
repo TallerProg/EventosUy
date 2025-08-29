@@ -28,7 +28,6 @@ public class AltaEdicionEvento extends JInternalFrame {
         setIconifiable(true); 
         setMaximizable(true); 
         setResizable(true);  
-        // Obtener listas desde el controlador
         this.eventos = controller.listarEventos();
         this.organizadores = controller.listarOrganizadores();
 
@@ -37,7 +36,7 @@ public class AltaEdicionEvento extends JInternalFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(null);
 
-        // ComboEvento
+        // --- COMPONENTES ---
         JLabel labelEvento = new JLabel("Evento:");
         labelEvento.setBounds(10, 46, 63, 32);
         labelEvento.setFont(new Font("Times New Roman", Font.PLAIN, 15));
@@ -47,7 +46,6 @@ public class AltaEdicionEvento extends JInternalFrame {
         comboEvento.setBounds(70, 47, 239, 32);
         getContentPane().add(comboEvento);
 
-        // ComboOrganizador
         JLabel labelOrg = new JLabel("Organizador:");
         labelOrg.setFont(new Font("Times New Roman", Font.PLAIN, 15));
         labelOrg.setBounds(10, 85, 89, 32);
@@ -57,7 +55,6 @@ public class AltaEdicionEvento extends JInternalFrame {
         comboOrganizador.setBounds(100, 86, 239, 32);
         getContentPane().add(comboOrganizador);
 
-        // Nombre
         JLabel labelNombre = new JLabel("Nombre:");
         labelNombre.setFont(new Font("Times New Roman", Font.PLAIN, 15));
         labelNombre.setBounds(14, 127, 63, 32);
@@ -76,7 +73,6 @@ public class AltaEdicionEvento extends JInternalFrame {
         lblErrorNombre.setBounds(70, 160, 300, 20);
         getContentPane().add(lblErrorNombre);
 
-        // Otros campos
         JLabel labelSigla = new JLabel("Sigla:");
         labelSigla.setFont(new Font("Times New Roman", Font.PLAIN, 15));
         labelSigla.setBounds(14, 190, 52, 32);
@@ -107,22 +103,22 @@ public class AltaEdicionEvento extends JInternalFrame {
         // --- FECHAS ---
         txtFechaIni = crearCampoFecha("##/##/####", 140, 270, 120, 25);
         getContentPane().add(txtFechaIni);
-        JLabel lblFechaIni = new JLabel("Fecha Inicio (DD/MM/AAAA):");
-        lblFechaIni.setBounds(14, 270, 203, 25);
+        JLabel lblFechaIni = new JLabel("Fecha Inicio:");
+        lblFechaIni.setBounds(14, 270, 85, 25);
         lblFechaIni.setFont(new Font("Times New Roman", Font.PLAIN, 15));
         getContentPane().add(lblFechaIni);
 
         txtFechaFin = crearCampoFecha("##/##/####", 140, 310, 120, 25);
         getContentPane().add(txtFechaFin);
-        JLabel lblFechaFin = new JLabel("Fecha Fin (DD/MM/AAAA):");
-        lblFechaFin.setBounds(14, 310, 180, 25);
+        JLabel lblFechaFin = new JLabel("Fecha Fin :");
+        lblFechaFin.setBounds(14, 310, 73, 25);
         lblFechaFin.setFont(new Font("Times New Roman", Font.PLAIN, 15));
         getContentPane().add(lblFechaFin);
 
         txtFechaAlta = crearCampoFecha("##/##/####", 140, 350, 120, 25);
         getContentPane().add(txtFechaAlta);
-        JLabel lblFechaAlta = new JLabel("Fecha Alta (DD/MM/AAAA):");
-        lblFechaAlta.setBounds(14, 350, 180, 25);
+        JLabel lblFechaAlta = new JLabel("Fecha Alta :");
+        lblFechaAlta.setBounds(14, 350, 85, 25);
         lblFechaAlta.setFont(new Font("Times New Roman", Font.PLAIN, 15));
         getContentPane().add(lblFechaAlta);
 
@@ -143,68 +139,79 @@ public class AltaEdicionEvento extends JInternalFrame {
         titulo.setBounds(136, 10, 280, 37);
         getContentPane().add(titulo);
 
-        // Acciones
+        // --- ACCIONES ---
         btnCancelar.addActionListener(e -> dispose());
 
-        btnVerificar.addActionListener(e -> {
-            String nombre = txtNombre.getText().trim();
-            if (nombre.isEmpty()) {
-                lblErrorNombre.setText("Debe ingresar un nombre");
-                lblErrorNombre.setForeground(Color.RED);
-                return;
-            }
-
-            // Verificar nombre manualmente
-            boolean existe = false;
-            for (Edicion e1 : controller.listarEdiciones()) {
-                if (e1.getNombre().equalsIgnoreCase(nombre)) {
-                    existe = true;
-                    break;
-                }
-            }
-
-            if (existe) {
-                lblErrorNombre.setText("El nombre ya está en uso");
-                lblErrorNombre.setForeground(Color.RED);
-            } else {
-                lblErrorNombre.setText("Nombre disponible");
-                lblErrorNombre.setForeground(new Color(0,128,0));
-            }
-        });
+        btnVerificar.addActionListener(e -> validarNombre());
 
         btnAceptar.addActionListener(e -> {
             try {
-                String nombre = txtNombre.getText().trim();
+                if (!validarNombre()) return;
+
                 String sigla = txtSigla.getText().trim();
                 String ciudad = txtCiudad.getText().trim();
                 String pais = txtPais.getText().trim();
+
+                if (sigla.isEmpty() || ciudad.isEmpty() || pais.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Debe completar todos los campos obligatorios",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                Evento evento = (Evento) comboEvento.getSelectedItem();
+                Organizador org = (Organizador) comboOrganizador.getSelectedItem();
+
+                if (evento == null || org == null) {
+                    JOptionPane.showMessageDialog(this, "Debe seleccionar un evento y un organizador",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
 
                 LocalDate fIni = parseFecha(txtFechaIni.getText());
                 LocalDate fFin = parseFecha(txtFechaFin.getText());
                 LocalDate fAlta = parseFecha(txtFechaAlta.getText());
 
-                Evento evento = (Evento) comboEvento.getSelectedItem();
-                Organizador org = (Organizador) comboOrganizador.getSelectedItem();
-
-                // Orden de argumentos compatible con el controlador
                 controller.altaEdicionDeEvento(
-                    nombre,
-                    sigla,
-                    ciudad,
-                    pais,
-                    fIni,
-                    fFin,
-                    evento,
-                    org
+                        txtNombre.getText().trim(),
+                        sigla,
+                        ciudad,
+                        pais,
+                        fIni,
+                        fFin,
+                        evento,
+                        org
                 );
 
                 JOptionPane.showMessageDialog(this, "Edición creada con éxito");
                 dispose();
+
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, "Formato de fecha incorrecto o error: " + ex.getMessage(),
                         "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
+    }
+
+    // --- MÉTODO DE VALIDACIÓN DE NOMBRE ---
+    private boolean validarNombre() {
+        String nombre = txtNombre.getText().trim();
+        if (nombre.isEmpty()) {
+            lblErrorNombre.setText("Debe ingresar un nombre");
+            lblErrorNombre.setForeground(Color.RED);
+            return false;
+        }
+
+        for (Edicion e1 : controller.listarEdiciones()) {
+            if (e1.getNombre().equalsIgnoreCase(nombre)) {
+                lblErrorNombre.setText("El nombre ya está en uso");
+                lblErrorNombre.setForeground(Color.RED);
+                return false;
+            }
+        }
+
+        lblErrorNombre.setText("Nombre disponible");
+        lblErrorNombre.setForeground(new Color(0,128,0));
+        return true;
     }
 
     private JFormattedTextField crearCampoFecha(String formato, int x, int y, int ancho, int alto) {
