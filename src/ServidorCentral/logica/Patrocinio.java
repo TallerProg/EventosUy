@@ -75,4 +75,22 @@ public class Patrocinio {
         registros.add(reg);
         return true;
     }
+    
+    public DTPatrocinio getDTPatrocinio() {
+        String nombreInstitucion = (institucion != null) ? institucion.getNombre() : null;
+        String nombreEdicion = (edicion != null) ? edicion.getNombre() : null;
+        String nombreTipoRegistro = (tipoRegistro != null) ? tipoRegistro.getNombre() : null;
+
+        return new DTPatrocinio(
+            codigo,
+            fInicio,
+            registroGratuito,
+            monto,
+            nivel,
+            nombreInstitucion,
+            nombreEdicion,
+            nombreTipoRegistro
+        );
+    }
+
 }

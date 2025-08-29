@@ -40,7 +40,9 @@ public class Edicion {
     // Getters y Setters
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }
-
+    //SOBRECARGO TOSTRING PARA MOSTRAR NOMBRE EN COMBOBOX
+    public String toString() { return nombre; }
+    
     public LocalDate getfInicio() { return fInicio; }
     public void setfInicio(LocalDate fInicio) { this.fInicio = fInicio; }
 
@@ -78,6 +80,11 @@ public class Edicion {
             reg.setEdicion(this);
         }
     }
+    
+    public void agregarTipoRegistro(TipoRegistro tr) { //VICHAR MATEO
+    	tipoRegistros.add(tr);
+    }
+    
     public TipoRegistro getEdicionTR(String nombreTR) {
         if (nombreTR == null) return null;
         for (TipoRegistro tr : tipoRegistros) {
@@ -114,6 +121,40 @@ public class Edicion {
         }
         return null;
     }
+
+    public DTEdicion getDTEdicion() {
+        List<DTTipoRegistro> trs = new ArrayList<>();
+        for (TipoRegistro tr : this.tipoRegistros) {
+            trs.add(tr.getDTTipoRegistro());
+        }
+
+        List<DTOrganizador> orgs = new ArrayList<>();
+        for (Organizador o : this.organizadores) {
+            orgs.add(o.getDTOrganizador());
+        }
+
+        List<DTRegistro> regs = new ArrayList<>();
+        for (Registro r : this.registros) {
+            regs.add(r.getDTRegistro());
+        }
+
+        List<DTPatrocinio> pats = new ArrayList<>();
+        for (Patrocinio p : this.patrocinios) {
+            pats.add(p.getDTPatrocinio());
+        }
+
+        return new DTEdicion(nombre, sigla, fInicio, fFin, fAlta,
+                             ciudad, pais, trs, orgs, regs, pats);
+    }
+   
+    public boolean existeTR(String nombreTR) { //VICHAR MATEO
+        for (TipoRegistro tr : tipoRegistros) {
+            if (tr.getNombre().equalsIgnoreCase(nombreTR)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
-
-
+	

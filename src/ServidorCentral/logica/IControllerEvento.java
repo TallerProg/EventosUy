@@ -8,7 +8,7 @@ public interface IControllerEvento {
 	
 	public void altaEdicionDeEvento(String nombre, String sigla, String ciudad, String pais,LocalDate fInicio, LocalDate fFin,Evento evento, Organizador org) throws Exception;
 	
-	public Edicion consultaEdicionDeEvento(String nombreEvento, String nombreEdicion);
+	public DTEdicion consultaEdicionDeEvento(String nombreEvento, String nombreEdicion);
 	
 	public DTTipoRegistro consultaTipoRegistro(String nombreEdicion, String nombreTipoR);
 	
@@ -25,9 +25,15 @@ public interface IControllerEvento {
 
     public List<Organizador> listarOrganizadores();
     
+    public List<String> listarEdicionesDeEvento(String nombreEvento);
+
     public List<Edicion> listarEdiciones();
     
     public DTevento consultaEvento(String nombreEvento);
+    
+    public void altaTipoRegistro(String nombreTR, String descripcion, Float costo, Integer cupo, Edicion edicion) throws Exception;
 
     public void altaEvento(String nombre, String descripcion, LocalDate fecha, String sigla, List<Categoria> categorias) throws Exception;
+
+	public String obtenerNombreEdicionPorEvento(String nombreEvento);
 }

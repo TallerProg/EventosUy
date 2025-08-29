@@ -284,4 +284,5 @@ public class ConsultaTipoRegistro extends JInternalFrame {
 			textField_2_costo.setText("");
 			textField_3_cupo.setText("");
 		}
+		
 }
