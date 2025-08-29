@@ -58,9 +58,9 @@ public class Principal {
         creEdiEveInternalFrame = new AltaEdicionEvento();
         creEveInternalFrame = new AltaEvento(ICE);
         creTRegInternalFrame = new AltaTipoRegistro();
-        conEveInternalFrame = new ConsultaEvento();
+        conEveInternalFrame = new ConsultaEvento(ICE);
         conRegInternalFrame = new ConsultaRegistro();
-        conTRegInternalFrame = new ConsultaTipoRegistro();
+        conTRegInternalFrame = new ConsultaTipoRegistro(ICE);
         regEdiEveInternalFrame = new RegistroEdicionEvento();
         conEdiEveInternalFrame = new ConsultaEdicionEvento();
 
@@ -124,7 +124,11 @@ public class Principal {
         menuEventos.add(menuAltaEvento);
 
         JMenuItem menuConsultaEvento = new JMenuItem("Consulta de Evento");
-        menuConsultaEvento.addActionListener(e -> mostrarInternalFrame(conEveInternalFrame));
+        menuConsultaEvento.addActionListener(e -> {
+            mostrarInternalFrame(conEveInternalFrame);
+            conEveInternalFrame.ConsultaEventocargar();
+            conEveInternalFrame.setVisible(true);
+        });
         menuEventos.add(menuConsultaEvento);
 
         JMenuItem menuAltaEdicion = new JMenuItem("Alta de Edición de Evento");

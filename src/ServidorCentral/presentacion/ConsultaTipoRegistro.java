@@ -2,18 +2,12 @@ package ServidorCentral.presentacion;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
-import java.time.LocalDate;
 import java.util.List;
 
-import javax.swing.event.*;
 
-import ServidorCentral.logica.ControllerEvento;
 import ServidorCentral.logica.Edicion;
 import ServidorCentral.logica.Evento;
-import ServidorCentral.logica.Factory;
-import ServidorCentral.logica.ManejadorEvento;
-import ServidorCentral.logica.Organizador;
+import ServidorCentral.logica.IControllerEvento;
 import ServidorCentral.logica.TipoRegistro;
 
 public class ConsultaTipoRegistro extends JInternalFrame {
@@ -24,12 +18,15 @@ public class ConsultaTipoRegistro extends JInternalFrame {
 	private JComboBox<String> comboBoxEvento;
 	private JComboBox<String> comboBoxEdicion;
 	private JComboBox<String> comboBoxTipoRegistro;
+    private IControllerEvento controlEvento;
+
 		/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-		public ConsultaTipoRegistro() {
+		public ConsultaTipoRegistro(IControllerEvento icu) {
+			controlEvento = icu;
 			setResizable(true);
 	        setIconifiable(true);
 	        setMaximizable(true);
@@ -192,7 +189,7 @@ public class ConsultaTipoRegistro extends JInternalFrame {
 			}
 		
 		public void cargarEventos() {
-			List<Evento> eventos = ManejadorEvento.getInstancia().listarEventos(); 
+			List<Evento> eventos = controlEvento.listarEventos(); 
 			List<String> nombres = new java.util.ArrayList<>();
 		    for (Evento e : eventos) {
 		        nombres.add(e.getNombre());
@@ -207,7 +204,7 @@ public class ConsultaTipoRegistro extends JInternalFrame {
 		}
 		
 		public void cargarEdiciones(String nombreEvento){
-			Evento evento = ManejadorEvento.getInstancia().findEvento(nombreEvento);
+			Evento evento = controlEvento.findEvento(nombreEvento);
 			if (evento != null) {
 				List<Edicion> ediciones = evento.getEdiciones();
 				
@@ -224,7 +221,7 @@ public class ConsultaTipoRegistro extends JInternalFrame {
 		}
 		
 		public void cargarTipoRegistros(String nombreEdicion) {
-			Edicion edicion = ManejadorEvento.getInstancia().findEdicion(nombreEdicion);
+			Edicion edicion = controlEvento.findEdicion(nombreEdicion);
 			if (edicion != null) {
 				List<TipoRegistro> tipoR = edicion.getTipoRegistros();			
 				List<String> nombreRegistros = new java.util.ArrayList<>();

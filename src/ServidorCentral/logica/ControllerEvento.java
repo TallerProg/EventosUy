@@ -30,6 +30,15 @@ public class ControllerEvento implements IControllerEvento {
 
         return null;
     }
+    
+    public DTevento consultaEvento(String nombreEvento) {
+        ManejadorEvento manejador = ManejadorEvento.getInstancia();
+        Evento e = manejador.findEvento(nombreEvento);
+        if(e!=null){
+            return e.getDTevento();
+        }
+        return null;
+    }
 
 	
 	public DTTipoRegistro consultaTipoRegistro(String nombreEdicion, String nombreTipoR) {
@@ -47,6 +56,16 @@ public class ControllerEvento implements IControllerEvento {
 	       ManejadorEvento me = ManejadorEvento.getInstancia();
 
 	    return me.listarEventos();
+	}
+	
+	public Evento findEvento(String nombre) {
+	       ManejadorEvento me = ManejadorEvento.getInstancia();
+	       return me.findEvento(nombre);
+	}
+	
+	public Edicion findEdicion(String nombre) {
+	       ManejadorEvento me = ManejadorEvento.getInstancia();
+	       return me.findEdicion(nombre);
 	}
 	
     public List<Categoria> getCategorias(){

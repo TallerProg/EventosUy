@@ -16,9 +16,10 @@ public interface IControllerEvento {
 	public List<Evento> listarEventos();
 	
     public List<Categoria> getCategorias();
-
+    public Edicion findEdicion(String nombre);
+    public Evento findEvento(String nombre);
     public boolean existeEvento(String nombre);
 
-
+    public DTevento consultaEvento(String nombreEvento);
     public void altaEvento(String nombre, String descripcion, LocalDate fecha, String sigla, List<Categoria> categorias) throws Exception;
 }

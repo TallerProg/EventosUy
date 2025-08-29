@@ -2,16 +2,26 @@ package ServidorCentral.presentacion;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.GridLayout;
 
 import javax.swing.*;
+
+import ServidorCentral.logica.Categoria;
+import ServidorCentral.logica.DTevento;
+import ServidorCentral.logica.Edicion;
+import ServidorCentral.logica.Evento;
+import ServidorCentral.logica.Factory;
+import ServidorCentral.logica.IControllerEvento;
+
 import java.awt.FlowLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.util.List;
 
-public class ConsultaEvento extends JInternalFrame {
-	public ConsultaEvento() {
+public class ConsultaEvento extends JInternalFrame {	
+
+	public ConsultaEvento(IControllerEvento icu) {
+		controlEvento = icu;
 		setResizable(true);
         setIconifiable(true);
         setMaximizable(true);
@@ -28,7 +38,7 @@ public class ConsultaEvento extends JInternalFrame {
 		JLabel lblSelecioneUnEvento = new JLabel("Selecione un evento:");
 		panelCombos.add(lblSelecioneUnEvento);
 		
-		JComboBox comboBoxEvento = new JComboBox();
+		comboBoxEvento = new JComboBox<>();
 		comboBoxEvento.setPreferredSize(new Dimension(200, 25));
 		panelCombos.add(comboBoxEvento);
 
@@ -122,7 +132,7 @@ public class ConsultaEvento extends JInternalFrame {
 		gbc_lblNewLabel.gridy = 4;
 		panel_3.add(lblNewLabel, gbc_lblNewLabel);
 		
-		JComboBox comboBox_Categorias = new JComboBox();
+		comboBox_Categorias = new JComboBox<>();
 		GridBagConstraints gbc_comboBox_Categorias = new GridBagConstraints();
 		gbc_comboBox_Categorias.insets = new Insets(0, 0, 5, 0);
 		gbc_comboBox_Categorias.fill = GridBagConstraints.HORIZONTAL;
@@ -138,7 +148,7 @@ public class ConsultaEvento extends JInternalFrame {
 		gbc_lblNewLabel_1.gridy = 5;
 		panel_3.add(lblNewLabel_1, gbc_lblNewLabel_1);
 		
-		JComboBox comboBox_Ediciones = new JComboBox();
+		comboBox_Ediciones = new JComboBox<>();
 		GridBagConstraints gbc_comboBox_Ediciones = new GridBagConstraints();
 		gbc_comboBox_Ediciones.fill = GridBagConstraints.HORIZONTAL;
 		gbc_comboBox_Ediciones.gridx = 1;
@@ -151,15 +161,87 @@ public class ConsultaEvento extends JInternalFrame {
 		JButton btnNewButton = new JButton("Ver detalles edición");
 		panel_btn.add(btnNewButton);
 
+		
+		comboBoxEvento.addActionListener(e -> {
+			 String nombreEventoSeleccionado = (String) comboBoxEvento.getSelectedItem();
+			 limpiarCamposTexto();
+			 if (nombreEventoSeleccionado != null) {
+				 DTevento dt=Factory.getInstance().getIControllerEvento().consultaEvento(nombreEventoSeleccionado);
+				 textField_Nombre.setText(dt.getNombre());
+				 textField_Sigla.setText(dt.getSigla());
+				 textField_Descripcion.setText(dt.getDescripcion());
+				 textField_FAlta.setText(dt.getFAlta().toString());
+				 cargarCategorias(dt.getCategorias());
+				 cargarEdiciones(dt.getEdiciones());      
+			 }
+		});
 	}
-
+	
+	public void ConsultaEventocargar() {
+		List<Evento> eventos = controlEvento.listarEventos(); 
+		List<String> nombres = new java.util.ArrayList<>();
+	    for (Evento e : eventos) {
+	        nombres.add(e.getNombre());
+	    }
+	    
+	    DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(
+	        nombres.toArray(new String[0])
+	    );
+	    comboBoxEvento.setModel(model);
+	    
+	    
+	}
+	
+	private void cargarCategorias(List<Categoria> categorias) {
+		 if (categorias.isEmpty()) {
+	        	comboBox_Categorias.addItem("Sin categorías");
+	        	comboBox_Categorias.setEnabled(false);
+	        } else {
+	        	List<String> nombres = new java.util.ArrayList<>();
+	    	    for (Categoria c : categorias) {
+	    	        nombres.add(c.getNombre());
+	    	    }
+	    	    DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(
+	    		        nombres.toArray(new String[0])
+	    		);
+	            comboBox_Categorias.setEnabled(true);
+	            comboBox_Categorias.setModel(model);
+	        }
+	}
+	
+	private void cargarEdiciones(List<Edicion> ediciones) {
+		if (ediciones.isEmpty()) {
+			comboBox_Ediciones.addItem("Sin ediciones");
+			comboBox_Ediciones.setEnabled(false);
+        } else {
+        	List<String> nombres = new java.util.ArrayList<>();
+    	    for (Edicion ed : ediciones) {
+    	        nombres.add(ed.getNombre());
+    	    }
+    	    DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(
+    		        nombres.toArray(new String[0])
+    		);
+    	    comboBox_Ediciones.setEnabled(true);
+    	    comboBox_Ediciones.setModel(model);
+        }
+	}
+	private void limpiarCamposTexto() {
+	    textField_Nombre.setText("");
+	    textField_Sigla.setText("");
+	    textField_Descripcion.setText("");
+	    textField_FAlta.setText("");
+	}
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+    private IControllerEvento controlEvento;
 	private JTextField textField_Nombre;
 	private JTextField textField_Sigla;
 	private JTextField textField_Descripcion;
 	private JTextField textField_FAlta;
-	
+	private JComboBox<String> comboBoxEvento;
+	private JComboBox<String> comboBox_Categorias;
+	private JComboBox<String> comboBox_Ediciones;
+
 }

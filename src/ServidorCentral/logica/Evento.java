@@ -65,4 +65,8 @@ public class Evento {
     public List<Edicion> getEdiciones() {
         return new ArrayList<>(ediciones);
     }
+    
+    public DTevento getDTevento() { 
+    	return new DTevento(nombre,sigla, descripcion, fAlta, categorias,ediciones);
+    }
 }
