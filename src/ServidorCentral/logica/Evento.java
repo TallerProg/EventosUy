@@ -70,3 +70,4 @@ public class Evento {
     	return new DTevento(nombre,sigla, descripcion, fAlta, categorias,ediciones);
     }
 }
+

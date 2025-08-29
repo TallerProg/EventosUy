@@ -4,6 +4,11 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 
 import javax.swing.*;
+import java.awt.FlowLayout;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import java.util.List;
 
 import ServidorCentral.logica.Categoria;
 import ServidorCentral.logica.DTevento;
@@ -11,12 +16,6 @@ import ServidorCentral.logica.Edicion;
 import ServidorCentral.logica.Evento;
 import ServidorCentral.logica.Factory;
 import ServidorCentral.logica.IControllerEvento;
-
-import java.awt.FlowLayout;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.util.List;
 
 public class ConsultaEvento extends JInternalFrame {	
 
@@ -243,5 +242,6 @@ public class ConsultaEvento extends JInternalFrame {
 	private JComboBox<String> comboBoxEvento;
 	private JComboBox<String> comboBox_Categorias;
 	private JComboBox<String> comboBox_Ediciones;
+
 
 }

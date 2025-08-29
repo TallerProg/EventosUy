@@ -23,6 +23,10 @@ public class ManejadorEvento {
         return new ArrayList<>(categorias);
     }
 
+    public List<Edicion> listarEdiciones(){
+    	
+    	return new ArrayList<>(ediciones);
+    }
     public boolean existeEvento(String nombre) {
         for (Evento e : eventos) {
             if (e.getNombre().equalsIgnoreCase(nombre)) {

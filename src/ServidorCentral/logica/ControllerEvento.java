@@ -5,20 +5,20 @@ import java.util.List;
 
 public class ControllerEvento implements IControllerEvento {
 
-    public void altaEdicionDeEvento(Evento evento, Organizador org, String  nombreEvento, String nombre, LocalDate fechaIni, LocalDate fechaFin,
-    String ciudad, String pais) throws Exception {
-    	ManejadorEvento mE = ManejadorEvento.getInstancia();
-        if (mE.existeEdicion(nombre)) {
-        	throw new IllegalArgumentException("Ya existe una edición con ese nombre");
-    	}
-        
-        
-        Edicion ed = new Edicion(nombre, fechaIni, fechaFin, ciudad, pais);
+	public void altaEdicionDeEvento(String nombre, String sigla, String ciudad, String pais,
+            LocalDate fInicio, LocalDate fFin,
+            Evento evento, Organizador org) throws Exception {
 
-        ed.getOrganizadores().add(org);
-       ManejadorEvento me = ManejadorEvento.getInstancia();
-       me.agregarEdicion(evento, ed);
-    }
+			ManejadorEvento mE = ManejadorEvento.getInstancia();
+			if (mE.existeEdicion(nombre)) {
+			throw new IllegalArgumentException("Ya existe una edición con ese nombre");
+			}
+			
+			Edicion ed = new Edicion(nombre, sigla, fInicio, fFin, ciudad, pais);
+			
+			ed.getOrganizadores().add(org);
+			mE.agregarEdicion(evento, ed);
+		}
 
     public Edicion consultaEdicionDeEvento(String nombreEvento, String nombreEdicion) {
         ManejadorEvento manejador = ManejadorEvento.getInstancia();
@@ -79,7 +79,16 @@ public class ControllerEvento implements IControllerEvento {
         ManejadorEvento me = ManejadorEvento.getInstancia();
 
         return me.existeEvento(nombre);
-
+    }
+    public List<Organizador> listarOrganizadores(){
+    	ManejadorUsuario mu = ManejadorUsuario.getinstance();
+    	
+    	return mu.listarOrganizadores();
+    }
+    public List<Edicion> listarEdiciones(){
+    	ManejadorEvento me = ManejadorEvento.getInstancia();
+    	 
+    	return me.listarEdiciones();
     }
 
     public void altaEvento(String nombre, String desc, LocalDate fAlta, String sigla, List<Categoria> categorias) throws Exception{
@@ -111,3 +120,4 @@ public class ControllerEvento implements IControllerEvento {
 
 }
 	
+

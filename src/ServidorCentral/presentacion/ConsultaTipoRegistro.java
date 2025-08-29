@@ -3,12 +3,10 @@ package ServidorCentral.presentacion;
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
-
-
 import ServidorCentral.logica.Edicion;
 import ServidorCentral.logica.Evento;
-import ServidorCentral.logica.IControllerEvento;
 import ServidorCentral.logica.TipoRegistro;
+import ServidorCentral.logica.IControllerEvento;
 
 public class ConsultaTipoRegistro extends JInternalFrame {
 	private JTextField textField_nombre;

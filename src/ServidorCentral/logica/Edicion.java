@@ -13,7 +13,7 @@ public class Edicion {
     private LocalDate fAlta;
     private String ciudad;
     private String pais;
-
+    private String sigla;
     // Relaciones
     private List<TipoRegistro> tipoRegistros;
     private List<Organizador> organizadores;
@@ -21,18 +21,21 @@ public class Edicion {
     private List<Patrocinio> patrocinios;
 
     // Constructor
-    public Edicion(String nombre, LocalDate fInicio, LocalDate fFin, String ciudad, String pais) {
-    	this.nombre = nombre;
-    	this.fInicio = fInicio;
-    	this.fFin = fFin;
-    	this.ciudad = ciudad;
-    	this.pais = pais;
-    	this.fAlta = LocalDate.now();
-    	this.tipoRegistros = new ArrayList<>();
-    	this.organizadores = new ArrayList<>();
-    	this.registros = new ArrayList<>();
-    	this.patrocinios = new ArrayList<>();
-    }
+
+    public Edicion(String nombre, String sigla, LocalDate fInicio, LocalDate fFin,
+            String ciudad, String pais) {
+			 this.nombre = nombre;
+			 this.fInicio = fInicio;
+			 this.fFin = fFin;
+			 this.ciudad = ciudad;
+			 this.pais = pais;
+			 this.sigla = sigla;
+			 this.fAlta = LocalDate.now();
+			 this.tipoRegistros = new ArrayList<>();
+			 this.organizadores = new ArrayList<>();
+			 this.registros = new ArrayList<>();
+			 this.patrocinios = new ArrayList<>();
+		}
 
     // Getters y Setters
     public String getNombre() { return nombre; }
@@ -53,6 +56,9 @@ public class Edicion {
     public String getPais() { return pais; }
     public void setPais(String pais) { this.pais = pais; }
 
+    public String getSigla() { return sigla;}
+    public void setSigla(String sigla) {this.sigla = sigla;}
+    
     public List<TipoRegistro> getTipoRegistros() { return tipoRegistros; }
     public void setTipoRegistros(List<TipoRegistro> tipoRegistros) { this.tipoRegistros = tipoRegistros; }
 
@@ -97,4 +103,5 @@ public class Edicion {
         return null;
     }
 }
+
 

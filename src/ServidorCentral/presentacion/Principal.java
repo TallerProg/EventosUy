@@ -55,12 +55,13 @@ public class Principal {
         // Inicializar los InternalFrames (inicialmente ocultos)
         creUsrInternalFrame = new AltaUsuario(ICU);
         conUsrInternalFrame = new ConsultarUsuario();
-        creEdiEveInternalFrame = new AltaEdicionEvento();
+        creEdiEveInternalFrame = new AltaEdicionEvento(ICE);
         creEveInternalFrame = new AltaEvento(ICE);
         creTRegInternalFrame = new AltaTipoRegistro();
         conEveInternalFrame = new ConsultaEvento(ICE);
         conRegInternalFrame = new ConsultaRegistro();
         conTRegInternalFrame = new ConsultaTipoRegistro(ICE);
+
         regEdiEveInternalFrame = new RegistroEdicionEvento();
         conEdiEveInternalFrame = new ConsultaEdicionEvento();
 
@@ -129,6 +130,7 @@ public class Principal {
             conEveInternalFrame.ConsultaEventocargar();
             conEveInternalFrame.setVisible(true);
         });
+
         menuEventos.add(menuConsultaEvento);
 
         JMenuItem menuAltaEdicion = new JMenuItem("Alta de Edición de Evento");
