@@ -42,8 +42,19 @@ public class AltaEdicionEvento extends JInternalFrame {
         labelEvento.setFont(new Font("Times New Roman", Font.PLAIN, 15));
         getContentPane().add(labelEvento);
 
-        comboEvento = new JComboBox<>(eventos.toArray(new Evento[0]));
+        comboEvento = new JComboBox<>();
+        comboEvento.addItem(null); // "Ninguno" por defecto
+        for (Evento ev : eventos) comboEvento.addItem(ev);
         comboEvento.setBounds(70, 47, 239, 32);
+        comboEvento.setRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value,
+                                                          int index, boolean isSelected, boolean cellHasFocus) {
+                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                setText(value == null ? "Ninguno" : value.toString());
+                return this;
+            }
+        });
         getContentPane().add(comboEvento);
 
         JLabel labelOrg = new JLabel("Organizador:");
@@ -51,10 +62,22 @@ public class AltaEdicionEvento extends JInternalFrame {
         labelOrg.setBounds(10, 85, 89, 32);
         getContentPane().add(labelOrg);
 
-        comboOrganizador = new JComboBox<>(organizadores.toArray(new Organizador[0]));
+        comboOrganizador = new JComboBox<>();
+        comboOrganizador.addItem(null); // "Ninguno" por defecto
+        for (Organizador org : organizadores) comboOrganizador.addItem(org);
         comboOrganizador.setBounds(100, 86, 239, 32);
+        comboOrganizador.setRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value,
+                                                          int index, boolean isSelected, boolean cellHasFocus) {
+                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                setText(value == null ? "Ninguno" : value.toString());
+                return this;
+            }
+        });
         getContentPane().add(comboOrganizador);
 
+        // --- Campos de texto ---
         JLabel labelNombre = new JLabel("Nombre:");
         labelNombre.setFont(new Font("Times New Roman", Font.PLAIN, 15));
         labelNombre.setBounds(14, 127, 63, 32);
@@ -122,7 +145,7 @@ public class AltaEdicionEvento extends JInternalFrame {
         lblFechaAlta.setFont(new Font("Times New Roman", Font.PLAIN, 15));
         getContentPane().add(lblFechaAlta);
 
-        // Botones
+        // --- Botones ---
         btnAceptar = new JButton("Aceptar");
         btnAceptar.setBounds(10, 400, 196, 32);
         getContentPane().add(btnAceptar);
@@ -131,7 +154,7 @@ public class AltaEdicionEvento extends JInternalFrame {
         btnCancelar.setBounds(258, 400, 196, 32);
         getContentPane().add(btnCancelar);
 
-        // Título
+        // --- Título ---
         JTextArea titulo = new JTextArea();
         titulo.setBackground(new Color(240, 240, 240));
         titulo.setFont(new Font("Times New Roman", Font.PLAIN, 20));
@@ -141,7 +164,6 @@ public class AltaEdicionEvento extends JInternalFrame {
 
         // --- ACCIONES ---
         btnCancelar.addActionListener(e -> dispose());
-
         btnVerificar.addActionListener(e -> validarNombre());
 
         btnAceptar.addActionListener(e -> {
@@ -158,14 +180,8 @@ public class AltaEdicionEvento extends JInternalFrame {
                     return;
                 }
 
-                Evento evento = (Evento) comboEvento.getSelectedItem();
-                Organizador org = (Organizador) comboOrganizador.getSelectedItem();
-
-                if (evento == null || org == null) {
-                    JOptionPane.showMessageDialog(this, "Debe seleccionar un evento y un organizador",
-                            "Error", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
+                Evento evento = (Evento) comboEvento.getSelectedItem();       // puede ser null = "Ninguno"
+                Organizador org = (Organizador) comboOrganizador.getSelectedItem(); // puede ser null = "Ninguno"
 
                 LocalDate fIni = parseFecha(txtFechaIni.getText());
                 LocalDate fFin = parseFecha(txtFechaFin.getText());
@@ -178,8 +194,8 @@ public class AltaEdicionEvento extends JInternalFrame {
                         pais,
                         fIni,
                         fFin,
-                        evento,
-                        org
+                        evento,   // null permitido
+                        org       // null permitido
                 );
 
                 JOptionPane.showMessageDialog(this, "Edición creada con éxito");
@@ -189,8 +205,8 @@ public class AltaEdicionEvento extends JInternalFrame {
                 JOptionPane.showMessageDialog(this, "Formato de fecha incorrecto o error: " + ex.getMessage(),
                         "Error", JOptionPane.ERROR_MESSAGE);
             }
-        });
-    }
+        });}
+
 
     // --- MÉTODO DE VALIDACIÓN DE NOMBRE ---
     private boolean validarNombre() {
