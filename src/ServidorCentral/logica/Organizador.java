@@ -30,6 +30,11 @@ public class Organizador extends Usuario {
 
     public String getUrl() { return url; }
     public void setUrl(String url) { this.url = url; }
+    
+    public DTOrganizador getDTOrganizador() {
+        return new DTOrganizador(getNickname(), getCorreo(), getNombre(),
+                                 descripcion, url);
+    }
 
 
 }

@@ -101,11 +101,12 @@ public class RegistroEdicionEvento extends JInternalFrame {
             String nombreEdicion = (String) comboBoxEdicion.getSelectedItem();
             String nombreEvento = (String) comboBoxEvento.getSelectedItem();
             if (nombreEdicion != null && nombreEvento != null) {
-                Edicion ed = ICE.consultaEdicionDeEvento(nombreEvento, nombreEdicion);
+            	DTEdicion ed = ICE.consultaEdicionDeEvento(nombreEvento, nombreEdicion);
                 if (ed != null) {
-                    for (TipoRegistro tr : ed.getTipoRegistros()) {
+                    for (DTTipoRegistro tr : ed.getTipoRegistros()) {
                         comboBoxRegistro.addItem(tr.getNombre());
                     }
+
                     comboBoxRegistro.setEnabled(true);
                 }
             }

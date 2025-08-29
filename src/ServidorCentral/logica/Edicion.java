@@ -114,6 +114,31 @@ public class Edicion {
         }
         return null;
     }
+
+    public DTEdicion getDTEdicion() {
+        List<DTTipoRegistro> trs = new ArrayList<>();
+        for (TipoRegistro tr : this.tipoRegistros) {
+            trs.add(tr.getDTTipoRegistro());
+        }
+
+        List<DTOrganizador> orgs = new ArrayList<>();
+        for (Organizador o : this.organizadores) {
+            orgs.add(o.getDTOrganizador());
+        }
+
+        List<DTRegistro> regs = new ArrayList<>();
+        for (Registro r : this.registros) {
+            regs.add(r.getDTRegistro());
+        }
+
+        List<DTPatrocinio> pats = new ArrayList<>();
+        for (Patrocinio p : this.patrocinios) {
+            pats.add(p.getDTPatrocinio());
+        }
+
+        return new DTEdicion(nombre, sigla, fInicio, fFin, fAlta,
+                             ciudad, pais, trs, orgs, regs, pats);
+    }
+
 }
-
-
+	

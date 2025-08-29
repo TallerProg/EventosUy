@@ -44,5 +44,14 @@ public class Registro {
     
     public TipoRegistro getTipoRegistro() { return tipoRegistro; }
     public void setTipoRegistro(TipoRegistro tipoRegistro) { this.tipoRegistro = tipoRegistro; }
+    
+    public DTRegistro getDTRegistro() {
+        String nomAsistente = (asistente != null) ? asistente.getNombre() : null;
+        String nomTipo = (tipoRegistro != null) ? tipoRegistro.getNombre() : null;
+        String codigo = (patrocinio != null) ? patrocinio.getCodigo() : null;
+
+        return new DTRegistro(fInicio, costo, nomAsistente, nomTipo, codigo);
+    }
+
     // Métodos relacionados (comentados)
 }

@@ -3,6 +3,8 @@ package ServidorCentral.presentacion;
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
+
+import ServidorCentral.logica.DTTipoRegistro;
 import ServidorCentral.logica.Edicion;
 import ServidorCentral.logica.Evento;
 import ServidorCentral.logica.TipoRegistro;
@@ -234,5 +236,21 @@ public class ConsultaTipoRegistro extends JInternalFrame {
 			}
 			
 		}
+		public void cargarDatos(DTTipoRegistro dtTipo) {
+		    if (dtTipo == null) return;
+		    textField_nombre.setText(dtTipo.getNombre());
+		    textField_1_desc.setText(dtTipo.getDescripcion());
+		    textField_2_costo.setText(String.valueOf(dtTipo.getCosto()));
+		    textField_3_cupo.setText(String.valueOf(dtTipo.getCupo()));
+		}
+
+		public static ConsultaTipoRegistro crearYMostrar(IControllerEvento controller, String nombreEdicion, String nombreTipoR) {
+		    ConsultaTipoRegistro ctr = new ConsultaTipoRegistro(controller); // constructor normal
+		    DTTipoRegistro dtTipo = controller.consultaTipoRegistro(nombreEdicion, nombreTipoR);
+		    ctr.cargarDatos(dtTipo);
+		    ctr.setVisible(true);
+		    return ctr;
+		}
+
 		
 }

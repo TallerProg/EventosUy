@@ -1,6 +1,7 @@
 package ServidorCentral.logica;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ControllerEvento implements IControllerEvento {
@@ -25,16 +26,20 @@ public class ControllerEvento implements IControllerEvento {
 		 ManejadorEvento mE = ManejadorEvento.getInstancia();
 		 return mE.findEvento(nombreEvento);
 	 }
-    public Edicion consultaEdicionDeEvento(String nombreEvento, String nombreEdicion) {
-        ManejadorEvento manejador = ManejadorEvento.getInstancia();
-        Evento evento = manejador.findEvento(nombreEvento);
+	 
+	 public DTEdicion consultaEdicionDeEvento(String nombreEvento, String nombreEdicion) {
+		    ManejadorEvento manejador = ManejadorEvento.getInstancia();
+		    Evento evento = manejador.findEvento(nombreEvento);
 
-        if (evento != null) {
-            return evento.findEdicion(nombreEdicion);
-        }
+		    if (evento != null) {
+		        Edicion ed = evento.findEdicion(nombreEdicion);
+		        if (ed != null) {
+		            return ed.getDTEdicion();
+		        }
+		    }
+		    return null;
+		}
 
-        return null;
-    }
     
     public DTevento consultaEvento(String nombreEvento) {
         ManejadorEvento manejador = ManejadorEvento.getInstancia();
@@ -140,6 +145,28 @@ public class ControllerEvento implements IControllerEvento {
 	    	tr.addLinkRegistro(reg);
 	    }
 	   }
+
+
+	public List<String> listarEdicionesDeEvento(String nombreEvento) {
+	    ManejadorEvento manejador = ManejadorEvento.getInstancia();
+	    Evento evento = manejador.findEvento(nombreEvento);
+	    List<String> nombresEdiciones = new ArrayList<>();
+	    if (evento != null) {
+	        for (Edicion ed : evento.getEdiciones()) {
+	            nombresEdiciones.add(ed.getNombre());
+	        }
+	    }
+	    return nombresEdiciones;
+	}
+
+	public String obtenerNombreEdicionPorEvento(String nombreEvento) {
+	    List<String> ediciones = listarEdicionesDeEvento(nombreEvento);
+	    if (!ediciones.isEmpty()) {
+	        return ediciones.get(0); 
+	    }
+	    return null;
+	}
+
 
 }
 	
