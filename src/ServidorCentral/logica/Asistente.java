@@ -67,9 +67,6 @@ public class Asistente extends Usuario {
         
     }
 
-    public Patrocinio getPatrocinioAsistente(String codigo) {
-      
-    }
 
     public void addLinkRegistro(Registro reg) {
         

@@ -18,7 +18,8 @@ public interface IControllerEvento {
     public List<Categoria> getCategorias();
 
     public boolean existeEvento(String nombre);
-
-
+    
+    public Evento getEvento(String nombreEvento);
+    public void altaRegistro(String nombreEdicion, String nickAsistente, String nombreTR, String codigo) throws Exception;
     public void altaEvento(String nombre, String descripcion, LocalDate fecha, String sigla, List<Categoria> categorias) throws Exception;
 }

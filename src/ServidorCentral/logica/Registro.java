@@ -1,10 +1,10 @@
 package ServidorCentral.logica;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Registro {
 
-    private Date fInicio;
+    private LocalDate fInicio;
     private Float costo;
 
     // Relación con Edicion (muchos a uno)
@@ -16,17 +16,19 @@ public class Registro {
     // Relación opcional con Patrocinio (muchos a uno)
     private Patrocinio patrocinio;
 
+    private TipoRegistro tipoRegistro;
     // Constructor
-    public Registro(Date fInicio, Float costo, Edicion edicion, Asistente asistente) {
-        this.fInicio = fInicio;
+    public Registro( Float costo, Edicion edicion, Asistente asistente, TipoRegistro tipoRegistro) {
+        this.fInicio = LocalDate.now();
         this.costo = costo;
         this.edicion = edicion;
         this.asistente = asistente;
+        this.tipoRegistro = tipoRegistro;
     }
 
     // Getters y Setters
-    public Date getFInicio() { return fInicio; }
-    public void setFInicio(Date fInicio) { this.fInicio = fInicio; }
+    public LocalDate getFInicio() { return fInicio; }
+    public void setFInicio(LocalDate fInicio) { this.fInicio = fInicio; }
 
     public Float getCosto() { return costo; }
     public void setCosto(Float costo) { this.costo = costo; }
@@ -39,6 +41,8 @@ public class Registro {
 
     public Patrocinio getPatrocinio() { return patrocinio; }
     public void setPatrocinio(Patrocinio patrocinio) { this.patrocinio = patrocinio; }
-
+    
+    public TipoRegistro getTipoRegistro() { return tipoRegistro; }
+    public void setTipoRegistro(TipoRegistro tipoRegistro) { this.tipoRegistro = tipoRegistro; }
     // Métodos relacionados (comentados)
 }

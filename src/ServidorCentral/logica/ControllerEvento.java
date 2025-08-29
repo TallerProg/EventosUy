@@ -19,6 +19,10 @@ public class ControllerEvento implements IControllerEvento {
        ManejadorEvento me = ManejadorEvento.getInstancia();
        me.agregarEdicion(evento, ed);
     }
+    public Evento getEvento(String nombreEvento) {
+    	ManejadorEvento mE = ManejadorEvento.getInstancia();
+    	return mE.findEvento(nombreEvento);
+    }
 
     public Edicion consultaEdicionDeEvento(String nombreEvento, String nombreEdicion) {
         ManejadorEvento manejador = ManejadorEvento.getInstancia();
@@ -73,11 +77,11 @@ public class ControllerEvento implements IControllerEvento {
     	Evento Ev = new Evento(nombre, sigla, desc, fAlta, categorias);
     	me.agregarEvento(Ev);
     }
-    /*
+  
 	public void altaRegistro(String nombreEdicion, String nickAsistente, String nombreTR, String codigo) throws Exception {
-		ManejadorUsuario manejadorUsuario = ManejadorUsuario.getinstance()
-		ManejadorEvento manejadorEvento = ManejadorEvento.getinstance()
-	    if (!manejadorEvento.existeEedicion(nombreEdicion)) {
+		ManejadorUsuario manejadorUsuario = ManejadorUsuario.getinstance();
+		ManejadorEvento manejadorEvento = ManejadorEvento.getInstancia();
+	    if (!manejadorEvento.existeEdicion(nombreEdicion)) {
 	        throw new Exception("Edición no existe");
 	    }
 	    Edicion edicion = manejadorEvento.findEdicion(nombreEdicion);
@@ -85,10 +89,28 @@ public class ControllerEvento implements IControllerEvento {
 	        throw new Exception("Asistente no existe");
 	    }
 	    Asistente asistente = manejadorUsuario.findAsistente(nickAsistente);
-
+	    if ((asistente.getPatrocinio() != null )&&(!asistente.getPatrocinio().getCodigo().equals(codigo))) {
+	        throw new Exception("Ese codigo no es valido para este asistente");
+	    }
+	    if (!asistente.getPatrocinio().consultarRegistros()) {
+	        throw new Exception("Ya no quedan cupos gratuitos");
+	    }
 	    
 	    
-	}*/
+	    if (edicion.habilitadoAsistente(nombreTR, asistente)) {
+	    	TipoRegistro tr = edicion.getEdicionTR(nombreTR);
+	    	if(tr.soldOutTipReg()) {
+	    		throw new Exception("Ya no quedan cupos para ese tipo de registro");
+	    	}
+	    	float costo = 0; 
+	    	Registro reg = new Registro(costo, edicion, asistente, tr);
+	    	Patrocinio pa = asistente.getPatrocinio();
+	    	reg.setPatrocinio(pa);
+	    	asistente.getPatrocinio().agregarRegistro(reg);
+	    	edicion.addLinkRegistro(reg);
+	    	tr.addLinkRegistro(reg);
+	    }
+	   }
 
 }
 	

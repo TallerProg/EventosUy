@@ -1,12 +1,12 @@
 package ServidorCentral.logica;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 public class Patrocinio {
 
     private String codigo;
-    private Date fInicio;
+    private LocalDate fInicio;
     private int registroGratuito;
     private Float monto;
     private ETipoNivel nivel;
@@ -19,7 +19,7 @@ public class Patrocinio {
     private List<Registro> registros;        // uno a muchos
 
     // Constructor
-    public Patrocinio(String codigo, Date fInicio, int registroGratuito, Float monto, ETipoNivel nivel,
+    public Patrocinio(String codigo, LocalDate fInicio, int registroGratuito, Float monto, ETipoNivel nivel,
       Institucion institucion, Edicion edicion, TipoRegistro tipoRegistro) {
         this.codigo = codigo;
         this.fInicio = fInicio;
@@ -35,8 +35,8 @@ public class Patrocinio {
     public String getCodigo() { return codigo; }
     public void setCodigo(String codigo) { this.codigo = codigo; }
 
-    public Date getFInicio() { return fInicio; }
-    public void setFInicio(Date fInicio) { this.fInicio = fInicio; }
+    public LocalDate getFInicio() { return fInicio; }
+    public void setFInicio(LocalDate fInicio) { this.fInicio = fInicio; }
 
     public int getRegistroGratuito() { return registroGratuito; }
     public void setRegistroGratuito(int registroGratuito) { this.registroGratuito = registroGratuito; }
@@ -62,8 +62,11 @@ public class Patrocinio {
     public List<Registro> getRegistros() { return registros; }
     public void setRegistros(List<Registro> registros) { this.registros = registros; }
 
-    // Método para agregar registro verificando límite de gratuitos
-    /*
+    public boolean consultarRegistros() {
+        long cantidadGratis = registros.stream().filter(r -> r.getCosto() == 0).count();
+        return cantidadGratis < registroGratuito;
+    }
+
     public boolean agregarRegistro(Registro reg) {
         long gratuitosActuales = registros.stream().filter(r -> r.getCosto() == 0).count();
         if (reg.getCosto() == 0 && gratuitosActuales >= registroGratuito) {
@@ -71,5 +74,5 @@ public class Patrocinio {
         }
         registros.add(reg);
         return true;
-    }*/
+    }
 }

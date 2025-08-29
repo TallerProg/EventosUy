@@ -15,6 +15,8 @@ public class TipoRegistro {
 
     // Relación muchos a muchos con Patrocinio
     private List<Patrocinio> patrocinioList;
+    
+    private List<Registro> registros; 
 
     // Constructor
     public TipoRegistro(String nombre, String descripcion, Float costo, int cupo, Edicion edicion) {
@@ -45,20 +47,16 @@ public class TipoRegistro {
     public List<Patrocinio> getPatrocinioList() { return patrocinioList; }
     public void setPatrocinioList(List<Patrocinio> patrocinioList) { this.patrocinioList = patrocinioList; }
     
-    public boolean habilitaAsistente(Asistente asistente) {
-        if (asistente == null) return false;
-        if (this.cupo <= 0) return false;
-
-        this.cupo--;
-
-        return true;
+    
+    
+    public void addLinkRegistro(Registro reg) { 
+    	this.registros.add(reg);
     }
-
-
-    // Métodos relacionados (comentados)
-    // public void addLinkRegistro(Registro reg) { /* implementar */ }
-    // public boolean soldOutTipReg() { /* implementar */ return false; }
-    // public boolean registradoTipReg(Asistente asistente) { /* implementar */ return false; }
+    
+    public boolean soldOutTipReg() {
+        return registros.size() >= cupo;
+    }
+    
     
     public DTTipoRegistro getDTTipoRegistro() { 
     	return new DTTipoRegistro(nombre,descripcion,costo,cupo);

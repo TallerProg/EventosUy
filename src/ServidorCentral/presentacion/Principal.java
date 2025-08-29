@@ -61,7 +61,7 @@ public class Principal {
         conEveInternalFrame = new ConsultaEvento();
         conRegInternalFrame = new ConsultaRegistro();
         conTRegInternalFrame = new ConsultaTipoRegistro();
-        regEdiEveInternalFrame = new RegistroEdicionEvento();
+        regEdiEveInternalFrame = new RegistroEdicionEvento(ICE, ICU);
         conEdiEveInternalFrame = new ConsultaEdicionEvento();
 
         // Agregar los InternalFrames al DesktopPane

@@ -81,12 +81,24 @@ public class Edicion {
         }
         return null;
     }
+    
+    public boolean registrado(Asistente asistente) {
+        for (Registro reg : registros) {
+            if (reg.getAsistente().equals(asistente)) {
+                return true; // el asistente ya está registrado
+            }
+        }
+        return false; // no se encontró
+    }
+
     public boolean habilitadoAsistente(String nombreTR, Asistente asistente) {
         TipoRegistro tr = getEdicionTR(nombreTR);
-        if (tr == null) {
-            return false;
+        if (tr != null && registrado(asistente)) {
+        	return !tr.soldOutTipReg();
         }
-        return tr.habilitaAsistente(asistente);
+        else {
+        	return false;
+        }
     }
 
     public DTTipoRegistro datosTipoRegistroEdicion(String nombreTipoR) {
