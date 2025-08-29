@@ -10,7 +10,7 @@ import java.util.List;
 import javax.swing.*;
 
 import ServidorCentral.logica.Asistente;
-import ServidorCentral.logica.DTRegistro;
+import ServidorCentral.logica.DTRegistroDetallado;
 import ServidorCentral.logica.IControllerUsuario;
 public class ConsultaRegistro extends JInternalFrame {
 	private JTextField textField_finicio;
@@ -184,7 +184,7 @@ public class ConsultaRegistro extends JInternalFrame {
 			    String usuarioSeleccionado = (String) comboBoxUsuario.getSelectedItem();
 			    if (registroSeleccionado != null) {
 			      
-			        DTRegistro dto = ICU.getRegistroDetalle(registroSeleccionado, usuarioSeleccionado);
+			        DTRegistroDetallado dto = ICU.getRegistroDetalle(registroSeleccionado, usuarioSeleccionado);
 
 			        textField_finicio.setText(dto.getfRegistro().toString());
 			        textField_1_costo.setText(String.valueOf(dto.getCosto()));

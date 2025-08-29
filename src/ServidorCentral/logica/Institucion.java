@@ -35,6 +35,12 @@ public class Institucion {
     public List<Asistente> getAsistentes() { return asistentes; }
     public void setAsistentes(List<Asistente> asistentes) { this.asistentes = asistentes; }
 
+    public void agregarPatrocinio(Patrocinio pat) {
+    	for (Asistente a : asistentes) {
+    		a.setPatrocinio(pat);
+    	}
+    	patrocinio.add(pat);
+    }
     // Métodos de relación
     /*
     public Patrocinio getPatrocinioInstitucion(String codigo) {

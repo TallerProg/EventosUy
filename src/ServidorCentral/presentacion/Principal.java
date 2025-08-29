@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+import ServidorCentral.logica.CargarDatos;
 import ServidorCentral.logica.Factory;
 import ServidorCentral.logica.IControllerUsuario;
 import ServidorCentral.logica.IControllerEvento;
@@ -57,7 +58,7 @@ public class Principal {
         conUsrInternalFrame = new ConsultarUsuario();
         creEdiEveInternalFrame = new AltaEdicionEvento(ICE);
         creEveInternalFrame = new AltaEvento(ICE);
-        creTRegInternalFrame = new AltaTipoRegistro();
+        creTRegInternalFrame = new AltaTipoRegistro(ICE);
         conEveInternalFrame = new ConsultaEvento(ICE);
         conRegInternalFrame = new ConsultaRegistro(ICU);
         regEdiEveInternalFrame = new RegistroEdicionEvento(ICE, ICU);
@@ -102,7 +103,7 @@ public class Principal {
         menuSistema.add(mntmNewMenuItem);
         menuSistema.add(menuSalir);
         mntmNewMenuItem.addActionListener(e -> {
-            //ServidorCentral.logica.CargarDtos.inicializar();
+            CargarDatos.inicializar(ICU,ICE);
             JOptionPane.showMessageDialog(frmEventosUy, "Datos del sistema inicializados correctamente.");
         });
 

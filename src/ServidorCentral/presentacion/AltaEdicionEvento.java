@@ -14,8 +14,7 @@ public class AltaEdicionEvento extends JInternalFrame {
     private JComboBox<Organizador> comboOrganizador;
     private JTextField txtNombre, txtSigla, txtCiudad, txtPais;
     private JFormattedTextField txtFechaIni, txtFechaFin, txtFechaAlta;
-    private JButton btnAceptar, btnCancelar, btnVerificar;
-    private JLabel lblErrorNombre;
+    private JButton btnAceptar, btnCancelar;
 
     private IControllerEvento controller;
     private List<Evento> eventos;
@@ -87,15 +86,6 @@ public class AltaEdicionEvento extends JInternalFrame {
         txtNombre.setBounds(70, 129, 147, 32);
         getContentPane().add(txtNombre);
 
-        btnVerificar = new JButton("Verificar");
-        btnVerificar.setBounds(230, 129, 100, 32);
-        getContentPane().add(btnVerificar);
-
-        lblErrorNombre = new JLabel("");
-        lblErrorNombre.setFont(new Font("Times New Roman", Font.PLAIN, 12));
-        lblErrorNombre.setBounds(70, 160, 300, 20);
-        getContentPane().add(lblErrorNombre);
-
         JLabel labelSigla = new JLabel("Sigla:");
         labelSigla.setFont(new Font("Times New Roman", Font.PLAIN, 15));
         labelSigla.setBounds(14, 190, 52, 32);
@@ -164,7 +154,6 @@ public class AltaEdicionEvento extends JInternalFrame {
 
         // --- ACCIONES ---
         btnCancelar.addActionListener(e -> dispose());
-        btnVerificar.addActionListener(e -> validarNombre());
 
         btnAceptar.addActionListener(e -> {
             try {
@@ -205,28 +194,25 @@ public class AltaEdicionEvento extends JInternalFrame {
                 JOptionPane.showMessageDialog(this, "Formato de fecha incorrecto o error: " + ex.getMessage(),
                         "Error", JOptionPane.ERROR_MESSAGE);
             }
-        });}
-
+        });
+    }
 
     // --- MÉTODO DE VALIDACIÓN DE NOMBRE ---
     private boolean validarNombre() {
         String nombre = txtNombre.getText().trim();
         if (nombre.isEmpty()) {
-            lblErrorNombre.setText("Debe ingresar un nombre");
-            lblErrorNombre.setForeground(Color.RED);
+            JOptionPane.showMessageDialog(this, "Debe ingresar un nombre",
+                    "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
 
         for (Edicion e1 : controller.listarEdiciones()) {
             if (e1.getNombre().equalsIgnoreCase(nombre)) {
-                lblErrorNombre.setText("El nombre ya está en uso");
-                lblErrorNombre.setForeground(Color.RED);
+                JOptionPane.showMessageDialog(this, "El nombre ya está en uso",
+                        "Error", JOptionPane.ERROR_MESSAGE);
                 return false;
             }
         }
-
-        lblErrorNombre.setText("Nombre disponible");
-        lblErrorNombre.setForeground(new Color(0,128,0));
         return true;
     }
 

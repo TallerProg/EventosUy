@@ -60,7 +60,7 @@ public class ControllerUsuario implements IControllerUsuario {
     // Método de modificación
     //public void ModificarDatosUsuario() {
         // placeholder
-    //}
+   
 
     public List<DTUsuarioLista> getUsuarios() {
         List<DTUsuarioLista> lista = new ArrayList<>();
@@ -97,12 +97,12 @@ public class ControllerUsuario implements IControllerUsuario {
 		 
 	 }
 	 
-	 public DTRegistro getRegistroDetalle(String fregistro, String nickAsistente) {
+	 public DTRegistroDetallado getRegistroDetalle(String fregistro, String nickAsistente) {
 		 ManejadorUsuario mU = ManejadorUsuario.getinstance();
 		 List<Registro> registros = mU.findAsistente(nickAsistente).getRegistros();
 		 for (Registro re : registros) {
 			 if(re.getFInicio().toString().equals(fregistro)) {
-				 return re.getDTRegistro();
+				 return re.getDTRegistroDetallado();
 			 }
 		 }
 		 return null;

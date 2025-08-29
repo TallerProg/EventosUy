@@ -28,7 +28,7 @@ public interface IControllerUsuario{
 	 
 	 public List<Asistente> getAsistentes();
 	 public List<String> getAsistenteRegistro(String nickname);
-	 public DTRegistro getRegistroDetalle(String nregistro, String nickAsistente);
+	 public DTRegistroDetallado getRegistroDetalle(String nregistro, String nickAsistente);
 
 	 
 	

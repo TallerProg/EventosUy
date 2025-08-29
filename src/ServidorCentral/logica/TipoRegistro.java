@@ -52,6 +52,9 @@ public class TipoRegistro {
     public void addLinkRegistro(Registro reg) { 
     	this.registros.add(reg);
     }
+    public void addLinkPatrocinio(Patrocinio reg) { 
+    	this.patrocinioList.add(reg);
+    }
     
     public boolean soldOutTipReg() {
         return registros.size() >= cupo;

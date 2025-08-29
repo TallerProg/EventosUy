@@ -421,15 +421,162 @@ public class CargarDatos {
 		    	// ------------------
 		    	// Crear TipoRegistro
 		    	// ------------------
-		    	Ref;EdicionEvento;Nombre;Descripcion;Costo;Cupo
-		    	TR01;EDEV01;General;Acceso general a Montevideo Rock (2 días);1500;2000
 		    	
-		    	
-		    	
+		    	try {
+		    	    // EDEV01 - Montevideo Rock 2025
+		    	    ICE.altaTipoRegistro("General", "Acceso general a Montevideo Rock (2 días)", 1500f, 2000, ICE.findEdicion("Montevideo Rock 2025"));
+		    	    ICE.altaTipoRegistro("VIP", "Incluye backstage + acceso preferencial", 4000f, 200, ICE.findEdicion("Montevideo Rock 2025"));
+
+		    	    // EDEV02 - Maratón de Montevideo 2025
+		    	    ICE.altaTipoRegistro("Corredor 42K", "Inscripción a la maratón completa", 1200f, 499, ICE.findEdicion("Maratón de Montevideo 2025"));
+		    	    ICE.altaTipoRegistro("Corredor 21K", "Inscripción a la media maratón", 800f, 700, ICE.findEdicion("Maratón de Montevideo 2025"));
+		    	    ICE.altaTipoRegistro("Corredor 10K", "Inscripción a la carrera 10K", 500f, 1000, ICE.findEdicion("Maratón de Montevideo 2025"));
+
+		    	    // EDEV03 - Maratón de Montevideo 2024
+		    	    ICE.altaTipoRegistro("Corredor 42K", "Inscripción a la maratón completa", 1000f, 300, ICE.findEdicion("Maratón de Montevideo 2024"));
+		    	    ICE.altaTipoRegistro("Corredor 21K", "Inscripción a la media maratón", 500f, 500, ICE.findEdicion("Maratón de Montevideo 2024"));
+
+		    	    // EDEV04 - Maratón de Montevideo 2022
+		    	    ICE.altaTipoRegistro("Corredor 42K", "Inscripción a la maratón completa", 1100f, 450, ICE.findEdicion("Maratón de Montevideo 2022"));
+		    	    ICE.altaTipoRegistro("Corredor 21K", "Inscripción a la media maratón", 900f, 750, ICE.findEdicion("Maratón de Montevideo 2022"));
+		    	    ICE.altaTipoRegistro("Corredor 10K", "Inscripción a la carrera 10K", 650f, 1400, ICE.findEdicion("Maratón de Montevideo 2022"));
+
+		    	    // EDEV05 - Montevideo Comics 2024
+		    	    ICE.altaTipoRegistro("General", "Entrada para los 4 días de Montevideo Comics", 600f, 1500, ICE.findEdicion("Montevideo Comics 2024"));
+		    	    ICE.altaTipoRegistro("Cosplayer", "Entrada especial con acreditación para concurso cosplay", 300f, 50, ICE.findEdicion("Montevideo Comics 2024"));
+
+		    	    // EDEV06 - Montevideo Comics 2025
+		    	    ICE.altaTipoRegistro("General", "Entrada para los 4 días de Montevideo Comics", 800f, 1000, ICE.findEdicion("Montevideo Comics 2025"));
+		    	    ICE.altaTipoRegistro("Cosplayer", "Entrada especial con acreditación para concurso cosplay", 500f, 100, ICE.findEdicion("Montevideo Comics 2025"));
+
+		    	    // EDEV07 - Expointer Uruguay 2025
+		    	    ICE.altaTipoRegistro("General", "Acceso a la exposición agropecuaria", 300f, 5000, ICE.findEdicion("Expointer Uruguay 2025"));
+		    	    ICE.altaTipoRegistro("Empresarial", "Acceso para empresas + networking", 2000f, 5, ICE.findEdicion("Expointer Uruguay 2025"));
+
+		    	    // EDEV08 - Tecnología Punta del Este 2026
+		    	    ICE.altaTipoRegistro("Full", "Acceso ilimitado + Cena de gala", 1800f, 300, ICE.findEdicion("Tecnología Punta del Este 2026"));
+		    	    ICE.altaTipoRegistro("General", "Acceso general", 1500f, 500, ICE.findEdicion("Tecnología Punta del Este 2026"));
+		    	    ICE.altaTipoRegistro("Estudiante", "Acceso para estudiantes", 1000f, 50, ICE.findEdicion("Tecnología Punta del Este 2026"));
+
+		    	    // EDEV09 - Mobile World Congress 2025
+		    	    ICE.altaTipoRegistro("Full", "Acceso ilimitado + Cena de gala", 750f, 550, ICE.findEdicion("Mobile World Congress 2025"));
+		    	    ICE.altaTipoRegistro("General", "Acceso general", 500f, 400, ICE.findEdicion("Mobile World Congress 2025"));
+		    	    ICE.altaTipoRegistro("Estudiante", "Acceso para estudiantes", 250f, 400, ICE.findEdicion("Mobile World Congress 2025"));
+
+		    	    // EDEV10 - Web Summit 2026
+		    	    ICE.altaTipoRegistro("Full", "Acceso ilimitado + Cena de gala", 900f, 30, ICE.findEdicion("Web Summit 2026"));
+		    	    ICE.altaTipoRegistro("General", "Acceso general", 650f, 5, ICE.findEdicion("Web Summit 2026"));
+		    	    ICE.altaTipoRegistro("Estudiante", "Acceso para estudiantes", 300f, 1, ICE.findEdicion("Web Summit 2026"));
+
+		    	} catch(Exception e) {
+		    	    JOptionPane.showMessageDialog(null, e.getMessage());
+		    	}
+
+		        // ------------------
+		    	// Crear Patrocinios
+		    	// ------------------
+
+		    	try {
+		    	    // PAT1
+		    	    Patrocinio PAT1 = new Patrocinio(
+		    	        "TECHFING", 
+		    	        LocalDate.parse("21/08/2025", formatter), 
+		    	        4, 
+		    	        20000f, 
+		    	        ETipoNivel.Oro, 
+		    	        INS01, 
+		    	        ICE.findEdicion("Tecnología Punta del Este 2026"), 
+		    	        ICE.findEdicion("Tecnología Punta del Este 2026").getEdicionTR("Estudiante")
+		    	    );
+		    	    ICE.findEdicion("Tecnología Punta del Este 2026").addLinkPatrocinio(PAT1);
+		    	    ICE.findEdicion("Tecnología Punta del Este 2026").getEdicionTR("Estudiante").addLinkPatrocinio(PAT1);
+		    	    INS01.agregarPatrocinio(PAT1);
+
+		    	    // PAT2
+		    	    Patrocinio PAT2 = new Patrocinio(
+		    	        "TECHANII", 
+		    	        LocalDate.parse(" 20/08/2025", formatter), 
+		    	        1, 
+		    	        10000f, 
+		    	        ETipoNivel.Plata, 
+		    	        INS05, 
+		    	        ICE.findEdicion("Tecnología Punta del Este 2026"), 
+		    	        ICE.findEdicion("Tecnología Punta del Este 2026").getEdicionTR("General")
+		    	    );
+		    	    ICE.findEdicion("Tecnología Punta del Este 2026").addLinkPatrocinio(PAT2);
+		    	    ICE.findEdicion("Tecnología Punta del Este 2026").getEdicionTR("General").addLinkPatrocinio(PAT2);
+		    	    INS05.agregarPatrocinio(PAT2);
+
+		    	    // PAT3
+		    	    Patrocinio PAT3 = new Patrocinio(
+		    	        "CORREANTEL", 
+		    	        LocalDate.parse("04/03/2025", formatter), 
+		    	        10, 
+		    	        25000f, 
+		    	        ETipoNivel.Platino, 
+		    	        INS04, 
+		    	        ICE.findEdicion("Maratón de Montevideo 2025"), 
+		    	        ICE.findEdicion("Maratón de Montevideo 2025").getEdicionTR("Corredor 10K")
+		    	    );
+		    	    ICE.findEdicion("Maratón de Montevideo 2025").addLinkPatrocinio(PAT3);
+		    	    ICE.findEdicion("Maratón de Montevideo 2025").getEdicionTR("Corredor 10K").addLinkPatrocinio(PAT3);
+		    	    INS04.agregarPatrocinio(PAT3);
+
+		    	    // PAT4
+		    	    Patrocinio PAT4 = new Patrocinio(
+		    	        "EXPOCAT", 
+		    	        LocalDate.parse("05/05/2025", formatter), 
+		    	        10, 
+		    	        15000f, 
+		    	        ETipoNivel.Bronce, 
+		    	        INS03, 
+		    	        ICE.findEdicion("Expointer Uruguay 2025"), 
+		    	        ICE.findEdicion("Expointer Uruguay 2025").getEdicionTR("General")
+		    	    );
+		    	    ICE.findEdicion("Expointer Uruguay 2025").addLinkPatrocinio(PAT4);
+		    	    ICE.findEdicion("Expointer Uruguay 2025").getEdicionTR("General").addLinkPatrocinio(PAT4);
+		    	    INS03.agregarPatrocinio(PAT4);
+
+		    	} catch(Exception e) {
+		    	    JOptionPane.showMessageDialog(null, e.getMessage());
+		    	}
+		    	// ------------------
+		    	// Crear Registros
+		    	// ------------------
+		    	try {
+		    	    // RE01 - Montevideo Rock 2025
+		    	    ICE.altaRegistro("Montevideo Rock 2025", "sofirod", "VIP"); // TR02
+
+		    	    // RE02 - Maratón de Montevideo 2024
+		    	    ICE.altaRegistro("Maratón de Montevideo 2024", "sofirod", "Corredor 21K"); // TR07
+
+		    	    // RE03 - Web Summit 2026
+		    	    ICE.altaRegistro("Web Summit 2026", "MariR", "Estudiante"); // TR25
+
+		    	    // RE04 - Maratón de Montevideo 2025
+		    	    ICE.altaRegistro("Maratón de Montevideo 2025", "sofirod", "Corredor 42K"); // TR03
+
+		    	    // RE05 - Mobile World Congress 2025
+		    	    ICE.altaRegistro("Mobile World Congress 2025", "vale23", "Full"); // TR20
+
+		    	    // RE06 - Maratón de Montevideo 2025
+		    	    ICE.altaRegistro("Maratón de Montevideo 2025", "AnaG", "Corredor 10K"); // TR05
+
+		    	    // RE07 - Maratón de Montevideo 2025
+		    	    ICE.altaRegistro("Maratón de Montevideo 2025", "JaviL", "Corredor 21K"); // TR04
+
+		    	    // RE08 - Montevideo Comics 2025
+		    	    ICE.altaRegistro("Montevideo Comics 2025", "andrearod", "Cosplayer"); // TR14
+
+		    	    // RE09 - Montevideo Comics 2024
+		    	    ICE.altaRegistro("Montevideo Comics 2024", "SofiM", "General"); // TR11
+
+		    	} catch(Exception e) {
+		    	    JOptionPane.showMessageDialog(null, e.getMessage());
+		    	}
+
 		    
-		    
+		    	
 		    }
-		    
-		    	
 }
 		    
