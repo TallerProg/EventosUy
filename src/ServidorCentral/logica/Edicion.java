@@ -40,7 +40,9 @@ public class Edicion {
     // Getters y Setters
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }
-
+    //SOBRECARGO TOSTRING PARA MOSTRAR NOMBRE EN COMBOBOX
+    public String toString() { return nombre; }
+    
     public LocalDate getfInicio() { return fInicio; }
     public void setfInicio(LocalDate fInicio) { this.fInicio = fInicio; }
 
@@ -78,6 +80,11 @@ public class Edicion {
             reg.setEdicion(this);
         }
     }
+    
+    public void agregarTipoRegistro(TipoRegistro tr) { //VICHAR MATEO
+    	tipoRegistros.add(tr);
+    }
+    
     public TipoRegistro getEdicionTR(String nombreTR) {
         if (nombreTR == null) return null;
         for (TipoRegistro tr : tipoRegistros) {
@@ -113,6 +120,15 @@ public class Edicion {
             return r.getDTTipoRegistro();
         }
         return null;
+    }
+    
+    public boolean existeTR(String nombreTR) { //VICHAR MATEO
+        for (TipoRegistro tr : tipoRegistros) {
+            if (tr.getNombre().equalsIgnoreCase(nombreTR)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
 
