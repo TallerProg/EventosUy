@@ -75,6 +75,7 @@ public class ManejadorEvento {
         return false;
     }
     
+    
     public void agregarCategoria(Categoria categoria) {
     	categorias.add(categoria);
     }

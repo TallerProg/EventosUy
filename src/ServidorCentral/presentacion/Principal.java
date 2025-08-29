@@ -97,11 +97,19 @@ public class Principal {
 
         JMenuItem menuSalir = new JMenuItem("Salir");
         menuSalir.addActionListener(e -> System.exit(0));
+        
+        JMenuItem mntmNewMenuItem = new JMenuItem("Inicializar datos del sistema");
+        menuSistema.add(mntmNewMenuItem);
         menuSistema.add(menuSalir);
+        mntmNewMenuItem.addActionListener(e -> {
+            //ServidorCentral.logica.CargarDtos.inicializar();
+            JOptionPane.showMessageDialog(frmEventosUy, "Datos del sistema inicializados correctamente.");
+        });
 
         // Menú Usuarios
         JMenu menuUsuarios = new JMenu("Usuarios");
         menuBar.add(menuUsuarios);
+        
 
         JMenuItem menuAltaUsuario = new JMenuItem("Alta de Usuario");
         menuAltaUsuario.addActionListener(e -> mostrarInternalFrame(creUsrInternalFrame));

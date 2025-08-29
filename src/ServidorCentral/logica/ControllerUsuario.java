@@ -18,8 +18,8 @@ public class ControllerUsuario implements IControllerUsuario {
     }
 
     // Métodos de alta
-    public void AltaAsistente(String nicknameUsu, String correo, String nombre,
-                                     String apellido, LocalDate fNacimiento,Institucion ins) throws UsuarioRepetidoException {
+    public void AltaAsistente(String nicknameUsu, String correo, String nombre, String apellido, 
+    LocalDate fNacimiento,Institucion ins) throws UsuarioRepetidoException {
     	ManejadorUsuario mu = ManejadorUsuario.getinstance();
         Usuario u = mu.findUsuario(nicknameUsu);
         Usuario ucorreo = mu.findUsuario(correo);
@@ -85,6 +85,11 @@ public class ControllerUsuario implements IControllerUsuario {
     public List<Asistente> getAsistentes(){
     	ManejadorUsuario mu = ManejadorUsuario.getinstance();
     	return mu.listarAsistentes();
+    
+    }
+    public Organizador getOrganizador(String nicknameOrg) {
+    	ManejadorUsuario mu = ManejadorUsuario.getinstance();
+    	return mu.findOrganizador(nicknameOrg);
     }
 	 public List<String> getAsistenteRegistro(String nickname){
 		 ManejadorUsuario mU = ManejadorUsuario.getinstance();

@@ -48,6 +48,15 @@ public class ManejadorUsuario {
         }
         return null;
     }
+    
+    public Organizador findOrganizador(String nicknameOrg){
+    	for (Organizador o : organizadores) {
+            if (o.getNickname().equalsIgnoreCase(nicknameOrg)) {
+                return o;
+            }
+        }
+        return null;
+    }
     public boolean existeAsistente(String nickname) {
         for (Asistente u : asistentes) {
             if (u.getNickname().equalsIgnoreCase(nickname)) {
