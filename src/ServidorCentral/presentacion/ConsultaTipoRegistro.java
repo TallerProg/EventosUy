@@ -155,7 +155,7 @@ public class ConsultaTipoRegistro extends JInternalFrame {
 			
 			comboBoxEvento.addActionListener(e -> {
 				 String nombreEventoSeleccionado = (String) comboBoxEvento.getSelectedItem();
-				 if (nombreEventoSeleccionado != null) {
+				 if (nombreEventoSeleccionado != null && !nombreEventoSeleccionado.equals("Sin eventos")) {
 					 	comboBoxEdicion.setEnabled(true);
 				        try {
 							cargarEdiciones(nombreEventoSeleccionado);
@@ -163,15 +163,21 @@ public class ConsultaTipoRegistro extends JInternalFrame {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
-
+				        
+				        comboBoxTipoRegistro.setEnabled(false);
+				        comboBoxTipoRegistro.removeAllItems();
+				        limpiarCamposTexto();
 				 }else{
 					 	comboBoxEdicion.setEnabled(false);
 				        comboBoxEdicion.removeAllItems();
+				        comboBoxTipoRegistro.setEnabled(false);
+				        comboBoxTipoRegistro.removeAllItems();
 				 }
 			});
 			
 			comboBoxEdicion.addActionListener(e -> {
 				 String nombreEdicionSeleccionado = (String) comboBoxEdicion.getSelectedItem();
+			     limpiarCamposTexto();
 				 if (nombreEdicionSeleccionado != null) {
 					 	comboBoxTipoRegistro.setEnabled(true);
 				        try {
@@ -186,20 +192,42 @@ public class ConsultaTipoRegistro extends JInternalFrame {
 					 	comboBoxTipoRegistro.removeAllItems();
 				 }
 			});	
+			
+			comboBoxTipoRegistro.addActionListener(e -> {
+			     limpiarCamposTexto();
+				 String nombreEdicionSeleccionado = (String) comboBoxEdicion.getSelectedItem();
+				 String nombreTipoRegistroSeleccionado = (String) comboBoxTipoRegistro.getSelectedItem();
+				 if (nombreEdicionSeleccionado != null && nombreTipoRegistroSeleccionado != null) {
+				        try {
+							//cargarTipoRegistros(nombreEdicionSeleccionado);
+				        	DTTipoRegistro dt = controlEvento.consultaTipoRegistro(nombreEdicionSeleccionado, nombreTipoRegistroSeleccionado);
+				        	cargarDatos(dt);
+						} catch (Exception e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+
+				 }
+			});	
 			}
 		
 		public void cargarEventos() {
 			List<Evento> eventos = controlEvento.listarEventos(); 
-			List<String> nombres = new java.util.ArrayList<>();
-		    for (Evento e : eventos) {
-		        nombres.add(e.getNombre());
-		    }
-		    
-		    DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(
-		        nombres.toArray(new String[0])
-		    );
-		    comboBoxEvento.setModel(model);
-		    
+			if (eventos.isEmpty()) {
+				comboBoxEvento.addItem("Sin eventos");
+				comboBoxEvento.setEnabled(false);
+			}else {
+				comboBoxEvento.setEnabled(true);
+				List<String> nombres = new java.util.ArrayList<>();
+			    for (Evento e : eventos) {
+			        nombres.add(e.getNombre());
+			    }
+			    
+			    DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(
+			        nombres.toArray(new String[0])
+			    );
+			    comboBoxEvento.setModel(model);
+			}
 		    
 		}
 		
@@ -207,35 +235,51 @@ public class ConsultaTipoRegistro extends JInternalFrame {
 			Evento evento = controlEvento.findEvento(nombreEvento);
 			if (evento != null) {
 				List<Edicion> ediciones = evento.getEdiciones();
-				
-				List<String> nombresEdiciones = new java.util.ArrayList<>();
-				for (Edicion ed : ediciones) {
-					nombresEdiciones.add(ed.getNombre());
+				if (ediciones.isEmpty()) {
+					comboBoxEdicion.addItem("Sin ediciones");
+					comboBoxEdicion.setEnabled(false);
+				}else {
+					List<String> nombresEdiciones = new java.util.ArrayList<>();
+					for (Edicion ed : ediciones) {
+						nombresEdiciones.add(ed.getNombre());
+					}
+	
+					DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(
+							nombresEdiciones.toArray(new String[0])
+					);
+					comboBoxEdicion.setModel(model);
 				}
-
-				DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(
-						nombresEdiciones.toArray(new String[0])
-				);
-				comboBoxEdicion.setModel(model);
 			}
 		}
 		
 		public void cargarTipoRegistros(String nombreEdicion) {
 			Edicion edicion = controlEvento.findEdicion(nombreEdicion);
 			if (edicion != null) {
-				List<TipoRegistro> tipoR = edicion.getTipoRegistros();			
-				List<String> nombreRegistros = new java.util.ArrayList<>();
-				for (TipoRegistro tr : tipoR) {
-				    nombreRegistros.add(tr.getNombre());
+				List<TipoRegistro> tipoR = edicion.getTipoRegistros();		
+				if (tipoR.isEmpty()) {
+					comboBoxTipoRegistro.addItem("Sin Tipo Registros");
+					comboBoxTipoRegistro.setEnabled(false);
+				}else {
+					List<String> nombreRegistros = new java.util.ArrayList<>();
+					for (TipoRegistro tr : tipoR) {
+					    nombreRegistros.add(tr.getNombre());
+					}
+	
+					DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(
+							nombreRegistros.toArray(new String[0])
+					);
+					comboBoxTipoRegistro.setModel(model);
 				}
-
-				DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(
-						nombreRegistros.toArray(new String[0])
-				);
-				comboBoxTipoRegistro.setModel(model);
 			}
-			
 		}
+
+		private void limpiarCamposTexto() {
+			textField_nombre.setText("");
+			textField_1_desc.setText("");
+			textField_2_costo.setText("");
+			textField_3_cupo.setText("");
+		}
+		
 		public void cargarDatos(DTTipoRegistro dtTipo) {
 		    if (dtTipo == null) return;
 		    textField_nombre.setText(dtTipo.getNombre());
@@ -251,7 +295,5 @@ public class ConsultaTipoRegistro extends JInternalFrame {
 		    ctr.setVisible(true);
 		    return ctr;
 		}
-
-		
 
 }

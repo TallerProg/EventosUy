@@ -36,4 +36,9 @@ public interface IControllerEvento {
     public void altaEvento(String nombre, String descripcion, LocalDate fecha, String sigla, List<Categoria> categorias) throws Exception;
 
 	public String obtenerNombreEdicionPorEvento(String nombreEvento);
+
+	public List<DTPatrocinio> listarPatrociniosDeEdicion(String nombreEdicion);
+
+	public DTPatrocinio consultaPatrocinio(String nombreEdicion, String codigoPat);
+	
 }

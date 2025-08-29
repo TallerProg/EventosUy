@@ -35,6 +35,10 @@ public class ControllerUsuario implements IControllerUsuario {
             mu.agregarUsuario(a);
         }
     }
+    public List<Usuario> listarUsuarios() {
+        ManejadorUsuario manejador = ManejadorUsuario.getinstance();
+        return manejador.listarUsuarios(); 
+    }
 
     public void AltaOrganizador(String nicknameUsu, String correo, String nombre,
                                        String descripcion, String url) throws UsuarioRepetidoException {
@@ -88,21 +92,50 @@ public class ControllerUsuario implements IControllerUsuario {
 	
     public void modificarUsuario(String nickname, String nombre, String apellido,
             LocalDate fNac, String descripcion, String url)
-				throws UsuarioNoExisteException {
-       			ManejadorUsuario mu = ManejadorUsuario.getinstance();
-				Usuario u = mu.findUsuario(nickname);
-				if (u == null) throw new UsuarioNoExisteException("No existe el usuario " + nickname);
-				
-				u.setNombre(nombre); 
-				
-				if (u instanceof Asistente) {
-					Asistente a = (Asistente) u;
-					a.setApellido(apellido);
-					a.setfNacimiento(fNac);
-				} else if (u instanceof Organizador) {
-					Organizador o = (Organizador) u;
-					o.setDescripcion(descripcion);
-					o.setUrl(url);
-				}
-			}
+            throws UsuarioNoExisteException {
+        
+        ManejadorUsuario mu = ManejadorUsuario.getinstance();
+        Usuario u = mu.findUsuario(nickname);
+        
+        if (u == null) 
+            throw new UsuarioNoExisteException("No existe el usuario " + nickname);
+        
+        // Modificación de campos comunes
+        u.setNombre(nombre);
+        u.setCorreo(u.getCorreo()); 
+        
+        // Modificación según tipo de usuario
+        if (u instanceof Asistente) {
+            Asistente a = (Asistente) u;
+            a.setApellido(apellido);
+            a.setfNacimiento(fNac); 
+        } else if (u instanceof Organizador) {
+            Organizador o = (Organizador) u;
+            o.setDescripcion(descripcion);
+            o.setUrl(url);
+        }
+    }
+    public void modificarUsuario1(Usuario u) {
+        ManejadorUsuario mu = ManejadorUsuario.getinstance();
+        Usuario existente = mu.findUsuario(u.getNickname());
+
+        // Actualizamos los campos comunes
+        existente.setNombre(u.getNombre());
+        existente.setCorreo(u.getCorreo());
+
+        // Actualizamos campos según tipo
+        if (existente instanceof Asistente && u instanceof Asistente) {
+            Asistente aExistente = (Asistente) existente;
+            Asistente aNuevo = (Asistente) u;
+            aExistente.setApellido(aNuevo.getApellido());
+            aExistente.setfNacimiento(aNuevo.getfNacimiento());
+            aExistente.setInstitucion(aNuevo.getInstitucion());
+        } else if (existente instanceof Organizador && u instanceof Organizador) {
+            Organizador oExistente = (Organizador) existente;
+            Organizador oNuevo = (Organizador) u;
+            oExistente.setDescripcion(oNuevo.getDescripcion());
+            oExistente.setUrl(oNuevo.getUrl());
+        }
+    }
+
    }	
