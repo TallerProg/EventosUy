@@ -22,6 +22,13 @@ public class ControllerEvento implements IControllerEvento {
 			evento.agregarEdicion(ed);
 		}
 	
+	public void altaTipoRegistro(String nombreTR, String descripcion, Float costo, Integer cupo, Edicion edicion) throws Exception{ //VICHAR MATEO
+    	boolean e = edicion.existeTR(nombreTR);
+    	if (e) throw new Exception("El nombre de tipo de registro \""+ nombreTR + "\" ya fue utilizado");
+    	TipoRegistro NuevoTR = new TipoRegistro(nombreTR, descripcion, costo, cupo, edicion);
+    	edicion.agregarTipoRegistro(NuevoTR);
+    }
+	
 	 public Evento getEvento(String nombreEvento) {
 		 ManejadorEvento mE = ManejadorEvento.getInstancia();
 		 return mE.findEvento(nombreEvento);

@@ -24,7 +24,9 @@ public class Evento {
     // Getters y setters
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }
-
+    //SOBRECARGO TOSTRING PARA MOSTRAR NOMBRE EN COMBOBOX
+    public String toString() { return nombre; }
+    
     public String getSigla() { return sigla; }
     public void setSigla(String sigla) { this.sigla = sigla; }
 
