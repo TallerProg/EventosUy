@@ -208,4 +208,12 @@ public class ConsultaEdicionEvento extends JInternalFrame {
             comboOrganizadores.addItem(org.getNickname());
         }
     }
+       
+    public static ConsultaEdicionEvento crearYMostrar(IControllerEvento controller, String nombreEvento, String nombreEdicion) {
+    	ConsultaEdicionEvento ctr = new ConsultaEdicionEvento(controller); // constructor normal
+    	DTEdicion dtEd = controller.consultaEdicionDeEvento(nombreEvento, nombreEdicion);
+	    ctr.mostrarDatosEdicion(dtEd);
+	    ctr.setVisible(true);
+	    return ctr;
+	}
 }

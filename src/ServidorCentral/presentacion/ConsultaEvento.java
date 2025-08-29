@@ -176,8 +176,9 @@ public class ConsultaEvento extends JInternalFrame {
 		
 		btnVerEdicion.addActionListener(e -> {
 			 String nombreEdicionSeleccionada = (String) comboBox_Ediciones.getSelectedItem();
-			 if (nombreEdicionSeleccionada != null && !nombreEdicionSeleccionada.equals("Sin categorías")) {
-				 //aca se llamaria a la funcion que carga los datos en consulta de edicion de evento
+			 String nombreEventoSeleccionado = (String) comboBoxEvento.getSelectedItem();
+			 if (nombreEdicionSeleccionada != null && !nombreEdicionSeleccionada.equals("Sin ediciones")) {
+				ConsultaTipoRegistro.crearYMostrar(controlEvento,nombreEventoSeleccionado, nombreEdicionSeleccionada);
 			 }
 		});
 		
