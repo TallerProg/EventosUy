@@ -66,10 +66,17 @@ public class ManejadorEvento {
         }
         return null;
     }
+    public boolean existeCategoria(String nombreCategoria) {
+		for (Categoria c : categorias) {
+            if (c.getNombre().equalsIgnoreCase(nombreCategoria)) {
+                return true;
+            }
+        }
+        return false;
+    }
     
-    public void altaCategoria(String nombre) {
-    	Categoria c = new Categoria(nombre);
-    	categorias.add(c);
+    public void agregarCategoria(Categoria categoria) {
+    	categorias.add(categoria);
     }
 
 	public boolean existeEdicion(String nombreEdicion) {

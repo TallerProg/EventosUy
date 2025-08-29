@@ -45,13 +45,11 @@ public class RegistroEdicionEvento extends JInternalFrame {
         textFieldCodigo.setColumns(10);
 
         JButton btnRegistrar = new JButton("Registrar asistente");
-        btnRegistrar.setEnabled(false); // deshabilitado inicialmente
+        btnRegistrar.setEnabled(false);
         getContentPane().add(btnRegistrar, "cell 0 12");
 
         JButton btnCancelar = new JButton("Cancelar");
         getContentPane().add(btnCancelar, "cell 14 12");
-
-        // Deshabilitar combos inicialmente
         comboBoxEdicion.setEnabled(false);
         comboBoxRegistro.setEnabled(false);
         comboBoxAsistente.setEnabled(false);

@@ -44,5 +44,15 @@ public class Registro {
     
     public TipoRegistro getTipoRegistro() { return tipoRegistro; }
     public void setTipoRegistro(TipoRegistro tipoRegistro) { this.tipoRegistro = tipoRegistro; }
+  
+    public DTRegistro getDTRegistro() {
+        String nombreEvento = (edicion != null && edicion.getEvento() != null) ? edicion.getEvento().getNombre() : "";
+        String nombreEdicion = (edicion != null) ? edicion.getNombre() : "";
+        String tipoReg = (tipoRegistro != null) ? tipoRegistro.toString() : "";
+        String nombrePatrocinador = (patrocinio != null) ? patrocinio.getInstitucion().getNombre() : null;
+        
+        return new DTRegistro(fInicio, nombreEvento, nombreEdicion, tipoReg, nombrePatrocinador, costo);
+    }
+
     // Métodos relacionados (comentados)
 }

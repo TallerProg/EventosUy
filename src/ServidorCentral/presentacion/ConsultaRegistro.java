@@ -5,9 +5,13 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.util.List;
 
 import javax.swing.*;
 
+import ServidorCentral.logica.Asistente;
+import ServidorCentral.logica.DTRegistro;
+import ServidorCentral.logica.IControllerUsuario;
 public class ConsultaRegistro extends JInternalFrame {
 	private JTextField textField_finicio;
 	private JTextField textField_1_costo;
@@ -17,7 +21,10 @@ public class ConsultaRegistro extends JInternalFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	public ConsultaRegistro() {
+	private JTextField textField;
+	private JTextField textField_1;
+	private JTextField textField_2;
+	public ConsultaRegistro(IControllerUsuario ICU) {
 		setResizable(true);
         setIconifiable(true);
         setMaximizable(true);
@@ -56,15 +63,15 @@ public class ConsultaRegistro extends JInternalFrame {
 		getContentPane().add(panel_3, BorderLayout.CENTER);
 		GridBagLayout gbl_panel_3 = new GridBagLayout();
 		gbl_panel_3.columnWidths = new int[]{71, 579};     
-		gbl_panel_3.rowHeights = new int[]{50, 50, 50, 50}; 
+		gbl_panel_3.rowHeights = new int[]{50, 50, 50, 50, 0}; 
 		gbl_panel_3.columnWeights = new double[]{0.3, 1.0}; 
-		gbl_panel_3.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0};
+		gbl_panel_3.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0};
 
 		panel_3.setLayout(gbl_panel_3);
 		
 		JLabel lblNewLabel = new JLabel("Fecha inicio:");
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-		gbc_lblNewLabel.anchor = GridBagConstraints.EAST;
+		gbc_lblNewLabel.fill = GridBagConstraints.HORIZONTAL;
 		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel.gridx = 0;
 		gbc_lblNewLabel.gridy = 0;
@@ -73,8 +80,8 @@ public class ConsultaRegistro extends JInternalFrame {
 		textField_finicio = new JTextField();
 		textField_finicio.setEditable(false);
 		GridBagConstraints gbc_textField_finicio = new GridBagConstraints();
-		gbc_textField_finicio.insets = new Insets(0, 0, 5, 0);
 		gbc_textField_finicio.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textField_finicio.insets = new Insets(0, 0, 5, 0);
 		gbc_textField_finicio.gridx = 1;
 		gbc_textField_finicio.gridy = 0;
 		panel_3.add(textField_finicio, gbc_textField_finicio);
@@ -82,7 +89,7 @@ public class ConsultaRegistro extends JInternalFrame {
 		
 		JLabel lblNewLabel_1 = new JLabel("Costo:");
 		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
-		gbc_lblNewLabel_1.anchor = GridBagConstraints.EAST;
+		gbc_lblNewLabel_1.fill = GridBagConstraints.HORIZONTAL;
 		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_1.gridx = 0;
 		gbc_lblNewLabel_1.gridy = 1;
@@ -91,11 +98,113 @@ public class ConsultaRegistro extends JInternalFrame {
 		textField_1_costo = new JTextField();
 		textField_1_costo.setEditable(false);
 		GridBagConstraints gbc_textField_1_costo = new GridBagConstraints();
-		gbc_textField_1_costo.insets = new Insets(0, 0, 5, 0);
 		gbc_textField_1_costo.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textField_1_costo.insets = new Insets(0, 0, 5, 0);
 		gbc_textField_1_costo.gridx = 1;
 		gbc_textField_1_costo.gridy = 1;
 		panel_3.add(textField_1_costo, gbc_textField_1_costo);
 		textField_1_costo.setColumns(10);
+		
+		JLabel lblNewLabel_2 = new JLabel("Evento: ");
+		GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
+		gbc_lblNewLabel_2.fill = GridBagConstraints.HORIZONTAL;
+		gbc_lblNewLabel_2.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel_2.gridx = 0;
+		gbc_lblNewLabel_2.gridy = 2;
+		panel_3.add(lblNewLabel_2, gbc_lblNewLabel_2);
+		
+		textField = new JTextField();
+		textField.setEditable(false);
+		GridBagConstraints gbc_textField = new GridBagConstraints();
+		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textField.insets = new Insets(0, 0, 5, 0);
+		gbc_textField.gridx = 1;
+		gbc_textField.gridy = 2;
+		panel_3.add(textField, gbc_textField);
+		textField.setColumns(10);
+		
+		JLabel lblNewLabel_3 = new JLabel("Edicion:");
+		GridBagConstraints gbc_lblNewLabel_3 = new GridBagConstraints();
+		gbc_lblNewLabel_3.fill = GridBagConstraints.HORIZONTAL;
+		gbc_lblNewLabel_3.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel_3.gridx = 0;
+		gbc_lblNewLabel_3.gridy = 3;
+		panel_3.add(lblNewLabel_3, gbc_lblNewLabel_3);
+		
+		textField_1 = new JTextField();
+		textField_1.setEditable(false);
+		GridBagConstraints gbc_textField_1 = new GridBagConstraints();
+		gbc_textField_1.insets = new Insets(0, 0, 5, 0);
+		gbc_textField_1.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textField_1.gridx = 1;
+		gbc_textField_1.gridy = 3;
+		panel_3.add(textField_1, gbc_textField_1);
+		textField_1.setColumns(10);
+		
+		JLabel lblNewLabel_4 = new JLabel("Tipo de registro:");
+		GridBagConstraints gbc_lblNewLabel_4 = new GridBagConstraints();
+		gbc_lblNewLabel_4.fill = GridBagConstraints.HORIZONTAL;
+		gbc_lblNewLabel_4.insets = new Insets(0, 0, 0, 5);
+		gbc_lblNewLabel_4.gridx = 0;
+		gbc_lblNewLabel_4.gridy = 4;
+		panel_3.add(lblNewLabel_4, gbc_lblNewLabel_4);
+		
+		textField_2 = new JTextField();
+		textField_2.setEditable(false);
+		GridBagConstraints gbc_textField_2 = new GridBagConstraints();
+		gbc_textField_2.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textField_2.gridx = 1;
+		gbc_textField_2.gridy = 4;
+		panel_3.add(textField_2, gbc_textField_2);
+		textField_2.setColumns(10);
+		
+			cargarUsuarios(ICU);
+			comboBoxUsuario.addActionListener(e -> {
+			    String usuarioSeleccionado = (String) comboBoxUsuario.getSelectedItem();
+			    if (usuarioSeleccionado != null) {
+			        List<String> registros = ICU.getAsistenteRegistro(usuarioSeleccionado);
+			        comboBoxRegistro.removeAllItems();
+			        for (String reg : registros) {
+			            comboBoxRegistro.addItem(reg);
+			        }
+	
+			        comboBoxRegistro.setEnabled(!registros.isEmpty());
+	
+			        textField_finicio.setText("");
+			        textField_1_costo.setText("");
+			        textField.setText("");
+			        textField_1.setText("");
+			        textField_2.setText("");
+			    } else {
+			        comboBoxRegistro.setEnabled(false);
+			    }
+			});
+			comboBoxRegistro.addActionListener(e -> {
+			    String registroSeleccionado = (String) comboBoxRegistro.getSelectedItem();
+			    String usuarioSeleccionado = (String) comboBoxUsuario.getSelectedItem();
+			    if (registroSeleccionado != null) {
+			      
+			        DTRegistro dto = ICU.getRegistroDetalle(registroSeleccionado, usuarioSeleccionado);
+
+			        textField_finicio.setText(dto.getfRegistro().toString());
+			        textField_1_costo.setText(String.valueOf(dto.getCosto()));
+			        textField.setText(dto.getNombreEvento());
+			        textField_1.setText(dto.getNombreEdicion());
+			        textField_2.setText(dto.getTipoRegistro());
+			    }
+			});
+
+		
+		
+		
+
+	}
+	
+	private void cargarUsuarios(IControllerUsuario ICU) {
+	    comboBoxUsuario.removeAllItems();
+	    for (Asistente asistente : ICU.getAsistentes()) {
+	        comboBoxUsuario.addItem(asistente.getNickname());
+	    }
+	    comboBoxRegistro.setEnabled(false);	
 	}
 }

@@ -28,6 +28,8 @@ public interface IControllerEvento {
     public List<Edicion> listarEdiciones();
     
     public DTevento consultaEvento(String nombreEvento);
+    	
+
 
     public void altaEvento(String nombre, String descripcion, LocalDate fecha, String sigla, List<Categoria> categorias) throws Exception;
 }

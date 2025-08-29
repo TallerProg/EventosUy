@@ -14,7 +14,7 @@ public class ControllerEvento implements IControllerEvento {
 			throw new IllegalArgumentException("Ya existe una edición con ese nombre");
 			}
 			
-			Edicion ed = new Edicion(nombre, sigla, fInicio, fFin, ciudad, pais);
+			Edicion ed = new Edicion(nombre, sigla, fInicio, fFin, ciudad, pais, evento);
 			
 			ed.getOrganizadores().add(org);
 			mE.agregarEdicion(ed);
@@ -95,7 +95,16 @@ public class ControllerEvento implements IControllerEvento {
     	 
     	return me.listarEdiciones();
     }
-
+ 
+    public void altaCategoria(String nombre)throws Exception {
+    	ManejadorEvento mE = ManejadorEvento.getInstancia();
+    	if(!mE.existeCategoria(nombre)) {
+    		Categoria cat = new Categoria(nombre);
+    		mE.agregarCategoria(cat);
+    	}else {
+    		throw new Exception("Ya existe una categoria"+ nombre);
+    	}
+    }
     public void altaEvento(String nombre, String desc, LocalDate fAlta, String sigla, List<Categoria> categorias) throws Exception{
         ManejadorEvento me = ManejadorEvento.getInstancia();
 

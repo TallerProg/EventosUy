@@ -19,11 +19,13 @@ public class Edicion {
     private List<Organizador> organizadores;
     private List<Registro> registros;
     private List<Patrocinio> patrocinios;
+    private Evento evento;
 
+  
     // Constructor
 
     public Edicion(String nombre, String sigla, LocalDate fInicio, LocalDate fFin,
-            String ciudad, String pais) {
+            String ciudad, String pais, Evento evento) {
 			 this.nombre = nombre;
 			 this.fInicio = fInicio;
 			 this.fFin = fFin;
@@ -31,6 +33,7 @@ public class Edicion {
 			 this.pais = pais;
 			 this.sigla = sigla;
 			 this.fAlta = LocalDate.now();
+			 this.evento = evento;
 			 this.tipoRegistros = new ArrayList<>();
 			 this.organizadores = new ArrayList<>();
 			 this.registros = new ArrayList<>();
@@ -38,6 +41,9 @@ public class Edicion {
 		}
 
     // Getters y Setters
+    public Evento getEvento() { return evento; }
+    public void setEvento(Evento evento) { this.evento = evento; }
+    
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }
 

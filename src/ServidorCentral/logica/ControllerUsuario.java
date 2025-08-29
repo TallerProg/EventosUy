@@ -35,6 +35,8 @@ public class ControllerUsuario implements IControllerUsuario {
             mu.agregarUsuario(a);
         }
     }
+  
+
 
     public void AltaOrganizador(String nicknameUsu, String correo, String nombre,
                                        String descripcion, String url) throws UsuarioRepetidoException {
@@ -84,6 +86,24 @@ public class ControllerUsuario implements IControllerUsuario {
     	ManejadorUsuario mu = ManejadorUsuario.getinstance();
     	return mu.listarAsistentes();
     }
+	 public List<String> getAsistenteRegistro(String nickname){
+		 ManejadorUsuario mU = ManejadorUsuario.getinstance();
+		 return mU.findAsistente(nickname).registrosFechas();
+		 
+	 }
+	 
+	 public DTRegistro getRegistroDetalle(String fregistro, String nickAsistente) {
+		 ManejadorUsuario mU = ManejadorUsuario.getinstance();
+		 List<Registro> registros = mU.findAsistente(nickAsistente).getRegistros();
+		 for (Registro re : registros) {
+			 if(re.getFInicio().toString().equals(fregistro)) {
+				 return re.getDTRegistro();
+			 }
+		 }
+		 return null;
+	 }
+
+	 
 
 	
     public void modificarUsuario(String nickname, String nombre, String apellido,
