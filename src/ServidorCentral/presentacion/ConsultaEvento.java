@@ -14,7 +14,6 @@ import ServidorCentral.logica.Categoria;
 import ServidorCentral.logica.DTevento;
 import ServidorCentral.logica.Edicion;
 import ServidorCentral.logica.Evento;
-import ServidorCentral.logica.Factory;
 import ServidorCentral.logica.IControllerEvento;
 
 public class ConsultaEvento extends JInternalFrame {	
@@ -157,15 +156,15 @@ public class ConsultaEvento extends JInternalFrame {
 		JPanel panel_btn = new JPanel();
 		getContentPane().add(panel_btn, BorderLayout.SOUTH);
 		
-		JButton btnNewButton = new JButton("Ver detalles edición");
-		panel_btn.add(btnNewButton);
+		JButton btnVerEdicion = new JButton("Ver detalles edición");
+		panel_btn.add(btnVerEdicion);
 
 		
 		comboBoxEvento.addActionListener(e -> {
 			 String nombreEventoSeleccionado = (String) comboBoxEvento.getSelectedItem();
 			 limpiarCamposTexto();
 			 if (nombreEventoSeleccionado != null) {
-				 DTevento dt=Factory.getInstance().getIControllerEvento().consultaEvento(nombreEventoSeleccionado);
+				 DTevento dt=controlEvento.consultaEvento(nombreEventoSeleccionado);
 				 textField_Nombre.setText(dt.getNombre());
 				 textField_Sigla.setText(dt.getSigla());
 				 textField_Descripcion.setText(dt.getDescripcion());
@@ -174,6 +173,15 @@ public class ConsultaEvento extends JInternalFrame {
 				 cargarEdiciones(dt.getEdiciones());      
 			 }
 		});
+		
+		btnVerEdicion.addActionListener(e -> {
+			 String nombreEdicionSeleccionada = (String) comboBox_Ediciones.getSelectedItem();
+			 String nombreEventoSeleccionado = (String) comboBoxEvento.getSelectedItem();
+			 if (nombreEdicionSeleccionada != null && !nombreEdicionSeleccionada.equals("Sin ediciones")) {
+				ConsultaTipoRegistro.crearYMostrar(controlEvento,nombreEventoSeleccionado, nombreEdicionSeleccionada);
+			 }
+		});
+		
 	}
 	
 	public void ConsultaEventocargar() {

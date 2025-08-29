@@ -29,6 +29,8 @@ public interface IControllerEvento {
     public List<Edicion> listarEdiciones();
     
     public DTevento consultaEvento(String nombreEvento);
+    
+    public void altaTipoRegistro(String nombreTR, String descripcion, Float costo, Integer cupo, Edicion edicion) throws Exception;
 
     public void altaTipoRegistro(String nombreTR, String descripcion, Float costo, Integer cupo, Edicion edicion) throws Exception;
 
@@ -36,4 +38,9 @@ public interface IControllerEvento {
     public void altaEvento(String nombre, String descripcion, LocalDate fecha, String sigla, List<Categoria> categorias) throws Exception;
 
 	public String obtenerNombreEdicionPorEvento(String nombreEvento);
+
+	public List<DTPatrocinio> listarPatrociniosDeEdicion(String nombreEdicion);
+
+	public DTPatrocinio consultaPatrocinio(String nombreEdicion, String codigoPat);
+	
 }

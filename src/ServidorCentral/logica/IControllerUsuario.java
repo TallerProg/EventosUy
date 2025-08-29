@@ -20,8 +20,10 @@ public interface IControllerUsuario{
          throws UsuarioNoExisteException;
 
 	 // Consulta de usuario por nickname
-	 DTUsuarioLista ConsultaDeUsuario(String nicknameUsu) throws UsuarioNoExisteException;
+
 	 public Organizador getOrganizador(String nicknameOrg);
+	 public DTUsuarioLista ConsultaDeUsuario(String nicknameUsu) throws UsuarioNoExisteException;
+
 
 	 // Listado de todos los usuarios
 	 public List<DTUsuarioLista> getUsuarios();
@@ -30,7 +32,10 @@ public interface IControllerUsuario{
 	 public List<String> getAsistenteRegistro(String nickname);
 	 public DTRegistroDetallado getRegistroDetalle(String nregistro, String nickAsistente);
 
-	 
+	 public List<Usuario> listarUsuarios();
+
+	 public void modificarUsuario1(Usuario u);
+
 	
 }
 

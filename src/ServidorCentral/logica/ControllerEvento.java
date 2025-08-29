@@ -206,8 +206,35 @@ public class ControllerEvento implements IControllerEvento {
 	    }
 	    return null;
 	}
+	
+	public DTPatrocinio consultaPatrocinio(String nombreEdicion, String codigoPat) {
+	    ManejadorEvento me = ManejadorEvento.getInstancia();
+	    Edicion ed = me.findEdicion(nombreEdicion);
+	    if (ed != null) {
+	        for (Patrocinio pat : ed.getPatrocinios()) {
+	            if (pat.getCodigo().equals(codigoPat)) {
+	                return pat.getDTPatrocinio();
+	            }
+	        }
+	    }
+	    return null;
+	}
+
+	
+	public List<DTPatrocinio> listarPatrociniosDeEdicion(String nombreEdicion) {
+	    ManejadorEvento me = ManejadorEvento.getInstancia();
+	    Edicion ed = me.findEdicion(nombreEdicion);
+	    List<DTPatrocinio> res = new ArrayList<>();
+	    if (ed != null) {
+	        for (Patrocinio pat : ed.getPatrocinios()) {
+	            res.add(pat.getDTPatrocinio());
+	        }
+	    }
+	    return res;
+	}
 
 
 }
 	
+
 

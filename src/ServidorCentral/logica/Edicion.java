@@ -87,7 +87,7 @@ public class Edicion {
             reg.setEdicion(this);
         }
     }
-    
+ 
     public void addLinkPatrocinio(Patrocinio reg) {
         if (reg != null) {
             this.patrocinios.add(reg);
@@ -95,6 +95,7 @@ public class Edicion {
         }
     }
     
+
     public void agregarTipoRegistro(TipoRegistro tr) { //VICHAR MATEO
     	tipoRegistros.add(tr);
     }
