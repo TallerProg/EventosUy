@@ -18,12 +18,16 @@ public interface IControllerUsuario{
          throws UsuarioNoExisteException;
 
 	 // Consulta de usuario por nickname
-	 DTUsuarioLista ConsultaDeUsuario(String nicknameUsu) throws UsuarioNoExisteException;
+	 public DTUsuarioLista ConsultaDeUsuario(String nicknameUsu) throws UsuarioNoExisteException;
 
 	 // Listado de todos los usuarios
 	 public List<DTUsuarioLista> getUsuarios();
 	 
 	 public List<Asistente> getAsistentes();
+
+	 public List<Usuario> listarUsuarios();
+
+	 public void modificarUsuario1(Usuario u);
 	 
 	
 }
