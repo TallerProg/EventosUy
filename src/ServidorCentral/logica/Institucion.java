@@ -5,81 +5,54 @@ import java.util.ArrayList;
 
 public class Institucion {
 
-	private String nombre;
-	private String url;
-	private String descripcion;
+    private String nombre;
+    private String url;
+    private String descripcion;
 
-	// Relaciones
-	private List<Patrocinio> patrocinio;
-	private List<Asistente> asistentes;
+    // Relaciones
+    private List<Patrocinio> patrocinios;
+    private List<Asistente> asistentes;
 
-	// Constructor
+    // Constructor
+    public Institucion(String nombre, String url, String descripcion) {
+        this.nombre = nombre;
+        this.url = url;
+        this.descripcion = descripcion;
+        this.patrocinios = new ArrayList<>();
+        this.asistentes = new ArrayList<>();
+    }
 
-	public Institucion(String nombre, String url, String descripcion) {
-		this.nombre = nombre;
-		this.url = url;
-		this.descripcion = descripcion;
-		this.patrocinio = new ArrayList<>();
-		this.asistentes = new ArrayList<>();
-	}
+    // Getters y setters
+    public String getNombre() { return nombre; }
+    public void setNombre(String nombre) { this.nombre = nombre; }
 
-	// Getters y setters
-	public String getNombre() {
-		return nombre;
-	}
+    public String getUrl() { return url; }
+    public void setUrl(String url) { this.url = url; }
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+    public String getDescripcion() { return descripcion; }
+    public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
 
-	public String getUrl() {
-		return url;
-	}
+    public List<Patrocinio> getPatrocinios() { return patrocinios; }
+    public void setPatrocinios(List<Patrocinio> patrocinios) { this.patrocinios = patrocinios; }
 
-	public void setUrl(String url) {
-		this.url = url;
-	}
+    public List<Asistente> getAsistentes() { return asistentes; }
+    public void setAsistentes(List<Asistente> asistentes) { this.asistentes = asistentes; }
 
-	public String getDescripcion() {
-		return descripcion;
-	}
+    public void agregarPatrocinio(Patrocinio pat) {
+        if (asistentes != null) {
+            for (Asistente a : asistentes) {
+                if (a != null)
+                    a.setPatrocinio(pat);
+            }
+        }
+        patrocinios.add(pat);
+    }
 
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
-	}
+    public void addAsistente(Asistente a) {
+        this.asistentes.add(a);
+    }
+}
 
-	public List<Patrocinio> getPatrocinio() {
-		return patrocinio;
-	}
-
-	public void setPatrocinio(List<Patrocinio> patrocinio) {
-		this.patrocinio = patrocinio;
-	}
-
-	public List<Asistente> getAsistentes() {
-		return asistentes;
-	}
-
-	public void setAsistentes(List<Asistente> asistentes) {
-		this.asistentes = asistentes;
-	}
-
-	public void agregarPatrocinio(Patrocinio pat) {
-
-		if (asistentes != null) {
-			for (Asistente a : asistentes) {
-				if (a != null)
-					a.setPatrocinio(pat);
-			}
-		}
-
-		patrocinio.add(pat);
-
-	}
-
-	public void addAsistente(Asistente a) {
-		this.asistentes.add(a);
-	}
 
 	// Métodos de relación
 	/*
@@ -96,4 +69,4 @@ public class Institucion {
 	 * null, regGratuito, monto, nivel, this, null, tipo); patrocinio.add(p); return
 	 * p; }
 	 */
-}
+
