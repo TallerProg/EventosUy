@@ -119,6 +119,7 @@ public class ControllerEvento implements IControllerEvento {
     		throw new Exception("Ya existe una categoria"+ nombre);
     	}
     }
+    
     public void altaEvento(String nombre, String desc, LocalDate fAlta, String sigla, List<Categoria> categorias) throws Exception{
         ManejadorEvento me = ManejadorEvento.getInstancia();
 
@@ -246,6 +247,13 @@ public class ControllerEvento implements IControllerEvento {
 	    }
 	    return res;
 	}
+	
+	public Categoria findCategoria(String nom) {
+		ManejadorEvento me = ManejadorEvento.getInstancia();
+		return me.findCategoria(nom);
+	}
+	
+
 
 
 }
