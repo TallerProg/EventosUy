@@ -217,8 +217,10 @@ public class ConsultaRegistroTest {
 	    // Consulta de Registro
 	    try {
 	        DTRegistroDetallado regDet = iCU.getRegistroDetalle(ED03.getNombre(), asist02.getNickname());
-
+	        DTRegistro dTRe = iCU.getDTRegistro(ED03.getNombre(), asist02.getNickname());
 	        
+	        assertEquals(dTRe.getCosto(), costoTipoReg);
+	        assertEquals(dTRe.getfInicio(), LocalDate.now());
 	        assertEquals(regDet.getNombreEvento(), nombreEvento);
 	        assertEquals(regDet.getNombreEdicion(), nombreEdicion);
        		assertEquals(regDet.getTipoRegistro(), nombreTipoReg);
