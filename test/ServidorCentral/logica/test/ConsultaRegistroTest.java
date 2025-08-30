@@ -122,7 +122,7 @@ public class ConsultaRegistroTest {
 		// Consulta de Registro
 
 		try {
-	DTRegistroDetallado dTRD = iCU.getRegistroDetalle(TRI01.getNombre(), ASI01.getNickname());
+	DTRegistroDetallado dTRD = iCU.getRegistroDetalle(EDI01.getNombre(), ASI01.getNickname());
 			
 			
 			assertEquals(dTRD.getNombreEvento(), nombreE);
@@ -141,91 +141,95 @@ public class ConsultaRegistroTest {
 	
 	@Test
 	@Order(2)
-	void testConsultaRegistroAsisten() {
+	void testConsultaRegistroAsistenteSinPatrocinio() {
 	    // Crear Asistente
-	    String nicknameTest = "gusgui10";
-	    String correoTest = "gustavoguimerans10@gmail.com";
-	    String nombreTest = "Gustavo";
-	    String apellidoTest = "Guimerans";
-	    LocalDate fNacimientoTest = LocalDate.parse("12/03/2001", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+	    String nickAsist = "martin90";
+	    String mailAsist = "martin90@gmail.com";
+	    String nombreAsist = "Martin";
+	    String apellidoAsist = "Rodriguez";
+	    LocalDate fechaNacAsist = LocalDate.parse("05/07/1990", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 	    try {
-	        iCU.AltaAsistente(nicknameTest, correoTest, nombreTest, apellidoTest, fNacimientoTest,null );
+	        iCU.AltaAsistente(nickAsist, mailAsist, nombreAsist, apellidoAsist, fechaNacAsist, null);
 	    } catch (UsuarioRepetidoException e) {
 	        fail(e.getMessage());
 	        e.printStackTrace();
 	    }
-	    Asistente ASI01 = iCU.getAsistente(nicknameTest);
+	    Asistente asist02 = iCU.getAsistente(nickAsist);
 
-	    // Crear Evento (NOMBRE y SIGLA distintos)
-	    String nombreE = "Evento Test 2";
-	    String descripcionE = "Descripcion del Evento Test 2";
-	    LocalDate fechaE = LocalDate.parse("21/12/2024", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-	    String siglaE = "ET2025";
+	    // Crear Evento
+	    String nombreEvento = "Conferencia Salud";
+	    String descripcionEvento = "Conferencia internacional de salud 2024";
+	    LocalDate fechaEvento = LocalDate.parse("15/09/2024", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+	    String siglaEvento = "CS2024";
 	    try {
-	        iCE.altaEvento(nombreE, descripcionE, fechaE, siglaE, null);
+	        iCE.altaEvento(nombreEvento, descripcionEvento, fechaEvento, siglaEvento, null);
 	    } catch (Exception e1) {
 	        e1.printStackTrace();
-	        fail(e1.getMessage());
 	    }
-	    Evento EVE01 = iCE.getEvento(nombreE);
+	    Evento evento02 = iCE.getEvento(nombreEvento);
 
-	    // Crear Organizador (NICK distinto)
-	    String nicknameO = "org9";
-	    String correoO = "contacto99@miseventos.com";
-	    String nombreO = "MisEventos Dos";
-	    String descripcionO = "Empresa de organización de eventos 2.";
-	    String paginaWebO = "https://miseventos2.com";
+	    // Crear Organizador
+	    String nickOrg = "orgSalud";
+	    String mailOrg = "salud@eventos.com";
+	    String nombreOrg = "EventosSalud";
+	    String descripcionOrg = "Organización de eventos médicos";
+	    String webOrg = "https://saludeventos.com";
 	    try {
-	        iCU.AltaOrganizador(nicknameO, correoO, nombreO, descripcionO, paginaWebO);
+	        iCU.AltaOrganizador(nickOrg, mailOrg, nombreOrg, descripcionOrg, webOrg);
 	    } catch (UsuarioRepetidoException e) {
 	        fail(e.getMessage());
 	        e.printStackTrace();
 	    }
-	    Organizador ORG01 = iCU.getOrganizador(nicknameO);
+	    Organizador organizador02 = iCU.getOrganizador(nickOrg);
 
-	    // Crear edicion (NOMBRE distinto)
-	    String nombreEd = "Edicion Test 2";
-	    LocalDate fechaInicioEd = LocalDate.parse("05/11/2024", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-	    LocalDate fechaFinEd = LocalDate.parse("15/12/2024", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-	    String lugarEd = "Lugar Test 2";
-	    String ciudad = "Ciudad Test 2";
+	    // Crear Edición
+	    String nombreEdicion = "Edicion Salud 2024";
+	    LocalDate fechaInicioEd = LocalDate.parse("01/08/2024", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+	    LocalDate fechaFinEd = LocalDate.parse("20/09/2024", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+	    String lugarEdicion = "Palacio Legislativo";
+	    String ciudadEdicion = "Montevideo";
 	    try {
-	        iCE.altaEdicionDeEvento(nombreEd, siglaE, ciudad, lugarEd, fechaInicioEd,
-	        fechaFinEd, EVE01, ORG01);
-	    } catch (Exception e) { 
+	        iCE.altaEdicionDeEvento(nombreEdicion, siglaEvento, ciudadEdicion, lugarEdicion, fechaInicioEd,
+	                fechaFinEd, evento02, organizador02);
+	    } catch (Exception e) {
 	        e.printStackTrace();
-	        fail(e.getMessage());
 	    }
-	    Edicion EDI01 = iCE.findEdicion(nombreEd);
 
-	    // Crear Tipo de Registro (NOMBRE distinto)
-	    String nombreTR = "Tipo Registro Test 2";
-	    String descripcionTR = "Descripcion del Tipo de Registro Test 2";
-	    float costoTR = 350.0f;
-	    int limiteTR = 150;
+	    Edicion ED03 = iCE.findEdicion(nombreEdicion);
+
+	    // Crear Tipo de Registro
+	    String nombreTipoReg = "Registro General";
+	    String descripcionTipoReg = "Registro estándar con acceso completo";
+	    float costoTipoReg = 150.0f;
+	    int limiteTipoReg = 200;
 	    try {
-	        iCE.altaTipoRegistro(nombreTR, descripcionTR, costoTR, limiteTR, EDI01);
+	        iCE.altaTipoRegistro(nombreTipoReg, descripcionTipoReg, costoTipoReg, limiteTipoReg, ED03);
 	    } catch (Exception e2) {
 	        e2.printStackTrace();
-	        fail(e2.getMessage());
+	    } 
+	    TipoRegistro tipoReg02 = ED03.getEdicionTR(nombreTipoReg);
+	    // Alta de Registro sin Patrocinio
+	    try {
+	        iCE.altaRegistro(nombreEdicion, nickAsist, nombreTipoReg);
+	    } catch (Exception e) {
+	        e.printStackTrace();
 	    }
-	    TipoRegistro TRI01 = EDI01.getEdicionTR(nombreTR);
-
 	    // Consulta de Registro
 	    try {
-	        DTRegistroDetallado dTRD = iCU.getRegistroDetalle(TRI01.getNombre(), ASI01.getNickname());
+	        DTRegistroDetallado regDet = iCU.getRegistroDetalle(ED03.getNombre(), asist02.getNickname());
 
-	       
-	        assertEquals(dTRD.getNombreEvento(), nombreE);
-	        assertEquals(dTRD.getNombreEdicion(), nombreEd);
-	        assertEquals(dTRD.getTipoRegistro(), nombreTR);
-	        assertEquals(dTRD.getCosto(), costoTR);
+	        
+	        assertEquals(regDet.getNombreEvento(), nombreEvento);
+	        assertEquals(regDet.getNombreEdicion(), nombreEdicion);
+       		assertEquals(regDet.getTipoRegistro(), nombreTipoReg);
+	        assertEquals(regDet.getCosto(), costoTipoReg);
 
 	    } catch (Exception e) {
 	        fail(e.getMessage());
 	        e.printStackTrace();
 	    }
-	};
+	}
+
 
 
 

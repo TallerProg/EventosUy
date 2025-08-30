@@ -140,11 +140,11 @@ public class ControllerUsuario implements IControllerUsuario {
 		return nombres;
 	}
 
-	public DTRegistroDetallado getRegistroDetalle(String tipRegistro, String nickAsistente) {
+	public DTRegistroDetallado getRegistroDetalle(String tipNEdicion, String nickAsistente) {
 		ManejadorUsuario mU = ManejadorUsuario.getinstance();
 		List<Registro> registros = mU.findAsistente(nickAsistente).getRegistros();
 		for (Registro re : registros) {
-			if (re.getTipoRegistro().getEdicion().getNombre().equals(tipRegistro)) {
+			if (re.getTipoRegistro().getEdicion().getNombre().equals(tipNEdicion)) {
 				return re.getDTRegistroDetallado();
 			}
 		}
