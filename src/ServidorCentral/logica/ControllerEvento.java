@@ -261,6 +261,41 @@ public class ControllerEvento implements IControllerEvento {
 		ManejadorEvento me = ManejadorEvento.getInstancia();
 		return me.findCategoria(nom);
 	}
+	public void altaPatrocinio(String codigo, LocalDate fInicio, int registrosGratuitos, Float monto, 
+            ETipoNivel nivel, String nombreInstitucion, String nombreEdicion, String nombreTipoRegistro) throws Exception {
+			ManejadorEvento me = ManejadorEvento.getInstancia();
+			ManejadorInstitucion mi = ManejadorInstitucion.getInstance();
+			
+			Edicion edicion = me.findEdicion(nombreEdicion);
+			if (edicion == null) {
+			throw new Exception("La edición " + nombreEdicion + " no existe");
+			}
+			
+			Institucion institucion = mi.findInstitucion(nombreInstitucion);
+			if (institucion == null) {
+				throw new Exception("La institución " + nombreInstitucion + " no existe");
+			}
+			
+			TipoRegistro tr = edicion.getEdicionTR(nombreTipoRegistro);
+			if (tr == null) {
+				throw new Exception("El tipo de registro " + nombreTipoRegistro + " no existe en la edición");
+			}
+			
+			for (Patrocinio p : edicion.getPatrocinios()) {
+			if (p.getInstitucion() != null && p.getInstitucion().getNombre().equals(nombreInstitucion)) {
+				throw new Exception("Ya existe un patrocinio de la institución " + nombreInstitucion + " para esta edición");
+				}
+			}
+			
+			float costoTotalRegistros = registrosGratuitos * tr.getCosto();
+			if (costoTotalRegistros > monto * 0.20f) {
+				throw new Exception("El costo de los registros gratuitos supera el 20% del aporte económico");
+			}
+			
+			Patrocinio nuevo = new Patrocinio(codigo, fInicio, registrosGratuitos, monto, nivel, institucion, edicion, tr);
+			edicion.getPatrocinios().add(nuevo);
+			institucion.getPatrocinios().add(nuevo);
+}
 
 	public DTPatrocinio consultaPatrocinio(String nombreEdicion, String codigoPat) {
 		ManejadorEvento me = ManejadorEvento.getInstancia();
