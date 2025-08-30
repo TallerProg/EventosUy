@@ -193,6 +193,8 @@ public class ControllerEvento implements IControllerEvento {
 	    	edicion.addLinkRegistro(reg);
 	    	tr.addLinkRegistro(reg);
 	    	asistente.addRegistro(reg);
+	    }else {
+	    		throw new Exception(asistente.getNickname() +" Ya esta registrado");
 	    }
 	   }
 	public List<String> listarEdicionesDeEvento(String nombreEvento) {

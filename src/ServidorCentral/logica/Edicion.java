@@ -119,9 +119,12 @@ public class Edicion {
         return false; // no se encontró
     }
 
-    public boolean habilitadoAsistente(String nombreTR, Asistente asistente) {
+    public boolean habilitadoAsistente(String nombreTR, Asistente asistente)throws Exception {
         TipoRegistro tr = getEdicionTR(nombreTR);
-        if (tr != null && registrado(asistente)) {
+        if(tr == null) {
+        		throw new Exception("tipo registro no existe");
+        }
+        if (tr != null && !registrado(asistente)) {
         	return !tr.soldOutTipReg();
         }
         else {
