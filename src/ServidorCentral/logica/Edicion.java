@@ -190,4 +190,9 @@ public class Edicion {
 		}
 		return false;
 	}
+	
+	@Override
+	public String toString() {
+	    return this.getNombre();
+	}
 }
