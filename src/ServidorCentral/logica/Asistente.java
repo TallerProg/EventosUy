@@ -61,6 +61,10 @@ public class Asistente extends Usuario {
 
         return registrosFechas;
     }
+    
+    public void addRegistro(Registro r) {
+    	this.registros.add(r);
+    }
 
 
     // Métodos

@@ -122,7 +122,12 @@ public class Principal {
         
                 JMenuItem menuConsultaRegistro = new JMenuItem("Consulta de Registro");
                 menuUsuarios.add(menuConsultaRegistro);
-                menuConsultaRegistro.addActionListener(e -> mostrarInternalFrame(conRegInternalFrame));
+                menuConsultaRegistro.addActionListener(e -> {
+                	conRegInternalFrame.cargarUsuarios();
+                mostrarInternalFrame(conRegInternalFrame);});
+         
+                
+                menuUsuarios.add(menuConsultaRegistro);
 
         // Menú Eventos
         JMenu menuEventos = new JMenu("Eventos");

@@ -33,6 +33,7 @@ public class ControllerUsuario implements IControllerUsuario {
             Asistente a = new Asistente(nicknameUsu, correo, nombre, apellido, fNacimiento,ins);
             mu.agregarAsistente(a);
             mu.agregarUsuario(a);
+            ins.addAsistente(a);
         }
     }
 

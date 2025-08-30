@@ -15,6 +15,7 @@ import ServidorCentral.logica.IControllerUsuario;
 public class ConsultaRegistro extends JInternalFrame {
 	private JTextField textField_finicio;
 	private JTextField textField_1_costo;
+	 private IControllerUsuario icu;
 	private JComboBox<String> comboBoxUsuario;
 	private JComboBox<String> comboBoxRegistro;
 	/**
@@ -24,7 +25,8 @@ public class ConsultaRegistro extends JInternalFrame {
 	private JTextField textField;
 	private JTextField textField_1;
 	private JTextField textField_2;
-	public ConsultaRegistro(IControllerUsuario ICU) {
+	public ConsultaRegistro(IControllerUsuario icu) {
+    	this.icu = icu;
 		setResizable(true);
         setIconifiable(true);
         setMaximizable(true);
@@ -158,18 +160,10 @@ public class ConsultaRegistro extends JInternalFrame {
 		panel_3.add(textField_2, gbc_textField_2);
 		textField_2.setColumns(10);
 		
-			cargarUsuarios(ICU);
 			comboBoxUsuario.addActionListener(e -> {
 			    String usuarioSeleccionado = (String) comboBoxUsuario.getSelectedItem();
 			    if (usuarioSeleccionado != null) {
-			        List<String> registros = ICU.getAsistenteRegistro(usuarioSeleccionado);
-			        comboBoxRegistro.removeAllItems();
-			        for (String reg : registros) {
-			            comboBoxRegistro.addItem(reg);
-			        }
-	
-			        comboBoxRegistro.setEnabled(!registros.isEmpty());
-	
+			        listarRegistrosAsistente(usuarioSeleccionado);
 			        textField_finicio.setText("");
 			        textField_1_costo.setText("");
 			        textField.setText("");
@@ -184,7 +178,7 @@ public class ConsultaRegistro extends JInternalFrame {
 			    String usuarioSeleccionado = (String) comboBoxUsuario.getSelectedItem();
 			    if (registroSeleccionado != null) {
 			      
-			        DTRegistroDetallado dto = ICU.getRegistroDetalle(registroSeleccionado, usuarioSeleccionado);
+			        DTRegistroDetallado dto = icu.getRegistroDetalle(registroSeleccionado, usuarioSeleccionado);
 
 			        textField_finicio.setText(dto.getfRegistro().toString());
 			        textField_1_costo.setText(String.valueOf(dto.getCosto()));
@@ -200,11 +194,19 @@ public class ConsultaRegistro extends JInternalFrame {
 
 	}
 	
-	private void cargarUsuarios(IControllerUsuario ICU) {
+	public void cargarUsuarios() {
 	    comboBoxUsuario.removeAllItems();
-	    for (Asistente asistente : ICU.getAsistentes()) {
+	    for (Asistente asistente : icu.getAsistentes()) {
 	        comboBoxUsuario.addItem(asistente.getNickname());
 	    }
 	    comboBoxRegistro.setEnabled(false);	
+	}
+	private void listarRegistrosAsistente(String usuarioSeleccionado){
+		List<String> registros = icu.getAsistenteRegistro(usuarioSeleccionado);
+		 DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(
+				 registros.toArray(new String[0])
+		);
+		comboBoxRegistro.setModel(model);
+		comboBoxRegistro.setEnabled(true);
 	}
 }

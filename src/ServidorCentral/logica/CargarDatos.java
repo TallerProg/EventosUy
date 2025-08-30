@@ -475,7 +475,7 @@ public class CargarDatos {
 		        // ------------------
 		    	// Crear Patrocinios
 		    	// ------------------
-
+		    	
 		    	try {
 		    	    // PAT1
 		    	    Patrocinio PAT1 = new Patrocinio(
@@ -495,7 +495,7 @@ public class CargarDatos {
 		    	    // PAT2
 		    	    Patrocinio PAT2 = new Patrocinio(
 		    	        "TECHANII", 
-		    	        LocalDate.parse(" 20/08/2025", formatter), 
+		    	        LocalDate.parse("20/08/2025", formatter), 
 		    	        1, 
 		    	        10000f, 
 		    	        ETipoNivel.Plata, 
@@ -540,9 +540,11 @@ public class CargarDatos {
 		    	} catch(Exception e) {
 		    	    JOptionPane.showMessageDialog(null, e.getMessage());
 		    	}
+		    	
 		    	// ------------------
 		    	// Crear Registros
 		    	// ------------------
+		    	
 		    	try {
 		    	    // RE01 - Montevideo Rock 2025
 		    	    ICE.altaRegistro("Montevideo Rock 2025", "sofirod", "VIP"); // TR02
@@ -574,7 +576,7 @@ public class CargarDatos {
 		    	} catch(Exception e) {
 		    	    JOptionPane.showMessageDialog(null, e.getMessage());
 		    	}
-
+				
 		    
 		    	
 		    }

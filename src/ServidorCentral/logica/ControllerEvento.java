@@ -167,6 +167,7 @@ public class ControllerEvento implements IControllerEvento {
 	    	asistente.getPatrocinio().agregarRegistro(reg);
 	    	edicion.addLinkRegistro(reg);
 	    	tr.addLinkRegistro(reg);
+	    	asistente.addRegistro(reg);
 	    }}
 	   }
 	@Override
@@ -191,6 +192,7 @@ public class ControllerEvento implements IControllerEvento {
 	    	Registro reg = new Registro(costo, edicion, asistente, tr);
 	    	edicion.addLinkRegistro(reg);
 	    	tr.addLinkRegistro(reg);
+	    	asistente.addRegistro(reg);
 	    }
 	   }
 	public List<String> listarEdicionesDeEvento(String nombreEvento) {
