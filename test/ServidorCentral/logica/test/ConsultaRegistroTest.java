@@ -63,7 +63,7 @@ public class ConsultaRegistroTest {
 		Evento EVE01 = iCE.getEvento(nombreE);
 		// Crear Organizador
 		
-		String nicknameO = "org1";
+		String nicknameO = "org2341";
 		String correoO = "contacto@miseventos.com";
 		String nombreO = "MisEventos";
 		String descripcionO = "Empresa de organización de eventos.";

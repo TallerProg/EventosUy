@@ -31,9 +31,5 @@ public class Usuario {
 		this.nombre = nombre;
 	}
 
-	// SOBRECARGO TOSTRING PARA MOSTRAR NOMBRE EN COMBOBOX
-	public String toString() {
-		return nickname;
-	}
 
 }

@@ -16,6 +16,8 @@ import ServidorCentral.logica.Factory;
 import ServidorCentral.logica.IControllerUsuario;
 import ServidorCentral.logica.Institucion;
 import ServidorCentral.logica.Organizador;
+import ServidorCentral.logica.Registro;
+import ServidorCentral.logica.TipoRegistro;
 import ServidorCentral.logica.ManejadorUsuario;
 
 
@@ -259,4 +261,36 @@ class ControllerUsuarioTest {
 	        assertTrue(foundLuis, "No se encontró el Asistente Luis");
 	        assertTrue(foundMarta, "No se encontró la Asistente Marta");
 	    }
+	    
+	    
+	    @Test
+	    @Order(10)
+	    void testRegistrosFechasEnTipoRegistro() {
+	        // Creamos un tipo de registro de prueba
+	        TipoRegistro tipo = new TipoRegistro("General", "Acceso general", 100f, 50, null);
+
+	        // Creamos un asistente de prueba
+	        Asistente asistente = new Asistente("nickTest", "correo@test.com", "Nombre", "Apellido",
+	                                            LocalDate.of(1999, 5, 5), null);
+
+	        // Fecha esperada (hoy, porque Registro usa LocalDate.now())
+	        String hoy = LocalDate.now().toString();
+
+	        // Crear registros asociados a este tipo
+	        Registro r1 = new Registro(100f, null, asistente, tipo);
+	        Registro r2 = new Registro(200f, null, asistente, tipo);
+
+	        // Agregarlos al tipo
+	        tipo.getRegistros().add(r1);
+	        tipo.getRegistros().add(r2);
+
+	        // Ejecutar método
+	        List<String> fechas = tipo.registrosFechas();
+
+	        // Validaciones
+	        assertEquals(2, fechas.size(), "Debe devolver 2 fechas");
+	        assertTrue(fechas.stream().allMatch(f -> f.equals(hoy)),
+	                "Todas las fechas deben ser iguales a la fecha de hoy: " + hoy);
+	    }
+
 	}

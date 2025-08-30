@@ -16,7 +16,6 @@ public interface IControllerEvento {
     public List<Categoria> getCategorias();	
     public Edicion findEdicion(String nombre);
     public boolean existeEvento(String nombre);
-    public Evento findEvento(String nombre);
     public Evento getEvento(String nombreEvento);
     public void altaRegistro(String nombreEdicion, String nickAsistente, String nombreTR, String codigo) throws Exception;
     public void altaRegistro(String nombreEdicion, String nickAsistente, String nombreTR) throws Exception;

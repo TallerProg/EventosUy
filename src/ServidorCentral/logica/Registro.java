@@ -32,52 +32,37 @@ public class Registro {
 		return fInicio;
 	}
 
-	public void setFInicio(LocalDate fInicio) {
-		this.fInicio = fInicio;
-	}
 
 	public Float getCosto() {
 		return costo;
 	}
 
-	public void setCosto(Float costo) {
-		this.costo = costo;
-	}
 
 	public Edicion getEdicion() {
 		return edicion;
 	}
-
+	
 	public void setEdicion(Edicion edicion) {
 		this.edicion = edicion;
 	}
 
-	public String toString() {
-		return edicion.getNombre();
-	}
 
 	public Asistente getAsistente() {
 		return asistente;
 	}
 
-	public void setAsistente(Asistente asistente) {
-		this.asistente = asistente;
-	}
 
 	public Patrocinio getPatrocinio() {
 		return patrocinio;
 	}
 
-	public void setPatrocinio(Patrocinio patrocinio) {
-		this.patrocinio = patrocinio;
-	}
 
 	public TipoRegistro getTipoRegistro() {
 		return tipoRegistro;
 	}
-
-	public void setTipoRegistro(TipoRegistro tipoRegistro) {
-		this.tipoRegistro = tipoRegistro;
+	
+	public void setPatrocinio(Patrocinio patrocinio) {
+		this.patrocinio = patrocinio;
 	}
 
 	public DTRegistroDetallado getDTRegistroDetallado() {

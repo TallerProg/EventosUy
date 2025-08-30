@@ -45,20 +45,7 @@ public class Edicion {
 		return evento;
 	}
 
-	public void setEvento(Evento evento) {
-		this.evento = evento;
-	}
-
 	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
-	@Override
-	public String toString() {
 		return nombre;
 	}
 
@@ -66,80 +53,50 @@ public class Edicion {
 		return fInicio;
 	}
 
-	public void setfInicio(LocalDate fInicio) {
-		this.fInicio = fInicio;
-	}
-
 	public LocalDate getfFin() {
 		return fFin;
 	}
 
-	public void setfFin(LocalDate fFin) {
-		this.fFin = fFin;
-	}
 
 	public LocalDate getFAlta() {
 		return fAlta;
 	}
 
-	public void setFAlta(LocalDate fAlta) {
-		this.fAlta = fAlta;
-	}
 
 	public String getCiudad() {
 		return ciudad;
 	}
 
-	public void setCiudad(String ciudad) {
-		this.ciudad = ciudad;
-	}
+
 
 	public String getPais() {
 		return pais;
 	}
 
-	public void setPais(String pais) {
-		this.pais = pais;
-	}
+
 
 	public String getSigla() {
 		return sigla;
 	}
 
-	public void setSigla(String sigla) {
-		this.sigla = sigla;
-	}
 
 	public List<TipoRegistro> getTipoRegistros() {
 		return tipoRegistros;
 	}
 
-	public void setTipoRegistros(List<TipoRegistro> tipoRegistros) {
-		this.tipoRegistros = tipoRegistros;
-	}
 
 	public List<Organizador> getOrganizadores() {
 		return organizadores;
 	}
 
-	public void setOrganizadores(List<Organizador> organizadores) {
-		this.organizadores = organizadores;
-	}
 
 	public List<Registro> getRegistros() {
 		return registros;
 	}
 
-	public void setRegistros(List<Registro> registros) {
-		this.registros = registros;
-	}
 
 	public List<Patrocinio> getPatrocinios() {
 		return patrocinios;
-	}
-
-	public void setPatrocinios(List<Patrocinio> patrocinios) {
-		this.patrocinios = patrocinios;
 	}
 
 	// Métodos

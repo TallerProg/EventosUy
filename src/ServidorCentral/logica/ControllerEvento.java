@@ -79,12 +79,6 @@ public class ControllerEvento implements IControllerEvento {
 		ManejadorEvento me = ManejadorEvento.getInstancia();
 		return me.findEdicion(nombre);
 	}
-	
-	public Evento findEvento(String nombre) {
-		ManejadorEvento me = ManejadorEvento.getInstancia();
-		return me.findEvento(nombre);
-		
-	}
 
 
 	public List<Categoria> getCategorias() {
