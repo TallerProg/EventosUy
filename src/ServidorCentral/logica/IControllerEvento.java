@@ -16,7 +16,7 @@ public interface IControllerEvento {
     public List<Categoria> getCategorias();	
     public Edicion findEdicion(String nombre);
     public boolean existeEvento(String nombre);
-   
+    public Evento findEvento(String nombre);
     public Evento getEvento(String nombreEvento);
     public void altaRegistro(String nombreEdicion, String nickAsistente, String nombreTR, String codigo) throws Exception;
     public void altaRegistro(String nombreEdicion, String nickAsistente, String nombreTR) throws Exception;
@@ -44,4 +44,8 @@ public interface IControllerEvento {
 	public void altaCategoria(String nombre)throws Exception;
 	
 	public Categoria findCategoria(String nom);
+
+	public Evento obtenerEventoPorNombre(String nombreEventoSeleccionado);
+
+	public Organizador obtenerOrganizadorPorNombre(String nombreOrganizadorSeleccionado);
 }

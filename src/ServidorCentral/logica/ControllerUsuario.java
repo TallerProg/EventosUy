@@ -12,7 +12,6 @@ public class ControllerUsuario implements IControllerUsuario {
         // Constructor vacío
     }
 
-    // Método de consulta
     public DTUsuarioListaConsulta ConsultaDeUsuario(String nicknameUsu) {
     	ManejadorUsuario manejador = ManejadorUsuario.getinstance();
 	    Usuario usuario = manejador.findUsuario(nicknameUsu);
@@ -45,7 +44,6 @@ public class ControllerUsuario implements IControllerUsuario {
 	    return dt;
 	}     
 
-    // Métodos de alta
     public void AltaAsistente(String nicknameUsu, String correo, String nombre, String apellido, 
     LocalDate fNacimiento,Institucion ins) throws UsuarioRepetidoException {
     	ManejadorUsuario mu = ManejadorUsuario.getinstance();

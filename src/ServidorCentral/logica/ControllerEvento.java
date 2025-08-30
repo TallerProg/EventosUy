@@ -77,7 +77,6 @@ public class ControllerEvento implements IControllerEvento {
 
 	public List<Evento> listarEventos() {
 	       ManejadorEvento me = ManejadorEvento.getInstancia();
-
 	    return me.listarEventos();
 	}
 	
@@ -85,6 +84,12 @@ public class ControllerEvento implements IControllerEvento {
 	public Edicion findEdicion(String nombre) {
 	       ManejadorEvento me = ManejadorEvento.getInstancia();
 	       return me.findEdicion(nombre);
+	}
+	
+	public Evento findEvento(String nombre) {
+		ManejadorEvento me = ManejadorEvento.getInstancia();
+		return me.findEvento(nombre);
+		
 	}
 	
     public List<Categoria> getCategorias(){
@@ -235,7 +240,23 @@ public class ControllerEvento implements IControllerEvento {
 	    return null;
 	}
 
-	
+	public Evento obtenerEventoPorNombre(String nombreEvento) {
+	    if (nombreEvento == null) return null;
+	    ManejadorEvento me = ManejadorEvento.getInstancia();
+	    return me.findEvento(nombreEvento); 
+	}
+
+	public Organizador obtenerOrganizadorPorNombre(String nombreOrganizador) {
+	    if (nombreOrganizador == null) return null;
+	    ManejadorUsuario mu = ManejadorUsuario.getinstance();
+	    for (Organizador o : mu.listarOrganizadores()) {
+	        if (o.getNombre().equals(nombreOrganizador)) {
+	            return o;
+	        }
+	    }
+	    return null;
+	}
+
 	public List<DTPatrocinio> listarPatrociniosDeEdicion(String nombreEdicion) {
 	    ManejadorEvento me = ManejadorEvento.getInstancia();
 	    Edicion ed = me.findEdicion(nombreEdicion);
