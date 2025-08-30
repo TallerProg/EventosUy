@@ -21,6 +21,8 @@ public class ControllerEvento implements IControllerEvento {
 			Edicion ed = new Edicion(nombre, sigla, fInicio, fFin, ciudad, pais, evento);
 			ed.getOrganizadores().add(org);
 			evento.agregarEdicion(ed);
+			ManejadorEvento manejadorEvento = ManejadorEvento.getInstancia();
+			manejadorEvento.agregarEdicion(ed);
 	}
 
 	
@@ -182,7 +184,7 @@ public class ControllerEvento implements IControllerEvento {
 		ManejadorUsuario manejadorUsuario = ManejadorUsuario.getinstance();
 		ManejadorEvento manejadorEvento = ManejadorEvento.getInstancia();
 	    if (!manejadorEvento.existeEdicion(nombreEdicion)) {
-	        throw new Exception("Edición no existe");
+	        throw new Exception(nombreEdicion + " Edición no existe");
 	    }
 	    Edicion edicion = manejadorEvento.findEdicion(nombreEdicion);
 	    if (!manejadorUsuario.existeAsistente(nickAsistente)) {

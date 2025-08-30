@@ -49,7 +49,7 @@ public class Registro {
     public DTRegistroDetallado getDTRegistroDetallado() {
         String nombreEvento = (edicion != null && edicion.getEvento() != null) ? edicion.getEvento().getNombre() : "";
         String nombreEdicion = (edicion != null) ? edicion.getNombre() : "";
-        String tipoReg = (tipoRegistro != null) ? tipoRegistro.toString() : "";
+        String tipoReg = (tipoRegistro != null) ? tipoRegistro.getNombre() : "";
         String nombrePatrocinador = (patrocinio != null) ? patrocinio.getInstitucion().getNombre() : null;
         
         return new DTRegistroDetallado(fInicio, nombreEvento, nombreEdicion, tipoReg, nombrePatrocinador, costo);

@@ -11,6 +11,8 @@ import java.util.ArrayList;
 
 import ServidorCentral.logica.Factory;
 import ServidorCentral.logica.IControllerEvento;
+import ServidorCentral.logica.IControllerUsuario;
+import ServidorCentral.logica.CargarDatos;
 import ServidorCentral.logica.Categoria;
 import ServidorCentral.logica.Evento;
 
@@ -18,11 +20,14 @@ import ServidorCentral.logica.Evento;
 class ControllerEventoTest {
 	
 	private static IControllerEvento controladorEve;
+	private static IControllerUsuario cu;
+
 	
 	@BeforeAll
 	public static void iniciar() {
 		Factory fabrica = Factory.getInstance();
 		controladorEve = fabrica.getIControllerEvento();
+		cu = fabrica.getIControllerUsuario();
 	}
 	
 	@Test
@@ -75,5 +80,7 @@ class ControllerEventoTest {
 		assertThrows(Exception.class, ()->{controladorEve.altaEvento(nomTest, descTest, fAltaTest, siglaTest, catTest);});
 		
 	}
+	
+
 	
 }

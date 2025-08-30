@@ -129,7 +129,7 @@ public class RegistroEdicionEvento extends JInternalFrame {
     			 }
     		});
         comboBoxAsistente.addActionListener(e -> {
-        	String nombreAsistente = (String) comboBoxRegistro.getSelectedItem();
+        	String nombreAsistente = (String) comboBoxAsistente.getSelectedItem();
     		if (nombreAsistente != null && !nombreAsistente.equals("Sin asistentes")) {
     				 btnRegistrar.setEnabled(true);
     		}
@@ -167,7 +167,7 @@ public class RegistroEdicionEvento extends JInternalFrame {
                     JOptionPane.INFORMATION_MESSAGE);
 
                 // Limpiar después de registrar
-                comboBoxEvento.setSelectedIndex(-1);
+                cargarEventos();
                 comboBoxEdicion.removeAllItems();
                 comboBoxRegistro.removeAllItems();
                 comboBoxAsistente.removeAllItems();
