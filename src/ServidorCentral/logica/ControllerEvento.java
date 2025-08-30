@@ -122,14 +122,15 @@ public class ControllerEvento implements IControllerEvento {
     public void altaEvento(String nombre, String desc, LocalDate fAlta, String sigla, List<Categoria> categorias) throws Exception{
         ManejadorEvento me = ManejadorEvento.getInstancia();
 
-    	boolean e = me.existeEvento(nombre);
-    	
-    	if(e)
+    	if(me.existeEvento(nombre)){
     		throw new Exception("El evento"+ nombre + "ya esta registrado");
+    	}else {
     	Evento Ev = new Evento(nombre, sigla, desc, fAlta, categorias);
     	me.agregarEvento(Ev);
+    	
     }
-  
+    }
+    @Override
 	public void altaRegistro(String nombreEdicion, String nickAsistente, String nombreTR, String codigo) throws Exception {
 		ManejadorUsuario manejadorUsuario = ManejadorUsuario.getinstance();
 		ManejadorEvento manejadorEvento = ManejadorEvento.getInstancia();
@@ -141,10 +142,14 @@ public class ControllerEvento implements IControllerEvento {
 	        throw new Exception("Asistente no existe");
 	    }
 	    Asistente asistente = manejadorUsuario.findAsistente(nickAsistente);
+	    if ((asistente.getPatrocinio() == null)) {
+	        throw new Exception("Patrocinio no encontrado");
+	    }
 	    if ((asistente != null )&&(asistente.getPatrocinio() != null )&&(!asistente.getPatrocinio().getCodigo().equals(codigo))) {
 	        throw new Exception("Ese codigo no es valido para este asistente");
 	    }
-	    if (!asistente.getPatrocinio().consultarRegistros()) {
+	   
+	    if ((asistente.getPatrocinio() != null)&&(!asistente.getPatrocinio().consultarRegistros())) {
 	        throw new Exception("Ya no quedan cupos gratuitos");
 	    }
 	    
@@ -157,13 +162,14 @@ public class ControllerEvento implements IControllerEvento {
 	    	float costo = 0; 
 	    	Registro reg = new Registro(costo, edicion, asistente, tr);
 	    	Patrocinio pa = asistente.getPatrocinio();
+	    	if ((asistente.getPatrocinio() != null)) {
 	    	reg.setPatrocinio(pa);
 	    	asistente.getPatrocinio().agregarRegistro(reg);
 	    	edicion.addLinkRegistro(reg);
 	    	tr.addLinkRegistro(reg);
-	    }
+	    }}
 	   }
-
+	@Override
 	public void altaRegistro(String nombreEdicion, String nickAsistente, String nombreTR) throws Exception {
 		ManejadorUsuario manejadorUsuario = ManejadorUsuario.getinstance();
 		ManejadorEvento manejadorEvento = ManejadorEvento.getInstancia();

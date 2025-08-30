@@ -149,21 +149,28 @@ public class Principal {
         menuConsultaEdicion.addActionListener(e -> mostrarInternalFrame(conEdiEveInternalFrame));
         menuEventos.add(menuConsultaEdicion);
         
-                JMenuItem menuAltaTipoReg = new JMenuItem("Alta de Tipo de Registro");
-                menuEventos.add(menuAltaTipoReg);
+        JMenuItem menuAltaTipoReg = new JMenuItem("Alta de Tipo de Registro");
+        menuEventos.add(menuAltaTipoReg);
                 
-                        JMenuItem menuConsultaTipoReg = new JMenuItem("Consulta de Tipo de Registro");
-                        menuConsultaTipoReg.addActionListener(new ActionListener() {
-                            public void actionPerformed(ActionEvent e) {
-                            	conTRegInternalFrame.cargarEventos();
-                            	conTRegInternalFrame.setVisible(true);
-                            }
-                        });
-                        menuEventos.add(menuConsultaTipoReg);
+         JMenuItem menuConsultaTipoReg = new JMenuItem("Consulta de Tipo de Registro");
+          menuConsultaTipoReg.addActionListener(new ActionListener() {
+          public void actionPerformed(ActionEvent e) {
+           conTRegInternalFrame.cargarEventos();
+           conTRegInternalFrame.setVisible(true);
+               }
+           });
+            menuEventos.add(menuConsultaTipoReg);
                         
-                                JMenuItem menuRegistroEdicion = new JMenuItem("Registro a Edición de Evento");
-                                menuEventos.add(menuRegistroEdicion);
-                                menuRegistroEdicion.addActionListener(e -> mostrarInternalFrame(regEdiEveInternalFrame));
+            JMenuItem menuRegistroEdicion = new JMenuItem("Registro a Edición de Evento");
+            menuRegistroEdicion.addActionListener(e -> {
+                regEdiEveInternalFrame.cargarEventos();
+                mostrarInternalFrame(regEdiEveInternalFrame);
+            });
+            menuEventos.add(menuRegistroEdicion);
+
+        menuEventos.add(menuRegistroEdicion);
+        menuRegistroEdicion.addActionListener(e -> mostrarInternalFrame(regEdiEveInternalFrame));
+                                
                         menuConsultaTipoReg.addActionListener(e -> mostrarInternalFrame(conTRegInternalFrame));
                 menuAltaTipoReg.addActionListener(e -> mostrarInternalFrame(creTRegInternalFrame));
     }

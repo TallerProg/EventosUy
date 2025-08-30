@@ -40,6 +40,14 @@ public class ManejadorUsuario {
         }
         return null;
     }
+    public Usuario findCorreo(String correo) {
+        for (Usuario u : usuarios) {
+            if (u.getCorreo().equalsIgnoreCase(correo)) {
+                return u;
+            }
+        }
+        return null;
+    }
     public Asistente findAsistente(String nickname) {
         for (Asistente a : asistentes) {
             if (a.getNickname().equalsIgnoreCase(nickname)) {

@@ -13,7 +13,7 @@ public interface IControllerEvento {
 	public DTTipoRegistro consultaTipoRegistro(String nombreEdicion, String nombreTipoR);
 	
 	public List<Evento> listarEventos();
-    public List<Categoria> getCategorias();
+    public List<Categoria> getCategorias();	
     public Edicion findEdicion(String nombre);
     public Evento findEvento(String nombre);
     public boolean existeEvento(String nombre);
@@ -32,7 +32,6 @@ public interface IControllerEvento {
     
     public void altaTipoRegistro(String nombreTR, String descripcion, Float costo, Integer cupo, Edicion edicion) throws Exception;
 
-    public void altaTipoRegistro(String nombreTR, String descripcion, Float costo, Integer cupo, Edicion edicion) throws Exception;
 
     
     public void altaEvento(String nombre, String descripcion, LocalDate fecha, String sigla, List<Categoria> categorias) throws Exception;

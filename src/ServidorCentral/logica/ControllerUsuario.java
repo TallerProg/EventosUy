@@ -22,7 +22,7 @@ public class ControllerUsuario implements IControllerUsuario {
     LocalDate fNacimiento,Institucion ins) throws UsuarioRepetidoException {
     	ManejadorUsuario mu = ManejadorUsuario.getinstance();
         Usuario u = mu.findUsuario(nicknameUsu);
-        Usuario ucorreo = mu.findUsuario(correo);
+        Usuario ucorreo = mu.findCorreo(correo);
         if (u != null || ucorreo!=null)
             throw new UsuarioRepetidoException("El usuario " + nicknameUsu + " ya esta registrado");
         if(ins==null) {

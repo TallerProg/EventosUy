@@ -217,7 +217,7 @@ public class ConsultaTipoRegistro extends JInternalFrame {
 				comboBoxEvento.addItem("Sin eventos");
 				comboBoxEvento.setEnabled(false);
 			}else {
-				comboBoxEvento.setEnabled(true);
+				comboBoxEvento.setEnabled(true);	
 				List<String> nombres = new java.util.ArrayList<>();
 			    for (Evento e : eventos) {
 			        nombres.add(e.getNombre());
