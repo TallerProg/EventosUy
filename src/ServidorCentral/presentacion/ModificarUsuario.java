@@ -44,7 +44,6 @@ public class ModificarUsuario extends JInternalFrame {
         gridBagLayout.rowWeights = new double[10];
         getContentPane().setLayout(gridBagLayout);
 
-        // --- Selección de usuario ---
         JLabel lblSeleccion = new JLabel("Seleccione un Usuario:");
         GridBagConstraints gbc_lblSeleccion = new GridBagConstraints();
         gbc_lblSeleccion.insets = new Insets(5,5,5,5);
@@ -63,7 +62,6 @@ public class ModificarUsuario extends JInternalFrame {
         getContentPane().add(comboUsuarios, gbc_comboUsuarios);
         row++;
 
-        // --- Tipo de usuario ---
         JLabel lblTipo = new JLabel("Tipo de Usuario:");
         GridBagConstraints gbc_lblTipo = new GridBagConstraints();
         gbc_lblTipo.insets = new Insets(5,5,5,5);
@@ -72,7 +70,7 @@ public class ModificarUsuario extends JInternalFrame {
         getContentPane().add(lblTipo, gbc_lblTipo);
 
         comboTipoUsuario = new JComboBox<>(new String[]{"Asistente","Organizador"});
-        comboTipoUsuario.setEnabled(false); // no se puede cambiar tipo
+        comboTipoUsuario.setEnabled(false); 
         GridBagConstraints gbc_comboTipo = new GridBagConstraints();
         gbc_comboTipo.insets = new Insets(5,5,5,5);
         gbc_comboTipo.fill = GridBagConstraints.HORIZONTAL;
@@ -80,14 +78,12 @@ public class ModificarUsuario extends JInternalFrame {
         getContentPane().add(comboTipoUsuario, gbc_comboTipo);
         row++;
 
-        // --- Campos básicos ---
         textFieldNickName = crearCampo("Nickname:", row++); 
         textFieldNickName.setEditable(false); 
         textFieldCorreo = crearCampo("Correo:", row++);
         textFieldCorreo.setEditable(false); 
         textFieldNombre = crearCampo("Nombre:", row++);
 
-        // --- Campos dinámicos ---
         textFieldApellido = new JTextField();
         textFieldFechaNacimiento = new JTextField();
         textFieldDescripcion = new JTextField();
@@ -114,20 +110,17 @@ public class ModificarUsuario extends JInternalFrame {
 
         btnCancelar.addActionListener(e -> dispose());
 
-        // --- Selección de usuario ---
         comboUsuarios.addActionListener(e -> {
             Usuario u = (Usuario) comboUsuarios.getSelectedItem();
             if (u != null) mostrarCamposSegunTipo(u);
         });
 
-        // --- Botón aceptar ---
         btnAceptar.addActionListener(e -> {
             Usuario u = (Usuario) comboUsuarios.getSelectedItem();
             if (u == null) return;
 
             boolean modificado = false;
 
-            // Campos comunes
             if (!u.getNombre().equals(textFieldNombre.getText())) {
                 u.setNombre(textFieldNombre.getText());
                 modificado = true;
@@ -137,7 +130,6 @@ public class ModificarUsuario extends JInternalFrame {
                 modificado = true;
             }
 
-            // Campos según tipo
             if (u instanceof Asistente) {
                 Asistente a = (Asistente) u;
                 if (!a.getApellido().equals(textFieldApellido.getText())) {
@@ -197,7 +189,6 @@ public class ModificarUsuario extends JInternalFrame {
     }
 
     private void mostrarCamposSegunTipo(Usuario u) {
-        // Limpiar dinámicos
         textFieldApellido.setVisible(false);
         textFieldFechaNacimiento.setVisible(false);
         textFieldDescripcion.setVisible(false);

@@ -1,4 +1,4 @@
-1package ServidorCentral.presentacion;
+package ServidorCentral.presentacion;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,9 +20,7 @@ public class ConsultaTipoRegistro extends JInternalFrame {
 	private JComboBox<String> comboBoxTipoRegistro;
     private IControllerEvento controlEvento;
 
-		/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 
 		public ConsultaTipoRegistro(IControllerEvento icu) {

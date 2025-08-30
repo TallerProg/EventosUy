@@ -10,17 +10,19 @@ public class ControllerEvento implements IControllerEvento {
             LocalDate fInicio, LocalDate fFin,
             Evento evento, Organizador org) throws Exception {
 
-			ManejadorEvento mE = ManejadorEvento.getInstancia();
-			if (mE.existeEdicion(nombre)) {
-			throw new IllegalArgumentException("Ya existe una edición con ese nombre");
+			if (fFin.isBefore(fInicio)) {
+				throw new IllegalArgumentException("La fecha de fin no puede ser anterior a la fecha de inicio");
+			}
+			
+			if (evento.tieneEdicion(nombre) || evento.tieneEdicion(sigla)) {
+				throw new IllegalArgumentException("Ya existe una edición con ese nombre o sigla");
 			}
 			
 			Edicion ed = new Edicion(nombre, sigla, fInicio, fFin, ciudad, pais, evento);
-			
 			ed.getOrganizadores().add(org);
-			mE.agregarEdicion(ed);
 			evento.agregarEdicion(ed);
-		}
+	}
+
 	
 	public void altaTipoRegistro(String nombreTR, String descripcion, Float costo, Integer cupo, Edicion edicion) throws Exception{ //VICHAR MATEO
     	boolean e = edicion.existeTR(nombreTR);
@@ -119,6 +121,7 @@ public class ControllerEvento implements IControllerEvento {
     		throw new Exception("Ya existe una categoria"+ nombre);
     	}
     }
+    
     public void altaEvento(String nombre, String desc, LocalDate fAlta, String sigla, List<Categoria> categorias) throws Exception{
         ManejadorEvento me = ManejadorEvento.getInstancia();
 
@@ -246,6 +249,13 @@ public class ControllerEvento implements IControllerEvento {
 	    }
 	    return res;
 	}
+	
+	public Categoria findCategoria(String nom) {
+		ManejadorEvento me = ManejadorEvento.getInstancia();
+		return me.findCategoria(nom);
+	}
+	
+
 
 
 }

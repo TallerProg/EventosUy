@@ -139,11 +139,9 @@ public class ControllerUsuario implements IControllerUsuario {
         if (u == null) 
             throw new UsuarioNoExisteException("No existe el usuario " + nickname);
         
-        // Modificación de campos comunes
         u.setNombre(nombre);
         u.setCorreo(u.getCorreo()); 
         
-        // Modificación según tipo de usuario
         if (u instanceof Asistente) {
             Asistente a = (Asistente) u;
             a.setApellido(apellido);
@@ -154,15 +152,14 @@ public class ControllerUsuario implements IControllerUsuario {
             o.setUrl(url);
         }
     }
+    
     public void modificarUsuario1(Usuario u) {
         ManejadorUsuario mu = ManejadorUsuario.getinstance();
         Usuario existente = mu.findUsuario(u.getNickname());
 
-        // Actualizamos los campos comunes
         existente.setNombre(u.getNombre());
         existente.setCorreo(u.getCorreo());
 
-        // Actualizamos campos según tipo
         if (existente instanceof Asistente && u instanceof Asistente) {
             Asistente aExistente = (Asistente) existente;
             Asistente aNuevo = (Asistente) u;

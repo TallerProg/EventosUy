@@ -85,6 +85,12 @@ public class ManejadorUsuario {
     public void agregarOrganizador(Organizador o) {
     	organizadores.add(o);
     }
-    
+
+    public void limpiarUsuarios() {
+        usuarios.clear();      
+        asistentes.clear();
+        organizadores.clear();
+    }
+
     
 }
