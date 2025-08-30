@@ -43,7 +43,6 @@ public class AltaTipoRegistro extends JInternalFrame {
         gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
         getContentPane().setLayout(gridBagLayout);
 
-        // ---- EVENTO ----
         JLabel lblEvento = new JLabel("Evento:");
         GridBagConstraints gbc_lblEvento = new GridBagConstraints();
         gbc_lblEvento.anchor = GridBagConstraints.EAST;
@@ -61,7 +60,6 @@ public class AltaTipoRegistro extends JInternalFrame {
         gbc_comboBoxEvento.gridy = 1;
         getContentPane().add(comboBoxEvento, gbc_comboBoxEvento);
 
-        // ---- EDICIÓN ----
         JLabel lblEdicion = new JLabel("Edición:");
         GridBagConstraints gbc_lblEdicion = new GridBagConstraints();
         gbc_lblEdicion.anchor = GridBagConstraints.EAST;
@@ -78,7 +76,6 @@ public class AltaTipoRegistro extends JInternalFrame {
         gbc_comboBoxEdicion.gridy = 2;
         getContentPane().add(comboBoxEdicion, gbc_comboBoxEdicion);
 
-        // ---- NOMBRE ----
         JLabel lblNombre = new JLabel("Nombre:");
         GridBagConstraints gbc_lblNombre = new GridBagConstraints();
         gbc_lblNombre.anchor = GridBagConstraints.EAST;
@@ -96,7 +93,6 @@ public class AltaTipoRegistro extends JInternalFrame {
         getContentPane().add(textFieldNombre, gbc_textFieldNombre);
         textFieldNombre.setColumns(10);
 
-        // ---- DESCRIPCION ----
         JLabel lblDescripcion = new JLabel("Descripción:");
         GridBagConstraints gbc_lblDescripcion = new GridBagConstraints();
         gbc_lblDescripcion.anchor = GridBagConstraints.EAST;
@@ -114,7 +110,6 @@ public class AltaTipoRegistro extends JInternalFrame {
         gbc_scrollPaneDescripcion.gridy = 4;
         getContentPane().add(scrollPaneDescripcion, gbc_scrollPaneDescripcion);
 
-        // ---- COSTO ----
         JLabel lblCosto = new JLabel("Costo:");
         GridBagConstraints gbc_lblCosto = new GridBagConstraints();
         gbc_lblCosto.anchor = GridBagConstraints.EAST;
@@ -131,7 +126,6 @@ public class AltaTipoRegistro extends JInternalFrame {
         gbc_textFieldCosto.gridy = 5;
         getContentPane().add(textFieldCosto, gbc_textFieldCosto);
 
-        // ---- CUPO ----
         JLabel lblCupo = new JLabel("Cupo:");
         GridBagConstraints gbc_lblCupo = new GridBagConstraints();
         gbc_lblCupo.anchor = GridBagConstraints.EAST;
@@ -148,7 +142,6 @@ public class AltaTipoRegistro extends JInternalFrame {
         gbc_textFieldCupo.gridy = 6;
         getContentPane().add(textFieldCupo, gbc_textFieldCupo);
 
-        // ---- BOTONES ----
         btnCancelar = new JButton("Cancelar");
         GridBagConstraints gbc_btnCancelar = new GridBagConstraints();
         gbc_btnCancelar.insets = new Insets(10, 20, 5, 80);
@@ -167,12 +160,12 @@ public class AltaTipoRegistro extends JInternalFrame {
         btnAceptar.setPreferredSize(new Dimension(100, 25));
         getContentPane().add(btnAceptar, gbc_btnAceptar);
 
-        // ---- CARGAR EVENTOS ----
+        //CARGAS
         cargarEventos();
 
         comboBoxEvento.addActionListener(e -> cargarEdiciones());
 
-        // ---- LISTENERS BOTONES ----
+        //LISTENERS
         btnCancelar.addActionListener(e -> this.setVisible(false));
 
         btnAceptar.addActionListener(e -> {
@@ -183,7 +176,6 @@ public class AltaTipoRegistro extends JInternalFrame {
             Evento eventoSeleccionado = (Evento) comboBoxEvento.getSelectedItem();
             Edicion edicionSeleccionada = (Edicion) comboBoxEdicion.getSelectedItem();
 
-            // Validar campos
             if (nombre.isEmpty() || descripcion.isEmpty() || costoStr.isEmpty() || cupoStr.isEmpty() ||
                     eventoSeleccionado == null || edicionSeleccionada == null) {
                 JOptionPane.showMessageDialog(this,
@@ -192,7 +184,6 @@ public class AltaTipoRegistro extends JInternalFrame {
                 return;
             }
 
-            // Parsear costo y cupo
             Float costo;
             Integer cupo;
             try {
@@ -210,7 +201,7 @@ public class AltaTipoRegistro extends JInternalFrame {
                 return;
             }
 
-            // Alta
+            //ALTA
             try {
                 controlEvento.altaTipoRegistro(nombre, descripcion, costo, cupo, edicionSeleccionada);
                 JOptionPane.showMessageDialog(this, "Tipo de registro creado correctamente");

@@ -26,19 +26,13 @@ public class ConsultarUsuario extends JInternalFrame {
 
     private JComboBox<String> comboBoxUsuario;
     private JComboBox<String> comboBoxEdiciones;
-
-    // Campos básicos
     private JTextField textFieldNickname;
     private JTextField textFieldCorreo;
     private JTextField textFieldNombre;
-
-    // Campos dinámicos asistente
     private JLabel lblApellido;
     private JTextField textFieldApellido;
     private JLabel lblFechaNacimiento;
     private JTextField textFieldFechaNacimiento;
-
-    // Campos dinámicos organizador
     private JLabel lblDescripcion;
     private JTextField textFieldDescripcion;
     private JLabel lblURL;
@@ -58,7 +52,6 @@ public class ConsultarUsuario extends JInternalFrame {
         setSize(700, 400);
         getContentPane().setLayout(new BorderLayout(0, 0));
 
-        // ---- PANEL SUPERIOR: COMBO USUARIOS ----
         JPanel panelCombos = new JPanel();
         getContentPane().add(panelCombos, BorderLayout.NORTH);
         comboBoxUsuario = new JComboBox<>();
@@ -66,7 +59,6 @@ public class ConsultarUsuario extends JInternalFrame {
         panelCombos.add(new JLabel("Seleccione un usuario:"));
         panelCombos.add(comboBoxUsuario);
 
-        // ---- PANEL CENTRAL: DATOS ----
         panelDatos = new JPanel();
         getContentPane().add(panelDatos, BorderLayout.CENTER);
         GridBagLayout gbl_panelDatos = new GridBagLayout();
@@ -76,12 +68,10 @@ public class ConsultarUsuario extends JInternalFrame {
         gbl_panelDatos.rowWeights = new double[]{0,0,0,0,0,0,0,0};
         panelDatos.setLayout(gbl_panelDatos);
 
-        // Campos básicos siempre visibles
         textFieldNickname = addRow("Nickname:", panelDatos, 0);
         textFieldCorreo = addRow("Correo:", panelDatos, 1);
         textFieldNombre = addRow("Nombre:", panelDatos, 2);
 
-        // Campos asistente
         lblApellido = new JLabel("Apellido:");
         textFieldApellido = new JTextField();
         textFieldApellido.setEditable(false);
@@ -92,7 +82,6 @@ public class ConsultarUsuario extends JInternalFrame {
         textFieldFechaNacimiento.setEditable(false);
         addLabelField(lblFechaNacimiento, textFieldFechaNacimiento, panelDatos, 4);
 
-        // Campos organizador
         lblDescripcion = new JLabel("Descripción:");
         textFieldDescripcion = new JTextField();
         textFieldDescripcion.setEditable(false);
@@ -103,7 +92,6 @@ public class ConsultarUsuario extends JInternalFrame {
         textFieldURL.setEditable(false);
         addLabelField(lblURL, textFieldURL, panelDatos, 4);
 
-        // ComboBox ediciones
         JLabel lblEdiciones = new JLabel("Ediciones:");
         GridBagConstraints gbc_lblEdiciones = new GridBagConstraints();
         gbc_lblEdiciones.anchor = GridBagConstraints.EAST;
@@ -119,7 +107,6 @@ public class ConsultarUsuario extends JInternalFrame {
         gbc_comboEdiciones.gridy = 5;
         panelDatos.add(comboBoxEdiciones, gbc_comboEdiciones);
 
-        // ---- INICIO: oculto campos dinámicos ----
         lblApellido.setVisible(false);
         textFieldApellido.setVisible(false);
         lblFechaNacimiento.setVisible(false);
@@ -129,7 +116,7 @@ public class ConsultarUsuario extends JInternalFrame {
         lblURL.setVisible(false);
         textFieldURL.setVisible(false);
 
-        // ---- EVENTOS ----
+        //COMBOBOX ALISTENERS
         comboBoxUsuario.addActionListener(e -> {
             String nicknameSeleccionado = (String) comboBoxUsuario.getSelectedItem();
             limpiarCampos();
@@ -143,9 +130,8 @@ public class ConsultarUsuario extends JInternalFrame {
                 textFieldNombre.setText(dt.getNombre());
 
                 Usuario usuario = controlUsuario.getUsuario(nicknameSeleccionado);
-
+                //CASO ASIS
                 if (usuario instanceof Asistente) {
-                    // Muestro campos de asistente
                     lblApellido.setVisible(true);
                     textFieldApellido.setVisible(true);
                     lblFechaNacimiento.setVisible(true);
@@ -154,14 +140,12 @@ public class ConsultarUsuario extends JInternalFrame {
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
                     textFieldFechaNacimiento.setText(dt.getFNacimiento().format(formatter));
 
-                    // Oculto campos organizador
                     lblDescripcion.setVisible(false);
                     textFieldDescripcion.setVisible(false);
                     lblURL.setVisible(false);
                     textFieldURL.setVisible(false);
-
+                //CASO ORG
                 } else if (usuario instanceof Organizador) {
-                    // Muestro campos organizador
                     lblDescripcion.setVisible(true);
                     textFieldDescripcion.setVisible(true);
                     lblURL.setVisible(true);
@@ -169,7 +153,6 @@ public class ConsultarUsuario extends JInternalFrame {
                     textFieldDescripcion.setText(dt.getDescripcion());
                     textFieldURL.setText(dt.getUrl());
 
-                    // Oculto campos asistente
                     lblApellido.setVisible(false);
                     textFieldApellido.setVisible(false);
                     lblFechaNacimiento.setVisible(false);
@@ -183,7 +166,6 @@ public class ConsultarUsuario extends JInternalFrame {
         });
     }
 
-    // ---- MÉTODOS AUXILIARES ----
     private JTextField addRow(String label, JPanel panel, int row) {
         JLabel lbl = new JLabel(label);
         GridBagConstraints gbc_lbl = new GridBagConstraints();
