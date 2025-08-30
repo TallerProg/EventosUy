@@ -41,4 +41,3 @@ public interface IControllerUsuario {
 	public Usuario getUsuario(String nicknameTest);
 
 }
-

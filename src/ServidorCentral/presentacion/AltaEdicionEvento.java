@@ -41,6 +41,20 @@ public class AltaEdicionEvento extends JInternalFrame {
 
         comboEvento = new JComboBox<>();
         comboEvento.setBounds(70, 47, 239, 32);
+        comboEvento.setRenderer(new DefaultListCellRenderer() {
+            /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
+            public Component getListCellRendererComponent(JList<?> list, Object value,
+                                                          int index, boolean isSelected, boolean cellHasFocus) {
+                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                setText(value == null ? "Ninguno" : value.toString());
+                return this;
+            }
+        });
         getContentPane().add(comboEvento);
 
         JLabel labelOrg = new JLabel("Organizador:");
@@ -50,6 +64,20 @@ public class AltaEdicionEvento extends JInternalFrame {
 
         comboOrganizador = new JComboBox<>();
         comboOrganizador.setBounds(100, 86, 239, 32);
+        comboOrganizador.setRenderer(new DefaultListCellRenderer() {
+            /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
+            public Component getListCellRendererComponent(JList<?> list, Object value,
+                                                          int index, boolean isSelected, boolean cellHasFocus) {
+                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                setText(value == null ? "Ninguno" : value.toString());
+                return this;
+            }
+        });
         getContentPane().add(comboOrganizador);
 
         // --- Campos de texto ---

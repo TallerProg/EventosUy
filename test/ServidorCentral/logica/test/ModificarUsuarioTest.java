@@ -6,7 +6,6 @@ import ServidorCentral.logica.*;
 import ServidorCentral.excepciones.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 

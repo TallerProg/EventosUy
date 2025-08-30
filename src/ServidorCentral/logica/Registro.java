@@ -4,67 +4,99 @@ import java.time.LocalDate;
 
 public class Registro {
 
-    private LocalDate fInicio;
-    private Float costo;
+	private LocalDate fInicio;
+	private Float costo;
 
-    // Relación con Edicion (muchos a uno)
-    private Edicion edicion;
+	// Relación con Edicion (muchos a uno)
+	private Edicion edicion;
 
-    // Relación con Asistente (muchos a uno)
-    private Asistente asistente;
+	// Relación con Asistente (muchos a uno)
+	private Asistente asistente;
 
-    // Relación opcional con Patrocinio (muchos a uno)
-    private Patrocinio patrocinio;
+	// Relación opcional con Patrocinio (muchos a uno)
+	private Patrocinio patrocinio;
 
-    private TipoRegistro tipoRegistro;
-    // Constructor
-    public Registro( Float costo, Edicion edicion, Asistente asistente, TipoRegistro tipoRegistro) {
-        this.fInicio = LocalDate.now();
-        this.costo = costo;
-        this.edicion = edicion;
-        this.asistente = asistente;
-        this.tipoRegistro = tipoRegistro;
-    }
+	private TipoRegistro tipoRegistro;
 
-    // Getters y Setters
-    public LocalDate getFInicio() { return fInicio; }
-    public void setFInicio(LocalDate fInicio) { this.fInicio = fInicio; }
+	// Constructor
+	public Registro(Float costo, Edicion edicion, Asistente asistente, TipoRegistro tipoRegistro) {
+		this.fInicio = LocalDate.now();
+		this.costo = costo;
+		this.edicion = edicion;
+		this.asistente = asistente;
+		this.tipoRegistro = tipoRegistro;
+	}
 
-    public Float getCosto() { return costo; }
-    public void setCosto(Float costo) { this.costo = costo; }
+	// Getters y Setters
+	public LocalDate getFInicio() {
+		return fInicio;
+	}
 
-    public Edicion getEdicion() { return edicion; }
-    public void setEdicion(Edicion edicion) { this.edicion = edicion; }
-    public String toString() {
-        return edicion.getNombre();
-    }
+	public void setFInicio(LocalDate fInicio) {
+		this.fInicio = fInicio;
+	}
 
-    public Asistente getAsistente() { return asistente; }
-    public void setAsistente(Asistente asistente) { this.asistente = asistente; }
+	public Float getCosto() {
+		return costo;
+	}
 
-    public Patrocinio getPatrocinio() { return patrocinio; }
-    public void setPatrocinio(Patrocinio patrocinio) { this.patrocinio = patrocinio; }
-    
-    public TipoRegistro getTipoRegistro() { return tipoRegistro; }
-    public void setTipoRegistro(TipoRegistro tipoRegistro) { this.tipoRegistro = tipoRegistro; }
+	public void setCosto(Float costo) {
+		this.costo = costo;
+	}
 
-  
-    public DTRegistroDetallado getDTRegistroDetallado() {
-        String nombreEvento = (edicion != null && edicion.getEvento() != null) ? edicion.getEvento().getNombre() : "";
-        String nombreEdicion = (edicion != null) ? edicion.getNombre() : "";
-        String tipoReg = (tipoRegistro != null) ? tipoRegistro.getNombre() : "";
-        String nombrePatrocinador = (patrocinio != null) ? patrocinio.getInstitucion().getNombre() : null;
-        
-        return new DTRegistroDetallado(fInicio, nombreEvento, nombreEdicion, tipoReg, nombrePatrocinador, costo);
-    }
-    public DTRegistro getDTRegistro() {
-        String nomAsistente = (asistente != null) ? asistente.getNombre() : null;
-        String nomTipo = (tipoRegistro != null) ? tipoRegistro.getNombre() : null;
-        String codigo = (patrocinio != null) ? patrocinio.getCodigo() : null;
+	public Edicion getEdicion() {
+		return edicion;
+	}
 
-        return new DTRegistro(fInicio, costo, nomAsistente, nomTipo, codigo);
+	public void setEdicion(Edicion edicion) {
+		this.edicion = edicion;
+	}
 
-    }
+	public String toString() {
+		return edicion.getNombre();
+	}
 
-    // Métodos relacionados (comentados)
+	public Asistente getAsistente() {
+		return asistente;
+	}
+
+	public void setAsistente(Asistente asistente) {
+		this.asistente = asistente;
+	}
+
+	public Patrocinio getPatrocinio() {
+		return patrocinio;
+	}
+
+	public void setPatrocinio(Patrocinio patrocinio) {
+		this.patrocinio = patrocinio;
+	}
+
+	public TipoRegistro getTipoRegistro() {
+		return tipoRegistro;
+	}
+
+	public void setTipoRegistro(TipoRegistro tipoRegistro) {
+		this.tipoRegistro = tipoRegistro;
+	}
+
+	public DTRegistroDetallado getDTRegistroDetallado() {
+		String nombreEvento = (edicion != null && edicion.getEvento() != null) ? edicion.getEvento().getNombre() : "";
+		String nombreEdicion = (edicion != null) ? edicion.getNombre() : "";
+		String tipoReg = (tipoRegistro != null) ? tipoRegistro.getNombre() : "";
+		String nombrePatrocinador = (patrocinio != null) ? patrocinio.getInstitucion().getNombre() : null;
+
+		return new DTRegistroDetallado(fInicio, nombreEvento, nombreEdicion, tipoReg, nombrePatrocinador, costo);
+	}
+
+	public DTRegistro getDTRegistro() {
+		String nomAsistente = (asistente != null) ? asistente.getNombre() : null;
+		String nomTipo = (tipoRegistro != null) ? tipoRegistro.getNombre() : null;
+		String codigo = (patrocinio != null) ? patrocinio.getCodigo() : null;
+
+		return new DTRegistro(fInicio, costo, nomAsistente, nomTipo, codigo);
+
+	}
+
+	// Métodos relacionados (comentados)
 }

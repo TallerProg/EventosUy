@@ -19,7 +19,7 @@ class ConsultaEdicionEventoTest {
     @BeforeEach
     void setUp() throws Exception {
         controller = new ControllerEvento();
-
+        
         eventoBase = new Evento("ConferenciaX", "C-2025", "Evento de prueba", LocalDate.now(), new ArrayList<>());
         ManejadorEvento.getInstancia().agregarEvento(eventoBase);
 
