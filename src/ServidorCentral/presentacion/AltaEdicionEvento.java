@@ -41,20 +41,6 @@ public class AltaEdicionEvento extends JInternalFrame {
 
         comboEvento = new JComboBox<>();
         comboEvento.setBounds(70, 47, 239, 32);
-        comboEvento.setRenderer(new DefaultListCellRenderer() {
-            /**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-
-			@Override
-            public Component getListCellRendererComponent(JList<?> list, Object value,
-                                                          int index, boolean isSelected, boolean cellHasFocus) {
-                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                setText(value == null ? "Ninguno" : value.toString());
-                return this;
-            }
-        });
         getContentPane().add(comboEvento);
 
         JLabel labelOrg = new JLabel("Organizador:");
@@ -64,20 +50,6 @@ public class AltaEdicionEvento extends JInternalFrame {
 
         comboOrganizador = new JComboBox<>();
         comboOrganizador.setBounds(100, 86, 239, 32);
-        comboOrganizador.setRenderer(new DefaultListCellRenderer() {
-            /**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-
-			@Override
-            public Component getListCellRendererComponent(JList<?> list, Object value,
-                                                          int index, boolean isSelected, boolean cellHasFocus) {
-                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                setText(value == null ? "Ninguno" : value.toString());
-                return this;
-            }
-        });
         getContentPane().add(comboOrganizador);
 
         // --- Campos de texto ---
@@ -199,7 +171,7 @@ public class AltaEdicionEvento extends JInternalFrame {
         });
     }
 
-    private void cargarEventos() {
+    void cargarEventos() {
         eventos = controller.listarEventos();
         DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
         for (Evento e : eventos) {
@@ -208,7 +180,7 @@ public class AltaEdicionEvento extends JInternalFrame {
         comboEvento.setModel(model);
     }
 
-    private void cargarOrganizadores() {
+    void cargarOrganizadores() {
         organizadores = controller.listarOrganizadores();
         DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
         for (Organizador o : organizadores) {
