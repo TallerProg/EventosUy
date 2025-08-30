@@ -71,15 +71,21 @@ public class ControllerEvento implements IControllerEvento {
 	}
 
 	public List<Evento> listarEventos() {
-		ManejadorEvento me = ManejadorEvento.getInstancia();
-
-		return me.listarEventos();
+	    ManejadorEvento me = ManejadorEvento.getInstancia();
+	    return me.listarEventos();
 	}
 
 	public Edicion findEdicion(String nombre) {
 		ManejadorEvento me = ManejadorEvento.getInstancia();
 		return me.findEdicion(nombre);
 	}
+	
+	public Evento findEvento(String nombre) {
+		ManejadorEvento me = ManejadorEvento.getInstancia();
+		return me.findEvento(nombre);
+		
+	}
+
 
 	public List<Categoria> getCategorias() {
 		ManejadorEvento me = ManejadorEvento.getInstancia();
@@ -221,6 +227,41 @@ public class ControllerEvento implements IControllerEvento {
 		return null;
 	}
 
+	public Evento obtenerEventoPorNombre(String nombreEvento) {
+	    if (nombreEvento == null) return null;
+	    ManejadorEvento me = ManejadorEvento.getInstancia();
+	    return me.findEvento(nombreEvento); 
+	}
+
+	public Organizador obtenerOrganizadorPorNombre(String nombreOrganizador) {
+	    if (nombreOrganizador == null) return null;
+	    ManejadorUsuario mu = ManejadorUsuario.getinstance();
+	    for (Organizador o : mu.listarOrganizadores()) {
+	        if (o.getNombre().equals(nombreOrganizador)) {
+	            return o;
+	        }
+	    }
+	    return null;
+	}
+
+	public List<DTPatrocinio> listarPatrociniosDeEdicion(String nombreEdicion) {
+	    ManejadorEvento me = ManejadorEvento.getInstancia();
+	    Edicion ed = me.findEdicion(nombreEdicion);
+	    List<DTPatrocinio> res = new ArrayList<>();
+	    if (ed != null) {
+	        for (Patrocinio pat : ed.getPatrocinios()) {
+	            res.add(pat.getDTPatrocinio());
+	        }
+	    }
+	    return res;
+	}
+
+
+	public Categoria findCategoria(String nom) {
+		ManejadorEvento me = ManejadorEvento.getInstancia();
+		return me.findCategoria(nom);
+	}
+
 	public DTPatrocinio consultaPatrocinio(String nombreEdicion, String codigoPat) {
 		ManejadorEvento me = ManejadorEvento.getInstancia();
 		Edicion ed = me.findEdicion(nombreEdicion);
@@ -233,22 +274,4 @@ public class ControllerEvento implements IControllerEvento {
 		}
 		return null;
 	}
-
-	public List<DTPatrocinio> listarPatrociniosDeEdicion(String nombreEdicion) {
-		ManejadorEvento me = ManejadorEvento.getInstancia();
-		Edicion ed = me.findEdicion(nombreEdicion);
-		List<DTPatrocinio> res = new ArrayList<>();
-		if (ed != null) {
-			for (Patrocinio pat : ed.getPatrocinios()) {
-				res.add(pat.getDTPatrocinio());
-			}
-		}
-		return res;
-	}
-
-	public Categoria findCategoria(String nom) {
-		ManejadorEvento me = ManejadorEvento.getInstancia();
-		return me.findCategoria(nom);
-	}
-
 }

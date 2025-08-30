@@ -4,21 +4,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ManejadorEvento {
-	private static ManejadorEvento instancia;
-	private List<Evento> eventos = new ArrayList<>();
-	private List<Categoria> categorias = new ArrayList<>();
-	private List<Edicion> ediciones = new ArrayList<>();
 
-	public static ManejadorEvento getInstancia() {
-		if (instancia == null) {
-			instancia = new ManejadorEvento();
-		}
-		return instancia;
-	}
-
-	public List<Evento> listarEventos() {
-		return new ArrayList<>(eventos);
-	}
+    private static ManejadorEvento instancia;
+    private  List<Evento> eventos = new ArrayList<>();
+    private  List<Categoria> categorias = new ArrayList<>();
+    private  List<Edicion> ediciones = new ArrayList<>();
+    public static ManejadorEvento getInstancia() {
+        if (instancia == null) {
+            instancia = new ManejadorEvento();
+        }
+        return instancia;
+    }
+    
+    public List<Evento> listarEventos() {
+        return new ArrayList<>(eventos);
+    }
 
 	public List<Categoria> listarCategorias() {
 		return new ArrayList<>(categorias);

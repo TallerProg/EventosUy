@@ -12,58 +12,58 @@ public class ControllerUsuario implements IControllerUsuario {
 		// Constructor vacío
 	}
 
-	// Método de consulta
-	public DTUsuarioListaConsulta ConsultaDeUsuario(String nicknameUsu) {
-		ManejadorUsuario manejador = ManejadorUsuario.getinstance();
-		Usuario usuario = manejador.findUsuario(nicknameUsu);
-		if (usuario == null)
-			return null;
-		DTUsuarioListaConsulta dt = new DTUsuarioListaConsulta();
-		dt.setNickname(usuario.getNickname());
-		dt.setCorreo(usuario.getCorreo());
-		dt.setNombre(usuario.getNombre());
-		// CASO ASIS
-		if (usuario instanceof Asistente) {
-			Asistente a = (Asistente) usuario;
-			dt.setApellido(a.getApellido());
-			dt.setFNacimiento(a.getfNacimiento());
-			dt.setRegistros(a.getRegistros());
-			List<Edicion> edicionesDeRegistros = a.getRegistros().stream().map(r -> r.getEdicion()).toList();
-			dt.setEdiciones(edicionesDeRegistros);
-			dt.setDescripcion(null);
-			dt.setUrl(null);
-			// CASO ORG
-		} else if (usuario instanceof Organizador) {
-			Organizador o = (Organizador) usuario;
-			dt.setDescripcion(o.getDescripcion());
-			dt.setUrl(o.getUrl());
-			dt.setEdiciones(o.getEdiciones());
-			dt.setApellido(null);
-			dt.setFNacimiento(null);
-			dt.setRegistros(null);
-		}
-		return dt;
-	}
 
-	// Métodos de alta
-	public void AltaAsistente(String nicknameUsu, String correo, String nombre, String apellido, LocalDate fNacimiento,
-			Institucion ins) throws UsuarioRepetidoException {
-		ManejadorUsuario mu = ManejadorUsuario.getinstance();
-		Usuario u = mu.findUsuario(nicknameUsu);
-		Usuario ucorreo = mu.findCorreo(correo);
-		if (u != null || ucorreo != null)
-			throw new UsuarioRepetidoException("El usuario " + nicknameUsu + " ya esta registrado");
-		if (ins == null) {
-			Asistente a = new Asistente(nicknameUsu, correo, nombre, apellido, fNacimiento);
-			mu.agregarAsistente(a);
-			mu.agregarUsuario(a);
-		} else {
-			Asistente a = new Asistente(nicknameUsu, correo, nombre, apellido, fNacimiento, ins);
-			mu.agregarAsistente(a);
-			mu.agregarUsuario(a);
-			ins.addAsistente(a);
-		}
-	}
+    public DTUsuarioListaConsulta ConsultaDeUsuario(String nicknameUsu) {
+    	ManejadorUsuario manejador = ManejadorUsuario.getinstance();
+	    Usuario usuario = manejador.findUsuario(nicknameUsu);
+	    if (usuario == null) 
+	    	return null;
+	    DTUsuarioListaConsulta dt = new DTUsuarioListaConsulta();
+	    dt.setNickname(usuario.getNickname());
+	    dt.setCorreo(usuario.getCorreo());
+	    dt.setNombre(usuario.getNombre());
+	    //CASO ASIS
+	    if (usuario instanceof Asistente) {
+	    	Asistente a = (Asistente) usuario;
+	        dt.setApellido(a.getApellido());
+	        dt.setFNacimiento(a.getfNacimiento());
+	        dt.setRegistros(a.getRegistros());
+	        List<Edicion> edicionesDeRegistros = a.getRegistros().stream().map(r -> r.getEdicion()).toList();
+	        dt.setEdiciones(edicionesDeRegistros);
+	        dt.setDescripcion(null);
+	        dt.setUrl(null);	        
+	    //CASO ORG    
+	    } else if (usuario instanceof Organizador) {
+	        Organizador o = (Organizador) usuario;
+	        dt.setDescripcion(o.getDescripcion());
+	        dt.setUrl(o.getUrl());
+	        dt.setEdiciones(o.getEdiciones());
+	        dt.setApellido(null);
+	        dt.setFNacimiento(null);
+	        dt.setRegistros(null);
+	    }
+	    return dt;
+	}     
+
+    public void AltaAsistente(String nicknameUsu, String correo, String nombre, String apellido, 
+    LocalDate fNacimiento,Institucion ins) throws UsuarioRepetidoException {
+    	ManejadorUsuario mu = ManejadorUsuario.getinstance();
+        Usuario u = mu.findUsuario(nicknameUsu);
+        Usuario ucorreo = mu.findCorreo(correo);
+        if (u != null || ucorreo!=null)
+            throw new UsuarioRepetidoException("El usuario " + nicknameUsu + " ya esta registrado");
+        if(ins==null) {
+        	Asistente a = new Asistente(nicknameUsu, correo, nombre, apellido, fNacimiento);
+        	mu.agregarAsistente(a);
+        	mu.agregarUsuario(a);
+        }else {
+            Asistente a = new Asistente(nicknameUsu, correo, nombre, apellido, fNacimiento,ins);
+            mu.agregarAsistente(a);
+            mu.agregarUsuario(a);
+            ins.addAsistente(a);
+        }
+    }
+
 
 	public List<Usuario> listarUsuarios() {
 		ManejadorUsuario manejador = ManejadorUsuario.getinstance();

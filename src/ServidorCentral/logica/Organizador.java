@@ -9,22 +9,29 @@ public class Organizador extends Usuario {
 	private String url;
 	private List<Edicion> ediciones = new ArrayList<>();
 
-	public Organizador(String nickname, String correo, String nombre, String descripcion, String url) {
-		super(nickname, correo, nombre);
-		this.descripcion = descripcion;
-		this.url = url;
-	}
-
-	public Organizador(String nickname, String correo, String nombre, String descripcion) {
-		super(nickname, correo, nombre);
-		this.descripcion = descripcion;
-		this.url = null;
-	}
-
-	public List<Edicion> getEdiciones() {
-		return new ArrayList<>(ediciones);
-	}
-
+    public Organizador(String nickname, String correo, String nombre, String descripcion, String url) {
+        super(nickname, correo, nombre);
+        this.descripcion = descripcion;
+        this.url = url;
+    }
+    
+    public Organizador(String nickname, String correo, String nombre, String descripcion) {
+    	super(nickname,correo,nombre);
+    	this.descripcion=descripcion;
+    	this.url=null;
+    }
+    
+    public  List<Edicion> getEdiciones(){
+    	return new ArrayList<>(ediciones);
+    }
+    
+    public void agregarEdicionOrg(Edicion ed) {
+        this.ediciones.add(ed);
+        if (!ed.getOrganizadores().contains(this)) {
+            ed.getOrganizadores().add(this);
+        }
+    }
+    
 	public String getDescripcion() {
 		return descripcion;
 	}
