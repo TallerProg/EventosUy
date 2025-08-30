@@ -23,7 +23,7 @@ class ConsultaUsuarioTest {
         manejadorUsuario = ManejadorUsuario.getinstance();
         controllerUsuario = new ControllerUsuario();
 
-        org1 = new Organizador("org1", "org1@mail.com", "Org Principal", "Organizador Principal");
+        org1 = new Organizador("org90", "org1@mail.com", "Org Principal", "Organizador Principal");
         manejadorUsuario.agregarUsuario(org1);
 
         asist1 = new Asistente("asist1", "asist1@mail.com", "Asistente 1", "Apellido",
@@ -54,9 +54,9 @@ class ConsultaUsuarioTest {
 
     @Test
     void testConsultaOrganizador() {
-        DTUsuarioListaConsulta dt = controllerUsuario.ConsultaDeUsuario("org1");
+        DTUsuarioListaConsulta dt = controllerUsuario.ConsultaDeUsuario("org90");
         assertNotNull(dt);
-        assertEquals("org1", dt.getNickname());
+        assertEquals("org90", dt.getNickname());
         assertEquals("org1@mail.com", dt.getCorreo());
         assertEquals("Org Principal", dt.getNombre());
         assertEquals("Organizador Principal", dt.getDescripcion());
