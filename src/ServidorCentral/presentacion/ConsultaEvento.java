@@ -18,7 +18,7 @@ import ServidorCentral.logica.IControllerEvento;
 
 public class ConsultaEvento extends JInternalFrame {	
 
-	public ConsultaEvento(IControllerEvento icu) {
+	public ConsultaEvento(IControllerEvento icu,JDesktopPane desktopPane) {
 		controlEvento = icu;
 		setResizable(true);
         setIconifiable(true);
@@ -178,7 +178,8 @@ public class ConsultaEvento extends JInternalFrame {
 			 String nombreEdicionSeleccionada = (String) comboBox_Ediciones.getSelectedItem();
 			 String nombreEventoSeleccionado = (String) comboBoxEvento.getSelectedItem();
 			 if (nombreEdicionSeleccionada != null && !nombreEdicionSeleccionada.equals("Sin ediciones")) {
-				ConsultaTipoRegistro.crearYMostrar(controlEvento,nombreEventoSeleccionado, nombreEdicionSeleccionada);
+				 System.out.print("hola");
+				 ConsultaEdicionEvento.crearYMostrar(controlEvento,nombreEventoSeleccionado, nombreEdicionSeleccionada,desktopPane);
 			 }
 		});
 		
@@ -201,6 +202,7 @@ public class ConsultaEvento extends JInternalFrame {
 	
 	private void cargarCategorias(List<Categoria> categorias) {
 		 if (categorias.isEmpty()) {
+			 	comboBox_Categorias.removeAllItems();
 	        	comboBox_Categorias.addItem("Sin categorías");
 	        	comboBox_Categorias.setEnabled(false);
 	        } else {
@@ -218,6 +220,7 @@ public class ConsultaEvento extends JInternalFrame {
 	
 	private void cargarEdiciones(List<Edicion> ediciones) {
 		if (ediciones.isEmpty()) {
+			comboBox_Ediciones.removeAllItems();
 			comboBox_Ediciones.addItem("Sin ediciones");
 			comboBox_Ediciones.setEnabled(false);
         } else {

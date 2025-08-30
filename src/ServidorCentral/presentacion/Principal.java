@@ -59,7 +59,7 @@ public class Principal {
         creEdiEveInternalFrame = new AltaEdicionEvento(ICE);
         creEveInternalFrame = new AltaEvento(ICE);
         creTRegInternalFrame = new AltaTipoRegistro(ICE);
-        conEveInternalFrame = new ConsultaEvento(ICE);
+        conEveInternalFrame = new ConsultaEvento(ICE,desktopPane);
         conRegInternalFrame = new ConsultaRegistro(ICU);
         regEdiEveInternalFrame = new RegistroEdicionEvento(ICE, ICU);
         conTRegInternalFrame = new ConsultaTipoRegistro(ICE);

@@ -209,10 +209,14 @@ public class ConsultaEdicionEvento extends JInternalFrame {
         }
     }
        
-    public static ConsultaEdicionEvento crearYMostrar(IControllerEvento controller, String nombreEvento, String nombreEdicion) {
+    public static ConsultaEdicionEvento crearYMostrar(IControllerEvento controller, String nombreEvento, String nombreEdicion,JDesktopPane desktopPane) {
     	ConsultaEdicionEvento ctr = new ConsultaEdicionEvento(controller); // constructor normal
     	DTEdicion dtEd = controller.consultaEdicionDeEvento(nombreEvento, nombreEdicion);
+    	ctr.comboEventos.setSelectedItem(nombreEvento);
+    	ctr.comboEventos.setSelectedItem(nombreEdicion);
 	    ctr.mostrarDatosEdicion(dtEd);
+	    desktopPane.add(ctr);
+	    ctr.setSize(600, 500);
 	    ctr.setVisible(true);
 	    return ctr;
 	}

@@ -214,6 +214,7 @@ public class ConsultaTipoRegistro extends JInternalFrame {
 		public void cargarEventos() {
 			List<Evento> eventos = controlEvento.listarEventos(); 
 			if (eventos.isEmpty()) {
+				comboBoxEvento.removeAllItems();
 				comboBoxEvento.addItem("Sin eventos");
 				comboBoxEvento.setEnabled(false);
 			}else {
@@ -236,6 +237,7 @@ public class ConsultaTipoRegistro extends JInternalFrame {
 			if (evento != null) {
 				List<Edicion> ediciones = evento.getEdiciones();
 				if (ediciones.isEmpty()) {
+					comboBoxEdicion.removeAllItems();
 					comboBoxEdicion.addItem("Sin ediciones");
 					comboBoxEdicion.setEnabled(false);
 				}else {
@@ -257,6 +259,7 @@ public class ConsultaTipoRegistro extends JInternalFrame {
 			if (edicion != null) {
 				List<TipoRegistro> tipoR = edicion.getTipoRegistros();		
 				if (tipoR.isEmpty()) {
+					comboBoxTipoRegistro.removeAllItems();
 					comboBoxTipoRegistro.addItem("Sin Tipo Registros");
 					comboBoxTipoRegistro.setEnabled(false);
 				}else {
