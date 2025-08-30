@@ -163,6 +163,10 @@ public class Principal {
         menuEventos.add(menuConsultaEdicion);
         
         JMenuItem menuAltaTipoReg = new JMenuItem("Alta de Tipo de Registro");
+        menuAltaTipoReg.addActionListener(e -> {
+            creTRegInternalFrame.setVisible(true);
+            creTRegInternalFrame.cargarEventos();
+        });
         menuEventos.add(menuAltaTipoReg);
                 
          JMenuItem menuConsultaTipoReg = new JMenuItem("Consulta de Tipo de Registro");
