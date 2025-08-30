@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-import ServidorCentral.logica.CargarDatos;
+import cargardatospk.CargarDatos;
 import ServidorCentral.logica.Factory;
 import ServidorCentral.logica.IControllerUsuario;
 import ServidorCentral.logica.IControllerEvento;
