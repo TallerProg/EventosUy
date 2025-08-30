@@ -46,7 +46,12 @@ public class AltaEdicionEvento extends JInternalFrame {
         for (Evento ev : eventos) comboEvento.addItem(ev);
         comboEvento.setBounds(70, 47, 239, 32);
         comboEvento.setRenderer(new DefaultListCellRenderer() {
-            @Override
+            /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
             public Component getListCellRendererComponent(JList<?> list, Object value,
                                                           int index, boolean isSelected, boolean cellHasFocus) {
                 super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
@@ -66,7 +71,12 @@ public class AltaEdicionEvento extends JInternalFrame {
         for (Organizador org : organizadores) comboOrganizador.addItem(org);
         comboOrganizador.setBounds(100, 86, 239, 32);
         comboOrganizador.setRenderer(new DefaultListCellRenderer() {
-            @Override
+            /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
             public Component getListCellRendererComponent(JList<?> list, Object value,
                                                           int index, boolean isSelected, boolean cellHasFocus) {
                 super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);

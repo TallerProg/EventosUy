@@ -6,20 +6,15 @@ import javax.swing.text.NumberFormatter;
 import ServidorCentral.logica.IControllerEvento;
 import ServidorCentral.logica.Evento;
 import ServidorCentral.logica.ManejadorEvento;
-import ServidorCentral.logica.Categoria;
 import ServidorCentral.logica.Edicion;
 
 
-import java.awt.GridLayout;
 import java.awt.GridBagLayout;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-import java.awt.event.ActionListener;
 import java.text.NumberFormat;
-import java.time.LocalDate;
 import java.util.List;
-import java.awt.event.ActionEvent;
 
 public class AltaTipoRegistro extends JInternalFrame {
 	

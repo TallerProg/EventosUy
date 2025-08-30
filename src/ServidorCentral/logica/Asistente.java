@@ -6,82 +6,105 @@ import java.util.List;
 
 public class Asistente extends Usuario {
 
-    private String apellido;
-    private LocalDate fNacimiento;
-    
-    // Relación con registros
-    private List<Registro> registros;
-    
-    // Relación con institución
-    private Institucion institucion;
-    
-    // Relación con patrocinio (opcional)
-    private Patrocinio patrocinio;
+	private String apellido;
+	private LocalDate fNacimiento;
 
-    // Constructor
-    public Asistente(String nickname, String correo, String nombre, String apellido, LocalDate fNacimiento, Institucion ins) {
-    	
-        super(nickname, correo, nombre);
-        this.apellido = apellido;
-        this.fNacimiento = fNacimiento;
-        this.registros = new ArrayList<>();
-        this.institucion = ins;
-        this.patrocinio = null;
-    }
-    public Asistente(String nickname, String correo, String nombre, String apellido, LocalDate fNacimiento) {
-    	
-        super(nickname, correo, nombre);
-        this.apellido = apellido;
-        this.fNacimiento = fNacimiento;
-        this.registros = new ArrayList<>();
-        this.institucion = null;
-        this.patrocinio = null;
-    }
+	// Relación con registros
+	private List<Registro> registros;
 
-    // Getters y Setters
-    public String getApellido() { return apellido; }
-    public void setApellido(String apellido) { this.apellido = apellido; }
-    
-    public LocalDate getfNacimiento() { return fNacimiento; }
-    public void setfNacimiento(LocalDate fNacimiento) { this.fNacimiento = fNacimiento; }
+	// Relación con institución
+	private Institucion institucion;
 
-    public List<Registro> getRegistros() { return registros; }
+	// Relación con patrocinio (opcional)
+	private Patrocinio patrocinio;
 
-    public Institucion getInstitucion() { return institucion; }
-    public void setInstitucion(Institucion institucion) { this.institucion = institucion; }
+	// Constructor
+	public Asistente(String nickname, String correo, String nombre, String apellido, LocalDate fNacimiento,
+			Institucion ins) {
 
-    public Patrocinio getPatrocinio() { return patrocinio; }
-    public void setPatrocinio(Patrocinio patrocinio) { this.patrocinio = patrocinio; }
-    
-    public List<String> registrosFechas() {
-        List<String> registrosFechas = new ArrayList<>();
-        for (Registro r : registros) {
-            registrosFechas.add(r.getFInicio().toString());
-        }
+		super(nickname, correo, nombre);
+		this.apellido = apellido;
+		this.fNacimiento = fNacimiento;
+		this.registros = new ArrayList<>();
+		this.institucion = ins;
+		this.patrocinio = null;
+	}
 
-        return registrosFechas;
-    }
-    
-    public void addRegistro(Registro r) {
-    	this.registros.add(r);
-    }
+	public Asistente(String nickname, String correo, String nombre, String apellido, LocalDate fNacimiento) {
 
+		super(nickname, correo, nombre);
+		this.apellido = apellido;
+		this.fNacimiento = fNacimiento;
+		this.registros = new ArrayList<>();
+		this.institucion = null;
+		this.patrocinio = null;
+	}
 
-    // Métodos
-    
-    /*
-    public void editarDatosAsistente(String nombre, String apellido, LocalDate fNacimiento) {
+	// Getters y Setters
+	public String getApellido() {
+		return apellido;
+	}
 
-    }
+	public void setApellido(String apellido) {
+		this.apellido = apellido;
+	}
 
-    @Override
-    public DTUsuarioLista obtenerDataAsis() {
-        
-    }
+	public LocalDate getfNacimiento() {
+		return fNacimiento;
+	}
 
+	public void setfNacimiento(LocalDate fNacimiento) {
+		this.fNacimiento = fNacimiento;
+	}
 
-    public void addLinkRegistro(Registro reg) {
-        
-    }
-    */
+	public List<Registro> getRegistros() {
+		return registros;
+	}
+
+	public Institucion getInstitucion() {
+		return institucion;
+	}
+
+	public void setInstitucion(Institucion institucion) {
+		this.institucion = institucion;
+	}
+
+	public Patrocinio getPatrocinio() {
+		return patrocinio;
+	}
+
+	public void setPatrocinio(Patrocinio patrocinio) {
+		this.patrocinio = patrocinio;
+	}
+
+	public List<String> registrosFechas() {
+		List<String> registrosFechas = new ArrayList<>();
+		for (Registro r : registros) {
+			registrosFechas.add(r.getFInicio().toString());
+		}
+
+		return registrosFechas;
+	}
+
+	public void addRegistro(Registro r) {
+		this.registros.add(r);
+	}
+
+	// Métodos
+
+	/*
+	 * public void editarDatosAsistente(String nombre, String apellido, LocalDate
+	 * fNacimiento) {
+	 * 
+	 * }
+	 * 
+	 * @Override public DTUsuarioLista obtenerDataAsis() {
+	 * 
+	 * }
+	 * 
+	 * 
+	 * public void addLinkRegistro(Registro reg) {
+	 * 
+	 * }
+	 */
 }

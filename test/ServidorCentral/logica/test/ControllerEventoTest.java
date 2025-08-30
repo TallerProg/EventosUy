@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import ServidorCentral.logica.Factory;
 import ServidorCentral.logica.IControllerEvento;
 import ServidorCentral.logica.IControllerUsuario;
-import ServidorCentral.logica.CargarDatos;
 import ServidorCentral.logica.Categoria;
 import ServidorCentral.logica.Evento;
 
