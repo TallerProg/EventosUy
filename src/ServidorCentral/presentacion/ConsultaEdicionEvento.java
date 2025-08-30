@@ -115,14 +115,13 @@ public class ConsultaEdicionEvento extends JInternalFrame {
             comboEventos.addItem(ev.getNombre());
         }
 
-        // Listener evento -> cargar ediciones
         comboEventos.addActionListener(e -> {
             String nombreEvento = (String) comboEventos.getSelectedItem();
-            comboEdiciones.removeAllItems();
-            for (String nombreEd : controller.listarEdicionesDeEvento(nombreEvento)) {
-                comboEdiciones.addItem(nombreEd);
+            if (nombreEvento != null) {
+                cargarEdiciones(nombreEvento);
             }
         });
+
 
         // Listener edición -> mostrar datos
         comboEdiciones.addActionListener(e -> {
@@ -225,6 +224,31 @@ public class ConsultaEdicionEvento extends JInternalFrame {
 	    if (dtTipo == null) return;
 	    mostrarDatosEdicion(dtTipo);
 	}
+    public void cargarEventos() {
+        comboEventos.removeAllItems();
+        for (Evento ev : controller.listarEventos()) {
+            comboEventos.addItem(ev.getNombre());
+        }
+
+        if (comboEventos.getItemCount() > 0) {
+            comboEventos.setSelectedIndex(0); // Selecciona el primero por defecto
+            cargarEdiciones((String) comboEventos.getSelectedItem());
+        }
+    }
+
+    private void cargarEdiciones(String nombreEvento) {
+        comboEdiciones.removeAllItems();
+        for (String nombreEd : controller.listarEdicionesDeEvento(nombreEvento)) {
+            comboEdiciones.addItem(nombreEd);
+        }
+
+        if (comboEdiciones.getItemCount() > 0) {
+            comboEdiciones.setSelectedIndex(0);
+            DTEdicion dtEd = controller.consultaEdicionDeEvento(nombreEvento, (String) comboEdiciones.getSelectedItem());
+            mostrarDatosEdicion(dtEd);
+        }
+    }
+
 
 	public static ConsultaEdicionEvento crearYMostrar(IControllerEvento controller, String nombreEvento, String nombreEdicion) {
 		ConsultaEdicionEvento cee = new ConsultaEdicionEvento(controller); // constructor normal

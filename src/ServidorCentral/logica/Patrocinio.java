@@ -1,6 +1,7 @@
 package ServidorCentral.logica;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Patrocinio {
@@ -18,18 +19,23 @@ public class Patrocinio {
 	private List<Asistente> asistentes; // muchos a muchos
 	private List<Registro> registros; // uno a muchos
 
-	// Constructor
-	public Patrocinio(String codigo, LocalDate fInicio, int registroGratuito, Float monto, ETipoNivel nivel,
-			Institucion institucion, Edicion edicion, TipoRegistro tipoRegistro) {
-		this.codigo = codigo;
-		this.fInicio = fInicio;
-		this.registroGratuito = registroGratuito;
-		this.monto = monto;
-		this.nivel = nivel;
-		this.institucion = institucion;
-		this.edicion = edicion;
-		this.tipoRegistro = tipoRegistro;
-	}
+
+    // Constructor
+    public Patrocinio(String codigo, LocalDate fInicio, int registroGratuito, Float monto, ETipoNivel nivel,
+      Institucion institucion, Edicion edicion, TipoRegistro tipoRegistro) {
+        this.codigo = codigo;
+        this.fInicio = fInicio;
+        this.registroGratuito = registroGratuito;
+        this.monto = monto;
+        this.nivel = nivel;
+        this.institucion = institucion;
+        this.edicion = edicion;
+        this.tipoRegistro = tipoRegistro;
+        this.registros= new ArrayList<>();
+        this.asistentes = new ArrayList<>();   
+    }
+
+
 
 	// Getters y setters
 	public String getCodigo() {
