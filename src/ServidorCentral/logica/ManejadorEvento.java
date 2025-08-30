@@ -14,7 +14,7 @@ public class ManejadorEvento {
         }
         return instancia;
     }
-
+    
     public List<Evento> listarEventos() {
         return new ArrayList<>(eventos);
     }

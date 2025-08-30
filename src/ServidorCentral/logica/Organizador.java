@@ -24,6 +24,13 @@ public class Organizador extends Usuario {
     public  List<Edicion> getEdiciones(){
     	return new ArrayList<>(ediciones);
     }
+    
+    public void agregarEdicionOrg(Edicion ed) {
+        this.ediciones.add(ed);
+        if (!ed.getOrganizadores().contains(this)) {
+            ed.getOrganizadores().add(this);
+        }
+    }
 
     public String getDescripcion() { return descripcion; }
     public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
