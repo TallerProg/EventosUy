@@ -10,8 +10,8 @@ import java.util.List;
 
 public class AltaEdicionEvento extends JInternalFrame {
 
-    private JComboBox<Evento> comboEvento;
-    private JComboBox<Organizador> comboOrganizador;
+    private JComboBox<String> comboEvento;
+    private JComboBox<String> comboOrganizador;
     private JTextField txtNombre, txtSigla, txtCiudad, txtPais;
     private JFormattedTextField txtFechaIni, txtFechaFin, txtFechaAlta;
     private JButton btnAceptar, btnCancelar;
@@ -22,13 +22,11 @@ public class AltaEdicionEvento extends JInternalFrame {
 
     public AltaEdicionEvento(IControllerEvento ice) {
         this.controller = ice;
-        
-        setClosable(true);   
-        setIconifiable(true); 
-        setMaximizable(true); 
-        setResizable(true);  
-        this.eventos = controller.listarEventos();
-        this.organizadores = controller.listarOrganizadores();
+
+        setClosable(true);
+        setIconifiable(true);
+        setMaximizable(true);
+        setResizable(true);
 
         setTitle("Alta de Edición de Evento");
         setSize(550, 500);
@@ -42,11 +40,14 @@ public class AltaEdicionEvento extends JInternalFrame {
         getContentPane().add(labelEvento);
 
         comboEvento = new JComboBox<>();
-        comboEvento.addItem(null); // "Ninguno" por defecto
-        for (Evento ev : eventos) comboEvento.addItem(ev);
         comboEvento.setBounds(70, 47, 239, 32);
         comboEvento.setRenderer(new DefaultListCellRenderer() {
-            @Override
+            /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
             public Component getListCellRendererComponent(JList<?> list, Object value,
                                                           int index, boolean isSelected, boolean cellHasFocus) {
                 super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
@@ -62,11 +63,14 @@ public class AltaEdicionEvento extends JInternalFrame {
         getContentPane().add(labelOrg);
 
         comboOrganizador = new JComboBox<>();
-        comboOrganizador.addItem(null); // "Ninguno" por defecto
-        for (Organizador org : organizadores) comboOrganizador.addItem(org);
         comboOrganizador.setBounds(100, 86, 239, 32);
         comboOrganizador.setRenderer(new DefaultListCellRenderer() {
-            @Override
+            /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
             public Component getListCellRendererComponent(JList<?> list, Object value,
                                                           int index, boolean isSelected, boolean cellHasFocus) {
                 super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
@@ -113,7 +117,7 @@ public class AltaEdicionEvento extends JInternalFrame {
         txtPais.setBounds(70, 230, 153, 32);
         getContentPane().add(txtPais);
 
-        // --- FECHAS ---
+        // --- Fechas ---
         txtFechaIni = crearCampoFecha("##/##/####", 140, 270, 120, 25);
         getContentPane().add(txtFechaIni);
         JLabel lblFechaIni = new JLabel("Fecha Inicio:");
@@ -144,15 +148,10 @@ public class AltaEdicionEvento extends JInternalFrame {
         btnCancelar.setBounds(258, 400, 196, 32);
         getContentPane().add(btnCancelar);
 
-        // --- Título ---
-        JTextArea titulo = new JTextArea();
-        titulo.setBackground(new Color(240, 240, 240));
-        titulo.setFont(new Font("Times New Roman", Font.PLAIN, 20));
-        titulo.setText("Crear Edicion de Evento ");
-        titulo.setBounds(136, 10, 280, 37);
-        getContentPane().add(titulo);
+        // --- Cargar los combobox con nombres ---
+        cargarEventos();
+        cargarOrganizadores();
 
-        // --- ACCIONES ---
         btnCancelar.addActionListener(e -> dispose());
 
         btnAceptar.addActionListener(e -> {
@@ -169,8 +168,11 @@ public class AltaEdicionEvento extends JInternalFrame {
                     return;
                 }
 
-                Evento evento = (Evento) comboEvento.getSelectedItem();       // puede ser null = "Ninguno"
-                Organizador org = (Organizador) comboOrganizador.getSelectedItem(); // puede ser null = "Ninguno"
+                String nombreEventoSeleccionado = (String) comboEvento.getSelectedItem();
+                String nombreOrganizadorSeleccionado = (String) comboOrganizador.getSelectedItem();
+
+                Evento evento = controller.obtenerEventoPorNombre(nombreEventoSeleccionado);
+                Organizador org = controller.obtenerOrganizadorPorNombre(nombreOrganizadorSeleccionado);
 
                 LocalDate fIni = parseFecha(txtFechaIni.getText());
                 LocalDate fFin = parseFecha(txtFechaFin.getText());
@@ -183,8 +185,8 @@ public class AltaEdicionEvento extends JInternalFrame {
                         pais,
                         fIni,
                         fFin,
-                        evento,   // null permitido
-                        org       // null permitido
+                        evento,
+                        org
                 );
 
                 JOptionPane.showMessageDialog(this, "Edición creada con éxito");
@@ -197,7 +199,24 @@ public class AltaEdicionEvento extends JInternalFrame {
         });
     }
 
-    // --- MÉTODO DE VALIDACIÓN DE NOMBRE ---
+    private void cargarEventos() {
+        eventos = controller.listarEventos();
+        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
+        for (Evento e : eventos) {
+            model.addElement(e.getNombre());
+        }
+        comboEvento.setModel(model);
+    }
+
+    private void cargarOrganizadores() {
+        organizadores = controller.listarOrganizadores();
+        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
+        for (Organizador o : organizadores) {
+            model.addElement(o.getNombre());
+        }
+        comboOrganizador.setModel(model);
+    }
+
     private boolean validarNombre() {
         String nombre = txtNombre.getText().trim();
         if (nombre.isEmpty()) {

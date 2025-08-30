@@ -122,7 +122,10 @@ public class Principal {
         menuUsuarios.add(menuAltaUsuario);
 
         JMenuItem menuConsultaUsuario = new JMenuItem("Consulta de Usuario");
-        menuConsultaUsuario.addActionListener(e -> mostrarInternalFrame(conUsrInternalFrame));
+        menuConsultaUsuario.addActionListener(e -> {
+        	conUsrInternalFrame.cargarUsuarios();
+        	conUsrInternalFrame.setVisible(true);
+        });
         menuUsuarios.add(menuConsultaUsuario);
         
                 JMenuItem menuConsultaRegistro = new JMenuItem("Consulta de Registro");
@@ -160,6 +163,10 @@ public class Principal {
         menuEventos.add(menuConsultaEdicion);
         
         JMenuItem menuAltaTipoReg = new JMenuItem("Alta de Tipo de Registro");
+        menuAltaTipoReg.addActionListener(e -> {
+            creTRegInternalFrame.setVisible(true);
+            creTRegInternalFrame.cargarEventos();
+        });
         menuEventos.add(menuAltaTipoReg);
                 
          JMenuItem menuConsultaTipoReg = new JMenuItem("Consulta de Tipo de Registro");

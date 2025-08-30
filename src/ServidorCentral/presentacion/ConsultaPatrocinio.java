@@ -1,7 +1,6 @@
 package ServidorCentral.presentacion;
 
 import javax.swing.*;
-import java.awt.*;
 import java.util.List;
 
 import ServidorCentral.logica.DTPatrocinio;

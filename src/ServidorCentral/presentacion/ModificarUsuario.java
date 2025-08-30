@@ -3,14 +3,18 @@ package ServidorCentral.presentacion;
 import ServidorCentral.logica.*;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class ModificarUsuario extends JInternalFrame {
 
-    private IControllerUsuario controlUsr;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private IControllerUsuario controlUsr;
 
     private JComboBox<Usuario> comboUsuarios;
     private JComboBox<String> comboTipoUsuario;
