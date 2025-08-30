@@ -10,17 +10,21 @@ public class ControllerEvento implements IControllerEvento {
             LocalDate fInicio, LocalDate fFin,
             Evento evento, Organizador org) throws Exception {
 
-			ManejadorEvento mE = ManejadorEvento.getInstancia();
-			if (mE.existeEdicion(nombre)) {
-			throw new IllegalArgumentException("Ya existe una edición con ese nombre");
+			if (fFin.isBefore(fInicio)) {
+				throw new IllegalArgumentException("La fecha de fin no puede ser anterior a la fecha de inicio");
 			}
 			
-			Edicion ed = new Edicion(nombre, sigla, fInicio, fFin, ciudad, pais);
+			if (evento.tieneEdicion(nombre) || evento.tieneEdicion(sigla)) {
+				throw new IllegalArgumentException("Ya existe una edición con ese nombre o sigla");
+			}
 			
+			Edicion ed = new Edicion(nombre, sigla, fInicio, fFin, ciudad, pais, evento);
 			ed.getOrganizadores().add(org);
-			mE.agregarEdicion(ed);
 			evento.agregarEdicion(ed);
-		}
+			ManejadorEvento manejadorEvento = ManejadorEvento.getInstancia();
+			manejadorEvento.agregarEdicion(ed);
+	}
+
 	
 	public void altaTipoRegistro(String nombreTR, String descripcion, Float costo, Integer cupo, Edicion edicion) throws Exception{ //VICHAR MATEO
     	boolean e = edicion.existeTR(nombreTR);
@@ -33,6 +37,8 @@ public class ControllerEvento implements IControllerEvento {
 		 ManejadorEvento mE = ManejadorEvento.getInstancia();
 		 return mE.findEvento(nombreEvento);
 	 }
+	 
+	 
 	 
 	 public DTEdicion consultaEdicionDeEvento(String nombreEvento, String nombreEdicion) {
 		    ManejadorEvento manejador = ManejadorEvento.getInstancia();
@@ -107,18 +113,29 @@ public class ControllerEvento implements IControllerEvento {
     	 
     	return me.listarEdiciones();
     }
-
+ 
+    public void altaCategoria(String nombre)throws Exception {
+    	ManejadorEvento mE = ManejadorEvento.getInstancia();
+    	if(!mE.existeCategoria(nombre)) {
+    		Categoria cat = new Categoria(nombre);
+    		mE.agregarCategoria(cat);
+    	}else {
+    		throw new Exception("Ya existe una categoria"+ nombre);
+    	}
+    }
+    
     public void altaEvento(String nombre, String desc, LocalDate fAlta, String sigla, List<Categoria> categorias) throws Exception{
         ManejadorEvento me = ManejadorEvento.getInstancia();
 
-    	boolean e = me.existeEvento(nombre);
-    	
-    	if(e)
+    	if(me.existeEvento(nombre)){
     		throw new Exception("El evento"+ nombre + "ya esta registrado");
+    	}else {
     	Evento Ev = new Evento(nombre, sigla, desc, fAlta, categorias);
     	me.agregarEvento(Ev);
+    	
     }
-  
+    }
+    @Override
 	public void altaRegistro(String nombreEdicion, String nickAsistente, String nombreTR, String codigo) throws Exception {
 		ManejadorUsuario manejadorUsuario = ManejadorUsuario.getinstance();
 		ManejadorEvento manejadorEvento = ManejadorEvento.getInstancia();
@@ -130,10 +147,18 @@ public class ControllerEvento implements IControllerEvento {
 	        throw new Exception("Asistente no existe");
 	    }
 	    Asistente asistente = manejadorUsuario.findAsistente(nickAsistente);
-	    if ((asistente.getPatrocinio() != null )&&(!asistente.getPatrocinio().getCodigo().equals(codigo))) {
-	        throw new Exception("Ese codigo no es valido para este asistente");
+	    if ((asistente.getPatrocinio() == null)) {
+	        throw new Exception("Patrocinio no encontrado");
 	    }
-	    if (!asistente.getPatrocinio().consultarRegistros()) {
+	    if (asistente != null && asistente.getPatrocinio() != null) {
+	        String codigoPatrocinio = asistente.getPatrocinio().getCodigo();
+	        if (codigoPatrocinio == null || !codigoPatrocinio.trim().equals(codigo.trim())) {
+	            throw new Exception("Ese código no es válido para este asistente");
+	        }
+	    }
+
+	   
+	    if ((asistente.getPatrocinio() != null)&&(!asistente.getPatrocinio().consultarRegistros())) {
 	        throw new Exception("Ya no quedan cupos gratuitos");
 	    }
 	    
@@ -146,14 +171,41 @@ public class ControllerEvento implements IControllerEvento {
 	    	float costo = 0; 
 	    	Registro reg = new Registro(costo, edicion, asistente, tr);
 	    	Patrocinio pa = asistente.getPatrocinio();
+	    	if ((asistente.getPatrocinio() != null)) {
 	    	reg.setPatrocinio(pa);
 	    	asistente.getPatrocinio().agregarRegistro(reg);
 	    	edicion.addLinkRegistro(reg);
 	    	tr.addLinkRegistro(reg);
+	    	asistente.addRegistro(reg);
+	    }}
+	   }
+	@Override
+	public void altaRegistro(String nombreEdicion, String nickAsistente, String nombreTR) throws Exception {
+		ManejadorUsuario manejadorUsuario = ManejadorUsuario.getinstance();
+		ManejadorEvento manejadorEvento = ManejadorEvento.getInstancia();
+	    if (!manejadorEvento.existeEdicion(nombreEdicion)) {
+	        throw new Exception(nombreEdicion + " Edición no existe");
+	    }
+	    Edicion edicion = manejadorEvento.findEdicion(nombreEdicion);
+	    if (!manejadorUsuario.existeAsistente(nickAsistente)) {
+	        throw new Exception("Asistente no existe");
+	    }
+	    Asistente asistente = manejadorUsuario.findAsistente(nickAsistente);
+
+	    if (edicion.habilitadoAsistente(nombreTR, asistente)) {
+	    	TipoRegistro tr = edicion.getEdicionTR(nombreTR);
+	    	if(tr.soldOutTipReg()) {
+	    		throw new Exception("Ya no quedan cupos para ese tipo de registro");
+	    	}
+	    	float costo = tr.getCosto(); 
+	    	Registro reg = new Registro(costo, edicion, asistente, tr);
+	    	edicion.addLinkRegistro(reg);
+	    	tr.addLinkRegistro(reg);
+	    	asistente.addRegistro(reg);
+	    }else {
+	    		throw new Exception(asistente.getNickname() +" Ya esta registrado");
 	    }
 	   }
-
-
 	public List<String> listarEdicionesDeEvento(String nombreEvento) {
 	    ManejadorEvento manejador = ManejadorEvento.getInstancia();
 	    Evento evento = manejador.findEvento(nombreEvento);
@@ -199,6 +251,13 @@ public class ControllerEvento implements IControllerEvento {
 	    }
 	    return res;
 	}
+	
+	public Categoria findCategoria(String nom) {
+		ManejadorEvento me = ManejadorEvento.getInstancia();
+		return me.findCategoria(nom);
+	}
+	
+
 
 
 }

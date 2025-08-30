@@ -3,6 +3,7 @@ package ServidorCentral.logica;
 import java.time.LocalDate;
 
 public class DTRegistro {
+
     private LocalDate fInicio;
     private Float costo;
     private String tipoRegistroNombre;

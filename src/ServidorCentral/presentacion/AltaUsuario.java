@@ -5,6 +5,7 @@ import ServidorCentral.logica.IControllerUsuario;
 import ServidorCentral.logica.Institucion;
 import ServidorCentral.logica.ManejadorInstitucion;
 
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -40,10 +41,10 @@ public class AltaUsuario extends JInternalFrame {
         setMaximizable(true);
         setClosable(true);
         setTitle("Alta de Usuario");
-        setBounds(10, 10, 400, 450);
+        setBounds(10, 10, 500, 450);
 
         GridBagLayout gridBagLayout = new GridBagLayout();
-        gridBagLayout.columnWidths = new int[]{120, 200, 0};
+        gridBagLayout.columnWidths = new int[]{120, 250, 0};
         gridBagLayout.rowHeights = new int[]{30, 30, 30, 30, 30, 30, 30, 30, 30};
         gridBagLayout.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
         gridBagLayout.rowWeights = new double[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -142,17 +143,22 @@ public class AltaUsuario extends JInternalFrame {
         // Botón Aceptar
         btnAceptar = new JButton("Aceptar");
         GridBagConstraints gbc_btnAceptar = new GridBagConstraints();
-        gbc_btnAceptar.insets = new Insets(10, 5, 5, 5);
+        gbc_btnAceptar.insets = new Insets(10, 50, 5, 20);
         gbc_btnAceptar.gridx = 1;
         gbc_btnAceptar.gridy = 8;
+        gbc_btnAceptar.anchor = GridBagConstraints.LINE_START;
+        Dimension mismoTamaño = new Dimension(100, 25);
+        btnAceptar.setPreferredSize(mismoTamaño);
         getContentPane().add(btnAceptar, gbc_btnAceptar);
         
         // Botón Cancelar
         btnCancelar = new JButton("Cancelar");
         GridBagConstraints gbc_btnCancelar = new GridBagConstraints();
-        gbc_btnCancelar.insets = new Insets(10, 5, 5, 5);
-        gbc_btnCancelar.gridx = 2; 
+        gbc_btnCancelar.insets = new Insets(10, 20, 5, 80);
+        gbc_btnCancelar.gridx = 1; 
         gbc_btnCancelar.gridy = 8;
+        gbc_btnCancelar.anchor = GridBagConstraints.LINE_END;
+        btnCancelar.setPreferredSize(mismoTamaño);
         getContentPane().add(btnCancelar, gbc_btnCancelar);
         
         // Acción del botón Cancelar

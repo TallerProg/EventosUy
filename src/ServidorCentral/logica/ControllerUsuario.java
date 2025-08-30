@@ -18,11 +18,11 @@ public class ControllerUsuario implements IControllerUsuario {
     }
 
     // Métodos de alta
-    public void AltaAsistente(String nicknameUsu, String correo, String nombre,
-                                     String apellido, LocalDate fNacimiento,Institucion ins) throws UsuarioRepetidoException {
+    public void AltaAsistente(String nicknameUsu, String correo, String nombre, String apellido, 
+    LocalDate fNacimiento,Institucion ins) throws UsuarioRepetidoException {
     	ManejadorUsuario mu = ManejadorUsuario.getinstance();
         Usuario u = mu.findUsuario(nicknameUsu);
-        Usuario ucorreo = mu.findUsuario(correo);
+        Usuario ucorreo = mu.findCorreo(correo);
         if (u != null || ucorreo!=null)
             throw new UsuarioRepetidoException("El usuario " + nicknameUsu + " ya esta registrado");
         if(ins==null) {
@@ -33,12 +33,15 @@ public class ControllerUsuario implements IControllerUsuario {
             Asistente a = new Asistente(nicknameUsu, correo, nombre, apellido, fNacimiento,ins);
             mu.agregarAsistente(a);
             mu.agregarUsuario(a);
+            ins.addAsistente(a);
         }
     }
+
     public List<Usuario> listarUsuarios() {
         ManejadorUsuario manejador = ManejadorUsuario.getinstance();
         return manejador.listarUsuarios(); 
     }
+
 
     public void AltaOrganizador(String nicknameUsu, String correo, String nombre,
                                        String descripcion, String url) throws UsuarioRepetidoException {
@@ -62,7 +65,7 @@ public class ControllerUsuario implements IControllerUsuario {
     // Método de modificación
     //public void ModificarDatosUsuario() {
         // placeholder
-    //}
+   
 
     public List<DTUsuarioLista> getUsuarios() {
         List<DTUsuarioLista> lista = new ArrayList<>();
@@ -87,7 +90,43 @@ public class ControllerUsuario implements IControllerUsuario {
     public List<Asistente> getAsistentes(){
     	ManejadorUsuario mu = ManejadorUsuario.getinstance();
     	return mu.listarAsistentes();
+    
     }
+    
+    public Asistente getAsistente(String nicknameAsis) {
+    	ManejadorUsuario mu = ManejadorUsuario.getinstance();
+    	return mu.findAsistente(nicknameAsis);
+    }
+    
+    public Organizador getOrganizador(String nicknameOrg) {
+    	ManejadorUsuario mu = ManejadorUsuario.getinstance();
+    	return mu.findOrganizador(nicknameOrg);
+    }
+    
+	 public List<String> getAsistenteRegistro(String nickname){
+		 ManejadorUsuario mU = ManejadorUsuario.getinstance();
+
+		 List<Registro> regg= mU.findAsistente(nickname).getRegistros();
+		 List<String> nombres = new ArrayList<>();
+		 for (Registro r : regg){
+			 nombres.add(r.getTipoRegistro().getEdicion().getNombre());
+		 }
+		 return nombres;
+	 }
+	 
+	 public DTRegistroDetallado getRegistroDetalle(String tipRegistro, String nickAsistente) {
+		 ManejadorUsuario mU = ManejadorUsuario.getinstance();
+		 List<Registro> registros = mU.findAsistente(nickAsistente).getRegistros();
+		 for (Registro re : registros) {
+			 if(re.getTipoRegistro().getEdicion().getNombre().equals(tipRegistro)) {
+				 return re.getDTRegistroDetallado();
+			 }
+		 }
+		 
+		 return null;
+	 }
+
+	 
 
 	
     public void modificarUsuario(String nickname, String nombre, String apellido,
@@ -100,11 +139,9 @@ public class ControllerUsuario implements IControllerUsuario {
         if (u == null) 
             throw new UsuarioNoExisteException("No existe el usuario " + nickname);
         
-        // Modificación de campos comunes
         u.setNombre(nombre);
         u.setCorreo(u.getCorreo()); 
         
-        // Modificación según tipo de usuario
         if (u instanceof Asistente) {
             Asistente a = (Asistente) u;
             a.setApellido(apellido);
@@ -115,15 +152,14 @@ public class ControllerUsuario implements IControllerUsuario {
             o.setUrl(url);
         }
     }
+    
     public void modificarUsuario1(Usuario u) {
         ManejadorUsuario mu = ManejadorUsuario.getinstance();
         Usuario existente = mu.findUsuario(u.getNickname());
 
-        // Actualizamos los campos comunes
         existente.setNombre(u.getNombre());
         existente.setCorreo(u.getCorreo());
 
-        // Actualizamos campos según tipo
         if (existente instanceof Asistente && u instanceof Asistente) {
             Asistente aExistente = (Asistente) existente;
             Asistente aNuevo = (Asistente) u;

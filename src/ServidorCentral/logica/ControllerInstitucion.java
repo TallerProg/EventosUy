@@ -1,4 +1,4 @@
-package ServidorCentral.logica;
+	package ServidorCentral.logica;
 
 public class ControllerInstitucion implements IControllerInstitucion {
 

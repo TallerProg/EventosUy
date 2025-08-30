@@ -41,7 +41,7 @@ public class Asistente extends Usuario {
     // Getters y Setters
     public String getApellido() { return apellido; }
     public void setApellido(String apellido) { this.apellido = apellido; }
-
+    
     public LocalDate getfNacimiento() { return fNacimiento; }
     public void setfNacimiento(LocalDate fNacimiento) { this.fNacimiento = fNacimiento; }
 
@@ -53,7 +53,19 @@ public class Asistente extends Usuario {
     public Patrocinio getPatrocinio() { return patrocinio; }
     public void setPatrocinio(Patrocinio patrocinio) { this.patrocinio = patrocinio; }
     
+    public List<String> registrosFechas() {
+        List<String> registrosFechas = new ArrayList<>();
+        for (Registro r : registros) {
+            registrosFechas.add(r.getFInicio().toString());
+        }
+
+        return registrosFechas;
+    }
     
+    public void addRegistro(Registro r) {
+    	this.registros.add(r);
+    }
+
 
     // Métodos
     

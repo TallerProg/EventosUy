@@ -26,6 +26,7 @@ public class TipoRegistro {
         this.cupo = cupo;
         this.edicion = edicion;
         this.patrocinioList = new ArrayList<>();
+        this.registros = new ArrayList<>();
     }
 
     // Getters y Setters
@@ -51,6 +52,9 @@ public class TipoRegistro {
     
     public void addLinkRegistro(Registro reg) { 
     	this.registros.add(reg);
+    }
+    public void addLinkPatrocinio(Patrocinio reg) { 
+    	this.patrocinioList.add(reg);
     }
     
     public boolean soldOutTipReg() {

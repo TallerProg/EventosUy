@@ -1,7 +1,7 @@
 package ServidorCentral.logica;
 
 import java.util.List;
-
+import java.util.ArrayList;
 public class Institucion {
 
     private String nombre;
@@ -9,15 +9,20 @@ public class Institucion {
     private String descripcion;
 
     // Relaciones
-    private List<Patrocinio> patrocinio;  // uno a muchos
-    private List<Asistente> asistentes;   // uno a muchos
+    private List<Patrocinio> patrocinio;  
+    private List<Asistente> asistentes;   
 
     // Constructor
+    
+
     public Institucion(String nombre, String url, String descripcion) {
         this.nombre = nombre;
         this.url = url;
         this.descripcion = descripcion;
+        this.patrocinio = new ArrayList<>();
+        this.asistentes = new ArrayList<>();
     }
+
 
     // Getters y setters
     public String getNombre() { return nombre; }
@@ -34,6 +39,23 @@ public class Institucion {
 
     public List<Asistente> getAsistentes() { return asistentes; }
     public void setAsistentes(List<Asistente> asistentes) { this.asistentes = asistentes; }
+
+    public void agregarPatrocinio(Patrocinio pat) {
+  
+        if (asistentes != null) {
+            for (Asistente a : asistentes) {
+                if(a != null) a.setPatrocinio(pat);
+            }
+        }
+
+        
+          patrocinio.add(pat);
+   
+    }
+    
+    public void addAsistente(Asistente a){
+    	this.asistentes.add(a);
+    }
 
     // Métodos de relación
     /*

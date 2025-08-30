@@ -40,10 +40,27 @@ public class ManejadorUsuario {
         }
         return null;
     }
+    public Usuario findCorreo(String correo) {
+        for (Usuario u : usuarios) {
+            if (u.getCorreo().equalsIgnoreCase(correo)) {
+                return u;
+            }
+        }
+        return null;
+    }
     public Asistente findAsistente(String nickname) {
         for (Asistente a : asistentes) {
             if (a.getNickname().equalsIgnoreCase(nickname)) {
                 return a;
+            }
+        }
+        return null;
+    }
+    
+    public Organizador findOrganizador(String nicknameOrg){
+    	for (Organizador o : organizadores) {
+            if (o.getNickname().equalsIgnoreCase(nicknameOrg)) {
+                return o;
             }
         }
         return null;
@@ -68,6 +85,12 @@ public class ManejadorUsuario {
     public void agregarOrganizador(Organizador o) {
     	organizadores.add(o);
     }
-    
+
+    public void limpiarUsuarios() {
+        usuarios.clear();      
+        asistentes.clear();
+        organizadores.clear();
+    }
+
     
 }
