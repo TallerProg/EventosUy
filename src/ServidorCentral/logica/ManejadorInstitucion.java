@@ -37,6 +37,17 @@ public class ManejadorInstitucion {
 		}
 		return null;
 	}
+	public void limpiar() {
+	    instituciones.clear();
+	}
+	public Institucion findInstitucion(String nombreInstitucion) {
+		for (Institucion o : instituciones) {
+			if (o.getNombre().equalsIgnoreCase(nombreInstitucion)) {
+				return o;
+			}
+		}
+		return null;
+	}
 
 	// Listar todas las instituciones
 	public List<Institucion> listarInstituciones() {

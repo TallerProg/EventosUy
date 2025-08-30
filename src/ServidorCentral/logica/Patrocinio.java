@@ -12,15 +12,13 @@ public class Patrocinio {
 	private Float monto;
 	private ETipoNivel nivel;
 
-	// Relaciones
-	private Institucion institucion; // muchos a uno
-	private Edicion edicion; // muchos a uno
-	private TipoRegistro tipoRegistro; // muchos a uno
-	private List<Asistente> asistentes; // muchos a muchos
-	private List<Registro> registros; // uno a muchos
+	private Institucion institucion;
+	private Edicion edicion; 
+	private TipoRegistro tipoRegistro; 
+	private List<Asistente> asistentes; 
+	private List<Registro> registros; 
 
 
-    // Constructor
     public Patrocinio(String codigo, LocalDate fInicio, int registroGratuito, Float monto, ETipoNivel nivel,
       Institucion institucion, Edicion edicion, TipoRegistro tipoRegistro) {
         this.codigo = codigo;
@@ -37,7 +35,6 @@ public class Patrocinio {
 
 
 
-	// Getters y setters
 	public String getCodigo() {
 		return codigo;
 	}
@@ -126,7 +123,7 @@ public class Patrocinio {
 	public boolean agregarRegistro(Registro reg) {
 		long gratuitosActuales = registros.stream().filter(r -> r.getCosto() == 0).count();
 		if (reg.getCosto() == 0 && gratuitosActuales >= registroGratuito) {
-			return false; // no se puede agregar
+			return false; 
 		}
 		registros.add(reg);
 		return true;

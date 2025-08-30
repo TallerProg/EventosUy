@@ -100,5 +100,9 @@ public class ManejadorEvento {
 		}
 		return null;
 	}
-
+	public void limpiar() {
+	    eventos.clear();
+	    ediciones.clear();
+	    categorias.clear();
+	}
 }

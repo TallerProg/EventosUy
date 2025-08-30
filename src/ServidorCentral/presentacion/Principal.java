@@ -43,6 +43,7 @@ public class Principal {
                 e.printStackTrace();
             }
         });
+        
     }
 
     public Principal() {
@@ -155,12 +156,21 @@ public class Principal {
         menuEventos.add(menuConsultaEvento);
 
         JMenuItem menuAltaEdicion = new JMenuItem("Alta de Edición de Evento");
-        menuAltaEdicion.addActionListener(e -> mostrarInternalFrame(creEdiEveInternalFrame));
+        menuAltaEdicion.addActionListener(e -> { 
+        	mostrarInternalFrame(creEdiEveInternalFrame);
+        	creEdiEveInternalFrame.cargarEventos();
+        	creEdiEveInternalFrame.cargarOrganizadores();
+        	creEdiEveInternalFrame.setVisible(true);
+        });
         menuEventos.add(menuAltaEdicion);
 
         JMenuItem menuConsultaEdicion = new JMenuItem("Consulta de Edición de Evento");
-        menuConsultaEdicion.addActionListener(e -> mostrarInternalFrame(conEdiEveInternalFrame));
+        menuConsultaEdicion.addActionListener(e -> {
+            conEdiEveInternalFrame.cargarEventos();   
+            mostrarInternalFrame(conEdiEveInternalFrame);
+        });
         menuEventos.add(menuConsultaEdicion);
+
         
         JMenuItem menuAltaTipoReg = new JMenuItem("Alta de Tipo de Registro");
         menuAltaTipoReg.addActionListener(e -> {

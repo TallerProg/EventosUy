@@ -57,7 +57,7 @@ public class Edicion {
 		this.nombre = nombre;
 	}
 
-	// SOBRECARGO TOSTRING PARA MOSTRAR NOMBRE EN COMBOBOX
+	@Override
 	public String toString() {
 		return nombre;
 	}
