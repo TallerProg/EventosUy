@@ -211,7 +211,7 @@ public class RegistroEdicionEvento extends JInternalFrame {
 	}
 	
 	public void cargarEdiciones(String nombreEvento){
-		Evento evento = ice.findEvento(nombreEvento);
+		Evento evento = ice.getEvento(nombreEvento);
 		if (evento != null) {
 			List<Edicion> ediciones = evento.getEdiciones();
 			if (ediciones.isEmpty()) {

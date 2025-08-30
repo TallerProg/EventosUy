@@ -231,7 +231,7 @@ public class ConsultaTipoRegistro extends JInternalFrame {
 		}
 		
 		public void cargarEdiciones(String nombreEvento){
-			Evento evento = controlEvento.findEvento(nombreEvento);
+			Evento evento = controlEvento.getEvento(nombreEvento);
 			if (evento != null) {
 				List<Edicion> ediciones = evento.getEdiciones();
 				if (ediciones.isEmpty()) {
