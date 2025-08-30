@@ -151,8 +151,8 @@ public class ConsultaRegistroTest {
 	@Order(2)
 	void testConsultaRegistroAsisten() {
 		// Crear Asistente
-		String nicknameTest = "gusgui02";
-		String correoTest = "gustavoguimerans02@gmail.com";
+		String nicknameTest = "gusgui09";
+		String correoTest = "gustavoguimerans09@gmail.com";
 		String nombreTest = "Gustavo";
 		String apellidoTest = "Guimerans";
 		LocalDate fNacimientoTest = LocalDate.parse("12/03/2001", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
@@ -178,8 +178,8 @@ public class ConsultaRegistroTest {
 		}
 		Evento EVE01 = iCE.getEvento(nombreE);
 		// Crear Organizador
-		String nicknameO = "org1";
-		String correoO = "contacto@miseventos.com";
+		String nicknameO = "org8";
+		String correoO = "contacto98@miseventos.com";
 		String nombreO = "MisEventos";
 		String descripcionO = "Empresa de organización de eventos.";
 		String paginaWebO = "https://miseventos.com";
