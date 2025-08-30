@@ -119,6 +119,7 @@ public class ControllerEvento implements IControllerEvento {
     		throw new Exception("Ya existe una categoria"+ nombre);
     	}
     }
+    
     public void altaEvento(String nombre, String desc, LocalDate fAlta, String sigla, List<Categoria> categorias) throws Exception{
         ManejadorEvento me = ManejadorEvento.getInstancia();
 
@@ -145,9 +146,13 @@ public class ControllerEvento implements IControllerEvento {
 	    if ((asistente.getPatrocinio() == null)) {
 	        throw new Exception("Patrocinio no encontrado");
 	    }
-	    if ((asistente != null )&&(asistente.getPatrocinio() != null )&&(!asistente.getPatrocinio().getCodigo().equals(codigo))) {
-	        throw new Exception("Ese codigo no es valido para este asistente");
+	    if (asistente != null && asistente.getPatrocinio() != null) {
+	        String codigoPatrocinio = asistente.getPatrocinio().getCodigo();
+	        if (codigoPatrocinio == null || !codigoPatrocinio.trim().equals(codigo.trim())) {
+	            throw new Exception("Ese código no es válido para este asistente");
+	        }
 	    }
+
 	   
 	    if ((asistente.getPatrocinio() != null)&&(!asistente.getPatrocinio().consultarRegistros())) {
 	        throw new Exception("Ya no quedan cupos gratuitos");
@@ -167,6 +172,7 @@ public class ControllerEvento implements IControllerEvento {
 	    	asistente.getPatrocinio().agregarRegistro(reg);
 	    	edicion.addLinkRegistro(reg);
 	    	tr.addLinkRegistro(reg);
+	    	asistente.addRegistro(reg);
 	    }}
 	   }
 	@Override
@@ -191,6 +197,9 @@ public class ControllerEvento implements IControllerEvento {
 	    	Registro reg = new Registro(costo, edicion, asistente, tr);
 	    	edicion.addLinkRegistro(reg);
 	    	tr.addLinkRegistro(reg);
+	    	asistente.addRegistro(reg);
+	    }else {
+	    		throw new Exception(asistente.getNickname() +" Ya esta registrado");
 	    }
 	   }
 	public List<String> listarEdicionesDeEvento(String nombreEvento) {
@@ -238,6 +247,13 @@ public class ControllerEvento implements IControllerEvento {
 	    }
 	    return res;
 	}
+	
+	public Categoria findCategoria(String nom) {
+		ManejadorEvento me = ManejadorEvento.getInstancia();
+		return me.findCategoria(nom);
+	}
+	
+
 
 
 }

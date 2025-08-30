@@ -69,7 +69,6 @@ public class Principal {
         desktopPane.add(creUsrInternalFrame);
         desktopPane.add(conUsrInternalFrame);
         desktopPane.add(creEdiEveInternalFrame);
-        desktopPane.add(creEveInternalFrame);
         desktopPane.add(creTRegInternalFrame);
         desktopPane.add(conEveInternalFrame);
         desktopPane.add(conRegInternalFrame);
@@ -103,8 +102,14 @@ public class Principal {
         menuSistema.add(mntmNewMenuItem);
         menuSistema.add(menuSalir);
         mntmNewMenuItem.addActionListener(e -> {
-            CargarDatos.inicializar(ICU,ICE);
+            try {
+				CargarDatos.inicializar(ICU,ICE);
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
             JOptionPane.showMessageDialog(frmEventosUy, "Datos del sistema inicializados correctamente.");
+            creEveInternalFrame = new AltaEvento(ICE);
+            desktopPane.add(creEveInternalFrame);
         });
 
         // Menú Usuarios
@@ -122,7 +127,12 @@ public class Principal {
         
                 JMenuItem menuConsultaRegistro = new JMenuItem("Consulta de Registro");
                 menuUsuarios.add(menuConsultaRegistro);
-                menuConsultaRegistro.addActionListener(e -> mostrarInternalFrame(conRegInternalFrame));
+                menuConsultaRegistro.addActionListener(e -> {
+                	conRegInternalFrame.cargarUsuarios();
+                mostrarInternalFrame(conRegInternalFrame);});
+         
+                
+                menuUsuarios.add(menuConsultaRegistro);
 
         // Menú Eventos
         JMenu menuEventos = new JMenu("Eventos");

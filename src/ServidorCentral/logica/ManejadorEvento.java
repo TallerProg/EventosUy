@@ -89,6 +89,15 @@ public class ManejadorEvento {
         return false;
     }
 	
+	public Categoria findCategoria(String nom) {
+		for (Categoria c : categorias) {
+			if (c.getNombre().equalsIgnoreCase(nom)) {
+				return c;
+			}
+		}
+		return null;
+	}
+	
 }
 
 

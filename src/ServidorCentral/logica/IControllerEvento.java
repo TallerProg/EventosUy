@@ -42,4 +42,7 @@ public interface IControllerEvento {
 
 	public DTPatrocinio consultaPatrocinio(String nombreEdicion, String codigoPat);
 	
+	public void altaCategoria(String nombre)throws Exception;
+	
+	public Categoria findCategoria(String nom);
 }

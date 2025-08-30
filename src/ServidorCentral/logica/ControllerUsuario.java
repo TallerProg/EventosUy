@@ -33,6 +33,7 @@ public class ControllerUsuario implements IControllerUsuario {
             Asistente a = new Asistente(nicknameUsu, correo, nombre, apellido, fNacimiento,ins);
             mu.agregarAsistente(a);
             mu.agregarUsuario(a);
+            ins.addAsistente(a);
         }
     }
 
@@ -91,24 +92,37 @@ public class ControllerUsuario implements IControllerUsuario {
     	return mu.listarAsistentes();
     
     }
+    
+    public Asistente getAsistente(String nicknameAsis) {
+    	ManejadorUsuario mu = ManejadorUsuario.getinstance();
+    	return mu.findAsistente(nicknameAsis);
+    }
+    
     public Organizador getOrganizador(String nicknameOrg) {
     	ManejadorUsuario mu = ManejadorUsuario.getinstance();
     	return mu.findOrganizador(nicknameOrg);
     }
+    
 	 public List<String> getAsistenteRegistro(String nickname){
 		 ManejadorUsuario mU = ManejadorUsuario.getinstance();
-		 return mU.findAsistente(nickname).registrosFechas();
-		 
+
+		 List<Registro> regg= mU.findAsistente(nickname).getRegistros();
+		 List<String> nombres = new ArrayList<>();
+		 for (Registro r : regg){
+			 nombres.add(r.getTipoRegistro().getEdicion().getNombre());
+		 }
+		 return nombres;
 	 }
 	 
-	 public DTRegistroDetallado getRegistroDetalle(String fregistro, String nickAsistente) {
+	 public DTRegistroDetallado getRegistroDetalle(String tipRegistro, String nickAsistente) {
 		 ManejadorUsuario mU = ManejadorUsuario.getinstance();
 		 List<Registro> registros = mU.findAsistente(nickAsistente).getRegistros();
 		 for (Registro re : registros) {
-			 if(re.getFInicio().toString().equals(fregistro)) {
+			 if(re.getTipoRegistro().getEdicion().getNombre().equals(tipRegistro)) {
 				 return re.getDTRegistroDetallado();
 			 }
 		 }
+		 
 		 return null;
 	 }
 

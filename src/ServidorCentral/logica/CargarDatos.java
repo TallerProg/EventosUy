@@ -12,23 +12,36 @@ import ServidorCentral.excepciones.UsuarioRepetidoException;
 
 public class CargarDatos {
 	
-		    public static void inicializar(IControllerUsuario ICU, IControllerEvento ICE) {
+		    public static void inicializar(IControllerUsuario ICU, IControllerEvento ICE) throws Exception {
 		    	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		    	// ------------------
 		    	// Crear categorías
 		    	// ------------------
-		    	Categoria CA01 = new Categoria("Tecnología");
-		    	Categoria CA02 = new Categoria("Innovación");
-		    	Categoria CA03 = new Categoria("Literatura");
-		    	Categoria CA04 = new Categoria("Cultura");
-		    	Categoria CA05 = new Categoria("Música");
-		    	Categoria CA06 = new Categoria("Deporte");
-		    	Categoria CA07 = new Categoria("Salud");
-		    	Categoria CA08 = new Categoria("Entretenimiento");
-		    	Categoria CA09 = new Categoria("Agro");
-		    	Categoria CA10 = new Categoria("Negocios");
-		    	Categoria CA11 = new Categoria("Moda");
-		    	Categoria CA12 = new Categoria("Investigación");
+		    	ICE.altaCategoria("Tecnología");
+		    	ICE.altaCategoria("Innovación");
+		    	ICE.altaCategoria("Literatura");
+		    	ICE.altaCategoria("Cultura");
+		    	ICE.altaCategoria("Música");
+		    	ICE.altaCategoria("Deporte");
+		    	ICE.altaCategoria("Salud");
+		    	ICE.altaCategoria("Entretenimiento");
+		    	ICE.altaCategoria("Agro");
+		    	ICE.altaCategoria("Negocios");
+		    	ICE.altaCategoria("Moda");
+		    	ICE.altaCategoria("Investigación");
+
+		    	Categoria CA01 = ICE.findCategoria("Tecnología");
+		    	Categoria CA02 = ICE.findCategoria("Innovación");
+		    	Categoria CA03 = ICE.findCategoria("Literatura");
+		    	Categoria CA04 = ICE.findCategoria("Cultura");
+		    	Categoria CA05 = ICE.findCategoria("Música");
+		    	Categoria CA06 = ICE.findCategoria("Deporte");
+		    	Categoria CA07 = ICE.findCategoria("Salud");
+		    	Categoria CA08 = ICE.findCategoria("Entretenimiento");
+		    	Categoria CA09 = ICE.findCategoria("Agro");
+		    	Categoria CA10 = ICE.findCategoria("Negocios");
+		    	Categoria CA11 = ICE.findCategoria("Moda");
+		    	Categoria CA12 = ICE.findCategoria("Investigación");
 		    	
 		    	// ------------------
 		    	// Crear eventos
@@ -475,7 +488,7 @@ public class CargarDatos {
 		        // ------------------
 		    	// Crear Patrocinios
 		    	// ------------------
-
+		    	
 		    	try {
 		    	    // PAT1
 		    	    Patrocinio PAT1 = new Patrocinio(
@@ -495,7 +508,7 @@ public class CargarDatos {
 		    	    // PAT2
 		    	    Patrocinio PAT2 = new Patrocinio(
 		    	        "TECHANII", 
-		    	        LocalDate.parse(" 20/08/2025", formatter), 
+		    	        LocalDate.parse("20/08/2025", formatter), 
 		    	        1, 
 		    	        10000f, 
 		    	        ETipoNivel.Plata, 
@@ -540,9 +553,11 @@ public class CargarDatos {
 		    	} catch(Exception e) {
 		    	    JOptionPane.showMessageDialog(null, e.getMessage());
 		    	}
+		    	
 		    	// ------------------
 		    	// Crear Registros
 		    	// ------------------
+		    	
 		    	try {
 		    	    // RE01 - Montevideo Rock 2025
 		    	    ICE.altaRegistro("Montevideo Rock 2025", "sofirod", "VIP"); // TR02
@@ -574,7 +589,7 @@ public class CargarDatos {
 		    	} catch(Exception e) {
 		    	    JOptionPane.showMessageDialog(null, e.getMessage());
 		    	}
-
+				
 		    
 		    	
 		    }
