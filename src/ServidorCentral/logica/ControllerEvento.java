@@ -145,9 +145,13 @@ public class ControllerEvento implements IControllerEvento {
 	    if ((asistente.getPatrocinio() == null)) {
 	        throw new Exception("Patrocinio no encontrado");
 	    }
-	    if ((asistente != null )&&(asistente.getPatrocinio() != null )&&(!asistente.getPatrocinio().getCodigo().equals(codigo))) {
-	        throw new Exception("Ese codigo no es valido para este asistente");
+	    if (asistente != null && asistente.getPatrocinio() != null) {
+	        String codigoPatrocinio = asistente.getPatrocinio().getCodigo();
+	        if (codigoPatrocinio == null || !codigoPatrocinio.trim().equals(codigo.trim())) {
+	            throw new Exception("Ese código no es válido para este asistente");
+	        }
 	    }
+
 	   
 	    if ((asistente.getPatrocinio() != null)&&(!asistente.getPatrocinio().consultarRegistros())) {
 	        throw new Exception("Ya no quedan cupos gratuitos");

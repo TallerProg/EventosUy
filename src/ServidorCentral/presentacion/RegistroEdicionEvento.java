@@ -137,6 +137,7 @@ public class RegistroEdicionEvento extends JInternalFrame {
         });
         
         // Acción botón Registrar
+        
 
         btnRegistrar.addActionListener(e -> {
             String edicionSel = (String) comboBoxEdicion.getSelectedItem();
@@ -154,7 +155,12 @@ public class RegistroEdicionEvento extends JInternalFrame {
             }
 
             try {
-                ice.altaRegistro(edicionSel, asistenteSel, tipoRegistroSel, codigo);
+            		if(codigo.isEmpty()) {
+            			ice.altaRegistro(edicionSel, asistenteSel, tipoRegistroSel);
+            		}else {
+            			ice.altaRegistro(edicionSel, asistenteSel, tipoRegistroSel, codigo	);
+            		}
+            		
                 JOptionPane.showMessageDialog(this, 
                     "Registro exitoso", 
                     "Éxito", 
@@ -254,7 +260,7 @@ public class RegistroEdicionEvento extends JInternalFrame {
 			comboBoxAsistente.setEnabled(true);	
 			List<String> nombres = new java.util.ArrayList<>();
 		    for (Asistente a : asistentes) {
-		        nombres.add(a.getNombre());
+		        nombres.add(a.getNickname());
 		    }
 		    
 		    DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(
