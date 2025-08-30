@@ -105,17 +105,24 @@ public class ControllerUsuario implements IControllerUsuario {
     
 	 public List<String> getAsistenteRegistro(String nickname){
 		 ManejadorUsuario mU = ManejadorUsuario.getinstance();
-		 return mU.findAsistente(nickname).registrosFechas(); 
+
+		 List<Registro> regg= mU.findAsistente(nickname).getRegistros();
+		 List<String> nombres = new ArrayList<>();
+		 for (Registro r : regg){
+			 nombres.add(r.getTipoRegistro().getEdicion().getNombre());
+		 }
+		 return nombres;
 	 }
 	 
-	 public DTRegistroDetallado getRegistroDetalle(String fregistro, String nickAsistente) {
+	 public DTRegistroDetallado getRegistroDetalle(String tipRegistro, String nickAsistente) {
 		 ManejadorUsuario mU = ManejadorUsuario.getinstance();
 		 List<Registro> registros = mU.findAsistente(nickAsistente).getRegistros();
 		 for (Registro re : registros) {
-			 if(re.getFInicio().toString().equals(fregistro)) {
+			 if(re.getTipoRegistro().getEdicion().getNombre().equals(tipRegistro)) {
 				 return re.getDTRegistroDetallado();
 			 }
 		 }
+		 
 		 return null;
 	 }
 
