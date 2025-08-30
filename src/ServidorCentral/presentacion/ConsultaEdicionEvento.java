@@ -2,7 +2,6 @@ package ServidorCentral.presentacion;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 
 import ServidorCentral.logica.DTEdicion;
 import ServidorCentral.logica.DTOrganizador;
@@ -28,6 +27,7 @@ public class ConsultaEdicionEvento extends JInternalFrame {
     private JLabel lblPatrocinios;
 
     public ConsultaEdicionEvento(IControllerEvento ice) {
+    	setTitle("Consulta de Edicion de Evento");
         this.controller = ice;
         getContentPane().setLayout(null);
 
@@ -35,15 +35,14 @@ public class ConsultaEdicionEvento extends JInternalFrame {
         setIconifiable(true);
         setMaximizable(true);
         setResizable(true);
-        setSize(600, 500); // tamaño por defecto
-        // opcional: centrarlo si se conoce el tamaño del desktopPane más tarde
+        setSize(600, 500);
 
         initComponents();
         cargarEventos();
     }
 
     private void initComponents() {
-        // Labels y Combos (igual que tu código original)
+        // Labels y Combos
         JLabel lblDatosEdicion = new JLabel("Datos de la Edicion");
         lblDatosEdicion.setFont(new Font("Times New Roman", Font.PLAIN, 20));
         lblDatosEdicion.setBounds(171, 98, 261, 28);
@@ -59,7 +58,6 @@ public class ConsultaEdicionEvento extends JInternalFrame {
         lblSeleccionarEdicion.setBounds(28, 60, 120, 20);
         getContentPane().add(lblSeleccionarEdicion);
 
-        // TextFields
         NombreEdicion = new JTextField(); NombreEdicion.setEditable(false); NombreEdicion.setBounds(123, 145, 164, 28); getContentPane().add(NombreEdicion);
         CiudadEdicion = new JTextField(); CiudadEdicion.setEditable(false); CiudadEdicion.setBounds(109, 200, 144, 28); getContentPane().add(CiudadEdicion);
         SiglaEdicion = new JTextField(); SiglaEdicion.setEditable(false); SiglaEdicion.setBounds(385, 145, 86, 28); getContentPane().add(SiglaEdicion);
@@ -68,70 +66,76 @@ public class ConsultaEdicionEvento extends JInternalFrame {
         FInicioEdicion = new JTextField(); FInicioEdicion.setEditable(false); FInicioEdicion.setBounds(443, 251, 120, 28); getContentPane().add(FInicioEdicion);
         FFinEdicion = new JTextField(); FFinEdicion.setEditable(false); FFinEdicion.setBounds(157, 310, 130, 28); getContentPane().add(FFinEdicion);
 
-        // ComboBoxes
         comboEventos = new JComboBox<>(); comboEventos.setBounds(171, 21, 219, 28); getContentPane().add(comboEventos);
         comboEdiciones = new JComboBox<>(); comboEdiciones.setBounds(171, 60, 219, 28); getContentPane().add(comboEdiciones);
         comboTiposRegistro = new JComboBox<>(); comboTiposRegistro.setBounds(150, 347, 137, 28); getContentPane().add(comboTiposRegistro);
         comboRegistros = new JComboBox<>(); comboRegistros.setBounds(402, 347, 161, 28); getContentPane().add(comboRegistros);
         comboPatrocinios = new JComboBox<>(); comboPatrocinios.setBounds(123, 390, 164, 28); getContentPane().add(comboPatrocinios);
         comboOrganizadores = new JComboBox<>(); comboOrganizadores.setBounds(422, 309, 130, 28); getContentPane().add(comboOrganizadores);
- 
- JLabel lblNewLabel = new JLabel("Nombre :");
- lblNewLabel.setFont(new Font("Times New Roman", Font.PLAIN, 15));
- lblNewLabel.setBounds(31, 147, 82, 21);
- getContentPane().add(lblNewLabel);
- 
- JLabel lblCiudad = new JLabel("Ciudad :");
- lblCiudad.setFont(new Font("Times New Roman", Font.PLAIN, 15));
- lblCiudad.setBounds(17, 200, 82, 21);
- getContentPane().add(lblCiudad);
- 
- JLabel lblFechaDeAlta = new JLabel("Fecha de Alta :");
- lblFechaDeAlta.setFont(new Font("Times New Roman", Font.PLAIN, 15));
- lblFechaDeAlta.setBounds(17, 258, 109, 21);
- getContentPane().add(lblFechaDeAlta);
- 
- JLabel lblFechaDeFinalizacion = new JLabel("Fecha de Finalizacion :");
- lblFechaDeFinalizacion.setFont(new Font("Times New Roman", Font.PLAIN, 15));
- lblFechaDeFinalizacion.setBounds(17, 311, 144, 21);
- getContentPane().add(lblFechaDeFinalizacion);
- 
- JLabel lblSigla = new JLabel("Sigla :");
- lblSigla.setFont(new Font("Times New Roman", Font.PLAIN, 15));
- lblSigla.setBounds(315, 147, 49, 21);
- getContentPane().add(lblSigla);
- 
- lblPais = new JLabel("Pais :");
- lblPais.setFont(new Font("Times New Roman", Font.PLAIN, 15));
- lblPais.setBounds(315, 202, 49, 21);
- getContentPane().add(lblPais);
- 
- lblFechaDeInicio = new JLabel("Fecha de Inicio :");
- lblFechaDeInicio.setFont(new Font("Times New Roman", Font.PLAIN, 15));
- lblFechaDeInicio.setBounds(297, 253, 120, 21);
- getContentPane().add(lblFechaDeInicio);
- 
- lblOrganizadores = new JLabel("Organizadores :");
- lblOrganizadores.setFont(new Font("Times New Roman", Font.PLAIN, 15));
- lblOrganizadores.setBounds(315, 317, 97, 21);
- getContentPane().add(lblOrganizadores);
- 
- lblRegistros = new JLabel("Registros :");
- lblRegistros.setFont(new Font("Times New Roman", Font.PLAIN, 15));
- lblRegistros.setBounds(315, 350, 82, 21);
- getContentPane().add(lblRegistros);
- 
- lblTiposDeRegitro = new JLabel("Tipos de Regitro :");
- lblTiposDeRegitro.setFont(new Font("Times New Roman", Font.PLAIN, 15));
- lblTiposDeRegitro.setBounds(20, 350, 120, 21);
- getContentPane().add(lblTiposDeRegitro);
- 
- lblPatrocinios = new JLabel("Patrocinios :");
- lblPatrocinios.setFont(new Font("Times New Roman", Font.PLAIN, 15));
- lblPatrocinios.setBounds(31, 393, 82, 21);
- getContentPane().add(lblPatrocinios);
 
-        // Listeners
+        JLabel lblNewLabel = new JLabel("Nombre :");
+        lblNewLabel.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+        lblNewLabel.setBounds(31, 147, 82, 21);
+        getContentPane().add(lblNewLabel);
+
+        JLabel lblCiudad = new JLabel("Ciudad :");
+        lblCiudad.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+        lblCiudad.setBounds(17, 200, 82, 21);
+        getContentPane().add(lblCiudad);
+
+        JLabel lblFechaDeAlta = new JLabel("Fecha de Alta :");
+        lblFechaDeAlta.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+        lblFechaDeAlta.setBounds(17, 258, 109, 21);
+        getContentPane().add(lblFechaDeAlta);
+
+        JLabel lblFechaDeFinalizacion = new JLabel("Fecha de Finalizacion :");
+        lblFechaDeFinalizacion.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+        lblFechaDeFinalizacion.setBounds(17, 311, 144, 21);
+        getContentPane().add(lblFechaDeFinalizacion);
+
+        JLabel lblSigla = new JLabel("Sigla :");
+        lblSigla.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+        lblSigla.setBounds(315, 147, 49, 21);
+        getContentPane().add(lblSigla);
+
+        lblPais = new JLabel("Pais :");
+        lblPais.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+        lblPais.setBounds(315, 202, 49, 21);
+        getContentPane().add(lblPais);
+
+        lblFechaDeInicio = new JLabel("Fecha de Inicio :");
+        lblFechaDeInicio.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+        lblFechaDeInicio.setBounds(297, 253, 120, 21);
+        getContentPane().add(lblFechaDeInicio);
+
+        lblOrganizadores = new JLabel("Organizadores :");
+        lblOrganizadores.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+        lblOrganizadores.setBounds(315, 317, 97, 21);
+        getContentPane().add(lblOrganizadores);
+
+        lblRegistros = new JLabel("Registros :");
+        lblRegistros.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+        lblRegistros.setBounds(315, 350, 82, 21);
+        getContentPane().add(lblRegistros);
+
+        lblTiposDeRegitro = new JLabel("Tipos de Regitro :");
+        lblTiposDeRegitro.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+        lblTiposDeRegitro.setBounds(20, 350, 120, 21);
+        getContentPane().add(lblTiposDeRegitro);
+
+        lblPatrocinios = new JLabel("Patrocinios :");
+        lblPatrocinios.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+        lblPatrocinios.setBounds(31, 393, 82, 21);
+        getContentPane().add(lblPatrocinios);
+
+        JButton btnVerTipoRegistro = new JButton("Ver Tipo de Registro");
+        btnVerTipoRegistro.setBounds(95, 428, 180, 28);
+        getContentPane().add(btnVerTipoRegistro);
+
+        JButton btnVerPatrocinio = new JButton("Ver Patrocinio");
+        btnVerPatrocinio.setBounds(339, 428, 150, 28);
+        getContentPane().add(btnVerPatrocinio);
+
         comboEventos.addActionListener(e -> {
             String nombreEvento = (String) comboEventos.getSelectedItem();
             if (nombreEvento != null) {
@@ -147,6 +151,38 @@ public class ConsultaEdicionEvento extends JInternalFrame {
                 mostrarDatosEdicion(dtEd);
             }
         });
+
+        btnVerTipoRegistro.addActionListener(e -> {
+            String nombreTipo = (String) comboTiposRegistro.getSelectedItem();
+            String nombreEdicion = (String) comboEdiciones.getSelectedItem();
+
+            if (nombreTipo != null && nombreEdicion != null) {
+                ConsultaTipoRegistro ctr = ConsultaTipoRegistro.crearYMostrar(controller, nombreEdicion, nombreTipo);
+                this.getDesktopPane().add(ctr);
+                ctr.setLocation(
+                    (this.getDesktopPane().getWidth() - ctr.getWidth()) / 2,
+                    (this.getDesktopPane().getHeight() - ctr.getHeight()) / 2
+                );
+                ctr.toFront();
+            } else {
+                JOptionPane.showMessageDialog(this, "Seleccione un tipo de registro primero.");
+            }
+        });
+
+
+
+        btnVerPatrocinio.addActionListener(e -> {
+            String codigoPat = (String) comboPatrocinios.getSelectedItem();
+            String nombreEdicion = (String) comboEdiciones.getSelectedItem();
+
+            if (codigoPat != null && nombreEdicion != null) {
+                DTPatrocinio dtPat = controller.consultaPatrocinio(nombreEdicion, codigoPat);
+                ConsultaPatrocinio cp = ConsultaPatrocinio.crearYMostrar(controller, dtPat, this.getDesktopPane());
+            } else {
+                JOptionPane.showMessageDialog(this, "Seleccione un patrocinio primero.");
+            }
+        });
+
     }
 
     private void mostrarDatosEdicion(DTEdicion dtEd) {
