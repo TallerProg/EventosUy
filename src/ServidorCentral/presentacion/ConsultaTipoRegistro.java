@@ -158,7 +158,6 @@ public class ConsultaTipoRegistro extends JInternalFrame {
 				        try {
 							cargarEdiciones(nombreEventoSeleccionado);
 						} catch (Exception e1) {
-							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
 				        
@@ -197,11 +196,9 @@ public class ConsultaTipoRegistro extends JInternalFrame {
 				 String nombreTipoRegistroSeleccionado = (String) comboBoxTipoRegistro.getSelectedItem();
 				 if (nombreEdicionSeleccionado != null && nombreTipoRegistroSeleccionado != null) {
 				        try {
-							//cargarTipoRegistros(nombreEdicionSeleccionado);
 				        	DTTipoRegistro dt = controlEvento.consultaTipoRegistro(nombreEdicionSeleccionado, nombreTipoRegistroSeleccionado);
 				        	cargarDatos(dt);
 						} catch (Exception e1) {
-							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
 
@@ -288,13 +285,42 @@ public class ConsultaTipoRegistro extends JInternalFrame {
 		    textField_2_costo.setText(String.valueOf(dtTipo.getCosto()));
 		    textField_3_cupo.setText(String.valueOf(dtTipo.getCupo()));
 		}
+		public void cargarDatos(DTTipoRegistro dtTipo, String nombreEvento, String nombreEdicion) {
+		    if (dtTipo == null) return;
+
+		    textField_nombre.setText(dtTipo.getNombre());
+		    textField_1_desc.setText(dtTipo.getDescripcion());
+		    textField_2_costo.setText(String.valueOf(dtTipo.getCosto()));
+		    textField_3_cupo.setText(String.valueOf(dtTipo.getCupo()));
+
+		    comboBoxEvento.removeAllItems();
+		    comboBoxEvento.addItem(nombreEvento);
+		    comboBoxEvento.setSelectedItem(nombreEvento);
+		    comboBoxEvento.setEnabled(false);
+
+		    comboBoxEdicion.removeAllItems();
+		    comboBoxEdicion.addItem(nombreEdicion);
+		    comboBoxEdicion.setSelectedItem(nombreEdicion);
+		    comboBoxEdicion.setEnabled(false);
+
+		    comboBoxTipoRegistro.removeAllItems();
+		    comboBoxTipoRegistro.addItem(dtTipo.getNombre());
+		    comboBoxTipoRegistro.setSelectedItem(dtTipo.getNombre());
+		    comboBoxTipoRegistro.setEnabled(false);
+		}
+
 
 		public static ConsultaTipoRegistro crearYMostrar(IControllerEvento controller, String nombreEdicion, String nombreTipoR) {
-		    ConsultaTipoRegistro ctr = new ConsultaTipoRegistro(controller); // constructor normal
+		    ConsultaTipoRegistro ctr = new ConsultaTipoRegistro(controller); 
 		    DTTipoRegistro dtTipo = controller.consultaTipoRegistro(nombreEdicion, nombreTipoR);
-		    ctr.cargarDatos(dtTipo);
+
+		    String nombreEvento = controller.findEdicion(nombreEdicion).getEvento().getNombre();
+
+		    ctr.cargarDatos(dtTipo, nombreEvento, nombreEdicion);
 		    ctr.setVisible(true);
 		    return ctr;
 		}
+
+
 
 }

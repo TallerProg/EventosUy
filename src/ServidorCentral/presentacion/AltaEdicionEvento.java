@@ -33,7 +33,6 @@ public class AltaEdicionEvento extends JInternalFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(null);
 
-        // --- COMPONENTES ---
         JLabel labelEvento = new JLabel("Evento:");
         labelEvento.setBounds(10, 46, 63, 32);
         labelEvento.setFont(new Font("Times New Roman", Font.PLAIN, 15));
@@ -52,7 +51,6 @@ public class AltaEdicionEvento extends JInternalFrame {
         comboOrganizador.setBounds(100, 86, 239, 32);
         getContentPane().add(comboOrganizador);
 
-        // --- Campos de texto ---
         JLabel labelNombre = new JLabel("Nombre:");
         labelNombre.setFont(new Font("Times New Roman", Font.PLAIN, 15));
         labelNombre.setBounds(14, 127, 63, 32);
@@ -89,7 +87,6 @@ public class AltaEdicionEvento extends JInternalFrame {
         txtPais.setBounds(70, 230, 153, 32);
         getContentPane().add(txtPais);
 
-        // --- Fechas ---
         txtFechaIni = crearCampoFecha("##/##/####", 140, 270, 120, 25);
         getContentPane().add(txtFechaIni);
         JLabel lblFechaIni = new JLabel("Fecha Inicio:");
@@ -111,7 +108,6 @@ public class AltaEdicionEvento extends JInternalFrame {
         lblFechaAlta.setFont(new Font("Times New Roman", Font.PLAIN, 15));
         getContentPane().add(lblFechaAlta);
 
-        // --- Botones ---
         btnAceptar = new JButton("Aceptar");
         btnAceptar.setBounds(10, 400, 196, 32);
         getContentPane().add(btnAceptar);
@@ -120,7 +116,6 @@ public class AltaEdicionEvento extends JInternalFrame {
         btnCancelar.setBounds(258, 400, 196, 32);
         getContentPane().add(btnCancelar);
 
-        // --- Cargar los combobox con nombres ---
         cargarEventos();
         cargarOrganizadores();
 
