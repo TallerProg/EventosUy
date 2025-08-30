@@ -36,6 +36,8 @@ public interface IControllerUsuario{
 
 	 public void modificarUsuario1(Usuario u);
 
+	 public  Asistente getAsistente(String nicknameTest);
+
 	
 }
 

@@ -10,17 +10,19 @@ public class ControllerEvento implements IControllerEvento {
             LocalDate fInicio, LocalDate fFin,
             Evento evento, Organizador org) throws Exception {
 
-			ManejadorEvento mE = ManejadorEvento.getInstancia();
-			if (mE.existeEdicion(nombre)) {
-			throw new IllegalArgumentException("Ya existe una edición con ese nombre");
+			if (fFin.isBefore(fInicio)) {
+				throw new IllegalArgumentException("La fecha de fin no puede ser anterior a la fecha de inicio");
+			}
+			
+			if (evento.tieneEdicion(nombre) || evento.tieneEdicion(sigla)) {
+				throw new IllegalArgumentException("Ya existe una edición con ese nombre o sigla");
 			}
 			
 			Edicion ed = new Edicion(nombre, sigla, fInicio, fFin, ciudad, pais, evento);
-			
 			ed.getOrganizadores().add(org);
-			mE.agregarEdicion(ed);
 			evento.agregarEdicion(ed);
-		}
+	}
+
 	
 	public void altaTipoRegistro(String nombreTR, String descripcion, Float costo, Integer cupo, Edicion edicion) throws Exception{ //VICHAR MATEO
     	boolean e = edicion.existeTR(nombreTR);
