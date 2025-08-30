@@ -92,12 +92,20 @@ public class ControllerUsuario implements IControllerUsuario {
     	return mu.listarAsistentes();
     
     }
+    
+    public Asistente getAsistente(String nicknameAsis) {
+    	ManejadorUsuario mu = ManejadorUsuario.getinstance();
+    	return mu.findAsistente(nicknameAsis);
+    }
+    
     public Organizador getOrganizador(String nicknameOrg) {
     	ManejadorUsuario mu = ManejadorUsuario.getinstance();
     	return mu.findOrganizador(nicknameOrg);
     }
+    
 	 public List<String> getAsistenteRegistro(String nickname){
 		 ManejadorUsuario mU = ManejadorUsuario.getinstance();
+
 		 List<Registro> regg= mU.findAsistente(nickname).getRegistros();
 		 List<String> nombres = new ArrayList<>();
 		 for (Registro r : regg){
