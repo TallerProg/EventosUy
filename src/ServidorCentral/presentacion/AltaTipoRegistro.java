@@ -60,7 +60,7 @@ public class AltaTipoRegistro extends JInternalFrame {
 		gbc_lblEvento.gridy = 1;
 		getContentPane().add(lblEvento, gbc_lblEvento);
 		
-		comboBoxEvento = new JComboBox();
+		comboBoxEvento = new JComboBox<>();
 		GridBagConstraints gbc_comboBoxEvento = new GridBagConstraints();
 		gbc_comboBoxEvento.insets = new Insets(0, 0, 5, 5);
 		gbc_comboBoxEvento.fill = GridBagConstraints.BOTH;
@@ -76,7 +76,7 @@ public class AltaTipoRegistro extends JInternalFrame {
 		gbc_lblEdicion.gridy = 2;
 		getContentPane().add(lblEdicion, gbc_lblEdicion);
 		
-		comboBoxEdicion = new JComboBox();
+		comboBoxEdicion = new JComboBox<>();
 		GridBagConstraints gbc_comboBoxEdicion = new GridBagConstraints();
 		gbc_comboBoxEdicion.insets = new Insets(0, 0, 5, 5);
 		gbc_comboBoxEdicion.fill = GridBagConstraints.HORIZONTAL;
@@ -184,18 +184,33 @@ public class AltaTipoRegistro extends JInternalFrame {
         getContentPane().add(btnAceptar, gbc_btnAceptar);
 		
         //COMBOBOXES CON LISTENERS
-        for (Evento e : ManejadorEvento.getInstancia().listarEventos()) {
-		    comboBoxEvento.addItem(e);
-		}
+        List<Evento> eventos = ManejadorEvento.getInstancia().listarEventos();
+        if (eventos.isEmpty()) {
+            comboBoxEvento.setEnabled(false);
+            comboBoxEdicion.setEnabled(false);
+        } else {
+            comboBoxEvento.setEnabled(true);
+            DefaultComboBoxModel<Evento> modelEventos = new DefaultComboBoxModel<>();
+            for (Evento e : eventos) {
+                modelEventos.addElement(e);
+            }
+            comboBoxEvento.setModel(modelEventos);
+        }
         
-        comboBoxEvento.addActionListener(click -> {
-        	Evento eventoSeleccionado = (Evento) comboBoxEvento.getSelectedItem();
-        	comboBoxEdicion.removeAllItems();
-        	if (eventoSeleccionado != null) {
-        		for (Edicion ed : eventoSeleccionado.getEdiciones()) {
-        			comboBoxEdicion.addItem(ed);
-        		}
-        	}
+        comboBoxEvento.addActionListener(e -> {
+            Evento eventoSeleccionado = (Evento) comboBoxEvento.getSelectedItem();
+            comboBoxEdicion.removeAllItems();
+
+            if (eventoSeleccionado != null && !eventoSeleccionado.getEdiciones().isEmpty()) {
+                comboBoxEdicion.setEnabled(true);
+                DefaultComboBoxModel<Edicion> modelEdiciones = new DefaultComboBoxModel<>();
+                for (Edicion ed : eventoSeleccionado.getEdiciones()) {
+                    modelEdiciones.addElement(ed); 
+                }
+                comboBoxEdicion.setModel(modelEdiciones);
+            } else {
+                comboBoxEdicion.setEnabled(false);
+            }
         });
         
         //LISTENERS

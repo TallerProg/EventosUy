@@ -22,7 +22,7 @@ public interface IControllerUsuario{
 	 // Consulta de usuario por nickname
 
 	 public Organizador getOrganizador(String nicknameOrg);
-	 public DTUsuarioLista ConsultaDeUsuario(String nicknameUsu) throws UsuarioNoExisteException;
+	 public DTUsuarioListaConsulta ConsultaDeUsuario(String nicknameUsu);
 
 
 	 // Listado de todos los usuarios

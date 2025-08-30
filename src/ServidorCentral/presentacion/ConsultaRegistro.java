@@ -209,4 +209,12 @@ public class ConsultaRegistro extends JInternalFrame {
 		comboBoxRegistro.setModel(model);
 		comboBoxRegistro.setEnabled(true);
 	}
+	
+	public static ConsultaRegistro crearYMostrar(IControllerUsuario controllerU, String nombreUsuario, String nombreEdicion) {
+		ConsultaRegistro cr = new ConsultaRegistro(controllerU); // constructor normal
+		cr.cargarUsuarios();
+		cr.comboBoxUsuario.setSelectedItem(nombreUsuario);
+		cr.comboBoxRegistro.setSelectedItem(nombreEdicion);		
+	    return cr;
+	}
 }

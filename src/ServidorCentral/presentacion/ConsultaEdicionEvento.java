@@ -220,4 +220,17 @@ public class ConsultaEdicionEvento extends JInternalFrame {
 	    ctr.setVisible(true);
 	    return ctr;
 	}
+    
+    public void cargarDatos(DTEdicion dtTipo) {
+	    if (dtTipo == null) return;
+	    mostrarDatosEdicion(dtTipo);
+	}
+
+	public static ConsultaEdicionEvento crearYMostrar(IControllerEvento controller, String nombreEvento, String nombreEdicion) {
+		ConsultaEdicionEvento cee = new ConsultaEdicionEvento(controller); // constructor normal
+	    DTEdicion dtTipo = controller.consultaEdicionDeEvento(nombreEvento, nombreEdicion);
+	    cee.cargarDatos(dtTipo);
+	    cee.setVisible(true);
+	    return cee;
+	}
 }

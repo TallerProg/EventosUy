@@ -30,4 +30,8 @@ public class Usuario {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+  
+    //SOBRECARGO TOSTRING PARA MOSTRAR NOMBRE EN COMBOBOX
+    public String toString() { return nickname; }
+	
 }

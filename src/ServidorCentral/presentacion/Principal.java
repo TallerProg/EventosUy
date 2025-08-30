@@ -55,7 +55,7 @@ public class Principal {
 
         // Inicializar los InternalFrames (inicialmente ocultos)
         creUsrInternalFrame = new AltaUsuario(ICU);
-        conUsrInternalFrame = new ConsultarUsuario();
+        conUsrInternalFrame = new ConsultarUsuario(ICU, ICE);
         creEdiEveInternalFrame = new AltaEdicionEvento(ICE);
         creEveInternalFrame = new AltaEvento(ICE);
         creTRegInternalFrame = new AltaTipoRegistro(ICE);

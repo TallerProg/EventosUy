@@ -35,6 +35,9 @@ public class Registro {
 
     public Edicion getEdicion() { return edicion; }
     public void setEdicion(Edicion edicion) { this.edicion = edicion; }
+    public String toString() {
+        return edicion.getNombre();
+    }
 
     public Asistente getAsistente() { return asistente; }
     public void setAsistente(Asistente asistente) { this.asistente = asistente; }

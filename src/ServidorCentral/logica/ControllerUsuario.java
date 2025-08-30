@@ -13,9 +13,37 @@ public class ControllerUsuario implements IControllerUsuario {
     }
 
     // Método de consulta
-    public DTUsuarioLista ConsultaDeUsuario(String nicknameUsu) throws UsuarioNoExisteException {
-        return null; // placeholder
-    }
+    public DTUsuarioListaConsulta ConsultaDeUsuario(String nicknameUsu) {
+    	ManejadorUsuario manejador = ManejadorUsuario.getinstance();
+	    Usuario usuario = manejador.findUsuario(nicknameUsu);
+	    if (usuario == null) 
+	    	return null;
+	    DTUsuarioListaConsulta dt = new DTUsuarioListaConsulta();
+	    dt.setNickname(usuario.getNickname());
+	    dt.setCorreo(usuario.getCorreo());
+	    dt.setNombre(usuario.getNombre());
+	    //CASO ASIS
+	    if (usuario instanceof Asistente) {
+	    	Asistente a = (Asistente) usuario;
+	        dt.setApellido(a.getApellido());
+	        dt.setFNacimiento(a.getfNacimiento());
+	        dt.setRegistros(a.getRegistros());
+	        List<Edicion> edicionesDeRegistros = a.getRegistros().stream().map(r -> r.getEdicion()).toList();
+	        dt.setEdiciones(edicionesDeRegistros);
+	        dt.setDescripcion(null);
+	        dt.setUrl(null);	        
+	    //CASO ORG    
+	    } else if (usuario instanceof Organizador) {
+	        Organizador o = (Organizador) usuario;
+	        dt.setDescripcion(o.getDescripcion());
+	        dt.setUrl(o.getUrl());
+	        dt.setEdiciones(o.getEdiciones());
+	        dt.setApellido(null);
+	        dt.setFNacimiento(null);
+	        dt.setRegistros(null);
+	    }
+	    return dt;
+	}     
 
     // Métodos de alta
     public void AltaAsistente(String nicknameUsu, String correo, String nombre, String apellido, 
