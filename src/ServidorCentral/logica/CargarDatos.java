@@ -11,7 +11,7 @@ import javax.swing.JOptionPane;
 import ServidorCentral.excepciones.UsuarioRepetidoException;
 
 public class CargarDatos {
-	
+		
 		    public static void inicializar(IControllerUsuario ICU, IControllerEvento ICE) throws Exception {
 		    	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		    	// ------------------

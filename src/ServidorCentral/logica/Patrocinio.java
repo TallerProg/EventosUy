@@ -1,6 +1,7 @@
 package ServidorCentral.logica;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Patrocinio {
@@ -29,6 +30,8 @@ public class Patrocinio {
         this.institucion = institucion;
         this.edicion = edicion;
         this.tipoRegistro = tipoRegistro;
+        this.registros= new ArrayList<>();
+        this.asistentes = new ArrayList<>();   
     }
 
     // Getters y setters

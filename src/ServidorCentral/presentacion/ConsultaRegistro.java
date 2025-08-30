@@ -18,9 +18,6 @@ public class ConsultaRegistro extends JInternalFrame {
 	 private IControllerUsuario icu;
 	private JComboBox<String> comboBoxUsuario;
 	private JComboBox<String> comboBoxRegistro;
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private JTextField textField;
 	private JTextField textField_1;
