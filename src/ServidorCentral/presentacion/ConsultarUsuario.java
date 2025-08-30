@@ -39,14 +39,16 @@ public class ConsultarUsuario extends JInternalFrame {
     private JTextField textFieldURL;
 
     private JPanel panelDatos;
+    private JButton btnVerDetalles;
 
-    public ConsultarUsuario(IControllerUsuario icu, IControllerEvento ice) {
+    public ConsultarUsuario(IControllerUsuario icu, IControllerEvento ice, JDesktopPane desktopPane) {
         controlUsuario = icu;
         controlEvento = ice;
 
         setResizable(true);
         setIconifiable(true);
         setMaximizable(true);
+        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         setClosable(true);
         setTitle("Consultar Usuario");
         setSize(700, 400);
@@ -63,7 +65,7 @@ public class ConsultarUsuario extends JInternalFrame {
         getContentPane().add(panelDatos, BorderLayout.CENTER);
         GridBagLayout gbl_panelDatos = new GridBagLayout();
         gbl_panelDatos.columnWidths = new int[]{120, 400};
-        gbl_panelDatos.rowHeights = new int[]{30,30,30,30,30,30,30,30};
+        gbl_panelDatos.rowHeights = new int[]{30,30,30,30,30,30,30,30,30};
         gbl_panelDatos.columnWeights = new double[]{0.0, 1.0};
         gbl_panelDatos.rowWeights = new double[]{0,0,0,0,0,0,0,0};
         panelDatos.setLayout(gbl_panelDatos);
@@ -106,6 +108,15 @@ public class ConsultarUsuario extends JInternalFrame {
         gbc_comboEdiciones.gridx = 1;
         gbc_comboEdiciones.gridy = 5;
         panelDatos.add(comboBoxEdiciones, gbc_comboEdiciones);
+        
+        btnVerDetalles = new JButton("Ver detalles");
+        btnVerDetalles.setVisible(false);
+        GridBagConstraints gbc_btnVerDetalles = new GridBagConstraints();
+        gbc_btnVerDetalles.gridx = 1;
+        gbc_btnVerDetalles.gridy = 6; 
+        gbc_btnVerDetalles.anchor = GridBagConstraints.WEST;
+        gbc_btnVerDetalles.insets = new Insets(10,0,0,0);
+        panelDatos.add(btnVerDetalles, gbc_btnVerDetalles);
 
         lblApellido.setVisible(false);
         textFieldApellido.setVisible(false);
@@ -143,7 +154,9 @@ public class ConsultarUsuario extends JInternalFrame {
                     lblDescripcion.setVisible(false);
                     textFieldDescripcion.setVisible(false);
                     lblURL.setVisible(false);
-                    textFieldURL.setVisible(false);
+                    textFieldURL.setVisible(false);                    
+                    btnVerDetalles.setText("Ver detalles registro"); 
+                    btnVerDetalles.setVisible(true);
                 //CASO ORG
                 } else if (usuario instanceof Organizador) {
                     lblDescripcion.setVisible(true);
@@ -157,11 +170,31 @@ public class ConsultarUsuario extends JInternalFrame {
                     textFieldApellido.setVisible(false);
                     lblFechaNacimiento.setVisible(false);
                     textFieldFechaNacimiento.setVisible(false);
+                    btnVerDetalles.setText("Ver detalles edición de evento"); 
+                    btnVerDetalles.setVisible(true);
+                } else {
+                    btnVerDetalles.setVisible(false); 
                 }
 
                 cargarEdiciones(dt.getEdiciones());
                 panelDatos.revalidate();
                 panelDatos.repaint();
+            }
+        });
+        
+        btnVerDetalles.addActionListener(e -> {
+            String nomUsuarioSeleccionado = (String) comboBoxUsuario.getSelectedItem();
+            String nomEdicionSeleccionada = (String) comboBoxEdiciones.getSelectedItem();
+            
+            if (controlUsuario.getUsuario(nomUsuarioSeleccionado) == null || controlEvento.findEdicion(nomEdicionSeleccionada) == null) return;
+            
+            //CASO ASIS
+            if (controlUsuario.getUsuario(nomUsuarioSeleccionado) instanceof Asistente) {                
+                ConsultaRegistro.crearYMostrar(controlUsuario, nomUsuarioSeleccionado, controlEvento.findEdicion(nomEdicionSeleccionada).getEvento().getNombre(), desktopPane);              
+            //CASO ORG
+            } else if (controlUsuario.getUsuario(nomUsuarioSeleccionado) instanceof Organizador) {                
+                ConsultaEdicionEvento.crearYMostrar(controlEvento, controlEvento.findEdicion(nomEdicionSeleccionada).getEvento().getNombre(), 
+                		nomEdicionSeleccionada, desktopPane);                       
             }
         });
     }
