@@ -27,6 +27,8 @@ public class ManejadorEvento {
     	
     	return new ArrayList<>(ediciones);
     }
+    
+    
     public boolean existeEvento(String nombre) {
         for (Evento e : eventos) {
             if (e.getNombre().equalsIgnoreCase(nombre)) {

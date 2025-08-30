@@ -42,7 +42,7 @@ class ControllerUsuarioTest {
 		
 		try {
 			controladorUsu.AltaAsistente(nicknameTest, correoTest, nombreTest, apellidoTest, fNacimientoTest, insTest);
-			Asistente a =controladorUsu.getAsistente(nicknameTest);
+			Asistente a = controladorUsu.getAsistente(nicknameTest);
 			
 			assertEquals(a.getNickname(), nicknameTest);
 			assertEquals(a.getCorreo(), correoTest);

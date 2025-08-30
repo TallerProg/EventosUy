@@ -1,4 +1,4 @@
-package ServidorCentral.presentacion;
+1package ServidorCentral.presentacion;
 
 import javax.swing.*;
 import java.awt.*;
