@@ -15,7 +15,6 @@ public interface IControllerEvento {
 	public List<Evento> listarEventos();
     public List<Categoria> getCategorias();	
     public Edicion findEdicion(String nombre);
-    public Evento findEvento(String nombre);
     public boolean existeEvento(String nombre);
    
     public Evento getEvento(String nombreEvento);

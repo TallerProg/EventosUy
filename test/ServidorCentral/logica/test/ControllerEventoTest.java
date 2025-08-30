@@ -42,7 +42,7 @@ class ControllerEventoTest {
 		
 		try {
 			controladorEve.altaEvento(nomTest, descTest, fAltaTest, siglaTest, catTest);
-			Evento e = controladorEve.findEvento(nomTest);
+			Evento e = controladorEve.getEvento(nomTest);
 			
 			assertEquals(e.getNombre(),nomTest);
 			assertEquals(e.getDescripcion(),descTest);
