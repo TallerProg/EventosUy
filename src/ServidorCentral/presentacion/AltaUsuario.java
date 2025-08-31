@@ -24,7 +24,6 @@ public class AltaUsuario extends JInternalFrame {
     private JTextField textFieldCorreo;
     private JTextField textFieldNombre;
 
-    // Campos dinámicos como atributos
     private JLabel lblApellido;
     private JTextField textFieldApellido;
     private JLabel lblFecha;
