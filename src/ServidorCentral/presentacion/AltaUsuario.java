@@ -3,7 +3,7 @@ package ServidorCentral.presentacion;
 import ServidorCentral.excepciones.UsuarioRepetidoException;
 import ServidorCentral.logica.IControllerUsuario;
 import ServidorCentral.logica.Institucion;
-import ServidorCentral.logica.ManejadorInstitucion;
+import ServidorCentral.logica.IControllerInstitucion;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -18,6 +18,7 @@ import javax.swing.*;
 public class AltaUsuario extends JInternalFrame {
 
     private IControllerUsuario controlUsr;
+    private IControllerInstitucion controlIns;
 
     private JTextField textFieldNickName;
     private JTextField textFieldCorreo;
@@ -30,11 +31,12 @@ public class AltaUsuario extends JInternalFrame {
     private JComboBox<String> comboInstitucion;
     private JButton btnAceptar;
     private JButton btnCancelar;
-    
+
     private int row = 0;
 
-    public AltaUsuario(IControllerUsuario icu) {
+    public AltaUsuario(IControllerUsuario icu, IControllerInstitucion ici) {
         controlUsr = icu;
+        controlIns = ici;
 
         setResizable(true);
         setIconifiable(true);
@@ -44,10 +46,10 @@ public class AltaUsuario extends JInternalFrame {
         setBounds(10, 10, 500, 450);
 
         GridBagLayout gridBagLayout = new GridBagLayout();
-        gridBagLayout.columnWidths = new int[]{120, 250, 0};
-        gridBagLayout.rowHeights = new int[]{30, 30, 30, 30, 30, 30, 30, 30, 30};
-        gridBagLayout.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-        gridBagLayout.rowWeights = new double[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
+        gridBagLayout.columnWidths = new int[] { 120, 250, 0 };
+        gridBagLayout.rowHeights = new int[] { 30, 30, 30, 30, 30, 30, 30, 30, 30 };
+        gridBagLayout.columnWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
+        gridBagLayout.rowWeights = new double[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
         getContentPane().setLayout(gridBagLayout);
 
         // Tipo de usuario
@@ -59,7 +61,7 @@ public class AltaUsuario extends JInternalFrame {
         gbc_lblTipo.anchor = GridBagConstraints.EAST;
         getContentPane().add(lblTipo, gbc_lblTipo);
 
-        comboTipoUsuario = new JComboBox<>(new String[]{"Asistente", "Organizador"});
+        comboTipoUsuario = new JComboBox<>(new String[] { "Asistente", "Organizador" });
         GridBagConstraints gbc_comboTipo = new GridBagConstraints();
         gbc_comboTipo.insets = new Insets(5, 5, 5, 5);
         gbc_comboTipo.fill = GridBagConstraints.HORIZONTAL;
@@ -85,7 +87,7 @@ public class AltaUsuario extends JInternalFrame {
         gbc_textNick.gridy = row;
         getContentPane().add(textFieldNickName, gbc_textNick);
         row++;
-        
+
         // Correo
         JLabel lblCorreo = new JLabel("Correo:");
         GridBagConstraints gbc_lblCorreo = new GridBagConstraints();
@@ -136,7 +138,7 @@ public class AltaUsuario extends JInternalFrame {
         JLabel lblInstitucion = new JLabel("Institución :");
         comboInstitucion = new JComboBox<>();
         comboInstitucion.addItem("Ninguna");
-        for (Institucion ins : ManejadorInstitucion.getInstance().listarInstituciones()) {
+        for (Institucion ins : controlIns.getInstituciones()) {
             comboInstitucion.addItem(ins.getNombre());
         }
 
@@ -150,24 +152,24 @@ public class AltaUsuario extends JInternalFrame {
         Dimension mismoTamaño = new Dimension(100, 25);
         btnAceptar.setPreferredSize(mismoTamaño);
         getContentPane().add(btnAceptar, gbc_btnAceptar);
-        
+
         // Botón Cancelar
         btnCancelar = new JButton("Cancelar");
         GridBagConstraints gbc_btnCancelar = new GridBagConstraints();
         gbc_btnCancelar.insets = new Insets(10, 20, 5, 80);
-        gbc_btnCancelar.gridx = 1; 
+        gbc_btnCancelar.gridx = 1;
         gbc_btnCancelar.gridy = 8;
         gbc_btnCancelar.anchor = GridBagConstraints.LINE_END;
         btnCancelar.setPreferredSize(mismoTamaño);
         getContentPane().add(btnCancelar, gbc_btnCancelar);
-        
+
         // Acción del botón Cancelar
         btnCancelar.addActionListener(e -> this.setVisible(false));
 
         // Listener tipo de usuario
-        comboTipoUsuario.addActionListener(e -> actualizarCampos(row, lblApellido, textFieldApellido,
-                lblFecha, textFieldFechaNacimiento, lblDescripcion, textFieldDescripcion, lblURL, textFieldURL,
-                lblInstitucion, comboInstitucion));
+        comboTipoUsuario.addActionListener(
+                e -> actualizarCampos(row, lblApellido, textFieldApellido, lblFecha, textFieldFechaNacimiento,
+                        lblDescripcion, textFieldDescripcion, lblURL, textFieldURL, lblInstitucion, comboInstitucion));
 
         comboTipoUsuario.setSelectedIndex(0);
 
@@ -179,11 +181,9 @@ public class AltaUsuario extends JInternalFrame {
             String correo = textFieldCorreo.getText().trim();
 
             try {
-                
+
                 if (nick.isEmpty() || nombre.isEmpty() || correo.isEmpty()) {
-                    JOptionPane.showMessageDialog(this,
-                            "Nickname, Nombre y Correo son obligatorios.",
-                            "Campos vacíos",
+                    JOptionPane.showMessageDialog(this, "Nickname, Nombre y Correo son obligatorios.", "Campos vacíos",
                             JOptionPane.WARNING_MESSAGE);
                     return;
                 }
@@ -193,10 +193,8 @@ public class AltaUsuario extends JInternalFrame {
                     String fechaStr = textFieldFechaNacimiento.getText().trim();
 
                     if (apellido.isEmpty() || fechaStr.isEmpty()) {
-                        JOptionPane.showMessageDialog(this,
-                                "Apellido y Fecha de nacimiento son obligatorios.",
-                                "Campos vacíos",
-                                JOptionPane.WARNING_MESSAGE);
+                        JOptionPane.showMessageDialog(this, "Apellido y Fecha de nacimiento son obligatorios.",
+                                "Campos vacíos", JOptionPane.WARNING_MESSAGE);
                         return;
                     }
 
@@ -205,7 +203,7 @@ public class AltaUsuario extends JInternalFrame {
                     String nombreInstitucion = (String) comboInstitucion.getSelectedItem();
                     Institucion inst = null;
                     if (!nombreInstitucion.equals("Ninguna")) {
-                        inst = ManejadorInstitucion.getInstance().findInstitucion(nombreInstitucion);
+                        inst = controlIns.findInstitucion(nombreInstitucion);
                     }
 
                     controlUsr.AltaAsistente(nick, correo, nombre, apellido, fecha, inst);
@@ -213,15 +211,14 @@ public class AltaUsuario extends JInternalFrame {
                 } else {
                     String descripcion = textFieldDescripcion.getText().trim();
                     if (descripcion.isEmpty()) {
-                        JOptionPane.showMessageDialog(this,
-                                "La descripción es obligatoria para un Organizador.",
-                                "Campos vacíos",
-                                JOptionPane.WARNING_MESSAGE);
+                        JOptionPane.showMessageDialog(this, "La descripción es obligatoria para un Organizador.",
+                                "Campos vacíos", JOptionPane.WARNING_MESSAGE);
                         return;
                     }
 
                     String url = textFieldURL.getText().trim();
-                    if (url.isEmpty()) url = null;
+                    if (url.isEmpty())
+                        url = null;
 
                     controlUsr.AltaOrganizador(nick, correo, nombre, descripcion, url);
                 }
@@ -230,7 +227,8 @@ public class AltaUsuario extends JInternalFrame {
                 this.setVisible(false);
 
             } catch (DateTimeParseException dtpe) {
-                JOptionPane.showMessageDialog(this, "Formato de fecha inválido. Use dd/MM/yyyy", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Formato de fecha inválido. Use dd/MM/yyyy", "Error",
+                        JOptionPane.ERROR_MESSAGE);
             } catch (UsuarioRepetidoException ure) {
                 JOptionPane.showMessageDialog(this, ure.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             } catch (Exception ex) {
@@ -239,12 +237,9 @@ public class AltaUsuario extends JInternalFrame {
         });
     }
 
-    private void actualizarCampos(int row,
-                                  JLabel lblApellido, JTextField textApellido,
-                                  JLabel lblFecha, JTextField textFecha,
-                                  JLabel lblDesc, JTextField textDesc,
-                                  JLabel lblURL, JTextField textURL,
-                                  JLabel lblInstitucion, JComboBox<String> comboIns) {
+    private void actualizarCampos(int row, JLabel lblApellido, JTextField textApellido, JLabel lblFecha,
+            JTextField textFecha, JLabel lblDesc, JTextField textDesc, JLabel lblURL, JTextField textURL,
+            JLabel lblInstitucion, JComboBox<String> comboIns) {
         getContentPane().remove(lblApellido);
         getContentPane().remove(textApellido);
         getContentPane().remove(lblFecha);
@@ -259,6 +254,12 @@ public class AltaUsuario extends JInternalFrame {
         int dynamicRow = row;
 
         if (comboTipoUsuario.getSelectedItem().equals("Asistente")) {
+            comboIns.removeAllItems();
+            comboIns.addItem("Ninguna");
+            for (Institucion ins : controlIns.getInstituciones()) {
+                comboIns.addItem(ins.getNombre());
+            }
+
             // Apellido
             GridBagConstraints gbc_lblAp = new GridBagConstraints();
             gbc_lblAp.insets = new Insets(5, 5, 5, 5);
@@ -342,5 +343,14 @@ public class AltaUsuario extends JInternalFrame {
         getContentPane().repaint();
     }
 
+    public void recargarCampos() {
+        actualizarCampos(row, new JLabel("Apellido:"), textFieldApellido,
+                new JLabel("Fecha de Nac.:"), textFieldFechaNacimiento,
+                new JLabel("Descripción:"), textFieldDescripcion,
+                new JLabel("URL (opcional):"), textFieldURL,
+                new JLabel("Institución :"), comboInstitucion);
+    }
+
     private static final long serialVersionUID = 1L;
 }
+

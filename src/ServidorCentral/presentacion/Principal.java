@@ -57,7 +57,7 @@ public class Principal {
         ICI = fabrica.getIControllerInstitucion();
 
         // Inicializar los InternalFrames (inicialmente ocultos)
-        creUsrInternalFrame = new AltaUsuario(ICU);
+        creUsrInternalFrame = new AltaUsuario(ICU,ICI);
         conUsrInternalFrame = new ConsultarUsuario(ICU, ICE, desktopPane);
         creEdiEveInternalFrame = new AltaEdicionEvento(ICE);
         creEveInternalFrame = new AltaEvento(ICE);
@@ -122,7 +122,10 @@ public class Principal {
         menuBar.add(menuUsuarios);
 
         JMenuItem menuAltaUsuario = new JMenuItem("Alta de Usuario");
-        menuAltaUsuario.addActionListener(e -> mostrarInternalFrame(creUsrInternalFrame));
+        menuAltaUsuario.addActionListener(e -> {
+            creUsrInternalFrame.recargarCampos();
+            mostrarInternalFrame(creUsrInternalFrame);
+        });
         menuUsuarios.add(menuAltaUsuario);
 
         JMenuItem menuConsultaUsuario = new JMenuItem("Consulta de Usuario");

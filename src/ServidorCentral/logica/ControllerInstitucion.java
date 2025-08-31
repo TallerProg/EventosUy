@@ -1,5 +1,7 @@
 package ServidorCentral.logica;
 
+import java.util.List;
+
 public class ControllerInstitucion implements IControllerInstitucion {
 
 	public void altaInstitucion(String nombreIns, String url, String descripcion) throws Exception {
@@ -16,6 +18,11 @@ public class ControllerInstitucion implements IControllerInstitucion {
 	public Institucion findInstitucion(String nombreIns) {
 		ManejadorInstitucion mi = ManejadorInstitucion.getInstance();
 		return mi.findInstitucion(nombreIns);
+	}
+	
+	public List<Institucion> getInstituciones() {
+		ManejadorInstitucion mi = ManejadorInstitucion.getInstance();
+		return mi.listarInstituciones();
 	}
 
 	/*
