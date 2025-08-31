@@ -1,6 +1,7 @@
 package ServidorCentral.presentacion;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.List;
 import ServidorCentral.logica.Patrocinio;
 import ServidorCentral.logica.DTPatrocinio;
@@ -10,267 +11,234 @@ import ServidorCentral.logica.IControllerEvento;
 
 public class ConsultaPatrocinio extends JInternalFrame {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private IControllerEvento controller;
+    private IControllerEvento controller;
 
-	private JComboBox<String> comboEventos;
-	private JComboBox<String> comboEdiciones;
-	private JComboBox<String> comboPatrocinios;
+    private JComboBox<String> comboEventos;
+    private JComboBox<String> comboEdiciones;
+    private JComboBox<String> comboPatrocinios;
 
-	private JTextField tfCodigo, tfFechaInicio, tfRegistroGratuito, tfMonto, tfNivel, tfInstitucion, tfTipoRegistro;
+    private JTextField tfCodigo, tfFechaInicio, tfRegistroGratuito, tfMonto, tfNivel, tfInstitucion, tfTipoRegistro;
 
-	public ConsultaPatrocinio(IControllerEvento controller) {
-		this.controller = controller;
-		setTitle("Consulta de Patrocinio");
-		setSize(700, 400);
-		setClosable(true);
-		setIconifiable(true);
-		setMaximizable(true);
-		setResizable(true);
-		getContentPane().setLayout(null);
+    public ConsultaPatrocinio(IControllerEvento controller) {
+        this.controller = controller;
+        setTitle("Consulta de Patrocinio");
+        setSize(700, 400);
+        setClosable(true);
+        setIconifiable(true);
+        setMaximizable(true);
+        setResizable(true);
 
-		// --- Combos ---
-		JLabel lblEvento = new JLabel("Evento:");
-		lblEvento.setBounds(30, 20, 100, 25);
-		getContentPane().add(lblEvento);
+        initComponents();
+    }
 
-		comboEventos = new JComboBox<>();
-		comboEventos.setBounds(140, 20, 245, 25);
-		comboEventos.setEnabled(false); // Fijo
-		getContentPane().add(comboEventos);
+    private void initComponents() {
+        Font labelFont = new Font("Tahoma", Font.PLAIN, 10);
+        Font fieldFont = new Font("Tahoma", Font.PLAIN, 10);
 
-		JLabel lblEdicion = new JLabel("Edición:");
-		lblEdicion.setBounds(30, 60, 100, 25);
-		getContentPane().add(lblEdicion);
+        JPanel panel = new JPanel(new GridBagLayout());
+        getContentPane().add(panel, BorderLayout.CENTER);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
 
-		comboEdiciones = new JComboBox<>();
-		comboEdiciones.setBounds(140, 60, 245, 25);
-		comboEdiciones.setEnabled(false); // Fijo
-		getContentPane().add(comboEdiciones);
+        int row = 0;
 
-		JLabel lblPatrocinio = new JLabel("Patrocinio:");
-		lblPatrocinio.setBounds(30, 100, 100, 25);
-		getContentPane().add(lblPatrocinio);
+        // --- Combos ---
+        JLabel lblEvento = new JLabel("Evento:");
+        lblEvento.setFont(labelFont);
+        gbc.gridx = 0; gbc.gridy = row;
+        panel.add(lblEvento, gbc);
 
-		comboPatrocinios = new JComboBox<>();
-		comboPatrocinios.setBounds(140, 100, 210, 25);
-		comboPatrocinios.setEnabled(false); // Fijo
-		getContentPane().add(comboPatrocinios);
+        comboEventos = new JComboBox<>();
+        comboEventos.setFont(fieldFont);
+        comboEventos.setEnabled(false); // Fijo
+        gbc.gridx = 1; gbc.gridy = row; gbc.gridwidth = 2;
+        panel.add(comboEventos, gbc);
+        row++; gbc.gridwidth = 1;
 
-		comboEventos.addActionListener(e -> {
-			String nombreEvento = (String) comboEventos.getSelectedItem();
-			if (nombreEvento != null && !nombreEvento.equals("Sin eventos")) {
-				comboEdiciones.setEnabled(true);
-				try {
-					cargarEdiciones(nombreEvento);
-				} catch (Exception ex) {
-					JOptionPane.showMessageDialog(this, "Error al cargar ediciones: " + ex.getMessage(), "Error",
-							JOptionPane.ERROR_MESSAGE);
-				}
+        JLabel lblEdicion = new JLabel("Edición:");
+        lblEdicion.setFont(labelFont);
+        gbc.gridx = 0; gbc.gridy = row;
+        panel.add(lblEdicion, gbc);
 
-			}
-		});
+        comboEdiciones = new JComboBox<>();
+        comboEdiciones.setFont(fieldFont);
+        comboEdiciones.setEnabled(false); // Fijo
+        gbc.gridx = 1; gbc.gridy = row; gbc.gridwidth = 2;
+        panel.add(comboEdiciones, gbc);
+        row++; gbc.gridwidth = 1;
 
-		comboEdiciones.addActionListener(e -> {
-			String nombreEdicion = (String) comboEdiciones.getSelectedItem();
-			if (nombreEdicion != null && !nombreEdicion.equals("Sin ediciones")) {
-				comboPatrocinios.setEnabled(true);
-				try {
-					cargarPatrocinios(nombreEdicion);
-				} catch (Exception ex) {
-					JOptionPane.showMessageDialog(this, "Error al cargar patrocinios: " + ex.getMessage(), "Error",
-							JOptionPane.ERROR_MESSAGE);
-				}
+        JLabel lblPatrocinio = new JLabel("Patrocinio:");
+        lblPatrocinio.setFont(labelFont);
+        gbc.gridx = 0; gbc.gridy = row;
+        panel.add(lblPatrocinio, gbc);
 
-			}
-		});
+        comboPatrocinios = new JComboBox<>();
+        comboPatrocinios.setFont(fieldFont);
+        comboPatrocinios.setEnabled(false); // Fijo
+        gbc.gridx = 1; gbc.gridy = row; gbc.gridwidth = 2;
+        panel.add(comboPatrocinios, gbc);
+        row++; gbc.gridwidth = 1;
 
-		comboPatrocinios.addActionListener(e -> {
-			String codigoPatrocinioString = (String) comboPatrocinios.getSelectedItem();
-			String edicion = (String) comboEdiciones.getSelectedItem();
-			if (codigoPatrocinioString != null && !codigoPatrocinioString.equals("Sin patrocinios")) {
-				try {
-					DTPatrocinio patrocinio = controller.consultaPatrocinio(edicion, codigoPatrocinioString);
-					if (patrocinio != null) {
-						cargarDatos(patrocinio);
-					}
-				} catch (Exception ex) {
-					JOptionPane.showMessageDialog(this, "Error al cargar datos del patrocinio: " + ex.getMessage(),
-							"Error", JOptionPane.ERROR_MESSAGE);
-				}
+        comboEventos.addActionListener(e -> {
+            String nombreEvento = (String) comboEventos.getSelectedItem();
+            if (nombreEvento != null && !nombreEvento.equals("Sin eventos")) {
+                comboEdiciones.setEnabled(true);
+                try {
+                    cargarEdiciones(nombreEvento);
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(this, "Error al cargar ediciones: " + ex.getMessage(), "Error",
+                            JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
 
-			}
-		});
+        comboEdiciones.addActionListener(e -> {
+            String nombreEdicion = (String) comboEdiciones.getSelectedItem();
+            if (nombreEdicion != null && !nombreEdicion.equals("Sin ediciones")) {
+                comboPatrocinios.setEnabled(true);
+                try {
+                    cargarPatrocinios(nombreEdicion);
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(this, "Error al cargar patrocinios: " + ex.getMessage(), "Error",
+                            JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
 
-		// --- Campos de Patrocinio ---
-		int y = 150;
-		int labelWidth = 120;
-		int tfWidth = 200;
-		int height = 25;
+        comboPatrocinios.addActionListener(e -> {
+            String codigoPatrocinioString = (String) comboPatrocinios.getSelectedItem();
+            String edicion = (String) comboEdiciones.getSelectedItem();
+            if (codigoPatrocinioString != null && !codigoPatrocinioString.equals("Sin patrocinios")) {
+                try {
+                    DTPatrocinio patrocinio = controller.consultaPatrocinio(edicion, codigoPatrocinioString);
+                    if (patrocinio != null) {
+                        cargarDatos(patrocinio);
+                    }
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(this, "Error al cargar datos del patrocinio: " + ex.getMessage(),
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
 
-		JLabel lblCodigo = new JLabel("Código:");
-		lblCodigo.setBounds(30, y, labelWidth, height);
-		getContentPane().add(lblCodigo);
+        // --- Campos de Patrocinio ---
+        row++; // espacio
+        String[] labels = {"Código:", "Fecha Inicio:", "Registros Gratuitos:", "Monto:", "Nivel:", "Institución:", "Tipo Registro:"};
+        JTextField[] fields = new JTextField[7];
 
-		tfCodigo = new JTextField();
-		tfCodigo.setEditable(false);
-		tfCodigo.setBounds(150, y, tfWidth, height);
-		getContentPane().add(tfCodigo);
+        tfCodigo = new JTextField(); tfCodigo.setEditable(false); tfCodigo.setFont(fieldFont); fields[0] = tfCodigo;
+        tfFechaInicio = new JTextField(); tfFechaInicio.setEditable(false); tfFechaInicio.setFont(fieldFont); fields[1] = tfFechaInicio;
+        tfRegistroGratuito = new JTextField(); tfRegistroGratuito.setEditable(false); tfRegistroGratuito.setFont(fieldFont); fields[2] = tfRegistroGratuito;
+        tfMonto = new JTextField(); tfMonto.setEditable(false); tfMonto.setFont(fieldFont); fields[3] = tfMonto;
+        tfNivel = new JTextField(); tfNivel.setEditable(false); tfNivel.setFont(fieldFont); fields[4] = tfNivel;
+        tfInstitucion = new JTextField(); tfInstitucion.setEditable(false); tfInstitucion.setFont(fieldFont); fields[5] = tfInstitucion;
+        tfTipoRegistro = new JTextField(); tfTipoRegistro.setEditable(false); tfTipoRegistro.setFont(fieldFont); fields[6] = tfTipoRegistro;
 
-		JLabel lblFechaInicio = new JLabel("Fecha Inicio:");
-		lblFechaInicio.setBounds(30, y + 30, labelWidth, height);
-		getContentPane().add(lblFechaInicio);
+        for (int i = 0; i < labels.length; i++) {
+            JLabel lbl = new JLabel(labels[i]);
+            lbl.setFont(labelFont);
+            gbc.gridx = 0; gbc.gridy = row; gbc.anchor = GridBagConstraints.WEST;
+            panel.add(lbl, gbc);
 
-		tfFechaInicio = new JTextField();
-		tfFechaInicio.setEditable(false);
-		tfFechaInicio.setBounds(150, y + 30, tfWidth, height);
-		getContentPane().add(tfFechaInicio);
+            gbc.gridx = 1; gbc.gridy = row; gbc.gridwidth = 2; gbc.fill = GridBagConstraints.HORIZONTAL;
+            panel.add(fields[i], gbc);
+            row++; gbc.gridwidth = 1;
+        }
+    }
 
-		JLabel lblRegistroGratuito = new JLabel("Registros Gratuitos:");
-		lblRegistroGratuito.setBounds(30, y + 60, labelWidth, height);
-		getContentPane().add(lblRegistroGratuito);
+    // Carga los datos en los campos y combos, combos quedan fijos
+    public void cargarDatos(DTPatrocinio dtPat) {
+        if (dtPat == null) return;
 
-		tfRegistroGratuito = new JTextField();
-		tfRegistroGratuito.setEditable(false);
-		tfRegistroGratuito.setBounds(150, y + 60, tfWidth, height);
-		getContentPane().add(tfRegistroGratuito);
+        tfCodigo.setText(dtPat.getCodigo());
+        tfFechaInicio.setText(dtPat.getFInicio().toString());
+        tfRegistroGratuito.setText(String.valueOf(dtPat.getRegistroGratuito()));
+        tfMonto.setText(String.valueOf(dtPat.getMonto()));
+        tfNivel.setText(String.valueOf(dtPat.getNivel()));
+        tfInstitucion.setText(dtPat.getInstitucion());
+        tfTipoRegistro.setText(dtPat.getTipoRegistro());
 
-		JLabel lblMonto = new JLabel("Monto:");
-		lblMonto.setBounds(30, y + 90, labelWidth, height);
-		getContentPane().add(lblMonto);
+        comboEventos.removeAllItems();
+        comboEventos.addItem(dtPat.getEdicion());
+        comboEventos.setSelectedIndex(0);
 
-		tfMonto = new JTextField();
-		tfMonto.setEditable(false);
-		tfMonto.setBounds(150, y + 90, tfWidth, height);
-		getContentPane().add(tfMonto);
+        comboEdiciones.removeAllItems();
+        comboEdiciones.addItem(dtPat.getEdicion());
+        comboEdiciones.setSelectedIndex(0);
 
-		JLabel lblNivel = new JLabel("Nivel:");
-		lblNivel.setBounds(30, y + 120, labelWidth, height);
-		getContentPane().add(lblNivel);
+        comboPatrocinios.removeAllItems();
+        comboPatrocinios.addItem(dtPat.getCodigo());
+        comboPatrocinios.setSelectedIndex(0);
+    }
 
-		tfNivel = new JTextField();
-		tfNivel.setEditable(false);
-		tfNivel.setBounds(150, y + 120, tfWidth, height);
-		getContentPane().add(tfNivel);
+    // Método para crear y mostrar la ventana
+    public static ConsultaPatrocinio crearYMostrar(IControllerEvento controller, DTPatrocinio dtPat,
+            JDesktopPane desktopPane) {
+        ConsultaPatrocinio cp = new ConsultaPatrocinio(controller);
+        cp.cargarDatos(dtPat);
+        if (desktopPane != null) {
+            desktopPane.add(cp);
+            cp.setVisible(true);
+            cp.setLocation((desktopPane.getWidth() - cp.getWidth()) / 2,
+                    (desktopPane.getHeight() - cp.getHeight()) / 2);
+        }
+        return cp;
+    }
 
-		JLabel lblInstitucion = new JLabel("Institución:");
-		lblInstitucion.setBounds(30, y + 150, labelWidth, height);
-		getContentPane().add(lblInstitucion);
+    public void cargarEventos() {
+        List<Evento> eventos = controller.listarEventos();
+        if (eventos.isEmpty()) {
+            comboEventos.addItem("Sin eventos");
+            comboEventos.setEnabled(false);
+        } else {
+            comboEventos.setEnabled(true);
+            List<String> nombres = new java.util.ArrayList<>();
+            for (Evento e : eventos) nombres.add(e.getNombre());
 
-		tfInstitucion = new JTextField();
-		tfInstitucion.setEditable(false);
-		tfInstitucion.setBounds(150, y + 150, tfWidth, height);
-		getContentPane().add(tfInstitucion);
+            DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(nombres.toArray(new String[0]));
+            comboEventos.setModel(model);
+        }
+    }
 
-		JLabel lblTipoRegistro = new JLabel("Tipo Registro:");
-		lblTipoRegistro.setBounds(30, y + 180, labelWidth, height);
-		getContentPane().add(lblTipoRegistro);
+    public void cargarEdiciones(String nombreEvento) {
+        Evento evento = controller.getEvento(nombreEvento);
+        if (evento != null) {
+            List<Edicion> ediciones = evento.getEdiciones();
+            if (ediciones.isEmpty()) {
+                comboEdiciones.removeAllItems();
+                comboEdiciones.addItem("Sin ediciones");
+                comboEdiciones.setEnabled(false);
+            } else {
+                List<String> nombresEdiciones = new java.util.ArrayList<>();
+                for (Edicion ed : ediciones) nombresEdiciones.add(ed.getNombre());
 
-		tfTipoRegistro = new JTextField();
-		tfTipoRegistro.setEditable(false);
-		tfTipoRegistro.setBounds(150, y + 180, tfWidth, height);
-		getContentPane().add(tfTipoRegistro);
-	}
+                DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(
+                        nombresEdiciones.toArray(new String[0]));
+                comboEdiciones.setModel(model);
+            }
+        }
+    }
 
-	// Carga los datos en los campos y combos, combos quedan fijos
-	public void cargarDatos(DTPatrocinio dtPat) {
-		if (dtPat == null)
-			return;
+    public void cargarPatrocinios(String nombreEdicion) {
+        Edicion edicion = controller.findEdicion(nombreEdicion);
+        if (edicion != null) {
+            List<Patrocinio> patrocinios = edicion.getPatrocinios();
+            if (patrocinios.isEmpty()) {
+                comboPatrocinios.removeAllItems();
+                comboPatrocinios.addItem("Sin patrocinios");
+                comboPatrocinios.setEnabled(false);
+            } else {
+                List<String> codigosPatrocinios = new java.util.ArrayList<>();
+                for (Patrocinio p : patrocinios) codigosPatrocinios.add(p.getCodigo());
 
-		tfCodigo.setText(dtPat.getCodigo());
-		tfFechaInicio.setText(dtPat.getFInicio().toString());
-		tfRegistroGratuito.setText(String.valueOf(dtPat.getRegistroGratuito()));
-		tfMonto.setText(String.valueOf(dtPat.getMonto()));
-		tfNivel.setText(String.valueOf(dtPat.getNivel()));
-		tfInstitucion.setText(dtPat.getInstitucion());
-		tfTipoRegistro.setText(dtPat.getTipoRegistro());
-
-		comboEventos.removeAllItems();
-		comboEventos.addItem(dtPat.getEdicion());
-		comboEventos.setSelectedIndex(0);
-
-		comboEdiciones.removeAllItems();
-		comboEdiciones.addItem(dtPat.getEdicion());
-		comboEdiciones.setSelectedIndex(0);
-
-		comboPatrocinios.removeAllItems();
-		comboPatrocinios.addItem(dtPat.getCodigo());
-		comboPatrocinios.setSelectedIndex(0);
-	}
-
-	// Método para crear y mostrar la ventana
-	public static ConsultaPatrocinio crearYMostrar(IControllerEvento controller, DTPatrocinio dtPat,
-			JDesktopPane desktopPane) {
-		ConsultaPatrocinio cp = new ConsultaPatrocinio(controller);
-		cp.cargarDatos(dtPat);
-		if (desktopPane != null) {
-			desktopPane.add(cp);
-			cp.setVisible(true);
-			cp.setLocation((desktopPane.getWidth() - cp.getWidth()) / 2,
-					(desktopPane.getHeight() - cp.getHeight()) / 2);
-		}
-		return cp;
-	}
-
-	public void cargarEventos() {
-		List<Evento> eventos = controller.listarEventos();
-		if (eventos.isEmpty()) {
-
-			comboEventos.addItem("Sin eventos");
-			comboEventos.setEnabled(false);
-		} else {
-			comboEventos.setEnabled(true);
-			List<String> nombres = new java.util.ArrayList<>();
-			for (Evento e : eventos) {
-				nombres.add(e.getNombre());
-			}
-
-			DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(nombres.toArray(new String[0]));
-			comboEventos.setModel(model);
-		}
-
-	}
-
-	public void cargarEdiciones(String nombreEvento) {
-		Evento evento = controller.getEvento(nombreEvento);
-		if (evento != null) {
-			List<Edicion> ediciones = evento.getEdiciones();
-			if (ediciones.isEmpty()) {
-				comboEdiciones.removeAllItems();
-				comboEdiciones.addItem("Sin ediciones");
-				comboEdiciones.setEnabled(false);
-			} else {
-				List<String> nombresEdiciones = new java.util.ArrayList<>();
-				for (Edicion ed : ediciones) {
-					nombresEdiciones.add(ed.getNombre());
-				}
-
-				DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(
-						nombresEdiciones.toArray(new String[0]));
-				comboEdiciones.setModel(model);
-			}
-		}
-	}
-
-	public void cargarPatrocinios(String nombreEdicion) {
-		Edicion edicion = controller.findEdicion(nombreEdicion);
-		if (edicion != null) {
-			List<Patrocinio> patrocinios = edicion.getPatrocinios();
-			if (patrocinios.isEmpty()) {
-				comboPatrocinios.removeAllItems();
-				comboPatrocinios.addItem("Sin patrocinios");
-				comboPatrocinios.setEnabled(false);
-			} else {
-				List<String> codigosPatrocinios = new java.util.ArrayList<>();
-				for (Patrocinio p : patrocinios) {
-					codigosPatrocinios.add(p.getCodigo());
-				}
-
-				DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(
-						codigosPatrocinios.toArray(new String[0]));
-				comboPatrocinios.setModel(model);
-			}
-		}
-	}
+                DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(
+                        codigosPatrocinios.toArray(new String[0]));
+                comboPatrocinios.setModel(model);
+            }
+        }
+    }
 }
+
