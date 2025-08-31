@@ -21,6 +21,7 @@ public class AltaPatrocinio extends JInternalFrame {
 	private JComboBox<String> comboBoxRegistro;
 	private JComboBox<String> comboBoxAsistente;
 	private JTextField textField;
+	private JTextField textFieldCodigo2;
 
 	public AltaPatrocinio(IControllerEvento ice, IControllerUsuario icu) {
 
@@ -30,8 +31,7 @@ public class AltaPatrocinio extends JInternalFrame {
 
 		setSize(838, 403);
 		setDefaultCloseOperation(HIDE_ON_CLOSE);
-		getContentPane().setLayout(new MigLayout("", "[115px][][][][][][][10px][][][28px][24px][][][130px,grow]",
-				"[14px][22px][14px][22px][14px][22px][14px][22px][][][30px][][][][33px]"));
+		getContentPane().setLayout(new MigLayout("", "[115px][][][][][][][10px][][][28px][24px][][][130px,grow]", "[14px][22px][14px][22px][14px][22px][14px][22px][][][30px][][][][33px]"));
 
 		JLabel lblEvento = new JLabel("Seleccione un evento:");
 		getContentPane().add(lblEvento, "cell 0 0,alignx left,aligny center");
@@ -88,6 +88,13 @@ public class AltaPatrocinio extends JInternalFrame {
 		textField = new JFormattedTextField();
 		getContentPane().add(textField, "cell 14 10,growx");
 		textField.setColumns(10);
+		
+		JLabel lblNewLabel_2 = new JLabel("Codigo:");
+		getContentPane().add(lblNewLabel_2, "cell 0 11");
+		
+		textFieldCodigo2 = new JTextField();
+		getContentPane().add(textFieldCodigo2, "cell 14 11,growx");
+		textFieldCodigo2.setColumns(10);
 
 		JButton btnRegistrar = new JButton("Registrar asistente");
 		btnRegistrar.setEnabled(false);
@@ -200,10 +207,10 @@ public class AltaPatrocinio extends JInternalFrame {
 			ETipoNivel nivel =  ETipoNivel.valueOf(nivelS);  
 			String aporteEconomic = textFieldCodigo.getText().trim();
 			String cuposGrati = textField.getText().trim();
-			String codigo = UUID.randomUUID().toString();
+			String codigo = textFieldCodigo2.getText().trim();	
 
 			
-			if ((aporteEconomic == null) || (cuposGrati == null)) {
+			if ((aporteEconomic == null) || (cuposGrati == null) || (codigo == null)) {
 				JOptionPane.showMessageDialog(this, "Debe completar todos los campos antes de registrar.",
 						"Campos incompletos", JOptionPane.WARNING_MESSAGE);
 				return;
