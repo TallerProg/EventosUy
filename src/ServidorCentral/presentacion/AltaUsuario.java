@@ -61,7 +61,6 @@ public class AltaUsuario extends JInternalFrame {
 		gridBagLayout.rowWeights = new double[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 		getContentPane().setLayout(gridBagLayout);
 
-		// Tipo de usuario
 		JLabel lblTipo = new JLabel("Tipo de Usuario:");
 		GridBagConstraints gbc_lblTipo = new GridBagConstraints();
 		gbc_lblTipo.insets = new Insets(5, 5, 5, 5);
@@ -79,7 +78,6 @@ public class AltaUsuario extends JInternalFrame {
 		getContentPane().add(comboTipoUsuario, gbc_comboTipo);
 		row++;
 
-		// Nickname
 		JLabel lblNick = new JLabel("Nickname:");
 		GridBagConstraints gbc_lblNick = new GridBagConstraints();
 		gbc_lblNick.insets = new Insets(5, 5, 5, 5);
@@ -97,7 +95,6 @@ public class AltaUsuario extends JInternalFrame {
 		getContentPane().add(textFieldNickName, gbc_textNick);
 		row++;
 
-		// Correo
 		JLabel lblCorreo = new JLabel("Correo:");
 		GridBagConstraints gbc_lblCorreo = new GridBagConstraints();
 		gbc_lblCorreo.insets = new Insets(5, 5, 5, 5);
@@ -115,7 +112,6 @@ public class AltaUsuario extends JInternalFrame {
 		getContentPane().add(textFieldCorreo, gbc_textCorreo);
 		row++;
 
-		// Nombre
 		JLabel lblNombre = new JLabel("Nombre:");
 		GridBagConstraints gbc_lblNombre = new GridBagConstraints();
 		gbc_lblNombre.insets = new Insets(5, 5, 5, 5);
@@ -133,7 +129,6 @@ public class AltaUsuario extends JInternalFrame {
 		getContentPane().add(textFieldNombre, gbc_textNombre);
 		row++;
 
-		// Inicialización de campos dinámicos
 		lblApellido = new JLabel("Apellido:");
 		textFieldApellido = new JTextField();
 		lblFecha = new JLabel("Fecha de Nac.:");
@@ -151,7 +146,6 @@ public class AltaUsuario extends JInternalFrame {
 			comboInstitucion.addItem(ins.getNombre());
 		}
 
-		// Botón Aceptar
 		btnAceptar = new JButton("Aceptar");
 		GridBagConstraints gbc_btnAceptar = new GridBagConstraints();
 		gbc_btnAceptar.insets = new Insets(10, 50, 5, 20);
@@ -162,7 +156,6 @@ public class AltaUsuario extends JInternalFrame {
 		btnAceptar.setPreferredSize(mismoTamaño);
 		getContentPane().add(btnAceptar, gbc_btnAceptar);
 
-		// Botón Cancelar
 		btnCancelar = new JButton("Cancelar");
 		GridBagConstraints gbc_btnCancelar = new GridBagConstraints();
 		gbc_btnCancelar.insets = new Insets(10, 20, 5, 80);
@@ -172,7 +165,6 @@ public class AltaUsuario extends JInternalFrame {
 		btnCancelar.setPreferredSize(mismoTamaño);
 		getContentPane().add(btnCancelar, gbc_btnCancelar);
 
-		// Acción del botón Cancelar
 		btnCancelar.addActionListener(e -> {
 			textFieldNickName.setText("");
 			textFieldCorreo.setText("");
@@ -184,11 +176,9 @@ public class AltaUsuario extends JInternalFrame {
 			this.setVisible(false);
 		});
 
-		// Listener tipo de usuario
 		comboTipoUsuario.addActionListener(e -> actualizarCampos(row));
 		comboTipoUsuario.setSelectedIndex(0);
 
-		// Acción del botón Aceptar
 		btnAceptar.addActionListener(e -> {
 			String tipo = (String) comboTipoUsuario.getSelectedItem();
 			String nick = textFieldNickName.getText().trim();
@@ -263,7 +253,6 @@ public class AltaUsuario extends JInternalFrame {
 	}
 
 	private void actualizarCampos(int row) {
-		// Eliminar todos los dinámicos antes de agregar los nuevos
 		getContentPane().remove(lblApellido);
 		getContentPane().remove(textFieldApellido);
 		getContentPane().remove(lblFecha);
@@ -284,7 +273,6 @@ public class AltaUsuario extends JInternalFrame {
 				comboInstitucion.addItem(ins.getNombre());
 			}
 
-			// Apellido
 			GridBagConstraints gbc_lblAp = new GridBagConstraints();
 			gbc_lblAp.insets = new Insets(5, 5, 5, 5);
 			gbc_lblAp.gridx = 0;
@@ -300,7 +288,6 @@ public class AltaUsuario extends JInternalFrame {
 			getContentPane().add(textFieldApellido, gbc_textAp);
 			dynamicRow++;
 
-			// Fecha
 			GridBagConstraints gbc_lblFec = new GridBagConstraints();
 			gbc_lblFec.insets = new Insets(5, 5, 5, 5);
 			gbc_lblFec.gridx = 0;
@@ -316,7 +303,6 @@ public class AltaUsuario extends JInternalFrame {
 			getContentPane().add(textFieldFechaNacimiento, gbc_textFec);
 			dynamicRow++;
 
-			// Institución
 			GridBagConstraints gbc_lblInst = new GridBagConstraints();
 			gbc_lblInst.insets = new Insets(5, 5, 5, 5);
 			gbc_lblInst.gridx = 0;

@@ -179,7 +179,6 @@ public class ConsultaTipoRegistro extends JInternalFrame {
 				try {
 					cargarTipoRegistros(nombreEdicionSeleccionado);
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 

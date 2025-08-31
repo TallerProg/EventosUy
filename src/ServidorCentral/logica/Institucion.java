@@ -9,11 +9,10 @@ public class Institucion {
     private String url;
     private String descripcion;
 
-    // Relaciones
+    
     private List<Patrocinio> patrocinios;
     private List<Asistente> asistentes;
 
-    // Constructor
     public Institucion(String nombre, String url, String descripcion) {
         this.nombre = nombre;
         this.url = url;
@@ -22,7 +21,6 @@ public class Institucion {
         this.asistentes = new ArrayList<>();
     }
 
-    // Getters y setters
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }
 
@@ -52,21 +50,3 @@ public class Institucion {
         this.asistentes.add(a);
     }
 }
-
-
-	// Métodos de relación
-	/*
-	 * public Patrocinio getPatrocinioInstitucion(String codigo) { for (Patrocinio p
-	 * : patrocinio) { if (p.getCodigo().equals(codigo)) { return p; } } return
-	 * null; }
-	 * 
-	 * public boolean addLinkRegistroPatrocinio(Registro reg) { Patrocinio p =
-	 * getPatrocinioInstitucion(reg.getPatrocinio().getCodigo()); if (p != null) {
-	 * return p.agregarRegistro(reg); } return false; }
-	 * 
-	 * public Patrocinio crearPatrocinio(String codigo, float monto, TNivel nivel,
-	 * TipoRegistro tipo, int regGratuito) { Patrocinio p = new Patrocinio(codigo,
-	 * null, regGratuito, monto, nivel, this, null, tipo); patrocinio.add(p); return
-	 * p; }
-	 */
-

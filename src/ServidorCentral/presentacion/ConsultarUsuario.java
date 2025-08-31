@@ -127,7 +127,6 @@ public class ConsultarUsuario extends JInternalFrame {
 		lblURL.setVisible(false);
 		textFieldURL.setVisible(false);
 
-		// COMBOBOX ALISTENERS
 		comboBoxUsuario.addActionListener(e -> {
 			String nicknameSeleccionado = (String) comboBoxUsuario.getSelectedItem();
 			limpiarCampos();
@@ -142,7 +141,6 @@ public class ConsultarUsuario extends JInternalFrame {
 				textFieldNombre.setText(dt.getNombre());
 
 				Usuario usuario = controlUsuario.getUsuario(nicknameSeleccionado);
-				// CASO ASIS
 				if (usuario instanceof Asistente) {
 					lblApellido.setVisible(true);
 					textFieldApellido.setVisible(true);
@@ -158,7 +156,6 @@ public class ConsultarUsuario extends JInternalFrame {
 					textFieldURL.setVisible(false);
 					btnVerDetalles.setText("Ver detalles registro");
 					btnVerDetalles.setVisible(true);
-					// CASO ORG
 				} else if (usuario instanceof Organizador) {
 					lblDescripcion.setVisible(true);
 					textFieldDescripcion.setVisible(true);
@@ -191,11 +188,9 @@ public class ConsultarUsuario extends JInternalFrame {
 					|| controlEvento.findEdicion(nomEdicionSeleccionada) == null)
 				return;
 
-			// CASO ASIS
 			if (controlUsuario.getUsuario(nomUsuarioSeleccionado) instanceof Asistente) {
 				ConsultaRegistro.crearYMostrar(controlUsuario, nomUsuarioSeleccionado,
 						controlEvento.findEdicion(nomEdicionSeleccionada).getEvento().getNombre(), desktopPane);
-				// CASO ORG
 			} else if (controlUsuario.getUsuario(nomUsuarioSeleccionado) instanceof Organizador) {
 				ConsultaEdicionEvento.crearYMostrar(controlEvento,
 						controlEvento.findEdicion(nomEdicionSeleccionada).getEvento().getNombre(),

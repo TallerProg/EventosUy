@@ -9,22 +9,18 @@ public interface IControllerUsuario {
 	void AltaAsistente(String nicknameUsu, String correo, String nombre, String apellido, LocalDate fNacimiento,
 			Institucion ins) throws UsuarioRepetidoException;
 
-	// Alta de un organizador
 	void AltaOrganizador(String nicknameUsu, String correo, String nombre, String descripcion, String url)
 			throws UsuarioRepetidoException;
 
 	public DTRegistro getDTRegistro(String tipNEdicion, String nickAsistente);
-	// Modificación de usuario
 	void modificarUsuario(String nickname, String nombre, String apellido, LocalDate fNac, String descripcion,
 			String url) throws UsuarioNoExisteException;
 
-	// Consulta de usuario por nickname
 
 	public Organizador getOrganizador(String nicknameOrg);
 
 	public DTUsuarioListaConsulta ConsultaDeUsuario(String nicknameUsu);
 
-	// Listado de todos los usuarios
 	public List<DTUsuarioLista> getUsuarios();
 
 	public List<Asistente> getAsistentes();

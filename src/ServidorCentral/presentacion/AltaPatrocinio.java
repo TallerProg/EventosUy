@@ -72,11 +72,9 @@ public class AltaPatrocinio extends JInternalFrame {
 		JLabel lblCodigo = new JLabel("Aporte Económico:");
 		getContentPane().add(lblCodigo, "cell 0 9");
 
-		// Formato para números decimales
 		NumberFormat aporteEconomico = NumberFormat.getNumberInstance();
-		aporteEconomico.setGroupingUsed(false); // sin separador de miles
+		aporteEconomico.setGroupingUsed(false);
 
-		// Campo de texto con formato
 		textFieldCodigo = new JFormattedTextField();
 		getContentPane().add(textFieldCodigo, "cell 14 9,growx");
 		textFieldCodigo.setColumns(10);
@@ -84,11 +82,9 @@ public class AltaPatrocinio extends JInternalFrame {
 		JLabel lblNewLabel = new JLabel("Cantidad de cupos:");
 		getContentPane().add(lblNewLabel, "cell 0 10");
 
-		// Formato para enteros
 		NumberFormat numeroRegistro = NumberFormat.getIntegerInstance();
-		numeroRegistro.setGroupingUsed(false); // sin separadores de miles
+		numeroRegistro.setGroupingUsed(false); 
 
-		// Campo de texto con formato
 		textField = new JFormattedTextField();
 		getContentPane().add(textField, "cell 14 10,growx");
 		textField.setColumns(10);
@@ -200,7 +196,6 @@ public class AltaPatrocinio extends JInternalFrame {
 
 		});
 
-		// Acción botón Registrar
 
 		btnRegistrar.addActionListener(e -> {
 			String eventoNombre = (String) comboBoxEvento.getSelectedItem();
@@ -232,12 +227,11 @@ public class AltaPatrocinio extends JInternalFrame {
 						edicionNombre, tipoRegistroNombre);
 				JOptionPane.showMessageDialog(this, "Registro exitoso", "Éxito", JOptionPane.INFORMATION_MESSAGE);
 
-				// Limpiar campos después de registrar
 				cargarEventos();
 				comboBoxEdicion.setModel(new DefaultComboBoxModel<>());
 				comboBoxRegistro.setModel(new DefaultComboBoxModel<>());
 				comboBoxAsistente.setModel(new DefaultComboBoxModel<>());
-				comboBoxNivel.setSelectedIndex(-1); // deselecciona nivel
+				comboBoxNivel.setSelectedIndex(-1); 
 				textField.setText(null);
 				textFieldCodigo.setText(null);
 				comboBoxEdicion.setEnabled(false);
@@ -254,7 +248,6 @@ public class AltaPatrocinio extends JInternalFrame {
 			}
 		});
 
-		// Acción botón Cancelar
 		btnCancelar.addActionListener(e -> this.dispose());
 	}
 

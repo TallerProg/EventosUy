@@ -6,7 +6,6 @@ import java.util.List;
 
 public class Edicion {
 
-	// Atributos
 	private String nombre;
 	private LocalDate fInicio;
 	private LocalDate fFin;
@@ -14,14 +13,12 @@ public class Edicion {
 	private String ciudad;
 	private String pais;
 	private String sigla;
-	// Relaciones
 	private List<TipoRegistro> tipoRegistros;
 	private List<Organizador> organizadores;
 	private List<Registro> registros;
 	private List<Patrocinio> patrocinios;
 	private Evento evento;
 
-	// Constructor
 
 	public Edicion(String nombre, String sigla, LocalDate fInicio, LocalDate fFin, String ciudad, String pais,
 			Evento evento) {
@@ -39,7 +36,6 @@ public class Edicion {
 		this.patrocinios = new ArrayList<>();
 	}
 
-	// Getters y Setters
 
 	public Evento getEvento() {
 		return evento;
@@ -99,7 +95,6 @@ public class Edicion {
 		return patrocinios;
 	}
 
-	// Métodos
 	public void addLinkRegistro(Registro reg) {
 		if (reg != null && !this.registros.contains(reg)) {
 			this.registros.add(reg);
@@ -114,7 +109,7 @@ public class Edicion {
 		}
 	}
 
-	public void agregarTipoRegistro(TipoRegistro tr) { // VICHAR MATEO
+	public void agregarTipoRegistro(TipoRegistro tr) { 
 		tipoRegistros.add(tr);
 	}
 
@@ -132,10 +127,10 @@ public class Edicion {
 	public boolean registrado(Asistente asistente) {
 		for (Registro reg : registros) {
 			if (reg.getAsistente().equals(asistente)) {
-				return true; // el asistente ya está registrado
+				return true; 
 			}
 		}
-		return false; // no se encontró
+		return false; 
 	}
 
 	public boolean habilitadoAsistente(String nombreTR, Asistente asistente) throws Exception {
@@ -182,7 +177,7 @@ public class Edicion {
 		return new DTEdicion(nombre, sigla, fInicio, fFin, fAlta, ciudad, pais, trs, orgs, regs, pats);
 	}
 
-	public boolean existeTR(String nombreTR) { // VICHAR MATEO
+	public boolean existeTR(String nombreTR) { 
 		for (TipoRegistro tr : tipoRegistros) {
 			if (tr.getNombre().equalsIgnoreCase(nombreTR)) {
 				return true;

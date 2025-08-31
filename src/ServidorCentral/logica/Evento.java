@@ -21,7 +21,6 @@ public class Evento {
 		this.categorias = categorias;
 	}
 
-	// Getters y setters
 	public String getNombre() {
 		return nombre;
 	}
@@ -63,7 +62,6 @@ public class Evento {
 		return categorias;
 	}
 
-	// Métodos para ediciones
 	public void agregarEdicion(Edicion edicion) {
 		if (edicion != null && !ediciones.contains(edicion)) {
 			ediciones.add(edicion);

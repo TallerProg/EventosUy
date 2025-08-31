@@ -25,7 +25,6 @@ public class DTevento {
 			this.ediciones = ediciones;
 	}
 
-	// Getters
 	public String getNombre() {
 		return nombre;
 	}

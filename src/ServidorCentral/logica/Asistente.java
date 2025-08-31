@@ -9,16 +9,12 @@ public class Asistente extends Usuario {
 	private String apellido;
 	private LocalDate fNacimiento;
 
-	// Relación con registros
 	private List<Registro> registros;
 
-	// Relación con institución
 	private Institucion institucion;
 
-	// Relación con patrocinio (opcional)
 	private Patrocinio patrocinio;
 
-	// Constructor
 	public Asistente(String nickname, String correo, String nombre, String apellido, LocalDate fNacimiento,
 			Institucion ins) {
 
@@ -40,7 +36,6 @@ public class Asistente extends Usuario {
 		this.patrocinio = null;
 	}
 
-	// Getters y Setters
 	public String getApellido() {
 		return apellido;
 	}
@@ -90,21 +85,4 @@ public class Asistente extends Usuario {
 		this.registros.add(r);
 	}
 
-	// Métodos
-
-	/*
-	 * public void editarDatosAsistente(String nombre, String apellido, LocalDate
-	 * fNacimiento) {
-	 * 
-	 * }
-	 * 
-	 * @Override public DTUsuarioLista obtenerDataAsis() {
-	 * 
-	 * }
-	 * 
-	 * 
-	 * public void addLinkRegistro(Registro reg) {
-	 * 
-	 * }
-	 */
 }

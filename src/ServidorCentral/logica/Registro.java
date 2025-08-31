@@ -7,18 +7,14 @@ public class Registro {
 	private LocalDate fInicio;
 	private Float costo;
 
-	// Relación con Edicion (muchos a uno)
 	private Edicion edicion;
 
-	// Relación con Asistente (muchos a uno)
 	private Asistente asistente;
 
-	// Relación opcional con Patrocinio (muchos a uno)
 	private Patrocinio patrocinio;
 
 	private TipoRegistro tipoRegistro;
 
-	// Constructor
 	public Registro(Float costo, Edicion edicion, Asistente asistente, TipoRegistro tipoRegistro) {
 		this.fInicio = LocalDate.now();
 		this.costo = costo;
@@ -27,7 +23,6 @@ public class Registro {
 		this.tipoRegistro = tipoRegistro;
 	}
 
-	// Getters y Setters
 	public LocalDate getFInicio() {
 		return fInicio;
 	}
@@ -83,5 +78,4 @@ public class Registro {
 
 	}
 
-	// Métodos relacionados (comentados)
 }

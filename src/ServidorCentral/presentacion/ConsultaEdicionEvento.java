@@ -58,7 +58,6 @@ public class ConsultaEdicionEvento extends JInternalFrame {
 		row++;
 		gbc.gridwidth = 1;
 
-		// Selección de Edición
 		gbc.gridx = 0;
 		gbc.gridy = row;
 		panel.add(new JLabel("Seleccionar Edición"), gbc);
@@ -70,7 +69,6 @@ public class ConsultaEdicionEvento extends JInternalFrame {
 		row++;
 		gbc.gridwidth = 1;
 
-		// Nombre y Sigla
 		gbc.gridx = 0;
 		gbc.gridy = row;
 		panel.add(new JLabel("Nombre :"), gbc);
@@ -90,7 +88,6 @@ public class ConsultaEdicionEvento extends JInternalFrame {
 		panel.add(SiglaEdicion, gbc);
 		row++;
 
-		// Ciudad y País
 		gbc.gridx = 0;
 		gbc.gridy = row;
 		panel.add(new JLabel("Ciudad :"), gbc);
@@ -110,7 +107,6 @@ public class ConsultaEdicionEvento extends JInternalFrame {
 		panel.add(PaisEdicion, gbc);
 		row++;
 
-		// Fechas de Alta, Inicio y Fin
 		gbc.gridx = 0;
 		gbc.gridy = row;
 		panel.add(new JLabel("Fecha de Alta :"), gbc);
@@ -140,7 +136,6 @@ public class ConsultaEdicionEvento extends JInternalFrame {
 		panel.add(FFinEdicion, gbc);
 		row++;
 
-		// Tipos de Registro y Registros
 		gbc.gridx = 0;
 		gbc.gridy = row;
 		panel.add(new JLabel("Tipos de Registro :"), gbc);
@@ -158,7 +153,6 @@ public class ConsultaEdicionEvento extends JInternalFrame {
 		panel.add(comboRegistros, gbc);
 		row++;
 
-		// Patrocinios y Organizadores
 		gbc.gridx = 0;
 		gbc.gridy = row;
 		panel.add(new JLabel("Patrocinios :"), gbc);
@@ -176,7 +170,6 @@ public class ConsultaEdicionEvento extends JInternalFrame {
 		panel.add(comboOrganizadores, gbc);
 		row++;
 
-		// Botones centrados con espacio
 		JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
 		JButton btnVerTipoRegistro = new JButton("Ver Tipo de Registro");
 		JButton btnVerPatrocinio = new JButton("Ver Patrocinio");
@@ -190,7 +183,6 @@ public class ConsultaEdicionEvento extends JInternalFrame {
 		row++;
 		gbc.gridwidth = 1;
 
-		// Listeners originales
 		comboEventos.addActionListener(e -> {
 			String nombreEvento = (String) comboEventos.getSelectedItem();
 			if (nombreEvento != null) {

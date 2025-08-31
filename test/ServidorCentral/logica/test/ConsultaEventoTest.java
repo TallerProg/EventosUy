@@ -95,12 +95,10 @@ public class ConsultaEventoTest {
 
 	        controllerE.altaEdicionDeEvento(nombreEdicion, siglaEvento, ciudadEdicion, lugarEdicion,fechaInicioEd, fechaFinEd, evento, org);
 	        
-	     // Listar Categorias (para el combo de las categorias)
 	        List<Categoria> categoriasEvento =evento.getCategoria();
 	        for (String nombreCat : nombresCategorias) {
 	        	assertTrue(categoriasEvento.stream().anyMatch(c -> c.getNombre().equals(nombreCat)));	        
 	        }
-		     // Listar ediciones (para el combo de las categorias)
 	        List<String> ediciones = controllerE.listarEdicionesDeEvento(nombreEvento);
 	        assertNotNull(ediciones);
 	        assertTrue(ediciones.contains(nombreEdicion));

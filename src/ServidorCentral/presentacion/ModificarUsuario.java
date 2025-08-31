@@ -88,7 +88,6 @@ public class ModificarUsuario extends JInternalFrame {
         getContentPane().add(comboUsuarios, gbc_comboUsuarios);
         row++;
 
-        // Tipo de usuario
         JLabel lblTipo = new JLabel("Tipo de Usuario:");
         GridBagConstraints gbc_lblTipo = new GridBagConstraints();
         gbc_lblTipo.insets = new Insets(5, 5, 5, 5);
@@ -107,7 +106,6 @@ public class ModificarUsuario extends JInternalFrame {
         getContentPane().add(comboTipoUsuario, gbc_comboTipo);
         row++;
 
-        // Nickname
         JLabel lblNick = new JLabel("Nickname:");
         GridBagConstraints gbc_lblNick = new GridBagConstraints();
         gbc_lblNick.insets = new Insets(5, 5, 5, 5);
@@ -126,7 +124,6 @@ public class ModificarUsuario extends JInternalFrame {
         getContentPane().add(textFieldNickName, gbc_textNick);
         row++;
 
-        // Correo
         JLabel lblCorreo = new JLabel("Correo:");
         GridBagConstraints gbc_lblCorreo = new GridBagConstraints();
         gbc_lblCorreo.insets = new Insets(5, 5, 5, 5);
@@ -144,7 +141,6 @@ public class ModificarUsuario extends JInternalFrame {
         getContentPane().add(textFieldCorreo, gbc_textCorreo);
         row++;
 
-        // Nombre
         JLabel lblNombre = new JLabel("Nombre:");
         GridBagConstraints gbc_lblNombre = new GridBagConstraints();
         gbc_lblNombre.insets = new Insets(5, 5, 5, 5);
@@ -162,7 +158,6 @@ public class ModificarUsuario extends JInternalFrame {
         getContentPane().add(textFieldNombre, gbc_textNombre);
         row++;
 
-        // Campos dinámicos
         lblApellido = new JLabel("Apellido:");
         textFieldApellido = new JTextField();
         addField(lblApellido, textFieldApellido, row++);
@@ -193,7 +188,6 @@ public class ModificarUsuario extends JInternalFrame {
         lblInstitucion.setVisible(false);
         comboInstitucion.setVisible(false);
 
-        // Botones
         btnAceptar = new JButton("Guardar");
         btnCancelar = new JButton("Cancelar");
 
@@ -213,7 +207,6 @@ public class ModificarUsuario extends JInternalFrame {
         btnCancelar.setPreferredSize(new Dimension(100, 25));
         getContentPane().add(btnCancelar, gbc_btnCancelar);
 
-        // Listeners
         btnCancelar.addActionListener(e -> this.setVisible(false));
         comboUsuarios.addActionListener(e -> actualizarCampos());
         btnAceptar.addActionListener(e -> modificarUsuario());

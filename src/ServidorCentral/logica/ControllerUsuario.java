@@ -9,7 +9,6 @@ import java.util.List;
 public class ControllerUsuario implements IControllerUsuario {
 
 	public ControllerUsuario() {
-		// Constructor vacío
 	}
 
 
@@ -22,7 +21,6 @@ public class ControllerUsuario implements IControllerUsuario {
 	    dt.setNickname(usuario.getNickname());
 	    dt.setCorreo(usuario.getCorreo());
 	    dt.setNombre(usuario.getNombre());
-	    //CASO ASIS
 	    if (usuario instanceof Asistente) {
 	    	Asistente a = (Asistente) usuario;
 	        dt.setApellido(a.getApellido());
@@ -32,7 +30,6 @@ public class ControllerUsuario implements IControllerUsuario {
 	        dt.setEdiciones(edicionesDeRegistros);
 	        dt.setDescripcion(null);
 	        dt.setUrl(null);	        
-	    //CASO ORG    
 	    } else if (usuario instanceof Organizador) {
 	        Organizador o = (Organizador) usuario;
 	        dt.setDescripcion(o.getDescripcion());
@@ -88,10 +85,6 @@ public class ControllerUsuario implements IControllerUsuario {
 		}
 
 	}
-
-	// Método de modificación
-	// public void ModificarDatosUsuario() {
-	// placeholder
 
 	public List<DTUsuarioLista> getUsuarios() {
 		List<DTUsuarioLista> lista = new ArrayList<>();

@@ -23,7 +23,6 @@ public class Principal {
 	private IControllerEvento ICE;
 	private IControllerInstitucion ICI;
 
-	// InternalFrames
 	private AltaUsuario creUsrInternalFrame;
 	private ConsultarUsuario conUsrInternalFrame;
 	private AltaEdicionEvento creEdiEveInternalFrame;
@@ -53,13 +52,11 @@ public class Principal {
 	public Principal() {
 		initialize();
 
-		// Inicialización de la fábrica y controladores
 		Factory fabrica = Factory.getInstance();
 		ICU = fabrica.getIControllerUsuario();
 		ICE = fabrica.getIControllerEvento();
 		ICI = fabrica.getIControllerInstitucion();
 
-		// Inicializar los InternalFrames (inicialmente ocultos)
 		creUsrInternalFrame = new AltaUsuario(ICU, ICI);
 		conUsrInternalFrame = new ConsultarUsuario(ICU, ICE, desktopPane);
 		creEdiEveInternalFrame = new AltaEdicionEvento(ICE);
@@ -75,7 +72,6 @@ public class Principal {
 		conPatrocinioInternalFrame = new ConsultaPatrocinio(ICE);
 		modUsuarioInternalFrame = new ModificarUsuario(ICU,ICI);
 
-		// Agregar los InternalFrames al DesktopPane
 		desktopPane.add(creUsrInternalFrame);
 		desktopPane.add(conUsrInternalFrame);
 		desktopPane.add(creEdiEveInternalFrame);
@@ -97,15 +93,13 @@ public class Principal {
 		frmEventosUy.setBounds(100, 100, 1000, 700);
 		frmEventosUy.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		// DesktopPane
 		desktopPane = new JDesktopPane();
 		frmEventosUy.setContentPane(desktopPane);
 
-		// Menú principal
 		JMenuBar menuBar = new JMenuBar();
 		frmEventosUy.setJMenuBar(menuBar);
 
-		// Menú Sistema
+		
 		JMenu menuSistema = new JMenu("Sistema");
 		menuBar.add(menuSistema);
 
@@ -126,7 +120,6 @@ public class Principal {
 			desktopPane.add(creEveInternalFrame);
 		});
 
-		// Menú Usuarios
 		JMenu menuUsuarios = new JMenu("Usuarios");
 		menuBar.add(menuUsuarios);
 
@@ -156,7 +149,6 @@ public class Principal {
 			mostrarInternalFrame(conRegInternalFrame);
 		});
 
-		// Menú Eventos
 		JMenu menuEventos = new JMenu("Eventos");
 		menuBar.add(menuEventos);
 
@@ -217,7 +209,6 @@ public class Principal {
 		menuConsultaTipoReg.addActionListener(e -> mostrarInternalFrame(conTRegInternalFrame));
 		menuAltaTipoReg.addActionListener(e -> mostrarInternalFrame(creTRegInternalFrame));
 
-		// Menú Institucion
 		JMenu menuInstitucion = new JMenu("Institucion");
 		menuBar.add(menuInstitucion);
 
@@ -227,7 +218,7 @@ public class Principal {
 
 		JMenuItem menuAltaPatrocinio = new JMenuItem("Alta de Patrocinio");
 		menuAltaPatrocinio.addActionListener(e -> {
-			altaPatrocinioInternalFrame.cargarEventos(); // Cargar los eventos al abrir
+			altaPatrocinioInternalFrame.cargarEventos();
 			mostrarInternalFrame(altaPatrocinioInternalFrame);
 		});
 		menuInstitucion.add(menuAltaPatrocinio);
@@ -241,7 +232,6 @@ public class Principal {
 
 	}
 
-	// Método auxiliar para mostrar InternalFrames centrados
 	private void mostrarInternalFrame(JInternalFrame frame) {
 		if (frame.getParent() == null) {
 			desktopPane.add(frame);

@@ -39,7 +39,6 @@ public class AltaEvento extends JInternalFrame {
 		gridBagLayout.rowWeights = new double[] { 0, 0, 0, 0, 0 };
 		getContentPane().setLayout(gridBagLayout);
 
-		// Nombre
 		JLabel lblNombre = new JLabel("Nombre:");
 		GridBagConstraints gbc_lblNombre = new GridBagConstraints();
 		gbc_lblNombre.insets = new Insets(5, 5, 5, 5);
@@ -57,7 +56,6 @@ public class AltaEvento extends JInternalFrame {
 		getContentPane().add(textFieldNombre, gbc_textNombre);
 		row++;
 
-		// Sigla
 		JLabel lblSigla = new JLabel("Sigla:");
 		GridBagConstraints gbc_lblSigla = new GridBagConstraints();
 		gbc_lblSigla.insets = new Insets(5, 5, 5, 5);
@@ -75,7 +73,6 @@ public class AltaEvento extends JInternalFrame {
 		getContentPane().add(textFieldSigla, gbc_textSigla);
 		row++;
 
-		// Descripción
 		JLabel lblDesc = new JLabel("Descripción:");
 		GridBagConstraints gbc_lblDesc = new GridBagConstraints();
 		gbc_lblDesc.insets = new Insets(5, 5, 5, 5);
@@ -94,7 +91,6 @@ public class AltaEvento extends JInternalFrame {
 		getContentPane().add(scrollDesc, gbc_textDesc);
 		row++;
 
-		// Categorías
 		JLabel lblCategorias = new JLabel("Categorías:");
 		GridBagConstraints gbc_lblCategorias = new GridBagConstraints();
 		gbc_lblCategorias.insets = new Insets(5, 5, 5, 5);
@@ -103,7 +99,6 @@ public class AltaEvento extends JInternalFrame {
 		gbc_lblCategorias.anchor = GridBagConstraints.NORTHEAST;
 		getContentPane().add(lblCategorias, gbc_lblCategorias);
 
-		// Panel con checkboxes
 		JPanel panelCategorias = new JPanel();
 		panelCategorias.setLayout(new BoxLayout(panelCategorias, BoxLayout.Y_AXIS));
 		JScrollPane scrollCategorias = new JScrollPane(panelCategorias);
@@ -117,7 +112,6 @@ public class AltaEvento extends JInternalFrame {
 
 		checkBoxesCategorias = new java.util.ArrayList<>();
 
-		// Botones
 		btnCancelar = new JButton("Cancelar");
 		GridBagConstraints gbc_btnCancelar = new GridBagConstraints();
 		gbc_btnCancelar.insets = new Insets(10, 20, 5, 80);
@@ -139,7 +133,6 @@ public class AltaEvento extends JInternalFrame {
 		btnAceptar.setPreferredSize(mismoTamaño);
 		getContentPane().add(btnAceptar, gbc_btnAceptar);
 
-		// Listeners
 		btnCancelar.addActionListener(e -> {
 			textFieldNombre.setText("");
 			textFieldSigla.setText("");
@@ -155,7 +148,6 @@ public class AltaEvento extends JInternalFrame {
 			String sigla = textFieldSigla.getText().trim();
 			String descripcion = textAreaDescripcion.getText().trim();
 
-			// Obtener las categorías seleccionadas desde los checkboxes
 			List<String> categoriasSeleccionadas = new java.util.ArrayList<>();
 			for (JCheckBox check : checkBoxesCategorias) {
 				if (check.isSelected()) {
@@ -173,7 +165,6 @@ public class AltaEvento extends JInternalFrame {
 			try {
 				LocalDate fechaAlta = LocalDate.now();
 
-				// Convertir List<String> -> List<Categoria>
 				List<Categoria> listaCategorias = new java.util.ArrayList<>();
 				for (String nombreCat : categoriasSeleccionadas) {
 					for (Categoria c : controlEvento.getCategorias()) {
@@ -198,7 +189,6 @@ public class AltaEvento extends JInternalFrame {
 			}
 		});
 
-		// Cargar categorías
 		cargarCategorias(panelCategorias);
 	}
 

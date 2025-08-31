@@ -27,7 +27,6 @@ public class ConsultaTipoRegistroTest {
 	@Test
 	@Order(1)
 	void TestConsultaValoresDTTipoRegistro() {
-		  // Crear Evento
 	    String nombreEvento = "EventoTesteo1";
 	    String descripcionEvento = "Estamos testeando evento1";
 	    LocalDate fechaEvento = LocalDate.of(2025, 05, 01);
@@ -39,7 +38,6 @@ public class ConsultaTipoRegistroTest {
 	    }
 	    Evento evento = controllerE.getEvento(nombreEvento);
 
-	    // Crear Organizador
 	    String nickOrg = "organizadorTesteo1";
 	    String mailOrg = "org@test.com";
 	    String nombreOrg = "Testeador";
@@ -53,7 +51,6 @@ public class ConsultaTipoRegistroTest {
 	    }
 	    Organizador org = controlerUSR.getOrganizador(nickOrg);
 
-	    // Crear Edición
 	    String nombreEdicion = "Edicion test1";
 	    LocalDate fechaInicioEd = LocalDate.of(2025, 03, 01);
 	    LocalDate fechaFinEd = LocalDate.of(2025, 04, 01);;
@@ -68,7 +65,6 @@ public class ConsultaTipoRegistroTest {
 
 	    Edicion edicion = controllerE.findEdicion(nombreEdicion);
 
-	    // Crear Tipo de Registro
 	    String nombreTipoReg = "Registro Test";
 	    String descripcionTipoReg = "Registro para testear";
 	    float costoTipoReg = 100.0f;
@@ -127,19 +123,15 @@ public class ConsultaTipoRegistroTest {
 
 	        controllerE.altaTipoRegistro(nombreTipoReg, descripcionTipoReg, costoTipoReg, limiteTipoReg, edicion);
 
-	        // Validaciones con las funciones listar 
 
-	        // Listar Eventos (para el combo de los eventos)
 	        List<Evento> eventos = controllerE.listarEventos();
 	        assertNotNull(eventos);
 	        assertTrue(eventos.stream().anyMatch(e -> e.getNombre().equals(nombreEvento)));
 
-	        // Listar Ediciones de un Evento (para el combo de ediciones)
 	        List<String> ediciones = controllerE.listarEdicionesDeEvento(nombreEvento);
 	        assertNotNull(ediciones);
 	        assertTrue(ediciones.contains(nombreEdicion));
 
-	        // Listar Tipos de Registro de una Edición (para el combo de registros)
 	        List<TipoRegistro> tiposReg = edicion.getTipoRegistros();
 	        assertNotNull(tiposReg);
 	        assertTrue(tiposReg.stream().anyMatch(tr -> tr.getNombre().equals(nombreTipoReg)));

@@ -5,7 +5,6 @@ public class Factory {
 	private static Factory instance;
 
 	private Factory() {
-		// constructor privado
 	}
 
 	public static Factory getInstance() {
@@ -15,7 +14,6 @@ public class Factory {
 		return instance;
 	}
 
-	// Métodos para devolver interfaces
 	public IControllerUsuario getIControllerUsuario() {
 		return new ControllerUsuario();
 	}

@@ -140,7 +140,6 @@ public class RegistroEdicionEvento extends JInternalFrame {
 
 		});
 
-		// Acción botón Registrar
 
 		btnRegistrar.addActionListener(e -> {
 			String edicionSel = (String) comboBoxEdicion.getSelectedItem();
@@ -163,7 +162,6 @@ public class RegistroEdicionEvento extends JInternalFrame {
 
 				JOptionPane.showMessageDialog(this, "Registro exitoso", "Éxito", JOptionPane.INFORMATION_MESSAGE);
 
-				// Limpiar después de registrar
 				cargarEventos();
 				comboBoxEdicion.removeAllItems();
 				comboBoxRegistro.removeAllItems();
@@ -181,7 +179,6 @@ public class RegistroEdicionEvento extends JInternalFrame {
 			}
 		});
 
-		// Acción botón Cancelar
 		btnCancelar.addActionListener(e -> {
 			cargarEventos();
 			comboBoxEdicion.removeAllItems();

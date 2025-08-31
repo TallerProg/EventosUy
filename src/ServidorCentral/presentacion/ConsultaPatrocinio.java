@@ -43,14 +43,13 @@ public class ConsultaPatrocinio extends JInternalFrame {
 
 		int row = 0;
 
-		// --- Combos ---
 		JLabel lblEvento = new JLabel("Evento:");
 		gbc.gridx = 0;
 		gbc.gridy = row;
 		panel.add(lblEvento, gbc);
 
 		comboEventos = new JComboBox<>();
-		comboEventos.setEnabled(false); // Fijo
+		comboEventos.setEnabled(false); 
 		gbc.gridx = 1;
 		gbc.gridy = row;
 		gbc.gridwidth = 2;
@@ -64,7 +63,7 @@ public class ConsultaPatrocinio extends JInternalFrame {
 		panel.add(lblEdicion, gbc);
 
 		comboEdiciones = new JComboBox<>();
-		comboEdiciones.setEnabled(false); // Fijo
+		comboEdiciones.setEnabled(false); 
 		gbc.gridx = 1;
 		gbc.gridy = row;
 		gbc.gridwidth = 2;
@@ -78,7 +77,7 @@ public class ConsultaPatrocinio extends JInternalFrame {
 		panel.add(lblPatrocinio, gbc);
 
 		comboPatrocinios = new JComboBox<>();
-		comboPatrocinios.setEnabled(false); // Fijo
+		comboPatrocinios.setEnabled(false); 
 		gbc.gridx = 1;
 		gbc.gridy = row;
 		gbc.gridwidth = 2;
@@ -128,8 +127,7 @@ public class ConsultaPatrocinio extends JInternalFrame {
 			}
 		});
 
-		// --- Campos de Patrocinio ---
-		row++; // espacio
+		row++; 
 		String[] labels = { "Código:", "Fecha Inicio:", "Registros Gratuitos:", "Monto:", "Nivel:", "Institución:",
 				"Tipo Registro:" };
 		JTextField[] fields = new JTextField[7];
@@ -173,7 +171,6 @@ public class ConsultaPatrocinio extends JInternalFrame {
 		}
 	}
 
-	// Carga los datos en los campos y combos, combos quedan fijos
 	public void cargarDatos(DTPatrocinio dtPat) {
 		if (dtPat == null)
 			return;
@@ -199,7 +196,6 @@ public class ConsultaPatrocinio extends JInternalFrame {
 		comboPatrocinios.setSelectedIndex(0);
 	}
 
-	// Método para crear y mostrar la ventana
 	public static ConsultaPatrocinio crearYMostrar(IControllerEvento controller, DTPatrocinio dtPat,
 			JDesktopPane desktopPane) {
 		ConsultaPatrocinio cp = new ConsultaPatrocinio(controller);

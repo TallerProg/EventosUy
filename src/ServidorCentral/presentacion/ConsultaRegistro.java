@@ -163,7 +163,6 @@ public class ConsultaRegistro extends JInternalFrame {
 			String usuarioSeleccionado = (String) comboBoxUsuario.getSelectedItem();
 			if (usuarioSeleccionado != null) {
 				listarRegistrosAsistente(usuarioSeleccionado);
-				// Solo limpiar si no hay registro seleccionado
 				if (comboBoxRegistro.getSelectedItem() == null) {
 					textField_finicio.setText("");
 					textField_1_costo.setText("");

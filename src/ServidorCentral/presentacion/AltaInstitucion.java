@@ -37,7 +37,6 @@ public class AltaInstitucion extends JInternalFrame {
 		gridBagLayout.rowWeights = new double[] { 0, 0, 0, 0, 0, Double.MIN_VALUE };
 		getContentPane().setLayout(gridBagLayout);
 
-		// Nombre
 		JLabel lblNombre = new JLabel("Nombre:");
 		GridBagConstraints gbc_lblNombre = new GridBagConstraints();
 		gbc_lblNombre.insets = new Insets(5, 5, 5, 5);
@@ -54,7 +53,6 @@ public class AltaInstitucion extends JInternalFrame {
 		gbc_txtNombre.gridy = 0;
 		getContentPane().add(txtNombre, gbc_txtNombre);
 
-		// Descripción
 		JLabel lblDescripcion = new JLabel("Descripción:");
 		GridBagConstraints gbc_lblDescripcion = new GridBagConstraints();
 		gbc_lblDescripcion.insets = new Insets(5, 5, 5, 5);
@@ -71,7 +69,6 @@ public class AltaInstitucion extends JInternalFrame {
 		gbc_txtDescripcion.gridy = 1;
 		getContentPane().add(txtDescripcion, gbc_txtDescripcion);
 
-		// URL
 		JLabel lblURL = new JLabel("URL:");
 		GridBagConstraints gbc_lblURL = new GridBagConstraints();
 		gbc_lblURL.insets = new Insets(5, 5, 5, 5);
@@ -88,7 +85,6 @@ public class AltaInstitucion extends JInternalFrame {
 		gbc_txtURL.gridy = 2;
 		getContentPane().add(txtURL, gbc_txtURL);
 
-		// Botón Aceptar
 		btnAceptar = new JButton("Aceptar");
 		GridBagConstraints gbc_btnAceptar = new GridBagConstraints();
 		gbc_btnAceptar.insets = new Insets(10, 50, 5, 20);
@@ -100,7 +96,6 @@ public class AltaInstitucion extends JInternalFrame {
 		btnAceptar.setPreferredSize(mismoTamaño);
 		getContentPane().add(btnAceptar, gbc_btnAceptar);
 
-		// Botón Cancelar
 		btnCancelar = new JButton("Cancelar");
 		GridBagConstraints gbc_btnCancelar = new GridBagConstraints();
 		gbc_btnCancelar.insets = new Insets(10, 20, 5, 80);
@@ -111,7 +106,6 @@ public class AltaInstitucion extends JInternalFrame {
 		btnCancelar.setPreferredSize(mismoTamaño);
 		getContentPane().add(btnCancelar, gbc_btnCancelar);
 
-		// Acción Cancelar
 		btnCancelar.addActionListener(e -> {
 			txtNombre.setText("");
 			txtDescripcion.setText("");
@@ -119,7 +113,6 @@ public class AltaInstitucion extends JInternalFrame {
 			this.setVisible(false);
 		});
 
-		// Acción Aceptar
 		btnAceptar.addActionListener(e -> {
 			String nombre = txtNombre.getText().trim();
 			String descripcion = txtDescripcion.getText().trim();

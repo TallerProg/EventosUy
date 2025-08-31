@@ -142,7 +142,6 @@ public class AltaTipoRegistro extends JInternalFrame {
 		gbc_textFieldCupo.gridy = 6;
 		getContentPane().add(textFieldCupo, gbc_textFieldCupo);
 
-		// Botones con espacio entre medio, Aceptar primero
 		JPanel panelBotones = new JPanel(new GridBagLayout());
 		GridBagConstraints gbc_panelBotones = new GridBagConstraints();
 		gbc_panelBotones.insets = new Insets(10, 0, 5, 0);
@@ -156,7 +155,7 @@ public class AltaTipoRegistro extends JInternalFrame {
 		btnCancelar = new JButton("Cancelar");
 
 		GridBagConstraints gbc_btnAceptar = new GridBagConstraints();
-		gbc_btnAceptar.insets = new Insets(0, 0, 0, 20); // espacio a la derecha
+		gbc_btnAceptar.insets = new Insets(0, 0, 0, 20); 
 		gbc_btnAceptar.gridx = 0;
 		gbc_btnAceptar.gridy = 0;
 		gbc_btnAceptar.anchor = GridBagConstraints.LINE_END;
@@ -170,12 +169,10 @@ public class AltaTipoRegistro extends JInternalFrame {
 		btnCancelar.setPreferredSize(new Dimension(100, 25));
 		panelBotones.add(btnCancelar, gbc_btnCancelar);
 
-		// CARGAS
 		cargarEventos();
 
 		comboBoxEvento.addActionListener(e -> cargarEdiciones());
 
-		// LISTENERS
 		btnCancelar.addActionListener(e -> {
 			textFieldNombre.setText("");
 			textAreaDescripcion.setText("");
@@ -222,7 +219,6 @@ public class AltaTipoRegistro extends JInternalFrame {
 				return;
 			}
 
-			// ALTA
 			try {
 				controlEvento.altaTipoRegistro(nombre, descripcion, costo, cupo, edicionSeleccionada);
 				JOptionPane.showMessageDialog(this, "Tipo de registro creado correctamente");
