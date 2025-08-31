@@ -21,7 +21,7 @@ public class AltaEdicionEvento extends JInternalFrame {
     private List<Organizador> organizadores;
 
     public AltaEdicionEvento(IControllerEvento ice) {
-        this.controller = ice;
+        this.controller = ice; 
 
         setClosable(true);
         setIconifiable(true);

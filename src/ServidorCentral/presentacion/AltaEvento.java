@@ -5,7 +5,7 @@ import ServidorCentral.logica.Categoria;
 
 import javax.swing.*;
 import java.awt.*;
-import java.time.LocalDate;
+import java.time.LocalDate; 
 import java.util.List;
 
 public class AltaEvento extends JInternalFrame {

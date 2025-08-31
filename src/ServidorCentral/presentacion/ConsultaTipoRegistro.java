@@ -309,7 +309,7 @@ public class ConsultaTipoRegistro extends JInternalFrame {
 		    comboBoxTipoRegistro.setEnabled(false);
 		}
 
-
+ 
 		public static ConsultaTipoRegistro crearYMostrar(IControllerEvento controller, String nombreEdicion, String nombreTipoR) {
 		    ConsultaTipoRegistro ctr = new ConsultaTipoRegistro(controller); 
 		    DTTipoRegistro dtTipo = controller.consultaTipoRegistro(nombreEdicion, nombreTipoR);

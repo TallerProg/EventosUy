@@ -33,6 +33,7 @@ public class Principal {
     private ConsultaTipoRegistro conTRegInternalFrame;
     private RegistroEdicionEvento regEdiEveInternalFrame;
     private ConsultaEdicionEvento conEdiEveInternalFrame;
+    private AltaPatrocinio altaPatrocinioInternalFrame;
 
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
@@ -65,6 +66,9 @@ public class Principal {
         regEdiEveInternalFrame = new RegistroEdicionEvento(ICE, ICU);
         conTRegInternalFrame = new ConsultaTipoRegistro(ICE);
         conEdiEveInternalFrame = new ConsultaEdicionEvento(ICE);
+        altaPatrocinioInternalFrame = new AltaPatrocinio(ICE, ICU);
+        
+
 
         // Agregar los InternalFrames al DesktopPane
         desktopPane.add(creUsrInternalFrame);
@@ -76,6 +80,7 @@ public class Principal {
         desktopPane.add(conTRegInternalFrame);
         desktopPane.add(regEdiEveInternalFrame);
         desktopPane.add(conEdiEveInternalFrame);
+        desktopPane.add(altaPatrocinioInternalFrame);
     }
 
     private void initialize() {
@@ -187,6 +192,13 @@ public class Principal {
                }
            });
             menuEventos.add(menuConsultaTipoReg);
+            JMenuItem menuAltaPatrocinio = new JMenuItem("Alta de Patrocinio");
+            menuAltaPatrocinio.addActionListener(e -> {
+                altaPatrocinioInternalFrame.cargarEventos(); // Cargar los eventos al abrir
+                mostrarInternalFrame(altaPatrocinioInternalFrame);
+            });
+            menuEventos.add(menuAltaPatrocinio);
+
                         
             JMenuItem menuRegistroEdicion = new JMenuItem("Registro a Edición de Evento");
             menuRegistroEdicion.addActionListener(e -> {
