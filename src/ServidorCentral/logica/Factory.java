@@ -23,4 +23,8 @@ public class Factory {
 	public IControllerEvento getIControllerEvento() {
 		return new ControllerEvento();
 	}
+	
+	public IControllerInstitucion getIControllerInstitucion() {
+		return new ControllerInstitucion();
+	}
 }

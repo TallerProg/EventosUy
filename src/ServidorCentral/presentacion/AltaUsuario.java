@@ -205,7 +205,7 @@ public class AltaUsuario extends JInternalFrame {
                     String nombreInstitucion = (String) comboInstitucion.getSelectedItem();
                     Institucion inst = null;
                     if (!nombreInstitucion.equals("Ninguna")) {
-                        inst = ManejadorInstitucion.getInstance().buscarPorNombre(nombreInstitucion);
+                        inst = ManejadorInstitucion.getInstance().findInstitucion(nombreInstitucion);
                     }
 
                     controlUsr.AltaAsistente(nick, correo, nombre, apellido, fecha, inst);

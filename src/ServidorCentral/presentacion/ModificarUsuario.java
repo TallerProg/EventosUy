@@ -151,7 +151,7 @@ public class ModificarUsuario extends JInternalFrame {
                     return;
                 }
                 String instName = (String) comboInstitucion.getSelectedItem();
-                a.setInstitucion(instName.equals("Ninguna") ? null : ManejadorInstitucion.getInstance().buscarPorNombre(instName));
+                a.setInstitucion(instName.equals("Ninguna") ? null : ManejadorInstitucion.getInstance().findInstitucion(instName));
             } else if (u instanceof Organizador) {
                 Organizador o = (Organizador) u;
                 if (!o.getDescripcion().equals(textFieldDescripcion.getText())) {

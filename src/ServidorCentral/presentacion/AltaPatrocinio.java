@@ -1,7 +1,10 @@
 package ServidorCentral.presentacion;
 
 import java.text.NumberFormat;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
+
 import javax.swing.*;
 import javax.swing.text.NumberFormatter;
 
@@ -18,7 +21,6 @@ public class AltaPatrocinio extends JInternalFrame {
 	private JComboBox<String> comboBoxRegistro;
 	private JComboBox<String> comboBoxAsistente;
 	private JTextField textField;
-	
 
 	public AltaPatrocinio(IControllerEvento ice, IControllerUsuario icu) {
 
@@ -26,7 +28,7 @@ public class AltaPatrocinio extends JInternalFrame {
 		this.ice = ice;
 		this.icu = icu;
 
-		setSize(466, 349);
+		setSize(838, 403);
 		setDefaultCloseOperation(HIDE_ON_CLOSE);
 		getContentPane().setLayout(new MigLayout("", "[115px][][][][][][][10px][][][28px][24px][][][130px,grow]",
 				"[14px][22px][14px][22px][14px][22px][14px][22px][][][30px][][][][33px]"));
@@ -53,7 +55,6 @@ public class AltaPatrocinio extends JInternalFrame {
 
 		JLabel lblNewLabel_1 = new JLabel("Nivel:");
 		getContentPane().add(lblNewLabel_1, "cell 0 8");
-		
 
 		JComboBox comboBoxNivel = new JComboBox();
 		comboBoxNivel.setEnabled(false);
@@ -62,7 +63,6 @@ public class AltaPatrocinio extends JInternalFrame {
 		comboBoxNivel.addItem("Oro");
 		comboBoxNivel.addItem("Plata");
 		comboBoxNivel.addItem("Bronce");
-		
 
 		JLabel lblCodigo = new JLabel("Aporte Económico:");
 		getContentPane().add(lblCodigo, "cell 0 9");
@@ -72,6 +72,7 @@ public class AltaPatrocinio extends JInternalFrame {
 		aporteEconomico.setGroupingUsed(false); // sin separador de miles
 
 		NumberFormatter formatter = new NumberFormatter(aporteEconomico);
+		formatter.setAllowsInvalid(true); 
 		formatter.setAllowsInvalid(false); // no permite letras ni símbolos
 		formatter.setMinimum(0.0); // solo positivos
 		formatter.setMaximum(Double.MAX_VALUE); // máximo permitido
@@ -89,6 +90,7 @@ public class AltaPatrocinio extends JInternalFrame {
 		numeroRegistro.setGroupingUsed(false); // sin separadores de miles
 
 		NumberFormatter formatterEntero = new NumberFormatter(numeroRegistro);
+		formatterEntero.setAllowsInvalid(true); 
 		formatterEntero.setAllowsInvalid(false); // no permite letras ni símbolos
 		formatterEntero.setMinimum(0); // solo positivos
 		formatterEntero.setMaximum(Integer.MAX_VALUE); // máximo permitido
@@ -124,6 +126,7 @@ public class AltaPatrocinio extends JInternalFrame {
 				comboBoxRegistro.removeAllItems();
 				comboBoxAsistente.setEnabled(false);
 				comboBoxAsistente.removeAllItems();
+				comboBoxNivel.setEnabled(false);
 			} else {
 				comboBoxEdicion.setEnabled(false);
 				comboBoxEdicion.removeAllItems();
@@ -131,6 +134,8 @@ public class AltaPatrocinio extends JInternalFrame {
 				comboBoxRegistro.removeAllItems();
 				comboBoxAsistente.setEnabled(false);
 				comboBoxAsistente.removeAllItems();
+				comboBoxNivel.setEnabled(false);
+
 			}
 		});
 		comboBoxEdicion.addActionListener(e -> {
@@ -146,12 +151,14 @@ public class AltaPatrocinio extends JInternalFrame {
 
 				comboBoxAsistente.setEnabled(false);
 				comboBoxAsistente.removeAllItems();
+				comboBoxNivel.setEnabled(false);
 			} else {
 
 				comboBoxRegistro.setEnabled(false);
 				comboBoxRegistro.removeAllItems();
 				comboBoxAsistente.setEnabled(false);
 				comboBoxAsistente.removeAllItems();
+				comboBoxNivel.setEnabled(false);
 			}
 		});
 
@@ -166,19 +173,22 @@ public class AltaPatrocinio extends JInternalFrame {
 
 					e1.printStackTrace();
 				}
-
+				comboBoxNivel.setEnabled(false);
 			} else {
 
 				comboBoxRegistro.setEnabled(false);
 				comboBoxRegistro.removeAllItems();
 				comboBoxAsistente.setEnabled(false);
 				comboBoxAsistente.removeAllItems();
+				comboBoxNivel.setEnabled(false);
 			}
 		});
 		comboBoxAsistente.addActionListener(e -> {
 			String nombreAsistente = (String) comboBoxAsistente.getSelectedItem();
 			if (nombreAsistente != null && !nombreAsistente.equals("Sin asistentes")) {
 				comboBoxNivel.setEnabled(true);
+			}else {
+				comboBoxNivel.setEnabled(false);
 			}
 
 		});
@@ -197,33 +207,52 @@ public class AltaPatrocinio extends JInternalFrame {
 			String edicionNombre = (String) comboBoxEdicion.getSelectedItem();
 			String institucionNombre = (String) comboBoxAsistente.getSelectedItem();
 			String tipoRegistroNombre = (String) comboBoxRegistro.getSelectedItem();
-			String nivel = (String) comboBoxNivel.getSelectedItem();
-			String codigo = textFieldCodigo.getText().trim();
-			
+			String nivelS = (String) comboBoxNivel.getSelectedItem();
+			ETipoNivel nivel =  ETipoNivel.valueOf(nivelS);  
+			String aporteEconomic = textFieldCodigo.getText().trim();
+			String cuposGrati = textField.getText().trim();
+			String codigo = UUID.randomUUID().toString();
 
-			if ((nivel == null)||(codigo ==null)){
+			if ((aporteEconomic == null) || (cuposGrati == null)) {
 				JOptionPane.showMessageDialog(this, "Debe completar todos los campos antes de registrar.",
 						"Campos incompletos", JOptionPane.WARNING_MESSAGE);
 				return;
 			}
 
 			try {
-				
-			
-				JOptionPane.showMessageDialog(this, "Registro exitoso", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-				// Limpiar después de registrar
-				cargarEventos();
-				comboBoxEdicion.removeAllItems();
-				comboBoxRegistro.removeAllItems();
-				comboBoxAsistente.removeAllItems();
-				textFieldCodigo.setText("");
 
+				ice.altaPatrocinio(
+					    codigo,
+					    LocalDate.now(),
+					    cuposGrati.equals("") ? 0 : Integer.parseInt(cuposGrati),
+					    aporteEconomic.equals("") ? 0f : Float.parseFloat(aporteEconomic),
+					    nivel,
+					    institucionNombre,
+					    edicionNombre,
+					    tipoRegistroNombre
+					);
+				JOptionPane.showMessageDialog(this, "Registro exitoso", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+				
+				// Limpiar campos después de registrar
+				cargarEventos();
+				comboBoxEdicion.setModel(new DefaultComboBoxModel<>());
+				comboBoxRegistro.setModel(new DefaultComboBoxModel<>());
+				comboBoxAsistente.setModel(new DefaultComboBoxModel<>());
+				comboBoxNivel.setSelectedIndex(-1); // deselecciona nivel
+				textField.setText(null);
+				textFieldCodigo.setText(null);
 				comboBoxEdicion.setEnabled(false);
 				comboBoxRegistro.setEnabled(false);
 				comboBoxAsistente.setEnabled(false);
+				comboBoxNivel.setEnabled(false);
+				btnRegistrar.setEnabled(false);
+
 
 			} catch (Exception ex) {
+				textField.setText(null);
+				textFieldCodigo.setText(null);
 				JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+				
 			}
 		});
 
@@ -329,7 +358,5 @@ public class AltaPatrocinio extends JInternalFrame {
 			comboBoxAsistente.setEnabled(false);
 		}
 	}
-	
-	
 
 }

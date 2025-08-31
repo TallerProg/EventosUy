@@ -2,8 +2,20 @@ package ServidorCentral.logica;
 
 public class ControllerInstitucion implements IControllerInstitucion {
 
-	public ControllerInstitucion() {
-		// Constructor vacío
+	public void altaInstitucion(String nombreIns, String url, String descripcion) throws Exception {
+		ManejadorInstitucion mi = ManejadorInstitucion.getInstance();
+		Institucion institucionExistente = mi.findInstitucion(nombreIns);
+		if (institucionExistente != null) {
+			throw new Exception("La institución ya existe.");
+		}
+		Institucion nuevaInstitucion = new Institucion(nombreIns, url, descripcion);
+		mi.agregarInstitucion(nuevaInstitucion);
+	}
+		
+	
+	public Institucion findInstitucion(String nombreIns) {
+		ManejadorInstitucion mi = ManejadorInstitucion.getInstance();
+		return mi.findInstitucion(nombreIns);
 	}
 
 	/*
@@ -16,9 +28,6 @@ public class ControllerInstitucion implements IControllerInstitucion {
 	 * 
 	 * // Método para editar patrocinio public void EditarPatrocinio() { // Vacío
 	 * por ahora }
-	 * 
-	 * // Método de alta de institución public void AltaInstitucion(String
-	 * nombreIns, String url, String descripcion) { // Vacío por ahora }
 	 * 
 	 * // Método de consulta de patrocinio public void ConsultaPatrocinio(String
 	 * codigo) { // Vacío por ahora }

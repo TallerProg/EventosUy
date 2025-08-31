@@ -39,54 +39,30 @@ public class Patrocinio {
 		return codigo;
 	}
 
-	public void setCodigo(String codigo) {
-		this.codigo = codigo;
-	}
-
 	public LocalDate getFInicio() {
 		return fInicio;
-	}
-
-	public void setFInicio(LocalDate fInicio) {
-		this.fInicio = fInicio;
 	}
 
 	public int getRegistroGratuito() {
 		return registroGratuito;
 	}
 
-	public void setRegistroGratuito(int registroGratuito) {
-		this.registroGratuito = registroGratuito;
-	}
-
 	public Float getMonto() {
 		return monto;
-	}
-
-	public void setMonto(Float monto) {
-		this.monto = monto;
 	}
 
 	public ETipoNivel getNivel() {
 		return nivel;
 	}
 
-	public void setNivel(ETipoNivel nivel) {
-		this.nivel = nivel;
-	}
-
 	public Institucion getInstitucion() {
 		return institucion;
-	}
-
-	public void setInstitucion(Institucion institucion) {
-		this.institucion = institucion;
 	}
 
 	public Edicion getEdicion() {
 		return edicion;
 	}
-
+	
 	public void setEdicion(Edicion edicion) {
 		this.edicion = edicion;
 	}
@@ -95,24 +71,12 @@ public class Patrocinio {
 		return tipoRegistro;
 	}
 
-	public void setTipoRegistro(TipoRegistro tipoRegistro) {
-		this.tipoRegistro = tipoRegistro;
-	}
-
 	public List<Asistente> getAsistentes() {
 		return asistentes;
 	}
 
-	public void setAsistentes(List<Asistente> asistentes) {
-		this.asistentes = asistentes;
-	}
-
 	public List<Registro> getRegistros() {
 		return registros;
-	}
-
-	public void setRegistros(List<Registro> registros) {
-		this.registros = registros;
 	}
 
 	public boolean consultarRegistros() {

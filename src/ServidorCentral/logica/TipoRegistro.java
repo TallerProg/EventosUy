@@ -34,34 +34,17 @@ public class TipoRegistro {
 		return nombre;
 	}
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
 	public String getDescripcion() {
 		return descripcion;
-	}
-
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
 	}
 
 	public Float getCosto() {
 		return costo;
 	}
 
-	public void setCosto(Float costo) {
-		this.costo = costo;
-	}
-
 	public int getCupo() {
 		return cupo;
 	}
-
-	public void setCupo(int cupo) {
-		this.cupo = cupo;
-	}
-
 	public Edicion getEdicion() {
 		return edicion;
 	}
@@ -72,6 +55,10 @@ public class TipoRegistro {
 
 	public List<Patrocinio> getPatrocinioList() {
 		return patrocinioList;
+	}
+	
+	public List<Registro> getRegistros() {
+		return registros;
 	}
 
 	public void setPatrocinioList(List<Patrocinio> patrocinioList) {
@@ -92,5 +79,14 @@ public class TipoRegistro {
 
 	public DTTipoRegistro getDTTipoRegistro() {
 		return new DTTipoRegistro(nombre, descripcion, costo, cupo);
+	}
+	
+	public List<String> registrosFechas() {
+		List<String> registrosFechas = new ArrayList<>();
+		for (Registro r : registros) {
+			registrosFechas.add(r.getFInicio().toString());
+		}
+
+		return registrosFechas;
 	}
 }

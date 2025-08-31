@@ -178,7 +178,6 @@ public class ConsultaEvento extends JInternalFrame {
 			 String nombreEdicionSeleccionada = (String) comboBox_Ediciones.getSelectedItem();
 			 String nombreEventoSeleccionado = (String) comboBoxEvento.getSelectedItem();
 			 if (nombreEdicionSeleccionada != null && !nombreEdicionSeleccionada.equals("Sin ediciones")) {
-				 System.out.print("hola");
 				 ConsultaEdicionEvento.crearYMostrar(controlEvento,nombreEventoSeleccionado, nombreEdicionSeleccionada,desktopPane);
 			 }
 		});

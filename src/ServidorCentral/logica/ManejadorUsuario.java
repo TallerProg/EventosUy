@@ -18,7 +18,11 @@ public class ManejadorUsuario {
 			instancia = new ManejadorUsuario();
 		return instancia;
 	}
-
+	public void limpiar() {
+		organizadores.clear();
+		usuarios.clear();
+		asistentes.clear();
+	}
 	public List<Usuario> listarUsuarios() {
 		return new ArrayList<>(usuarios);
 	}

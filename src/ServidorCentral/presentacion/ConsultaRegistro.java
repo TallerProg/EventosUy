@@ -161,14 +161,18 @@ public class ConsultaRegistro extends JInternalFrame {
 			    String usuarioSeleccionado = (String) comboBoxUsuario.getSelectedItem();
 			    if (usuarioSeleccionado != null) {
 			        listarRegistrosAsistente(usuarioSeleccionado);
-			        textField_finicio.setText("");
-			        textField_1_costo.setText("");
-			        textField.setText("");
-			        textField_1.setText("");
-			        textField_2.setText("");
+			        // Solo limpiar si no hay registro seleccionado
+			        if (comboBoxRegistro.getSelectedItem() == null) {
+			            textField_finicio.setText("");
+			            textField_1_costo.setText("");
+			            textField.setText("");
+			            textField_1.setText("");
+			            textField_2.setText("");
+			        }
 			    } else {
 			        comboBoxRegistro.setEnabled(false);
 			    }
+
 			});
 			comboBoxRegistro.addActionListener(e -> {
 			    String registroSeleccionado = (String) comboBoxRegistro.getSelectedItem();
@@ -207,11 +211,44 @@ public class ConsultaRegistro extends JInternalFrame {
 		comboBoxRegistro.setEnabled(true);
 	}
 	
-	public static ConsultaRegistro crearYMostrar(IControllerUsuario controllerU, String nombreUsuario, String nombreEdicion) {
-		ConsultaRegistro cr = new ConsultaRegistro(controllerU); // constructor normal
-		cr.cargarUsuarios();
-		cr.comboBoxUsuario.setSelectedItem(nombreUsuario);
-		cr.comboBoxRegistro.setSelectedItem(nombreEdicion);		
+	public static ConsultaRegistro crearYMostrar(IControllerUsuario controllerU, String nombreUsuario, String nombreEdicion, JDesktopPane desktopPane) {
+		ConsultaRegistro cr = new ConsultaRegistro(controllerU); 
+		if (desktopPane != null) {
+            desktopPane.add(cr);
+            cr.setVisible(true);
+            cr.setLocation(
+                (desktopPane.getWidth() - cr.getWidth()) / 2,
+                (desktopPane.getHeight() - cr.getHeight()) / 2
+            );
+        }
+		cr.comboBoxUsuario.removeAllItems();
+	    for (Asistente asistente : controllerU.getAsistentes()) {
+	        cr.comboBoxUsuario.addItem(asistente.getNickname());
+	    }
+
+	    if (nombreUsuario != null) {
+	        cr.comboBoxUsuario.setSelectedItem(nombreUsuario);
+
+	        List<String> registros = controllerU.getAsistenteRegistro(nombreUsuario);
+	        cr.comboBoxRegistro.removeAllItems();
+	        for (String r : registros) {
+	            cr.comboBoxRegistro.addItem(r);
+	        }
+	        cr.comboBoxRegistro.setEnabled(!registros.isEmpty());
+
+	        if (nombreEdicion != null && registros.contains(nombreEdicion)) {
+	            cr.comboBoxRegistro.setSelectedItem(nombreEdicion);
+
+	            DTRegistroDetallado dto = controllerU.getRegistroDetalle(nombreEdicion, nombreUsuario);
+	            cr.textField_finicio.setText(dto.getfRegistro().toString());
+	            cr.textField_1_costo.setText(String.valueOf(dto.getCosto()));
+	            cr.textField.setText(dto.getNombreEvento());
+	            cr.textField_1.setText(dto.getNombreEdicion());
+	            cr.textField_2.setText(dto.getTipoRegistro());
+	        }
+	    }
+
 	    return cr;
 	}
+	
 }

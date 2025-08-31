@@ -28,15 +28,6 @@ public class ManejadorInstitucion {
 		}
 	}
 
-	// Buscar institución por nombre
-	public Institucion buscarPorNombre(String nombre) {
-		for (Institucion ins : instituciones) {
-			if (ins.getNombre().equalsIgnoreCase(nombre)) {
-				return ins;
-			}
-		}
-		return null;
-	}
 	public void limpiar() {
 	    instituciones.clear();
 	}
