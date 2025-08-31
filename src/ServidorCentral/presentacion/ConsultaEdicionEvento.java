@@ -3,13 +3,7 @@ package ServidorCentral.presentacion;
 import javax.swing.*;
 import java.awt.*;
 
-import ServidorCentral.logica.DTEdicion;
-import ServidorCentral.logica.DTOrganizador;
-import ServidorCentral.logica.DTPatrocinio;
-import ServidorCentral.logica.DTRegistro;
-import ServidorCentral.logica.DTTipoRegistro;
-import ServidorCentral.logica.Evento;
-import ServidorCentral.logica.IControllerEvento;
+import ServidorCentral.logica.*;
 
 public class ConsultaEdicionEvento extends JInternalFrame {
 
@@ -19,123 +13,107 @@ public class ConsultaEdicionEvento extends JInternalFrame {
 
     private JTextField NombreEdicion, CiudadEdicion, SiglaEdicion, PaisEdicion, FAltaEdicion, FInicioEdicion, FFinEdicion;
     private JComboBox<String> comboEventos, comboEdiciones, comboTiposRegistro, comboRegistros, comboPatrocinios, comboOrganizadores;
-    private JLabel lblPais;
-    private JLabel lblFechaDeInicio;
-    private JLabel lblOrganizadores;
-    private JLabel lblRegistros;
-    private JLabel lblTiposDeRegitro;
-    private JLabel lblPatrocinios;
 
     public ConsultaEdicionEvento(IControllerEvento ice) {
-    	setTitle("Consulta de Edicion de Evento");
+        super("Consulta de Edición de Evento", true, true, true, true);
         this.controller = ice;
-        getContentPane().setLayout(null);
-
-        setClosable(true);
-        setIconifiable(true);
-        setMaximizable(true);
-        setResizable(true);
-        setSize(600, 500);
+        setSize(650, 500);
 
         initComponents();
         cargarEventos();
     }
 
     private void initComponents() {
-        // Labels y Combos
-        JLabel lblDatosEdicion = new JLabel("Datos de la Edicion");
-        lblDatosEdicion.setFont(new Font("Times New Roman", Font.PLAIN, 20));
-        lblDatosEdicion.setBounds(171, 98, 261, 28);
-        getContentPane().add(lblDatosEdicion);
+        Font labelFont = new Font("Tahoma", Font.PLAIN, 10);
+        Font fieldFont = new Font("Tahoma", Font.PLAIN, 10);
 
-        JLabel lblSeleccionarEvento = new JLabel("Seleccionar Evento");
-        lblSeleccionarEvento.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-        lblSeleccionarEvento.setBounds(28, 24, 120, 20);
-        getContentPane().add(lblSeleccionarEvento);
+        JPanel panel = new JPanel(new GridBagLayout());
+        getContentPane().add(panel, BorderLayout.CENTER);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5,5,5,5);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        JLabel lblSeleccionarEdicion = new JLabel("Seleccionar Edición");
-        lblSeleccionarEdicion.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-        lblSeleccionarEdicion.setBounds(28, 60, 120, 20);
-        getContentPane().add(lblSeleccionarEdicion);
+        int row = 0;
 
-        NombreEdicion = new JTextField(); NombreEdicion.setEditable(false); NombreEdicion.setBounds(123, 145, 164, 28); getContentPane().add(NombreEdicion);
-        CiudadEdicion = new JTextField(); CiudadEdicion.setEditable(false); CiudadEdicion.setBounds(109, 200, 144, 28); getContentPane().add(CiudadEdicion);
-        SiglaEdicion = new JTextField(); SiglaEdicion.setEditable(false); SiglaEdicion.setBounds(385, 145, 86, 28); getContentPane().add(SiglaEdicion);
-        PaisEdicion = new JTextField(); PaisEdicion.setEditable(false); PaisEdicion.setBounds(385, 200, 144, 28); getContentPane().add(PaisEdicion);
-        FAltaEdicion = new JTextField(); FAltaEdicion.setEditable(false); FAltaEdicion.setBounds(136, 251, 130, 28); getContentPane().add(FAltaEdicion);
-        FInicioEdicion = new JTextField(); FInicioEdicion.setEditable(false); FInicioEdicion.setBounds(443, 251, 120, 28); getContentPane().add(FInicioEdicion);
-        FFinEdicion = new JTextField(); FFinEdicion.setEditable(false); FFinEdicion.setBounds(157, 310, 130, 28); getContentPane().add(FFinEdicion);
+        // Título
+        JLabel lblTitulo = new JLabel("Datos de la Edición");
+        lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 12));
+        gbc.gridx = 0; gbc.gridy = row; gbc.gridwidth = 4; gbc.anchor = GridBagConstraints.CENTER;
+        panel.add(lblTitulo, gbc);
+        row++; gbc.gridwidth = 1; gbc.anchor = GridBagConstraints.WEST;
 
-        comboEventos = new JComboBox<>(); comboEventos.setBounds(171, 21, 219, 28); getContentPane().add(comboEventos);
-        comboEdiciones = new JComboBox<>(); comboEdiciones.setBounds(171, 60, 219, 28); getContentPane().add(comboEdiciones);
-        comboTiposRegistro = new JComboBox<>(); comboTiposRegistro.setBounds(150, 347, 137, 28); getContentPane().add(comboTiposRegistro);
-        comboRegistros = new JComboBox<>(); comboRegistros.setBounds(402, 347, 161, 28); getContentPane().add(comboRegistros);
-        comboPatrocinios = new JComboBox<>(); comboPatrocinios.setBounds(123, 390, 164, 28); getContentPane().add(comboPatrocinios);
-        comboOrganizadores = new JComboBox<>(); comboOrganizadores.setBounds(422, 309, 130, 28); getContentPane().add(comboOrganizadores);
+        // Selección de Evento
+        gbc.gridx = 0; gbc.gridy = row; panel.add(new JLabel("Seleccionar Evento"), gbc);
+        comboEventos = new JComboBox<>(); comboEventos.setFont(fieldFont);
+        gbc.gridx = 1; gbc.gridy = row; gbc.gridwidth = 3;
+        panel.add(comboEventos, gbc); row++; gbc.gridwidth = 1;
 
-        JLabel lblNewLabel = new JLabel("Nombre :");
-        lblNewLabel.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-        lblNewLabel.setBounds(31, 147, 82, 21);
-        getContentPane().add(lblNewLabel);
+        // Selección de Edición
+        gbc.gridx = 0; gbc.gridy = row; panel.add(new JLabel("Seleccionar Edición"), gbc);
+        comboEdiciones = new JComboBox<>(); comboEdiciones.setFont(fieldFont);
+        gbc.gridx = 1; gbc.gridy = row; gbc.gridwidth = 3;
+        panel.add(comboEdiciones, gbc); row++; gbc.gridwidth = 1;
 
-        JLabel lblCiudad = new JLabel("Ciudad :");
-        lblCiudad.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-        lblCiudad.setBounds(17, 200, 82, 21);
-        getContentPane().add(lblCiudad);
+        // Nombre y Sigla
+        gbc.gridx = 0; gbc.gridy = row; panel.add(new JLabel("Nombre :"), gbc);
+        NombreEdicion = new JTextField(); NombreEdicion.setFont(fieldFont); NombreEdicion.setEditable(false);
+        gbc.gridx = 1; gbc.gridy = row; panel.add(NombreEdicion, gbc);
 
-        JLabel lblFechaDeAlta = new JLabel("Fecha de Alta :");
-        lblFechaDeAlta.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-        lblFechaDeAlta.setBounds(17, 258, 109, 21);
-        getContentPane().add(lblFechaDeAlta);
+        gbc.gridx = 2; gbc.gridy = row; panel.add(new JLabel("Sigla :"), gbc);
+        SiglaEdicion = new JTextField(); SiglaEdicion.setFont(fieldFont); SiglaEdicion.setEditable(false);
+        gbc.gridx = 3; gbc.gridy = row; panel.add(SiglaEdicion, gbc); row++;
 
-        JLabel lblFechaDeFinalizacion = new JLabel("Fecha de Finalizacion :");
-        lblFechaDeFinalizacion.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-        lblFechaDeFinalizacion.setBounds(17, 311, 144, 21);
-        getContentPane().add(lblFechaDeFinalizacion);
+        // Ciudad y País
+        gbc.gridx = 0; gbc.gridy = row; panel.add(new JLabel("Ciudad :"), gbc);
+        CiudadEdicion = new JTextField(); CiudadEdicion.setFont(fieldFont); CiudadEdicion.setEditable(false);
+        gbc.gridx = 1; gbc.gridy = row; panel.add(CiudadEdicion, gbc);
 
-        JLabel lblSigla = new JLabel("Sigla :");
-        lblSigla.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-        lblSigla.setBounds(315, 147, 49, 21);
-        getContentPane().add(lblSigla);
+        gbc.gridx = 2; gbc.gridy = row; panel.add(new JLabel("Pais :"), gbc);
+        PaisEdicion = new JTextField(); PaisEdicion.setFont(fieldFont); PaisEdicion.setEditable(false);
+        gbc.gridx = 3; gbc.gridy = row; panel.add(PaisEdicion, gbc); row++;
 
-        lblPais = new JLabel("Pais :");
-        lblPais.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-        lblPais.setBounds(315, 202, 49, 21);
-        getContentPane().add(lblPais);
+        // Fechas de Alta, Inicio y Fin
+        gbc.gridx = 0; gbc.gridy = row; panel.add(new JLabel("Fecha de Alta :"), gbc);
+        FAltaEdicion = new JTextField(); FAltaEdicion.setFont(fieldFont); FAltaEdicion.setEditable(false);
+        gbc.gridx = 1; gbc.gridy = row; panel.add(FAltaEdicion, gbc);
 
-        lblFechaDeInicio = new JLabel("Fecha de Inicio :");
-        lblFechaDeInicio.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-        lblFechaDeInicio.setBounds(297, 253, 120, 21);
-        getContentPane().add(lblFechaDeInicio);
+        gbc.gridx = 2; gbc.gridy = row; panel.add(new JLabel("Fecha de Inicio :"), gbc);
+        FInicioEdicion = new JTextField(); FInicioEdicion.setFont(fieldFont); FInicioEdicion.setEditable(false);
+        gbc.gridx = 3; gbc.gridy = row; panel.add(FInicioEdicion, gbc); row++;
 
-        lblOrganizadores = new JLabel("Organizadores :");
-        lblOrganizadores.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-        lblOrganizadores.setBounds(315, 317, 97, 21);
-        getContentPane().add(lblOrganizadores);
+        gbc.gridx = 0; gbc.gridy = row; panel.add(new JLabel("Fecha de Finalización :"), gbc);
+        FFinEdicion = new JTextField(); FFinEdicion.setFont(fieldFont); FFinEdicion.setEditable(false);
+        gbc.gridx = 1; gbc.gridy = row; panel.add(FFinEdicion, gbc); row++;
 
-        lblRegistros = new JLabel("Registros :");
-        lblRegistros.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-        lblRegistros.setBounds(315, 350, 82, 21);
-        getContentPane().add(lblRegistros);
+        // Tipos de Registro y Registros
+        gbc.gridx = 0; gbc.gridy = row; panel.add(new JLabel("Tipos de Registro :"), gbc);
+        comboTiposRegistro = new JComboBox<>(); comboTiposRegistro.setFont(fieldFont);
+        gbc.gridx = 1; gbc.gridy = row; panel.add(comboTiposRegistro, gbc);
 
-        lblTiposDeRegitro = new JLabel("Tipos de Regitro :");
-        lblTiposDeRegitro.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-        lblTiposDeRegitro.setBounds(20, 350, 120, 21);
-        getContentPane().add(lblTiposDeRegitro);
+        gbc.gridx = 2; gbc.gridy = row; panel.add(new JLabel("Registros :"), gbc);
+        comboRegistros = new JComboBox<>(); comboRegistros.setFont(fieldFont);
+        gbc.gridx = 3; gbc.gridy = row; panel.add(comboRegistros, gbc); row++;
 
-        lblPatrocinios = new JLabel("Patrocinios :");
-        lblPatrocinios.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-        lblPatrocinios.setBounds(31, 393, 82, 21);
-        getContentPane().add(lblPatrocinios);
+        // Patrocinios y Organizadores
+        gbc.gridx = 0; gbc.gridy = row; panel.add(new JLabel("Patrocinios :"), gbc);
+        comboPatrocinios = new JComboBox<>(); comboPatrocinios.setFont(fieldFont);
+        gbc.gridx = 1; gbc.gridy = row; panel.add(comboPatrocinios, gbc);
 
+        gbc.gridx = 2; gbc.gridy = row; panel.add(new JLabel("Organizadores :"), gbc);
+        comboOrganizadores = new JComboBox<>(); comboOrganizadores.setFont(fieldFont);
+        gbc.gridx = 3; gbc.gridy = row; panel.add(comboOrganizadores, gbc); row++;
+
+        // Botones centrados con espacio
+        JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
         JButton btnVerTipoRegistro = new JButton("Ver Tipo de Registro");
-        btnVerTipoRegistro.setBounds(95, 428, 180, 28);
-        getContentPane().add(btnVerTipoRegistro);
-
         JButton btnVerPatrocinio = new JButton("Ver Patrocinio");
-        btnVerPatrocinio.setBounds(339, 428, 150, 28);
-        getContentPane().add(btnVerPatrocinio);
+        panelBotones.add(btnVerTipoRegistro);
+        panelBotones.add(btnVerPatrocinio);
 
+        gbc.gridx = 0; gbc.gridy = row; gbc.gridwidth = 4;
+        panel.add(panelBotones, gbc); row++; gbc.gridwidth = 1;
+
+        // Listeners originales
         comboEventos.addActionListener(e -> {
             String nombreEvento = (String) comboEventos.getSelectedItem();
             if (nombreEvento != null) {
@@ -169,8 +147,6 @@ public class ConsultaEdicionEvento extends JInternalFrame {
             }
         });
 
-
-
         btnVerPatrocinio.addActionListener(e -> {
             String codigoPat = (String) comboPatrocinios.getSelectedItem();
             String nombreEdicion = (String) comboEdiciones.getSelectedItem();
@@ -182,7 +158,6 @@ public class ConsultaEdicionEvento extends JInternalFrame {
                 JOptionPane.showMessageDialog(this, "Seleccione un patrocinio primero.");
             }
         });
-
     }
 
     private void mostrarDatosEdicion(DTEdicion dtEd) {
@@ -197,31 +172,21 @@ public class ConsultaEdicionEvento extends JInternalFrame {
         FFinEdicion.setText(dtEd.getfFin().toString());
 
         comboTiposRegistro.removeAllItems();
-        for (DTTipoRegistro tr : dtEd.getTipoRegistros()) {
-            comboTiposRegistro.addItem(tr.getNombre());
-        }
+        for (DTTipoRegistro tr : dtEd.getTipoRegistros()) comboTiposRegistro.addItem(tr.getNombre());
 
         comboRegistros.removeAllItems();
-        for (DTRegistro reg : dtEd.getRegistros()) {
-            comboRegistros.addItem(reg.getAsistenteNickname());
-        }
+        for (DTRegistro reg : dtEd.getRegistros()) comboRegistros.addItem(reg.getAsistenteNickname());
 
         comboPatrocinios.removeAllItems();
-        for (DTPatrocinio pat : dtEd.getPatrocinios()) {
-            comboPatrocinios.addItem(pat.getCodigo());
-        }
+        for (DTPatrocinio pat : dtEd.getPatrocinios()) comboPatrocinios.addItem(pat.getCodigo());
 
         comboOrganizadores.removeAllItems();
-        for (DTOrganizador org : dtEd.getOrganizadores()) {
-            comboOrganizadores.addItem(org.getNickname());
-        }
+        for (DTOrganizador org : dtEd.getOrganizadores()) comboOrganizadores.addItem(org.getNickname());
     }
 
     public void cargarEventos() {
         comboEventos.removeAllItems();
-        for (Evento ev : controller.listarEventos()) {
-            comboEventos.addItem(ev.getNombre());
-        }
+        for (Evento ev : controller.listarEventos()) comboEventos.addItem(ev.getNombre());
         if (comboEventos.getItemCount() > 0) {
             comboEventos.setSelectedIndex(0);
             cargarEdiciones((String) comboEventos.getSelectedItem());
@@ -230,9 +195,7 @@ public class ConsultaEdicionEvento extends JInternalFrame {
 
     private void cargarEdiciones(String nombreEvento) {
         comboEdiciones.removeAllItems();
-        for (String nombreEd : controller.listarEdicionesDeEvento(nombreEvento)) {
-            comboEdiciones.addItem(nombreEd);
-        }
+        for (String nombreEd : controller.listarEdicionesDeEvento(nombreEvento)) comboEdiciones.addItem(nombreEd);
         if (comboEdiciones.getItemCount() > 0) {
             comboEdiciones.setSelectedIndex(0);
             DTEdicion dtEd = controller.consultaEdicionDeEvento(nombreEvento, (String) comboEdiciones.getSelectedItem());
@@ -256,11 +219,11 @@ public class ConsultaEdicionEvento extends JInternalFrame {
         if (nombreEvento != null) {
             cee.comboEventos.setSelectedItem(nombreEvento);
             cee.cargarEdiciones(nombreEvento);
-            if (nombreEdicion != null) {
-                cee.comboEdiciones.setSelectedItem(nombreEdicion);
-            }
+            if (nombreEdicion != null) cee.comboEdiciones.setSelectedItem(nombreEdicion);
         }
 
         return cee;
     }
 }
+
+
