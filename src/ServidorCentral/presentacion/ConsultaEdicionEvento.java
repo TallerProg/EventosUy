@@ -26,162 +26,246 @@ public class ConsultaEdicionEvento extends JInternalFrame {
 	}
 
 	private void initComponents() {
+	    JPanel panel = new JPanel(new GridBagLayout());
+	    getContentPane().add(panel, BorderLayout.CENTER);
 
-		JPanel panel = new JPanel(new GridBagLayout());
-		getContentPane().add(panel, BorderLayout.CENTER);
-		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.insets = new Insets(5, 5, 5, 5);
-		gbc.fill = GridBagConstraints.HORIZONTAL;
+	    int row = 0;
 
-		int row = 0;
+	    JLabel lblTitulo = new JLabel("Datos de la Edición");
+	    GridBagConstraints gbcTitulo = new GridBagConstraints();
+	    gbcTitulo.gridx = 0;
+	    gbcTitulo.gridy = row;
+	    gbcTitulo.gridwidth = 4;
+	    gbcTitulo.anchor = GridBagConstraints.CENTER;
+	    gbcTitulo.insets = new Insets(5, 5, 5, 5);
+	    panel.add(lblTitulo, gbcTitulo);
+	    row++;
 
-		// Título
-		JLabel lblTitulo = new JLabel("Datos de la Edición");
-		gbc.gridx = 0;
-		gbc.gridy = row;
-		gbc.gridwidth = 4;
-		gbc.anchor = GridBagConstraints.CENTER;
-		panel.add(lblTitulo, gbc);
-		row++;
-		gbc.gridwidth = 1;
-		gbc.anchor = GridBagConstraints.WEST;
+	    GridBagConstraints gbcLblEvento = new GridBagConstraints();
+	    gbcLblEvento.gridx = 0;
+	    gbcLblEvento.gridy = row;
+	    gbcLblEvento.anchor = GridBagConstraints.WEST;
+	    gbcLblEvento.insets = new Insets(5, 5, 5, 5);
+	    panel.add(new JLabel("Seleccionar Evento"), gbcLblEvento);
 
-		// Selección de Evento
-		gbc.gridx = 0;
-		gbc.gridy = row;
-		panel.add(new JLabel("Seleccionar Evento"), gbc);
-		comboEventos = new JComboBox<>();
-		gbc.gridx = 1;
-		gbc.gridy = row;
-		gbc.gridwidth = 3;
-		panel.add(comboEventos, gbc);
-		row++;
-		gbc.gridwidth = 1;
+	    comboEventos = new JComboBox<>();
+	    GridBagConstraints gbcComboEvento = new GridBagConstraints();
+	    gbcComboEvento.gridx = 1;
+	    gbcComboEvento.gridy = row;
+	    gbcComboEvento.gridwidth = 3;
+	    gbcComboEvento.fill = GridBagConstraints.HORIZONTAL;
+	    gbcComboEvento.insets = new Insets(5, 5, 5, 5);
+	    panel.add(comboEventos, gbcComboEvento);
+	    row++;
 
-		gbc.gridx = 0;
-		gbc.gridy = row;
-		panel.add(new JLabel("Seleccionar Edición"), gbc);
-		comboEdiciones = new JComboBox<>();
-		gbc.gridx = 1;
-		gbc.gridy = row;
-		gbc.gridwidth = 3;
-		panel.add(comboEdiciones, gbc);
-		row++;
-		gbc.gridwidth = 1;
+	    GridBagConstraints gbcLblEdicion = new GridBagConstraints();
+	    gbcLblEdicion.gridx = 0;
+	    gbcLblEdicion.gridy = row;
+	    gbcLblEdicion.anchor = GridBagConstraints.WEST;
+	    gbcLblEdicion.insets = new Insets(5, 5, 5, 5);
+	    panel.add(new JLabel("Seleccionar Edición"), gbcLblEdicion);
 
-		gbc.gridx = 0;
-		gbc.gridy = row;
-		panel.add(new JLabel("Nombre :"), gbc);
-		NombreEdicion = new JTextField();
-		NombreEdicion.setEditable(false);
-		gbc.gridx = 1;
-		gbc.gridy = row;
-		panel.add(NombreEdicion, gbc);
+	    comboEdiciones = new JComboBox<>();
+	    GridBagConstraints gbcComboEdicion = new GridBagConstraints();
+	    gbcComboEdicion.gridx = 1;
+	    gbcComboEdicion.gridy = row;
+	    gbcComboEdicion.gridwidth = 3;
+	    gbcComboEdicion.fill = GridBagConstraints.HORIZONTAL;
+	    gbcComboEdicion.insets = new Insets(5, 5, 5, 5);
+	    panel.add(comboEdiciones, gbcComboEdicion);
+	    row++;
 
-		gbc.gridx = 2;
-		gbc.gridy = row;
-		panel.add(new JLabel("Sigla :"), gbc);
-		SiglaEdicion = new JTextField();
-		SiglaEdicion.setEditable(false);
-		gbc.gridx = 3;
-		gbc.gridy = row;
-		panel.add(SiglaEdicion, gbc);
-		row++;
+	    GridBagConstraints gbcLblNombre = new GridBagConstraints();
+	    gbcLblNombre.gridx = 0;
+	    gbcLblNombre.gridy = row;
+	    gbcLblNombre.anchor = GridBagConstraints.WEST;
+	    gbcLblNombre.insets = new Insets(5, 5, 5, 5);
+	    panel.add(new JLabel("Nombre :"), gbcLblNombre);
 
-		gbc.gridx = 0;
-		gbc.gridy = row;
-		panel.add(new JLabel("Ciudad :"), gbc);
-		CiudadEdicion = new JTextField();
-		CiudadEdicion.setEditable(false);
-		gbc.gridx = 1;
-		gbc.gridy = row;
-		panel.add(CiudadEdicion, gbc);
+	    NombreEdicion = new JTextField();
+	    NombreEdicion.setEditable(false);
+	    GridBagConstraints gbcNombre = new GridBagConstraints();
+	    gbcNombre.gridx = 1;
+	    gbcNombre.gridy = row;
+	    gbcNombre.fill = GridBagConstraints.HORIZONTAL;
+	    gbcNombre.insets = new Insets(5, 5, 5, 5);
+	    panel.add(NombreEdicion, gbcNombre);
 
-		gbc.gridx = 2;
-		gbc.gridy = row;
-		panel.add(new JLabel("Pais :"), gbc);
-		PaisEdicion = new JTextField();
-		PaisEdicion.setEditable(false);
-		gbc.gridx = 3;
-		gbc.gridy = row;
-		panel.add(PaisEdicion, gbc);
-		row++;
+	    GridBagConstraints gbcLblSigla = new GridBagConstraints();
+	    gbcLblSigla.gridx = 2;
+	    gbcLblSigla.gridy = row;
+	    gbcLblSigla.anchor = GridBagConstraints.WEST;
+	    gbcLblSigla.insets = new Insets(5, 5, 5, 5);
+	    panel.add(new JLabel("Sigla :"), gbcLblSigla);
 
-		gbc.gridx = 0;
-		gbc.gridy = row;
-		panel.add(new JLabel("Fecha de Alta :"), gbc);
-		FAltaEdicion = new JTextField();
-		FAltaEdicion.setEditable(false);
-		gbc.gridx = 1;
-		gbc.gridy = row;
-		panel.add(FAltaEdicion, gbc);
+	    SiglaEdicion = new JTextField();
+	    SiglaEdicion.setEditable(false);
+	    GridBagConstraints gbcSigla = new GridBagConstraints();
+	    gbcSigla.gridx = 3;
+	    gbcSigla.gridy = row;
+	    gbcSigla.fill = GridBagConstraints.HORIZONTAL;
+	    gbcSigla.insets = new Insets(5, 5, 5, 5);
+	    panel.add(SiglaEdicion, gbcSigla);
+	    row++;
 
-		gbc.gridx = 2;
-		gbc.gridy = row;
-		panel.add(new JLabel("Fecha de Inicio :"), gbc);
-		FInicioEdicion = new JTextField();
-		FInicioEdicion.setEditable(false);
-		gbc.gridx = 3;
-		gbc.gridy = row;
-		panel.add(FInicioEdicion, gbc);
-		row++;
+	    GridBagConstraints gbcLblCiudad = new GridBagConstraints();
+	    gbcLblCiudad.gridx = 0;
+	    gbcLblCiudad.gridy = row;
+	    gbcLblCiudad.anchor = GridBagConstraints.WEST;
+	    gbcLblCiudad.insets = new Insets(5, 5, 5, 5);
+	    panel.add(new JLabel("Ciudad :"), gbcLblCiudad);
 
-		gbc.gridx = 0;
-		gbc.gridy = row;
-		panel.add(new JLabel("Fecha de Finalización :"), gbc);
-		FFinEdicion = new JTextField();
-		FFinEdicion.setEditable(false);
-		gbc.gridx = 1;
-		gbc.gridy = row;
-		panel.add(FFinEdicion, gbc);
-		row++;
+	    CiudadEdicion = new JTextField();
+	    CiudadEdicion.setEditable(false);
+	    GridBagConstraints gbcCiudad = new GridBagConstraints();
+	    gbcCiudad.gridx = 1;
+	    gbcCiudad.gridy = row;
+	    gbcCiudad.fill = GridBagConstraints.HORIZONTAL;
+	    gbcCiudad.insets = new Insets(5, 5, 5, 5);
+	    panel.add(CiudadEdicion, gbcCiudad);
 
-		gbc.gridx = 0;
-		gbc.gridy = row;
-		panel.add(new JLabel("Tipos de Registro :"), gbc);
-		comboTiposRegistro = new JComboBox<>();
-		gbc.gridx = 1;
-		gbc.gridy = row;
-		panel.add(comboTiposRegistro, gbc);
+	    GridBagConstraints gbcLblPais = new GridBagConstraints();
+	    gbcLblPais.gridx = 2;
+	    gbcLblPais.gridy = row;
+	    gbcLblPais.anchor = GridBagConstraints.WEST;
+	    gbcLblPais.insets = new Insets(5, 5, 5, 5);
+	    panel.add(new JLabel("Pais :"), gbcLblPais);
 
-		gbc.gridx = 2;
-		gbc.gridy = row;
-		panel.add(new JLabel("Registros :"), gbc);
-		comboRegistros = new JComboBox<>();
-		gbc.gridx = 3;
-		gbc.gridy = row;
-		panel.add(comboRegistros, gbc);
-		row++;
+	    PaisEdicion = new JTextField();
+	    PaisEdicion.setEditable(false);
+	    GridBagConstraints gbcPais = new GridBagConstraints();
+	    gbcPais.gridx = 3;
+	    gbcPais.gridy = row;
+	    gbcPais.fill = GridBagConstraints.HORIZONTAL;
+	    gbcPais.insets = new Insets(5, 5, 5, 5);
+	    panel.add(PaisEdicion, gbcPais);
+	    row++;
 
-		gbc.gridx = 0;
-		gbc.gridy = row;
-		panel.add(new JLabel("Patrocinios :"), gbc);
-		comboPatrocinios = new JComboBox<>();
-		gbc.gridx = 1;
-		gbc.gridy = row;
-		panel.add(comboPatrocinios, gbc);
+	    GridBagConstraints gbcLblAlta = new GridBagConstraints();
+	    gbcLblAlta.gridx = 0;
+	    gbcLblAlta.gridy = row;
+	    gbcLblAlta.anchor = GridBagConstraints.WEST;
+	    gbcLblAlta.insets = new Insets(5, 5, 5, 5);
+	    panel.add(new JLabel("Fecha de Alta :"), gbcLblAlta);
 
-		gbc.gridx = 2;
-		gbc.gridy = row;
-		panel.add(new JLabel("Organizadores :"), gbc);
-		comboOrganizadores = new JComboBox<>();
-		gbc.gridx = 3;
-		gbc.gridy = row;
-		panel.add(comboOrganizadores, gbc);
-		row++;
+	    FAltaEdicion = new JTextField();
+	    FAltaEdicion.setEditable(false);
+	    GridBagConstraints gbcAlta = new GridBagConstraints();
+	    gbcAlta.gridx = 1;
+	    gbcAlta.gridy = row;
+	    gbcAlta.fill = GridBagConstraints.HORIZONTAL;
+	    gbcAlta.insets = new Insets(5, 5, 5, 5);
+	    panel.add(FAltaEdicion, gbcAlta);
 
-		JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
-		JButton btnVerTipoRegistro = new JButton("Ver Tipo de Registro");
-		JButton btnVerPatrocinio = new JButton("Ver Patrocinio");
-		panelBotones.add(btnVerTipoRegistro);
-		panelBotones.add(btnVerPatrocinio);
+	    GridBagConstraints gbcLblInicio = new GridBagConstraints();
+	    gbcLblInicio.gridx = 2;
+	    gbcLblInicio.gridy = row;
+	    gbcLblInicio.anchor = GridBagConstraints.WEST;
+	    gbcLblInicio.insets = new Insets(5, 5, 5, 5);
+	    panel.add(new JLabel("Fecha de Inicio :"), gbcLblInicio);
 
-		gbc.gridx = 0;
-		gbc.gridy = row;
-		gbc.gridwidth = 4;
-		panel.add(panelBotones, gbc);
-		row++;
-		gbc.gridwidth = 1;
+	    FInicioEdicion = new JTextField();
+	    FInicioEdicion.setEditable(false);
+	    GridBagConstraints gbcInicio = new GridBagConstraints();
+	    gbcInicio.gridx = 3;
+	    gbcInicio.gridy = row;
+	    gbcInicio.fill = GridBagConstraints.HORIZONTAL;
+	    gbcInicio.insets = new Insets(5, 5, 5, 5);
+	    panel.add(FInicioEdicion, gbcInicio);
+	    row++;
+
+	    GridBagConstraints gbcLblFin = new GridBagConstraints();
+	    gbcLblFin.gridx = 0;
+	    gbcLblFin.gridy = row;
+	    gbcLblFin.anchor = GridBagConstraints.WEST;
+	    gbcLblFin.insets = new Insets(5, 5, 5, 5);
+	    panel.add(new JLabel("Fecha de Finalización :"), gbcLblFin);
+
+	    FFinEdicion = new JTextField();
+	    FFinEdicion.setEditable(false);
+	    GridBagConstraints gbcFin = new GridBagConstraints();
+	    gbcFin.gridx = 1;
+	    gbcFin.gridy = row;
+	    gbcFin.fill = GridBagConstraints.HORIZONTAL;
+	    gbcFin.insets = new Insets(5, 5, 5, 5);
+	    panel.add(FFinEdicion, gbcFin);
+	    row++;
+
+	    GridBagConstraints gbcLblTipo = new GridBagConstraints();
+	    gbcLblTipo.gridx = 0;
+	    gbcLblTipo.gridy = row;
+	    gbcLblTipo.anchor = GridBagConstraints.WEST;
+	    gbcLblTipo.insets = new Insets(5, 5, 5, 5);
+	    panel.add(new JLabel("Tipos de Registro :"), gbcLblTipo);
+
+	    comboTiposRegistro = new JComboBox<>();
+	    GridBagConstraints gbcComboTipo = new GridBagConstraints();
+	    gbcComboTipo.gridx = 1;
+	    gbcComboTipo.gridy = row;
+	    gbcComboTipo.fill = GridBagConstraints.HORIZONTAL;
+	    gbcComboTipo.insets = new Insets(5, 5, 5, 5);
+	    panel.add(comboTiposRegistro, gbcComboTipo);
+
+	    GridBagConstraints gbcLblRegistro = new GridBagConstraints();
+	    gbcLblRegistro.gridx = 2;
+	    gbcLblRegistro.gridy = row;
+	    gbcLblRegistro.anchor = GridBagConstraints.WEST;
+	    gbcLblRegistro.insets = new Insets(5, 5, 5, 5);
+	    panel.add(new JLabel("Registros :"), gbcLblRegistro);
+
+	    comboRegistros = new JComboBox<>();
+	    GridBagConstraints gbcComboRegistro = new GridBagConstraints();
+	    gbcComboRegistro.gridx = 3;
+	    gbcComboRegistro.gridy = row;
+	    gbcComboRegistro.fill = GridBagConstraints.HORIZONTAL;
+	    gbcComboRegistro.insets = new Insets(5, 5, 5, 5);
+	    panel.add(comboRegistros, gbcComboRegistro);
+	    row++;
+
+	    GridBagConstraints gbcLblPatro = new GridBagConstraints();
+	    gbcLblPatro.gridx = 0;
+	    gbcLblPatro.gridy = row;
+	    gbcLblPatro.anchor = GridBagConstraints.WEST;
+	    gbcLblPatro.insets = new Insets(5, 5, 5, 5);
+	    panel.add(new JLabel("Patrocinios :"), gbcLblPatro);
+
+	    comboPatrocinios = new JComboBox<>();
+	    GridBagConstraints gbcComboPatro = new GridBagConstraints();
+	    gbcComboPatro.gridx = 1;
+	    gbcComboPatro.gridy = row;
+	    gbcComboPatro.fill = GridBagConstraints.HORIZONTAL;
+	    gbcComboPatro.insets = new Insets(5, 5, 5, 5);
+	    panel.add(comboPatrocinios, gbcComboPatro);
+
+	    GridBagConstraints gbcLblOrg = new GridBagConstraints();
+	    gbcLblOrg.gridx = 2;
+	    gbcLblOrg.gridy = row;
+	    gbcLblOrg.anchor = GridBagConstraints.WEST;
+	    gbcLblOrg.insets = new Insets(5, 5, 5, 5);
+	    panel.add(new JLabel("Organizadores :"), gbcLblOrg);
+
+	    comboOrganizadores = new JComboBox<>();
+	    GridBagConstraints gbcComboOrg = new GridBagConstraints();
+	    gbcComboOrg.gridx = 3;
+	    gbcComboOrg.gridy = row;
+	    gbcComboOrg.fill = GridBagConstraints.HORIZONTAL;
+	    gbcComboOrg.insets = new Insets(5, 5, 5, 5);
+	    panel.add(comboOrganizadores, gbcComboOrg);
+	    row++;
+
+	    JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
+	    JButton btnVerTipoRegistro = new JButton("Ver Tipo de Registro");
+	    JButton btnVerPatrocinio = new JButton("Ver Patrocinio");
+	    panelBotones.add(btnVerTipoRegistro);
+	    panelBotones.add(btnVerPatrocinio);
+
+	    GridBagConstraints gbcPanelBotones = new GridBagConstraints();
+	    gbcPanelBotones.gridx = 0;
+	    gbcPanelBotones.gridy = row;
+	    gbcPanelBotones.gridwidth = 4;
+	    gbcPanelBotones.insets = new Insets(10, 5, 5, 5);
+	    panel.add(panelBotones, gbcPanelBotones);
+	    row++;
 
 		comboEventos.addActionListener(e -> {
 			String nombreEvento = (String) comboEventos.getSelectedItem();

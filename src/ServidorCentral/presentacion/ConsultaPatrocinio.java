@@ -37,53 +37,59 @@ public class ConsultaPatrocinio extends JInternalFrame {
 
 		JPanel panel = new JPanel(new GridBagLayout());
 		getContentPane().add(panel, BorderLayout.CENTER);
-		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.insets = new Insets(5, 5, 5, 5);
-		gbc.fill = GridBagConstraints.HORIZONTAL;
+		GridBagConstraints gbcPanel = new GridBagConstraints();
+		gbcPanel.insets = new Insets(5, 5, 5, 5);
+		gbcPanel.fill = GridBagConstraints.HORIZONTAL;
 
 		int row = 0;
 
 		JLabel lblEvento = new JLabel("Evento:");
-		gbc.gridx = 0;
-		gbc.gridy = row;
-		panel.add(lblEvento, gbc);
+		GridBagConstraints gbcEvento = new GridBagConstraints();
+		gbcEvento.gridx = 0;
+		gbcEvento.gridy = row;
+		panel.add(lblEvento, gbcEvento);
 
 		comboEventos = new JComboBox<>();
+		GridBagConstraints gbcComboEventos = new GridBagConstraints();
 		comboEventos.setEnabled(false); 
-		gbc.gridx = 1;
-		gbc.gridy = row;
-		gbc.gridwidth = 2;
-		panel.add(comboEventos, gbc);
+		gbcComboEventos.gridx = 1;
+		gbcComboEventos.gridy = row;
+		gbcComboEventos.gridwidth = 2;
+		panel.add(comboEventos, gbcComboEventos);
 		row++;
-		gbc.gridwidth = 1;
+		gbcComboEventos.gridwidth = 1;
 
 		JLabel lblEdicion = new JLabel("Edición:");
-		gbc.gridx = 0;
-		gbc.gridy = row;
-		panel.add(lblEdicion, gbc);
+		GridBagConstraints gbcEdicion = new GridBagConstraints();
+		gbcEdicion.gridx = 0;
+		gbcEdicion.gridy = row;
+		panel.add(lblEdicion, gbcEdicion);
 
 		comboEdiciones = new JComboBox<>();
+		GridBagConstraints gbccomboEdicion = new GridBagConstraints();
 		comboEdiciones.setEnabled(false); 
-		gbc.gridx = 1;
-		gbc.gridy = row;
-		gbc.gridwidth = 2;
-		panel.add(comboEdiciones, gbc);
+		gbccomboEdicion.gridx = 1;
+		gbccomboEdicion.gridy = row;
+		gbccomboEdicion.gridwidth = 2;
+		panel.add(comboEdiciones, gbccomboEdicion);
 		row++;
-		gbc.gridwidth = 1;
+		gbccomboEdicion.gridwidth = 1;
 
 		JLabel lblPatrocinio = new JLabel("Patrocinio:");
-		gbc.gridx = 0;
-		gbc.gridy = row;
-		panel.add(lblPatrocinio, gbc);
+		GridBagConstraints gbcPatrocinio = new GridBagConstraints();
+		gbcPatrocinio.gridx = 0;
+		gbcPatrocinio.gridy = row;
+		panel.add(lblPatrocinio, gbcPatrocinio);
 
 		comboPatrocinios = new JComboBox<>();
+		GridBagConstraints gbcComboPatrocinio = new GridBagConstraints();
 		comboPatrocinios.setEnabled(false); 
-		gbc.gridx = 1;
-		gbc.gridy = row;
-		gbc.gridwidth = 2;
-		panel.add(comboPatrocinios, gbc);
+		gbcComboPatrocinio.gridx = 1;
+		gbcComboPatrocinio.gridy = row;
+		gbcComboPatrocinio.gridwidth = 2;
+		panel.add(comboPatrocinios, gbcComboPatrocinio);
 		row++;
-		gbc.gridwidth = 1;
+		gbcComboPatrocinio.gridwidth = 1;
 
 		comboEventos.addActionListener(e -> {
 			String nombreEvento = (String) comboEventos.getSelectedItem();
@@ -129,46 +135,57 @@ public class ConsultaPatrocinio extends JInternalFrame {
 
 		row++; 
 		String[] labels = { "Código:", "Fecha Inicio:", "Registros Gratuitos:", "Monto:", "Nivel:", "Institución:",
-				"Tipo Registro:" };
+		        "Tipo Registro:" };
 		JTextField[] fields = new JTextField[7];
 
 		tfCodigo = new JTextField();
 		tfCodigo.setEditable(false);
 		fields[0] = tfCodigo;
+
 		tfFechaInicio = new JTextField();
 		tfFechaInicio.setEditable(false);
 		fields[1] = tfFechaInicio;
+
 		tfRegistroGratuito = new JTextField();
 		tfRegistroGratuito.setEditable(false);
 		fields[2] = tfRegistroGratuito;
+
 		tfMonto = new JTextField();
 		tfMonto.setEditable(false);
 		fields[3] = tfMonto;
+
 		tfNivel = new JTextField();
 		tfNivel.setEditable(false);
 		fields[4] = tfNivel;
+
 		tfInstitucion = new JTextField();
 		tfInstitucion.setEditable(false);
 		fields[5] = tfInstitucion;
+
 		tfTipoRegistro = new JTextField();
 		tfTipoRegistro.setEditable(false);
 		fields[6] = tfTipoRegistro;
 
 		for (int i = 0; i < labels.length; i++) {
-			JLabel lbl = new JLabel(labels[i]);
-			gbc.gridx = 0;
-			gbc.gridy = row;
-			gbc.anchor = GridBagConstraints.WEST;
-			panel.add(lbl, gbc);
+		    GridBagConstraints gbcLabel = new GridBagConstraints();
+		    gbcLabel.gridx = 0;
+		    gbcLabel.gridy = row;
+		    gbcLabel.anchor = GridBagConstraints.WEST;
+		    gbcLabel.insets = new Insets(5, 5, 5, 5);
+		    panel.add(new JLabel(labels[i]), gbcLabel);
 
-			gbc.gridx = 1;
-			gbc.gridy = row;
-			gbc.gridwidth = 2;
-			gbc.fill = GridBagConstraints.HORIZONTAL;
-			panel.add(fields[i], gbc);
-			row++;
-			gbc.gridwidth = 1;
+		    GridBagConstraints gbcField = new GridBagConstraints();
+		    gbcField.gridx = 1;
+		    gbcField.gridy = row;
+		    gbcField.gridwidth = 2;
+		    gbcField.fill = GridBagConstraints.HORIZONTAL;
+		    gbcField.weightx = 1.0; 
+		    gbcField.insets = new Insets(5, 5, 5, 5);
+		    panel.add(fields[i], gbcField);
+
+		    row++;
 		}
+
 	}
 
 	public void cargarDatos(DTPatrocinio dtPat) {
