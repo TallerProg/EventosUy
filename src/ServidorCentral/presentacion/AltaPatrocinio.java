@@ -71,14 +71,9 @@ public class AltaPatrocinio extends JInternalFrame {
 		NumberFormat aporteEconomico = NumberFormat.getNumberInstance();
 		aporteEconomico.setGroupingUsed(false); // sin separador de miles
 
-		NumberFormatter formatter = new NumberFormatter(aporteEconomico);
-		formatter.setAllowsInvalid(true); 
-		formatter.setAllowsInvalid(false); // no permite letras ni símbolos
-		formatter.setMinimum(0.0); // solo positivos
-		formatter.setMaximum(Double.MAX_VALUE); // máximo permitido
-
+	
 		// Campo de texto con formato
-		textFieldCodigo = new JFormattedTextField(formatter);
+		textFieldCodigo = new JFormattedTextField();
 		getContentPane().add(textFieldCodigo, "cell 14 9,growx");
 		textFieldCodigo.setColumns(10);
 
@@ -89,14 +84,8 @@ public class AltaPatrocinio extends JInternalFrame {
 		NumberFormat numeroRegistro = NumberFormat.getIntegerInstance();
 		numeroRegistro.setGroupingUsed(false); // sin separadores de miles
 
-		NumberFormatter formatterEntero = new NumberFormatter(numeroRegistro);
-		formatterEntero.setAllowsInvalid(true); 
-		formatterEntero.setAllowsInvalid(false); // no permite letras ni símbolos
-		formatterEntero.setMinimum(0); // solo positivos
-		formatterEntero.setMaximum(Integer.MAX_VALUE); // máximo permitido
-
 		// Campo de texto con formato
-		textField = new JFormattedTextField(formatterEntero);
+		textField = new JFormattedTextField();
 		getContentPane().add(textField, "cell 14 10,growx");
 		textField.setColumns(10);
 
@@ -213,6 +202,7 @@ public class AltaPatrocinio extends JInternalFrame {
 			String cuposGrati = textField.getText().trim();
 			String codigo = UUID.randomUUID().toString();
 
+			
 			if ((aporteEconomic == null) || (cuposGrati == null)) {
 				JOptionPane.showMessageDialog(this, "Debe completar todos los campos antes de registrar.",
 						"Campos incompletos", JOptionPane.WARNING_MESSAGE);
@@ -220,6 +210,12 @@ public class AltaPatrocinio extends JInternalFrame {
 			}
 
 			try {
+				 if(!cuposGrati.matches("\\d+")){
+					 throw new Exception("Cupos debe ser un número entero positivo");
+				 }
+				 if(!aporteEconomic.matches("\\d+(\\.\\d+)?")){
+					 throw new Exception("Aporte económico debe ser un número positivo");
+				 }
 
 				ice.altaPatrocinio(
 					    codigo,
