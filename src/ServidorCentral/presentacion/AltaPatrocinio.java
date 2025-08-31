@@ -24,7 +24,7 @@ public class AltaPatrocinio extends JInternalFrame {
 
 	public AltaPatrocinio(IControllerEvento ice, IControllerUsuario icu) {
 
-		super("Registro a Edicion de Evento", false, false, false, false);
+		super("Alta de Patrocinio", false, false, false, false);
 		this.ice = ice;
 		this.icu = icu;
 

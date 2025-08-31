@@ -34,7 +34,8 @@ public class Principal {
     private ConsultaTipoRegistro conTRegInternalFrame;
     private RegistroEdicionEvento regEdiEveInternalFrame;
     private ConsultaEdicionEvento conEdiEveInternalFrame;
-    private AltaInstitucion creInsInternalFrame;   // <<--- NUEVO
+    private AltaInstitucion creInsInternalFrame;
+    private AltaPatrocinio altaPatrocinioInternalFrame;
 
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
@@ -67,7 +68,8 @@ public class Principal {
         regEdiEveInternalFrame = new RegistroEdicionEvento(ICE, ICU);
         conTRegInternalFrame = new ConsultaTipoRegistro(ICE);
         conEdiEveInternalFrame = new ConsultaEdicionEvento(ICE);
-        creInsInternalFrame = new AltaInstitucion(ICI); // <<--- NUEVO
+        creInsInternalFrame = new AltaInstitucion(ICI);
+        altaPatrocinioInternalFrame = new AltaPatrocinio(ICE, ICU);
 
         // Agregar los InternalFrames al DesktopPane
         desktopPane.add(creUsrInternalFrame);
@@ -79,7 +81,8 @@ public class Principal {
         desktopPane.add(conTRegInternalFrame);
         desktopPane.add(regEdiEveInternalFrame);
         desktopPane.add(conEdiEveInternalFrame);
-        desktopPane.add(creInsInternalFrame); // <<--- NUEVO
+        desktopPane.add(creInsInternalFrame);
+        desktopPane.add(altaPatrocinioInternalFrame);
     }
 
     private void initialize() {
@@ -210,6 +213,14 @@ public class Principal {
         JMenuItem menuAltaInstitucion = new JMenuItem("Alta de Institución");
         menuAltaInstitucion.addActionListener(e -> mostrarInternalFrame(creInsInternalFrame));
         menuInstitucion.add(menuAltaInstitucion);
+        
+        JMenuItem menuAltaPatrocinio = new JMenuItem("Alta de Patrocinio");
+        menuAltaPatrocinio.addActionListener(e -> {
+            altaPatrocinioInternalFrame.cargarEventos(); // Cargar los eventos al abrir
+            mostrarInternalFrame(altaPatrocinioInternalFrame);
+        });
+        menuInstitucion.add(menuAltaPatrocinio);
+
     }
 
     // Método auxiliar para mostrar InternalFrames centrados
