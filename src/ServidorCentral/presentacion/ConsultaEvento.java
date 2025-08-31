@@ -17,6 +17,16 @@ import ServidorCentral.logica.Evento;
 import ServidorCentral.logica.IControllerEvento;
 
 public class ConsultaEvento extends JInternalFrame {	
+	
+	private static final long serialVersionUID = 1L;
+    private IControllerEvento controlEvento;
+	private JTextField textField_Nombre;
+	private JTextField textField_Sigla;
+	private JTextField textField_Descripcion;
+	private JTextField textField_FAlta;
+	private JComboBox<String> comboBoxEvento;
+	private JComboBox<String> comboBox_Categorias;
+	private JComboBox<String> comboBox_Ediciones;
 
 	public ConsultaEvento(IControllerEvento icu,JDesktopPane desktopPane) {
 		controlEvento = icu;
@@ -243,15 +253,6 @@ public class ConsultaEvento extends JInternalFrame {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
-    private IControllerEvento controlEvento;
-	private JTextField textField_Nombre;
-	private JTextField textField_Sigla;
-	private JTextField textField_Descripcion;
-	private JTextField textField_FAlta;
-	private JComboBox<String> comboBoxEvento;
-	private JComboBox<String> comboBox_Categorias;
-	private JComboBox<String> comboBox_Ediciones;
 
 
 }

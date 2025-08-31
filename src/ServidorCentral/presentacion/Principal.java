@@ -36,6 +36,7 @@ public class Principal {
     private ConsultaEdicionEvento conEdiEveInternalFrame;
     private AltaInstitucion creInsInternalFrame;
     private AltaPatrocinio altaPatrocinioInternalFrame;
+    private ConsultaPatrocinio conPatrocinioInternalFrame;
 
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
@@ -70,6 +71,7 @@ public class Principal {
         conEdiEveInternalFrame = new ConsultaEdicionEvento(ICE);
         creInsInternalFrame = new AltaInstitucion(ICI);
         altaPatrocinioInternalFrame = new AltaPatrocinio(ICE, ICU);
+        conPatrocinioInternalFrame = new ConsultaPatrocinio(ICE);
 
         // Agregar los InternalFrames al DesktopPane
         desktopPane.add(creUsrInternalFrame);
@@ -83,6 +85,7 @@ public class Principal {
         desktopPane.add(conEdiEveInternalFrame);
         desktopPane.add(creInsInternalFrame);
         desktopPane.add(altaPatrocinioInternalFrame);
+        desktopPane.add(conPatrocinioInternalFrame);
     }
 
     private void initialize() {
@@ -220,6 +223,14 @@ public class Principal {
             mostrarInternalFrame(altaPatrocinioInternalFrame);
         });
         menuInstitucion.add(menuAltaPatrocinio);
+        
+        JMenuItem menuConsultaPatrocinio = new JMenuItem("Consulta de Patrocinio");
+		menuConsultaPatrocinio.addActionListener(e -> {
+			conPatrocinioInternalFrame.cargarEventos();
+			mostrarInternalFrame(conPatrocinioInternalFrame);
+		});
+		menuInstitucion.add(menuConsultaPatrocinio);
+	
 
     }
 
