@@ -173,7 +173,16 @@ public class AltaUsuario extends JInternalFrame {
         getContentPane().add(btnCancelar, gbc_btnCancelar);
 
         // Acción del botón Cancelar
-        btnCancelar.addActionListener(e -> this.setVisible(false));
+        btnCancelar.addActionListener(e -> {
+        	            textFieldNickName.setText("");
+            textFieldCorreo.setText("");
+            textFieldNombre.setText("");
+            textFieldFechaNacimiento.setText("");
+            textFieldApellido.setText("");
+            textFieldDescripcion.setText("");
+            textFieldURL.setText("");
+            this.setVisible(false);
+        });
 
         // Listener tipo de usuario
         comboTipoUsuario.addActionListener(e -> actualizarCampos(row));
@@ -212,6 +221,11 @@ public class AltaUsuario extends JInternalFrame {
                     }
 
                     controlUsr.AltaAsistente(nick, correo, nombre, apellido, fecha, inst);
+                    textFieldNickName.setText("");
+                    textFieldCorreo.setText("");
+                    textFieldNombre.setText("");
+                    textFieldFechaNacimiento.setText("");
+                    textFieldApellido.setText("");
 
                 } else {
                     String descripcion = textFieldDescripcion.getText().trim();
@@ -226,6 +240,12 @@ public class AltaUsuario extends JInternalFrame {
                         url = null;
 
                     controlUsr.AltaOrganizador(nick, correo, nombre, descripcion, url);
+                    
+                    textFieldNickName.setText("");
+                    textFieldCorreo.setText("");
+                    textFieldNombre.setText("");
+                    textFieldDescripcion.setText("");
+                    textFieldURL.setText("");
                 }
 
                 JOptionPane.showMessageDialog(this, "Usuario creado correctamente");

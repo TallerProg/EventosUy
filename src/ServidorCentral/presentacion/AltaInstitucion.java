@@ -110,7 +110,12 @@ public class AltaInstitucion extends JInternalFrame {
         getContentPane().add(btnCancelar, gbc_btnCancelar);
 
         // Acción Cancelar
-        btnCancelar.addActionListener(e -> this.setVisible(false));
+        btnCancelar.addActionListener(e -> { 
+        	txtNombre.setText("");
+            txtDescripcion.setText("");
+            txtURL.setText("");
+			this.setVisible(false);
+		});
 
         // Acción Aceptar
         btnAceptar.addActionListener(e -> {

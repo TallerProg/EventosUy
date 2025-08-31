@@ -140,7 +140,15 @@ public class AltaEvento extends JInternalFrame {
 		getContentPane().add(btnAceptar, gbc_btnAceptar);
 
 		// Listeners
-		btnCancelar.addActionListener(e -> this.setVisible(false));
+		btnCancelar.addActionListener(e -> {
+			textFieldNombre.setText("");
+            textFieldSigla.setText("");
+            textAreaDescripcion.setText("");
+            for (JCheckBox check : checkBoxesCategorias) {
+                check.setSelected(false);
+            }
+            this.setVisible(false);
+		});
 
 		btnAceptar.addActionListener(e -> {
 			String nombre = textFieldNombre.getText().trim();
@@ -177,6 +185,12 @@ public class AltaEvento extends JInternalFrame {
 				}
 
 				controlEvento.altaEvento(nombre, descripcion, fechaAlta, sigla, listaCategorias);
+				textFieldNombre.setText("");
+				textFieldSigla.setText("");
+				textAreaDescripcion.setText("");
+				for (JCheckBox check : checkBoxesCategorias) {
+					check.setSelected(false);
+				}
 				JOptionPane.showMessageDialog(this, "Evento creado correctamente");
 				this.setVisible(false);
 			} catch (Exception ex) {

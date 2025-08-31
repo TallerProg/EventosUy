@@ -119,7 +119,18 @@ public class AltaEdicionEvento extends JInternalFrame {
         cargarEventos();
         cargarOrganizadores();
 
-        btnCancelar.addActionListener(e -> dispose());
+        btnCancelar.addActionListener(e -> {
+			txtNombre.setText("");
+			txtSigla.setText("");
+			txtCiudad.setText("");
+			txtPais.setText("");
+			txtFechaIni.setText("");
+			txtFechaFin.setText("");
+			txtFechaAlta.setText("");
+			comboEvento.setSelectedIndex(0);
+			comboOrganizador.setSelectedIndex(0);
+			dispose();
+        });
 
         btnAceptar.addActionListener(e -> {
             try {
@@ -155,6 +166,16 @@ public class AltaEdicionEvento extends JInternalFrame {
                         evento,
                         org
                 );
+                
+                txtNombre.setText("");
+                txtSigla.setText("");
+                txtCiudad.setText("");
+                txtPais.setText("");
+                txtFechaIni.setText("");
+                txtFechaFin.setText("");
+                txtFechaAlta.setText("");
+                comboEvento.setSelectedIndex(0);
+                comboOrganizador.setSelectedIndex(0);
 
                 JOptionPane.showMessageDialog(this, "Edición creada con éxito");
                 dispose();

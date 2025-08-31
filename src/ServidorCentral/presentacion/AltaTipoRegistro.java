@@ -166,7 +166,16 @@ public class AltaTipoRegistro extends JInternalFrame {
         comboBoxEvento.addActionListener(e -> cargarEdiciones());
 
         //LISTENERS
-        btnCancelar.addActionListener(e -> this.setVisible(false));
+        btnCancelar.addActionListener(e -> {
+        	textFieldNombre.setText("");
+            textAreaDescripcion.setText("");
+            textFieldCosto.setText("");
+            textFieldCupo.setText("");
+            comboBoxEvento.setSelectedIndex(-1);
+            comboBoxEdicion.removeAllItems();
+            comboBoxEdicion.setEnabled(false);
+            this.setVisible(false);
+            });
 
         btnAceptar.addActionListener(e -> {
             String nombre = textFieldNombre.getText().trim();
@@ -205,6 +214,10 @@ public class AltaTipoRegistro extends JInternalFrame {
             try {
                 controlEvento.altaTipoRegistro(nombre, descripcion, costo, cupo, edicionSeleccionada);
                 JOptionPane.showMessageDialog(this, "Tipo de registro creado correctamente");
+                textFieldNombre.setText("");
+                textAreaDescripcion.setText("");
+                textFieldCosto.setText("");
+                textFieldCupo.setText("");
                 this.setVisible(false);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);

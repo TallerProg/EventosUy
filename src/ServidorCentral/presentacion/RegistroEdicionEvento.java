@@ -176,6 +176,8 @@ public class RegistroEdicionEvento extends JInternalFrame {
                 comboBoxEdicion.setEnabled(false);
                 comboBoxRegistro.setEnabled(false);
                 comboBoxAsistente.setEnabled(false);
+                
+                this.setVisible(false);
 
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, 
@@ -187,7 +189,19 @@ public class RegistroEdicionEvento extends JInternalFrame {
 
 
         // Acción botón Cancelar
-        btnCancelar.addActionListener(e -> this.dispose());
+        btnCancelar.addActionListener(e -> {
+        	            cargarEventos();
+            comboBoxEdicion.removeAllItems();
+            comboBoxRegistro.removeAllItems();
+            comboBoxAsistente.removeAllItems();
+            textFieldCodigo.setText("");
+
+            comboBoxEdicion.setEnabled(false);
+            comboBoxRegistro.setEnabled(false);
+            comboBoxAsistente.setEnabled(false);
+            
+            this.setVisible(false);
+        });
     }
     public void cargarEventos() {
 		List<Evento> eventos = ice.listarEventos(); 
