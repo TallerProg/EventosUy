@@ -73,7 +73,7 @@ public class Principal {
 		creInsInternalFrame = new AltaInstitucion(ICI);
 		altaPatrocinioInternalFrame = new AltaPatrocinio(ICE, ICU);
 		conPatrocinioInternalFrame = new ConsultaPatrocinio(ICE);
-		modUsuarioInternalFrame = new ModificarUsuario(ICU);
+		modUsuarioInternalFrame = new ModificarUsuario(ICU,ICI);
 
 		// Agregar los InternalFrames al DesktopPane
 		desktopPane.add(creUsrInternalFrame);
