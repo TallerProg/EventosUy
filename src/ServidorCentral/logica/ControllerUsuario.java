@@ -151,6 +151,18 @@ public class ControllerUsuario implements IControllerUsuario {
 
 		return null;
 	}
+	
+	public DTRegistro getDTRegistro(String tipNEdicion, String nickAsistente) {
+		ManejadorUsuario mU = ManejadorUsuario.getinstance();
+		List<Registro> registros = mU.findAsistente(nickAsistente).getRegistros();
+		for (Registro re : registros) {
+			if (re.getTipoRegistro().getEdicion().getNombre().equals(tipNEdicion)) {
+				return re.getDTRegistro();
+			}
+		}
+
+		return null;
+	}
 
 	public void modificarUsuario(String nickname, String nombre, String apellido, LocalDate fNac, String descripcion,
 			String url) throws UsuarioNoExisteException {
@@ -195,6 +207,7 @@ public class ControllerUsuario implements IControllerUsuario {
 			oExistente.setUrl(oNuevo.getUrl());
 		}
 	}
+	
 	
 	public Usuario getUsuario(String nickname) {
 		ManejadorUsuario mu = ManejadorUsuario.getinstance();

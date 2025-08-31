@@ -13,6 +13,7 @@ public interface IControllerUsuario {
 	void AltaOrganizador(String nicknameUsu, String correo, String nombre, String descripcion, String url)
 			throws UsuarioRepetidoException;
 
+	public DTRegistro getDTRegistro(String tipNEdicion, String nickAsistente);
 	// Modificación de usuario
 	void modificarUsuario(String nickname, String nombre, String apellido, LocalDate fNac, String descripcion,
 			String url) throws UsuarioNoExisteException;

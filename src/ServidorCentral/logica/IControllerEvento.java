@@ -42,7 +42,8 @@ public interface IControllerEvento {
 	public DTPatrocinio consultaPatrocinio(String nombreEdicion, String codigoPat);
 
 	public void altaCategoria(String nombre) throws Exception;
-
+	public void altaPatrocinio(String codigo, LocalDate fInicio, int registrosGratuitos, Float monto, 
+            ETipoNivel nivel, String nombreInstitucion, String nombreEdicion, String nombreTipoRegistro) throws Exception;
 	public Categoria findCategoria(String nom);
 
 	public Evento obtenerEventoPorNombre(String nombreEventoSeleccionado);
