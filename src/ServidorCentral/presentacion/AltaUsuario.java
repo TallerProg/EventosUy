@@ -23,12 +23,22 @@ public class AltaUsuario extends JInternalFrame {
     private JTextField textFieldNickName;
     private JTextField textFieldCorreo;
     private JTextField textFieldNombre;
+
+    // Campos dinámicos como atributos
+    private JLabel lblApellido;
     private JTextField textFieldApellido;
+    private JLabel lblFecha;
     private JTextField textFieldFechaNacimiento;
+
+    private JLabel lblDescripcion;
     private JTextField textFieldDescripcion;
+    private JLabel lblURL;
     private JTextField textFieldURL;
-    private JComboBox<String> comboTipoUsuario;
+
+    private JLabel lblInstitucion;
     private JComboBox<String> comboInstitucion;
+
+    private JComboBox<String> comboTipoUsuario;
     private JButton btnAceptar;
     private JButton btnCancelar;
 
@@ -124,18 +134,18 @@ public class AltaUsuario extends JInternalFrame {
         getContentPane().add(textFieldNombre, gbc_textNombre);
         row++;
 
-        // Campos dinámicos
-        JLabel lblApellido = new JLabel("Apellido:");
+        // Inicialización de campos dinámicos
+        lblApellido = new JLabel("Apellido:");
         textFieldApellido = new JTextField();
-        JLabel lblFecha = new JLabel("Fecha de Nac.:");
+        lblFecha = new JLabel("Fecha de Nac.:");
         textFieldFechaNacimiento = new JTextField();
 
-        JLabel lblDescripcion = new JLabel("Descripción:");
+        lblDescripcion = new JLabel("Descripción:");
         textFieldDescripcion = new JTextField();
-        JLabel lblURL = new JLabel("URL (opcional):");
+        lblURL = new JLabel("URL (opcional):");
         textFieldURL = new JTextField();
 
-        JLabel lblInstitucion = new JLabel("Institución :");
+        lblInstitucion = new JLabel("Institución :");
         comboInstitucion = new JComboBox<>();
         comboInstitucion.addItem("Ninguna");
         for (Institucion ins : controlIns.getInstituciones()) {
@@ -167,10 +177,7 @@ public class AltaUsuario extends JInternalFrame {
         btnCancelar.addActionListener(e -> this.setVisible(false));
 
         // Listener tipo de usuario
-        comboTipoUsuario.addActionListener(
-                e -> actualizarCampos(row, lblApellido, textFieldApellido, lblFecha, textFieldFechaNacimiento,
-                        lblDescripcion, textFieldDescripcion, lblURL, textFieldURL, lblInstitucion, comboInstitucion));
-
+        comboTipoUsuario.addActionListener(e -> actualizarCampos(row));
         comboTipoUsuario.setSelectedIndex(0);
 
         // Acción del botón Aceptar
@@ -181,7 +188,6 @@ public class AltaUsuario extends JInternalFrame {
             String correo = textFieldCorreo.getText().trim();
 
             try {
-
                 if (nick.isEmpty() || nombre.isEmpty() || correo.isEmpty()) {
                     JOptionPane.showMessageDialog(this, "Nickname, Nombre y Correo son obligatorios.", "Campos vacíos",
                             JOptionPane.WARNING_MESSAGE);
@@ -237,27 +243,26 @@ public class AltaUsuario extends JInternalFrame {
         });
     }
 
-    private void actualizarCampos(int row, JLabel lblApellido, JTextField textApellido, JLabel lblFecha,
-            JTextField textFecha, JLabel lblDesc, JTextField textDesc, JLabel lblURL, JTextField textURL,
-            JLabel lblInstitucion, JComboBox<String> comboIns) {
+    private void actualizarCampos(int row) {
+        // Eliminar todos los dinámicos antes de agregar los nuevos
         getContentPane().remove(lblApellido);
-        getContentPane().remove(textApellido);
+        getContentPane().remove(textFieldApellido);
         getContentPane().remove(lblFecha);
-        getContentPane().remove(textFecha);
-        getContentPane().remove(lblDesc);
-        getContentPane().remove(textDesc);
+        getContentPane().remove(textFieldFechaNacimiento);
+        getContentPane().remove(lblDescripcion);
+        getContentPane().remove(textFieldDescripcion);
         getContentPane().remove(lblURL);
-        getContentPane().remove(textURL);
+        getContentPane().remove(textFieldURL);
         getContentPane().remove(lblInstitucion);
-        getContentPane().remove(comboIns);
+        getContentPane().remove(comboInstitucion);
 
         int dynamicRow = row;
 
         if (comboTipoUsuario.getSelectedItem().equals("Asistente")) {
-            comboIns.removeAllItems();
-            comboIns.addItem("Ninguna");
+            comboInstitucion.removeAllItems();
+            comboInstitucion.addItem("Ninguna");
             for (Institucion ins : controlIns.getInstituciones()) {
-                comboIns.addItem(ins.getNombre());
+                comboInstitucion.addItem(ins.getNombre());
             }
 
             // Apellido
@@ -273,7 +278,7 @@ public class AltaUsuario extends JInternalFrame {
             gbc_textAp.fill = GridBagConstraints.HORIZONTAL;
             gbc_textAp.gridx = 1;
             gbc_textAp.gridy = dynamicRow;
-            getContentPane().add(textApellido, gbc_textAp);
+            getContentPane().add(textFieldApellido, gbc_textAp);
             dynamicRow++;
 
             // Fecha
@@ -289,7 +294,7 @@ public class AltaUsuario extends JInternalFrame {
             gbc_textFec.fill = GridBagConstraints.HORIZONTAL;
             gbc_textFec.gridx = 1;
             gbc_textFec.gridy = dynamicRow;
-            getContentPane().add(textFecha, gbc_textFec);
+            getContentPane().add(textFieldFechaNacimiento, gbc_textFec);
             dynamicRow++;
 
             // Institución
@@ -305,7 +310,7 @@ public class AltaUsuario extends JInternalFrame {
             gbc_comboInst.fill = GridBagConstraints.HORIZONTAL;
             gbc_comboInst.gridx = 1;
             gbc_comboInst.gridy = dynamicRow;
-            getContentPane().add(comboIns, gbc_comboInst);
+            getContentPane().add(comboInstitucion, gbc_comboInst);
 
         } else {
             // Organizador
@@ -314,14 +319,14 @@ public class AltaUsuario extends JInternalFrame {
             gbc_lblDesc.gridx = 0;
             gbc_lblDesc.gridy = dynamicRow;
             gbc_lblDesc.anchor = GridBagConstraints.EAST;
-            getContentPane().add(lblDesc, gbc_lblDesc);
+            getContentPane().add(lblDescripcion, gbc_lblDesc);
 
             GridBagConstraints gbc_textDesc = new GridBagConstraints();
             gbc_textDesc.insets = new Insets(5, 5, 5, 5);
             gbc_textDesc.fill = GridBagConstraints.HORIZONTAL;
             gbc_textDesc.gridx = 1;
             gbc_textDesc.gridy = dynamicRow;
-            getContentPane().add(textDesc, gbc_textDesc);
+            getContentPane().add(textFieldDescripcion, gbc_textDesc);
             dynamicRow++;
 
             GridBagConstraints gbc_lblUrl = new GridBagConstraints();
@@ -336,7 +341,7 @@ public class AltaUsuario extends JInternalFrame {
             gbc_textUrl.fill = GridBagConstraints.HORIZONTAL;
             gbc_textUrl.gridx = 1;
             gbc_textUrl.gridy = dynamicRow;
-            getContentPane().add(textURL, gbc_textUrl);
+            getContentPane().add(textFieldURL, gbc_textUrl);
         }
 
         getContentPane().revalidate();
@@ -344,13 +349,8 @@ public class AltaUsuario extends JInternalFrame {
     }
 
     public void recargarCampos() {
-        actualizarCampos(row, new JLabel("Apellido:"), textFieldApellido,
-                new JLabel("Fecha de Nac.:"), textFieldFechaNacimiento,
-                new JLabel("Descripción:"), textFieldDescripcion,
-                new JLabel("URL (opcional):"), textFieldURL,
-                new JLabel("Institución :"), comboInstitucion);
+        actualizarCampos(row);
     }
 
     private static final long serialVersionUID = 1L;
 }
-
