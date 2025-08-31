@@ -22,6 +22,7 @@ public class ControllerEvento implements IControllerEvento {
 		evento.agregarEdicion(ed);
 		ManejadorEvento manejadorEvento = ManejadorEvento.getInstancia();
 		manejadorEvento.agregarEdicion(ed);
+		org.agregarEdicionOrg(ed);
 	}
 
 	public void altaTipoRegistro(String nombreTR, String descripcion, Float costo, Integer cupo, Edicion edicion)
