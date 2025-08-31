@@ -37,6 +37,7 @@ public class Principal {
     private AltaInstitucion creInsInternalFrame;
     private AltaPatrocinio altaPatrocinioInternalFrame;
     private ConsultaPatrocinio conPatrocinioInternalFrame;
+    private ModificarUsuario modUsuarioInternalFrame;
 
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
@@ -72,6 +73,7 @@ public class Principal {
         creInsInternalFrame = new AltaInstitucion(ICI);
         altaPatrocinioInternalFrame = new AltaPatrocinio(ICE, ICU);
         conPatrocinioInternalFrame = new ConsultaPatrocinio(ICE);
+        modUsuarioInternalFrame = new ModificarUsuario(ICU);
 
         // Agregar los InternalFrames al DesktopPane
         desktopPane.add(creUsrInternalFrame);
@@ -86,6 +88,7 @@ public class Principal {
         desktopPane.add(creInsInternalFrame);
         desktopPane.add(altaPatrocinioInternalFrame);
         desktopPane.add(conPatrocinioInternalFrame);
+        desktopPane.add(modUsuarioInternalFrame);
     }
 
     private void initialize() {
@@ -140,7 +143,12 @@ public class Principal {
             conUsrInternalFrame.setVisible(true);
         });
         menuUsuarios.add(menuConsultaUsuario);
-        
+        JMenuItem menuModificarUsuario = new JMenuItem("Modificar Usuario");
+        menuModificarUsuario.addActionListener(e -> {
+        	modUsuarioInternalFrame.cargarUsuarios();
+        	modUsuarioInternalFrame.setVisible(true);
+        });
+        menuUsuarios.add(menuModificarUsuario);
         JMenuItem menuConsultaRegistro = new JMenuItem("Consulta de Registro");
         menuUsuarios.add(menuConsultaRegistro);
         menuConsultaRegistro.addActionListener(e -> {
