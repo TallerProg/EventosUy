@@ -40,12 +40,8 @@ public class AltaEdicionEvento extends JInternalFrame {
         gridBagLayout.rowWeights = new double[20];
         getContentPane().setLayout(gridBagLayout);
 
-        Font labelFont = new Font("Tahoma", Font.PLAIN, 10);
-        Font textFont = new Font("Tahoma", Font.PLAIN, 10);
-
         // Evento
         JLabel labelEvento = new JLabel("Evento:");
-        labelEvento.setFont(labelFont);
         GridBagConstraints gbc_labelEvento = new GridBagConstraints();
         gbc_labelEvento.insets = new Insets(5,5,5,5);
         gbc_labelEvento.gridx = 0;
@@ -54,7 +50,6 @@ public class AltaEdicionEvento extends JInternalFrame {
         getContentPane().add(labelEvento, gbc_labelEvento);
 
         comboEvento = new JComboBox<>();
-        comboEvento.setFont(textFont);
         GridBagConstraints gbc_comboEvento = new GridBagConstraints();
         gbc_comboEvento.insets = new Insets(5,5,5,5);
         gbc_comboEvento.fill = GridBagConstraints.HORIZONTAL;
@@ -65,7 +60,6 @@ public class AltaEdicionEvento extends JInternalFrame {
 
         // Organizador
         JLabel labelOrg = new JLabel("Organizador:");
-        labelOrg.setFont(labelFont);
         GridBagConstraints gbc_labelOrg = new GridBagConstraints();
         gbc_labelOrg.insets = new Insets(5,5,5,5);
         gbc_labelOrg.gridx = 0;
@@ -74,7 +68,6 @@ public class AltaEdicionEvento extends JInternalFrame {
         getContentPane().add(labelOrg, gbc_labelOrg);
 
         comboOrganizador = new JComboBox<>();
-        comboOrganizador.setFont(textFont);
         GridBagConstraints gbc_comboOrg = new GridBagConstraints();
         gbc_comboOrg.insets = new Insets(5,5,5,5);
         gbc_comboOrg.fill = GridBagConstraints.HORIZONTAL;
@@ -85,7 +78,6 @@ public class AltaEdicionEvento extends JInternalFrame {
 
         // Nombre
         JLabel labelNombre = new JLabel("Nombre:");
-        labelNombre.setFont(labelFont);
         GridBagConstraints gbc_labelNombre = new GridBagConstraints();
         gbc_labelNombre.insets = new Insets(5,5,5,5);
         gbc_labelNombre.gridx = 0;
@@ -94,7 +86,6 @@ public class AltaEdicionEvento extends JInternalFrame {
         getContentPane().add(labelNombre, gbc_labelNombre);
 
         txtNombre = new JTextField();
-        txtNombre.setFont(textFont);
         GridBagConstraints gbc_txtNombre = new GridBagConstraints();
         gbc_txtNombre.insets = new Insets(5,5,5,5);
         gbc_txtNombre.fill = GridBagConstraints.HORIZONTAL;
@@ -105,7 +96,6 @@ public class AltaEdicionEvento extends JInternalFrame {
 
         // Sigla
         JLabel labelSigla = new JLabel("Sigla:");
-        labelSigla.setFont(labelFont);
         GridBagConstraints gbc_labelSigla = new GridBagConstraints();
         gbc_labelSigla.insets = new Insets(5,5,5,5);
         gbc_labelSigla.gridx = 0;
@@ -114,7 +104,6 @@ public class AltaEdicionEvento extends JInternalFrame {
         getContentPane().add(labelSigla, gbc_labelSigla);
 
         txtSigla = new JTextField();
-        txtSigla.setFont(textFont);
         GridBagConstraints gbc_txtSigla = new GridBagConstraints();
         gbc_txtSigla.insets = new Insets(5,5,5,5);
         gbc_txtSigla.fill = GridBagConstraints.HORIZONTAL;
@@ -125,7 +114,6 @@ public class AltaEdicionEvento extends JInternalFrame {
 
         // Ciudad
         JLabel labelCiudad = new JLabel("Ciudad:");
-        labelCiudad.setFont(labelFont);
         GridBagConstraints gbc_labelCiudad = new GridBagConstraints();
         gbc_labelCiudad.insets = new Insets(5,5,5,5);
         gbc_labelCiudad.gridx = 0;
@@ -134,7 +122,6 @@ public class AltaEdicionEvento extends JInternalFrame {
         getContentPane().add(labelCiudad, gbc_labelCiudad);
 
         txtCiudad = new JTextField();
-        txtCiudad.setFont(textFont);
         GridBagConstraints gbc_txtCiudad = new GridBagConstraints();
         gbc_txtCiudad.insets = new Insets(5,5,5,5);
         gbc_txtCiudad.fill = GridBagConstraints.HORIZONTAL;
@@ -145,7 +132,6 @@ public class AltaEdicionEvento extends JInternalFrame {
 
         // País
         JLabel labelPais = new JLabel("País:");
-        labelPais.setFont(labelFont);
         GridBagConstraints gbc_labelPais = new GridBagConstraints();
         gbc_labelPais.insets = new Insets(5,5,5,5);
         gbc_labelPais.gridx = 0;
@@ -154,7 +140,6 @@ public class AltaEdicionEvento extends JInternalFrame {
         getContentPane().add(labelPais, gbc_labelPais);
 
         txtPais = new JTextField();
-        txtPais.setFont(textFont);
         GridBagConstraints gbc_txtPais = new GridBagConstraints();
         gbc_txtPais.insets = new Insets(5,5,5,5);
         gbc_txtPais.fill = GridBagConstraints.HORIZONTAL;
@@ -173,7 +158,6 @@ public class AltaEdicionEvento extends JInternalFrame {
         getContentPane().add(txtFechaIni, gbc_txtFechaIni);
 
         JLabel lblFechaIni = new JLabel("Fecha Inicio:");
-        lblFechaIni.setFont(labelFont);
         GridBagConstraints gbc_lblFechaIni = new GridBagConstraints();
         gbc_lblFechaIni.insets = new Insets(5,5,5,5);
         gbc_lblFechaIni.gridx = 0;
@@ -192,7 +176,6 @@ public class AltaEdicionEvento extends JInternalFrame {
         getContentPane().add(txtFechaFin, gbc_txtFechaFin);
 
         JLabel lblFechaFin = new JLabel("Fecha Fin:");
-        lblFechaFin.setFont(labelFont);
         GridBagConstraints gbc_lblFechaFin = new GridBagConstraints();
         gbc_lblFechaFin.insets = new Insets(5,5,5,5);
         gbc_lblFechaFin.gridx = 0;
@@ -211,7 +194,6 @@ public class AltaEdicionEvento extends JInternalFrame {
         getContentPane().add(txtFechaAlta, gbc_txtFechaAlta);
 
         JLabel lblFechaAlta = new JLabel("Fecha Alta:");
-        lblFechaAlta.setFont(labelFont);
         GridBagConstraints gbc_lblFechaAlta = new GridBagConstraints();
         gbc_lblFechaAlta.insets = new Insets(5,5,5,5);
         gbc_lblFechaAlta.gridx = 0;

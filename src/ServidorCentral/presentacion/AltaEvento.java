@@ -5,7 +5,7 @@ import ServidorCentral.logica.Categoria;
 
 import javax.swing.*;
 import java.awt.*;
-import java.time.LocalDate; 
+import java.time.LocalDate;
 import java.util.List;
 
 public class AltaEvento extends JInternalFrame {
@@ -142,12 +142,12 @@ public class AltaEvento extends JInternalFrame {
 		// Listeners
 		btnCancelar.addActionListener(e -> {
 			textFieldNombre.setText("");
-            textFieldSigla.setText("");
-            textAreaDescripcion.setText("");
-            for (JCheckBox check : checkBoxesCategorias) {
-                check.setSelected(false);
-            }
-            this.setVisible(false);
+			textFieldSigla.setText("");
+			textAreaDescripcion.setText("");
+			for (JCheckBox check : checkBoxesCategorias) {
+				check.setSelected(false);
+			}
+			this.setVisible(false);
 		});
 
 		btnAceptar.addActionListener(e -> {

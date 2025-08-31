@@ -16,242 +16,239 @@ import javax.swing.JMenu;
 
 public class Principal {
 
-    private JFrame frmEventosUy;
-    private JDesktopPane desktopPane;   
+	private JFrame frmEventosUy;
+	private JDesktopPane desktopPane;
 
-    private IControllerUsuario ICU;
-    private IControllerEvento ICE;
-    private IControllerInstitucion ICI;
+	private IControllerUsuario ICU;
+	private IControllerEvento ICE;
+	private IControllerInstitucion ICI;
 
-    // InternalFrames
-    private AltaUsuario creUsrInternalFrame;
-    private ConsultarUsuario conUsrInternalFrame;
-    private AltaEdicionEvento creEdiEveInternalFrame;
-    private AltaEvento creEveInternalFrame;
-    private AltaTipoRegistro creTRegInternalFrame;
-    private ConsultaEvento conEveInternalFrame;
-    private ConsultaRegistro conRegInternalFrame;
-    private ConsultaTipoRegistro conTRegInternalFrame;
-    private RegistroEdicionEvento regEdiEveInternalFrame;
-    private ConsultaEdicionEvento conEdiEveInternalFrame;
-    private AltaInstitucion creInsInternalFrame;
-    private AltaPatrocinio altaPatrocinioInternalFrame;
-    private ConsultaPatrocinio conPatrocinioInternalFrame;
-    private ModificarUsuario modUsuarioInternalFrame;
+	// InternalFrames
+	private AltaUsuario creUsrInternalFrame;
+	private ConsultarUsuario conUsrInternalFrame;
+	private AltaEdicionEvento creEdiEveInternalFrame;
+	private AltaEvento creEveInternalFrame;
+	private AltaTipoRegistro creTRegInternalFrame;
+	private ConsultaEvento conEveInternalFrame;
+	private ConsultaRegistro conRegInternalFrame;
+	private ConsultaTipoRegistro conTRegInternalFrame;
+	private RegistroEdicionEvento regEdiEveInternalFrame;
+	private ConsultaEdicionEvento conEdiEveInternalFrame;
+	private AltaInstitucion creInsInternalFrame;
+	private AltaPatrocinio altaPatrocinioInternalFrame;
+	private ConsultaPatrocinio conPatrocinioInternalFrame;
+	private ModificarUsuario modUsuarioInternalFrame;
 
-    public static void main(String[] args) {
-        EventQueue.invokeLater(() -> {
-            try {
-                Principal window = new Principal();
-                window.frmEventosUy.setVisible(true);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-    }
+	public static void main(String[] args) {
+		EventQueue.invokeLater(() -> {
+			try {
+				Principal window = new Principal();
+				window.frmEventosUy.setVisible(true);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		});
+	}
 
-    public Principal() {
-        initialize();
+	public Principal() {
+		initialize();
 
-        // Inicialización de la fábrica y controladores
-        Factory fabrica = Factory.getInstance();
-        ICU = fabrica.getIControllerUsuario();
-        ICE = fabrica.getIControllerEvento();
-        ICI = fabrica.getIControllerInstitucion();
+		// Inicialización de la fábrica y controladores
+		Factory fabrica = Factory.getInstance();
+		ICU = fabrica.getIControllerUsuario();
+		ICE = fabrica.getIControllerEvento();
+		ICI = fabrica.getIControllerInstitucion();
 
-        // Inicializar los InternalFrames (inicialmente ocultos)
-        creUsrInternalFrame = new AltaUsuario(ICU,ICI);
-        conUsrInternalFrame = new ConsultarUsuario(ICU, ICE, desktopPane);
-        creEdiEveInternalFrame = new AltaEdicionEvento(ICE);
-        creEveInternalFrame = new AltaEvento(ICE);
-        creTRegInternalFrame = new AltaTipoRegistro(ICE);
-        conEveInternalFrame = new ConsultaEvento(ICE,desktopPane);
-        conRegInternalFrame = new ConsultaRegistro(ICU);
-        regEdiEveInternalFrame = new RegistroEdicionEvento(ICE, ICU);
-        conTRegInternalFrame = new ConsultaTipoRegistro(ICE);
-        conEdiEveInternalFrame = new ConsultaEdicionEvento(ICE);
-        creInsInternalFrame = new AltaInstitucion(ICI);
-        altaPatrocinioInternalFrame = new AltaPatrocinio(ICE, ICU);
-        conPatrocinioInternalFrame = new ConsultaPatrocinio(ICE);
-        modUsuarioInternalFrame = new ModificarUsuario(ICU);
+		// Inicializar los InternalFrames (inicialmente ocultos)
+		creUsrInternalFrame = new AltaUsuario(ICU, ICI);
+		conUsrInternalFrame = new ConsultarUsuario(ICU, ICE, desktopPane);
+		creEdiEveInternalFrame = new AltaEdicionEvento(ICE);
+		creEveInternalFrame = new AltaEvento(ICE);
+		creTRegInternalFrame = new AltaTipoRegistro(ICE);
+		conEveInternalFrame = new ConsultaEvento(ICE, desktopPane);
+		conRegInternalFrame = new ConsultaRegistro(ICU);
+		regEdiEveInternalFrame = new RegistroEdicionEvento(ICE, ICU);
+		conTRegInternalFrame = new ConsultaTipoRegistro(ICE);
+		conEdiEveInternalFrame = new ConsultaEdicionEvento(ICE);
+		creInsInternalFrame = new AltaInstitucion(ICI);
+		altaPatrocinioInternalFrame = new AltaPatrocinio(ICE, ICU);
+		conPatrocinioInternalFrame = new ConsultaPatrocinio(ICE);
+		modUsuarioInternalFrame = new ModificarUsuario(ICU);
 
-        // Agregar los InternalFrames al DesktopPane
-        desktopPane.add(creUsrInternalFrame);
-        desktopPane.add(conUsrInternalFrame);
-        desktopPane.add(creEdiEveInternalFrame);
-        desktopPane.add(creTRegInternalFrame);
-        desktopPane.add(conEveInternalFrame);
-        desktopPane.add(conRegInternalFrame);
-        desktopPane.add(conTRegInternalFrame);
-        desktopPane.add(regEdiEveInternalFrame);
-        desktopPane.add(conEdiEveInternalFrame);
-        desktopPane.add(creInsInternalFrame);
-        desktopPane.add(altaPatrocinioInternalFrame);
-        desktopPane.add(conPatrocinioInternalFrame);
-        desktopPane.add(modUsuarioInternalFrame);
-    }
+		// Agregar los InternalFrames al DesktopPane
+		desktopPane.add(creUsrInternalFrame);
+		desktopPane.add(conUsrInternalFrame);
+		desktopPane.add(creEdiEveInternalFrame);
+		desktopPane.add(creTRegInternalFrame);
+		desktopPane.add(conEveInternalFrame);
+		desktopPane.add(conRegInternalFrame);
+		desktopPane.add(conTRegInternalFrame);
+		desktopPane.add(regEdiEveInternalFrame);
+		desktopPane.add(conEdiEveInternalFrame);
+		desktopPane.add(creInsInternalFrame);
+		desktopPane.add(altaPatrocinioInternalFrame);
+		desktopPane.add(conPatrocinioInternalFrame);
+		desktopPane.add(modUsuarioInternalFrame);
+	}
 
-    private void initialize() {
-        frmEventosUy = new JFrame();
-        frmEventosUy.setTitle("EventosUY");
-        frmEventosUy.setBounds(100, 100, 1000, 700);
-        frmEventosUy.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	private void initialize() {
+		frmEventosUy = new JFrame();
+		frmEventosUy.setTitle("EventosUY");
+		frmEventosUy.setBounds(100, 100, 1000, 700);
+		frmEventosUy.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        // DesktopPane
-        desktopPane = new JDesktopPane();
-        frmEventosUy.setContentPane(desktopPane);
+		// DesktopPane
+		desktopPane = new JDesktopPane();
+		frmEventosUy.setContentPane(desktopPane);
 
-        // Menú principal
-        JMenuBar menuBar = new JMenuBar();
-        frmEventosUy.setJMenuBar(menuBar);
+		// Menú principal
+		JMenuBar menuBar = new JMenuBar();
+		frmEventosUy.setJMenuBar(menuBar);
 
-        // Menú Sistema
-        JMenu menuSistema = new JMenu("Sistema");
-        menuBar.add(menuSistema);
+		// Menú Sistema
+		JMenu menuSistema = new JMenu("Sistema");
+		menuBar.add(menuSistema);
 
-        JMenuItem menuSalir = new JMenuItem("Salir");
-        menuSalir.addActionListener(e -> System.exit(0));
-        
-        JMenuItem mntmNewMenuItem = new JMenuItem("Inicializar datos del sistema");
-        menuSistema.add(mntmNewMenuItem);
-        menuSistema.add(menuSalir);
-        mntmNewMenuItem.addActionListener(e -> {
-            try {
-                CargarDatos.inicializar(ICU,ICE);
-            } catch (Exception e1) {
-                e1.printStackTrace();
-            }
-            JOptionPane.showMessageDialog(frmEventosUy, "Datos del sistema inicializados correctamente.");
-            creEveInternalFrame = new AltaEvento(ICE);
-            desktopPane.add(creEveInternalFrame);
-        });
+		JMenuItem menuSalir = new JMenuItem("Salir");
+		menuSalir.addActionListener(e -> System.exit(0));
 
-        // Menú Usuarios
-        JMenu menuUsuarios = new JMenu("Usuarios");
-        menuBar.add(menuUsuarios);
+		JMenuItem mntmNewMenuItem = new JMenuItem("Inicializar datos del sistema");
+		menuSistema.add(mntmNewMenuItem);
+		menuSistema.add(menuSalir);
+		mntmNewMenuItem.addActionListener(e -> {
+			try {
+				CargarDatos.inicializar(ICU, ICE);
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+			JOptionPane.showMessageDialog(frmEventosUy, "Datos del sistema inicializados correctamente.");
+			creEveInternalFrame = new AltaEvento(ICE);
+			desktopPane.add(creEveInternalFrame);
+		});
 
-        JMenuItem menuAltaUsuario = new JMenuItem("Alta de Usuario");
-        menuAltaUsuario.addActionListener(e -> {
-            creUsrInternalFrame.recargarCampos();
-            mostrarInternalFrame(creUsrInternalFrame);
-        });
-        menuUsuarios.add(menuAltaUsuario);
+		// Menú Usuarios
+		JMenu menuUsuarios = new JMenu("Usuarios");
+		menuBar.add(menuUsuarios);
 
-        JMenuItem menuConsultaUsuario = new JMenuItem("Consulta de Usuario");
-        menuConsultaUsuario.addActionListener(e -> {
-            conUsrInternalFrame.cargarUsuarios();
-            conUsrInternalFrame.setVisible(true);
-        });
-        menuUsuarios.add(menuConsultaUsuario);
-        JMenuItem menuModificarUsuario = new JMenuItem("Modificar Usuario");
-        menuModificarUsuario.addActionListener(e -> {
-        	modUsuarioInternalFrame.cargarUsuarios();
-        	modUsuarioInternalFrame.setVisible(true);
-        });
-        menuUsuarios.add(menuModificarUsuario);
-        JMenuItem menuConsultaRegistro = new JMenuItem("Consulta de Registro");
-        menuUsuarios.add(menuConsultaRegistro);
-        menuConsultaRegistro.addActionListener(e -> {
-            conRegInternalFrame.cargarUsuarios();
-            mostrarInternalFrame(conRegInternalFrame);
-        });
+		JMenuItem menuAltaUsuario = new JMenuItem("Alta de Usuario");
+		menuAltaUsuario.addActionListener(e -> {
+			creUsrInternalFrame.recargarCampos();
+			mostrarInternalFrame(creUsrInternalFrame);
+		});
+		menuUsuarios.add(menuAltaUsuario);
 
-        // Menú Eventos
-        JMenu menuEventos = new JMenu("Eventos");
-        menuBar.add(menuEventos);
+		JMenuItem menuConsultaUsuario = new JMenuItem("Consulta de Usuario");
+		menuConsultaUsuario.addActionListener(e -> {
+			conUsrInternalFrame.cargarUsuarios();
+			conUsrInternalFrame.setVisible(true);
+		});
+		menuUsuarios.add(menuConsultaUsuario);
+		JMenuItem menuModificarUsuario = new JMenuItem("Modificar Usuario");
+		menuModificarUsuario.addActionListener(e -> {
+			modUsuarioInternalFrame.cargarUsuarios();
+			modUsuarioInternalFrame.setVisible(true);
+		});
+		menuUsuarios.add(menuModificarUsuario);
+		JMenuItem menuConsultaRegistro = new JMenuItem("Consulta de Registro");
+		menuUsuarios.add(menuConsultaRegistro);
+		menuConsultaRegistro.addActionListener(e -> {
+			conRegInternalFrame.cargarUsuarios();
+			mostrarInternalFrame(conRegInternalFrame);
+		});
 
-        JMenuItem menuAltaEvento = new JMenuItem("Alta de Evento");
-        menuAltaEvento.addActionListener(e -> mostrarInternalFrame(creEveInternalFrame));
-        menuEventos.add(menuAltaEvento);
+		// Menú Eventos
+		JMenu menuEventos = new JMenu("Eventos");
+		menuBar.add(menuEventos);
 
-        JMenuItem menuConsultaEvento = new JMenuItem("Consulta de Evento");
-        menuConsultaEvento.addActionListener(e -> {
-            mostrarInternalFrame(conEveInternalFrame);
-            conEveInternalFrame.ConsultaEventocargar();
-            conEveInternalFrame.setVisible(true);
-        });
-        menuEventos.add(menuConsultaEvento);
+		JMenuItem menuAltaEvento = new JMenuItem("Alta de Evento");
+		menuAltaEvento.addActionListener(e -> mostrarInternalFrame(creEveInternalFrame));
+		menuEventos.add(menuAltaEvento);
 
-        JMenuItem menuAltaEdicion = new JMenuItem("Alta de Edición de Evento");
-        menuAltaEdicion.addActionListener(e -> { 
-            mostrarInternalFrame(creEdiEveInternalFrame);
-            creEdiEveInternalFrame.cargarEventos();
-            creEdiEveInternalFrame.cargarOrganizadores();
-            creEdiEveInternalFrame.setVisible(true);
-        });
-        menuEventos.add(menuAltaEdicion);
+		JMenuItem menuConsultaEvento = new JMenuItem("Consulta de Evento");
+		menuConsultaEvento.addActionListener(e -> {
+			mostrarInternalFrame(conEveInternalFrame);
+			conEveInternalFrame.ConsultaEventocargar();
+			conEveInternalFrame.setVisible(true);
+		});
+		menuEventos.add(menuConsultaEvento);
 
-        JMenuItem menuConsultaEdicion = new JMenuItem("Consulta de Edición de Evento");
-        menuConsultaEdicion.addActionListener(e -> {
-            conEdiEveInternalFrame.cargarEventos();   
-            mostrarInternalFrame(conEdiEveInternalFrame);
-        });
-        menuEventos.add(menuConsultaEdicion);
+		JMenuItem menuAltaEdicion = new JMenuItem("Alta de Edición de Evento");
+		menuAltaEdicion.addActionListener(e -> {
+			mostrarInternalFrame(creEdiEveInternalFrame);
+			creEdiEveInternalFrame.cargarEventos();
+			creEdiEveInternalFrame.cargarOrganizadores();
+			creEdiEveInternalFrame.setVisible(true);
+		});
+		menuEventos.add(menuAltaEdicion);
 
-        JMenuItem menuAltaTipoReg = new JMenuItem("Alta de Tipo de Registro");
-        menuAltaTipoReg.addActionListener(e -> {
-            creTRegInternalFrame.setVisible(true);
-            creTRegInternalFrame.cargarEventos();
-        });
-        menuEventos.add(menuAltaTipoReg);
-                
-        JMenuItem menuConsultaTipoReg = new JMenuItem("Consulta de Tipo de Registro");
-        menuConsultaTipoReg.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                conTRegInternalFrame.cargarEventos();
-                conTRegInternalFrame.setVisible(true);
-            }
-        });
-        menuEventos.add(menuConsultaTipoReg);
-                        
-        JMenuItem menuRegistroEdicion = new JMenuItem("Registro a Edición de Evento");
-        menuRegistroEdicion.addActionListener(e -> {
-            regEdiEveInternalFrame.cargarEventos();
-            mostrarInternalFrame(regEdiEveInternalFrame);
-        });
-        menuEventos.add(menuRegistroEdicion);
+		JMenuItem menuConsultaEdicion = new JMenuItem("Consulta de Edición de Evento");
+		menuConsultaEdicion.addActionListener(e -> {
+			conEdiEveInternalFrame.cargarEventos();
+			mostrarInternalFrame(conEdiEveInternalFrame);
+		});
+		menuEventos.add(menuConsultaEdicion);
 
-        menuEventos.add(menuRegistroEdicion);
-        menuRegistroEdicion.addActionListener(e -> mostrarInternalFrame(regEdiEveInternalFrame));
-                                
-        menuConsultaTipoReg.addActionListener(e -> mostrarInternalFrame(conTRegInternalFrame));
-        menuAltaTipoReg.addActionListener(e -> mostrarInternalFrame(creTRegInternalFrame));
-                
-        // Menú Institucion
-        JMenu menuInstitucion = new JMenu("Institucion");
-        menuBar.add(menuInstitucion);
+		JMenuItem menuAltaTipoReg = new JMenuItem("Alta de Tipo de Registro");
+		menuAltaTipoReg.addActionListener(e -> {
+			creTRegInternalFrame.setVisible(true);
+			creTRegInternalFrame.cargarEventos();
+		});
+		menuEventos.add(menuAltaTipoReg);
 
-        JMenuItem menuAltaInstitucion = new JMenuItem("Alta de Institución");
-        menuAltaInstitucion.addActionListener(e -> mostrarInternalFrame(creInsInternalFrame));
-        menuInstitucion.add(menuAltaInstitucion);
-        
-        JMenuItem menuAltaPatrocinio = new JMenuItem("Alta de Patrocinio");
-        menuAltaPatrocinio.addActionListener(e -> {
-            altaPatrocinioInternalFrame.cargarEventos(); // Cargar los eventos al abrir
-            mostrarInternalFrame(altaPatrocinioInternalFrame);
-        });
-        menuInstitucion.add(menuAltaPatrocinio);
-        
-        JMenuItem menuConsultaPatrocinio = new JMenuItem("Consulta de Patrocinio");
+		JMenuItem menuConsultaTipoReg = new JMenuItem("Consulta de Tipo de Registro");
+		menuConsultaTipoReg.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				conTRegInternalFrame.cargarEventos();
+				conTRegInternalFrame.setVisible(true);
+			}
+		});
+		menuEventos.add(menuConsultaTipoReg);
+
+		JMenuItem menuRegistroEdicion = new JMenuItem("Registro a Edición de Evento");
+		menuRegistroEdicion.addActionListener(e -> {
+			regEdiEveInternalFrame.cargarEventos();
+			mostrarInternalFrame(regEdiEveInternalFrame);
+		});
+		menuEventos.add(menuRegistroEdicion);
+
+		menuEventos.add(menuRegistroEdicion);
+		menuRegistroEdicion.addActionListener(e -> mostrarInternalFrame(regEdiEveInternalFrame));
+
+		menuConsultaTipoReg.addActionListener(e -> mostrarInternalFrame(conTRegInternalFrame));
+		menuAltaTipoReg.addActionListener(e -> mostrarInternalFrame(creTRegInternalFrame));
+
+		// Menú Institucion
+		JMenu menuInstitucion = new JMenu("Institucion");
+		menuBar.add(menuInstitucion);
+
+		JMenuItem menuAltaInstitucion = new JMenuItem("Alta de Institución");
+		menuAltaInstitucion.addActionListener(e -> mostrarInternalFrame(creInsInternalFrame));
+		menuInstitucion.add(menuAltaInstitucion);
+
+		JMenuItem menuAltaPatrocinio = new JMenuItem("Alta de Patrocinio");
+		menuAltaPatrocinio.addActionListener(e -> {
+			altaPatrocinioInternalFrame.cargarEventos(); // Cargar los eventos al abrir
+			mostrarInternalFrame(altaPatrocinioInternalFrame);
+		});
+		menuInstitucion.add(menuAltaPatrocinio);
+
+		JMenuItem menuConsultaPatrocinio = new JMenuItem("Consulta de Patrocinio");
 		menuConsultaPatrocinio.addActionListener(e -> {
 			conPatrocinioInternalFrame.cargarEventos();
 			mostrarInternalFrame(conPatrocinioInternalFrame);
 		});
 		menuInstitucion.add(menuConsultaPatrocinio);
-	
 
-    }
+	}
 
-    // Método auxiliar para mostrar InternalFrames centrados
-    private void mostrarInternalFrame(JInternalFrame frame) {
-        if (frame.getParent() == null) {
-            desktopPane.add(frame);
-        }
-        frame.setVisible(true);
-        frame.toFront();
-        frame.setLocation(
-            (desktopPane.getWidth() - frame.getWidth()) / 2,
-            (desktopPane.getHeight() - frame.getHeight()) / 2
-        );
-    }
+	// Método auxiliar para mostrar InternalFrames centrados
+	private void mostrarInternalFrame(JInternalFrame frame) {
+		if (frame.getParent() == null) {
+			desktopPane.add(frame);
+		}
+		frame.setVisible(true);
+		frame.toFront();
+		frame.setLocation((desktopPane.getWidth() - frame.getWidth()) / 2,
+				(desktopPane.getHeight() - frame.getHeight()) / 2);
+	}
 }
