@@ -30,6 +30,10 @@ public class AltaPatrocinio extends JInternalFrame {
 		this.icu = icu;
 
 		setSize(838, 403);
+		setClosable(true);
+		setIconifiable(true);
+		setMaximizable(true);
+		setResizable(true);
 		setDefaultCloseOperation(HIDE_ON_CLOSE);
 		getContentPane().setLayout(new MigLayout("", "[115px][][][][][][][10px][][][28px][24px][][][130px,grow]", "[14px][22px][14px][22px][14px][22px][14px][22px][][][30px][][][][33px]"));
 
