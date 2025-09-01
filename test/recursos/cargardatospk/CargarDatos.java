@@ -342,31 +342,32 @@ public class CargarDatos {
 
 		try {
 			// RE01 - Montevideo Rock 2025
-			ICE.altaRegistro("Montevideo Rock 2025", "sofirod", "VIP"); // TR02
+			ICE.altaRegistro("Montevideo Rock 2025", "sofirod", "VIP", LocalDate.parse("14/05/2025", formatter)); // TR02
 
 			// RE02 - Maratón de Montevideo 2024
-			ICE.altaRegistro("Maratón de Montevideo 2024", "sofirod", "Corredor 21K"); // TR07
+			ICE.altaRegistro("Maratón de Montevideo 2024", "sofirod", "Corredor 21K", LocalDate.parse("30/07/2024", formatter)); // TR07
 
 			// RE03 - Web Summit 2026
-			ICE.altaRegistro("Web Summit 2026", "MariR", "Estudiante"); // TR25
+			ICE.altaRegistro("Web Summit 2026", "MariR", "Estudiante", LocalDate.parse("21/08/2025", formatter)); // TR25
 
 			// RE04 - Maratón de Montevideo 2025
-			ICE.altaRegistro("Maratón de Montevideo 2025", "sofirod", "Corredor 42K"); // TR03
+			ICE.altaRegistro("Maratón de Montevideo 2025", "sofirod", "Corredor 42K", LocalDate.parse("03/03/2025", formatter)); // TR03
 
 			// RE05 - Mobile World Congress 2025
-			ICE.altaRegistro("Mobile World Congress 2025", "vale23", "Full"); // TR20
+			ICE.altaRegistro("Mobile World Congress 2025", "vale23", "Full", LocalDate.parse("22/08/2025", formatter)); // TR20
 
 			// RE06 - Maratón de Montevideo 2025
-			ICE.altaRegistro("Maratón de Montevideo 2025", "AnaG", "Corredor 10K"); // TR05
+			ICE.altaRegistro("Maratón de Montevideo 2025", "AnaG", "Corredor 10K", LocalDate.parse("09/04/2025", formatter)); // TR05
 
 			// RE07 - Maratón de Montevideo 2025
-			ICE.altaRegistro("Maratón de Montevideo 2025", "JaviL", "Corredor 21K"); // TR04
+			ICE.altaRegistro("Maratón de Montevideo 2025", "JaviL", "Corredor 21K", LocalDate.parse("10/04/2025", formatter)); // TR04
 
 			// RE08 - Montevideo Comics 2025
-			ICE.altaRegistro("Montevideo Comics 2025", "andrearod", "Cosplayer"); // TR14
+			ICE.altaRegistro("Montevideo Comics 2025", "andrearod", "Cosplayer", LocalDate.parse("03/08/2025", formatter)); // TR14
 
 			// RE09 - Montevideo Comics 2024
-			ICE.altaRegistro("Montevideo Comics 2024", "SofiM", "General"); // TR11
+			ICE.altaRegistro("Montevideo Comics 2024", "SofiM", "General", LocalDate.parse("16/07/2024", formatter)); // TR11
+
 
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());

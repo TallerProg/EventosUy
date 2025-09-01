@@ -7,6 +7,7 @@ import ServidorCentral.logica.DTPatrocinio;
 import ServidorCentral.logica.Edicion;
 import ServidorCentral.logica.Evento;
 import ServidorCentral.logica.IControllerEvento;
+import net.miginfocom.swing.MigLayout;
 
 public class ConsultaPatrocinio extends JInternalFrame {
 
@@ -28,35 +29,29 @@ public class ConsultaPatrocinio extends JInternalFrame {
 		setIconifiable(true);
 		setMaximizable(true);
 		setResizable(true);
-		getContentPane().setLayout(null);
+		getContentPane().setLayout(new MigLayout("", "[100px][10px][10px][235px]", "[25px][25px][25px][25px][25px][25px][25px][25px][25px][25px]"));
 
 		// --- Combos ---
 		JLabel lblEvento = new JLabel("Evento:");
-		lblEvento.setBounds(30, 20, 100, 25);
-		getContentPane().add(lblEvento);
+		getContentPane().add(lblEvento, "cell 0 0,grow");
 
 		comboEventos = new JComboBox<>();
-		comboEventos.setBounds(140, 20, 245, 25);
 		comboEventos.setEnabled(false); // Fijo
-		getContentPane().add(comboEventos);
+		getContentPane().add(comboEventos, "cell 2 0 2 1,grow");
 
 		JLabel lblEdicion = new JLabel("Edición:");
-		lblEdicion.setBounds(30, 60, 100, 25);
-		getContentPane().add(lblEdicion);
+		getContentPane().add(lblEdicion, "cell 0 1,grow");
 
 		comboEdiciones = new JComboBox<>();
-		comboEdiciones.setBounds(140, 60, 245, 25);
 		comboEdiciones.setEnabled(false); // Fijo
-		getContentPane().add(comboEdiciones);
+		getContentPane().add(comboEdiciones, "cell 2 1 2 1,grow");
 
 		JLabel lblPatrocinio = new JLabel("Patrocinio:");
-		lblPatrocinio.setBounds(30, 100, 100, 25);
-		getContentPane().add(lblPatrocinio);
+		getContentPane().add(lblPatrocinio, "cell 0 2,grow");
 
 		comboPatrocinios = new JComboBox<>();
-		comboPatrocinios.setBounds(140, 100, 210, 25);
 		comboPatrocinios.setEnabled(false); // Fijo
-		getContentPane().add(comboPatrocinios);
+		getContentPane().add(comboPatrocinios, "cell 2 2 2 1,grow");
 
 		comboEventos.addActionListener(e -> {
 			String nombreEvento = (String) comboEventos.getSelectedItem();
@@ -110,67 +105,53 @@ public class ConsultaPatrocinio extends JInternalFrame {
 		int height = 25;
 
 		JLabel lblCodigo = new JLabel("Código:");
-		lblCodigo.setBounds(30, y, labelWidth, height);
-		getContentPane().add(lblCodigo);
+		getContentPane().add(lblCodigo, "cell 0 3 3 1,grow");
 
 		tfCodigo = new JTextField();
 		tfCodigo.setEditable(false);
-		tfCodigo.setBounds(150, y, tfWidth, height);
-		getContentPane().add(tfCodigo);
+		getContentPane().add(tfCodigo, "cell 3 3,grow");
 
 		JLabel lblFechaInicio = new JLabel("Fecha Inicio:");
-		lblFechaInicio.setBounds(30, y + 30, labelWidth, height);
-		getContentPane().add(lblFechaInicio);
+		getContentPane().add(lblFechaInicio, "cell 0 4 3 1,grow");
 
 		tfFechaInicio = new JTextField();
 		tfFechaInicio.setEditable(false);
-		tfFechaInicio.setBounds(150, y + 30, tfWidth, height);
-		getContentPane().add(tfFechaInicio);
+		getContentPane().add(tfFechaInicio, "cell 3 4,grow");
 
 		JLabel lblRegistroGratuito = new JLabel("Registros Gratuitos:");
-		lblRegistroGratuito.setBounds(30, y + 60, labelWidth, height);
-		getContentPane().add(lblRegistroGratuito);
+		getContentPane().add(lblRegistroGratuito, "cell 0 5 3 1,grow");
 
 		tfRegistroGratuito = new JTextField();
 		tfRegistroGratuito.setEditable(false);
-		tfRegistroGratuito.setBounds(150, y + 60, tfWidth, height);
-		getContentPane().add(tfRegistroGratuito);
+		getContentPane().add(tfRegistroGratuito, "cell 3 5,grow");
 
 		JLabel lblMonto = new JLabel("Monto:");
-		lblMonto.setBounds(30, y + 90, labelWidth, height);
-		getContentPane().add(lblMonto);
+		getContentPane().add(lblMonto, "cell 0 6 3 1,grow");
 
 		tfMonto = new JTextField();
 		tfMonto.setEditable(false);
-		tfMonto.setBounds(150, y + 90, tfWidth, height);
-		getContentPane().add(tfMonto);
+		getContentPane().add(tfMonto, "cell 3 6,grow");
 
 		JLabel lblNivel = new JLabel("Nivel:");
-		lblNivel.setBounds(30, y + 120, labelWidth, height);
-		getContentPane().add(lblNivel);
+		getContentPane().add(lblNivel, "cell 0 7 3 1,grow");
 
 		tfNivel = new JTextField();
 		tfNivel.setEditable(false);
-		tfNivel.setBounds(150, y + 120, tfWidth, height);
-		getContentPane().add(tfNivel);
+		getContentPane().add(tfNivel, "cell 3 7,grow");
 
 		JLabel lblInstitucion = new JLabel("Institución:");
-		lblInstitucion.setBounds(30, y + 150, labelWidth, height);
-		getContentPane().add(lblInstitucion);
+		getContentPane().add(lblInstitucion, "cell 0 8 3 1,grow");
 
 		tfInstitucion = new JTextField();
 		tfInstitucion.setEditable(false);
-		tfInstitucion.setBounds(150, y + 150, tfWidth, height);
-		getContentPane().add(tfInstitucion);
+		getContentPane().add(tfInstitucion, "cell 3 8,grow");
 
 		JLabel lblTipoRegistro = new JLabel("Tipo Registro:");
-		lblTipoRegistro.setBounds(30, y + 180, labelWidth, height);
-		getContentPane().add(lblTipoRegistro);
+		getContentPane().add(lblTipoRegistro, "cell 0 9 3 1,grow");
 
 		tfTipoRegistro = new JTextField();
 		tfTipoRegistro.setEditable(false);
-		tfTipoRegistro.setBounds(150, y + 180, tfWidth, height);
-		getContentPane().add(tfTipoRegistro);
+		getContentPane().add(tfTipoRegistro, "cell 3 9,grow");
 	}
 
 	// Carga los datos en los campos y combos, combos quedan fijos

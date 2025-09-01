@@ -26,6 +26,14 @@ public class Registro {
 		this.asistente = asistente;
 		this.tipoRegistro = tipoRegistro;
 	}
+	public Registro(Float costo, Edicion edicion, Asistente asistente, TipoRegistro tipoRegistro, LocalDate fInicio) {
+		this.fInicio = fInicio;
+		this.costo = costo;
+		this.edicion = edicion;
+		this.asistente = asistente;
+		this.tipoRegistro = tipoRegistro;
+		
+	}
 
 	// Getters y Setters
 	public LocalDate getFInicio() {

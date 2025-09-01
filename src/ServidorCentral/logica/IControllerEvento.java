@@ -19,7 +19,8 @@ public interface IControllerEvento {
     public Evento getEvento(String nombreEvento);
     public void altaRegistro(String nombreEdicion, String nickAsistente, String nombreTR, String codigo) throws Exception;
     public void altaRegistro(String nombreEdicion, String nickAsistente, String nombreTR) throws Exception;
-
+    public void altaRegistro(String nombreEdicion, String nickAsistente, String nombreTR, String codigo, LocalDate fecha) throws Exception;
+    public void altaRegistro(String nombreEdicion, String nickAsistente, String nombreTR, LocalDate fecha) throws Exception;
 
 	public List<Organizador> listarOrganizadores();
 
@@ -31,6 +32,7 @@ public interface IControllerEvento {
 
 	public void altaTipoRegistro(String nombreTR, String descripcion, Float costo, Integer cupo, Edicion edicion)
 			throws Exception;
+	
 
 	public void altaEvento(String nombre, String descripcion, LocalDate fecha, String sigla, List<Categoria> categorias)
 			throws Exception;
