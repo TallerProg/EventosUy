@@ -203,6 +203,11 @@ public class AltaUsuario extends JInternalFrame {
 					}
 
 					LocalDate fecha = LocalDate.parse(fechaStr, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+					
+					if (fecha.isAfter(LocalDate.now())||fecha.isEqual(LocalDate.now())) {
+						JOptionPane.showMessageDialog(this, "La fecha de nacimiento debe ser menor a la fecha actual","Fecha de nacimiento no valida", JOptionPane.WARNING_MESSAGE);
+						return;
+					}
 
 					String nombreInstitucion = (String) comboInstitucion.getSelectedItem();
 					Institucion inst = null;

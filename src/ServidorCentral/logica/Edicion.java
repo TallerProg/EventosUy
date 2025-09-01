@@ -129,7 +129,7 @@ public class Edicion {
 	public boolean registrado(Asistente asistente) {
 		for (Registro reg : registros) {
 			if (reg.getAsistente().equals(asistente)) {
-				return true; 
+				return true;
 			}
 		}
 		return false; 
@@ -143,7 +143,7 @@ public class Edicion {
 		if (tr != null && !registrado(asistente)) {
 			return !tr.soldOutTipReg();
 		} else {
-			return false;
+			throw new Exception(asistente.getNickname() + " Ya esta registrado");
 		}
 	}
 

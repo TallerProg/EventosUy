@@ -96,7 +96,9 @@ public class ConsultaPatrocinio extends JInternalFrame {
 			if (nombreEvento != null && !nombreEvento.equals("Sin eventos")) {
 				comboEdiciones.setEnabled(true);
 				try {
+					comboEdiciones.removeAllItems();
 					cargarEdiciones(nombreEvento);
+					comboPatrocinios.removeAllItems();
 				} catch (Exception ex) {
 					JOptionPane.showMessageDialog(this, "Error al cargar ediciones: " + ex.getMessage(), "Error",
 							JOptionPane.ERROR_MESSAGE);
@@ -109,6 +111,7 @@ public class ConsultaPatrocinio extends JInternalFrame {
 			if (nombreEdicion != null && !nombreEdicion.equals("Sin ediciones")) {
 				comboPatrocinios.setEnabled(true);
 				try {
+					comboPatrocinios.removeAllItems();
 					cargarPatrocinios(nombreEdicion);
 				} catch (Exception ex) {
 					JOptionPane.showMessageDialog(this, "Error al cargar patrocinios: " + ex.getMessage(), "Error",
@@ -199,18 +202,6 @@ public class ConsultaPatrocinio extends JInternalFrame {
 		tfNivel.setText(String.valueOf(dtPat.getNivel()));
 		tfInstitucion.setText(dtPat.getInstitucion());
 		tfTipoRegistro.setText(dtPat.getTipoRegistro());
-
-		comboEventos.removeAllItems();
-		comboEventos.addItem(dtPat.getEdicion());
-		comboEventos.setSelectedIndex(0);
-
-		comboEdiciones.removeAllItems();
-		comboEdiciones.addItem(dtPat.getEdicion());
-		comboEdiciones.setSelectedIndex(0);
-
-		comboPatrocinios.removeAllItems();
-		comboPatrocinios.addItem(dtPat.getCodigo());
-		comboPatrocinios.setSelectedIndex(0);
 	}
 
 	public static ConsultaPatrocinio crearYMostrar(IControllerEvento controller, DTPatrocinio dtPat,
