@@ -3,10 +3,10 @@ package ServidorCentral.presentacion;
 import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.UUID;
+
 
 import javax.swing.*;
-import javax.swing.text.NumberFormatter;
+
 
 import ServidorCentral.logica.*;
 import net.miginfocom.swing.MigLayout;
