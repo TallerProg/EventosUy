@@ -93,19 +93,16 @@ class ModificarUsuarioTest {
     }
     @Test
     void testModificarUsuario1_Asistente() {
-        // Crear un Asistente con cambios
         Asistente actualizado = new Asistente(
-                "asist1",                     // mismo nickname
-                "asist1_mod@mail.com",        // correo modificado
-                "JuanMod",                    // nombre modificado
-                "PerezMod",                   // apellido modificado
-                LocalDate.of(2002, 3, 3)     // fecha de nacimiento modificada
+                "asist1",                    
+                "asist1_mod@mail.com",        
+                "JuanMod",                    
+                "PerezMod",                   
+                LocalDate.of(2002, 3, 3)     
         );
 
-        // Llamar a modificarUsuario1
         controller.modificarUsuario1(actualizado);
 
-        // Verificar que los cambios se reflejaron
         Asistente modificado = controller.getAsistente("asist1");
         assertEquals("JuanMod", modificado.getNombre());
         assertEquals("PerezMod", modificado.getApellido());
@@ -115,19 +112,16 @@ class ModificarUsuarioTest {
 
     @Test
     void testModificarUsuario1_Organizador() {
-        // Crear un Organizador con cambios
         Organizador actualizado = new Organizador(
-                "org1",                       // mismo nickname
-                "org1_mod@mail.com",          // correo modificado
-                "OrgMod",                     // nombre modificado
-                "Nueva descripcion",          // descripción modificada
-                "www.nuevaurl.com"            // url modificada
+                "org1",                       
+                "org1_mod@mail.com",          
+                "OrgMod",                    
+                "Nueva descripcion",          
+                "www.nuevaurl.com"            
         );
 
-        // Llamar a modificarUsuario1
         controller.modificarUsuario1(actualizado);
 
-        // Verificar cambios
         Organizador modificado = controller.getOrganizador("org1");
         assertEquals("OrgMod", modificado.getNombre());
         assertEquals("Nueva descripcion", modificado.getDescripcion());

@@ -5,283 +5,318 @@ import javax.swing.*;
 import java.awt.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 public class ModificarUsuario extends JInternalFrame {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private IControllerUsuario controlUsr;
+    private IControllerUsuario controlUsr;
+    private IControllerInstitucion controlIns;
 
     private JComboBox<Usuario> comboUsuarios;
     private JComboBox<String> comboTipoUsuario;
+
     private JTextField textFieldNickName;
     private JTextField textFieldCorreo;
     private JTextField textFieldNombre;
+
+    private JLabel lblApellido;
     private JTextField textFieldApellido;
+    private JLabel lblFecha;
     private JTextField textFieldFechaNacimiento;
+
+    private JLabel lblDescripcion;
     private JTextField textFieldDescripcion;
+    private JLabel lblURL;
     private JTextField textFieldURL;
+
+    private JLabel lblInstitucion;
     private JComboBox<String> comboInstitucion;
+
     private JButton btnAceptar;
     private JButton btnCancelar;
 
-    private int row = 0;
-
-    public ModificarUsuario(IControllerUsuario icu) {
+    public ModificarUsuario(IControllerUsuario icu, IControllerInstitucion ici) {
         controlUsr = icu;
+        controlIns = ici;
 
         setResizable(true);
         setIconifiable(true);
         setMaximizable(true);
         setClosable(true);
         setTitle("Modificar Usuario");
-        setBounds(10, 10, 500, 450);
+        setBounds(10, 10, 500, 460);
+        setDefaultCloseOperation(HIDE_ON_CLOSE);
 
         GridBagLayout gridBagLayout = new GridBagLayout();
-        gridBagLayout.columnWidths = new int[]{120, 250};
-        gridBagLayout.rowHeights = new int[10];
-        gridBagLayout.columnWeights = new double[]{0.0, 1.0};
-        gridBagLayout.rowWeights = new double[10];
+        gridBagLayout.columnWidths = new int[] { 120, 250, 0 };
+        gridBagLayout.rowHeights = new int[] { 30, 30, 30, 30, 30, 30, 30, 30, 30 };
+        gridBagLayout.columnWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
+        gridBagLayout.rowWeights = new double[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
         getContentPane().setLayout(gridBagLayout);
 
-        JLabel lblSeleccion = new JLabel("Seleccione un Usuario:");
+        int row = 0;
+
+        JLabel lblSeleccion = new JLabel("Seleccione Usuario:");
         GridBagConstraints gbc_lblSeleccion = new GridBagConstraints();
-        gbc_lblSeleccion.insets = new Insets(5,5,5,5);
-        gbc_lblSeleccion.gridx = 0; gbc_lblSeleccion.gridy = row;
+        gbc_lblSeleccion.insets = new Insets(5, 5, 5, 5);
+        gbc_lblSeleccion.gridx = 0;
+        gbc_lblSeleccion.gridy = row;
         gbc_lblSeleccion.anchor = GridBagConstraints.EAST;
         getContentPane().add(lblSeleccion, gbc_lblSeleccion);
 
         comboUsuarios = new JComboBox<>();
-        List<Usuario> usuarios = controlUsr.listarUsuarios();
-        for (Usuario u : usuarios) comboUsuarios.addItem(u);
+        comboUsuarios.setRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,
+                    boolean cellHasFocus) {
+                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                if (value instanceof Usuario u) {
+                    setText(u.getNickname());
+                }
+                return this;
+            }
+        });
 
         GridBagConstraints gbc_comboUsuarios = new GridBagConstraints();
-        gbc_comboUsuarios.insets = new Insets(5,5,5,5);
+        gbc_comboUsuarios.insets = new Insets(5, 5, 5, 5);
         gbc_comboUsuarios.fill = GridBagConstraints.HORIZONTAL;
-        gbc_comboUsuarios.gridx = 1; gbc_comboUsuarios.gridy = row;
+        gbc_comboUsuarios.gridx = 1;
+        gbc_comboUsuarios.gridy = row;
         getContentPane().add(comboUsuarios, gbc_comboUsuarios);
         row++;
 
         JLabel lblTipo = new JLabel("Tipo de Usuario:");
         GridBagConstraints gbc_lblTipo = new GridBagConstraints();
-        gbc_lblTipo.insets = new Insets(5,5,5,5);
-        gbc_lblTipo.gridx = 0; gbc_lblTipo.gridy = row;
+        gbc_lblTipo.insets = new Insets(5, 5, 5, 5);
+        gbc_lblTipo.gridx = 0;
+        gbc_lblTipo.gridy = row;
         gbc_lblTipo.anchor = GridBagConstraints.EAST;
         getContentPane().add(lblTipo, gbc_lblTipo);
 
-        comboTipoUsuario = new JComboBox<>(new String[]{"Asistente","Organizador"});
-        comboTipoUsuario.setEnabled(false); 
+        comboTipoUsuario = new JComboBox<>(new String[] { "Asistente", "Organizador" });
+        comboTipoUsuario.setEnabled(false);
         GridBagConstraints gbc_comboTipo = new GridBagConstraints();
-        gbc_comboTipo.insets = new Insets(5,5,5,5);
+        gbc_comboTipo.insets = new Insets(5, 5, 5, 5);
         gbc_comboTipo.fill = GridBagConstraints.HORIZONTAL;
-        gbc_comboTipo.gridx = 1; gbc_comboTipo.gridy = row;
+        gbc_comboTipo.gridx = 1;
+        gbc_comboTipo.gridy = row;
         getContentPane().add(comboTipoUsuario, gbc_comboTipo);
         row++;
 
-        textFieldNickName = crearCampo("Nickname:", row++); 
-        textFieldNickName.setEditable(false); 
-        textFieldCorreo = crearCampo("Correo:", row++);
-        textFieldCorreo.setEditable(false); 
-        textFieldNombre = crearCampo("Nombre:", row++);
+        JLabel lblNick = new JLabel("Nickname:");
+        GridBagConstraints gbc_lblNick = new GridBagConstraints();
+        gbc_lblNick.insets = new Insets(5, 5, 5, 5);
+        gbc_lblNick.gridx = 0;
+        gbc_lblNick.gridy = row;
+        gbc_lblNick.anchor = GridBagConstraints.EAST;
+        getContentPane().add(lblNick, gbc_lblNick);
 
+        textFieldNickName = new JTextField();
+        textFieldNickName.setEditable(false);
+        GridBagConstraints gbc_textNick = new GridBagConstraints();
+        gbc_textNick.insets = new Insets(5, 5, 5, 5);
+        gbc_textNick.fill = GridBagConstraints.HORIZONTAL;
+        gbc_textNick.gridx = 1;
+        gbc_textNick.gridy = row;
+        getContentPane().add(textFieldNickName, gbc_textNick);
+        row++;
+
+        JLabel lblCorreo = new JLabel("Correo:");
+        GridBagConstraints gbc_lblCorreo = new GridBagConstraints();
+        gbc_lblCorreo.insets = new Insets(5, 5, 5, 5);
+        gbc_lblCorreo.gridx = 0;
+        gbc_lblCorreo.gridy = row;
+        gbc_lblCorreo.anchor = GridBagConstraints.EAST;
+        getContentPane().add(lblCorreo, gbc_lblCorreo);
+
+        textFieldCorreo = new JTextField();
+        GridBagConstraints gbc_textCorreo = new GridBagConstraints();
+        gbc_textCorreo.insets = new Insets(5, 5, 5, 5);
+        gbc_textCorreo.fill = GridBagConstraints.HORIZONTAL;
+        gbc_textCorreo.gridx = 1;
+        gbc_textCorreo.gridy = row;
+        getContentPane().add(textFieldCorreo, gbc_textCorreo);
+        row++;
+
+        JLabel lblNombre = new JLabel("Nombre:");
+        GridBagConstraints gbc_lblNombre = new GridBagConstraints();
+        gbc_lblNombre.insets = new Insets(5, 5, 5, 5);
+        gbc_lblNombre.gridx = 0;
+        gbc_lblNombre.gridy = row;
+        gbc_lblNombre.anchor = GridBagConstraints.EAST;
+        getContentPane().add(lblNombre, gbc_lblNombre);
+
+        textFieldNombre = new JTextField();
+        GridBagConstraints gbc_textNombre = new GridBagConstraints();
+        gbc_textNombre.insets = new Insets(5, 5, 5, 5);
+        gbc_textNombre.fill = GridBagConstraints.HORIZONTAL;
+        gbc_textNombre.gridx = 1;
+        gbc_textNombre.gridy = row;
+        getContentPane().add(textFieldNombre, gbc_textNombre);
+        row++;
+
+        lblApellido = new JLabel("Apellido:");
         textFieldApellido = new JTextField();
-        textFieldFechaNacimiento = new JTextField();
-        textFieldDescripcion = new JTextField();
-        textFieldURL = new JTextField();
-
-        comboInstitucion = new JComboBox<>();
-        comboInstitucion.addItem("Ninguna");
-        for (Institucion ins : ManejadorInstitucion.getInstance().listarInstituciones()) {
-            comboInstitucion.addItem(ins.getNombre());
-        }
-
-        // --- Botones ---
-        btnAceptar = new JButton("Modificar");
-        GridBagConstraints gbc_btnAceptar = new GridBagConstraints();
-        gbc_btnAceptar.insets = new Insets(10,5,5,5);
-        gbc_btnAceptar.gridx = 0; gbc_btnAceptar.gridy = 8; gbc_btnAceptar.gridwidth = 1;
-        getContentPane().add(btnAceptar, gbc_btnAceptar);
-
-        btnCancelar = new JButton("Cancelar");
-        GridBagConstraints gbc_btnCancelar = new GridBagConstraints();
-        gbc_btnCancelar.insets = new Insets(10,5,5,5);
-        gbc_btnCancelar.gridx = 1; gbc_btnCancelar.gridy = 8;
-        getContentPane().add(btnCancelar, gbc_btnCancelar);
-
-        btnCancelar.addActionListener(e -> dispose());
-
-        comboUsuarios.addActionListener(e -> {
-            Usuario u = (Usuario) comboUsuarios.getSelectedItem();
-            if (u != null) mostrarCamposSegunTipo(u);
-        });
-
-        btnAceptar.addActionListener(e -> {
-            Usuario u = (Usuario) comboUsuarios.getSelectedItem();
-            if (u == null) return;
-
-            boolean modificado = false;
-
-            if (!u.getNombre().equals(textFieldNombre.getText())) {
-                u.setNombre(textFieldNombre.getText());
-                modificado = true;
-            }
-            if (!u.getCorreo().equals(textFieldCorreo.getText())) {
-                u.setCorreo(textFieldCorreo.getText());
-                modificado = true;
-            }
-
-            if (u instanceof Asistente) {
-                Asistente a = (Asistente) u;
-                if (!a.getApellido().equals(textFieldApellido.getText())) {
-                    a.setApellido(textFieldApellido.getText());
-                    modificado = true;
-                }
-                try {
-                    LocalDate fNac = LocalDate.parse(textFieldFechaNacimiento.getText(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-                    if (!a.getfNacimiento().equals(fNac)) {
-                        a.setfNacimiento(fNac);
-                        modificado = true;
-                    }
-                } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(this, "Fecha inválida", "Error", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-                String instName = (String) comboInstitucion.getSelectedItem();
-                a.setInstitucion(instName.equals("Ninguna") ? null : ManejadorInstitucion.getInstance().findInstitucion(instName));
-            } else if (u instanceof Organizador) {
-                Organizador o = (Organizador) u;
-                if (!o.getDescripcion().equals(textFieldDescripcion.getText())) {
-                    o.setDescripcion(textFieldDescripcion.getText());
-                    modificado = true;
-                }
-                String url = textFieldURL.getText().isEmpty() ? null : textFieldURL.getText();
-                if (o.getUrl() == null || !o.getUrl().equals(url)) {
-                    o.setUrl(url);
-                    modificado = true;
-                }
-            }
-
-            try {
-                controlUsr.modificarUsuario1(u);
-                if (modificado) JOptionPane.showMessageDialog(this, "Usuario modificado correctamente");
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(this, "Error al modificar usuario: " + ex.getMessage(),
-                        "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        });
-    }
-
-    private JTextField crearCampo(String labelText, int row) {
-        JLabel lbl = new JLabel(labelText);
-        GridBagConstraints gbc_lbl = new GridBagConstraints();
-        gbc_lbl.insets = new Insets(5,5,5,5);
-        gbc_lbl.gridx = 0; gbc_lbl.gridy = row;
-        gbc_lbl.anchor = GridBagConstraints.EAST;
-        getContentPane().add(lbl, gbc_lbl);
-
-        JTextField tf = new JTextField();
-        GridBagConstraints gbc_tf = new GridBagConstraints();
-        gbc_tf.insets = new Insets(5,5,5,5);
-        gbc_tf.fill = GridBagConstraints.HORIZONTAL;
-        gbc_tf.gridx = 1; gbc_tf.gridy = row;
-        getContentPane().add(tf, gbc_tf);
-        return tf;
-    }
-
-    private void mostrarCamposSegunTipo(Usuario u) {
+        addField(lblApellido, textFieldApellido, row++);
+        lblApellido.setVisible(false);
         textFieldApellido.setVisible(false);
+
+        lblFecha = new JLabel("Fecha de Nac.:");
+        textFieldFechaNacimiento = new JTextField();
+        addField(lblFecha, textFieldFechaNacimiento, row++);
+        lblFecha.setVisible(false);
         textFieldFechaNacimiento.setVisible(false);
+
+        lblDescripcion = new JLabel("Descripción:");
+        textFieldDescripcion = new JTextField();
+        addField(lblDescripcion, textFieldDescripcion, row++);
+        lblDescripcion.setVisible(false);
         textFieldDescripcion.setVisible(false);
+
+        lblURL = new JLabel("URL (opcional):");
+        textFieldURL = new JTextField();
+        addField(lblURL, textFieldURL, row++);
+        lblURL.setVisible(false);
         textFieldURL.setVisible(false);
+
+        lblInstitucion = new JLabel("Institución:");
+        comboInstitucion = new JComboBox<>();
+        addField(lblInstitucion, comboInstitucion, row++);
+        lblInstitucion.setVisible(false);
         comboInstitucion.setVisible(false);
 
-        if (u instanceof Asistente) {
+        btnAceptar = new JButton("Guardar");
+        btnCancelar = new JButton("Cancelar");
+
+        GridBagConstraints gbc_btnAceptar = new GridBagConstraints();
+        gbc_btnAceptar.insets = new Insets(10, 50, 5, 20);
+        gbc_btnAceptar.gridx = 1;
+        gbc_btnAceptar.gridy = row;
+        gbc_btnAceptar.anchor = GridBagConstraints.LINE_START;
+        btnAceptar.setPreferredSize(new Dimension(100, 25));
+        getContentPane().add(btnAceptar, gbc_btnAceptar);
+
+        GridBagConstraints gbc_btnCancelar = new GridBagConstraints();
+        gbc_btnCancelar.insets = new Insets(10, 20, 5, 80);
+        gbc_btnCancelar.gridx = 1;
+        gbc_btnCancelar.gridy = row;
+        gbc_btnCancelar.anchor = GridBagConstraints.LINE_END;
+        btnCancelar.setPreferredSize(new Dimension(100, 25));
+        getContentPane().add(btnCancelar, gbc_btnCancelar);
+
+        btnCancelar.addActionListener(e -> this.setVisible(false));
+        comboUsuarios.addActionListener(e -> actualizarCampos());
+        btnAceptar.addActionListener(e -> modificarUsuario());
+    }
+
+    private void addField(JLabel label, JComponent field, int row) {
+        GridBagConstraints gbc_lbl = new GridBagConstraints();
+        gbc_lbl.insets = new Insets(5, 5, 5, 5);
+        gbc_lbl.gridx = 0;
+        gbc_lbl.gridy = row;
+        gbc_lbl.anchor = GridBagConstraints.EAST;
+        getContentPane().add(label, gbc_lbl);
+
+        GridBagConstraints gbc_field = new GridBagConstraints();
+        gbc_field.insets = new Insets(5, 5, 5, 5);
+        gbc_field.fill = GridBagConstraints.HORIZONTAL;
+        gbc_field.gridx = 1;
+        gbc_field.gridy = row;
+        getContentPane().add(field, gbc_field);
+    }
+
+    private void actualizarCampos() {
+        Usuario u = (Usuario) comboUsuarios.getSelectedItem();
+        if (u == null) return;
+
+        lblApellido.setVisible(false);
+        textFieldApellido.setVisible(false);
+        lblFecha.setVisible(false);
+        textFieldFechaNacimiento.setVisible(false);
+        lblDescripcion.setVisible(false);
+        textFieldDescripcion.setVisible(false);
+        lblURL.setVisible(false);
+        textFieldURL.setVisible(false);
+        lblInstitucion.setVisible(false);
+        comboInstitucion.setVisible(false);
+
+        textFieldNickName.setText(u.getNickname());
+        textFieldCorreo.setText(u.getCorreo());
+        textFieldNombre.setText(u.getNombre());
+
+        if (u instanceof Asistente a) {
             comboTipoUsuario.setSelectedItem("Asistente");
-
-            GridBagConstraints gbcAp = new GridBagConstraints();
-            gbcAp.insets = new Insets(5,5,5,5);
-            gbcAp.gridx = 0; gbcAp.gridy = row;
-            gbcAp.anchor = GridBagConstraints.EAST;
-            getContentPane().add(new JLabel("Apellido:"), gbcAp);
-
-            gbcAp = new GridBagConstraints();
-            gbcAp.insets = new Insets(5,5,5,5);
-            gbcAp.fill = GridBagConstraints.HORIZONTAL;
-            gbcAp.gridx = 1; gbcAp.gridy = row;
-            getContentPane().add(textFieldApellido, gbcAp);
-            textFieldApellido.setText(((Asistente) u).getApellido());
+            lblApellido.setVisible(true);
             textFieldApellido.setVisible(true);
-            row++;
+            textFieldApellido.setText(a.getApellido());
 
-            GridBagConstraints gbcFecha = new GridBagConstraints();
-            gbcFecha.insets = new Insets(5,5,5,5);
-            gbcFecha.gridx = 0; gbcFecha.gridy = row;
-            gbcFecha.anchor = GridBagConstraints.EAST;
-            getContentPane().add(new JLabel("Fecha Nac.:"), gbcFecha);
-
-            gbcFecha = new GridBagConstraints();
-            gbcFecha.insets = new Insets(5,5,5,5);
-            gbcFecha.fill = GridBagConstraints.HORIZONTAL;
-            gbcFecha.gridx = 1; gbcFecha.gridy = row;
-            getContentPane().add(textFieldFechaNacimiento, gbcFecha);
-            textFieldFechaNacimiento.setText(((Asistente) u).getfNacimiento().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+            lblFecha.setVisible(true);
             textFieldFechaNacimiento.setVisible(true);
-            row++;
+            textFieldFechaNacimiento.setText(a.getfNacimiento().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
 
-            GridBagConstraints gbcInst = new GridBagConstraints();
-            gbcInst.insets = new Insets(5,5,5,5);
-            gbcInst.gridx = 0; gbcInst.gridy = row;
-            gbcInst.anchor = GridBagConstraints.EAST;
-            getContentPane().add(new JLabel("Institución:"), gbcInst);
-
-            gbcInst = new GridBagConstraints();
-            gbcInst.insets = new Insets(5,5,5,5);
-            gbcInst.fill = GridBagConstraints.HORIZONTAL;
-            gbcInst.gridx = 1; gbcInst.gridy = row;
-            getContentPane().add(comboInstitucion, gbcInst);
-            comboInstitucion.setSelectedItem(((Asistente) u).getInstitucion() != null ? ((Asistente) u).getInstitucion().getNombre() : "Ninguna");
+            lblInstitucion.setVisible(true);
             comboInstitucion.setVisible(true);
-            row++;
-        } else if (u instanceof Organizador) {
+            comboInstitucion.removeAllItems();
+            comboInstitucion.addItem("Ninguna");
+            for (Institucion ins : controlIns.getInstituciones()) {
+                comboInstitucion.addItem(ins.getNombre());
+            }
+            comboInstitucion.setSelectedItem(a.getInstitucion() != null ? a.getInstitucion().getNombre() : "Ninguna");
+
+        } else if (u instanceof Organizador o) {
             comboTipoUsuario.setSelectedItem("Organizador");
-
-            GridBagConstraints gbcDesc = new GridBagConstraints();
-            gbcDesc.insets = new Insets(5,5,5,5);
-            gbcDesc.gridx = 0; gbcDesc.gridy = row;
-            gbcDesc.anchor = GridBagConstraints.EAST;
-            getContentPane().add(new JLabel("Descripción:"), gbcDesc);
-
-            gbcDesc = new GridBagConstraints();
-            gbcDesc.insets = new Insets(5,5,5,5);
-            gbcDesc.fill = GridBagConstraints.HORIZONTAL;
-            gbcDesc.gridx = 1; gbcDesc.gridy = row;
-            getContentPane().add(textFieldDescripcion, gbcDesc);
-            textFieldDescripcion.setText(((Organizador) u).getDescripcion());
+            lblDescripcion.setVisible(true);
             textFieldDescripcion.setVisible(true);
-            row++;
+            textFieldDescripcion.setText(o.getDescripcion());
 
-            GridBagConstraints gbcURL = new GridBagConstraints();
-            gbcURL.insets = new Insets(5,5,5,5);
-            gbcURL.gridx = 0; gbcURL.gridy = row;
-            gbcURL.anchor = GridBagConstraints.EAST;
-            getContentPane().add(new JLabel("URL:"), gbcURL);
-
-            gbcURL = new GridBagConstraints();
-            gbcURL.insets = new Insets(5,5,5,5);
-            gbcURL.fill = GridBagConstraints.HORIZONTAL;
-            gbcURL.gridx = 1; gbcURL.gridy = row;
-            getContentPane().add(textFieldURL, gbcURL);
-            textFieldURL.setText(((Organizador) u).getUrl() != null ? ((Organizador) u).getUrl() : "");
+            lblURL.setVisible(true);
             textFieldURL.setVisible(true);
-            row++;
+            textFieldURL.setText(o.getUrl() != null ? o.getUrl() : "");
         }
+    }
 
-        getContentPane().revalidate();
-        getContentPane().repaint();
+    private void modificarUsuario() {
+        Usuario u = (Usuario) comboUsuarios.getSelectedItem();
+        if (u == null) return;
+
+        try {
+            u.setCorreo(textFieldCorreo.getText().trim());
+            u.setNombre(textFieldNombre.getText().trim());
+
+            if (u instanceof Asistente a) {
+                a.setApellido(textFieldApellido.getText().trim());
+                LocalDate fecha = LocalDate.parse(textFieldFechaNacimiento.getText().trim(),
+                        DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                a.setfNacimiento(fecha);
+                String instName = (String) comboInstitucion.getSelectedItem();
+                a.setInstitucion(instName.equals("Ninguna") ? null : controlIns.findInstitucion(instName));
+
+            } else if (u instanceof Organizador o) {
+                o.setDescripcion(textFieldDescripcion.getText().trim());
+                String url = textFieldURL.getText().trim();
+                o.setUrl(url.isEmpty() ? null : url);
+            }
+
+            controlUsr.modificarUsuario1(u);
+            JOptionPane.showMessageDialog(this, "Usuario modificado correctamente");
+            this.setVisible(false);
+
+        } catch (DateTimeParseException dtpe) {
+            JOptionPane.showMessageDialog(this, "Formato de fecha inválido. Use dd/MM/yyyy", "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public void cargarUsuarios() {
+        comboUsuarios.removeAllItems();
+        List<Usuario> usuarios = controlUsr.listarUsuarios();
+        for (Usuario u : usuarios) {
+            comboUsuarios.addItem(u);
+        }
     }
 }
-

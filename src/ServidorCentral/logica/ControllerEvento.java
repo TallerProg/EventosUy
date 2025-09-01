@@ -6,25 +6,26 @@ import java.util.List;
 
 public class ControllerEvento implements IControllerEvento {
 
-	public void altaEdicionDeEvento(String nombre, String sigla, String ciudad, String pais, LocalDate fInicio,
-			LocalDate fFin, Evento evento, Organizador org) throws Exception {
+	public void altaEdicionDeEvento(String nombre, String sigla, String ciudad, String pais, 
+	        LocalDate fInicio, LocalDate fFin, LocalDate fAlta, 
+	        Evento evento, Organizador org) throws Exception {
 
-		if (fFin.isBefore(fInicio)) {
-			throw new IllegalArgumentException("La fecha de fin no puede ser anterior a la fecha de inicio");
-		}
+	    if (fFin.isBefore(fInicio)) {
+	        throw new IllegalArgumentException("La fecha de fin no puede ser anterior a la fecha de inicio");
+	    }
 
-		if (evento.tieneEdicion(nombre) || evento.tieneEdicion(sigla)) {
-			throw new IllegalArgumentException("Ya existe una edición con ese nombre o sigla");
-		}
+	    if (evento.tieneEdicion(nombre) || evento.tieneEdicion(sigla)) {
+	        throw new IllegalArgumentException("Ya existe una edición con ese nombre o sigla");
+	    }
 
-		Edicion ed = new Edicion(nombre, sigla, fInicio, fFin, ciudad, pais, evento);
-		ed.getOrganizadores().add(org);
-		evento.agregarEdicion(ed);
-		ManejadorEvento manejadorEvento = ManejadorEvento.getInstancia();
-		manejadorEvento.agregarEdicion(ed);
-		org.agregarEdicionOrg(ed);
+	    Edicion ed = new Edicion(nombre, sigla, fInicio, fFin, fAlta, ciudad, pais, evento);
+	    ed.getOrganizadores().add(org);
+	    evento.agregarEdicion(ed);
+	    ManejadorEvento manejadorEvento = ManejadorEvento.getInstancia();
+	    manejadorEvento.agregarEdicion(ed);
+	    org.agregarEdicionOrg(ed);
 	}
-	
+
 	public void altaTipoRegistro(String nombreTR, String descripcion, Float costo, Integer cupo, Edicion edicion)
 			throws Exception { // VICHAR MATEO
 		boolean e = edicion.existeTR(nombreTR);

@@ -26,7 +26,6 @@ public class DTPatrocinio {
 		this.tipoRegistro = tipoRegistro;
 	}
 
-	// Getters
 	public String getCodigo() {
 		return codigo;
 	}

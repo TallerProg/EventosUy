@@ -41,8 +41,9 @@ class AltaEdicionEventoTest {
                 "ED2025",          
                 "Montevideo",      
                 "Uruguay",         
-                LocalDate.of(2025, 5, 1),
-                LocalDate.of(2025, 5, 10),
+                LocalDate.of(2025, 5, 1),   
+                LocalDate.of(2025, 5, 10),  
+                LocalDate.of(2025, 4, 20),  
                 eventoBase,
                 organizador
             );
@@ -56,6 +57,7 @@ class AltaEdicionEventoTest {
             "Montevideo", "Uruguay",
             LocalDate.of(2025, 5, 1),
             LocalDate.of(2025, 5, 10),
+            LocalDate.of(2025, 4, 20), 
             eventoBase, organizador
         );
 
@@ -65,6 +67,7 @@ class AltaEdicionEventoTest {
                 "Montevideo", "Uruguay",
                 LocalDate.of(2025, 5, 1),
                 LocalDate.of(2025, 5, 10),
+                LocalDate.of(2025, 4, 20), 
                 eventoBase, organizador
             );
         });
@@ -79,7 +82,8 @@ class AltaEdicionEventoTest {
                 "Edicion2026", "ED2026",
                 "Montevideo", "Uruguay",
                 LocalDate.of(2025, 5, 10),  
-                LocalDate.of(2025, 5, 1),
+                LocalDate.of(2025, 5, 1),   
+                LocalDate.of(2025, 4, 20),  
                 eventoBase,
                 organizador
             );

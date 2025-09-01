@@ -5,20 +5,17 @@ import java.util.ArrayList;
 
 public class TipoRegistro {
 
-	private String nombre; // único
+	private String nombre; 
 	private String descripcion;
 	private Float costo;
 	private int cupo;
 
-	// Relación muchos a uno con Edicion
 	private Edicion edicion;
 
-	// Relación muchos a muchos con Patrocinio
 	private List<Patrocinio> patrocinioList;
 
 	private List<Registro> registros;
 
-	// Constructor
 	public TipoRegistro(String nombre, String descripcion, Float costo, int cupo, Edicion edicion) {
 		this.nombre = nombre;
 		this.descripcion = descripcion;
@@ -29,7 +26,6 @@ public class TipoRegistro {
 		this.registros = new ArrayList<>();
 	}
 
-	// Getters y Setters
 	public String getNombre() {
 		return nombre;
 	}

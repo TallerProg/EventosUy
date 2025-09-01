@@ -33,7 +33,6 @@ public class DTEdicion {
 		this.patrocinios = patrocinios;
 	}
 
-	// Getters
 	public String getNombre() {
 		return nombre;
 	}

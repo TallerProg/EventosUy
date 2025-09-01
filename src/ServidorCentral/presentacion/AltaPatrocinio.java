@@ -30,8 +30,13 @@ public class AltaPatrocinio extends JInternalFrame {
 		this.icu = icu;
 
 		setSize(838, 403);
+		setClosable(true);
+		setIconifiable(true);
+		setMaximizable(true);
+		setResizable(true);
 		setDefaultCloseOperation(HIDE_ON_CLOSE);
-		getContentPane().setLayout(new MigLayout("", "[115px][][][][][][][10px][][][28px][24px][][][130px,grow]", "[14px][22px][14px][22px][14px][22px][14px][22px][][][30px][][][][33px]"));
+		getContentPane().setLayout(new MigLayout("", "[115px][][][][][][][10px][][][28px][24px][][][130px,grow]",
+				"[14px][22px][14px][22px][14px][22px][14px][22px][][][30px][][][][33px]"));
 
 		JLabel lblEvento = new JLabel("Seleccione un evento:");
 		getContentPane().add(lblEvento, "cell 0 0,alignx left,aligny center");
@@ -67,12 +72,9 @@ public class AltaPatrocinio extends JInternalFrame {
 		JLabel lblCodigo = new JLabel("Aporte Económico:");
 		getContentPane().add(lblCodigo, "cell 0 9");
 
-		// Formato para números decimales
 		NumberFormat aporteEconomico = NumberFormat.getNumberInstance();
-		aporteEconomico.setGroupingUsed(false); // sin separador de miles
+		aporteEconomico.setGroupingUsed(false);
 
-	
-		// Campo de texto con formato
 		textFieldCodigo = new JFormattedTextField();
 		getContentPane().add(textFieldCodigo, "cell 14 9,growx");
 		textFieldCodigo.setColumns(10);
@@ -80,23 +82,21 @@ public class AltaPatrocinio extends JInternalFrame {
 		JLabel lblNewLabel = new JLabel("Cantidad de cupos:");
 		getContentPane().add(lblNewLabel, "cell 0 10");
 
-		// Formato para enteros
 		NumberFormat numeroRegistro = NumberFormat.getIntegerInstance();
-		numeroRegistro.setGroupingUsed(false); // sin separadores de miles
+		numeroRegistro.setGroupingUsed(false); 
 
-		// Campo de texto con formato
 		textField = new JFormattedTextField();
 		getContentPane().add(textField, "cell 14 10,growx");
 		textField.setColumns(10);
-		
+
 		JLabel lblNewLabel_2 = new JLabel("Codigo:");
 		getContentPane().add(lblNewLabel_2, "cell 0 11");
-		
+
 		textFieldCodigo2 = new JTextField();
 		getContentPane().add(textFieldCodigo2, "cell 14 11,growx");
 		textFieldCodigo2.setColumns(10);
 
-		JButton btnRegistrar = new JButton("Registrar asistente");
+		JButton btnRegistrar = new JButton("Aceptar");
 		btnRegistrar.setEnabled(false);
 		getContentPane().add(btnRegistrar, "cell 0 13");
 
@@ -183,7 +183,7 @@ public class AltaPatrocinio extends JInternalFrame {
 			String nombreAsistente = (String) comboBoxAsistente.getSelectedItem();
 			if (nombreAsistente != null && !nombreAsistente.equals("Sin asistentes")) {
 				comboBoxNivel.setEnabled(true);
-			}else {
+			} else {
 				comboBoxNivel.setEnabled(false);
 			}
 
@@ -196,7 +196,6 @@ public class AltaPatrocinio extends JInternalFrame {
 
 		});
 
-		// Acción botón Registrar
 
 		btnRegistrar.addActionListener(e -> {
 			String eventoNombre = (String) comboBoxEvento.getSelectedItem();
@@ -204,12 +203,11 @@ public class AltaPatrocinio extends JInternalFrame {
 			String institucionNombre = (String) comboBoxAsistente.getSelectedItem();
 			String tipoRegistroNombre = (String) comboBoxRegistro.getSelectedItem();
 			String nivelS = (String) comboBoxNivel.getSelectedItem();
-			ETipoNivel nivel =  ETipoNivel.valueOf(nivelS);  
+			ETipoNivel nivel = ETipoNivel.valueOf(nivelS);
 			String aporteEconomic = textFieldCodigo.getText().trim();
 			String cuposGrati = textField.getText().trim();
-			String codigo = textFieldCodigo2.getText().trim();	
+			String codigo = textFieldCodigo2.getText().trim();
 
-			
 			if ((aporteEconomic == null) || (cuposGrati == null) || (codigo == null)) {
 				JOptionPane.showMessageDialog(this, "Debe completar todos los campos antes de registrar.",
 						"Campos incompletos", JOptionPane.WARNING_MESSAGE);
@@ -217,31 +215,23 @@ public class AltaPatrocinio extends JInternalFrame {
 			}
 
 			try {
-				 if(!cuposGrati.matches("\\d+")){
-					 throw new Exception("Cupos debe ser un número entero positivo");
-				 }
-				 if(!aporteEconomic.matches("\\d+(\\.\\d+)?")){
-					 throw new Exception("Aporte económico debe ser un número positivo");
-				 }
+				if (!cuposGrati.matches("\\d+")) {
+					throw new Exception("Cupos debe ser un número entero positivo");
+				}
+				if (!aporteEconomic.matches("\\d+(\\.\\d+)?")) {
+					throw new Exception("Aporte económico debe ser un número positivo");
+				}
 
-				ice.altaPatrocinio(
-					    codigo,
-					    LocalDate.now(),
-					    cuposGrati.equals("") ? 0 : Integer.parseInt(cuposGrati),
-					    aporteEconomic.equals("") ? 0f : Float.parseFloat(aporteEconomic),
-					    nivel,
-					    institucionNombre,
-					    edicionNombre,
-					    tipoRegistroNombre
-					);
+				ice.altaPatrocinio(codigo, LocalDate.now(), cuposGrati.equals("") ? 0 : Integer.parseInt(cuposGrati),
+						aporteEconomic.equals("") ? 0f : Float.parseFloat(aporteEconomic), nivel, institucionNombre,
+						edicionNombre, tipoRegistroNombre);
 				JOptionPane.showMessageDialog(this, "Registro exitoso", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-				
-				// Limpiar campos después de registrar
+
 				cargarEventos();
 				comboBoxEdicion.setModel(new DefaultComboBoxModel<>());
 				comboBoxRegistro.setModel(new DefaultComboBoxModel<>());
 				comboBoxAsistente.setModel(new DefaultComboBoxModel<>());
-				comboBoxNivel.setSelectedIndex(-1); // deselecciona nivel
+				comboBoxNivel.setSelectedIndex(-1); 
 				textField.setText(null);
 				textFieldCodigo.setText(null);
 				comboBoxEdicion.setEnabled(false);
@@ -250,16 +240,14 @@ public class AltaPatrocinio extends JInternalFrame {
 				comboBoxNivel.setEnabled(false);
 				btnRegistrar.setEnabled(false);
 
-
 			} catch (Exception ex) {
 				textField.setText(null);
 				textFieldCodigo.setText(null);
 				JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-				
+
 			}
 		});
 
-		// Acción botón Cancelar
 		btnCancelar.addActionListener(e -> this.dispose());
 	}
 

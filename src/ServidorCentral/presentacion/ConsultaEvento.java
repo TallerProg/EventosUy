@@ -16,10 +16,10 @@ import ServidorCentral.logica.Edicion;
 import ServidorCentral.logica.Evento;
 import ServidorCentral.logica.IControllerEvento;
 
-public class ConsultaEvento extends JInternalFrame {	
-	
+public class ConsultaEvento extends JInternalFrame {
+
 	private static final long serialVersionUID = 1L;
-    private IControllerEvento controlEvento;
+	private IControllerEvento controlEvento;
 	private JTextField textField_Nombre;
 	private JTextField textField_Sigla;
 	private JTextField textField_Descripcion;
@@ -28,24 +28,24 @@ public class ConsultaEvento extends JInternalFrame {
 	private JComboBox<String> comboBox_Categorias;
 	private JComboBox<String> comboBox_Ediciones;
 
-	public ConsultaEvento(IControllerEvento icu,JDesktopPane desktopPane) {
+	public ConsultaEvento(IControllerEvento icu, JDesktopPane desktopPane) {
 		controlEvento = icu;
 		setResizable(true);
-        setIconifiable(true);
-        setMaximizable(true);
-        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-        setClosable(true);
+		setIconifiable(true);
+		setMaximizable(true);
+		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		setClosable(true);
 		setTitle("Consultar Evento");
-	        setSize(700, 400);
+		setSize(700, 400);
 		getContentPane().setLayout(new BorderLayout(0, 0));
-		
+
 		JPanel panelCombos = new JPanel();
 		getContentPane().add(panelCombos, BorderLayout.NORTH);
 		panelCombos.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		
+
 		JLabel lblSelecioneUnEvento = new JLabel("Selecione un evento:");
 		panelCombos.add(lblSelecioneUnEvento);
-		
+
 		comboBoxEvento = new JComboBox<>();
 		comboBoxEvento.setPreferredSize(new Dimension(200, 25));
 		panelCombos.add(comboBoxEvento);
@@ -53,13 +53,13 @@ public class ConsultaEvento extends JInternalFrame {
 		JPanel panel_3 = new JPanel();
 		getContentPane().add(panel_3, BorderLayout.CENTER);
 		GridBagLayout gbl_panel_3 = new GridBagLayout();
-		gbl_panel_3.columnWidths = new int[]{71, 579}; 
-		gbl_panel_3.rowHeights = new int[]{50, 50, 50, 50, 50, 50}; 
-		gbl_panel_3.columnWeights = new double[]{0.3, 1.0}; 
-		gbl_panel_3.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+		gbl_panel_3.columnWidths = new int[] { 71, 579 };
+		gbl_panel_3.rowHeights = new int[] { 50, 50, 50, 50, 50, 50 };
+		gbl_panel_3.columnWeights = new double[] { 0.3, 1.0 };
+		gbl_panel_3.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
 
 		panel_3.setLayout(gbl_panel_3);
-		
+
 		JLabel lblNombre = new JLabel("Nombre:");
 		GridBagConstraints gbc_lblNombre = new GridBagConstraints();
 		gbc_lblNombre.anchor = GridBagConstraints.EAST;
@@ -67,7 +67,7 @@ public class ConsultaEvento extends JInternalFrame {
 		gbc_lblNombre.gridx = 0;
 		gbc_lblNombre.gridy = 0;
 		panel_3.add(lblNombre, gbc_lblNombre);
-		
+
 		textField_Nombre = new JTextField();
 		textField_Nombre.setEditable(false);
 		GridBagConstraints gbc_textField_Nombre = new GridBagConstraints();
@@ -77,7 +77,7 @@ public class ConsultaEvento extends JInternalFrame {
 		gbc_textField_Nombre.gridy = 0;
 		panel_3.add(textField_Nombre, gbc_textField_Nombre);
 		textField_Nombre.setColumns(10);
-		
+
 		JLabel lblSigla = new JLabel("Sigla:");
 		GridBagConstraints gbc_lblSigla = new GridBagConstraints();
 		gbc_lblSigla.anchor = GridBagConstraints.EAST;
@@ -85,7 +85,7 @@ public class ConsultaEvento extends JInternalFrame {
 		gbc_lblSigla.gridx = 0;
 		gbc_lblSigla.gridy = 1;
 		panel_3.add(lblSigla, gbc_lblSigla);
-		
+
 		textField_Sigla = new JTextField();
 		textField_Sigla.setEditable(false);
 		GridBagConstraints gbc_textField_Sigla = new GridBagConstraints();
@@ -95,7 +95,7 @@ public class ConsultaEvento extends JInternalFrame {
 		gbc_textField_Sigla.gridy = 1;
 		panel_3.add(textField_Sigla, gbc_textField_Sigla);
 		textField_Sigla.setColumns(10);
-		
+
 		JLabel lblDes = new JLabel("Descripción:");
 		GridBagConstraints gbc_lblDes = new GridBagConstraints();
 		gbc_lblDes.anchor = GridBagConstraints.EAST;
@@ -103,7 +103,7 @@ public class ConsultaEvento extends JInternalFrame {
 		gbc_lblDes.gridx = 0;
 		gbc_lblDes.gridy = 2;
 		panel_3.add(lblDes, gbc_lblDes);
-		
+
 		textField_Descripcion = new JTextField();
 		textField_Descripcion.setEditable(false);
 		GridBagConstraints gbc_textField_Descripcion = new GridBagConstraints();
@@ -113,7 +113,7 @@ public class ConsultaEvento extends JInternalFrame {
 		gbc_textField_Descripcion.gridy = 2;
 		panel_3.add(textField_Descripcion, gbc_textField_Descripcion);
 		textField_Descripcion.setColumns(10);
-		
+
 		JLabel lblFechaDeAlta = new JLabel("Fecha de alta:");
 		GridBagConstraints gbc_lblFechaDeAlta = new GridBagConstraints();
 		gbc_lblFechaDeAlta.anchor = GridBagConstraints.EAST;
@@ -121,7 +121,7 @@ public class ConsultaEvento extends JInternalFrame {
 		gbc_lblFechaDeAlta.gridx = 0;
 		gbc_lblFechaDeAlta.gridy = 3;
 		panel_3.add(lblFechaDeAlta, gbc_lblFechaDeAlta);
-		
+
 		textField_FAlta = new JTextField();
 		textField_FAlta.setEditable(false);
 		GridBagConstraints gbc_textField_FAlta = new GridBagConstraints();
@@ -131,7 +131,7 @@ public class ConsultaEvento extends JInternalFrame {
 		gbc_textField_FAlta.gridy = 3;
 		panel_3.add(textField_FAlta, gbc_textField_FAlta);
 		textField_FAlta.setColumns(10);
-		
+
 		JLabel lblNewLabel = new JLabel("Categorias:");
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
 		gbc_lblNewLabel.anchor = GridBagConstraints.EAST;
@@ -139,7 +139,7 @@ public class ConsultaEvento extends JInternalFrame {
 		gbc_lblNewLabel.gridx = 0;
 		gbc_lblNewLabel.gridy = 4;
 		panel_3.add(lblNewLabel, gbc_lblNewLabel);
-		
+
 		comboBox_Categorias = new JComboBox<>();
 		GridBagConstraints gbc_comboBox_Categorias = new GridBagConstraints();
 		gbc_comboBox_Categorias.insets = new Insets(0, 0, 5, 0);
@@ -147,7 +147,7 @@ public class ConsultaEvento extends JInternalFrame {
 		gbc_comboBox_Categorias.gridx = 1;
 		gbc_comboBox_Categorias.gridy = 4;
 		panel_3.add(comboBox_Categorias, gbc_comboBox_Categorias);
-		
+
 		JLabel lblNewLabel_1 = new JLabel("Ediciones:");
 		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
 		gbc_lblNewLabel_1.anchor = GridBagConstraints.EAST;
@@ -155,104 +155,97 @@ public class ConsultaEvento extends JInternalFrame {
 		gbc_lblNewLabel_1.gridx = 0;
 		gbc_lblNewLabel_1.gridy = 5;
 		panel_3.add(lblNewLabel_1, gbc_lblNewLabel_1);
-		
+
 		comboBox_Ediciones = new JComboBox<>();
 		GridBagConstraints gbc_comboBox_Ediciones = new GridBagConstraints();
 		gbc_comboBox_Ediciones.fill = GridBagConstraints.HORIZONTAL;
 		gbc_comboBox_Ediciones.gridx = 1;
 		gbc_comboBox_Ediciones.gridy = 5;
 		panel_3.add(comboBox_Ediciones, gbc_comboBox_Ediciones);
-		
+
 		JPanel panel_btn = new JPanel();
 		getContentPane().add(panel_btn, BorderLayout.SOUTH);
-		
+
 		JButton btnVerEdicion = new JButton("Ver detalles edición");
 		panel_btn.add(btnVerEdicion);
 
-		
 		comboBoxEvento.addActionListener(e -> {
-			 String nombreEventoSeleccionado = (String) comboBoxEvento.getSelectedItem();
-			 limpiarCamposTexto();
-			 if (nombreEventoSeleccionado != null) {
-				 DTevento dt=controlEvento.consultaEvento(nombreEventoSeleccionado);
-				 textField_Nombre.setText(dt.getNombre());
-				 textField_Sigla.setText(dt.getSigla());
-				 textField_Descripcion.setText(dt.getDescripcion());
-				 textField_FAlta.setText(dt.getFAlta().toString());
-				 cargarCategorias(dt.getCategorias());
-				 cargarEdiciones(dt.getEdiciones());      
-			 }
+			String nombreEventoSeleccionado = (String) comboBoxEvento.getSelectedItem();
+			limpiarCamposTexto();
+			if (nombreEventoSeleccionado != null) {
+				DTevento dt = controlEvento.consultaEvento(nombreEventoSeleccionado);
+				textField_Nombre.setText(dt.getNombre());
+				textField_Sigla.setText(dt.getSigla());
+				textField_Descripcion.setText(dt.getDescripcion());
+				textField_FAlta.setText(dt.getFAlta().toString());
+				cargarCategorias(dt.getCategorias());
+				cargarEdiciones(dt.getEdiciones());
+			}
 		});
-		
+
 		btnVerEdicion.addActionListener(e -> {
-			 String nombreEdicionSeleccionada = (String) comboBox_Ediciones.getSelectedItem();
-			 String nombreEventoSeleccionado = (String) comboBoxEvento.getSelectedItem();
-			 if (nombreEdicionSeleccionada != null && !nombreEdicionSeleccionada.equals("Sin ediciones")) {
-				 ConsultaEdicionEvento.crearYMostrar(controlEvento,nombreEventoSeleccionado, nombreEdicionSeleccionada,desktopPane);
-			 }
+			String nombreEdicionSeleccionada = (String) comboBox_Ediciones.getSelectedItem();
+			String nombreEventoSeleccionado = (String) comboBoxEvento.getSelectedItem();
+			if (nombreEdicionSeleccionada != null && !nombreEdicionSeleccionada.equals("Sin ediciones")) {
+				ConsultaEdicionEvento.crearYMostrar(controlEvento, nombreEventoSeleccionado, nombreEdicionSeleccionada,
+						desktopPane);
+			}
 		});
-		
+
 	}
-	
+
 	public void ConsultaEventocargar() {
-		List<Evento> eventos = controlEvento.listarEventos(); 
+		List<Evento> eventos = controlEvento.listarEventos();
 		List<String> nombres = new java.util.ArrayList<>();
-	    for (Evento e : eventos) {
-	        nombres.add(e.getNombre());
-	    }
-	    
-	    DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(
-	        nombres.toArray(new String[0])
-	    );
-	    comboBoxEvento.setModel(model);
-	    
-	    
+		for (Evento e : eventos) {
+			nombres.add(e.getNombre());
+		}
+
+		DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(nombres.toArray(new String[0]));
+		comboBoxEvento.setModel(model);
+
 	}
-	
+
 	private void cargarCategorias(List<Categoria> categorias) {
-		 if (categorias.isEmpty()) {
-			 	comboBox_Categorias.removeAllItems();
-	        	comboBox_Categorias.addItem("Sin categorías");
-	        	comboBox_Categorias.setEnabled(false);
-	        } else {
-	        	List<String> nombres = new java.util.ArrayList<>();
-	    	    for (Categoria c : categorias) {
-	    	        nombres.add(c.getNombre());
-	    	    }
-	    	    DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(
-	    		        nombres.toArray(new String[0])
-	    		);
-	            comboBox_Categorias.setEnabled(true);
-	            comboBox_Categorias.setModel(model);
-	        }
+		if (categorias.isEmpty()) {
+			comboBox_Categorias.removeAllItems();
+			comboBox_Categorias.addItem("Sin categorías");
+			comboBox_Categorias.setEnabled(false);
+		} else {
+			List<String> nombres = new java.util.ArrayList<>();
+			for (Categoria c : categorias) {
+				nombres.add(c.getNombre());
+			}
+			DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(nombres.toArray(new String[0]));
+			comboBox_Categorias.setEnabled(true);
+			comboBox_Categorias.setModel(model);
+		}
 	}
-	
+
 	private void cargarEdiciones(List<Edicion> ediciones) {
 		if (ediciones.isEmpty()) {
 			comboBox_Ediciones.removeAllItems();
 			comboBox_Ediciones.addItem("Sin ediciones");
 			comboBox_Ediciones.setEnabled(false);
-        } else {
-        	List<String> nombres = new java.util.ArrayList<>();
-    	    for (Edicion ed : ediciones) {
-    	        nombres.add(ed.getNombre());
-    	    }
-    	    DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(
-    		        nombres.toArray(new String[0])
-    		);
-    	    comboBox_Ediciones.setEnabled(true);
-    	    comboBox_Ediciones.setModel(model);
-        }
+		} else {
+			List<String> nombres = new java.util.ArrayList<>();
+			for (Edicion ed : ediciones) {
+				nombres.add(ed.getNombre());
+			}
+			DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(nombres.toArray(new String[0]));
+			comboBox_Ediciones.setEnabled(true);
+			comboBox_Ediciones.setModel(model);
+		}
 	}
+
 	private void limpiarCamposTexto() {
-	    textField_Nombre.setText("");
-	    textField_Sigla.setText("");
-	    textField_Descripcion.setText("");
-	    textField_FAlta.setText("");
+		textField_Nombre.setText("");
+		textField_Sigla.setText("");
+		textField_Descripcion.setText("");
+		textField_FAlta.setText("");
 	}
 	/**
 	 * 
 	 */
-
 
 }

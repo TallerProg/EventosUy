@@ -20,101 +20,193 @@ public class AltaEdicionEvento extends JInternalFrame {
     private List<Evento> eventos;
     private List<Organizador> organizadores;
 
+    private int row = 0;
+
     public AltaEdicionEvento(IControllerEvento ice) {
-        this.controller = ice; 
+        this.controller = ice;
 
         setClosable(true);
         setIconifiable(true);
         setMaximizable(true);
         setResizable(true);
-
         setTitle("Alta de Edición de Evento");
         setSize(550, 500);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        getContentPane().setLayout(null);
+
+        GridBagLayout gridBagLayout = new GridBagLayout();
+        gridBagLayout.columnWidths = new int[] {120, 250, 0};
+        gridBagLayout.rowHeights = new int[20];
+        gridBagLayout.columnWeights = new double[] {0.0, 1.0, Double.MIN_VALUE};
+        gridBagLayout.rowWeights = new double[20];
+        getContentPane().setLayout(gridBagLayout);
 
         JLabel labelEvento = new JLabel("Evento:");
-        labelEvento.setBounds(10, 46, 63, 32);
-        labelEvento.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-        getContentPane().add(labelEvento);
+        GridBagConstraints gbc_labelEvento = new GridBagConstraints();
+        gbc_labelEvento.insets = new Insets(5,5,5,5);
+        gbc_labelEvento.gridx = 0;
+        gbc_labelEvento.gridy = row;
+        gbc_labelEvento.anchor = GridBagConstraints.EAST;
+        getContentPane().add(labelEvento, gbc_labelEvento);
 
         comboEvento = new JComboBox<>();
-        comboEvento.setBounds(70, 47, 239, 32);
-        getContentPane().add(comboEvento);
+        GridBagConstraints gbc_comboEvento = new GridBagConstraints();
+        gbc_comboEvento.insets = new Insets(5,5,5,5);
+        gbc_comboEvento.fill = GridBagConstraints.HORIZONTAL;
+        gbc_comboEvento.gridx = 1;
+        gbc_comboEvento.gridy = row;
+        getContentPane().add(comboEvento, gbc_comboEvento);
+        row++;
 
         JLabel labelOrg = new JLabel("Organizador:");
-        labelOrg.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-        labelOrg.setBounds(10, 85, 89, 32);
-        getContentPane().add(labelOrg);
+        GridBagConstraints gbc_labelOrg = new GridBagConstraints();
+        gbc_labelOrg.insets = new Insets(5,5,5,5);
+        gbc_labelOrg.gridx = 0;
+        gbc_labelOrg.gridy = row;
+        gbc_labelOrg.anchor = GridBagConstraints.EAST;
+        getContentPane().add(labelOrg, gbc_labelOrg);
 
         comboOrganizador = new JComboBox<>();
-        comboOrganizador.setBounds(100, 86, 239, 32);
-        getContentPane().add(comboOrganizador);
+        GridBagConstraints gbc_comboOrg = new GridBagConstraints();
+        gbc_comboOrg.insets = new Insets(5,5,5,5);
+        gbc_comboOrg.fill = GridBagConstraints.HORIZONTAL;
+        gbc_comboOrg.gridx = 1;
+        gbc_comboOrg.gridy = row;
+        getContentPane().add(comboOrganizador, gbc_comboOrg);
+        row++;
 
         JLabel labelNombre = new JLabel("Nombre:");
-        labelNombre.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-        labelNombre.setBounds(14, 127, 63, 32);
-        getContentPane().add(labelNombre);
+        GridBagConstraints gbc_labelNombre = new GridBagConstraints();
+        gbc_labelNombre.insets = new Insets(5,5,5,5);
+        gbc_labelNombre.gridx = 0;
+        gbc_labelNombre.gridy = row;
+        gbc_labelNombre.anchor = GridBagConstraints.EAST;
+        getContentPane().add(labelNombre, gbc_labelNombre);
 
         txtNombre = new JTextField();
-        txtNombre.setBounds(70, 129, 147, 32);
-        getContentPane().add(txtNombre);
+        GridBagConstraints gbc_txtNombre = new GridBagConstraints();
+        gbc_txtNombre.insets = new Insets(5,5,5,5);
+        gbc_txtNombre.fill = GridBagConstraints.HORIZONTAL;
+        gbc_txtNombre.gridx = 1;
+        gbc_txtNombre.gridy = row;
+        getContentPane().add(txtNombre, gbc_txtNombre);
+        row++;
 
         JLabel labelSigla = new JLabel("Sigla:");
-        labelSigla.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-        labelSigla.setBounds(14, 190, 52, 32);
-        getContentPane().add(labelSigla);
+        GridBagConstraints gbc_labelSigla = new GridBagConstraints();
+        gbc_labelSigla.insets = new Insets(5,5,5,5);
+        gbc_labelSigla.gridx = 0;
+        gbc_labelSigla.gridy = row;
+        gbc_labelSigla.anchor = GridBagConstraints.EAST;
+        getContentPane().add(labelSigla, gbc_labelSigla);
 
         txtSigla = new JTextField();
-        txtSigla.setBounds(70, 190, 89, 32);
-        getContentPane().add(txtSigla);
+        GridBagConstraints gbc_txtSigla = new GridBagConstraints();
+        gbc_txtSigla.insets = new Insets(5,5,5,5);
+        gbc_txtSigla.fill = GridBagConstraints.HORIZONTAL;
+        gbc_txtSigla.gridx = 1;
+        gbc_txtSigla.gridy = row;
+        getContentPane().add(txtSigla, gbc_txtSigla);
+        row++;
 
         JLabel labelCiudad = new JLabel("Ciudad:");
-        labelCiudad.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-        labelCiudad.setBounds(180, 190, 73, 32);
-        getContentPane().add(labelCiudad);
+        GridBagConstraints gbc_labelCiudad = new GridBagConstraints();
+        gbc_labelCiudad.insets = new Insets(5,5,5,5);
+        gbc_labelCiudad.gridx = 0;
+        gbc_labelCiudad.gridy = row;
+        gbc_labelCiudad.anchor = GridBagConstraints.EAST;
+        getContentPane().add(labelCiudad, gbc_labelCiudad);
 
         txtCiudad = new JTextField();
-        txtCiudad.setBounds(240, 190, 147, 32);
-        getContentPane().add(txtCiudad);
+        GridBagConstraints gbc_txtCiudad = new GridBagConstraints();
+        gbc_txtCiudad.insets = new Insets(5,5,5,5);
+        gbc_txtCiudad.fill = GridBagConstraints.HORIZONTAL;
+        gbc_txtCiudad.gridx = 1;
+        gbc_txtCiudad.gridy = row;
+        getContentPane().add(txtCiudad, gbc_txtCiudad);
+        row++;
 
         JLabel labelPais = new JLabel("País:");
-        labelPais.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-        labelPais.setBounds(14, 230, 41, 32);
-        getContentPane().add(labelPais);
+        GridBagConstraints gbc_labelPais = new GridBagConstraints();
+        gbc_labelPais.insets = new Insets(5,5,5,5);
+        gbc_labelPais.gridx = 0;
+        gbc_labelPais.gridy = row;
+        gbc_labelPais.anchor = GridBagConstraints.EAST;
+        getContentPane().add(labelPais, gbc_labelPais);
 
         txtPais = new JTextField();
-        txtPais.setBounds(70, 230, 153, 32);
-        getContentPane().add(txtPais);
+        GridBagConstraints gbc_txtPais = new GridBagConstraints();
+        gbc_txtPais.insets = new Insets(5,5,5,5);
+        gbc_txtPais.fill = GridBagConstraints.HORIZONTAL;
+        gbc_txtPais.gridx = 1;
+        gbc_txtPais.gridy = row;
+        getContentPane().add(txtPais, gbc_txtPais);
+        row++;
 
-        txtFechaIni = crearCampoFecha("##/##/####", 140, 270, 120, 25);
-        getContentPane().add(txtFechaIni);
+        txtFechaIni = crearCampoFecha("##/##/####");
+        GridBagConstraints gbc_txtFechaIni = new GridBagConstraints();
+        gbc_txtFechaIni.insets = new Insets(5,5,5,5);
+        gbc_txtFechaIni.fill = GridBagConstraints.HORIZONTAL;
+        gbc_txtFechaIni.gridx = 1;
+        gbc_txtFechaIni.gridy = row;
+        getContentPane().add(txtFechaIni, gbc_txtFechaIni);
+
         JLabel lblFechaIni = new JLabel("Fecha Inicio:");
-        lblFechaIni.setBounds(14, 270, 85, 25);
-        lblFechaIni.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-        getContentPane().add(lblFechaIni);
+        GridBagConstraints gbc_lblFechaIni = new GridBagConstraints();
+        gbc_lblFechaIni.insets = new Insets(5,5,5,5);
+        gbc_lblFechaIni.gridx = 0;
+        gbc_lblFechaIni.gridy = row;
+        gbc_lblFechaIni.anchor = GridBagConstraints.EAST;
+        getContentPane().add(lblFechaIni, gbc_lblFechaIni);
+        row++;
 
-        txtFechaFin = crearCampoFecha("##/##/####", 140, 310, 120, 25);
-        getContentPane().add(txtFechaFin);
-        JLabel lblFechaFin = new JLabel("Fecha Fin :");
-        lblFechaFin.setBounds(14, 310, 73, 25);
-        lblFechaFin.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-        getContentPane().add(lblFechaFin);
+        txtFechaFin = crearCampoFecha("##/##/####");
+        GridBagConstraints gbc_txtFechaFin = new GridBagConstraints();
+        gbc_txtFechaFin.insets = new Insets(5,5,5,5);
+        gbc_txtFechaFin.fill = GridBagConstraints.HORIZONTAL;
+        gbc_txtFechaFin.gridx = 1;
+        gbc_txtFechaFin.gridy = row;
+        getContentPane().add(txtFechaFin, gbc_txtFechaFin);
 
-        txtFechaAlta = crearCampoFecha("##/##/####", 140, 350, 120, 25);
-        getContentPane().add(txtFechaAlta);
-        JLabel lblFechaAlta = new JLabel("Fecha Alta :");
-        lblFechaAlta.setBounds(14, 350, 85, 25);
-        lblFechaAlta.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-        getContentPane().add(lblFechaAlta);
+        JLabel lblFechaFin = new JLabel("Fecha Fin:");
+        GridBagConstraints gbc_lblFechaFin = new GridBagConstraints();
+        gbc_lblFechaFin.insets = new Insets(5,5,5,5);
+        gbc_lblFechaFin.gridx = 0;
+        gbc_lblFechaFin.gridy = row;
+        gbc_lblFechaFin.anchor = GridBagConstraints.EAST;
+        getContentPane().add(lblFechaFin, gbc_lblFechaFin);
+        row++;
 
+        txtFechaAlta = crearCampoFecha("##/##/####");
+        GridBagConstraints gbc_txtFechaAlta = new GridBagConstraints();
+        gbc_txtFechaAlta.insets = new Insets(5,5,5,5);
+        gbc_txtFechaAlta.fill = GridBagConstraints.HORIZONTAL;
+        gbc_txtFechaAlta.gridx = 1;
+        gbc_txtFechaAlta.gridy = row;
+        getContentPane().add(txtFechaAlta, gbc_txtFechaAlta);
+
+        JLabel lblFechaAlta = new JLabel("Fecha Alta:");
+        GridBagConstraints gbc_lblFechaAlta = new GridBagConstraints();
+        gbc_lblFechaAlta.insets = new Insets(5,5,5,5);
+        gbc_lblFechaAlta.gridx = 0;
+        gbc_lblFechaAlta.gridy = row;
+        gbc_lblFechaAlta.anchor = GridBagConstraints.EAST;
+        getContentPane().add(lblFechaAlta, gbc_lblFechaAlta);
+        row++;
+
+        JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
         btnAceptar = new JButton("Aceptar");
-        btnAceptar.setBounds(10, 400, 196, 32);
-        getContentPane().add(btnAceptar);
-
         btnCancelar = new JButton("Cancelar");
-        btnCancelar.setBounds(258, 400, 196, 32);
-        getContentPane().add(btnCancelar);
+        panelBotones.add(btnAceptar);
+        panelBotones.add(btnCancelar);
+
+        GridBagConstraints gbc_panelBotones = new GridBagConstraints();
+        gbc_panelBotones.insets = new Insets(10,5,5,5);
+        gbc_panelBotones.gridx = 0;
+        gbc_panelBotones.gridy = row;
+        gbc_panelBotones.gridwidth = 2;
+        gbc_panelBotones.anchor = GridBagConstraints.CENTER;
+        getContentPane().add(panelBotones, gbc_panelBotones);
+        row++;
 
         cargarEventos();
         cargarOrganizadores();
@@ -163,6 +255,7 @@ public class AltaEdicionEvento extends JInternalFrame {
                         pais,
                         fIni,
                         fFin,
+                        fAlta,
                         evento,
                         org
                 );
@@ -223,12 +316,12 @@ public class AltaEdicionEvento extends JInternalFrame {
         return true;
     }
 
-    private JFormattedTextField crearCampoFecha(String formato, int x, int y, int ancho, int alto) {
+    private JFormattedTextField crearCampoFecha(String formato) {
         try {
             MaskFormatter mascara = new MaskFormatter(formato);
             mascara.setPlaceholderCharacter('_');
             JFormattedTextField campo = new JFormattedTextField(mascara);
-            campo.setBounds(x, y, ancho, alto);
+            campo.setFont(new Font("Tahoma", Font.PLAIN, 10));
             campo.setEditable(true);
             campo.setFocusLostBehavior(JFormattedTextField.PERSIST);
             return campo;
@@ -249,3 +342,6 @@ public class AltaEdicionEvento extends JInternalFrame {
 
     private static final long serialVersionUID = 1L;
 }
+
+
+

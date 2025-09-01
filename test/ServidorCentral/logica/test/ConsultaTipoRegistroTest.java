@@ -27,7 +27,6 @@ public class ConsultaTipoRegistroTest {
 	@Test
 	@Order(1)
 	void TestConsultaValoresDTTipoRegistro() {
-		  // Crear Evento
 	    String nombreEvento = "EventoTesteo1";
 	    String descripcionEvento = "Estamos testeando evento1";
 	    LocalDate fechaEvento = LocalDate.of(2025, 05, 01);
@@ -39,7 +38,6 @@ public class ConsultaTipoRegistroTest {
 	    }
 	    Evento evento = controllerE.getEvento(nombreEvento);
 
-	    // Crear Organizador
 	    String nickOrg = "organizadorTesteo1";
 	    String mailOrg = "org@test.com";
 	    String nombreOrg = "Testeador";
@@ -53,22 +51,21 @@ public class ConsultaTipoRegistroTest {
 	    }
 	    Organizador org = controlerUSR.getOrganizador(nickOrg);
 
-	    // Crear Edición
 	    String nombreEdicion = "Edicion test1";
 	    LocalDate fechaInicioEd = LocalDate.of(2025, 03, 01);
 	    LocalDate fechaFinEd = LocalDate.of(2025, 04, 01);;
+	    LocalDate fechaAlta = LocalDate.of(2024, 04, 01);;
 	    String lugarEdicion = "El testeador";
 	    String ciudadEdicion = "test";
 	    try {
 	    	controllerE.altaEdicionDeEvento(nombreEdicion, siglaEvento, ciudadEdicion, lugarEdicion, fechaInicioEd,
-	                fechaFinEd, evento, org);
+	                fechaFinEd,fechaAlta, evento, org);
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	    }
 
 	    Edicion edicion = controllerE.findEdicion(nombreEdicion);
 
-	    // Crear Tipo de Registro
 	    String nombreTipoReg = "Registro Test";
 	    String descripcionTipoReg = "Registro para testear";
 	    float costoTipoReg = 100.0f;
@@ -113,11 +110,12 @@ public class ConsultaTipoRegistroTest {
 	        String nombreEdicion = "Edición 2025";
 	        LocalDate fechaInicioEd = LocalDate.of(2025, 4, 6);
 	        LocalDate fechaFinEd = LocalDate.of(2025, 4, 6);
+		    LocalDate fechaAlta= LocalDate.of(2024, 04, 01);;
 	        String lugarEdicion = "Rambla de Montevideo";
 	        String ciudadEdicion = "Montevideo";
 
 	        controllerE.altaEdicionDeEvento(nombreEdicion, siglaEvento, ciudadEdicion, lugarEdicion,
-	                fechaInicioEd, fechaFinEd, evento, org);
+	                fechaInicioEd, fechaFinEd,fechaAlta, evento, org);
 	        Edicion edicion = controllerE.findEdicion(nombreEdicion);
 
 	        String nombreTipoReg = "Inscripción General 42K";
@@ -127,19 +125,15 @@ public class ConsultaTipoRegistroTest {
 
 	        controllerE.altaTipoRegistro(nombreTipoReg, descripcionTipoReg, costoTipoReg, limiteTipoReg, edicion);
 
-	        // Validaciones con las funciones listar 
 
-	        // Listar Eventos (para el combo de los eventos)
 	        List<Evento> eventos = controllerE.listarEventos();
 	        assertNotNull(eventos);
 	        assertTrue(eventos.stream().anyMatch(e -> e.getNombre().equals(nombreEvento)));
 
-	        // Listar Ediciones de un Evento (para el combo de ediciones)
 	        List<String> ediciones = controllerE.listarEdicionesDeEvento(nombreEvento);
 	        assertNotNull(ediciones);
 	        assertTrue(ediciones.contains(nombreEdicion));
 
-	        // Listar Tipos de Registro de una Edición (para el combo de registros)
 	        List<TipoRegistro> tiposReg = edicion.getTipoRegistros();
 	        assertNotNull(tiposReg);
 	        assertTrue(tiposReg.stream().anyMatch(tr -> tr.getNombre().equals(nombreTipoReg)));

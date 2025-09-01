@@ -1,13 +1,13 @@
 package ServidorCentral.presentacion;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.List;
 import ServidorCentral.logica.Patrocinio;
 import ServidorCentral.logica.DTPatrocinio;
 import ServidorCentral.logica.Edicion;
 import ServidorCentral.logica.Evento;
 import ServidorCentral.logica.IControllerEvento;
-import net.miginfocom.swing.MigLayout;
 
 public class ConsultaPatrocinio extends JInternalFrame {
 
@@ -24,34 +24,72 @@ public class ConsultaPatrocinio extends JInternalFrame {
 	public ConsultaPatrocinio(IControllerEvento controller) {
 		this.controller = controller;
 		setTitle("Consulta de Patrocinio");
-		setSize(700, 400);
+		setSize(600, 400);
 		setClosable(true);
 		setIconifiable(true);
 		setMaximizable(true);
 		setResizable(true);
-		getContentPane().setLayout(new MigLayout("", "[100px][10px][10px][235px]", "[25px][25px][25px][25px][25px][25px][25px][25px][25px][25px]"));
 
-		// --- Combos ---
+		initComponents();
+	}
+
+	private void initComponents() {
+
+		JPanel panel = new JPanel(new GridBagLayout());
+		getContentPane().add(panel, BorderLayout.CENTER);
+		GridBagConstraints gbcPanel = new GridBagConstraints();
+		gbcPanel.insets = new Insets(5, 5, 5, 5);
+		gbcPanel.fill = GridBagConstraints.HORIZONTAL;
+
+		int row = 0;
+
 		JLabel lblEvento = new JLabel("Evento:");
-		getContentPane().add(lblEvento, "cell 0 0,grow");
+		GridBagConstraints gbcEvento = new GridBagConstraints();
+		gbcEvento.gridx = 0;
+		gbcEvento.gridy = row;
+		panel.add(lblEvento, gbcEvento);
 
 		comboEventos = new JComboBox<>();
-		comboEventos.setEnabled(false); // Fijo
-		getContentPane().add(comboEventos, "cell 2 0 2 1,grow");
+		GridBagConstraints gbcComboEventos = new GridBagConstraints();
+		comboEventos.setEnabled(false); 
+		gbcComboEventos.gridx = 1;
+		gbcComboEventos.gridy = row;
+		gbcComboEventos.gridwidth = 2;
+		panel.add(comboEventos, gbcComboEventos);
+		row++;
+		gbcComboEventos.gridwidth = 1;
 
 		JLabel lblEdicion = new JLabel("Edición:");
-		getContentPane().add(lblEdicion, "cell 0 1,grow");
+		GridBagConstraints gbcEdicion = new GridBagConstraints();
+		gbcEdicion.gridx = 0;
+		gbcEdicion.gridy = row;
+		panel.add(lblEdicion, gbcEdicion);
 
 		comboEdiciones = new JComboBox<>();
-		comboEdiciones.setEnabled(false); // Fijo
-		getContentPane().add(comboEdiciones, "cell 2 1 2 1,grow");
+		GridBagConstraints gbccomboEdicion = new GridBagConstraints();
+		comboEdiciones.setEnabled(false); 
+		gbccomboEdicion.gridx = 1;
+		gbccomboEdicion.gridy = row;
+		gbccomboEdicion.gridwidth = 2;
+		panel.add(comboEdiciones, gbccomboEdicion);
+		row++;
+		gbccomboEdicion.gridwidth = 1;
 
 		JLabel lblPatrocinio = new JLabel("Patrocinio:");
-		getContentPane().add(lblPatrocinio, "cell 0 2,grow");
+		GridBagConstraints gbcPatrocinio = new GridBagConstraints();
+		gbcPatrocinio.gridx = 0;
+		gbcPatrocinio.gridy = row;
+		panel.add(lblPatrocinio, gbcPatrocinio);
 
 		comboPatrocinios = new JComboBox<>();
-		comboPatrocinios.setEnabled(false); // Fijo
-		getContentPane().add(comboPatrocinios, "cell 2 2 2 1,grow");
+		GridBagConstraints gbcComboPatrocinio = new GridBagConstraints();
+		comboPatrocinios.setEnabled(false); 
+		gbcComboPatrocinio.gridx = 1;
+		gbcComboPatrocinio.gridy = row;
+		gbcComboPatrocinio.gridwidth = 2;
+		panel.add(comboPatrocinios, gbcComboPatrocinio);
+		row++;
+		gbcComboPatrocinio.gridwidth = 1;
 
 		comboEventos.addActionListener(e -> {
 			String nombreEvento = (String) comboEventos.getSelectedItem();
@@ -63,7 +101,6 @@ public class ConsultaPatrocinio extends JInternalFrame {
 					JOptionPane.showMessageDialog(this, "Error al cargar ediciones: " + ex.getMessage(), "Error",
 							JOptionPane.ERROR_MESSAGE);
 				}
-
 			}
 		});
 
@@ -77,7 +114,6 @@ public class ConsultaPatrocinio extends JInternalFrame {
 					JOptionPane.showMessageDialog(this, "Error al cargar patrocinios: " + ex.getMessage(), "Error",
 							JOptionPane.ERROR_MESSAGE);
 				}
-
 			}
 		});
 
@@ -94,67 +130,64 @@ public class ConsultaPatrocinio extends JInternalFrame {
 					JOptionPane.showMessageDialog(this, "Error al cargar datos del patrocinio: " + ex.getMessage(),
 							"Error", JOptionPane.ERROR_MESSAGE);
 				}
-
 			}
 		});
 
-		// --- Campos de Patrocinio ---
-		int y = 150;
-		int labelWidth = 120;
-		int tfWidth = 200;
-		int height = 25;
-
-		JLabel lblCodigo = new JLabel("Código:");
-		getContentPane().add(lblCodigo, "cell 0 3 3 1,grow");
+		row++; 
+		String[] labels = { "Código:", "Fecha Inicio:", "Registros Gratuitos:", "Monto:", "Nivel:", "Institución:",
+		        "Tipo Registro:" };
+		JTextField[] fields = new JTextField[7];
 
 		tfCodigo = new JTextField();
 		tfCodigo.setEditable(false);
-		getContentPane().add(tfCodigo, "cell 3 3,grow");
-
-		JLabel lblFechaInicio = new JLabel("Fecha Inicio:");
-		getContentPane().add(lblFechaInicio, "cell 0 4 3 1,grow");
+		fields[0] = tfCodigo;
 
 		tfFechaInicio = new JTextField();
 		tfFechaInicio.setEditable(false);
-		getContentPane().add(tfFechaInicio, "cell 3 4,grow");
-
-		JLabel lblRegistroGratuito = new JLabel("Registros Gratuitos:");
-		getContentPane().add(lblRegistroGratuito, "cell 0 5 3 1,grow");
+		fields[1] = tfFechaInicio;
 
 		tfRegistroGratuito = new JTextField();
 		tfRegistroGratuito.setEditable(false);
-		getContentPane().add(tfRegistroGratuito, "cell 3 5,grow");
-
-		JLabel lblMonto = new JLabel("Monto:");
-		getContentPane().add(lblMonto, "cell 0 6 3 1,grow");
+		fields[2] = tfRegistroGratuito;
 
 		tfMonto = new JTextField();
 		tfMonto.setEditable(false);
-		getContentPane().add(tfMonto, "cell 3 6,grow");
-
-		JLabel lblNivel = new JLabel("Nivel:");
-		getContentPane().add(lblNivel, "cell 0 7 3 1,grow");
+		fields[3] = tfMonto;
 
 		tfNivel = new JTextField();
 		tfNivel.setEditable(false);
-		getContentPane().add(tfNivel, "cell 3 7,grow");
-
-		JLabel lblInstitucion = new JLabel("Institución:");
-		getContentPane().add(lblInstitucion, "cell 0 8 3 1,grow");
+		fields[4] = tfNivel;
 
 		tfInstitucion = new JTextField();
 		tfInstitucion.setEditable(false);
-		getContentPane().add(tfInstitucion, "cell 3 8,grow");
-
-		JLabel lblTipoRegistro = new JLabel("Tipo Registro:");
-		getContentPane().add(lblTipoRegistro, "cell 0 9 3 1,grow");
+		fields[5] = tfInstitucion;
 
 		tfTipoRegistro = new JTextField();
 		tfTipoRegistro.setEditable(false);
-		getContentPane().add(tfTipoRegistro, "cell 3 9,grow");
+		fields[6] = tfTipoRegistro;
+
+		for (int i = 0; i < labels.length; i++) {
+		    GridBagConstraints gbcLabel = new GridBagConstraints();
+		    gbcLabel.gridx = 0;
+		    gbcLabel.gridy = row;
+		    gbcLabel.anchor = GridBagConstraints.WEST;
+		    gbcLabel.insets = new Insets(5, 5, 5, 5);
+		    panel.add(new JLabel(labels[i]), gbcLabel);
+
+		    GridBagConstraints gbcField = new GridBagConstraints();
+		    gbcField.gridx = 1;
+		    gbcField.gridy = row;
+		    gbcField.gridwidth = 2;
+		    gbcField.fill = GridBagConstraints.HORIZONTAL;
+		    gbcField.weightx = 1.0; 
+		    gbcField.insets = new Insets(5, 5, 5, 5);
+		    panel.add(fields[i], gbcField);
+
+		    row++;
+		}
+
 	}
 
-	// Carga los datos en los campos y combos, combos quedan fijos
 	public void cargarDatos(DTPatrocinio dtPat) {
 		if (dtPat == null)
 			return;
@@ -180,7 +213,6 @@ public class ConsultaPatrocinio extends JInternalFrame {
 		comboPatrocinios.setSelectedIndex(0);
 	}
 
-	// Método para crear y mostrar la ventana
 	public static ConsultaPatrocinio crearYMostrar(IControllerEvento controller, DTPatrocinio dtPat,
 			JDesktopPane desktopPane) {
 		ConsultaPatrocinio cp = new ConsultaPatrocinio(controller);
@@ -197,20 +229,17 @@ public class ConsultaPatrocinio extends JInternalFrame {
 	public void cargarEventos() {
 		List<Evento> eventos = controller.listarEventos();
 		if (eventos.isEmpty()) {
-
 			comboEventos.addItem("Sin eventos");
 			comboEventos.setEnabled(false);
 		} else {
 			comboEventos.setEnabled(true);
 			List<String> nombres = new java.util.ArrayList<>();
-			for (Evento e : eventos) {
+			for (Evento e : eventos)
 				nombres.add(e.getNombre());
-			}
 
 			DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(nombres.toArray(new String[0]));
 			comboEventos.setModel(model);
 		}
-
 	}
 
 	public void cargarEdiciones(String nombreEvento) {
@@ -223,9 +252,8 @@ public class ConsultaPatrocinio extends JInternalFrame {
 				comboEdiciones.setEnabled(false);
 			} else {
 				List<String> nombresEdiciones = new java.util.ArrayList<>();
-				for (Edicion ed : ediciones) {
+				for (Edicion ed : ediciones)
 					nombresEdiciones.add(ed.getNombre());
-				}
 
 				DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(
 						nombresEdiciones.toArray(new String[0]));
@@ -244,9 +272,8 @@ public class ConsultaPatrocinio extends JInternalFrame {
 				comboPatrocinios.setEnabled(false);
 			} else {
 				List<String> codigosPatrocinios = new java.util.ArrayList<>();
-				for (Patrocinio p : patrocinios) {
+				for (Patrocinio p : patrocinios)
 					codigosPatrocinios.add(p.getCodigo());
-				}
 
 				DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(
 						codigosPatrocinios.toArray(new String[0]));

@@ -58,7 +58,6 @@ class ControllerUsuarioTest {
 			assertEquals(a.getInstitucion(), insTest);
 			
 		} catch (UsuarioRepetidoException e) {
-			// TODO Auto-generated catch block
 			fail(e.getMessage());
 			e.printStackTrace();
 		};
@@ -87,7 +86,6 @@ class ControllerUsuarioTest {
 			assertEquals(a.getPatrocinio(),null);
 			
 		} catch (UsuarioRepetidoException e) {
-			// TODO Auto-generated catch block
 			fail(e.getMessage());
 			e.printStackTrace();
 		};
@@ -115,7 +113,6 @@ class ControllerUsuarioTest {
 
 			
 		} catch (UsuarioRepetidoException e) {
-			// TODO Auto-generated catch block
 			fail(e.getMessage());
 			e.printStackTrace();
 		};
@@ -142,7 +139,6 @@ class ControllerUsuarioTest {
 
 			
 		} catch (UsuarioRepetidoException e) {
-			// TODO Auto-generated catch block
 			fail(e.getMessage());
 			e.printStackTrace();
 		};
@@ -162,7 +158,6 @@ class ControllerUsuarioTest {
 			controladorUsu.AltaOrganizador(nicknameTest, correoTest, nombreTest, descTest, urlTest);
 			
 		} catch (UsuarioRepetidoException e) {
-			// TODO Auto-generated catch block
 			fail(e.getMessage());
 			e.printStackTrace();
 		};
@@ -185,7 +180,6 @@ class ControllerUsuarioTest {
 			controladorUsu.AltaAsistente(nicknameTest, correoTest, nombreTest, apellidoTest, fNacimientoTest, insTest);
 			
 		} catch (UsuarioRepetidoException e) {
-			// TODO Auto-generated catch block
 			fail(e.getMessage());
 			e.printStackTrace();
 		};
@@ -266,28 +260,21 @@ class ControllerUsuarioTest {
 	    @Test
 	    @Order(10)
 	    void testRegistrosFechasEnTipoRegistro() {
-	        // Creamos un tipo de registro de prueba
 	        TipoRegistro tipo = new TipoRegistro("General", "Acceso general", 100f, 50, null);
 
-	        // Creamos un asistente de prueba
 	        Asistente asistente = new Asistente("nickTest", "correo@test.com", "Nombre", "Apellido",
 	                                            LocalDate.of(1999, 5, 5), null);
 
-	        // Fecha esperada (hoy, porque Registro usa LocalDate.now())
 	        String hoy = LocalDate.now().toString();
 
-	        // Crear registros asociados a este tipo
 	        Registro r1 = new Registro(100f, null, asistente, tipo);
 	        Registro r2 = new Registro(200f, null, asistente, tipo);
 
-	        // Agregarlos al tipo
 	        tipo.getRegistros().add(r1);
 	        tipo.getRegistros().add(r2);
 
-	        // Ejecutar método
 	        List<String> fechas = tipo.registrosFechas();
 
-	        // Validaciones
 	        assertEquals(2, fechas.size(), "Debe devolver 2 fechas");
 	        assertTrue(fechas.stream().allMatch(f -> f.equals(hoy)),
 	                "Todas las fechas deben ser iguales a la fecha de hoy: " + hoy);

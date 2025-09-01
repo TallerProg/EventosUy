@@ -26,7 +26,7 @@ class PatrocinioGeneralTest {
         ManejadorInstitucion.getInstance().limpiar();
 
         evento = new Evento("EventoTest", "EVT", "desc", LocalDate.now(), new ArrayList<>());
-        edicion = new Edicion("EdicionTest", "EDT", LocalDate.now(), LocalDate.now().plusDays(5), "Montevideo", "UY", evento);
+        edicion = new Edicion("EdicionTest", "EDT", LocalDate.of(2025,5,1), LocalDate.of(2025,5,10),LocalDate.of(2024,5,10), "Montevideo", "UY", evento);
         tipoRegistro = new TipoRegistro("General", "Acceso general", 100f, 50, edicion);
         edicion.agregarTipoRegistro(tipoRegistro);
         evento.agregarEdicion(edicion);
