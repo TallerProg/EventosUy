@@ -20,7 +20,7 @@ public class Edicion {
 	private Evento evento;
 
 
-	public Edicion(String nombre, String sigla, LocalDate fInicio, LocalDate fFin, String ciudad, String pais,
+	public Edicion(String nombre, String sigla, LocalDate fInicio, LocalDate fFin,LocalDate fAlta, String ciudad, String pais,
 			Evento evento) {
 		this.nombre = nombre;
 		this.fInicio = fInicio;
@@ -28,7 +28,7 @@ public class Edicion {
 		this.ciudad = ciudad;
 		this.pais = pais;
 		this.sigla = sigla;
-		this.fAlta = LocalDate.now();
+		this.fAlta = fAlta;
 		this.evento = evento;
 		this.tipoRegistros = new ArrayList<>();
 		this.organizadores = new ArrayList<>();
@@ -36,6 +36,8 @@ public class Edicion {
 		this.patrocinios = new ArrayList<>();
 	}
 
+	public LocalDate getFechaAlta() { return fAlta; }
+    public void setFechaAlta(LocalDate fAlta) { this.fAlta = fAlta; }
 
 	public Evento getEvento() {
 		return evento;

@@ -6,7 +6,7 @@ import java.util.List;
 public interface IControllerEvento {
 
 	public void altaEdicionDeEvento(String nombre, String sigla, String ciudad, String pais, LocalDate fInicio,
-			LocalDate fFin, Evento evento, Organizador org) throws Exception;
+			LocalDate fFin,LocalDate fAlta, Evento evento, Organizador org) throws Exception;
 
 	public DTEdicion consultaEdicionDeEvento(String nombreEvento, String nombreEdicion);
 

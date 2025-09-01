@@ -255,6 +255,7 @@ public class AltaEdicionEvento extends JInternalFrame {
                         pais,
                         fIni,
                         fFin,
+                        fAlta,
                         evento,
                         org
                 );

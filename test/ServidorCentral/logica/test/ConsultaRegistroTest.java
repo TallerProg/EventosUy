@@ -72,11 +72,12 @@ public class ConsultaRegistroTest {
 		String nombreEd = "Edicion Test";
 		LocalDate fechaInicioEd = LocalDate.parse("01/11/2024", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 		LocalDate fechaFinEd = LocalDate.parse("10/12/2024", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+		LocalDate fechaAlta = LocalDate.parse("01/10/2024", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 		String lugarEd = "Lugar Test";
 		String ciudad = "Ciudad Test";
 		try {
 			iCE.altaEdicionDeEvento(nombreEd, siglaE, ciudad, lugarEd, fechaInicioEd,
-			fechaFinEd, EVE01, ORG01);
+			fechaFinEd,fechaAlta, EVE01, ORG01);
 		} catch (Exception e) { 
 			e.printStackTrace();
 		}
@@ -166,11 +167,12 @@ public class ConsultaRegistroTest {
 	    String nombreEdicion = "Edicion Salud 2024";
 	    LocalDate fechaInicioEd = LocalDate.parse("01/08/2024", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 	    LocalDate fechaFinEd = LocalDate.parse("20/09/2024", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+		LocalDate fechaAlta = LocalDate.parse("01/07/2024", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 	    String lugarEdicion = "Palacio Legislativo";
 	    String ciudadEdicion = "Montevideo";
 	    try {
 	        iCE.altaEdicionDeEvento(nombreEdicion, siglaEvento, ciudadEdicion, lugarEdicion, fechaInicioEd,
-	                fechaFinEd, evento02, organizador02);
+	                fechaFinEd,fechaAlta, evento02, organizador02);
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	    }

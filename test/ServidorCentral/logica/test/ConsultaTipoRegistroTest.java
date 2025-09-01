@@ -54,11 +54,12 @@ public class ConsultaTipoRegistroTest {
 	    String nombreEdicion = "Edicion test1";
 	    LocalDate fechaInicioEd = LocalDate.of(2025, 03, 01);
 	    LocalDate fechaFinEd = LocalDate.of(2025, 04, 01);;
+	    LocalDate fechaAlta = LocalDate.of(2024, 04, 01);;
 	    String lugarEdicion = "El testeador";
 	    String ciudadEdicion = "test";
 	    try {
 	    	controllerE.altaEdicionDeEvento(nombreEdicion, siglaEvento, ciudadEdicion, lugarEdicion, fechaInicioEd,
-	                fechaFinEd, evento, org);
+	                fechaFinEd,fechaAlta, evento, org);
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	    }
@@ -109,11 +110,12 @@ public class ConsultaTipoRegistroTest {
 	        String nombreEdicion = "Edición 2025";
 	        LocalDate fechaInicioEd = LocalDate.of(2025, 4, 6);
 	        LocalDate fechaFinEd = LocalDate.of(2025, 4, 6);
+		    LocalDate fechaAlta= LocalDate.of(2024, 04, 01);;
 	        String lugarEdicion = "Rambla de Montevideo";
 	        String ciudadEdicion = "Montevideo";
 
 	        controllerE.altaEdicionDeEvento(nombreEdicion, siglaEvento, ciudadEdicion, lugarEdicion,
-	                fechaInicioEd, fechaFinEd, evento, org);
+	                fechaInicioEd, fechaFinEd,fechaAlta, evento, org);
 	        Edicion edicion = controllerE.findEdicion(nombreEdicion);
 
 	        String nombreTipoReg = "Inscripción General 42K";

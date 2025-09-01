@@ -24,7 +24,7 @@ class ControllerEventoExtrasTest {
         ManejadorUsuario.getinstance().limpiar();
         
         evento = new Evento("EventoTest", "EVT", "desc", LocalDate.now(), new ArrayList<>());
-        edicion = new Edicion("EdicionTest", "EDT", LocalDate.now(), LocalDate.now().plusDays(5),
+        edicion = new Edicion("EdicionTest", "EDT", LocalDate.of(2025,5,1), LocalDate.of(2025,5,10),LocalDate.of(2024,5,10),
                 "Montevideo", "UY", evento);
         evento.agregarEdicion(edicion);
         ManejadorEvento.getInstancia().agregarEvento(evento);

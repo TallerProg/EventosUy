@@ -32,6 +32,7 @@ class ConsultaEdicionEventoTest {
             "Uruguay",
             LocalDate.of(2025, 5, 1),
             LocalDate.of(2025, 5, 10),
+            LocalDate.of(2024, 10, 01),
             eventoBase,
             organizador
         );

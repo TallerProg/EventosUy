@@ -90,10 +90,11 @@ public class ConsultaEventoTest {
 	        String nombreEdicion = "Edición test de 2025";
 	        LocalDate fechaInicioEd = LocalDate.of(2025, 4, 6);
 	        LocalDate fechaFinEd = LocalDate.of(2025, 4, 6);
+	        LocalDate fechaAlta = LocalDate.of(2025, 4, 1);
 	        String lugarEdicion = "Rambla de Montevideo";
 	        String ciudadEdicion = "Montevideo";
 
-	        controllerE.altaEdicionDeEvento(nombreEdicion, siglaEvento, ciudadEdicion, lugarEdicion,fechaInicioEd, fechaFinEd, evento, org);
+	        controllerE.altaEdicionDeEvento(nombreEdicion, siglaEvento, ciudadEdicion, lugarEdicion,fechaInicioEd, fechaFinEd,fechaAlta, evento, org);
 	        
 	        List<Categoria> categoriasEvento =evento.getCategoria();
 	        for (String nombreCat : nombresCategorias) {

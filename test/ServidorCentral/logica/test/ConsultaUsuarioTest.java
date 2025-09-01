@@ -35,7 +35,7 @@ class ConsultaUsuarioTest {
         ManejadorEvento.getInstancia().agregarEvento(evento1);
 
         edicion1 = new Edicion("Edicion2025", "ED2025",
-                LocalDate.of(2025,5,1), LocalDate.of(2025,5,10),
+                LocalDate.of(2025,5,1), LocalDate.of(2025,5,10),LocalDate.of(2024,5,10),
                 "Montevideo","Uruguay", evento1);
 
         edicion1.getOrganizadores().add(org1);
