@@ -211,6 +211,103 @@ public class ConsultaRegistroTest {
 	    }
 	}
 
+	@Test
+	@Order(3)
+	void testConsultaRegistroAsistenteSinPatrocinio2() {
+	    // ==== Asistente ====
+	    String nickAsist = "lucasg90";
+	    String mailAsist = "lucasg90@gmail.com";
+	    String nombreAsist = "Lucas";
+	    String apellidoAsist = "Gimenez";
+	    LocalDate fechaNacAsist = LocalDate.parse("12/08/1990", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+	    try {
+	        iCU.AltaAsistente(nickAsist, mailAsist, nombreAsist, apellidoAsist, fechaNacAsist, null);
+	    } catch (UsuarioRepetidoException e) {
+	        fail(e.getMessage());
+	        e.printStackTrace();
+	    }
+	    Asistente asist02 = iCU.getAsistente(nickAsist);
+
+	    // ==== Evento ====
+	    String nombreEvento = "Congreso Medicina";
+	    String descripcionEvento = "Congreso internacional de medicina 2024";
+	    LocalDate fechaEvento = LocalDate.parse("22/09/2024", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+	    String siglaEvento = "CMED24";
+	    try {
+	        iCE.altaEvento(nombreEvento, descripcionEvento, fechaEvento, siglaEvento, null);
+	    } catch (Exception e1) {
+	        e1.printStackTrace();
+	    }
+	    Evento evento02 = iCE.getEvento(nombreEvento);
+
+	    // ==== Organizador ====
+	    String nickOrg = "orgMed";
+	    String mailOrg = "orgmed@eventos.com";
+	    String nombreOrg = "EventosMedicos";
+	    String descripcionOrg = "Organización de congresos médicos";
+	    String webOrg = "https://eventosmedicos.com";
+	    try {
+	        iCU.AltaOrganizador(nickOrg, mailOrg, nombreOrg, descripcionOrg, webOrg);
+	    } catch (UsuarioRepetidoException e) {
+	        fail(e.getMessage());
+	        e.printStackTrace();
+	    }
+	    Organizador organizador02 = iCU.getOrganizador(nickOrg);
+
+	    // ==== Edición ====
+	    String nombreEdicion = "Edicion Medicina 2024";
+	    LocalDate fechaInicioEd = LocalDate.parse("05/08/2024", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+	    LocalDate fechaFinEd = LocalDate.parse("25/09/2024", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+	    LocalDate fechaAlta = LocalDate.parse("01/07/2024", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+	    String lugarEdicion = "Centro de Convenciones";
+	    String ciudadEdicion = "Montevideo";
+	    try {
+	        iCE.altaEdicionDeEvento(nombreEdicion, siglaEvento, ciudadEdicion, lugarEdicion, fechaInicioEd,
+	                fechaFinEd, fechaAlta, evento02, organizador02);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+
+	    Edicion ed02 = iCE.findEdicion(nombreEdicion);
+
+	    // ==== Tipo Registro ====
+	    String nombreTipoReg = "Registro Completo";
+	    String descripcionTipoReg = "Acceso total a todas las charlas";
+	    float costoTipoReg = 250.0f;
+	    int limiteTipoReg = 300;
+	    try {
+	        iCE.altaTipoRegistro(nombreTipoReg, descripcionTipoReg, costoTipoReg, limiteTipoReg, ed02);
+	    } catch (Exception e2) {
+	        e2.printStackTrace();
+	    } 
+	    TipoRegistro tipoReg02 = ed02.getEdicionTR(nombreTipoReg);
+
+	    // ==== Registro del Asistente ====
+	    try {
+		    LocalDate fechaAltaTR = LocalDate.parse("01/07/2024", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+
+	        iCE.altaRegistro(nombreEdicion, nickAsist, nombreTipoReg, fechaAltaTR);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+
+	    // ==== Validaciones ====
+	    try {
+	        DTRegistroDetallado regDet = iCU.getRegistroDetalle(ed02.getNombre(), asist02.getNickname());
+	        DTRegistro dTRe = iCU.getDTRegistro(ed02.getNombre(), asist02.getNickname());
+	        
+	        assertEquals(dTRe.getCosto(), costoTipoReg);
+	        assertEquals(dTRe.getfInicio(),LocalDate.parse("01/07/2024", DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+	        assertEquals(regDet.getNombreEvento(), nombreEvento);
+	        assertEquals(regDet.getNombreEdicion(), nombreEdicion);
+	        assertEquals(regDet.getTipoRegistro(), nombreTipoReg);
+	        assertEquals(regDet.getCosto(), costoTipoReg);
+
+	    } catch (Exception e) {
+	        fail(e.getMessage());
+	        e.printStackTrace();
+	    }
+
 
 
 
