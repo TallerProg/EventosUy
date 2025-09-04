@@ -12,7 +12,7 @@ import ServidorCentral.logica.IControllerEvento;
 
 public class ConsultaTipoRegistro extends JInternalFrame {
 	private JTextField textField_nombre;
-	private JTextField textField_1_desc;
+	private JTextArea textField_1_desc;
 	private JTextField textField_2_costo;
 	private JTextField textField_3_cupo;
 	private JComboBox<String> comboBoxEvento;
@@ -104,16 +104,19 @@ public class ConsultaTipoRegistro extends JInternalFrame {
 		gbc_lblNewLabel_1.gridx = 0;
 		gbc_lblNewLabel_1.gridy = 1;
 		panel_3.add(lblNewLabel_1, gbc_lblNewLabel_1);
-
-		textField_1_desc = new JTextField();
+		textField_1_desc = new JTextArea(3, 30);
+		textField_1_desc.setBackground(UIManager.getColor("TextField.inactiveBackground"));
 		textField_1_desc.setEditable(false);
+		textField_1_desc.setLineWrap(true);
+		textField_1_desc.setWrapStyleWord(true);
+		JScrollPane scrollDescripcion = new JScrollPane(textField_1_desc);
 		GridBagConstraints gbc_textField_1_desc = new GridBagConstraints();
 		gbc_textField_1_desc.insets = new Insets(0, 0, 5, 0);
-		gbc_textField_1_desc.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textField_1_desc.fill = GridBagConstraints.BOTH;
 		gbc_textField_1_desc.gridx = 1;
 		gbc_textField_1_desc.gridy = 1;
-		panel_3.add(textField_1_desc, gbc_textField_1_desc);
-		textField_1_desc.setColumns(10);
+
+		panel_3.add(scrollDescripcion, gbc_textField_1_desc);
 
 		JLabel lblNewLabel_2 = new JLabel("Costo:");
 		GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
@@ -178,6 +181,8 @@ public class ConsultaTipoRegistro extends JInternalFrame {
 				comboBoxTipoRegistro.setEnabled(true);
 				try {
 					cargarTipoRegistros(nombreEdicionSeleccionado);
+					String nombreTipoRegistroSeleccionado = (String) comboBoxTipoRegistro.getSelectedItem();
+					cargarDatos(nombreEdicionSeleccionado,nombreTipoRegistroSeleccionado);
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
@@ -194,9 +199,7 @@ public class ConsultaTipoRegistro extends JInternalFrame {
 			String nombreTipoRegistroSeleccionado = (String) comboBoxTipoRegistro.getSelectedItem();
 			if (nombreEdicionSeleccionado != null && nombreTipoRegistroSeleccionado != null) {
 				try {
-					DTTipoRegistro dt = controlEvento.consultaTipoRegistro(nombreEdicionSeleccionado,
-							nombreTipoRegistroSeleccionado);
-					cargarDatos(dt);
+					cargarDatos(nombreEdicionSeleccionado,nombreTipoRegistroSeleccionado);
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
@@ -272,13 +275,15 @@ public class ConsultaTipoRegistro extends JInternalFrame {
 		textField_3_cupo.setText("");
 	}
 
-	public void cargarDatos(DTTipoRegistro dtTipo) {
-		if (dtTipo == null)
-			return;
-		textField_nombre.setText(dtTipo.getNombre());
-		textField_1_desc.setText(dtTipo.getDescripcion());
-		textField_2_costo.setText(String.valueOf(dtTipo.getCosto()));
-		textField_3_cupo.setText(String.valueOf(dtTipo.getCupo()));
+	public void cargarDatos(String nombreEdicionSeleccionado,String nombreTipoRegistroSeleccionado ) {
+
+		DTTipoRegistro dt = controlEvento.consultaTipoRegistro(nombreEdicionSeleccionado,nombreTipoRegistroSeleccionado);
+		if (dt != null) {
+		textField_nombre.setText(dt.getNombre());
+		textField_1_desc.setText(dt.getDescripcion());
+		textField_2_costo.setText(String.valueOf(dt.getCosto()));
+		textField_3_cupo.setText(String.valueOf(dt.getCupo()));
+		}
 	}
 
 	public void cargarDatos(DTTipoRegistro dtTipo, String nombreEvento, String nombreEdicion) {

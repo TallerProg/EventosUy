@@ -22,7 +22,7 @@ public class ConsultaEvento extends JInternalFrame {
 	private IControllerEvento controlEvento;
 	private JTextField textField_Nombre;
 	private JTextField textField_Sigla;
-	private JTextField textField_Descripcion;
+	private JTextArea textArea_Descripcion;
 	private JTextField textField_FAlta;
 	private JComboBox<String> comboBoxEvento;
 	private JComboBox<String> comboBox_Categorias;
@@ -36,7 +36,7 @@ public class ConsultaEvento extends JInternalFrame {
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setClosable(true);
 		setTitle("Consultar Evento");
-		setSize(700, 400);
+		setSize(800, 500);
 		getContentPane().setLayout(new BorderLayout(0, 0));
 
 		JPanel panelCombos = new JPanel();
@@ -104,15 +104,21 @@ public class ConsultaEvento extends JInternalFrame {
 		gbc_lblDes.gridy = 2;
 		panel_3.add(lblDes, gbc_lblDes);
 
-		textField_Descripcion = new JTextField();
-		textField_Descripcion.setEditable(false);
-		GridBagConstraints gbc_textField_Descripcion = new GridBagConstraints();
-		gbc_textField_Descripcion.insets = new Insets(0, 0, 5, 0);
-		gbc_textField_Descripcion.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_Descripcion.gridx = 1;
-		gbc_textField_Descripcion.gridy = 2;
-		panel_3.add(textField_Descripcion, gbc_textField_Descripcion);
-		textField_Descripcion.setColumns(10);
+		textArea_Descripcion = new JTextArea(3, 30); 
+		textArea_Descripcion.setBackground(UIManager.getColor("TextField.inactiveBackground"));
+		textArea_Descripcion.setEditable(false);
+		textArea_Descripcion.setLineWrap(true);  
+		textArea_Descripcion.setWrapStyleWord(true); 
+		JScrollPane scrollDescripcion = new JScrollPane(textArea_Descripcion);
+		scrollDescripcion.setEnabled(false);
+		GridBagConstraints gbc_textArea_Descripcion = new GridBagConstraints();
+		gbc_textArea_Descripcion.insets = new Insets(0, 0, 5, 0);
+		gbc_textArea_Descripcion.fill = GridBagConstraints.BOTH; 
+		gbc_textArea_Descripcion.gridx = 1;
+		gbc_textArea_Descripcion.gridy = 2;
+
+		panel_3.add(scrollDescripcion, gbc_textArea_Descripcion);
+		
 
 		JLabel lblFechaDeAlta = new JLabel("Fecha de alta:");
 		GridBagConstraints gbc_lblFechaDeAlta = new GridBagConstraints();
@@ -170,17 +176,7 @@ public class ConsultaEvento extends JInternalFrame {
 		panel_btn.add(btnVerEdicion);
 
 		comboBoxEvento.addActionListener(e -> {
-			String nombreEventoSeleccionado = (String) comboBoxEvento.getSelectedItem();
-			limpiarCamposTexto();
-			if (nombreEventoSeleccionado != null) {
-				DTevento dt = controlEvento.consultaEvento(nombreEventoSeleccionado);
-				textField_Nombre.setText(dt.getNombre());
-				textField_Sigla.setText(dt.getSigla());
-				textField_Descripcion.setText(dt.getDescripcion());
-				textField_FAlta.setText(dt.getFAlta().toString());
-				cargarCategorias(dt.getCategorias());
-				cargarEdiciones(dt.getEdiciones());
-			}
+			cargarDatos();
 		});
 
 		btnVerEdicion.addActionListener(e -> {
@@ -193,7 +189,19 @@ public class ConsultaEvento extends JInternalFrame {
 		});
 
 	}
-
+	public void cargarDatos() {
+		String nombreEventoSeleccionado = (String) comboBoxEvento.getSelectedItem();
+		limpiarCamposTexto();
+		if (nombreEventoSeleccionado != null) {
+			DTevento dt = controlEvento.consultaEvento(nombreEventoSeleccionado);
+			textField_Nombre.setText(dt.getNombre());
+			textField_Sigla.setText(dt.getSigla());
+			textArea_Descripcion.setText(dt.getDescripcion());
+			textField_FAlta.setText(dt.getFAlta().toString());
+			cargarCategorias(dt.getCategorias());
+			cargarEdiciones(dt.getEdiciones());
+		}
+	}
 	public void ConsultaEventocargar() {
 		List<Evento> eventos = controlEvento.listarEventos();
 		List<String> nombres = new java.util.ArrayList<>();
@@ -203,6 +211,7 @@ public class ConsultaEvento extends JInternalFrame {
 
 		DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(nombres.toArray(new String[0]));
 		comboBoxEvento.setModel(model);
+		cargarDatos();
 
 	}
 
@@ -241,7 +250,7 @@ public class ConsultaEvento extends JInternalFrame {
 	private void limpiarCamposTexto() {
 		textField_Nombre.setText("");
 		textField_Sigla.setText("");
-		textField_Descripcion.setText("");
+		textArea_Descripcion.setText("");
 		textField_FAlta.setText("");
 	}
 	/**
