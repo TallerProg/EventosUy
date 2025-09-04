@@ -176,7 +176,7 @@ public class AltaEdicionEvento extends JInternalFrame {
         getContentPane().add(lblFechaFin, gbc_lblFechaFin);
         row++;
 
-        txtFechaAlta = crearCampoFecha("##/##/####");
+        txtFechaAlta = crearCampoFecha(LocalDate.now().format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy")));
         GridBagConstraints gbc_txtFechaAlta = new GridBagConstraints();
         gbc_txtFechaAlta.insets = new Insets(5,5,5,5);
         gbc_txtFechaAlta.fill = GridBagConstraints.HORIZONTAL;

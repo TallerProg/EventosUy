@@ -197,14 +197,24 @@ public class ConsultaRegistro extends JInternalFrame {
 		for (Asistente asistente : icu.getAsistentes()) {
 			comboBoxUsuario.addItem(asistente.getNickname());
 		}
-		comboBoxRegistro.setEnabled(false);
+		if (comboBoxUsuario.getItemCount() > 0) {
+			comboBoxUsuario.setSelectedIndex(0);
+			listarRegistrosAsistente((String) comboBoxUsuario.getSelectedItem());
+		}
+		
 	}
 
 	private void listarRegistrosAsistente(String usuarioSeleccionado) {
 		List<String> registros = icu.getAsistenteRegistro(usuarioSeleccionado);
 		DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(registros.toArray(new String[0]));
 		comboBoxRegistro.setModel(model);
-		comboBoxRegistro.setEnabled(true);
+		if (!registros.isEmpty()) {
+			comboBoxRegistro.setEnabled(true);
+			comboBoxRegistro.setSelectedIndex(0);
+	}else {
+			comboBoxRegistro.setEnabled(false);
+		}
+		
 	}
 
 	public static ConsultaRegistro crearYMostrar(IControllerUsuario controllerU, String nombreUsuario,

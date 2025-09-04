@@ -138,6 +138,7 @@ public class ModificarUsuario extends JInternalFrame {
         getContentPane().add(lblCorreo, gbc_lblCorreo);
 
         textFieldCorreo = new JTextField();
+        textFieldCorreo.setEditable(false);
         GridBagConstraints gbc_textCorreo = new GridBagConstraints();
         gbc_textCorreo.insets = new Insets(5, 5, 5, 5);
         gbc_textCorreo.fill = GridBagConstraints.HORIZONTAL;
@@ -323,5 +324,12 @@ public class ModificarUsuario extends JInternalFrame {
         for (Usuario u : usuarios) {
             comboUsuarios.addItem(u);
         }
+        
+		if (!usuarios.isEmpty()) {
+			comboUsuarios.setSelectedIndex(0);
+			String nick = usuarios.get(0).getNickname();
+			if(nick != null)
+			actualizarCampos();
+		}
     }
 }

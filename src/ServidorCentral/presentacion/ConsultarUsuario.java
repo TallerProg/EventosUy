@@ -245,6 +245,14 @@ public class ConsultarUsuario extends JInternalFrame {
 		}
 		DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(nicks.toArray(new String[0]));
 		comboBoxUsuario.setModel(model);
+		
+		if (nicks.isEmpty()) {
+			comboBoxUsuario.addItem("No hay usuarios");
+			comboBoxUsuario.setEnabled(false);
+		} else {
+			comboBoxUsuario.setEnabled(true);
+			comboBoxUsuario.setSelectedIndex(0);
+		}
 	}
 
 	private void cargarEdiciones(List<Edicion> ediciones) {
