@@ -78,7 +78,7 @@ public class Patrocinio {
 	public List<Registro> getRegistros() {
 		return registros;
 	}
-
+	//retorna tru si se pueden seguir agregando registros gratuitos
 	public boolean consultarRegistros() {
 		long cantidadGratis = registros.stream().filter(r -> r.getCosto() == 0).count();
 		return cantidadGratis < registroGratuito;

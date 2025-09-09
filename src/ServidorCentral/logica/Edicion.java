@@ -140,11 +140,15 @@ public class Edicion {
 		if (tr == null) {
 			throw new Exception("tipo registro no existe");
 		}
-		if (tr != null && !registrado(asistente)) {
-			return !tr.soldOutTipReg();
-		} else {
+		
+		if (tr != null && registrado(asistente)) {
+	
 			throw new Exception(asistente.getNickname() + " Ya esta registrado");
 		}
+		if(tr != null && !registrado(asistente) && tr.soldOutTipReg()) {
+			throw new Exception("No hay mas lugares disponibles para el tipo de registro " + nombreTR);
+		}
+		return true;
 	}
 
 	public DTTipoRegistro datosTipoRegistroEdicion(String nombreTipoR) {

@@ -40,11 +40,20 @@ public class Institucion {
         if (asistentes != null) {
             for (Asistente a : asistentes) {
                 if (a != null)
-                    a.setPatrocinio(pat);
+                    a.addPatrocinio(pat);
             }
         }
         patrocinios.add(pat);
     }
+    
+    public Patrocinio findPatrocinio(String codigo) {
+		for (Patrocinio p : patrocinios) {
+			if (p.getCodigo().equals(codigo)) {
+				return p;
+			}
+		}
+		return null;
+	}
 
     public void addAsistente(Asistente a) {
         this.asistentes.add(a);

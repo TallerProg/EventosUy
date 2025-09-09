@@ -13,7 +13,7 @@ public class Asistente extends Usuario {
 
 	private Institucion institucion;
 
-	private Patrocinio patrocinio;
+	private List<Patrocinio> patrocinios;
 
 	public Asistente(String nickname, String correo, String nombre, String apellido, LocalDate fNacimiento,
 			Institucion ins) {
@@ -23,7 +23,7 @@ public class Asistente extends Usuario {
 		this.fNacimiento = fNacimiento;
 		this.registros = new ArrayList<>();
 		this.institucion = ins;
-		this.patrocinio = null;
+		this.patrocinios = new ArrayList<>();
 	}
 
 	public Asistente(String nickname, String correo, String nombre, String apellido, LocalDate fNacimiento) {
@@ -33,7 +33,7 @@ public class Asistente extends Usuario {
 		this.fNacimiento = fNacimiento;
 		this.registros = new ArrayList<>();
 		this.institucion = null;
-		this.patrocinio = null;
+		this.patrocinios = new ArrayList<>();
 	}
 
 	public String getApellido() {
@@ -64,12 +64,12 @@ public class Asistente extends Usuario {
 		this.institucion = institucion;
 	}
 
-	public Patrocinio getPatrocinio() {
-		return patrocinio;
+	public List<Patrocinio> getPatrocinios() {
+		return patrocinios;
 	}
 
-	public void setPatrocinio(Patrocinio patrocinio) {
-		this.patrocinio = patrocinio;
+	public void addPatrocinio(Patrocinio patrocinio) {
+		this.patrocinios.add(patrocinio);
 	}
 
 	public List<String> registrosFechas() {

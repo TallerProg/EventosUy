@@ -58,6 +58,7 @@ public class ControllerUsuario implements IControllerUsuario {
             mu.agregarAsistente(a);
             mu.agregarUsuario(a);
             ins.addAsistente(a);
+            
         }
     }
 

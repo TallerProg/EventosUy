@@ -143,20 +143,21 @@ public class ControllerEvento implements IControllerEvento {
 			throw new Exception("Asistente no existe");
 		}
 		Asistente asistente = manejadorUsuario.findAsistente(nickAsistente);
-		if ((asistente.getPatrocinio() == null)) {
-			throw new Exception("Patrocinio no encontrado");
+		
+		if(asistente.getInstitucion() == null) {
+			throw new Exception("Asistente no asociado a institución");
 		}
-		if (asistente != null && asistente.getPatrocinio() != null) {
-			String codigoPatrocinio = asistente.getPatrocinio().getCodigo();
-			if (codigoPatrocinio == null || !codigoPatrocinio.trim().equals(codigo.trim())) {
+		if (asistente != null && asistente.getInstitucion().findPatrocinio(codigo) == null) {
 				throw new Exception("Ese código no es válido para este asistente");
-			}
 		}
-
-		if ((asistente.getPatrocinio() != null) && (!asistente.getPatrocinio().consultarRegistros())) {
-			throw new Exception("Ya no quedan cupos gratuitos");
+	
+		Patrocinio pa = asistente.getInstitucion().findPatrocinio(codigo);
+		if (!pa.consultarRegistros()) {
+			throw new Exception("Ya no quedan cupos gratuitos para ese código");
 		}
-
+		if(pa.getTipoRegistro().getNombre() != nombreTR) {
+			throw new Exception("El código no es válido para ese tipo de registro");
+		}
 		if (edicion.habilitadoAsistente(nombreTR, asistente)) {
 			TipoRegistro tr = edicion.getEdicionTR(nombreTR);
 			if (tr.soldOutTipReg()) {
@@ -164,14 +165,14 @@ public class ControllerEvento implements IControllerEvento {
 			}
 			float costo = 0;
 			Registro reg = new Registro(costo, edicion, asistente, tr);
-			Patrocinio pa = asistente.getPatrocinio();
-			if ((asistente.getPatrocinio() != null)) {
+			
 				reg.setPatrocinio(pa);
-				asistente.getPatrocinio().agregarRegistro(reg);
+				pa.agregarRegistro(reg);
 				edicion.addLinkRegistro(reg);
 				tr.addLinkRegistro(reg);
 				asistente.addRegistro(reg);
-			}
+				asistente.addPatrocinio(pa);
+			
 		}
 	}
 	
@@ -186,17 +187,15 @@ public class ControllerEvento implements IControllerEvento {
 			throw new Exception("Asistente no existe");
 		}
 		Asistente asistente = manejadorUsuario.findAsistente(nickAsistente);
-		if ((asistente.getPatrocinio() == null)) {
-			throw new Exception("Patrocinio no encontrado");
+		if(asistente.getInstitucion() == null) {
+			throw new Exception("Asistente no asociado a institución");
 		}
-		if (asistente != null && asistente.getPatrocinio() != null) {
-			String codigoPatrocinio = asistente.getPatrocinio().getCodigo();
-			if (codigoPatrocinio == null || !codigoPatrocinio.trim().equals(codigo.trim())) {
+		if (asistente != null && asistente.getInstitucion().findPatrocinio(codigo) == null) {
 				throw new Exception("Ese código no es válido para este asistente");
-			}
 		}
-
-		if ((asistente.getPatrocinio() != null) && (!asistente.getPatrocinio().consultarRegistros())) {
+	
+		Patrocinio pa = asistente.getInstitucion().findPatrocinio(codigo);
+		if (pa.consultarRegistros()) {
 			throw new Exception("Ya no quedan cupos gratuitos");
 		}
 
@@ -207,14 +206,14 @@ public class ControllerEvento implements IControllerEvento {
 			}
 			float costo = 0;
 			Registro reg = new Registro(costo, edicion, asistente, tr, fecha);
-			Patrocinio pa = asistente.getPatrocinio();
-			if ((asistente.getPatrocinio() != null)) {
+			
 				reg.setPatrocinio(pa);
-				asistente.getPatrocinio().agregarRegistro(reg);
+				pa.agregarRegistro(reg);
 				edicion.addLinkRegistro(reg);
 				tr.addLinkRegistro(reg);
 				asistente.addRegistro(reg);
-			}
+				asistente.addPatrocinio(pa);
+				pa.getAsistentes().add(asistente);
 		}
     }
     

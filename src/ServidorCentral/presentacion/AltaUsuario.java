@@ -212,6 +212,7 @@ public class AltaUsuario extends JInternalFrame {
 					String nombreInstitucion = (String) comboInstitucion.getSelectedItem();
 					Institucion inst = null;
 					if (!nombreInstitucion.equals("Ninguna")) {
+						
 						inst = controlIns.findInstitucion(nombreInstitucion);
 					}
 

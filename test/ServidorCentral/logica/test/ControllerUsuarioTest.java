@@ -83,7 +83,7 @@ class ControllerUsuarioTest {
 			assertEquals(a.getApellido(), apellidoTest);
 			assertEquals(a.getfNacimiento(), fNacimientoTest);
 			assertEquals(a.getInstitucion(), null);
-			assertEquals(a.getPatrocinio(),null);
+			
 			
 		} catch (UsuarioRepetidoException e) {
 			fail(e.getMessage());
