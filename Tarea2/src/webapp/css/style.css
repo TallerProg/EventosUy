@@ -1,0 +1,180 @@
+/* ================================
+   GENERAL STYLES
+================================ */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f8f9fa;
+    color: #343a40;
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+}
+
+a {
+    text-decoration: none !important;
+}
+
+/* ================================
+   NAVBAR
+================================ */
+.navbar {
+    background-color: #ffffff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    padding: 15px 0;
+}
+
+.navbar .nav-link {
+    color: #343a40 !important;
+    font-weight: 500;
+    margin: 0 10px;
+    transition: color 0.3s;
+}
+
+.navbar .nav-link:hover {
+    color: #007bff !important;
+}
+
+.navbar-brand h1 span.text-primary {
+    color: #007bff !important;
+}
+
+/* ================================
+   CAROUSEL
+================================ */
+.carousel-inner .carousel-item {
+    position: relative;
+}
+
+.carousel-inner .carousel-item img {
+    object-fit: cover;
+    height: 410px;
+}
+
+.carousel-caption {
+    background: rgba(0,0,0,0.5);
+    padding: 20px 30px;
+    border-radius: 10px;
+}
+
+.carousel-caption h3 {
+    font-size: 2rem;
+}
+
+.carousel-caption .btn {
+    background-color: #007bff;
+    border: none;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: #007bff;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+}
+
+/* ================================
+   EVENT CARDS
+================================ */
+.card.product-item {
+    border-radius: 10px;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card.product-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.card.product-item .card-header img {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    height: 200px;
+    object-fit: cover;
+}
+
+.card.product-item h5 {
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.card.product-item .badge {
+    font-size: 0.75rem;
+    margin: 2px 2px 2px 0;
+}
+
+/* ================================
+   SECTION TITLES
+================================ */
+.section-title {
+    font-size: 2rem;
+    font-weight: 700;
+    position: relative;
+    display: inline-block;
+    margin-bottom: 30px;
+}
+
+.section-title span {
+    background: #f8f9fa;
+}
+
+/* ================================
+   FOOTER
+================================ */
+footer, .container-fluid.bg-secondary {
+    background-color: #343a40 !important;
+    color: #ffffff !important;
+}
+
+.container-fluid.bg-secondary a {
+    color: #ffffff;
+    transition: color 0.3s;
+}
+
+.container-fluid.bg-secondary a:hover {
+    color: #007bff;
+}
+
+.container-fluid.bg-secondary .display-5 span.text-primary {
+    color: #007bff !important;
+}
+
+.container-fluid.bg-secondary p {
+    color: #dcdcdc;
+}
+
+/* ================================
+   BACK TO TOP BUTTON
+================================ */
+.back-to-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: none;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    text-align: center;
+    line-height: 45px;
+    font-size: 18px;
+}
+
+.back-to-top:hover {
+    background-color: #0056b3 !important;
+}
+
+/* ================================
+   RESPONSIVE
+================================ */
+@media (max-width: 991px) {
+    .carousel-caption h3 {
+        font-size: 1.5rem;
+    }
+
+    .card.product-item .card-header img {
+        height: 180px;
+    }
+}
