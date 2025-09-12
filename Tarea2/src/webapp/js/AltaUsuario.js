@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function () {
         alert("Por favor complete todos los campos obligatorios.");
       } else {
         event.preventDefault();
-        window.location.href = "IndexLoggeado.html";
+        window.location.href = "IndexLogeado.html";
       }
       form.classList.add('was-validated');
     }, false);
