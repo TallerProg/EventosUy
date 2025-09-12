@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>EventUY - Consulta Usuario</title>
+  
+    <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Rubik:wght@400;500;600;700&family=Kanit:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+  
+
+  <link href="../img/logoeuy.png" rel="icon">
+  <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="../css/main.css" rel="stylesheet">
+</head>
+
+<body class="index-page">
+
+  <!-- Header -->
+  <header id="header" class="header d-flex align-items-center fixed-top">
+    <div class="header-container container-fluid container-xl d-flex align-items-center justify-content-between">
+	
+		<nav id="navmenu" class="navmenu">
+	        <ul>
+		      <a href="../index.html" class="logo d-flex align-items-center" data-bs-toggle="tooltip"
+		        data-bs-placement="bottom" title="Inicio">
+		        <img src="../img/logoeuy.png" alt="EventUY Logo">
+		      </a>       	
+	          <li><a href="usuarios.html" class="active">Usuarios</a></li>
+	          <li><a href="ConsultaUsuario.html" class="active">Consulta de Usuarios</a></li>
+	          <a href=".../html/login.html" class="login-icon" data-bs-toggle="tooltip" data-bs-placement="bottom" 
+	          title="Login / Registrarse">
+	          <i class="bi bi-person-circle"></i>
+	          </a>
+		                  </ul>
+	        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+	      </nav>
+    </div>
+  </header>
+
+  <main class="main">
+
+    <!-- Perfil de Usuario -->
+    <section id="user-profile" class="speakers section">
+      <div class="container section-title">
+        <h2>Perfil de Usuario</h2>
+      </div>
+
+      <div class="container">
+        <div class="row">
+          <!-- Columna izquierda: datos -->
+          <div class="col-lg-6">
+            <div class="card p-4 h-100">
+              <div class="d-flex">
+                <!-- Imagen rectangular -->
+                <div class="me-3">
+                  <img id="user-photo" src="../img/users/default-avatar.png" alt="Usuario"
+                       class="img-fluid" style="max-width:150px; height:auto; border-radius:8px;">
+                </div>
+                <!-- Información -->
+                <div>
+                  <p id="user-name" class="fw-bold fs-4 mb-1">Nombre</p>
+                  <p id="user-email" class="text-muted mb-1">Correo</p>
+                  <p id="user-extra1" class="mb-1"></p>
+                  <p id="user-extra2" class="mb-1"></p>
+                  <p id="user-role" class="fw-semibold">Tipo: ---</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Columna derecha: ediciones -->
+          <div class="col-lg-6">
+            <div class="card p-4 h-100">
+              <h4>Ediciones</h4>
+              <div id="user-editions" class="carousel slide" data-bs-ride="carousel">
+			      <div class="carousel-inner" id="editions-carousel">
+			        <div class="carousel-item active">
+			          <div class="d-flex justify-content-center align-items-center" style="height:200px;">
+			            <p>No hay ediciones disponibles</p>
+			          </div>
+			        </div>
+			      </div>
+			
+			      <!-- Controles -->
+			      <button class="carousel-control-prev" type="button" data-bs-target="#user-editions" data-bs-slide="prev">
+			        <span class="carousel-control-prev-icon"></span>
+			      </button>
+			      <button class="carousel-control-next" type="button" data-bs-target="#user-editions" data-bs-slide="next">
+			        <span class="carousel-control-next-icon"></span>
+			      </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer id="footer" class="footer position-relative light-background">
+        <div class="container copyright text-center mt-4">
+            <div class="social-links d-flex mt-4">
+                <a href=""><i class="bi bi-twitter-x"></i></a>
+                <a href=""><i class="bi bi-facebook"></i></a>
+                <a href=""><i class="bi bi-instagram"></i></a>
+                <a href=""><i class="bi bi-linkedin"></i></a>
+                <a href="https://gitlab.fing.edu.uy/tprog/tpgr27"><i class="bi bi-gitlab"></i></a>
+            </div>
+            <div class="credits">
+                Taller de Programacion FING G27
+            </div>
+        </div>
+    </footer>
+
+
+
+  <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="../js/main.js"></script>
+  <script>
+  document.addEventListener("DOMContentLoaded", cargarUsuario);
+  </script>
+  
+</body>
+</html>
+
