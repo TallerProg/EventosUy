@@ -286,6 +286,13 @@ h1,h2,h3,h4,h5,h6 {
   font-size: 26px;
   font-weight: 700;
 }
+.footer .social-links {
+  display: flex;
+  justify-content: center; /* centra la tira completa */
+  gap: 10px;               /* espacio entre íconos, reemplaza al margin-right */
+  margin-bottom: 15px;     /* separa la tira del texto de abajo */
+}
+
 .footer .social-links a {
   display: flex;
   align-items: center;
@@ -509,3 +516,40 @@ section,.section {
 .tickets .ticket-btn:hover {
   background: color-mix(in srgb, var(--accent-color), transparent 15%);
 }
+.navbar-search-group {
+    border-radius: 999px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 .125rem .5rem rgba(0,0,0,.06);
+  }
+  .navbar-search-addon {
+    background: transparent;
+    border: 0;
+    padding-left: .9rem;
+  }
+  .navbar-search-input {
+    border: 0 !important;
+    padding: .75rem 1rem;
+  }
+  .navbar-search-input:focus {
+    box-shadow: none;
+  }
+  .navbar-search-clear {
+    border: 0;
+    border-left: 1px solid rgba(0,0,0,.06);
+  }
+
+  /* Chips */
+  #categorias .cat-chip {
+    border-radius: 999px;
+    padding: .5rem .9rem;
+    transition: .15s ease-in-out;
+  }
+  #categorias .cat-chip.active {
+    color: #fff;
+    background-color: var(--bs-primary);
+    border-color: var(--bs-primary);
+  }
+  #categorias .cat-chip:focus {
+    box-shadow: 0 0 0 .25rem rgba(13,110,253,.25);
+  }
