@@ -9,8 +9,8 @@
   <meta name="keywords" content="">
 
   <!-- Favicons -->
-  <link href="img/logoeuy.png" rel="icon">
-  <link href="img/logoeuy.png" rel="apple-touch-icon">
+  <link href="assets/img/logoeuy.png" rel="icon">
+  <link href="assets/img/logoeuy.png" rel="apple-touch-icon">
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com" rel="preconnect">
@@ -18,14 +18,14 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 
   <!-- Vendor CSS Files -->
-  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="vendor/aos/aos.css" rel="stylesheet">
-  <link href="vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-  <link href="vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
 
   <!-- Main CSS File -->
-  <link href="css/main.css" rel="stylesheet">
+  <link href="assets/css/main.css" rel="stylesheet">
 
 </head>
 
@@ -39,7 +39,7 @@
         
         <ul>
           <a href="index.html" class="logo d-flex align-items-center">
-        <img src="img/logoeuy.png" alt=""> 
+        <img src="assets/img/logoeuy.png" alt=""> 
       </a>
         
           <li><a href="contact.html">Boton1</a></li>
@@ -73,13 +73,6 @@
           </li>
           <li><a href="contact.html">Contact</a></li>
           <li class="ms-auto">
-            <li class="nav-item search-item">
-  <form class="search-form" action="search.html" method="get">
-    <input type="text" name="q" class="search-input" placeholder="Buscar eventos...">
-    <button type="submit" class="search-btn"><i class="bi bi-search"></i></button>
-  </form>
-</li>
-
   <a href="login.html" class="login-icon" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Login / Registrarse">
     <i class="bi bi-box-arrow-in-right fs-3"></i>
   </a>
@@ -121,7 +114,7 @@
     <div class="col-lg-3 col-md-6">
       <div class="speaker-card">
         <div class="speaker-image">
-          <img src="img/events/speaker-8.webp" alt="Speaker" class="img-fluid">
+          <img src="assets/img/events/speaker-8.webp" alt="Speaker" class="img-fluid">
         </div>
         <div class="speaker-content">
           <div class="speaker-badge">Ejemplo Evento</div>
@@ -143,7 +136,7 @@
     <div class="col-lg-3 col-md-6">
       <div class="speaker-card">
         <div class="speaker-image">
-          <img src="img/events/speaker-8.webp" alt="Speaker" class="img-fluid">
+          <img src="assets/img/events/speaker-8.webp" alt="Speaker" class="img-fluid">
         </div>
         <div class="speaker-content">
           <div class="speaker-badge">Ejemplo Evento</div>
@@ -164,7 +157,7 @@
     <div class="col-lg-3 col-md-6">
       <div class="speaker-card">
         <div class="speaker-image">
-          <img src="img/events/speaker-8.webp" alt="Speaker" class="img-fluid">
+          <img src="assets/img/events/speaker-8.webp" alt="Speaker" class="img-fluid">
         </div>
         <div class="speaker-content">
           <div class="speaker-badge">Ejemplo Evento</div>
@@ -186,7 +179,7 @@
     <div class="col-lg-3 col-md-6">
       <div class="speaker-card">
         <div class="speaker-image">
-          <img src="img/events/speaker-8.webp" alt="Speaker" class="img-fluid">
+          <img src="assets/img/events/speaker-8.webp" alt="Speaker" class="img-fluid">
         </div>
         <div class="speaker-content">
           <div class="speaker-badge">Ejemplo Evento</div>
@@ -208,7 +201,7 @@
     <div class="col-lg-3 col-md-6">
       <div class="speaker-card">
         <div class="speaker-image">
-          <img src="img/events/speaker-8.webp" alt="Speaker" class="img-fluid">
+          <img src="assets/img/events/speaker-8.webp" alt="Speaker" class="img-fluid">
         </div>
         <div class="speaker-content">
           <div class="speaker-badge">Ejemplo Evento</div>
@@ -357,45 +350,6 @@
       </div>
 
     </section><!-- /Tickets Section -->
-    <!-- Registro Section -->
-<section id="register" class="register section">
-  <div class="container section-title" data-aos="fade-up">
-    <h2>Registro</h2>
-    <p>Crea tu cuenta para participar en nuestros eventos</p>
-  </div>
-
-  <div class="container" data-aos="fade-up" data-aos-delay="100">
-    <div class="register-card">
-      <form action="registro.php" method="post" class="register-form">
-        
-        <div class="form-group">
-          <label for="name">Nombre completo</label>
-          <input type="text" id="name" name="name" required>
-        </div>
-
-        <div class="form-group">
-          <label for="email">Correo electrónico</label>
-          <input type="email" id="email" name="email" required>
-        </div>
-
-        <div class="form-group">
-          <label for="password">Contraseña</label>
-          <input type="password" id="password" name="password" required>
-        </div>
-
-        <div class="form-group">
-          <label for="confirm-password">Confirmar contraseña</label>
-          <input type="password" id="confirm-password" name="confirm-password" required>
-        </div>
-
-        <button type="submit" class="btn-register">Registrarse</button>
-
-        <p class="login-text">¿Ya tienes cuenta? <a href="login.html">Inicia sesión</a></p>
-      </form>
-    </div>
-  </div>
-</section>
-
 
   </main>
 
@@ -488,13 +442,17 @@
   <div id="preloader"></div>
 
   <!-- Vendor JS Files -->
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="vendor/php-email-form/validate.js"></script>
-  <script src="vendor/aos/aos.js"></script>
-  
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+  <script src="assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
+  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
 
   <!-- Main JS File -->
-  <script src="js/main.js"></script>
+  <script src="assets/js/main.js"></script>
 
 </body>
 
