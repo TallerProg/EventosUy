@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modificar Datos de Usuario</title>
+
+  <!-- Bootstrap -->
+  <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="../css/main.css" rel="stylesheet">
+
+  <style>
+    .profile-card {
+      max-width: 700px;
+      margin: 0 auto;
+      background: var(--surface-color);
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+    }
+    .profile-image {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .profile-image img {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #ddd;
+    }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+
+  <main class="main">
+    <section id="modificar-usuario" class="section">
+      <div class="container">
+        <div class="section-title">
+          <h2>Modificar Datos de Usuario</h2>
+          <p class="text-muted">Actualiza tu información personal</p>
+        </div>
+
+        <div class="profile-card">
+          <form id="form-modificar" class="register-form" action="#" method="post" enctype="multipart/form-data">
+
+            <!-- Imagen de perfil -->
+            <div class="profile-image">
+              <img id="preview" src="../img/default-user.png" alt="Foto de perfil">
+            </div>
+            <div class="form-group mb-3">
+              <label for="imagen">Imagen de perfil</label>
+              <input type="file" id="imagen" name="imagen" class="form-control" accept="image/*">
+            </div>
+
+            <!-- Nickname y correo (solo lectura) -->
+            <div class="form-group mb-3">
+              <label for="nickname">Nickname</label>
+              <input type="text" id="nickname" name="nickname" class="form-control" value="usuario123" readonly>
+            </div>
+            <div class="form-group mb-3">
+              <label for="correo">Correo electrónico</label>
+              <input type="email" id="correo" name="correo" class="form-control" value="usuario@mail.com" readonly>
+            </div>
+
+            <!-- Datos comunes -->
+            <div class="form-group mb-3">
+              <label for="nombre">Nombre</label>
+              <input type="text" id="nombre" name="nombre" class="form-control" value="Juan">
+            </div>
+
+            <!-- Campos exclusivos de Asistente -->
+            <div id="asistente-fields" class="hidden">
+              <div class="form-group mb-3">
+                <label for="apellido">Apellido</label>
+                <input type="text" id="apellido" name="apellido" class="form-control" value="Pérez">
+              </div>
+              <div class="form-group mb-3">
+                <label for="fechaNacimiento">Fecha de nacimiento</label>
+                <input type="date" id="fechaNacimiento" name="fechaNacimiento" class="form-control" value="1990-05-12">
+              </div>
+              <div class="form-group mb-3">
+                <label for="institucion">Institución</label>
+                <select id="institucion" name="institucion" class="form-control">
+                  <option value="">-- Seleccione institución --</option>
+                  <option value="fing">FING</option>
+                  <option value="udelar">Udelar</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Campos exclusivos de Organizador -->
+            <div id="organizador-fields" class="hidden">
+              <div class="form-group mb-3">
+                <label for="descripcion">Descripción</label>
+                <textarea id="descripcion" name="descripcion" class="form-control" rows="3">Organizador de eventos</textarea>
+              </div>
+              <div class="form-group mb-3">
+                <label for="url">Sitio web</label>
+                <input type="url" id="url" name="url" class="form-control" value="https://misitio.com">
+              </div>
+            </div>
+
+            <!-- Contraseña -->
+            <div class="form-group mb-3">
+              <label for="password">Nueva contraseña</label>
+              <input type="password" id="password" name="password" class="form-control" placeholder="Dejar vacío si no cambia">
+            </div>
+
+            <!-- Botones -->
+            <button type="submit" class="btn-register">Guardar cambios</button>
+            <button type="reset" class="btn-register" style="background:#ccc; color:#000;">Cancelar</button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Bootstrap JS -->
+  <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      
+      const tipoUsuario = "asistente"; // o "organizador"
+
+      const asistenteFields = document.querySelector("#asistente-fields");
+      const organizadorFields = document.querySelector("#organizador-fields");
+
+      if (tipoUsuario === "asistente") {
+        asistenteFields.classList.remove("hidden");
+      } else if (tipoUsuario === "organizador") {
+        organizadorFields.classList.remove("hidden");
+      }
+
+      // Vista previa de imagen
+      document.querySelector("#imagen").addEventListener("change", function() {
+        const file = this.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = e => document.querySelector("#preview").src = e.target.result;
+          reader.readAsDataURL(file);
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>

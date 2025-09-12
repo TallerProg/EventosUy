@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Consulta de Edición de Evento</title>
+
+  <!-- Bootstrap -->
+  <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="../css/main.css" rel="stylesheet">
+
+  <style>
+    .edicion-layout {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .edicion-imagenes {
+      flex: 1 1 50%;
+    }
+    .edicion-detalles {
+      flex: 1 1 45%;
+      background: var(--surface-color);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
+    .edicion-detalles h4 {
+      color: var(--accent-color);
+      margin-bottom: 15px;
+    }
+    .carousel-inner img {
+      border-radius: 12px;
+      max-height: 400px;
+      object-fit: cover;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+
+  <main class="main">
+    <section id="consulta-edicion" class="section">
+      <div class="container">
+        
+        <!-- Título -->
+        <div class="section-title">
+          <h2>Consulta de Edición de Evento</h2>
+          <p class="text-muted">Selecciona un evento y una edición para ver los detalles</p>
+        </div>
+
+        <!-- Selección de evento y edición -->
+        <div class="register-card mb-4">
+          <form id="form-consulta" class="register-form row g-3">
+            <div class="col-md-6">
+              <label for="evento" class="form-label"><i class="bi bi-calendar-event"></i> Evento</label>
+              <select id="evento" name="evento" class="form-control">
+                <option value="">-- Seleccione un evento --</option>
+                <option value="1">Conferencia de Tecnología</option>
+                <option value="2">Feria del Libro</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label for="edicion" class="form-label"><i class="bi bi-collection"></i> Edición</label>
+              <select id="edicion" name="edicion" class="form-control">
+                <option value="">-- Seleccione una edición --</option>
+              </select>
+            </div>
+          </form>
+        </div>
+
+        <!-- Layout de edición -->
+        <div class="edicion-layout" id="detalle-edicion" style="display:none;">
+          
+          <!-- Galería de imágenes -->
+          <div class="edicion-imagenes">
+            <div id="carouselEdicion" class="carousel slide" data-bs-ride="carousel">
+              <div class="carousel-inner" id="carousel-inner">
+                <!-- acá van las imágenes dinámicas -->
+              </div>
+              <button class="carousel-control-prev" type="button" data-bs-target="#carouselEdicion" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+              </button>
+              <button class="carousel-control-next" type="button" data-bs-target="#carouselEdicion" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Datos a la derecha -->
+          <div class="edicion-detalles">
+            <h4><i class="bi bi-info-circle"></i> Datos de la Edición</h4>
+            <p><strong>Nombre:</strong> <span id="nombre-edicion"></span></p>
+            <p><strong>Sigla:</strong> <span id="sigla-edicion"></span></p>
+            <p><strong>Ciudad:</strong> <span id="ciudad-edicion"></span></p>
+            <p><strong>País:</strong> <span id="pais-edicion"></span></p>
+            <p><strong>Fecha Alta:</strong> <span id="fecha-alta"></span></p>
+            <p><strong>Fecha Inicio:</strong> <span id="fecha-inicio"></span></p>
+            <p><strong>Fecha Fin:</strong> <span id="fecha-fin"></span></p>
+            <p><strong>Organizador:</strong> <span id="organizador"></span></p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- JS -->
+  <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Script dinámico -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const eventoSel = document.querySelector("#evento");
+      const edicionSel = document.querySelector("#edicion");
+      const detalleEdicion = document.querySelector("#detalle-edicion");
+      const carouselInner = document.querySelector("#carousel-inner");
+
+      // Simulamos imágenes por edición
+      const imagenesPorEdicion = {
+        ed1: [
+          "../img/events/gallery-7.webp",
+          "../img/events/showcase-8.webp"
+        ],
+        ed2: [
+          "../img/events/speaker-1.webp",
+          "../img/events/speaker-10.webp",
+          "../img/events/speaker-7.webp"
+        ]
+      };
+
+      eventoSel.addEventListener("change", () => {
+        edicionSel.innerHTML = "<option value=''>-- Seleccione una edición --</option>";
+        if (eventoSel.value === "1") {
+          edicionSel.innerHTML += "<option value='ed1'>Conferencia Tech 2025</option>";
+        }
+        if (eventoSel.value === "2") {
+          edicionSel.innerHTML += "<option value='ed2'>Feria del Libro 2025</option>";
+        }
+      });
+
+      edicionSel.addEventListener("change", () => {
+        if (!edicionSel.value) return;
+        detalleEdicion.style.display = "flex";
+
+        // Datos simulados
+        document.querySelector("#nombre-edicion").textContent = "Ejemplo Edición";
+        document.querySelector("#sigla-edicion").textContent = "EE25";
+        document.querySelector("#ciudad-edicion").textContent = "Montevideo";
+        document.querySelector("#pais-edicion").textContent = "Uruguay";
+        document.querySelector("#fecha-alta").textContent = "12/09/2025";
+        document.querySelector("#fecha-inicio").textContent = "15/10/2025";
+        document.querySelector("#fecha-fin").textContent = "20/10/2025";
+        document.querySelector("#organizador").textContent = "Ana Gómez";
+
+        // Generar carrusel dinámico
+        carouselInner.innerHTML = "";
+        const imagenes = imagenesPorEdicion[edicionSel.value] || [];
+        imagenes.forEach((src, index) => {
+          const item = document.createElement("div");
+          item.className = "carousel-item" + (index === 0 ? " active" : "");
+          item.innerHTML = `<img src="${src}" class="d-block w-100" alt="Imagen ${index+1}">`;
+          carouselInner.appendChild(item);
+        });
+      });
+    });
+  </script>
+</body>
+</html>
