@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alta de Edición de Evento</title>
+
+  <!-- Bootstrap -->
+  <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+
+  <link href="../css/main.css" rel="stylesheet">
+
+  <style>
+    /* Vista previa de imágenes */
+    #preview {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+    #preview img {
+      max-width: 120px;
+      max-height: 120px;
+      border-radius: 8px;
+      object-fit: cover;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+  </style>
+</head>
+<body>
+
+  <main class="main">
+    <section id="alta-edicion" class="section">
+      <div class="container">
+        <div class="section-title">
+          <h2>Alta de Edición de Evento</h2>
+        </div>
+
+        <div class="register-card">
+          <form id="form-alta" class="register-form" action="#" method="post" enctype="multipart/form-data">
+            
+            <!-- Evento -->
+            <div class="form-group">
+              <label for="evento">Evento</label>
+              <select id="evento" name="evento" class="form-control" required>
+                <option value="">Seleccione un evento</option>
+                <option value="1">Conferencia de Tecnología</option>
+                <option value="2">Feria del Libro</option>
+              </select>
+            </div>
+
+            <!-- Organizador -->
+            <div class="form-group">
+              <label for="organizador">Organizador</label>
+              <select id="organizador" name="organizador" class="form-control" required>
+                <option value="">Seleccione un organizador</option>
+                <option value="juan">Juan Pérez</option>
+                <option value="ana">Ana Gómez</option>
+              </select>
+            </div>
+
+            <!-- Nombre -->
+            <div class="form-group">
+              <label for="nombre">Nombre de edición</label>
+              <input type="text" id="nombre" name="nombre" placeholder="Ej: Montevideo Rock 2025" required>
+            </div>
+
+            <!-- Sigla -->
+            <div class="form-group">
+              <label for="sigla">Sigla</label>
+              <input type="text" id="sigla" name="sigla" placeholder="Ej: MR25" required>
+            </div>
+
+            <!-- Ciudad -->
+            <div class="form-group">
+              <label for="ciudad">Ciudad</label>
+              <input type="text" id="ciudad" name="ciudad" placeholder="Montevideo" required>
+            </div>
+
+            <!-- País -->
+            <div class="form-group">
+              <label for="pais">País</label>
+              <input type="text" id="pais" name="pais" placeholder="Uruguay" required>
+            </div>
+
+            <!-- Fechas -->
+            <div class="form-group">
+              <label for="fechaIni">Fecha inicio</label>
+              <input type="date" id="fechaIni" name="fechaIni" required>
+            </div>
+
+            <div class="form-group">
+              <label for="fechaFin">Fecha fin</label>
+              <input type="date" id="fechaFin" name="fechaFin" required>
+            </div>
+
+            <div class="form-group">
+              <label for="fechaAlta">Fecha alta</label>
+              <input type="date" id="fechaAlta" name="fechaAlta" value="2025-09-12" readonly>
+            </div>
+
+            <!-- Imágenes -->
+            <div class="form-group">
+              <label for="imagenes">Imágenes (opcional, puede seleccionar varias)</label>
+              <input type="file" id="imagenes" name="imagenes[]" accept="image/*" multiple>
+              <div id="preview"></div>
+            </div>
+
+            <!-- Botones -->
+            <button type="submit" class="btn-register">Aceptar</button>
+            <button type="reset" class="btn-register" style="background:#ccc; color:#000;">Cancelar</button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- JS -->
+  <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Validación -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const form = document.querySelector("#form-alta");
+      const inputImagenes = document.querySelector("#imagenes");
+      const preview = document.querySelector("#preview");
+
+      // Vista previa de imágenes
+      inputImagenes.addEventListener("change", function () {
+        preview.innerHTML = ""; // limpiar preview
+        for (const file of inputImagenes.files) {
+          const reader = new FileReader();
+          reader.onload = e => {
+            const img = document.createElement("img");
+            img.src = e.target.result;
+            preview.appendChild(img);
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const nombre = document.querySelector("#nombre").value.trim();
+        const sigla = document.querySelector("#sigla").value.trim();
+        const ciudad = document.querySelector("#ciudad").value.trim();
+        const pais = document.querySelector("#pais").value.trim();
+
+        // Validación de campos obligatorios
+        if (!nombre || !sigla || !ciudad || !pais) {
+          alert("Debe completar todos los campos obligatorios.");
+          return;
+        }
+
+        // Validación de nombre ya usado (ejemplo con lista fija)
+        const nombresExistentes = ["Montevideo Rock 2025", "Feria del Libro 2024"];
+        if (nombresExistentes.includes(nombre)) {
+          alert("El nombre ya está en uso. Por favor, elija otro.");
+          return;
+        }
+
+        // Validación de fechas
+        const fIni = document.querySelector("#fechaIni").value;
+        const fFin = document.querySelector("#fechaFin").value;
+        if (fIni && fFin && fIni > fFin) {
+          alert("La fecha de fin no puede ser anterior a la fecha de inicio.");
+          return;
+        }
+
+        alert("Edición creada con éxito ✅");
+        form.submit();
+      });
+    });
+  </script>
+</body>
+</html>
