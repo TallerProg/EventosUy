@@ -675,3 +675,43 @@ section,.section {
 .speaker-card .btn {
   pointer-events: auto;
 }
+	.edicion-layout {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .edicion-imagenes {
+      flex: 1 1 50%;
+    }
+    .edicion-detalles {
+      flex: 1 1 45%;
+      background: var(--surface-color);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
+    .edicion-detalles h4 {
+      color: var(--accent-color);
+      margin-bottom: 15px;
+    }
+    .edicion-imagenes img {
+      border-radius: 12px;
+      max-height: 400px;
+      object-fit: cover;
+      width: 100%;
+    }
+/* ---- Estilos de Alta de Edición de Evento ---- */
+.preview-imagenes {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+.preview-imagenes img {
+  max-width: 120px;
+  max-height: 120px;
+  border-radius: 8px;
+  object-fit: cover;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
