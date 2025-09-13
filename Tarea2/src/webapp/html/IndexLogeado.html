@@ -32,9 +32,11 @@
     <div class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
       <nav id="navmenu" class="navmenu">
         <ul>
-          <a href="../index.html" class="logo d-flex align-items-center">
-            <img src="../img/logoeuy.png" alt="">
-          </a>
+          <li>
+            <a href="../index.html" class="logo d-flex align-items-center">
+              <img src="../img/logoeuy.png" alt="">
+            </a>
+          </li>
           <li><a href="usuarios.html">Usuarios</a></li>
           <li><a href="consultaRegistroAsis.html">Consulta de Registro</a></li>
           <li class="dropdown">
@@ -56,23 +58,24 @@
               <li><a href="#">Investigación</a></li>
             </ul>
           </li>
-
           <li class="nav-item search-item">
             <form class="search-form" action="search.html" method="get">
               <input type="text" name="q" class="search-input" placeholder="Buscar eventos...">
               <button type="submit" class="search-btn"><i class="bi bi-search"></i></button>
             </form>
           </li>
-
           <!-- Usuario loggeado -->
           <li class="ms-auto d-flex align-items-center gap-2">
             <a href="perfil.html" class="user-info text-decoration-none d-flex align-items-center gap-2">
               <span id="userAvatar"></span>
               <span id="userName" class="fw-semibold"></span>
             </a>
+            <button type="button" class="btn p-0 border-0 bg-transparent" data-bs-toggle="modal"
+              data-bs-target="#logoutModal">
+              <i class="login-icon bi bi-box-arrow-in-right fs-3" title="Cerrar Sesión"></i>
+            </button>
           </li>
         </ul>
-        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
     </div>
   </header>
@@ -92,14 +95,14 @@
 
           <div class="carousel-inner">
             <div class="carousel-item active">
-              <img src="../img/events/ConfTecnologia.jpg" class="d-block w-100 carousel-img" alt="Conferencia de Tecnología">
+              <img src="../img/events/ConfTecnologia.jpg" class="d-block w-100 carousel-img"
+                alt="Conferencia de Tecnología">
               <div class="carousel-caption d-none d-md-block">
                 <h5 class="carousel-title">Conferencia de Tecnología</h5>
                 <p class="carousel-text">Evento sobre innovación tecnológica</p>
                 <a href="buy-tickets.html" class="btn btn-primary">Ver ediciones</a>
               </div>
             </div>
-
             <div class="carousel-item">
               <img src="../img/events/feriadellibro.jpg" class="d-block w-100 carousel-img" alt="Feria del Libro">
               <div class="carousel-caption d-none d-md-block">
@@ -108,7 +111,6 @@
                 <a href="buy-tickets.html" class="btn btn-primary">Ver ediciones</a>
               </div>
             </div>
-
             <div class="carousel-item">
               <img src="../img/events/montevideorock.png" class="d-block w-100 carousel-img" alt="Montevideo Rock">
               <div class="carousel-caption d-none d-md-block">
@@ -137,7 +139,6 @@
 
       <div class="container">
         <div class="row g-4 justify-content-center">
-
           <!-- EV01 -->
           <div class="col-lg-3 col-md-6">
             <div class="speaker-card">
@@ -154,7 +155,6 @@
               </div>
             </div>
           </div>
-
           <!-- EV02 -->
           <div class="col-lg-3 col-md-6">
             <div class="speaker-card">
@@ -171,7 +171,6 @@
               </div>
             </div>
           </div>
-
           <!-- EV03 -->
           <div class="col-lg-3 col-md-6">
             <div class="speaker-card">
@@ -188,7 +187,6 @@
               </div>
             </div>
           </div>
-
           <!-- EV04 -->
           <div class="col-lg-3 col-md-6">
             <div class="speaker-card">
@@ -205,7 +203,6 @@
               </div>
             </div>
           </div>
-
           <!-- EV05 -->
           <div class="col-lg-3 col-md-6">
             <div class="speaker-card">
@@ -222,7 +219,6 @@
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </section>
@@ -243,6 +239,25 @@
     </div>
   </footer>
 
+  <!-- Modal cerrar sesión -->
+  <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="logoutModalLabel">Confirmar cierre de sesión</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          ¿Estás seguro de que quieres cerrar sesión?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary" id="confirmLogout">Sí, cerrar sesión</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Scroll Top -->
   <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center">
     <i class="bi bi-arrow-up-short"></i>
@@ -253,7 +268,6 @@
 
   <!-- Bootstrap JS -->
   <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
   <!-- Main JS -->
   <script src="../js/main.js"></script>
 

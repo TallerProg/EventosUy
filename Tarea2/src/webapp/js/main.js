@@ -27,7 +27,15 @@
   if (mobileNavToggleBtn) {
     mobileNavToggleBtn.addEventListener("click", mobileNavToggle);
   }
-
+    //modal cerrar secion
+document.addEventListener("DOMContentLoaded", () => {
+  const confirmBtn = document.getElementById("confirmLogout");
+  if (confirmBtn) {
+    confirmBtn.addEventListener("click", () => {
+      window.location.href = "../index.html"; 
+    });
+  }
+});
   /**
    * Cerrar nav móvil al hacer clic en un link
    */
@@ -262,7 +270,7 @@ function cargarUsuario() {
       ]}
     // ... etc.
   };
-
+ 
   // Renderizar datos en la página
   if (id && usuarios[id]) {
     const user = usuarios[id];
@@ -318,4 +326,7 @@ function cargarUsuario() {
     }
   }
 }
+
+
+
 
