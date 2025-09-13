@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>EventUY</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+
+    <link href="../img/logoeuy.png" rel="icon">
+    <link href="../img/logoeuy.png" rel="apple-touch-icon">
+
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Rubik:wght@400;500;600;700&family=Kanit:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Bootstrap CSS -->
+    <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Main CSS -->
+    <link href="../css/main.css" rel="stylesheet">
+</head>
+
+<body class="index-page">
+
+    <!-- Header -->
+    <header id="header" class="header d-flex align-items-center fixed-top">
+        <div
+            class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
+            <nav id="navmenu" class="navmenu">
+                <ul>
+                    <a href="../index.html" class="logo d-flex align-items-center">
+                        <img src="../img/logoeuy.png" alt="">
+                    </a>
+                    <li><a href="usuarios.html">Usuarios</a></li>
+                    <li><a href="consultaRegistroAsis.html">Consulta de Registro</a></li>
+                    <li class="dropdown">
+                        <a href="#"><span>Categorías</span>
+                            <i class="bi bi-chevron-down toggle-dropdown"></i>
+                        </a>
+                        <ul>
+                            <li><a href="#">Tecnología</a></li>
+                            <li><a href="#">Innovación</a></li>
+                            <li><a href="#">Literatura</a></li>
+                            <li><a href="#">Cultura</a></li>
+                            <li><a href="#">Música</a></li>
+                            <li><a href="#">Deporte</a></li>
+                            <li><a href="#">Salud</a></li>
+                            <li><a href="#">Entretenimiento</a></li>
+                            <li><a href="#">Agro</a></li>
+                            <li><a href="#">Negocios</a></li>
+                            <li><a href="#">Moda</a></li>
+                            <li><a href="#">Investigación</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item search-item">
+                        <form class="search-form" action="search.html" method="get">
+                            <input type="text" name="q" class="search-input" placeholder="Buscar eventos...">
+                            <button type="submit" class="search-btn"><i class="bi bi-search"></i></button>
+                        </form>
+                    </li>
+
+                    <!-- Usuario loggeado -->
+                    <li class="ms-auto d-flex align-items-center gap-2">
+                        <a href="perfil.html" class="user-info text-decoration-none d-flex align-items-center gap-2">
+                            <span id="userAvatar"></span>
+                            <span id="userName" class="fw-semibold"></span>
+                        </a>
+                    </li>
+                </ul>
+                <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+            </nav>
+        </div>
+    </header>
+
+
+
+    <main class="main container py-5">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-10 col-lg-8">
+                <div class="card shadow-lg p-4 rounded-4">
+
+                    <div class="container section-title">
+                        <h2>Alta de Patrocinio</h2>
+                    </div>
+                    <form id="patrocinioForm" novalidate>
+                        <!-- Selección de Edición -->
+                        <div class="mb-3">
+                            <label for="edicion" class="form-label">Edición del Evento</label>
+                            <select class="form-select" id="edicion" name="edicion" required>
+                                <option value="" disabled selected>Seleccione una edición...</option>
+                                <option value="EDEV01">Montevideo Rock 2025</option>
+                                <option value="EDEV02">Maratón de Montevideo 2025</option>
+                                <option value="EDEV03">Conferencia de Tecnología</option>
+                            </select>
+                            <div class="invalid-feedback">Seleccione una edición válida.</div>
+                        </div>
+
+                        <!-- Selección de Institución -->
+                        <div class="mb-3">
+                            <label for="institucion" class="form-label">Institución</label>
+                            <select class="form-select" id="institucion" name="institucion" required>
+                                <option value="" disabled selected>Seleccione una institución...</option>
+                                <option value="INS01">Facultad de Ingeniería</option>
+                                <option value="INS02">ORT Uruguay</option>
+                                <option value="INS03">Universidad Católica del Uruguay</option>
+                                <option value="INS04">Antel</option>
+                                <option value="INS05">Agencia Nacional de Investigación e Innovación (ANII)</option>
+                            </select>
+                            <div class="invalid-feedback">Seleccione una institución.</div>
+                        </div>
+
+                        <!-- Nivel de patrocinio -->
+                        <div class="mb-3">
+                            <label for="nivel" class="form-label">Nivel de Patrocinio</label>
+                            <select class="form-select" id="nivel" name="nivel" required>
+                                <option value="" disabled selected>Seleccione...</option>
+                                <option value="platino">Platino</option>
+                                <option value="oro">Oro</option>
+                                <option value="plata">Plata</option>
+                                <option value="bronce">Bronce</option>
+                            </select>
+                            <div class="invalid-feedback">Seleccione un nivel de patrocinio.</div>
+                        </div>
+
+                        <!-- Aporte económico -->
+                        <div class="mb-3">
+                            <label for="aporte" class="form-label">Aporte Económico (UYU)</label>
+                            <input type="number" class="form-control" id="aporte" name="aporte" min="1" required>
+                            <div class="invalid-feedback">Ingrese el aporte económico.</div>
+                        </div>
+
+                        <!-- Tipo de registro gratuito -->
+                        <div class="mb-3">
+                            <label for="tipoRegistro" class="form-label">Tipo de Registro Gratuito</label>
+                            <select class="form-select" id="tipoRegistro" name="tipoRegistro" required>
+                                <option value="" disabled selected>Seleccione...</option>
+                                <option value="general">General</option>
+                                <option value="vip">VIP</option>
+                                <option value="corredor42k">Corredor 42K</option>
+                                <option value="corredor21k">Corredor 21K</option>
+                                <option value="corredor10k">Corredor 10K</option>
+                            </select>
+                            <div class="invalid-feedback">Seleccione un tipo de registro.</div>
+                        </div>
+
+                        <!-- Cantidad de registros gratuitos -->
+                        <div class="mb-3">
+                            <label for="cantidadRegistros" class="form-label">Cantidad de Registros Gratuitos</label>
+                            <input type="number" class="form-control" id="cantidadRegistros" name="cantidadRegistros"
+                                min="0" required>
+                            <div class="invalid-feedback">Ingrese una cantidad válida.</div>
+                        </div>
+
+                        <!-- Código de patrocinio -->
+                        <div class="mb-3">
+                            <label for="codigo" class="form-label">Código de Patrocinio</label>
+                            <input type="text" class="form-control" id="codigo" name="codigo" required>
+                            <div class="invalid-feedback">Ingrese un código único.</div>
+                        </div>
+
+                        <!-- Botón -->
+                        <button type="submit" class="btn btn-primary w-100">Registrar Patrocinio</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+    <!-- Footer -->
+    <footer id="footer" class="footer position-relative light-background">
+        <div class="container copyright text-center mt-4">
+            <div class="social-links d-flex mt-4">
+                <a href=""><i class="bi bi-twitter-x"></i></a>
+                <a href=""><i class="bi bi-facebook"></i></a>
+                <a href=""><i class="bi bi-instagram"></i></a>
+                <a href=""><i class="bi bi-linkedin"></i></a>
+                <a href="https://gitlab.fing.edu.uy/tprog/tpgr27"><i class="bi bi-gitlab"></i></a>
+            </div>
+            <div class="credits">Taller de Programacion FING G27</div>
+        </div>
+    </footer>
+
+    <!-- Scroll Top -->
+    <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center">
+        <i class="bi bi-arrow-up-short"></i>
+    </a>
+
+    <!-- Preloader -->
+    <div id="preloader"></div>
+
+    <!-- Bootstrap JS -->
+    <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Main JS -->
+    <script src="../js/main.js"></script>
+
+</body>
+
+</html>
