@@ -61,17 +61,28 @@ document.addEventListener("DOMContentLoaded", () => {
        imagenEdicion.src = edicion.imagen || "../img/default-event.png";
      });
 
-     // --- Detectar evento desde URL ---
-     const urlParams = new URLSearchParams(window.location.search);
-     const eventoId = urlParams.get("evento");
-     if (eventoId) {
-       eventoSel.value = eventoId;
-       eventoSel.dispatchEvent(new Event("change"));
+	 // --- Detectar evento y edición desde URL ---
+	 const urlParams = new URLSearchParams(window.location.search);
+	 const eventoId = urlParams.get("evento");
+	 const edicionId = urlParams.get("edicion");
 
-       const ediciones = edicionesPorEvento[eventoId];
-       if (ediciones && ediciones.length === 1) {
-         edicionSel.value = ediciones[0].id;
-         edicionSel.dispatchEvent(new Event("change"));
-       }
-     }
+	 if (eventoId) {
+	   eventoSel.value = eventoId;
+	   eventoSel.dispatchEvent(new Event("change"));
+
+	   const ediciones = edicionesPorEvento[eventoId];
+
+	   // Si vino la edición en la URL, seleccionarla
+	   if (edicionId) {
+	     edicionSel.value = edicionId;
+	     edicionSel.dispatchEvent(new Event("change"));
+	   }
+	   // Si no vino pero hay solo una edición, mostrarla directo
+	   else if (ediciones && ediciones.length === 1) {
+	     edicionSel.value = ediciones[0].id;
+	     edicionSel.dispatchEvent(new Event("change"));
+	   }
+	 }
+
+
    });
