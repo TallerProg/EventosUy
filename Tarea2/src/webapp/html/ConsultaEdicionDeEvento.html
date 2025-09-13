@@ -30,7 +30,7 @@
       color: var(--accent-color);
       margin-bottom: 15px;
     }
-    .carousel-inner img {
+    .edicion-imagenes img {
       border-radius: 12px;
       max-height: 400px;
       object-fit: cover;
@@ -59,6 +59,9 @@
                 <option value="">-- Seleccione un evento --</option>
                 <option value="1">Conferencia de Tecnología</option>
                 <option value="2">Feria del Libro</option>
+                <option value="3">Montevideo Rock</option>
+                <option value="4">Maratón de Montevideo</option>
+                <option value="5">Montevideo Comics</option>
               </select>
             </div>
             <div class="col-md-6">
@@ -74,9 +77,9 @@
         <div class="edicion-layout" id="detalle-edicion" style="display:none;">
           
           <!-- Imagen de la edición -->
-			<div class="edicion-imagenes">
-			  <img id="imagen-edicion" src="" alt="Imagen de la edición" class="img-fluid rounded">
-			</div>
+          <div class="edicion-imagenes">
+            <img id="imagen-edicion" src="" alt="Imagen de la edición" class="img-fluid rounded">
+          </div>
 
           <!-- Datos a la derecha -->
           <div class="edicion-detalles">
@@ -98,7 +101,79 @@
 
   <!-- JS -->
   <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="../js/ConsultaEdicionDeEvento.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const eventoSel = document.querySelector("#evento");
+      const edicionSel = document.querySelector("#edicion");
+      const detalleEdicion = document.querySelector("#detalle-edicion");
+      const imagenEdicion = document.querySelector("#imagen-edicion");
+
+      // --- Ediciones simuladas ---
+      const edicionesPorEvento = {
+        1: [
+          { id: "ed1", nombre: "Conferencia Tech 2024", sigla: "CT24", ciudad: "Montevideo", pais: "Uruguay", fechaAlta: "01/08/2024", fechaInicio: "10/01/2024", fechaFin: "12/01/2024", organizador: "Juan Pérez", imagen: "../img/events/ConfTecnologia.jpg" },
+          { id: "ed2", nombre: "Conferencia Tech 2025", sigla: "CT25", ciudad: "Montevideo", pais: "Uruguay", fechaAlta: "15/09/2025", fechaInicio: "10/01/2025", fechaFin: "12/01/2025", organizador: "Ana Gómez", imagen: "../img/events/gallery-7.webp" }
+        ],
+        2: [
+          { id: "ed3", nombre: "Feria del Libro 2024", sigla: "FL24", ciudad: "Montevideo", pais: "Uruguay", fechaAlta: "10/02/2024", fechaInicio: "01/02/2024", fechaFin: "05/02/2024", organizador: "Editorial UY", imagen: "../img/events/feriadellibro.jpg" }
+        ],
+        3: [
+          { id: "ed5", nombre: "Montevideo Rock 2023", sigla: "MR23", ciudad: "Montevideo", pais: "Uruguay", fechaAlta: "15/02/2023", fechaInicio: "15/03/2023", fechaFin: "17/03/2023", organizador: "Producciones Rock", imagen: "../img/events/montevideorock.png" }
+        ],
+        4: [
+          { id: "ed6", nombre: "Maratón Montevideo 2022", sigla: "MM22", ciudad: "Montevideo", pais: "Uruguay", fechaAlta: "01/12/2021", fechaInicio: "01/01/2022", fechaFin: "01/01/2022", organizador: "Asociación Deportiva", imagen: "../img/events/maratonmontevideo.jpg" }
+        ],
+        5: [
+          { id: "ed7", nombre: "Montevideo Comics 2024", sigla: "MC24", ciudad: "Montevideo", pais: "Uruguay", fechaAlta: "15/03/2024", fechaInicio: "10/04/2024", fechaFin: "12/04/2024", organizador: "ComicUY", imagen: "../img/events/montevideocomics.png" }
+        ]
+      };
+
+      // --- Cargar ediciones según evento ---
+      eventoSel.addEventListener("change", () => {
+        edicionSel.innerHTML = "<option value=''>-- Seleccione una edición --</option>";
+        const eventoId = eventoSel.value;
+        if (edicionesPorEvento[eventoId]) {
+          edicionesPorEvento[eventoId].forEach(ed => {
+            edicionSel.innerHTML += `<option value="${ed.id}">${ed.nombre}</option>`;
+          });
+        }
+      });
+
+      // --- Mostrar detalle ---
+      edicionSel.addEventListener("change", () => {
+        if (!edicionSel.value) return;
+        const eventoId = eventoSel.value;
+        const edicion = edicionesPorEvento[eventoId].find(e => e.id === edicionSel.value);
+        if (!edicion) return;
+
+        detalleEdicion.style.display = "flex";
+        document.querySelector("#nombre-edicion").textContent = edicion.nombre;
+        document.querySelector("#sigla-edicion").textContent = edicion.sigla;
+        document.querySelector("#ciudad-edicion").textContent = edicion.ciudad;
+        document.querySelector("#pais-edicion").textContent = edicion.pais;
+        document.querySelector("#fecha-alta").textContent = edicion.fechaAlta;
+        document.querySelector("#fecha-inicio").textContent = edicion.fechaInicio;
+        document.querySelector("#fecha-fin").textContent = edicion.fechaFin;
+        document.querySelector("#organizador").textContent = edicion.organizador;
+        imagenEdicion.src = edicion.imagen || "../img/default-event.png";
+      });
+
+      // --- Detectar evento desde URL ---
+      const urlParams = new URLSearchParams(window.location.search);
+      const eventoId = urlParams.get("evento");
+      if (eventoId) {
+        eventoSel.value = eventoId;
+        eventoSel.dispatchEvent(new Event("change"));
+
+        // Si el evento tiene solo una edición → mostrarla directo
+        const ediciones = edicionesPorEvento[eventoId];
+        if (ediciones && ediciones.length === 1) {
+          edicionSel.value = ediciones[0].id;
+          edicionSel.dispatchEvent(new Event("change"));
+        }
+      }
+    });
+  </script>
 
 </body>
 </html>
