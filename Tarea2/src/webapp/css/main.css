@@ -469,6 +469,27 @@ section,.section {
   background: color-mix(in srgb, var(--accent-color), transparent 15%);
 }
 
+/* Variante gris del botón register */
+.btn-register-secondary {
+  display: block;
+  width: 100%;
+  background: #e0e0e0;   
+  color: #000;        
+  border: none;
+  padding: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s;
+  text-align: center;
+}
+
+.btn-register-secondary:hover {
+  background: color-mix(in srgb, #e0e0e0, transparent 15%);
+}
+
+
 .login-text {
   text-align: center;
   margin-top: 15px;
