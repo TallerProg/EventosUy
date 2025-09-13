@@ -715,3 +715,13 @@ section,.section {
   box-shadow: 0 2px 8px rgba(0,0,0,0.2);
 }
 
+/* Imagen de perfil de usuario (grande) */
+.profile-avatar {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ddd;
+  display: block;
+  margin: 0 auto 20px; /* centrada con espacio abajo */
+}

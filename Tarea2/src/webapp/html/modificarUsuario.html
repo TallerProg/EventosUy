@@ -10,28 +10,6 @@
   <link href="../vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
   <link href="../css/main.css" rel="stylesheet">
 
-  <style>
-    .profile-card {
-      max-width: 700px;
-      margin: 0 auto;
-      background: var(--surface-color);
-      border-radius: 12px;
-      padding: 30px;
-      box-shadow: 0 6px 25px rgba(0,0,0,0.08);
-    }
-    .profile-image {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    .profile-image img {
-      width: 140px;
-      height: 140px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid #ddd;
-    }
-    .hidden { display: none; }
-  </style>
 </head>
 <body>
 
@@ -48,8 +26,9 @@
 
             <!-- Imagen de perfil -->
             <div class="profile-image">
-              <img id="preview" src="../img/default-user.png" alt="Foto de perfil">
-            </div>
+			  <img id="preview" src="../img/default-user.png" alt="Foto de perfil" class="profile-avatar">
+			</div>
+
             <div class="form-group mb-3">
               <label for="imagen">Imagen de perfil</label>
               <input type="file" id="imagen" name="imagen" class="form-control" accept="image/*">
