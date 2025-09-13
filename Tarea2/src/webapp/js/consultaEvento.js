@@ -12,7 +12,7 @@ function loadEventDetails(eventId) {
       image: "../img/events/ConfTecnologia.jpg",
       description: "Evento sobre innovación tecnológica.",
       categories: ["Tecnología", "Innovación"],
-      dateCreated: "2024-01-01", 
+      dateCreated: "2025-01-10", 
       editions: [
         { name: "Edición prueba1 - 2025", date: "10/01/2025", location: "Montevideo", editionId: "CONFTEC25" },
         { name: "Edición prueba2 - 2026", date: "10/01/2026", location: "Montevideo", editionId: "CONFTEC26" },
@@ -24,7 +24,7 @@ function loadEventDetails(eventId) {
       image: "../img/events/feriadellibro.jpg",
       description: "Encuentro anual de literatura.",
       categories: ["Literatura", "Cultura"],
-      dateCreated: "2023-11-15", 
+      dateCreated: "2025-02-01", 
       editions: [
         { name: "Edición prueba1 - 2025", date: "01/02/2025", location: "Montevideo", editionId: "FERLIB25" },
       ],
@@ -35,7 +35,7 @@ function loadEventDetails(eventId) {
       image: "../img/events/montevideorock.png",
       description: "Festival de rock con artistas nacionales e internacionales",
       categories: ["Música", "Cultura"],
-      dateCreated: "2022-05-10", 
+      dateCreated: "2023-03-15", 
       editions: [
         { name: "Edición prueba1 - 2023", date: "15/03/2023", location: "Montevideo", editionId: "MONROCK23" },
       ],
@@ -46,7 +46,7 @@ function loadEventDetails(eventId) {
       image: "../img/events/maratonmontevideo.jpg",
       description: "Competencia deportiva anual en la capital",
       categories: ["Deporte", "Salud"],
-      dateCreated: "2022-12-01", 
+      dateCreated: "2022-01-01", 
       editions: [
         { name: "Edición prueba1 - 2022", date: "01/01/2022", location: "Montevideo", editionId: "MARATON22" },
       ],
@@ -72,11 +72,7 @@ function loadEventDetails(eventId) {
     document.getElementById("eventTitle").innerText = event.title;
     document.getElementById("eventSigla").innerText = `Sigla: ${event.sigla}`;
     
-
-    const eventDate = new Date(event.dateCreated);
-    const formattedDate = eventDate.toLocaleDateString("es-ES");
-
-    document.getElementById("eventDateCreated").innerText = `Fecha de alta: ${formattedDate}`;
+    document.getElementById("eventDateCreated").innerText = `Fecha de alta: ${event.dateCreated}`;
 
     document.getElementById("eventImage").innerHTML = `<img src="${event.image}" alt="${event.title}" class="img-fluid">`;
     document.getElementById("eventInfo").innerHTML = `<p>${event.description}</p><h4>Categorías:</h4><ul>${event.categories.map(category => `<li>${category}</li>`).join('')}</ul>`;
