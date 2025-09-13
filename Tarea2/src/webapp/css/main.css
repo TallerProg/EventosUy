@@ -636,3 +636,21 @@ section,.section {
   font-family: var(--nav-font);
   color: var(--nav-color);
 }
+
+.speaker-card a {
+  color: inherit; 
+  text-decoration: none; /
+}
+
+.speaker-card .speaker-content,
+.speaker-card .event-details {
+  pointer-events: none; 
+}
+
+.speaker-card .speaker-image {
+  pointer-events: auto; 
+}
+
+.speaker-card .btn {
+  pointer-events: auto;
+}
