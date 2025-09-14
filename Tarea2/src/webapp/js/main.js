@@ -301,7 +301,7 @@ function cargarUsuario() {
         if (user.tipo === "Asistente") {
           link = "consultaRegistroAsis.html";
         } else if (user.tipo === "Organizador") {
-          link = "consultaEdicionEvento.html";
+          link = "consultaEdicionDeEvento.html";
         }
 
         item.innerHTML = `

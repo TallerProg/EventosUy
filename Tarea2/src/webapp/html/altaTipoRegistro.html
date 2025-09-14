@@ -3,7 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Alta de Edición de Evento</title>
+  <title>EventUY - Alta de Tipo Registro</title>
+  
+  <link href="../img/logoeuy.png" rel="icon">
+    <link href="../img/logoeuy.png" rel="apple-touch-icon">
+
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Rubik:wght@400;500;600;700&family=Kanit:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+  
 
   <!-- Bootstrap -->
   <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -12,6 +22,57 @@
   <link href="../css/main.css" rel="stylesheet">
 </head>
 <body>
+
+    <!-- Header -->
+    <header id="header" class="header d-flex align-items-center fixed-top">
+        <div
+            class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
+            <nav id="navmenu" class="navmenu">
+                <ul>
+                    <a href="../index.html" class="logo d-flex align-items-center">
+                        <img src="../img/logoeuy.png" alt="">
+                    </a>
+                    <li><a href="usuarios.html">Usuarios</a></li>
+                    <li><a href="consultaRegistroAsis.html">Consulta de Registro</a></li>
+                    <li class="dropdown">
+                        <a href="#"><span>Categorías</span>
+                            <i class="bi bi-chevron-down toggle-dropdown"></i>
+                        </a>
+                        <ul>
+                            <li><a href="#">Tecnología</a></li>
+                            <li><a href="#">Innovación</a></li>
+                            <li><a href="#">Literatura</a></li>
+                            <li><a href="#">Cultura</a></li>
+                            <li><a href="#">Música</a></li>
+                            <li><a href="#">Deporte</a></li>
+                            <li><a href="#">Salud</a></li>
+                            <li><a href="#">Entretenimiento</a></li>
+                            <li><a href="#">Agro</a></li>
+                            <li><a href="#">Negocios</a></li>
+                            <li><a href="#">Moda</a></li>
+                            <li><a href="#">Investigación</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item search-item">
+                        <form class="search-form" action="search.html" method="get">
+                            <input type="text" name="q" class="search-input" placeholder="Buscar eventos...">
+                            <button type="submit" class="search-btn"><i class="bi bi-search"></i></button>
+                        </form>
+                    </li>
+
+                    <!-- Usuario loggeado -->
+                    <li class="ms-auto d-flex align-items-center gap-2">
+                        <a href="perfil.html" class="user-info text-decoration-none d-flex align-items-center gap-2">
+                            <span id="userAvatar"></span>
+                            <span id="userName" class="fw-semibold"></span>
+                        </a>
+                    </li>
+                </ul>
+                <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+            </nav>
+        </div>
+    </header>
 
   <main class="main">
     <section id="alta-tipoRegistro" class="section">
@@ -67,8 +128,23 @@
     </section>
   </main>
 
+    <!-- Footer -->
+    <footer id="footer" class="footer position-relative light-background">
+        <div class="container copyright text-center mt-4">
+            <div class="social-links d-flex mt-4">
+                <a href=""><i class="bi bi-twitter-x"></i></a>
+                <a href=""><i class="bi bi-facebook"></i></a>
+                <a href=""><i class="bi bi-instagram"></i></a>
+                <a href=""><i class="bi bi-linkedin"></i></a>
+                <a href="https://gitlab.fing.edu.uy/tprog/tpgr27"><i class="bi bi-gitlab"></i></a>
+            </div>
+            <div class="credits">Taller de Programacion FING G27</div>
+        </div>
+    </footer>
+
   <!-- JS -->
   <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="../js/main.js"></script>
   <script src="../js/altaTipoRegistro.js"></script>
 
 
