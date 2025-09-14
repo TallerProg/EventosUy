@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>EventUY</title>
+    <title>EventUY - Alta Institución</title>
     <meta name="description" content="">
     <meta name="keywords" content="">
 
@@ -37,7 +37,8 @@
                         <img src="../img/logoeuy.png" alt="">
                     </a>
                     <li><a href="usuarios.html">Usuarios</a></li>
-                    <li><a href="consultaRegistroAsis.html">Consulta de Registro</a></li>
+                    <li><a href="listaEventos.html">Eventos</a></li>
+                    <li><a href="listaInstituciones.html" class="active">Instituciones</a></li>
                     <li class="dropdown">
                         <a href="#"><span>Categorías</span>
                             <i class="bi bi-chevron-down toggle-dropdown"></i>
@@ -60,7 +61,7 @@
 
                     <li class="nav-item search-item">
                         <form class="search-form" action="search.html" method="get">
-                            <input type="text" name="q" class="search-input" placeholder="Buscar eventos...">
+                            <input type="text" name="q" class="search-input" placeholder="Buscar...">
                             <button type="submit" class="search-btn"><i class="bi bi-search"></i></button>
                         </form>
                     </li>
@@ -78,8 +79,6 @@
         </div>
     </header>
 
-
-
     <main class="main container py-5">
 
         <div class="row justify-content-center">
@@ -87,7 +86,7 @@
                 <div class="card shadow-lg p-4 rounded-4">
 
                     <div class="container section-title">
-                        <h2>Crear Institucion</h2>
+                        <h2>Alta de Institución</h2>
                     </div>
 
                     <form id="registroForm" novalidate>
@@ -99,13 +98,13 @@
                         </div>
                         <!-- Descripcion -->
                         <div class="mb-3">
-                            <label for="descripcion" class="form-label">Descripcion </label>
+                            <label for="descripcion" class="form-label">Descripción</label>
                             <input type="text" class="form-control" id="descripcion" name="descripcion" required>
                         </div>
-                        <!-- Nombre -->
+                        <!-- URL -->
                         <div class="mb-3">
-                            <label for="url" class="form-label">URL de la web </label>
-                            <input type="text" class="form-control" id="url" name="url" required>
+                            <label for="url" class="form-label">URL de la web</label>
+                            <input type="url" class="form-control" id="url" name="url" required>
                         </div>
                         <!-- Imagen -->
                         <div class="mb-3">
@@ -113,22 +112,13 @@
                             <input type="file" class="form-control" id="imagen" name="imagen" accept="image/*">
                         </div>
                         <!-- Botón -->
-                        <button type="submit" class="btn btn-primary w-100">Registrarse</button>
+                        <button type="submit" class="btn btn-primary w-100">Registrar</button>
                     </form>
-
 
                 </div>
             </div>
         </div>
     </main>
-
-
-
-
-
-
-
-
 
     <!-- Footer -->
     <footer id="footer" class="footer position-relative light-background">

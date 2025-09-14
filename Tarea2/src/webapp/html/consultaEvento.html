@@ -5,20 +5,33 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>Detalles del Evento</title>
+
+  <!-- Favicons -->
   <link href="../img/logoeuy.png" rel="icon">
   <link href="../img/logoeuy.png" rel="apple-touch-icon">
+
+  <!-- Fonts -->
   <link href="https://fonts.googleapis.com" rel="preconnect">
   <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Rubik:wght@400;500;600;700&family=Kanit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Rubik:wght@400;500;600;700&family=Kanit:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+
+  <!-- Vendor CSS -->
   <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="../vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+
+  <!-- Main CSS -->
+  <link href="../css/main.css" rel="stylesheet">
+
+  <!-- Scripts -->
   <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="../js/consultaEvento.js"></script>
-  <link href="../css/main.css" rel="stylesheet">
 </head>
 
-<body>
+<body class="index-page">
 
+  <!-- Header -->
   <header id="header" class="header d-flex align-items-center fixed-top">
     <div class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
       <nav id="navmenu" class="navmenu">
@@ -27,37 +40,73 @@
             <img src="../img/logoeuy.png" alt="EventUY Logo">
           </a>
           <li><a href="usuarios.html">Usuarios</a></li>
-          <li><a href="consultaRegistroAsis.html">Consulta de Registro</a></li>
+          <li><a href="listaEventos.html">Eventos</a></li>
+          <li><a href="listaInstituciones.html">Instituciones</a></li>
+          <li class="dropdown">
+            <a href="#"><span>Categorías</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+            <ul>
+              <li><a href="#">Tecnología</a></li>
+              <li><a href="#">Innovación</a></li>
+              <li><a href="#">Literatura</a></li>
+              <li><a href="#">Cultura</a></li>
+              <li><a href="#">Música</a></li>
+              <li><a href="#">Deporte</a></li>
+              <li><a href="#">Salud</a></li>
+              <li><a href="#">Entretenimiento</a></li>
+              <li><a href="#">Agro</a></li>
+              <li><a href="#">Negocios</a></li>
+              <li><a href="#">Moda</a></li>
+              <li><a href="#">Investigación</a></li>
+            </ul>
+          </li>
+          <li class="nav-item search-item ms-auto">
+            <form class="search-form" action="search.html" method="get">
+              <input type="text" name="q" class="search-input" placeholder="Buscar eventos...">
+              <button type="submit" class="search-btn"><i class="bi bi-search"></i></button>
+            </form>
+          </li>
+          <li>
+            <a href="login.html" class="login-icon" data-bs-toggle="tooltip" data-bs-placement="bottom"
+              title="Login / Registrarse">
+              <i class="bi bi-person-circle"></i>
+            </a>
+          </li>
         </ul>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
     </div>
   </header>
 
+  <!-- Main -->
   <main class="main">
     <section id="evento-detalles" class="section">
       <div class="container section-title">
         <h2 id="eventTitle">Cargando...</h2>
-        <p id="eventSigla">Sigla: Cargando...</p> <!-- Sigla del Evento -->
-        <p id="eventDateCreated">Fecha de alta: Cargando...</p> <!-- Fecha de alta aquí -->
+        <p id="eventSigla">Sigla: Cargando...</p>
+        <p id="eventDateCreated">Fecha de alta: Cargando...</p>
       </div>
 
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-lg-6">
             <div id="eventImage" class="event-image">
+              <!-- Imagen del evento cargada dinámicamente -->
             </div>
           </div>
 
           <div class="col-lg-6">
             <div id="eventInfo" class="event-info">
+              <!-- Información del evento cargada dinámicamente -->
             </div>
           </div>
         </div>
 
-        <section id="eventEditions" class="event-editions">
+        <!-- Ediciones del Evento -->
+        <section id="eventEditions" class="event-editions mt-5">
           <div class="container">
             <h3>Ediciones del Evento</h3>
             <div id="editionsList" class="row">
+              <!-- Lista de ediciones cargada dinámicamente -->
             </div>
           </div>
         </section>
@@ -76,13 +125,11 @@
         <a href="https://gitlab.fing.edu.uy/tprog/tpgr27"><i class="bi bi-gitlab"></i></a>
       </div>
       <div class="credits">
-        Taller de Programacion FING G27
+        Taller de Programación FING G27
       </div>
     </div>
   </footer>
 
-
 </body>
-
 </html>
 

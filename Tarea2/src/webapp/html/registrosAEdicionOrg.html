@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
   <meta charset="utf-8">
@@ -31,17 +31,19 @@
 
 <body class="index-page">
 
+  <!-- Header -->
   <header id="header" class="header d-flex align-items-center fixed-top">
     <div class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
-
       <nav id="navmenu" class="navmenu">
         <ul>
           <a href="../index.html" class="logo d-flex align-items-center">
             <img src="../img/logoeuy.png" alt="">
           </a>
-          <li><a href="#">Usuarios</a></li>
+          <li><a href="usuarios.html">Usuarios</a></li>
+          <li><a href="listaEventos.html">Eventos</a></li>
+          <li><a href="listaInstituciones.html">Instituciones</a></li>
           <li class="dropdown">
-            <a href="#"><span>Categorias</span>
+            <a href="#"><span>Categorías</span>
               <i class="bi bi-chevron-down toggle-dropdown"></i>
             </a>
             <ul>
@@ -78,311 +80,286 @@
     </div>
   </header>
 
+  <!-- Main -->
   <main class="main">
 
-    <!-- ======= Hero del Evento ======= -->
+    <!-- Hero del Evento -->
     <section id="event-hero" class="event-hero section light-background">
       <div class="container">
         <div class="row align-items-center">
-
-          <!-- Imagen del evento -->
+          <!-- Imagen -->
           <div class="col-lg-6">
-            <img src="../img/events/maratonmontevideo.jpg" alt="Maratón de Montevideo"
-              class="img-fluid rounded shadow">
+            <img src="../img/events/maratonmontevideo.jpg" alt="Maratón de Montevideo" class="img-fluid rounded shadow">
           </div>
-
-          <!-- Información del evento -->
+          <!-- Datos principales -->
           <div class="col-lg-6">
             <h1 class="mb-3">Maratón de Montevideo 2025</h1>
             <p class="speaker-title">Maratón de Montevideo 2025</p>
             <p class="speaker-company">MARATON25</p>
-            <div class="detail-item"><i class="bi bi-calendar-event"></i> <span>Inicio:14/09/2025 &nbsp;&nbsp; Final:14/09/2025</span> </div>
+            <div class="detail-item"><i class="bi bi-calendar-event"></i> <span>Inicio:14/09/2025 &nbsp;&nbsp; Final:14/09/2025</span></div>
             <div class="detail-item"><i class="bi bi-geo-alt"></i> <span>Uruguay, Montevideo</span></div>
             <div class="detail-item"><i class="bi bi-people"></i> <span>2199 Cupos</span></div>
           </div>
-
         </div>
       </div>
-
-      <!-- Usuarios -->
-      <section id="asistentes" class="speakers section">
-        <div class="container section-title">
-          <h2>Usuarios Registrados</h2>
-        </div>
-        <div class="container">
-          <div class="row g-4 justify-content-center">
-
-            <!-- Ana Torres -->
-            <div class="col-lg-3 col-md-6">
-              <div class="speaker-card text-center">
-                <div class="speaker-image">
-                  <a href="consultaUsuario.html?id=atorres">
-                    <img src="../img/usuarios/anaFrank.jpg" alt="Ana Torres" class="img-fluid rounded-circle p-3">
-                  </a>
-                </div>
-                <div class="speaker-content">
-                  <p class="speaker-title">
-                    <a href="consultaUsuario.html?id=atorres" class="text-decoration-none">Ana Torres</a>
-                  </p>
-                  <!-- Botón que activa el colapso -->
-                  <button class="btn btn-primary btn-lg me-3" data-bs-toggle="collapse" data-bs-target="#detallesEV04">
-                    Detalles Registro
-                  </button>
-                  <!-- Contenido oculto que se expande -->
-                  <div class="collapse mt-3" id="detallesEV04">
-                    <div class="card card-body">
-                      <p><i class="bi bi-cash"></i> <strong>Costo:</strong> $1200</p>
-                      <p><i class="bi bi-calendar-check"></i> <strong>Fecha de Registro:</strong> 15/12/2021</p>
-                      <p><i class="bi bi-ticket-perforated"></i> <strong>Tipo de Registro:</strong> Corredor 42K</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Martin Silva -->
-            <div class="col-lg-3 col-md-6">
-              <div class="speaker-card text-center">
-                <div class="speaker-image">
-                  <a href="consultaUsuario.html?id=msilva" class="text-decoration-none">
-                    <img src="../img/usuarios/martinSilva.jpg" alt="Martin Silva" class="img-fluid rounded-circle p-3">
-                  </a>
-                </div>
-                <div class="speaker-content">
-                  <p class="speaker-title">
-                    <a href="consultaUsuario.html?id=msilva" class="text-decoration-none">Martin Silva</a>
-                  </p>
-                  <button class="btn btn-primary btn-lg me-3" data-bs-toggle="collapse" data-bs-target="#detallesEV05">
-                    Detalles Registro
-                  </button>
-                  <div class="collapse mt-3" id="detallesEV05">
-                    <div class="card card-body">
-                      <p><i class="bi bi-cash"></i> <strong>Costo:</strong> $800</p>
-                      <p><i class="bi bi-calendar-check"></i> <strong>Fecha de Registro:</strong> 12/01/2022</p>
-                      <p><i class="bi bi-ticket-perforated"></i> <strong>Tipo de Registro:</strong> Corredor 21K</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Sofía Rodríguez -->
-            <div class="col-lg-3 col-md-6">
-              <div class="speaker-card text-center">
-                <div class="speaker-image">
-                  <a href="consultaUsuario.html?id=sofirod" class="text-decoration-none">
-                    <img src="../img/usuarios/sofiaRodriguez.jpg" alt="Sofía Rodríguez" class="img-fluid rounded-circle p-3">
-                  </a>
-                </div>
-                <div class="speaker-content">
-                  <p class="speaker-title">
-                    <a href="consultaUsuario.html?id=sofirod" class="text-decoration-none">Sofía Rodríguez</a>
-                  </p>
-                  <button class="btn btn-primary btn-lg me-3" data-bs-toggle="collapse" data-bs-target="#detallesEV06">
-                    Detalles Registro
-                  </button>
-                  <div class="collapse mt-3" id="detallesEV06">
-                    <div class="card card-body">
-                      <p><i class="bi bi-cash"></i> <strong>Costo:</strong> $500</p>
-                      <p><i class="bi bi-calendar-check"></i> <strong>Fecha de Registro:</strong> 03/03/2023</p>
-                      <p><i class="bi bi-ticket-perforated"></i> <strong>Tipo de Registro:</strong> Corredor 10K</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Valentina Costa -->
-            <div class="col-lg-3 col-md-6">
-              <div class="speaker-card text-center">
-                <div class="speaker-image">
-                  <a href="consultaUsuario.html?id=vale23" class="text-decoration-none">
-                    <img src="../img/usuarios/valentinaAcosta.jpg" alt="Valentina Costa" class="img-fluid rounded-circle p-3">
-                  </a>
-                </div>
-                <div class="speaker-content">
-                  <p class="speaker-title">
-                    <a href="consultaUsuario.html?id=vale23" class="text-decoration-none">Valentina Costa</a>
-                  </p>
-                  <button class="btn btn-primary btn-lg me-3" data-bs-toggle="collapse" data-bs-target="#detallesEV07">
-                    Detalles Registro
-                  </button>
-                  <div class="collapse mt-3" id="detallesEV07">
-                    <div class="card card-body">
-                      <p><i class="bi bi-cash"></i> <strong>Costo:</strong> $1200</p>
-                      <p><i class="bi bi-calendar-check"></i> <strong>Fecha de Registro:</strong> 20/08/2022</p>
-                      <p><i class="bi bi-ticket-perforated"></i> <strong>Tipo de Registro:</strong> Corredor 42K</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Lucía García -->
-            <div class="col-lg-3 col-md-6">
-              <div class="speaker-card text-center">
-                <div class="speaker-image">
-                  <a href="consultaUsuario.html?id=luciag" class="text-decoration-none">
-                    <img src="../img/usuarios/luciaGarcia.jpg" alt="Lucía García" class="img-fluid rounded-circle p-3">
-                  </a>
-                </div>
-                <div class="speaker-content">
-                  <p class="speaker-title">
-                    <a href="consultaUsuario.html?id=luciag" class="text-decoration-none">Lucía García</a>
-                  </p>
-                  <button class="btn btn-primary btn-lg me-3" data-bs-toggle="collapse" data-bs-target="#detallesEV08">
-                    Detalles Registro
-                  </button>
-                  <div class="collapse mt-3" id="detallesEV08">
-                    <div class="card card-body">
-                      <p><i class="bi bi-cash"></i> <strong>Costo:</strong> $800</p>
-                      <p><i class="bi bi-calendar-check"></i> <strong>Fecha de Registro:</strong> 05/04/2024</p>
-                      <p><i class="bi bi-ticket-perforated"></i> <strong>Tipo de Registro:</strong> Corredor 21K</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Andrea Rodríguez -->
-            <div class="col-lg-3 col-md-6">
-              <div class="speaker-card text-center">
-                <div class="speaker-image">
-                  <a href="consultaUsuario.html?id=andrearod" class="text-decoration-none">
-                    <img src="../img/usuarios/andrea.jpg" alt="Andrea Rodríguez" class="img-fluid rounded-circle p-3">
-                  </a>
-                </div>
-                <div class="speaker-content">
-                  <p class="speaker-title">
-                    <a href="consultaUsuario.html?id=andrearod" class="text-decoration-none">Andrea Rodríguez</a>
-                  </p>
-                  <button class="btn btn-primary btn-lg me-3" data-bs-toggle="collapse" data-bs-target="#detallesEV09">
-                    Detalles Registro
-                  </button>
-                  <div class="collapse mt-3" id="detallesEV09">
-                    <div class="card card-body">
-                      <p><i class="bi bi-cash"></i> <strong>Costo:</strong> $500</p>
-                      <p><i class="bi bi-calendar-check"></i> <strong>Fecha de Registro:</strong> 30/06/2023</p>
-                      <p><i class="bi bi-ticket-perforated"></i> <strong>Tipo de Registro:</strong> Corredor 10K</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Ana Gómez -->
-            <div class="col-lg-3 col-md-6">
-              <div class="speaker-card text-center">
-                <div class="speaker-image">
-                  <a href="consultaUsuario.html?id=AnaG" class="text-decoration-none">
-                    <img src="../img/usuarios/anaGomez.jpg" alt="Ana Gómez" class="img-fluid rounded-circle p-3">
-                  </a>
-                </div>
-                <div class="speaker-content">
-                  <p class="speaker-title">
-                    <a href="consultaUsuario.html?id=AnaG" class="text-decoration-none">Ana Gómez</a>
-                  </p>
-                  <button class="btn btn-primary btn-lg me-3" data-bs-toggle="collapse" data-bs-target="#detallesEV10">
-                    Detalles Registro
-                  </button>
-                  <div class="collapse mt-3" id="detallesEV10">
-                    <div class="card card-body">
-                      <p><i class="bi bi-cash"></i> <strong>Costo:</strong> Patrocinio</p>
-                      <p><i class="bi bi-calendar-check"></i> <strong>Fecha de Registro:</strong> 22/09/2022</p>
-                      <p><i class="bi bi-ticket-perforated"></i> <strong>Tipo de Registro:</strong> Corredor 21K</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Javier López -->
-            <div class="col-lg-3 col-md-6">
-              <div class="speaker-card text-center">
-                <div class="speaker-image">
-                  <a href="consultaUsuario.html?id=JaviL" class="text-decoration-none">
-                    <img src="../img/usuarios/lopez.jpg" alt="Javier López" class="img-fluid rounded-circle p-3">
-                  </a>
-                </div>
-                <div class="speaker-content">
-                  <p class="speaker-title">
-                    <a href="consultaUsuario.html?id=JaviL" class="text-decoration-none">Javier López</a>
-                  </p>
-                  <button class="btn btn-primary btn-lg me-3" data-bs-toggle="collapse" data-bs-target="#detallesEV11">
-                    Detalles Registro
-                  </button>
-                  <div class="collapse mt-3" id="detallesEV11">
-                    <div class="card card-body">
-                      <p><i class="bi bi-cash"></i> <strong>Costo:</strong> $1200</p>
-                      <p><i class="bi bi-calendar-check"></i> <strong>Fecha de Registro:</strong> 10/11/2021</p>
-                      <p><i class="bi bi-ticket-perforated"></i> <strong>Tipo de Registro:</strong> Corredor 42K</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- María Rodríguez -->
-            <div class="col-lg-3 col-md-6">
-              <div class="speaker-card text-center">
-                <div class="speaker-image">
-                  <a href="consultaUsuario.html?id=MariR" class="text-decoration-none">
-                    <img src="../img/usuarios/maria.jpg" alt="María Rodríguez" class="img-fluid rounded-circle p-3">
-                  </a>
-                </div>
-                <div class="speaker-content">
-                  <p class="speaker-title">
-                    <a href="consultaUsuario.html?id=MariR" class="text-decoration-none">María Rodríguez</a>
-                  </p>
-                  <button class="btn btn-primary btn-lg me-3" data-bs-toggle="collapse" data-bs-target="#detallesEV12">
-                    Detalles Registro
-                  </button>
-                  <div class="collapse mt-3" id="detallesEV12">
-                    <div class="card card-body">
-                      <p><i class="bi bi-cash"></i> <strong>Costo:</strong> $500</p>
-                      <p><i class="bi bi-calendar-check"></i> <strong>Fecha de Registro:</strong> 18/01/2023</p>
-                      <p><i class="bi bi-ticket-perforated"></i> <strong>Tipo de Registro:</strong> Corredor 10K</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Sofía Martínez -->
-            <div class="col-lg-3 col-md-6">
-              <div class="speaker-card text-center">
-                <div class="speaker-image">
-                  <a href="consultaUsuario.html?id=SofiM" class="text-decoration-none">
-                    <img src="../img/usuarios/sofiaM.jpg" alt="Sofía Martínez" class="img-fluid rounded-circle p-3">
-                  </a>
-                </div>
-                <div class="speaker-content">
-                  <p class="speaker-title">
-                    <a href="consultaUsuario.html?id=SofiM" class="text-decoration-none">Sofía Martínez</a>
-                  </p>
-                  <button class="btn btn-primary btn-lg me-3" data-bs-toggle="collapse" data-bs-target="#detallesEV13">
-                    Detalles Registro
-                  </button>
-                  <div class="collapse mt-3" id="detallesEV13">
-                    <div class="card card-body">
-                      <p><i class="bi bi-cash"></i> <strong>Costo:</strong> $800</p>
-                      <p><i class="bi bi-calendar-check"></i> <strong>Fecha de Registro:</strong> 12/02/2024</p>
-                      <p><i class="bi bi-ticket-perforated"></i> <strong>Tipo de Registro:</strong> Corredor 21K</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-          </div> <!-- /row -->
-        </div> <!-- /container -->
-      </section>
-
     </section>
-    <!-- ======= Fin Hero del Evento ======= -->
+
+    <!-- Usuarios registrados -->
+    <section id="asistentes" class="speakers section">
+      <div class="container section-title">
+        <h2>Usuarios Registrados</h2>
+      </div>
+
+      <div class="container">
+        <div class="row g-4 justify-content-center">
+
+          <!-- Tarjeta: Ana Torres -->
+          <div class="col-lg-3 col-md-6">
+            <div class="speaker-card text-center">
+              <div class="speaker-image">
+                <a href="consultaUsuario.html?id=atorres">
+                  <img src="../img/usuarios/anaFrank.jpg" alt="Ana Torres" class="img-fluid rounded-circle p-3">
+                </a>
+              </div>
+              <div class="speaker-content">
+                <p class="speaker-title">
+                  <a href="consultaUsuario.html?id=atorres" class="text-decoration-none">Ana Torres</a>
+                </p>
+                <button class="btn btn-primary btn-lg me-3" data-bs-toggle="collapse" data-bs-target="#detallesEV04">Detalles Registro</button>
+                <div class="collapse mt-3" id="detallesEV04">
+                  <div class="card card-body">
+                    <p><i class="bi bi-cash"></i> <strong>Costo:</strong> $1200</p>
+                    <p><i class="bi bi-calendar-check"></i> <strong>Fecha de Registro:</strong> 15/12/2021</p>
+                    <p><i class="bi bi-ticket-perforated"></i> <strong>Tipo de Registro:</strong> Corredor 42K</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tarjeta: Martin Silva -->
+          <div class="col-lg-3 col-md-6">
+            <div class="speaker-card text-center">
+              <div class="speaker-image">
+                <a href="consultaUsuario.html?id=msilva">
+                  <img src="../img/usuarios/martinSilva.jpg" alt="Martin Silva" class="img-fluid rounded-circle p-3">
+                </a>
+              </div>
+              <div class="speaker-content">
+                <p class="speaker-title">
+                  <a href="consultaUsuario.html?id=msilva" class="text-decoration-none">Martin Silva</a>
+                </p>
+                <button class="btn btn-primary btn-lg me-3" data-bs-toggle="collapse" data-bs-target="#detallesEV05">Detalles Registro</button>
+                <div class="collapse mt-3" id="detallesEV05">
+                  <div class="card card-body">
+                    <p><i class="bi bi-cash"></i> <strong>Costo:</strong> $800</p>
+                    <p><i class="bi bi-calendar-check"></i> <strong>Fecha de Registro:</strong> 12/01/2022</p>
+                    <p><i class="bi bi-ticket-perforated"></i> <strong>Tipo de Registro:</strong> Corredor 21K</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tarjeta: Sofía Rodríguez -->
+          <div class="col-lg-3 col-md-6">
+            <div class="speaker-card text-center">
+              <div class="speaker-image">
+                <a href="consultaUsuario.html?id=sofirod">
+                  <img src="../img/usuarios/sofiaRodriguez.jpg" alt="Sofía Rodríguez" class="img-fluid rounded-circle p-3">
+                </a>
+              </div>
+              <div class="speaker-content">
+                <p class="speaker-title">
+                  <a href="consultaUsuario.html?id=sofirod" class="text-decoration-none">Sofía Rodríguez</a>
+                </p>
+                <button class="btn btn-primary btn-lg me-3" data-bs-toggle="collapse" data-bs-target="#detallesEV06">Detalles Registro</button>
+                <div class="collapse mt-3" id="detallesEV06">
+                  <div class="card card-body">
+                    <p><i class="bi bi-cash"></i> <strong>Costo:</strong> $500</p>
+                    <p><i class="bi bi-calendar-check"></i> <strong>Fecha de Registro:</strong> 03/03/2023</p>
+                    <p><i class="bi bi-ticket-perforated"></i> <strong>Tipo de Registro:</strong> Corredor 10K</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tarjeta: Valentina Costa -->
+          <div class="col-lg-3 col-md-6">
+            <div class="speaker-card text-center">
+              <div class="speaker-image">
+                <a href="consultaUsuario.html?id=vale23">
+                  <img src="../img/usuarios/valentinaAcosta.jpg" alt="Valentina Costa" class="img-fluid rounded-circle p-3">
+                </a>
+              </div>
+              <div class="speaker-content">
+                <p class="speaker-title">
+                  <a href="consultaUsuario.html?id=vale23" class="text-decoration-none">Valentina Costa</a>
+                </p>
+                <button class="btn btn-primary btn-lg me-3" data-bs-toggle="collapse" data-bs-target="#detallesEV07">Detalles Registro</button>
+                <div class="collapse mt-3" id="detallesEV07">
+                  <div class="card card-body">
+                    <p><i class="bi bi-cash"></i> <strong>Costo:</strong> $1200</p>
+                    <p><i class="bi bi-calendar-check"></i> <strong>Fecha de Registro:</strong> 20/08/2022</p>
+                    <p><i class="bi bi-ticket-perforated"></i> <strong>Tipo de Registro:</strong> Corredor 42K</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tarjeta: Lucía García -->
+          <div class="col-lg-3 col-md-6">
+            <div class="speaker-card text-center">
+              <div class="speaker-image">
+                <a href="consultaUsuario.html?id=luciag">
+                  <img src="../img/usuarios/luciaGarcia.jpg" alt="Lucía García" class="img-fluid rounded-circle p-3">
+                </a>
+              </div>
+              <div class="speaker-content">
+                <p class="speaker-title">
+                  <a href="consultaUsuario.html?id=luciag" class="text-decoration-none">Lucía García</a>
+                </p>
+                <button class="btn btn-primary btn-lg me-3" data-bs-toggle="collapse" data-bs-target="#detallesEV08">Detalles Registro</button>
+                <div class="collapse mt-3" id="detallesEV08">
+                  <div class="card card-body">
+                    <p><i class="bi bi-cash"></i> <strong>Costo:</strong> $800</p>
+                    <p><i class="bi bi-calendar-check"></i> <strong>Fecha de Registro:</strong> 05/04/2024</p>
+                    <p><i class="bi bi-ticket-perforated"></i> <strong>Tipo de Registro:</strong> Corredor 21K</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tarjeta: Andrea Rodríguez -->
+          <div class="col-lg-3 col-md-6">
+            <div class="speaker-card text-center">
+              <div class="speaker-image">
+                <a href="consultaUsuario.html?id=andrearod">
+                  <img src="../img/usuarios/andrea.jpg" alt="Andrea Rodríguez" class="img-fluid rounded-circle p-3">
+                </a>
+              </div>
+              <div class="speaker-content">
+                <p class="speaker-title">
+                  <a href="consultaUsuario.html?id=andrearod" class="text-decoration-none">Andrea Rodríguez</a>
+                </p>
+                <button class="btn btn-primary btn-lg me-3" data-bs-toggle="collapse" data-bs-target="#detallesEV09">Detalles Registro</button>
+                <div class="collapse mt-3" id="detallesEV09">
+                  <div class="card card-body">
+                    <p><i class="bi bi-cash"></i> <strong>Costo:</strong> $500</p>
+                    <p><i class="bi bi-calendar-check"></i> <strong>Fecha de Registro:</strong> 30/06/2023</p>
+                    <p><i class="bi bi-ticket-perforated"></i> <strong>Tipo de Registro:</strong> Corredor 10K</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tarjeta: Ana Gómez -->
+          <div class="col-lg-3 col-md-6">
+            <div class="speaker-card text-center">
+              <div class="speaker-image">
+                <a href="consultaUsuario.html?id=AnaG">
+                  <img src="../img/usuarios/anaGomez.jpg" alt="Ana Gómez" class="img-fluid rounded-circle p-3">
+                </a>
+              </div>
+              <div class="speaker-content">
+                <p class="speaker-title">
+                  <a href="consultaUsuario.html?id=AnaG" class="text-decoration-none">Ana Gómez</a>
+                </p>
+                <button class="btn btn-primary btn-lg me-3" data-bs-toggle="collapse" data-bs-target="#detallesEV10">Detalles Registro</button>
+                <div class="collapse mt-3" id="detallesEV10">
+                  <div class="card card-body">
+                    <p><i class="bi bi-cash"></i> <strong>Costo:</strong> Patrocinio</p>
+                    <p><i class="bi bi-calendar-check"></i> <strong>Fecha de Registro:</strong> 22/09/2022</p>
+                    <p><i class="bi bi-ticket-perforated"></i> <strong>Tipo de Registro:</strong> Corredor 21K</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tarjeta: Javier López -->
+          <div class="col-lg-3 col-md-6">
+            <div class="speaker-card text-center">
+              <div class="speaker-image">
+                <a href="consultaUsuario.html?id=JaviL">
+                  <img src="../img/usuarios/lopez.jpg" alt="Javier López" class="img-fluid rounded-circle p-3">
+                </a>
+              </div>
+              <div class="speaker-content">
+                <p class="speaker-title">
+                  <a href="consultaUsuario.html?id=JaviL" class="text-decoration-none">Javier López</a>
+                </p>
+                <button class="btn btn-primary btn-lg me-3" data-bs-toggle="collapse" data-bs-target="#detallesEV11">Detalles Registro</button>
+                <div class="collapse mt-3" id="detallesEV11">
+                  <div class="card card-body">
+                    <p><i class="bi bi-cash"></i> <strong>Costo:</strong> $1200</p>
+                    <p><i class="bi bi-calendar-check"></i> <strong>Fecha de Registro:</strong> 10/11/2021</p>
+                    <p><i class="bi bi-ticket-perforated"></i> <strong>Tipo de Registro:</strong> Corredor 42K</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tarjeta: María Rodríguez -->
+          <div class="col-lg-3 col-md-6">
+            <div class="speaker-card text-center">
+              <div class="speaker-image">
+                <a href="consultaUsuario.html?id=MariR">
+                  <img src="../img/usuarios/maria.jpg" alt="María Rodríguez" class="img-fluid rounded-circle p-3">
+                </a>
+              </div>
+              <div class="speaker-content">
+                <p class="speaker-title">
+                  <a href="consultaUsuario.html?id=MariR" class="text-decoration-none">María Rodríguez</a>
+                </p>
+                <button class="btn btn-primary btn-lg me-3" data-bs-toggle="collapse" data-bs-target="#detallesEV12">Detalles Registro</button>
+                <div class="collapse mt-3" id="detallesEV12">
+                  <div class="card card-body">
+                    <p><i class="bi bi-cash"></i> <strong>Costo:</strong> $500</p>
+                    <p><i class="bi bi-calendar-check"></i> <strong>Fecha de Registro:</strong> 18/01/2023</p>
+                    <p><i class="bi bi-ticket-perforated"></i> <strong>Tipo de Registro:</strong> Corredor 10K</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tarjeta: Sofía Martínez -->
+          <div class="col-lg-3 col-md-6">
+            <div class="speaker-card text-center">
+              <div class="speaker-image">
+                <a href="consultaUsuario.html?id=SofiM">
+                  <img src="../img/usuarios/sofiaM.jpg" alt="Sofía Martínez" class="img-fluid rounded-circle p-3">
+                </a>
+              </div>
+              <div class="speaker-content">
+                <p class="speaker-title">
+                  <a href="consultaUsuario.html?id=SofiM" class="text-decoration-none">Sofía Martínez</a>
+                </p>
+                <button class="btn btn-primary btn-lg me-3" data-bs-toggle="collapse" data-bs-target="#detallesEV13">Detalles Registro</button>
+                <div class="collapse mt-3" id="detallesEV13">
+                  <div class="card card-body">
+                    <p><i class="bi bi-cash"></i> <strong>Costo:</strong> $800</p>
+                    <p><i class="bi bi-calendar-check"></i> <strong>Fecha de Registro:</strong> 12/02/2024</p>
+                    <p><i class="bi bi-ticket-perforated"></i> <strong>Tipo de Registro:</strong> Corredor 21K</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div> <!-- /row -->
+      </div> <!-- /container -->
+    </section>
 
   </main>
 
+  <!-- Footer -->
   <footer id="footer" class="footer position-relative light-background">
     <div class="container copyright text-center mt-4">
       <div class="social-links d-flex mt-4">
@@ -413,5 +390,4 @@
   <!-- Main JS File -->
   <script src="../js/main.js"></script>
 </body>
-
 </html>
