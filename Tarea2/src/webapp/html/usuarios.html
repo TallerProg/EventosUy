@@ -30,59 +30,56 @@
 
 <body class="index-page">
 
-      <!-- Header -->
-    <header id="header" class="header d-flex align-items-center fixed-top">
-        <div
-            class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
-            <nav id="navmenu" class="navmenu">
-                <ul>
-                    <a href="../index.html" class="logo d-flex align-items-center">
-                        <img src="../img/logoeuy.png" alt="">
-                    </a>
-                    <li><a href="usuarios.html">Usuarios</a></li>
-                    <li><a href="consultaRegistroAsis.html">Consulta de Registro</a></li>
-                    <li class="dropdown">
-                        <a href="#"><span>Categorías</span>
-                            <i class="bi bi-chevron-down toggle-dropdown"></i>
-                        </a>
-                        <ul>
-                            <li><a href="#">Tecnología</a></li>
-                            <li><a href="#">Innovación</a></li>
-                            <li><a href="#">Literatura</a></li>
-                            <li><a href="#">Cultura</a></li>
-                            <li><a href="#">Música</a></li>
-                            <li><a href="#">Deporte</a></li>
-                            <li><a href="#">Salud</a></li>
-                            <li><a href="#">Entretenimiento</a></li>
-                            <li><a href="#">Agro</a></li>
-                            <li><a href="#">Negocios</a></li>
-                            <li><a href="#">Moda</a></li>
-                            <li><a href="#">Investigación</a></li>
-                        </ul>
-                    </li>
+  <!-- Header -->
+  <header id="header" class="header d-flex align-items-center fixed-top">
+    <div class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
+      <nav id="navmenu" class="navmenu">
+        <ul>
+          <a href="../index.html" class="logo d-flex align-items-center">
+            <img src="../img/logoeuy.png" alt="">
+          </a>
+          <li><a href="usuarios.html" class="active">Usuarios</a></li>
+          <li><a href="listaEventos.html">Eventos</a></li>
+          <li><a href="listaInstituciones.html">Instituciones</a></li>
+          <li class="dropdown">
+            <a href="#"><span>Categorías</span>
+              <i class="bi bi-chevron-down toggle-dropdown"></i>
+            </a>
+            <ul>
+              <li><a href="#">Tecnología</a></li>
+              <li><a href="#">Innovación</a></li>
+              <li><a href="#">Literatura</a></li>
+              <li><a href="#">Cultura</a></li>
+              <li><a href="#">Música</a></li>
+              <li><a href="#">Deporte</a></li>
+              <li><a href="#">Salud</a></li>
+              <li><a href="#">Entretenimiento</a></li>
+              <li><a href="#">Agro</a></li>
+              <li><a href="#">Negocios</a></li>
+              <li><a href="#">Moda</a></li>
+              <li><a href="#">Investigación</a></li>
+            </ul>
+          </li>
+          <li class="nav-item search-item">
+            <form class="search-form" action="search.html" method="get">
+              <input type="text" name="q" class="search-input" placeholder="Buscar usuarios...">
+              <button type="submit" class="search-btn"><i class="bi bi-search"></i></button>
+            </form>
+          </li>
+          <!-- Usuario loggeado -->
+          <li class="ms-auto d-flex align-items-center gap-2">
+            <a href="perfil.html" class="user-info text-decoration-none d-flex align-items-center gap-2">
+              <span id="userAvatar"></span>
+              <span id="userName" class="fw-semibold"></span>
+            </a>
+          </li>
+        </ul>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+      </nav>
+    </div>
+  </header>
 
-                    <li class="nav-item search-item">
-                        <form class="search-form" action="search.html" method="get">
-                            <input type="text" name="q" class="search-input" placeholder="Buscar eventos...">
-                            <button type="submit" class="search-btn"><i class="bi bi-search"></i></button>
-                        </form>
-                    </li>
-
-                    <!-- Usuario loggeado -->
-                    <li class="ms-auto d-flex align-items-center gap-2">
-                        <a href="perfil.html" class="user-info text-decoration-none d-flex align-items-center gap-2">
-                            <span id="userAvatar"></span>
-                            <span id="userName" class="fw-semibold"></span>
-                        </a>
-                    </li>
-                </ul>
-                <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
-            </nav>
-        </div>
-    </header>
-
-
-  <main class="main">
+  <main class="main mt-5 pt-5">
 
     <!-- Asistentes -->
     <section id="asistentes" class="speakers section">
@@ -247,19 +244,19 @@
 
   <!-- Footer -->
   <footer id="footer" class="footer position-relative light-background">
-        <div class="container copyright text-center mt-4">
-            <div class="social-links d-flex mt-4">
-                <a href=""><i class="bi bi-twitter-x"></i></a>
-                <a href=""><i class="bi bi-facebook"></i></a>
-                <a href=""><i class="bi bi-instagram"></i></a>
-                <a href=""><i class="bi bi-linkedin"></i></a>
-                <a href="https://gitlab.fing.edu.uy/tprog/tpgr27"><i class="bi bi-gitlab"></i></a>
-            </div>
-            <div class="credits">
-                Taller de Programacion FING G27
-            </div>
-        </div>
-    </footer>
+    <div class="container copyright text-center mt-4">
+      <div class="social-links d-flex mt-4">
+        <a href=""><i class="bi bi-twitter-x"></i></a>
+        <a href=""><i class="bi bi-facebook"></i></a>
+        <a href=""><i class="bi bi-instagram"></i></a>
+        <a href=""><i class="bi bi-linkedin"></i></a>
+        <a href="https://gitlab.fing.edu.uy/tprog/tpgr27"><i class="bi bi-gitlab"></i></a>
+      </div>
+      <div class="credits">
+        Taller de Programación FING G27
+      </div>
+    </div>
+  </footer>
 
   <!-- Scripts -->
   <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
