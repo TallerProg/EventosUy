@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>EventUY - Eventos</title>
+
+  <!-- Favicons -->
+  <link href="../img/logoeuy.png" rel="icon">
+  <link href="../img/logoeuy.png" rel="apple-touch-icon">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Rubik:wght@400;600;700&family=Kanit:wght@400;600&display=swap"
+    rel="stylesheet">
+
+  <!-- Vendor CSS -->
+  <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="../vendor/aos/aos.css" rel="stylesheet">
+  <link href="../vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+  <link href="../vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+
+  <!-- Main CSS -->
+  <link href="../css/main.css" rel="stylesheet">
+</head>
+
+<body class="index-page">
+
+  <!-- Header -->
+  <header id="header" class="header d-flex align-items-center fixed-top">
+    <div class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
+      <nav id="navmenu" class="navmenu">
+        <ul>
+          <a href="../index.html" class="logo d-flex align-items-center">
+            <img src="../img/logoeuy.png" alt="">
+          </a>
+          <li><a href="usuarios.html">Usuarios</a></li>
+          <li><a href="listaEventos.html" class="active">Eventos</a></li>
+          <li><a href="listaInstituciones.html">Instituciones</a></li>
+          <li class="dropdown">
+            <a href="#"><span>Categorías</span>
+              <i class="bi bi-chevron-down toggle-dropdown"></i>
+            </a>
+            <ul>
+              <li><a href="#">Tecnología</a></li>
+              <li><a href="#">Innovación</a></li>
+              <li><a href="#">Literatura</a></li>
+              <li><a href="#">Cultura</a></li>
+              <li><a href="#">Música</a></li>
+              <li><a href="#">Deporte</a></li>
+              <li><a href="#">Salud</a></li>
+              <li><a href="#">Entretenimiento</a></li>
+              <li><a href="#">Agro</a></li>
+              <li><a href="#">Negocios</a></li>
+              <li><a href="#">Moda</a></li>
+              <li><a href="#">Investigación</a></li>
+            </ul>
+          </li>
+          <li class="nav-item search-item">
+            <form class="search-form" action="search.html" method="get">
+              <input type="text" name="q" class="search-input" placeholder="Buscar eventos...">
+              <button type="submit" class="search-btn"><i class="bi bi-search"></i></button>
+            </form>
+          </li>
+          <!-- Usuario loggeado -->
+          <li class="ms-auto d-flex align-items-center gap-2">
+            <a href="perfil.html" class="user-info text-decoration-none d-flex align-items-center gap-2">
+              <span id="userAvatar"></span>
+              <span id="userName" class="fw-semibold"></span>
+            </a>
+          </li>
+        </ul>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main">
+
+    <!-- Eventos -->
+    <section id="eventos" class="speakers section">
+      <div class="container section-title">
+        <h2>Eventos</h2>
+      </div>
+      <div class="container">
+        <div class="row g-4 justify-content-center">
+
+          <!-- EV01 -->
+          <div class="col-lg-3 col-md-6">
+            <a href="consultaEvento.html?id=EV01" class="text-decoration-none">
+              <div class="speaker-card text-center">
+                <div class="speaker-image"><img src="../img/events/ConfTecnologia.jpg" alt="Conferencia de Tecnología" class="img-fluid p-2"></div>
+                <div class="speaker-content">
+                  <p class="speaker-title">Conferencia de Tecnología</p>
+                  <p class="speaker-company">Evento sobre innovación tecnológica</p>
+                  <p><strong>Fecha:</strong> 10/01/2025</p>
+                  <p><strong>Categorías:</strong> Tecnología, Innovación</p>
+                </div>
+              </div>
+            </a>
+          </div>
+
+          <!-- EV02 -->
+          <div class="col-lg-3 col-md-6">
+            <a href="consultaEvento.html?id=EV02" class="text-decoration-none">
+              <div class="speaker-card text-center">
+                <div class="speaker-image"><img src="../img/events/feriadellibro.jpg" alt="Feria del Libro" class="img-fluid p-2"></div>
+                <div class="speaker-content">
+                  <p class="speaker-title">Feria del Libro</p>
+                  <p class="speaker-company">Encuentro anual de literatura</p>
+                  <p><strong>Fecha:</strong> 01/02/2025</p>
+                  <p><strong>Categorías:</strong> Literatura, Cultura</p>
+                </div>
+              </div>
+            </a>
+          </div>
+
+          <!-- EV03 -->
+          <div class="col-lg-3 col-md-6">
+            <a href="consultaEvento.html?id=EV03" class="text-decoration-none">
+              <div class="speaker-card text-center">
+                <div class="speaker-image"><img src="../img/events/montevideorock.png" alt="Montevideo Rock" class="img-fluid p-2"></div>
+                <div class="speaker-content">
+                  <p class="speaker-title">Montevideo Rock</p>
+                  <p class="speaker-company">Festival de rock con artistas nacionales e internacionales</p>
+                  <p><strong>Fecha:</strong> 15/03/2023</p>
+                  <p><strong>Categorías:</strong> Cultura, Música</p>
+                </div>
+              </div>
+            </a>
+          </div>
+
+          <!-- EV04 -->
+          <div class="col-lg-3 col-md-6">
+            <a href="consultaEvento.html?id=EV04" class="text-decoration-none">
+              <div class="speaker-card text-center">
+                <div class="speaker-image"><img src="../img/events/maratonmontevideo.jpg" alt="Maratón de Montevideo" class="img-fluid p-2"></div>
+                <div class="speaker-content">
+                  <p class="speaker-title">Maratón de Montevideo</p>
+                  <p class="speaker-company">Competencia deportiva anual en la capital</p>
+                  <p><strong>Fecha:</strong> 01/01/2022</p>
+                  <p><strong>Categorías:</strong> Deporte, Salud</p>
+                </div>
+              </div>
+            </a>
+          </div>
+
+          <!-- EV05 -->
+          <div class="col-lg-3 col-md-6">
+            <a href="consultaEvento.html?id=EV05" class="text-decoration-none">
+              <div class="speaker-card text-center">
+                <div class="speaker-image"><img src="../img/events/montevideocomics.png" alt="Montevideo Comics" class="img-fluid p-2"></div>
+                <div class="speaker-content">
+                  <p class="speaker-title">Montevideo Comics</p>
+                  <p class="speaker-company">Convención de historietas, cine y cultura geek</p>
+                  <p><strong>Fecha:</strong> 10/04/2024</p>
+                  <p><strong>Categorías:</strong> Cultura, Entretenimiento</p>
+                </div>
+              </div>
+            </a>
+          </div>
+
+          <!--
