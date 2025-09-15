@@ -76,6 +76,37 @@ document.addEventListener("DOMContentLoaded", () => {
   window.addEventListener("load", toggleScrollTop);
   document.addEventListener("scroll", toggleScrollTop);
 })();
+//Filtrar por categoria
+document.addEventListener("DOMContentLoaded", () => {
+  const buttons = document.querySelectorAll(".category-btn");
+  const cards = document.querySelectorAll(".speaker-card");
+  let activeCategories = new Set();
+
+  buttons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const category = btn.dataset.category;
+
+      // Toggle selección
+      if (activeCategories.has(category)) {
+        activeCategories.delete(category);
+        btn.classList.remove("active");
+      } else {
+        activeCategories.add(category);
+        btn.classList.add("active");
+      }
+
+      // Filtrar tarjetas
+      cards.forEach(card => {
+        const cardCategories = card.dataset.categories.split(",");
+        if (activeCategories.size === 0 || [...activeCategories].every(cat => cardCategories.includes(cat))) {
+          card.parentElement.style.display = "block";
+        } else {
+          card.parentElement.style.display = "none";
+        }
+      });
+    });
+  });
+});
 
 /**
  * Avatar y nombre de usuario
@@ -242,6 +273,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.addEventListener('scroll', navmenuScrollspy);
 
 })();
+
 
 // consultaUsuario 
 
