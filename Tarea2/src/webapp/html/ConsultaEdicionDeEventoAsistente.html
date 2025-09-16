@@ -266,6 +266,20 @@
 	        listaRegistros.innerHTML = "";
 	        edicion.registros.forEach(r => listaRegistros.innerHTML += `<li>${r}</li>`);
 	        tiposRegistro.style.display = "block";
+	     // Agregar botón "Ver detalles" si no existe
+	        let btnDetalles = document.querySelector("#btn-ver-detalles");
+	        if (!btnDetalles) {
+	          btnDetalles = document.createElement("a");
+	          btnDetalles.id = "btn-ver-detalles";
+	          btnDetalles.className = "btn btn-sm btn-primary ms-2";
+	          btnDetalles.textContent = "Ver detalles";
+
+	          // Insertar al lado del título
+	          const titulo = tiposRegistro.querySelector("h5");
+	          titulo.appendChild(btnDetalles);
+	        }
+	        btnDetalles.href = `ConsultaTipoRegistro.html?evento=${eventoId}&edicion=${edicion.id}`;
+	      
 
 	        // Mi registro
 	        document.querySelector("#tipo-registro").textContent = edicion.miRegistro.tipo;

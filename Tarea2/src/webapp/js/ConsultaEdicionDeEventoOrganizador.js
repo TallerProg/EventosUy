@@ -95,17 +95,29 @@ document.addEventListener("DOMContentLoaded", () => {
 		 // Tipos de registro
 		 listaRegistros.innerHTML = "";
 		 edicion.registros.forEach(r => listaRegistros.innerHTML += `<li>${r}</li>`);
-
-		 // Botón "Alta de tipo de Registro"
-		 listaRegistros.innerHTML += `
-		   <li class="text-end">
-		     <a href="altaTipoRegistro.html" class="btn btn-primary btn-sm">
-		       Alta de tipo de Registro
-		     </a>
-		   </li>
-		 `;
-
 		 tiposRegistro.style.display = edicion.registros.length ? "block" : "none";
+		 // Agregar botón "Ver detalles" si no existe
+		       let btnDetalles = document.querySelector("#btn-ver-detalles");
+		       if (!btnDetalles) {
+		         btnDetalles = document.createElement("a");
+		         btnDetalles.id = "btn-ver-detalles";
+		         btnDetalles.className = "btn btn-sm btn-primary ms-2";
+		         btnDetalles.textContent = "Ver detalles";
+
+		         // Insertar al lado del título
+		         const titulo = tiposRegistro.querySelector("h5");
+		         titulo.appendChild(btnDetalles);
+		       }
+		       btnDetalles.href = `ConsultaTipoRegistro.html?evento=${eventoId}&edicion=${edicion.id}`;
+		     
+		// Botón "Alta de tipo de Registro"
+				 listaRegistros.innerHTML += `
+				   <li class="text-end">
+				     <a href="altaTipoRegistro.html" class="btn btn-primary btn-sm">
+				       Alta de tipo de Registro
+				     </a>
+				   </li>
+				 `;
 
          // Patrocinios
          listaPatrocinios.innerHTML = "";
