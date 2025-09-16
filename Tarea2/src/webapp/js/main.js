@@ -285,21 +285,12 @@ function cargarUsuario() {
   // Datos de usuarios con ediciones como objetos
   const usuarios = {
     // ----- Asistentes -----
-    "atorres": { nombre: "Ana", apellido: "Torres", email: "atorres@gmail.com", tipo: "Asistente", fechaNacimiento: "12/05/1990", foto: "../img/usuarios/anaFrank.jpg", ediciones: [] },
+    "atorres": { nombre: "Ana", apellido: "Torres", email: "atorres@gmail.com", tipo: "Asistente", fechaNacimiento: "12/05/1990", foto: "../img/usuarios/anaTorres.jpg", ediciones: [] },
     "msilva": { nombre: "Martin", apellido: "Silva", email: "martin.silva@fing.edu.uy", tipo: "Asistente", fechaNacimiento: "21/08/1987", foto: "../img/usuarios/martinSilva.jpg", ediciones: [] },
-    "sofirod": { nombre: "Sofía", apellido: "Rodríguez", email: "srodriguez@outlook.com", tipo: "Asistente", fechaNacimiento: "03/02/1995", foto: "../img/usuarios/sofiaRodriguez.jpg",
-      ediciones: [
-        { nombre: "Montevideo Rock 2025", foto: "../img/ediciones/mvdRock2025.jpg" },
-        { nombre: "Maratón de Montevideo 2024", foto: "../img/ediciones/maratonMvd2024.jpg" },
-        { nombre: "Maratón de Montevideo 2025", foto: "../img/ediciones/maratonMvd2025.jpg" }
-      ]},
+    "sofirod": { nombre: "Sofía", apellido: "Rodríguez", email: "srodriguez@outlook.com", tipo: "Asistente", fechaNacimiento: "03/02/1995", foto: "../img/usuarios/sofiaRodriguez.jpg", ediciones: [] },
     // ... resto de usuarios
-    "miseventos": { nombre: "MisEventos", email: "contacto@miseventos.com", tipo: "Organizador", descripcion: "Empresa de organización de eventos.", url: "https://miseventos.com", foto: "../img/usuarios/misEventos.jpg",
-      ediciones: [
-        { nombre: "Montevideo Comics 2024", foto: "../img/ediciones/mc2024.jpg" },
-        { nombre: "Montevideo Comics 2025", foto: "../img/ediciones/mc2025.jpg" },
-        { nombre: "Expointer Uruguay 2025", foto: "../img/ediciones/expointer2025.jpg" }
-      ]}
+    "miseventos": { nombre: "MisEventos", email: "contacto@miseventos.com", tipo: "Organizador", descripcion: "Empresa de organización de eventos.", url: "https://miseventos.com", foto: "../img/usuarios/misEventos.jpeg",
+      ediciones: [] }
     // ... etc.
   };
  

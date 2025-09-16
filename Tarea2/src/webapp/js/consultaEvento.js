@@ -14,8 +14,8 @@ function loadEventDetails(eventId) {
       categories: ["Tecnología", "Innovación"],
       dateCreated: "2025-01-10", 
       editions: [
-        { name: "Edición prueba1 - 2025", date: "10/01/2025", location: "Montevideo", editionId: "CONFTEC25" },
-        { name: "Edición prueba2 - 2026", date: "10/01/2026", location: "Montevideo", editionId: "CONFTEC26" },
+        	{name: "Tecnología Punta del Este 2026", date: "06/04/2026", location: "Uruguay"},
+			{name: "Web Summit 2026", date: "13/01/2026", location: "Portugal"}
       ],
     },
     maratonmontevideo: {
@@ -26,7 +26,7 @@ function loadEventDetails(eventId) {
       categories: ["Deporte", "Salud"],
       dateCreated: "2022-01-01", 
       editions: [
-        { name: "Edición prueba1 - 2022", date: "01/01/2022", location: "Montevideo", editionId: "MARATON22" },
+        {  name: "Maratón de Montevideo 2024", date: "14/09/2024", location: "Montevideo"}			
       ],
     },
   };
@@ -56,8 +56,7 @@ function loadEventDetails(eventId) {
           </div>
           <div class="edition-body">
             <p>Ubicación: ${edition.location}</p>
-            <!-- Aquí hacemos que la edición sea clickeable, redirigiendo a una página de detalles de la edición -->
-            <a href="consultaEdicion.html?editionId=${edition.name}" class="btn btn-primary">Ver detalles de la edición</a>
+            <a href="ConsultaEdicionDeEvento.html" class="btn btn-primary">Ver detalles de la edición</a>
           </div>
         </div>
       `;
