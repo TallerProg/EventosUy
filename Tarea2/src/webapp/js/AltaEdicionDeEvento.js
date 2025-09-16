@@ -1,16 +1,18 @@
 document.addEventListener("DOMContentLoaded", function () {
   const form = document.querySelector("#form-alta");
-  const inputImagenes = document.querySelector("#imagenes");
+  const inputImagen = document.querySelector("#imagen");
   const preview = document.querySelector("#preview");
 
-  // Vista previa de imágenes
-  inputImagenes.addEventListener("change", function () {
+  // Vista previa de imagen
+  inputImagen.addEventListener("change", function () {
     preview.innerHTML = ""; // limpiar preview
-    for (const file of inputImagenes.files) {
+    for (const file of inputImagen.files) {
       const reader = new FileReader();
       reader.onload = e => {
         const img = document.createElement("img");
         img.src = e.target.result;
+        img.classList.add("img-thumbnail", "me-2", "mb-2");
+        img.style.maxWidth = "150px";
         preview.appendChild(img);
       };
       reader.readAsDataURL(file);
@@ -31,11 +33,27 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    // Validación de nombre ya usado (ejemplo con lista fija)
-    const nombresExistentes = ["Montevideo Rock 2025", "Feria del Libro 2024"];
+    // Lista de nombres de ediciones ya existentes (del PDF de datos de prueba)
+    const nombresExistentes = [
+      "Maratón de Montevideo 2024",
+      "Maratón de Montevideo 2022",
+      "Tecnología Punta del Este 2026",
+      "Mobile World Congress 2025",
+      "Web Summit 2026"
+    ];
+
     if (nombresExistentes.includes(nombre)) {
-      alert("El nombre ya está en uso. Por favor, elija otro.");
-      return;
+      const confirmar = confirm(
+        "El nombre de la edición ya está en uso.\n\n¿Desea modificarlo? (Cancelar aborta el alta)"
+      );
+      if (confirmar) {
+        return; // usuario corrige el nombre
+      } else {
+        alert("Alta de edición cancelada.");
+        form.reset();
+        preview.innerHTML = "";
+        return;
+      }
     }
 
     // Validación de fechas
@@ -46,7 +64,9 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    alert("Edición creada con éxito ✅");
+    // Alta exitosa
+    alert("Edición creada con éxito ✅\nEstado inicial: Ingresada");
     form.submit();
   });
 });
+
