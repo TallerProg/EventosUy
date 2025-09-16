@@ -285,12 +285,20 @@ function cargarUsuario() {
   // Datos de usuarios con ediciones como objetos
   const usuarios = {
     // ----- Asistentes -----
-    "atorres": { nombre: "Ana", apellido: "Torres", email: "atorres@gmail.com", tipo: "Asistente", fechaNacimiento: "12/05/1990", foto: "../img/usuarios/anaTorres.jpg", ediciones: [] },
-    "msilva": { nombre: "Martin", apellido: "Silva", email: "martin.silva@fing.edu.uy", tipo: "Asistente", fechaNacimiento: "21/08/1987", foto: "../img/usuarios/martinSilva.jpg", ediciones: [] },
-    "sofirod": { nombre: "Sofía", apellido: "Rodríguez", email: "srodriguez@outlook.com", tipo: "Asistente", fechaNacimiento: "03/02/1995", foto: "../img/usuarios/sofiaRodriguez.jpg", ediciones: [] },
-    // ... resto de usuarios
+    "atorres": { nombre: "Ana", apellido: "Torres", email: "atorres@gmail.com", tipo: "Asistente", fechaNacimiento: "12/05/1990", foto: "../img/usuarios/anaTorres.jpg", 
+		ediciones: [	
+			{nombre: "Maratón de Montevideo 2024", foto: "../img/ediciones/maratonMvd2024.jpeg"},
+	    	{nombre: "Web Summit 2026", foto: "../img/ediciones/default.jpeg"}
+    	]},
+    // ----- Organizadores -----
     "miseventos": { nombre: "MisEventos", email: "contacto@miseventos.com", tipo: "Organizador", descripcion: "Empresa de organización de eventos.", url: "https://miseventos.com", foto: "../img/usuarios/misEventos.jpeg",
-      ediciones: [] }
+    	ediciones: [
+			  { nombre: "Maratón de Montevideo 2024", foto: "../img/ediciones/maratonMvd2024.jpeg" },
+			  { nombre: "Maratón de Montevideo 2022", foto: "../img/ediciones/maratonMvd2022.jpeg" },
+			  { nombre: "Tecnología Punta del Este 2026", foto: "../img/ediciones/default.jpeg" },
+			  { nombre: "Mobile World Congress 2025", foto: "../img/ediciones/mwc2025.png" },
+			  { nombre: "Web Summit 2026", foto: "../img/ediciones/default.jpeg" }
+	    ] }
     // ... etc.
   };
  
