@@ -88,8 +88,8 @@
               <label for="evento" class="form-label"><i class="bi bi-calendar-event"></i> Evento</label>
               <select id="evento" name="evento" class="form-control">
                 <option value="">-- Seleccione un evento --</option>
-                <option value="1">Montevideo Rock</option>
-                <option value="2">Feria del Libro</option>
+                <option value="EV01">Conferencia de Tecnología</option>
+                <option value="EV04">Maratón de Montevideo</option>
               </select>
             </div>
             <div class="col-md-6">
@@ -109,6 +109,7 @@
           <div class="edicion-detalles">
             <h4>Datos de la Edición</h4>
             <p><strong>Nombre:</strong> <span id="nombre-edicion"></span></p>
+            <p><strong>Sigla:</strong> <span id="sigla-edicion"></span></p>
             <p><strong>Organizador:</strong> <span id="organizador"></span></p>
             <p><strong>Fechas:</strong> <span id="fechas"></span></p>
             <p><strong>Ciudad:</strong> <span id="ciudad"></span></p>
@@ -132,21 +133,53 @@
     </section>
   </main>
 
-  <!-- Footer -->
-  <footer id="footer" class="footer position-relative light-background">
-    <div class="container copyright text-center mt-4">
-      <div class="social-links d-flex mt-4">
-        <a href=""><i class="bi bi-twitter-x"></i></a>
-        <a href=""><i class="bi bi-facebook"></i></a>
-        <a href=""><i class="bi bi-instagram"></i></a>
-        <a href=""><i class="bi bi-linkedin"></i></a>
-        <a href="https://gitlab.fing.edu.uy/tprog/tpgr27"><i class="bi bi-gitlab"></i></a>
+<!-- Footer -->
+<hr class="mt-5 mb-4" style="border: 0; height: 3px; background: #bbb; border-radius: 2px;">
+
+<footer id="footer" class="footer position-relative light-background">
+  <div class="container mt-4">
+    <div class="row">
+      
+      <!-- Columna izquierda: Sobre eventos.uy -->
+      <div class="col-lg-6 col-md-6 mb-3">
+        <h5>Sobre eventos.uy</h5>
+        <p class="text-muted small">
+          En <strong>eventos.uy</strong> nos apasiona conectar personas a través de conferencias, 
+          talleres, hackatones y todo tipo de encuentros. Queremos hacer más fácil organizar, 
+          descubrir y disfrutar eventos. <br>
+          Si sos organizador, vas a encontrar herramientas para gestionar tus ediciones, 
+          inscripciones y patrocinios. Y si sos asistente, podes
+          consultar por tus eventos favoritos,  registrarte en segundos y luego queda disfrutarlos! .
+        </p>
       </div>
-      <div class="credits">
-        Taller de Programación FING G27
+
+      <!-- Columna derecha: Contacto y redes -->
+      <div class="col-lg-6 col-md-6 mb-3 text-lg-end text-md-end text-center">
+        <h5>Contacto</h5>
+        <p class="small">
+          📧 <a href="mailto:contacto@eventos.uy">contacto@eventos.uy</a><br>
+          ☎ +598 2400 0000
+        </p>
+        <div class="social-links d-flex justify-content-lg-end justify-content-md-end justify-content-center">
+          <a href=""><i class="bi bi-twitter-x"></i></a>
+          <a href=""><i class="bi bi-facebook"></i></a>
+          <a href=""><i class="bi bi-instagram"></i></a>
+          <a href=""><i class="bi bi-linkedin"></i></a>
+          <a href="https://gitlab.fing.edu.uy/tprog/tpgr27"><i class="bi bi-gitlab"></i></a>
+        </div>
       </div>
     </div>
-  </footer>
+
+    <!-- Créditos -->
+    <div class="credits text-center mt-3">
+      © 2025 <strong>eventos.uy</strong> · Taller de Programación FING G27
+    </div>
+  </div>
+</footer>
+
+
+
+
 
   <!-- Scripts -->
   <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -160,32 +193,46 @@
       const patrocinios = document.querySelector("#patrocinios");
       const listaPatrocinios = document.querySelector("#lista-patrocinios");
 
-      // Datos simulados
+      // Datos hardcodeados desde el PDF
       const edicionesPorEvento = {
-        1: [
+        EV01: [
           {
-            id: "ed1",
-            nombre: "Montevideo Rock 2025",
-            organizador: "Intendencia de Montevideo",
-            fechas: "20/11/2025 - 22/11/2025",
-            ciudad: "Montevideo",
+            id: "EDEV08",
+            nombre: "Tecnología Punta del Este 2026",
+            sigla: "CONFTECH26",
+            organizador: "Universidad de la República",
+            fechas: "06/04/2026 - 10/04/2026",
+            ciudad: "Punta del Este",
             pais: "Uruguay",
-            imagen: "../img/events/montevideorock.png",
-            registros: ["Entrada General", "VIP"],
-            patrocinios: ["Cerveza Patagonia", "Antel"]
+            imagen: "../img/events/ConfTecnologia.jpg",
+            registros: ["Estudiante (costo: $1000, cupos: 50)"],
+            patrocinios: ["Facultad de Ingeniería (Oro, aporte 20000)"]
+          },
+          {
+            id: "EDEV10",
+            nombre: "Web Summit 2026",
+            sigla: "WS26",
+            organizador: "Corporación Tecnológica",
+            fechas: "13/01/2026 - 01/02/2026",
+            ciudad: "Lisboa",
+            pais: "Portugal",
+            imagen: "../img/events/showcase-8.webp",
+            registros: ["Estudiante (costo: $300, cupos: 1)"],
+            patrocinios: []
           }
         ],
-        2: [
+        EV04: [
           {
-            id: "ed2",
-            nombre: "Feria del Libro 2025",
-            organizador: "Editorial UY",
-            fechas: "01/02/2025 - 05/02/2025",
+            id: "EDEV03",
+            nombre: "Maratón de Montevideo 2024",
+            sigla: "MARATON24",
+            organizador: "Intendencia de Montevideo",
+            fechas: "14/09/2024",
             ciudad: "Montevideo",
             pais: "Uruguay",
-            imagen: "../img/events/feriadellibro.jpg",
-            registros: ["Entrada General"],
-            patrocinios: ["Santillana", "Planeta"]
+            imagen: "../img/ediciones/maratonMvd2024.jpeg",
+            registros: ["Corredor 21K (costo: $500, cupos: 500)"],
+            patrocinios: []
           }
         ]
       };
@@ -211,6 +258,7 @@
         if (edicion) {
           detalleEdicion.style.display = "flex";
           document.querySelector("#nombre-edicion").textContent = edicion.nombre;
+          document.querySelector("#sigla-edicion").textContent = edicion.sigla;
           document.querySelector("#organizador").textContent = edicion.organizador;
           document.querySelector("#fechas").textContent = edicion.fechas;
           document.querySelector("#ciudad").textContent = edicion.ciudad;
@@ -220,20 +268,19 @@
           // Tipos de registro
           listaRegistros.innerHTML = "";
           edicion.registros.forEach(r => {
-            listaRegistros.innerHTML += `<li><a href="#">${r}</a></li>`;
+            listaRegistros.innerHTML += `<li>${r}</li>`;
           });
-          tiposRegistro.style.display = "block";
+          tiposRegistro.style.display = edicion.registros.length ? "block" : "none";
 
           // Patrocinios
           listaPatrocinios.innerHTML = "";
           edicion.patrocinios.forEach(p => {
-            listaPatrocinios.innerHTML += `<li><a href="#">${p}</a></li>`;
+            listaPatrocinios.innerHTML += `<li>${p}</li>`;
           });
-          patrocinios.style.display = "block";
+          patrocinios.style.display = edicion.patrocinios.length ? "block" : "none";
         }
       });
     });
   </script>
 </body>
 </html>
-
