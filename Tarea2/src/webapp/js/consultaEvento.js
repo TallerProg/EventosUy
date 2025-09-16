@@ -18,28 +18,6 @@ function loadEventDetails(eventId) {
         { name: "Edición prueba2 - 2026", date: "10/01/2026", location: "Montevideo", editionId: "CONFTEC26" },
       ],
     },
-    feriadellibro: {
-      title: "Feria del Libro",
-      sigla: "FERLIB",
-      image: "../img/events/feriadellibro.jpg",
-      description: "Encuentro anual de literatura.",
-      categories: ["Literatura", "Cultura"],
-      dateCreated: "2025-02-01", 
-      editions: [
-        { name: "Edición prueba1 - 2025", date: "01/02/2025", location: "Montevideo", editionId: "FERLIB25" },
-      ],
-    },
-    montevideorock: {
-      title: "Montevideo Rock",
-      sigla: "MONROCK",
-      image: "../img/events/montevideorock.png",
-      description: "Festival de rock con artistas nacionales e internacionales",
-      categories: ["Música", "Cultura"],
-      dateCreated: "2023-03-15", 
-      editions: [
-        { name: "Edición prueba1 - 2023", date: "15/03/2023", location: "Montevideo", editionId: "MONROCK23" },
-      ],
-    },
     maratonmontevideo: {
       title: "Maratón de Montevideo",
       sigla: "MARATON",
@@ -49,17 +27,6 @@ function loadEventDetails(eventId) {
       dateCreated: "2022-01-01", 
       editions: [
         { name: "Edición prueba1 - 2022", date: "01/01/2022", location: "Montevideo", editionId: "MARATON22" },
-      ],
-    },
-    montevideocomics: {
-      title: "Montevideo Comics",
-      sigla: "COMICS",
-      image: "../img/events/montevideocomics.png",
-      description: "Convención de historietas, cine y cultura geek",
-      categories: ["Cultura", "Entretenimiento"],
-      dateCreated: "2023-08-05", 
-      editions: [
-        { name: "Edición prueba1 - 2024", date: "10/04/2024", location: "Montevideo", editionId: "COMICS24" },
       ],
     },
   };
