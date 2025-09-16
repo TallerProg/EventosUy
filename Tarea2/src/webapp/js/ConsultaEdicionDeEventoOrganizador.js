@@ -92,10 +92,20 @@ document.addEventListener("DOMContentLoaded", () => {
          document.querySelector("#pais").textContent = edicion.pais;
          document.querySelector("#imagen-edicion").src = edicion.imagen;
 
-         // Tipos de registro
-         listaRegistros.innerHTML = "";
-         edicion.registros.forEach(r => listaRegistros.innerHTML += `<li>${r}</li>`);
-         tiposRegistro.style.display = edicion.registros.length ? "block" : "none";
+		 // Tipos de registro
+		 listaRegistros.innerHTML = "";
+		 edicion.registros.forEach(r => listaRegistros.innerHTML += `<li>${r}</li>`);
+
+		 // Botón "Alta de tipo de Registro"
+		 listaRegistros.innerHTML += `
+		   <li class="text-end">
+		     <a href="altaTipoRegistro.html" class="btn btn-primary btn-sm">
+		       Alta de tipo de Registro
+		     </a>
+		   </li>
+		 `;
+
+		 tiposRegistro.style.display = edicion.registros.length ? "block" : "none";
 
          // Patrocinios
          listaPatrocinios.innerHTML = "";
