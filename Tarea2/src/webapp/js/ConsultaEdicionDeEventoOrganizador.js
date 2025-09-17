@@ -108,7 +108,17 @@ document.addEventListener("DOMContentLoaded", () => {
 		         const titulo = tiposRegistro.querySelector("h5");
 		         titulo.appendChild(btnDetalles);
 		       }
-		       btnDetalles.href = `ConsultaTipoRegistro.html?evento=${eventoId}&edicion=${edicion.id}`;
+			   //TOTALMENTE PROVISORIO ESTO SOLO FUNCIONA CON LOS CASOS DE PRUEBA
+			            if(edicion.id=="EDEV03"){
+			               btnDetalles.href = `ConsultaTipoRegistro_TR07.html`;
+			   	  }else if(edicion.id=="EDEV08"){
+			   		 btnDetalles.href = `ConsultaTipoRegistro_TR19.html`;
+			   	  }else if(edicion.id=="EDEV09"){
+			   		 btnDetalles.href = `ConsultaTipoRegistro_TR20.html`;
+			   	  }else if(edicion.id=="EDEV10"){
+			   		 btnDetalles.href = `ConsultaTipoRegistro_TR25.html`;
+			            }      
+
 		     
 		// Botón "Alta de tipo de Registro"
 				 listaRegistros.innerHTML += `
