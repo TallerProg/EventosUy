@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>EventUY - Eventos</title>
+  <title>Detalles del Evento</title>
 
   <!-- Favicons -->
   <link href="../img/logoeuy.png" rel="icon">
@@ -14,18 +14,19 @@
   <link href="https://fonts.googleapis.com" rel="preconnect">
   <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Rubik:wght@400;600;700&family=Kanit:wght@400;600&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Rubik:wght@400;500;600;700&family=Kanit:wght@400;500;600;700&display=swap"
     rel="stylesheet">
 
   <!-- Vendor CSS -->
   <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="../vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="../vendor/aos/aos.css" rel="stylesheet">
-  <link href="../vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-  <link href="../vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
 
   <!-- Main CSS -->
   <link href="../css/main.css" rel="stylesheet">
+
+  <!-- Scripts -->
+  <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="../js/consultaEvento.js"></script>
 </head>
 
 <body class="index-page">
@@ -36,15 +37,13 @@
       <nav id="navmenu" class="navmenu">
         <ul>
           <a href="../index.html" class="logo d-flex align-items-center">
-            <img src="../img/logoeuy.png" alt="">
+            <img src="../img/logoeuy.png" alt="EventUY Logo">
           </a>
           <li><a href="usuarios.html">Usuarios</a></li>
-          <li><a href="listaEventos.html" class="active">Eventos</a></li>
+          <li><a href="listaEventos.html">Eventos</a></li>
           <li><a href="listaInstituciones.html">Instituciones</a></li>
           <li class="dropdown">
-            <a href="#"><span>Categorías</span>
-              <i class="bi bi-chevron-down toggle-dropdown"></i>
-            </a>
+            <a href="#"><span>Categorías</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
             <ul>
               <li><a href="#">Tecnología</a></li>
               <li><a href="#">Innovación</a></li>
@@ -60,17 +59,16 @@
               <li><a href="#">Investigación</a></li>
             </ul>
           </li>
-          <li class="nav-item search-item">
+          <li class="nav-item search-item ms-auto">
             <form class="search-form" action="search.html" method="get">
               <input type="text" name="q" class="search-input" placeholder="Buscar eventos...">
               <button type="submit" class="search-btn"><i class="bi bi-search"></i></button>
             </form>
           </li>
-          <!-- Usuario loggeado -->
-          <li class="ms-auto d-flex align-items-center gap-2">
-            <a href="perfil.html" class="user-info text-decoration-none d-flex align-items-center gap-2">
-              <span id="userAvatar"></span>
-              <span id="userName" class="fw-semibold"></span>
+          <li>
+            <a href="login.html" class="login-icon" data-bs-toggle="tooltip" data-bs-placement="bottom"
+              title="Login / Registrarse">
+              <i class="bi bi-person-circle"></i>
             </a>
           </li>
         </ul>
@@ -79,64 +77,70 @@
     </div>
   </header>
 
+  <!-- Main -->
   <main class="main">
-
-    <!-- Eventos -->
-    <section id="eventos" class="speakers section">
-      <div class="container section-title d-flex justify-content-between align-items-center">
-        <h2>Eventos</h2>
-        <!-- Botón Alta Evento -->
-        <a href="altaEvento.html" class="btn btn-primary">
-          <i class="bi bi-plus-circle me-1"></i> Nuevo Evento
-        </a>
+    <section id="evento-detalles" class="section">
+      <div class="container section-title">
+        <h2 id="eventTitle">Conferencia de Tecnología</h2>
+        <p id="eventSigla">Sigla: CONFTEC</p>
+        <p id="eventDateCreated">Fecha de alta: 10/01/2025</p>
       </div>
 
       <div class="container">
-        <div class="row g-4 justify-content-center">
-
-          <!-- EV01 -->
-          <div class="col-lg-3 col-md-6">
-            <a href="consultaEvento_EV01.html" class="text-decoration-none">
-              <div class="speaker-card text-center">
-                <div class="speaker-image"><img src="../img/events/ConfTecnologia.jpg" alt="Conferencia de Tecnología" class="img-fluid p-2"></div>
-                <div class="speaker-content">
-                  <p class="speaker-title">Conferencia de Tecnología</p>
-                  <p class="speaker-company">Evento sobre innovación tecnológica</p>
-                  <div class="categories">
-                    <a href="#" title="Tecnología" ><i class="bi bi-cpu"></i></a>
-                    <a href="#" title="Innovación"><i class="bi bi-lightbulb"></i></a>
-                  </div>
-                </div>
-              </div>
-            </a>
-          </div>
-      
-          <!-- EV04 -->
-          <div class="col-lg-3 col-md-6">
-            <a href="consultaEvento_EV04.html" class="text-decoration-none">
-              <div class="speaker-card text-center">
-                <div class="speaker-image"><img src="../img/events/maratonmontevideo.jpg" alt="Maratón de Montevideo" class="img-fluid p-2"></div>
-                <div class="speaker-content">
-                  <p class="speaker-title">Maratón de Montevideo</p>
-                  <p class="speaker-company">Competencia deportiva anual en la capital</p>
-                  <div class="categories">
-                    <a href="#" title="Deporte"><i class="bi bi-trophy"></i></a>
-                    <a href="#" title="Salud"><i class="bi bi-heart-pulse"></i></a>
-                  </div>
-                </div>
-              </div>
-            </a>
+        <div class="row justify-content-center">
+          <div class="col-lg-6">
+            <div id="eventImage" class="event-image">
+            </div>
           </div>
 
+          <div class="col-lg-6">
+            <div id="eventInfo" class="event-info">
+              <p>Evento sobre innovación tecnologíaca</p>
+              <h4>Categorías:</h4>
+              <ul>
+              	<li>Tecnología</li>
+              	<li>innovación</li>
+              </ul>
+            </div>
+          </div>
         </div>
-      </div>
-    </section>
 
+        <!-- Ediciones del Evento -->
+        <section id="eventEditions" class="event-editions mt-5">
+          <div class="container">
+            <div id="editionsList" class="row">
+            <div class="col-lg-4 col-md-6 ">
+              <div class="edition-card">
+          		<div class="edition-header">
+            		<h5>Tecnología Punta del Este 2026</h5>
+            		<p>06/04/2026</p>
+          		</div>
+          	  <div class="edition-body">
+              	<p>Ubicación: Uruguay</p>
+              	<a href="ConsultaEdicionDeEvento.html" class="btn btn-primary">Ver detalles de la edición</a>
+             </div>
+        	</div>
+        	</div>
+        	<div class="col-lg-4 col-md-6 ">
+        	<div class="edition-card">
+          		<div class="edition-header">
+            		<h5>Web Summit 2026</h5>
+            		<p>13/01/2026 </p>
+          		</div>
+          	  <div class="edition-body">
+              	<p>Ubicación: Portugal</p>
+              	<a href="ConsultaEdicionDeEvento.html" class="btn btn-primary">Ver detalles de la edición</a>
+             </div>
+        	</div>
+            </div>
+            </div>
+          </div>
+        </section>
   </main>
 
- <!-- Footer -->
-      <hr class="mt-5 mb-4" style="border: 0; height: 3px; background: #bbb; border-radius: 2px;">
- 
+   <!-- Footer -->
+        <hr class="mt-5 mb-4" style="border: 0; height: 3px; background: #bbb; border-radius: 2px;">
+   
   <footer id="footer" class="footer position-relative light-background">
   <div class="container mt-4">
     <div class="row">
@@ -178,9 +182,6 @@
   </div>
 </footer>
 
-  <!-- Scripts -->
-  <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="../js/main.js"></script>
-
 </body>
 </html>
+

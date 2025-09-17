@@ -1,3 +1,4 @@
+//este archivo javascript sera usado para la pagina dinamica
 function getURLParameter(name) {
   const urlParams = new URLSearchParams(window.location.search);
   return urlParams.get(name);
