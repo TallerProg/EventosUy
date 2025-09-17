@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,11 +24,13 @@
   <!-- Main CSS -->
   <link href="../css/main.css" rel="stylesheet">
 </head>
+
 <body class="index-page">
 
   <!-- Header -->
   <header id="header" class="header d-flex align-items-center fixed-top">
-    <div class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
+    <div
+      class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
       <nav id="navmenu" class="navmenu">
         <ul>
           <li>
@@ -38,23 +41,7 @@
           <li><a href="usuarios.html">Usuarios</a></li>
           <li><a href="listaEventos.html">Eventos</a></li>
           <li><a href="listaInstituciones.html">Instituciones</a></li>
-          <li class="dropdown">
-            <a href="#"><span>Categorías</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-            <ul>
-              <li><a href="#">Tecnología</a></li>
-              <li><a href="#">Innovación</a></li>
-              <li><a href="#">Literatura</a></li>
-              <li><a href="#">Cultura</a></li>
-              <li><a href="#">Música</a></li>
-              <li><a href="#">Deporte</a></li>
-              <li><a href="#">Salud</a></li>
-              <li><a href="#">Entretenimiento</a></li>
-              <li><a href="#">Agro</a></li>
-              <li><a href="#">Negocios</a></li>
-              <li><a href="#">Moda</a></li>
-              <li><a href="#">Investigación</a></li>
-            </ul>
-          </li>
+
           <li class="nav-item search-item ms-auto">
             <form class="search-form" action="search.html" method="get">
               <input type="text" name="q" class="search-input" placeholder="Buscar eventos...">
@@ -62,7 +49,8 @@
             </form>
           </li>
           <li>
-            <a href="login.html" class="login-icon" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Login / Registrarse">
+            <a href="login.html" class="login-icon" data-bs-toggle="tooltip" data-bs-placement="bottom"
+              title="Login / Registrarse">
               <i class="bi bi-person-circle"></i>
             </a>
           </li>
@@ -104,7 +92,8 @@
         <!-- Datos generales -->
         <div class="edicion-layout" id="detalle-edicion" style="display:none;">
           <div class="edicion-imagenes">
-            <img id="imagen-edicion" src="../img/events/default.jpg" alt="Imagen de la edición" class="img-fluid rounded">
+            <img id="imagen-edicion" src="../img/events/default.jpg" alt="Imagen de la edición"
+              class="img-fluid rounded">
           </div>
           <div class="edicion-detalles">
             <h4>Datos de la Edición</h4>
@@ -126,56 +115,57 @@
         <!-- Patrocinios -->
         <div class="mt-4" id="patrocinios" style="display:none;">
           <h5><i class="bi bi-people"></i> Patrocinios</h5>
-          <ul id="lista-patrocinios"></ul>
+          <div id="contenido-patrocinios"></div>
         </div>
+
 
       </div>
     </section>
   </main>
 
-<!-- Footer -->
-<hr class="mt-5 mb-4" style="border: 0; height: 3px; background: #bbb; border-radius: 2px;">
+  <!-- Footer -->
+  <hr class="mt-5 mb-4" style="border: 0; height: 3px; background: #bbb; border-radius: 2px;">
 
-<footer id="footer" class="footer position-relative light-background">
-  <div class="container mt-4">
-    <div class="row">
-      
-      <!-- Columna izquierda: Sobre eventos.uy -->
-      <div class="col-lg-6 col-md-6 mb-3">
-        <h5>Sobre eventos.uy</h5>
-        <p class="text-muted small">
-          En <strong>eventos.uy</strong> nos apasiona conectar personas a través de conferencias, 
-          talleres, hackatones y todo tipo de encuentros. Queremos hacer más fácil organizar, 
-          descubrir y disfrutar eventos. <br>
-          Si sos organizador, vas a encontrar herramientas para gestionar tus ediciones, 
-          inscripciones y patrocinios. Y si sos asistente, podes
-          consultar por tus eventos favoritos,  registrarte en segundos y luego queda disfrutarlos! .
-        </p>
-      </div>
+  <footer id="footer" class="footer position-relative light-background">
+    <div class="container mt-4">
+      <div class="row">
 
-      <!-- Columna derecha: Contacto y redes -->
-      <div class="col-lg-6 col-md-6 mb-3 text-lg-end text-md-end text-center">
-        <h5>Contacto</h5>
-        <p class="small">
-          📧 <a href="mailto:contacto@eventos.uy">contacto@eventos.uy</a><br>
-          ☎ +598 2400 0000
-        </p>
-        <div class="social-links d-flex justify-content-lg-end justify-content-md-end justify-content-center">
-          <a href=""><i class="bi bi-twitter-x"></i></a>
-          <a href=""><i class="bi bi-facebook"></i></a>
-          <a href=""><i class="bi bi-instagram"></i></a>
-          <a href=""><i class="bi bi-linkedin"></i></a>
-          <a href="https://gitlab.fing.edu.uy/tprog/tpgr27"><i class="bi bi-gitlab"></i></a>
+        <!-- Columna izquierda: Sobre eventos.uy -->
+        <div class="col-lg-6 col-md-6 mb-3">
+          <h5>Sobre eventos.uy</h5>
+          <p class="text-muted small">
+            En <strong>eventos.uy</strong> nos apasiona conectar personas a través de conferencias,
+            talleres, hackatones y todo tipo de encuentros. Queremos hacer más fácil organizar,
+            descubrir y disfrutar eventos. <br>
+            Si sos organizador, vas a encontrar herramientas para gestionar tus ediciones,
+            inscripciones y patrocinios. Y si sos asistente, podes
+            consultar por tus eventos favoritos, registrarte en segundos y luego queda disfrutarlos! .
+          </p>
+        </div>
+
+        <!-- Columna derecha: Contacto y redes -->
+        <div class="col-lg-6 col-md-6 mb-3 text-lg-end text-md-end text-center">
+          <h5>Contacto</h5>
+          <p class="small">
+            📧 <a href="mailto:contacto@eventos.uy">contacto@eventos.uy</a><br>
+            ☎ +598 2400 0000
+          </p>
+          <div class="social-links d-flex justify-content-lg-end justify-content-md-end justify-content-center">
+            <a href=""><i class="bi bi-twitter-x"></i></a>
+            <a href=""><i class="bi bi-facebook"></i></a>
+            <a href=""><i class="bi bi-instagram"></i></a>
+            <a href=""><i class="bi bi-linkedin"></i></a>
+            <a href="https://gitlab.fing.edu.uy/tprog/tpgr27"><i class="bi bi-gitlab"></i></a>
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- Créditos -->
-    <div class="credits text-center mt-3">
-      © 2025 <strong>eventos.uy</strong> · Taller de Programación FING G27
+      <!-- Créditos -->
+      <div class="credits text-center mt-3">
+        © 2025 <strong>eventos.uy</strong> · Taller de Programación FING G27
+      </div>
     </div>
-  </div>
-</footer>
+  </footer>
 
 
 
@@ -191,7 +181,7 @@
       const tiposRegistro = document.querySelector("#tipos-registro");
       const listaRegistros = document.querySelector("#lista-registros");
       const patrocinios = document.querySelector("#patrocinios");
-      const listaPatrocinios = document.querySelector("#lista-patrocinios");
+      const contenedorPatrocinios = document.querySelector("#contenido-patrocinios");
 
       // Datos hardcodeados desde el PDF
       const edicionesPorEvento = {
@@ -270,7 +260,7 @@
           edicion.registros.forEach(r => {
             listaRegistros.innerHTML += `<li>${r}</li>`;
           });
-       // Agregar botón "Ver detalles" si no existe
+          // Agregar botón "Ver detalles" si no existe
           let btnDetalles = document.querySelector("#btn-ver-detalles");
           if (!btnDetalles) {
             btnDetalles = document.createElement("a");
@@ -283,18 +273,25 @@
             titulo.appendChild(btnDetalles);
           }
           btnDetalles.href = `ConsultaTipoRegistro.html?evento=${eventoId}&edicion=${edicion.id}`;
-        
+
           tiposRegistro.style.display = edicion.registros.length ? "block" : "none";
 
           // Patrocinios
-          listaPatrocinios.innerHTML = "";
-          edicion.patrocinios.forEach(p => {
-            listaPatrocinios.innerHTML += `<li>${p}</li>`;
-          });
-          patrocinios.style.display = edicion.patrocinios.length ? "block" : "none";
+          if (edicion.patrocinios.length) {
+            contenedorPatrocinios.innerHTML = `
+          <iframe src="consultaPatrocinio.html" width="100%" height="500" style="border:0;"></iframe>
+        `;
+            patrocinios.style.display = "block";
+          } else {
+            contenedorPatrocinios.innerHTML = "";
+            patrocinios.style.display = "none";
+          }
+
+
         }
       });
     });
   </script>
 </body>
+
 </html>
