@@ -78,29 +78,31 @@
   </header>
 
   <!-- Main -->
-  <main class="main">
+  <main class="main mt-5 pt-5">
     <section id="evento-detalles" class="section">
-      <div class="container section-title">
+      <div class="container section-title text-center">
         <h2 id="eventTitle">Maratón de Montevideo</h2>
-        <p id="eventSigla">Sigla: MARATON</p>
-        <p id="eventDateCreated">Fecha de alta: 01/01/2022s</p>
       </div>
 
       <div class="container">
-        <div class="row justify-content-center">
-          <div class="col-lg-6">
+        <div class="row justify-content-center align-items-center">
+          <!-- Imagen -->
+          <div class="col-lg-6 text-center">
             <div id="eventImage" class="event-image">
-            `<img src="../img/events/maratonmontevideo.png" alt="Maratón de Montevideo" class="img-fluid">
+              <img src="../img/events/maratonmontevideo.png" alt="Maratón de Montevideo" class="img-fluid rounded shadow">
             </div>
           </div>
 
+          <!-- Información -->
           <div class="col-lg-6">
             <div id="eventInfo" class="event-info">
               <p>Competencia deportiva anual en la capital</p>
+              <p><strong>Sigla:</strong> MARATON</p>
+              <p><strong>Fecha de alta:</strong> 01/01/2022</p>
               <h4>Categorías:</h4>
               <ul>
-              	<li>Deporte</li>
-              	<li>Salud</li>
+                <li>Deporte</li>
+                <li>Salud</li>
               </ul>
             </div>
           </div>
@@ -109,26 +111,29 @@
         <!-- Ediciones del Evento -->
         <section id="eventEditions" class="event-editions mt-5">
           <div class="container">
-            <div id="editionsList" class="row">
-            <div class="col-lg-4 col-md-6 ">
-              <div class="edition-card">
-          		<div class="edition-header">
-            		<h5>Maratón de Montevideo 2024</h5>
-            		<p>14/09/2024</p>
-          		</div>
-          	  <div class="edition-body">
-              	<p>Ubicación: Uruguay</p>
-              	<a href="ConsultaEdicionDeEvento.html" class="btn btn-primary">Ver detalles de la edición</a>
-             </div>
-        	</div>
-        	</div>
-        	
+            <div id="editionsList" class="row g-4">
+
+              <!-- Edición 2024 -->
+              <div class="col-lg-4 col-md-6">
+                <div class="edition-card card shadow-sm h-100">
+                  <img src="../img/ediciones/maratonMvd2024.jpeg" class="card-img-top" alt="Maratón de Montevideo 2024">
+                  <div class="card-body">
+                    <h5 class="card-title">Maratón de Montevideo 2024</h5>
+                    <p class="card-text">📍 Montevideo, Uruguay</p>
+                    <p class="card-text"><small class="text-muted">14/09/2024</small></p>
+                    <a href="ConsultaEdicionDeEventoVisitanteEDEV03.html" class="btn btn-primary">Ver detalles de la edición</a>
+                  </div>
+                </div>
+              </div>
+
             </div>
           </div>
         </section>
+      </div>
+    </section>
   </main>
 
-   <!-- Footer -->
+  <!-- Footer -->
         <hr class="mt-5 mb-4" style="border: 0; height: 3px; background: #bbb; border-radius: 2px;">
    
   <footer id="footer" class="footer position-relative light-background">
@@ -171,7 +176,5 @@
     </div>
   </div>
 </footer>
-
 </body>
 </html>
-

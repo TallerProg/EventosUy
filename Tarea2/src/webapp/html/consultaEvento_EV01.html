@@ -78,28 +78,29 @@
   </header>
 
   <!-- Main -->
-  <main class="main">
+  <main class="main mt-5 pt-5">
     <section id="evento-detalles" class="section">
-      <div class="container section-title">
+      <div class="container section-title text-center">
         <h2 id="eventTitle">Conferencia de Tecnología</h2>
-        <p id="eventSigla">Sigla: CONFTEC</p>
-        <p id="eventDateCreated">Fecha de alta: 10/01/2025</p>
       </div>
 
       <div class="container">
-        <div class="row justify-content-center">
-          <div class="col-lg-6">
+        <div class="row justify-content-center align-items-center">
+          <div class="col-lg-6 text-center">
             <div id="eventImage" class="event-image">
+              <img src="../img/events/ConferenciaTecnologia.webp" alt="Conferencia de Tecnología" class="img-fluid rounded shadow">
             </div>
           </div>
 
           <div class="col-lg-6">
             <div id="eventInfo" class="event-info">
-              <p>Evento sobre innovación tecnologíaca</p>
+              <p>Evento sobre innovación tecnológica</p>
+              <p><strong>Sigla:</strong> CONFTEC</p>
+              <p><strong>Fecha de alta:</strong> 10/01/2025</p>
               <h4>Categorías:</h4>
               <ul>
-              	<li>Tecnología</li>
-              	<li>innovación</li>
+                <li>Tecnología</li>
+                <li>Innovación</li>
               </ul>
             </div>
           </div>
@@ -108,34 +109,39 @@
         <!-- Ediciones del Evento -->
         <section id="eventEditions" class="event-editions mt-5">
           <div class="container">
-            <div id="editionsList" class="row">
-            <div class="col-lg-4 col-md-6 ">
-              <div class="edition-card">
-          		<div class="edition-header">
-            		<h5>Tecnología Punta del Este 2026</h5>
-            		<p>06/04/2026</p>
-          		</div>
-          	  <div class="edition-body">
-              	<p>Ubicación: Uruguay</p>
-              	<a href="ConsultaEdicionDeEvento.html" class="btn btn-primary">Ver detalles de la edición</a>
-             </div>
-        	</div>
-        	</div>
-        	<div class="col-lg-4 col-md-6 ">
-        	<div class="edition-card">
-          		<div class="edition-header">
-            		<h5>Web Summit 2026</h5>
-            		<p>13/01/2026 </p>
-          		</div>
-          	  <div class="edition-body">
-              	<p>Ubicación: Portugal</p>
-              	<a href="ConsultaEdicionDeEvento.html" class="btn btn-primary">Ver detalles de la edición</a>
-             </div>
-        	</div>
-            </div>
+            <div id="editionsList" class="row g-4">
+
+              <!-- Edición 1 -->
+              <div class="col-lg-4 col-md-6">
+                <div class="edition-card card shadow-sm h-100">
+                  <img src="../img/ediciones/ConfrenciaPunta2025.jpg" class="card-img-top" alt="Tecnología Punta del Este 2026">
+                  <div class="card-body">
+                    <h5 class="card-title">Tecnología Punta del Este 2026</h5>
+                    <p class="card-text">📍 Punta del Este, Uruguay</p>
+                    <p class="card-text"><small class="text-muted">06/04/2026</small></p>
+                    <a href="ConsultaEdicionDeEventoVisitanteEDEV08.html" class="btn btn-primary">Ver detalles de la edición</a>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Edición 2 -->
+              <div class="col-lg-4 col-md-6">
+                <div class="edition-card card shadow-sm h-100">
+                  <img src="../img/ediciones/webSummit2026.jpg" class="card-img-top" alt="Web Summit 2026">
+                  <div class="card-body">
+                    <h5 class="card-title">Web Summit 2026</h5>
+                    <p class="card-text">📍 Lisboa, Portugal</p>
+                    <p class="card-text"><small class="text-muted">13/01/2026</small></p>
+                    <a href="ConsultaEdicionDeEventoVisitanteEDEV10.html" class="btn btn-primary">Ver detalles de la edición</a>
+                  </div>
+                </div>
+              </div>
+
             </div>
           </div>
         </section>
+      </div>
+    </section>
   </main>
 
    <!-- Footer -->
@@ -181,7 +187,5 @@
     </div>
   </div>
 </footer>
-
 </body>
 </html>
-
