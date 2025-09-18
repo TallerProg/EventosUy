@@ -6,6 +6,8 @@ document.addEventListener("DOMContentLoaded", function () {
   const descripcion = document.getElementById("descripcion");
   const apellido = document.getElementById("apellido");
   const fechaNacimiento = document.getElementById("fechaNacimiento");
+  const password = document.getElementById("password");
+  const confirmPassword = document.getElementById("confirmPassword");
 
   // Mostrar/ocultar campos según el tipo de usuario
   if (tipoUsuario) {
@@ -43,19 +45,27 @@ document.addEventListener("DOMContentLoaded", function () {
     fechaNacimiento.setAttribute("max", hoy);
   }
 
-  // Validación
-  const form = document.getElementById('registroForm');
+  // Validación de formulario
+  const form = document.getElementById("registroForm");
   if (form) {
-    form.addEventListener('submit', function (event) {
+    form.addEventListener("submit", function (event) {
+      // Resetear mensajes de error
+      confirmPassword.setCustomValidity("");
+
+      // Verificar contraseñas
+      if (password.value !== confirmPassword.value) {
+        confirmPassword.setCustomValidity("Las contraseñas no coinciden");
+      }
+
       if (!form.checkValidity()) {
         event.preventDefault();
         event.stopPropagation();
-        alert("Por favor complete todos los campos obligatorios.");
       } else {
         event.preventDefault();
         window.location.href = "IndexLogeado.html";
       }
-      form.classList.add('was-validated');
+
+      form.classList.add("was-validated");
     }, false);
   }
 });
