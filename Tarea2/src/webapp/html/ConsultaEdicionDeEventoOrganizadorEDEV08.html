@@ -25,20 +25,20 @@
 <body class="index-page">
 
   <!-- Header -->
-  <header id="header" class="header d-flex align-items-center fixed-top">
+    <header id="header" class="header d-flex align-items-center fixed-top">
     <div class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
       <nav id="navmenu" class="navmenu">
         <ul>
-          <li>
-            <a href="../index.html" class="logo d-flex align-items-center">
-              <img src="../img/logoeuy.png" alt="">
-            </a>
-          </li>
-          <li><a href="usuarios.html">Usuarios</a></li>
-          <li><a href="listaEventos.html">Eventos</a></li>
-          <li><a href="listaInstituciones.html">Instituciones</a></li>
+          <a href="../indexOrg.html" class="logo d-flex align-items-center">
+            <img src="../img/logoeuy.png" alt="">
+          </a>
+          <li><a href="usuariosrgAsisME.html">Usuarios</a></li>
+          <li><a href="listaEventosOrg.html" class="active">Eventos</a></li>
+          <li><a href="listaInstitucionesOrg.html">Instituciones</a></li>
           <li class="dropdown">
-            <a href="#"><span>Categorías</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+            <a href="#"><span>Categorías</span>
+              <i class="bi bi-chevron-down toggle-dropdown"></i>
+            </a>
             <ul>
               <li><a href="#">Tecnología</a></li>
               <li><a href="#">Innovación</a></li>
@@ -54,15 +54,16 @@
               <li><a href="#">Investigación</a></li>
             </ul>
           </li>
-          <li class="nav-item search-item ms-auto">
+                    <li class="nav-item search-item ms-auto">
             <form class="search-form" action="search.html" method="get">
               <input type="text" name="q" class="search-input" placeholder="Buscar eventos...">
               <button type="submit" class="search-btn"><i class="bi bi-search"></i></button>
             </form>
           </li>
-          <li>
-            <a href="login.html" class="login-icon" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Login / Registrarse">
-              <i class="bi bi-person-circle"></i>
+          <li class="ms-auto d-flex align-items-center gap-2">
+            <a href="perfil_US04.html" class="user-info text-decoration-none d-flex align-items-center gap-2">
+              <img src="../img/usuarios/misEventos.jpeg" alt=" ">
+              <span class="fw-semibold">MisEventos</span>
             </a>
           </li>
         </ul>
