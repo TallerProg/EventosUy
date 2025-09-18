@@ -108,35 +108,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-/**
- * Avatar y nombre de usuario
- */
-document.addEventListener("DOMContentLoaded", () => {
-  const userAvatar = document.getElementById("userAvatar");
-  const userName = document.getElementById("userName");
-
-  if (!userAvatar || !userName) return;
-
-  // Simulación (reemplazar con datos del backend)
-  const user = {
-    nombre: "NombreUsuario",
-    foto: "" // "../img/usuarios/foto.jpg" si existe
-  };
-
-  userName.textContent = user.nombre;
-
-  if (user.foto && user.foto.trim() !== "") {
-    userAvatar.innerHTML = `<img src="${user.foto}" alt="Perfil" class="rounded-circle" width="36" height="36">`;
-  } else {
-    userAvatar.innerHTML = `<i class="bi bi-person-circle text-primary" style="font-size:2rem;"></i>`;
-  }
-
-  document.querySelectorAll('.countdown').forEach(function(countDownItem) {
-    updateCountDown(countDownItem);
-    setInterval(function() {
-      updateCountDown(countDownItem);
-    }, 1000);
-  });
 
   /**
    * Initiate Pure Counter
@@ -272,91 +243,9 @@ document.addEventListener("DOMContentLoaded", () => {
   window.addEventListener('load', navmenuScrollspy);
   document.addEventListener('scroll', navmenuScrollspy);
 
-})();
 
 
-// consultaUsuario 
 
-function cargarUsuario() {
-  // Obtener ID de la URL
-  const params = new URLSearchParams(window.location.search);
-  const id = params.get("id");
-
-  // Datos de usuarios con ediciones como objetos
-  const usuarios = {
-    // ----- Asistentes -----
-    "atorres": { nombre: "Ana", apellido: "Torres", email: "atorres@gmail.com", tipo: "Asistente", fechaNacimiento: "12/05/1990", foto: "../img/usuarios/anaTorres.jpg", 
-		ediciones: [	
-			{nombre: "Maratón de Montevideo 2024", foto: "../img/ediciones/maratonMvd2024.jpeg"},
-	    	{nombre: "Web Summit 2026", foto: "../img/ediciones/default.jpeg"}
-    	]},
-    // ----- Organizadores -----
-    "miseventos": { nombre: "MisEventos", email: "contacto@miseventos.com", tipo: "Organizador", descripcion: "Empresa de organización de eventos.", url: "https://miseventos.com", foto: "../img/usuarios/misEventos.jpeg",
-    	ediciones: [
-			  { nombre: "Maratón de Montevideo 2024", foto: "../img/ediciones/maratonMvd2024.jpeg" },
-			  { nombre: "Maratón de Montevideo 2022", foto: "../img/ediciones/maratonMvd2022.jpeg" },
-			  { nombre: "Tecnología Punta del Este 2026", foto: "../img/ediciones/default.jpeg" },
-			  { nombre: "Mobile World Congress 2025", foto: "../img/ediciones/mwc2025.png" },
-			  { nombre: "Web Summit 2026", foto: "../img/ediciones/default.jpeg" }
-	    ] }
-    // ... etc.
-  };
- 
-  // Renderizar datos en la página
-  if (id && usuarios[id]) {
-    const user = usuarios[id];
-    document.getElementById("user-photo").src = user.foto;
-    document.getElementById("user-name").innerText = user.nombre + (user.apellido ? " " + user.apellido : "");
-    document.getElementById("user-email").innerText = user.email;
-    document.getElementById("user-role").innerText = "Tipo: " + user.tipo;
-
-    if (user.tipo === "Asistente") {
-      document.getElementById("user-extra1").innerText = "Apellido: " + user.apellido;
-      document.getElementById("user-extra2").innerText = "Fecha de Nacimiento: " + user.fechaNacimiento;
-    } else if (user.tipo === "Organizador") {
-      document.getElementById("user-extra1").innerText = "Descripción: " + user.descripcion;
-      document.getElementById("user-extra2").innerHTML = user.url ? `URL: <a href="${user.url}" target="_blank">${user.url}</a>` : "URL: ---";
-    }
-
-    // Cargar ediciones en carrusel
-    const editionsCarousel = document.getElementById("editions-carousel");
-    editionsCarousel.innerHTML = "";
-
-    if (user.ediciones && user.ediciones.length > 0) {
-      user.ediciones.forEach((e, i) => {
-        const item = document.createElement("div");
-        item.className = `carousel-item ${i === 0 ? "active" : ""}`;
-
-        // Definir link según tipo
-        let link = "#"; 
-        if (user.tipo === "Asistente") {
-          link = "consultaRegistroAsis.html";
-        } else if (user.tipo === "Organizador") {
-          link = "consultaEdicionDeEvento.html";
-        }
-
-        item.innerHTML = `
-          <div class="text-center">
-            <img src="${e.foto}" class="d-block w-100 edition-carousel-img" alt="${e.nombre}">
-            <div class="mt-3">
-              <h5>${e.nombre}</h5>
-              <a href="${link}" class="btn btn-primary btn-sm">Ver detalles</a>
-            </div>
-          </div>
-        `;
-        editionsCarousel.appendChild(item);
-      });
-    } else {
-      editionsCarousel.innerHTML = `
-        <div class="carousel-item active">
-          <div class="d-flex justify-content-center align-items-center" style="height:200px;">
-            <p>No hay ediciones disponibles</p>
-          </div>
-        </div>
-      `;
-    }
-  }
-}
 
 
 
