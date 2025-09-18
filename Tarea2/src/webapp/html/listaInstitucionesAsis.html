@@ -31,49 +31,32 @@
 <body class="index-page">
 
   <!-- Header -->
-  <header id="header" class="header d-flex align-items-center fixed-top">
-    <div class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
+    <header id="header" class="header d-flex align-items-center fixed-top">
+    <div
+      class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
+
       <nav id="navmenu" class="navmenu">
         <ul>
-          <a href="../index.html" class="logo d-flex align-items-center">
+          <a href="index.html" class="logo d-flex align-items-center">
             <img src="../img/logoeuy.png" alt="">
           </a>
           <li><a href="usuarios.html">Usuarios</a></li>
           <li><a href="listaEventos.html">Eventos</a></li>
-          <li><a href="listaInstituciones.html" class="active">Instituciones</a></li>
-          <li class="dropdown">
-            <a href="#"><span>Categorías</span>
-              <i class="bi bi-chevron-down toggle-dropdown"></i>
-            </a>
-            <ul>
-              <li><a href="#">Tecnología</a></li>
-              <li><a href="#">Innovación</a></li>
-              <li><a href="#">Literatura</a></li>
-              <li><a href="#">Cultura</a></li>
-              <li><a href="#">Música</a></li>
-              <li><a href="#">Deporte</a></li>
-              <li><a href="#">Salud</a></li>
-              <li><a href="#">Entretenimiento</a></li>
-              <li><a href="#">Agro</a></li>
-              <li><a href="#">Negocios</a></li>
-              <li><a href="#">Moda</a></li>
-              <li><a href="#">Investigación</a></li>
-            </ul>
-          </li>
-          <li class="nav-item search-item">
+          <li><a href="listaInstituciones.html">Instituciones</a></li>
+          <li class="nav-item search-item ms-auto">
             <form class="search-form" action="search.html" method="get">
               <input type="text" name="q" class="search-input" placeholder="Buscar eventos...">
               <button type="submit" class="search-btn"><i class="bi bi-search"></i></button>
             </form>
           </li>
-          <!-- Usuario loggeado -->
           <li class="ms-auto d-flex align-items-center gap-2">
             <a href="perfil.html" class="user-info text-decoration-none d-flex align-items-center gap-2">
-              <span id="userAvatar"></span>
-              <span id="userName" class="fw-semibold"></span>
+              <i class="bi bi-person-circle text-primary" style="font-size:2rem;"></i>
+              <span class="fw-semibold">NombreOrganizador</span>
             </a>
           </li>
         </ul>
+
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
     </div>
@@ -85,10 +68,7 @@
     <section id="instituciones" class="speakers section">
       <div class="container section-title d-flex justify-content-between align-items-center">
         <h2>Instituciones</h2>
-        <!-- Botón Alta Institución -->
-        <a href="altaInstitucionOrg.html" class="btn btn-primary">
-          <i class="bi bi-plus-circle me-1"></i> Nueva Institución
-        </a>
+     
       </div>
       <div class="container">
         <div class="row g-4 justify-content-center">
@@ -97,7 +77,7 @@
           <div class="col-lg-3 col-md-6">
             <a href="consultaInstitucion.html?id=INS01" class="text-decoration-none">
               <div class="speaker-card text-center">
-                <div class="speaker-image"><img src="../img/instituciones/Fing.png" alt="Facultad de Ingeniería" class="img-fluid p-3"></div>
+                <div class="speaker-image"><img src="../img/default.png" alt="Facultad de Ingeniería" class="img-fluid p-3"></div>
                 <div class="speaker-content">
                   <p class="speaker-title">Facultad de Ingeniería</p>
                   <p class="speaker-company">Facultad de Ingeniería de la Universidad de la República</p>
@@ -107,61 +87,6 @@
             </a>
           </div>
 
-          <!-- INS02 -->
-          <div class="col-lg-3 col-md-6">
-            <a href="consultaInstitucion.html?id=INS02" class="text-decoration-none">
-              <div class="speaker-card text-center">
-                <div class="speaker-image"><img src="../img/instituciones/ort.png" alt="ORT Uruguay" class="img-fluid p-3"></div>
-                <div class="speaker-content">
-                  <p class="speaker-title">ORT Uruguay</p>
-                  <p class="speaker-company">Universidad privada enfocada en tecnología y gestión</p>
-                  <p><a href="https://ort.edu.uy" target="_blank">www.ort.edu.uy</a></p>
-                </div>
-              </div>
-            </a>
-          </div>
-
-          <!-- INS03 -->
-          <div class="col-lg-3 col-md-6">
-            <a href="consultaInstitucion.html?id=INS03" class="text-decoration-none">
-              <div class="speaker-card text-center">
-                <div class="speaker-image"><img src="../img/instituciones/UCU.png" alt="Universidad Católica del Uruguay" class="img-fluid p-3"></div>
-                <div class="speaker-content">
-                  <p class="speaker-title">Universidad Católica del Uruguay</p>
-                  <p class="speaker-company">Institución de educación superior privada</p>
-                  <p><a href="https://ucu.edu.uy" target="_blank">www.ucu.edu.uy</a></p>
-                </div>
-              </div>
-            </a>
-          </div>
-
-          <!-- INS04 -->
-          <div class="col-lg-3 col-md-6">
-            <a href="consultaInstitucion.html?id=INS04" class="text-decoration-none">
-              <div class="speaker-card text-center">
-                <div class="speaker-image"><img src="../img/instituciones/antel.jpeg" alt="Antel" class="img-fluid p-3"></div>
-                <div class="speaker-content">
-                  <p class="speaker-title">Antel</p>
-                  <p class="speaker-company">Empresa estatal de telecomunicaciones</p>
-                  <p><a href="https://antel.com.uy" target="_blank">www.antel.com.uy</a></p>
-                </div>
-              </div>
-            </a>
-          </div>
-
-          <!-- INS05 -->
-          <div class="col-lg-3 col-md-6">
-            <a href="consultaInstitucion.html?id=INS05" class="text-decoration-none">
-              <div class="speaker-card text-center">
-                <div class="speaker-image"><img src="../img/instituciones/ANII.png" alt="Agencia Nacional de Investigación e Innovación" class="img-fluid p-3"></div>
-                <div class="speaker-content">
-                  <p class="speaker-title">Agencia Nacional de Investigación e Innovación (ANII)</p>
-                  <p class="speaker-company">Fomenta la investigación y la innovación en Uruguay</p>
-                  <p><a href="https://anii.org.uy" target="_blank">www.anii.org.uy</a></p>
-                </div>
-              </div>
-            </a>
-          </div>
 
         </div>
       </div>
