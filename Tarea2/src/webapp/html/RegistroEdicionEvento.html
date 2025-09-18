@@ -5,63 +5,41 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>Registro - EventUY</title>
   <link href="../img/logoeuy.png" rel="icon">
-
-  <!-- Fonts -->
   <link href="https://fonts.googleapis.com" rel="preconnect">
   <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Rubik:wght@400;500;600;700&family=Kanit:wght@400;500;600;700&display=swap"
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Rubik:wght@400;500;600;700&family=Kanit:wght@400;500;600;700&display=swap"
     rel="stylesheet">
-
-  <!-- Vendor CSS -->
   <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="../vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-
-  <!-- Main CSS -->
   <link href="../css/main.css" rel="stylesheet">
   <link href="../css/RegistroEdicionEvento.css" rel="stylesheet">
+  <script src="../js/RegistroEdicionEvento.js"></script>
+  <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 </head>
 <body class="index-page">
 
-  <!-- Header nuevo -->
-  <header id="header" class="header d-flex align-items-center fixed-top">
+   <header id="header" class="header d-flex align-items-center fixed-top">
     <div class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
       <nav id="navmenu" class="navmenu">
         <ul>
-          <a href="../index.html" class="logo d-flex align-items-center">
-            <img src="../img/logoeuy.png" alt="EventUY">
-          </a>
+          <li>
+            <a href="../index.html" class="logo d-flex align-items-center">
+              <img src="../img/logoeuy.png" alt="">
+            </a>
+          </li>
           <li><a href="usuarios.html">Usuarios</a></li>
           <li><a href="listaEventos.html">Eventos</a></li>
           <li><a href="listaInstituciones.html">Instituciones</a></li>
-          <li class="dropdown">
-            <a href="#"><span>Categorías</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-            <ul>
-              <li><a href="#">Tecnología</a></li>
-              <li><a href="#">Innovación</a></li>
-              <li><a href="#">Literatura</a></li>
-              <li><a href="#">Cultura</a></li>
-              <li><a href="#">Música</a></li>
-              <li><a href="#">Deporte</a></li>
-              <li><a href="#">Salud</a></li>
-              <li><a href="#">Entretenimiento</a></li>
-              <li><a href="#">Agro</a></li>
-              <li><a href="#">Negocios</a></li>
-              <li><a href="#">Moda</a></li>
-              <li><a href="#">Investigación</a></li>
-            </ul>
-          </li>
-          <li class="nav-item search-item">
+          <li class="nav-item search-item ms-auto">
             <form class="search-form" action="search.html" method="get">
               <input type="text" name="q" class="search-input" placeholder="Buscar eventos...">
               <button type="submit" class="search-btn"><i class="bi bi-search"></i></button>
             </form>
           </li>
-          <!-- Usuario logueado -->
-          <li class="ms-auto d-flex align-items-center gap-2">
-            <a href="perfil.html" class="user-info text-decoration-none d-flex align-items-center gap-2">
-              <span id="userAvatar"></span>
-              <span id="userName" class="fw-semibold"></span>
+          <li>
+            <a href="login.html" class="login-icon" data-bs-toggle="tooltip" data-bs-placement="bottom"
+              title="Login / Registrarse">
+              <i class="bi bi-person-circle"></i>
             </a>
           </li>
         </ul>
@@ -78,35 +56,12 @@
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-lg-8">
-            <div class="form-group">
-              <label for="evento">Selecciona un Evento</label>
-              <select id="evento" class="form-control" onchange="cargarEdiciones()">
-                <option value="">-- Elige un Evento --</option>
-                <option value="1">Conferencia de Tecnología</option>
-                <option value="2">Feria del Libro</option>
-                <option value="3">Montevideo Rock</option>
-              </select>
-            </div>
-           
-            <div class="form-group mt-3">
-              <label for="edicion">Selecciona una Edición</label>
-              <select id="edicion" class="form-control" onchange="mostrarDetallesEdicion()" disabled>
-                <option value="">-- Elige una Edición --</option>
-              </select>
-            </div>
-            
-            <div id="detallesEdicion" class="mt-4" style="display: none;">
-              <h4>Detalles de la Edición Seleccionada</h4>
-              <p><strong>Fecha:</strong> <span id="fechaEdicion">---</span></p>
-              <p><strong>Ubicación:</strong> <span id="ubicacionEdicion">---</span></p>
-            </div>
-            
-            <div id="successMessage" class="success-message">
+            <div id="successMessage" class="success-message" style="display: none;">
               <i class="bi bi-check-circle-fill"></i>
               ¡Registro completado exitosamente!
             </div>
             
-            <div id="tiposRegistro" class="tipos-registro-container" style="display: none;">
+            <div id="tiposRegistro" class="tipos-registro-container">
               <h4>Selecciona un Tipo de Registro</h4>
               <div class="tipos-registro">
                 <div class="card-registro">
@@ -155,11 +110,10 @@
       </div>
     </div>
   </div>
-  
- <!-- Footer -->
-      <hr class="mt-5 mb-4" style="border: 0; height: 3px; background: #bbb; border-radius: 2px;">
- 
-  <footer id="footer" class="footer position-relative light-background">
+
+  <!-- Footer -->
+  <hr class="mt-5 mb-4" style="border: 0; height: 3px; background: #bbb; border-radius: 2px;">
+<footer id="footer" class="footer position-relative light-background">
   <div class="container mt-4">
     <div class="row">
       
@@ -199,10 +153,5 @@
     </div>
   </div>
 </footer>
-  
-  <!-- Scripts -->
-  <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="../js/RegistroEdicionEvento.js"></script>
 </body>
 </html>
-
