@@ -32,46 +32,32 @@
 <body class="index-page">
 
   <!-- Header -->
-  <header id="header" class="header d-flex align-items-center fixed-top">
-    <div class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
+   <header id="header" class="header d-flex align-items-center fixed-top">
+    <div
+      class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
+
       <nav id="navmenu" class="navmenu">
         <ul>
-          <a href="../index.html" class="logo d-flex align-items-center">
-            <img src="../img/logoeuy.png" alt="EventUY Logo">
+          <a href="indexOrg.html" class="logo d-flex align-items-center">
+            <img src="../img/logoeuy.png" alt="">
           </a>
-          <li><a href="usuarios.html">Usuarios</a></li>
+          <li><a href="usuariosOrgAsiME.html">Usuarios</a></li>
           <li><a href="listaEventos.html">Eventos</a></li>
-          <li><a href="listaInstituciones.html">Instituciones</a></li>
-          <li class="dropdown">
-            <a href="#"><span>Categorías</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-            <ul>
-              <li><a href="#">Tecnología</a></li>
-              <li><a href="#">Innovación</a></li>
-              <li><a href="#">Literatura</a></li>
-              <li><a href="#">Cultura</a></li>
-              <li><a href="#">Música</a></li>
-              <li><a href="#">Deporte</a></li>
-              <li><a href="#">Salud</a></li>
-              <li><a href="#">Entretenimiento</a></li>
-              <li><a href="#">Agro</a></li>
-              <li><a href="#">Negocios</a></li>
-              <li><a href="#">Moda</a></li>
-              <li><a href="#">Investigación</a></li>
-            </ul>
-          </li>
+          <li><a href="listaInstitucionesOrg.html">Instituciones</a></li>
           <li class="nav-item search-item ms-auto">
             <form class="search-form" action="search.html" method="get">
               <input type="text" name="q" class="search-input" placeholder="Buscar eventos...">
               <button type="submit" class="search-btn"><i class="bi bi-search"></i></button>
             </form>
           </li>
-          <li>
-            <a href="login.html" class="login-icon" data-bs-toggle="tooltip" data-bs-placement="bottom"
-              title="Login / Registrarse">
-              <i class="bi bi-person-circle"></i>
+          <li class="ms-auto d-flex align-items-center gap-2">
+            <a href="perfil_US04.html" class="user-info text-decoration-none d-flex align-items-center gap-2">
+              <img src="../img/usuarios/misEventos.jpeg" alt=" ">
+              <span class="fw-semibold">MisEventos</span>
             </a>
           </li>
         </ul>
+
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
     </div>
@@ -81,28 +67,26 @@
   <main class="main mt-5 pt-5">
     <section id="evento-detalles" class="section">
       <div class="container section-title text-center">
-        <h2 id="eventTitle">Maratón de Montevideo</h2>
+        <h2 id="eventTitle">Conferencia de Tecnología</h2>
       </div>
 
       <div class="container">
         <div class="row justify-content-center align-items-center">
-          <!-- Imagen -->
           <div class="col-lg-6 text-center">
             <div id="eventImage" class="event-image">
-              <img src="../img/events/maratonmontevideo.png" alt="Maratón de Montevideo" class="img-fluid rounded shadow">
+              <img src="../img/events/ConferenciaTecnologia.webp" alt="Conferencia de Tecnología" class="img-fluid rounded shadow">
             </div>
           </div>
 
-          <!-- Información -->
           <div class="col-lg-6">
             <div id="eventInfo" class="event-info">
-              <p>Competencia deportiva anual en la capital</p>
-              <p><strong>Sigla:</strong> MARATON</p>
-              <p><strong>Fecha de alta:</strong> 01/01/2022</p>
+              <p>Evento sobre innovación tecnológica</p>
+              <p><strong>Sigla:</strong> CONFTEC</p>
+              <p><strong>Fecha de alta:</strong> 10/01/2025</p>
               <h4>Categorías:</h4>
               <ul>
-                <li>Deporte</li>
-                <li>Salud</li>
+                <li>Tecnología</li>
+                <li>Innovación</li>
               </ul>
             </div>
           </div>
@@ -113,15 +97,28 @@
           <div class="container">
             <div id="editionsList" class="row g-4">
 
-              <!-- Edición 2024 -->
+              <!-- Edición 1 -->
               <div class="col-lg-4 col-md-6">
                 <div class="edition-card card shadow-sm h-100">
-                  <img src="../img/ediciones/maratonMvd2024.jpeg" class="card-img-top" alt="Maratón de Montevideo 2024">
+                  <img src="../img/ediciones/ConfrenciaPunta2025.jpg" class="card-img-top" alt="Tecnología Punta del Este 2026">
                   <div class="card-body">
-                    <h5 class="card-title">Maratón de Montevideo 2024</h5>
-                    <p class="card-text">📍 Montevideo, Uruguay</p>
-                    <p class="card-text"><small class="text-muted">14/09/2024</small></p>
-                    <a href="ConsultaEdicionDeEventoVisitanteEDEV03.html" class="btn btn-primary">Ver detalles de la edición</a>
+                    <h5 class="card-title">Tecnología Punta del Este 2026</h5>
+                    <p class="card-text">📍 Punta del Este, Uruguay</p>
+                    <p class="card-text"><small class="text-muted">06/04/2026</small></p>
+                    <a href="ConsultaEdicionDeEventoOrganizadorEDEV08.html" class="btn btn-primary">Ver detalles de la edición</a>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Edición 2 -->
+              <div class="col-lg-4 col-md-6">
+                <div class="edition-card card shadow-sm h-100">
+                  <img src="../img/ediciones/webSummit2026.jpg" class="card-img-top" alt="Web Summit 2026">
+                  <div class="card-body">
+                    <h5 class="card-title">Web Summit 2026</h5>
+                    <p class="card-text">📍 Lisboa, Portugal</p>
+                    <p class="card-text"><small class="text-muted">13/01/2026</small></p>
+                    <a href="ConsultaEdicionDeEventoOrganizadorEDEV10.html" class="btn btn-primary">Ver detalles de la edición</a>
                   </div>
                 </div>
               </div>
@@ -133,7 +130,7 @@
     </section>
   </main>
 
-  <!-- Footer -->
+   <!-- Footer -->
         <hr class="mt-5 mb-4" style="border: 0; height: 3px; background: #bbb; border-radius: 2px;">
    
   <footer id="footer" class="footer position-relative light-background">
