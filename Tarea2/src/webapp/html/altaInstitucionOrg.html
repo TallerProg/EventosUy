@@ -28,18 +28,19 @@
 <body class="index-page">
 
     <!-- Header -->
-      <header id="header" class="header d-flex align-items-center fixed-top">
-    <div class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
+  <header id="header" class="header d-flex align-items-center fixed-top">
+    <div
+      class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
+
       <nav id="navmenu" class="navmenu">
         <ul>
           <a href="indexOrg.html" class="logo d-flex align-items-center">
             <img src="../img/logoeuy.png" alt="">
           </a>
           <li><a href="usuariosOrgAsiME.html">Usuarios</a></li>
-          <li><a href="listaEventosOrg.html" class="active">Eventos</a></li>
+          <li><a href="listaEventosOrg.html">Eventos</a></li>
           <li><a href="listaInstitucionesOrg.html">Instituciones</a></li>
-         
-                    <li class="nav-item search-item ms-auto">
+          <li class="nav-item search-item ms-auto">
             <form class="search-form" action="search.html" method="get">
               <input type="text" name="q" class="search-input" placeholder="Buscar eventos...">
               <button type="submit" class="search-btn"><i class="bi bi-search"></i></button>
@@ -50,8 +51,12 @@
               <img src="../img/usuarios/misEventos.jpeg" alt=" ">
               <span class="fw-semibold">MisEventos</span>
             </a>
+            <a href="../indexVis.html" class="btn p-0 border-0 bg-transparent">
+			  <i class="login-icon bi bi-box-arrow-in-right fs-3" title="Cerrar Sesión"></i>
+			</a>
           </li>
         </ul>
+
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
     </div>
