@@ -62,7 +62,7 @@ document.addEventListener("DOMContentLoaded", function () {
         event.stopPropagation();
       } else {
         event.preventDefault();
-        window.location.href = "IndexLogeado.html";
+        window.location.href = "indexOrg.html";
       }
 
       form.classList.add("was-validated");
