@@ -27,30 +27,35 @@
 
   <!-- Header -->
   <header id="header" class="header d-flex align-items-center fixed-top">
-    <div class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
+    <div
+      class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
+
       <nav id="navmenu" class="navmenu">
         <ul>
-          <a href="../index.html" class="logo d-flex align-items-center">
-            <img src="../img/logoeuy.png" alt="EventUY">
+          <a href="indexAsis.html" class="logo d-flex align-items-center">
+            <img src="../img/logoeuy.png" alt="">
           </a>
-          <li><a href="usuarios.html">Usuarios</a></li>
-          <li><a href="listaEventos.html">Eventos</a></li>
-          <li><a href="listaInstituciones.html">Instituciones</a></li>
-         
-          <li class="nav-item search-item">
+          <li><a href="usuariosOrgAsiAT.html">Usuarios</a></li>
+          <li><a href="listaEventosAsis.html">Eventos</a></li>
+          <li><a href="listaInstitucionesAsis.html">Instituciones</a></li>
+          <li class="nav-item search-item ms-auto">
             <form class="search-form" action="search.html" method="get">
               <input type="text" name="q" class="search-input" placeholder="Buscar eventos...">
               <button type="submit" class="search-btn"><i class="bi bi-search"></i></button>
             </form>
           </li>
-          <!-- Usuario logueado -->
           <li class="ms-auto d-flex align-items-center gap-2">
-            <a href="perfil.html" class="user-info text-decoration-none d-flex align-items-center gap-2">
-              <span id="userAvatar"></span>
-              <span id="userName" class="fw-semibold"></span>
+            <a href="perfil_US01.html" class="user-info text-decoration-none d-flex align-items-center gap-2">
+              <img src="../img/usuarios/anaTorres.jpg" alt=" ">
+              <span class="fw-semibold">Ana Torres</span>
             </a>
+		   <a href="../indexVis.html" class="btn p-0 border-0 bg-transparent">
+			  <i class="login-icon bi bi-box-arrow-in-right fs-3" title="Cerrar Sesión"></i>
+		   </a>
+
           </li>
         </ul>
+
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
     </div>
