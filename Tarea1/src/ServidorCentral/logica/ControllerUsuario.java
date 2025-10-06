@@ -1,6 +1,6 @@
-package ServidorCentral.logica;
+package src.ServidorCentral.logica;
 
-import ServidorCentral.excepciones.*;
+import src.ServidorCentral.excepciones.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

@@ -1,8 +1,8 @@
-package ServidorCentral.logica.test;
+package test.ServidorCentral.logica.test;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ServidorCentral.logica.*;
+import src.ServidorCentral.logica.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -34,7 +34,8 @@ class ControllerEventoExtrasTest {
         	    "nickOrgTest",     
         	    "org@test.com",    
         	    "OrgTest",         
-        	    "Descripción test" 
+        	    "Descripción test",
+        	    "1234"
         	);
         	ManejadorUsuario.getinstance().agregarOrganizador(organizador);
 

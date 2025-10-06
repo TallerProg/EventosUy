@@ -1,9 +1,9 @@
-package ServidorCentral.logica.test;
+package test.ServidorCentral.logica.test;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ServidorCentral.logica.*;
+import src.ServidorCentral.logica.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -29,7 +29,8 @@ class AltaEdicionEventoTest {
             "org1", 
             "org1@mail.com", 
             "Org Principal", 
-            "Organizador Principal"
+            "Organizador Principal",
+            "1234"
         );
     }
 

@@ -1,4 +1,4 @@
-package ServidorCenrtral.logica;
+package src.ServidorCentral.logica;
 
 public enum EstadoEdicion{
 	Ingresada, Aceptada, Rechazada

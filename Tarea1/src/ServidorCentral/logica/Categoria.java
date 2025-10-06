@@ -1,4 +1,4 @@
-package ServidorCentral.logica;
+package src.ServidorCentral.logica;
 
 public class Categoria {
 	private String nombre;

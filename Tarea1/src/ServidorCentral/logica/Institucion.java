@@ -1,4 +1,4 @@
-package ServidorCentral.logica;
+package src.ServidorCentral.logica;
 
 import java.util.List;
 import java.util.ArrayList;

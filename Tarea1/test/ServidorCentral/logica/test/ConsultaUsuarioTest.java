@@ -1,8 +1,8 @@
-package ServidorCentral.logica.test;
+package test.ServidorCentral.logica.test;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ServidorCentral.logica.*;
+import src.ServidorCentral.logica.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -23,11 +23,11 @@ class ConsultaUsuarioTest {
         manejadorUsuario = ManejadorUsuario.getinstance();
         controllerUsuario = new ControllerUsuario();
 
-        org1 = new Organizador("org90", "org1@mail.com", "Org Principal", "Organizador Principal");
+        org1 = new Organizador("org90", "org1@mail.com", "Org Principal", "Organizador Principal","1234");
         manejadorUsuario.agregarUsuario(org1);
 
         asist1 = new Asistente("asist1", "asist1@mail.com", "Asistente 1", "Apellido",
-                LocalDate.of(2000, 5, 1));
+                LocalDate.of(2000, 5, 1),"1234");
         manejadorUsuario.agregarUsuario(asist1);
 
         evento1 = new Evento("ConferenciaX", "C-2025", "Evento de prueba",

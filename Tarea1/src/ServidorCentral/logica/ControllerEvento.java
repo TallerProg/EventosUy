@@ -1,4 +1,4 @@
-package ServidorCentral.logica;
+package src.ServidorCentral.logica;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -385,9 +385,9 @@ public class ControllerEvento implements IControllerEvento {
             throw new Exception("La edición " + nombreEdicion + " no existe");
         }
         if (aceptar) {
-            ed.setEstado(EEstadoEdicion.ACEPTADA);
+            ed.setEstado(EstadoEdicion.Aceptada);
         } else {
-            ed.setEstado(EEstadoEdicion.RECHAZADA);
+            ed.setEstado(EstadoEdicion.Rechazada);
         }
 	}
 }

@@ -1,4 +1,4 @@
-package ServidorCentral.presentacion;
+package src.ServidorCentral.presentacion;
 
 import java.text.NumberFormat;
 import java.time.LocalDate;
@@ -8,7 +8,7 @@ import java.util.List;
 import javax.swing.*;
 
 
-import ServidorCentral.logica.*;
+import src.ServidorCentral.logica.*;
 import net.miginfocom.swing.MigLayout;
 
 public class AltaPatrocinio extends JInternalFrame {

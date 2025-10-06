@@ -1,13 +1,13 @@
-package ServidorCentral.presentacion;
+package src.ServidorCentral.presentacion;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
-import ServidorCentral.logica.Patrocinio;
-import ServidorCentral.logica.DTPatrocinio;
-import ServidorCentral.logica.Edicion;
-import ServidorCentral.logica.Evento;
-import ServidorCentral.logica.IControllerEvento;
+import src.ServidorCentral.logica.Patrocinio;
+import src.ServidorCentral.logica.DTPatrocinio;
+import src.ServidorCentral.logica.Edicion;
+import src.ServidorCentral.logica.Evento;
+import src.ServidorCentral.logica.IControllerEvento;
 
 public class ConsultaPatrocinio extends JInternalFrame {
 

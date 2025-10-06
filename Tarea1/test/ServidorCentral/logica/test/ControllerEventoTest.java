@@ -1,4 +1,4 @@
-package ServidorCentral.logica.test;
+package test.ServidorCentral.logica.test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -9,11 +9,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.ArrayList;
 
-import ServidorCentral.logica.Factory;
-import ServidorCentral.logica.IControllerEvento;
-import ServidorCentral.logica.IControllerUsuario;
-import ServidorCentral.logica.Categoria;
-import ServidorCentral.logica.Evento;
+import src.ServidorCentral.logica.Factory;
+import src.ServidorCentral.logica.IControllerEvento;
+import src.ServidorCentral.logica.IControllerUsuario;
+import src.ServidorCentral.logica.Categoria;
+import src.ServidorCentral.logica.Evento;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class ControllerEventoTest {

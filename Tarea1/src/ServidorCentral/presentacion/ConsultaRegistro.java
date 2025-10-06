@@ -1,4 +1,4 @@
-package ServidorCentral.presentacion;
+package src.ServidorCentral.presentacion;
 
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
@@ -9,9 +9,9 @@ import java.util.List;
 
 import javax.swing.*;
 
-import ServidorCentral.logica.Asistente;
-import ServidorCentral.logica.DTRegistroDetallado;
-import ServidorCentral.logica.IControllerUsuario;
+import src.ServidorCentral.logica.Asistente;
+import src.ServidorCentral.logica.DTRegistroDetallado;
+import src.ServidorCentral.logica.IControllerUsuario;
 
 public class ConsultaRegistro extends JInternalFrame {
 	private JTextField textField_finicio;

@@ -1,4 +1,4 @@
-package ServidorCentral.logica.test;
+package test.ServidorCentral.logica.test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -7,9 +7,9 @@ import org.junit.jupiter.api.*;
 import java.time.LocalDate;
 import java.util.List;
 
-import ServidorCentral.excepciones.*;
+import src.ServidorCentral.excepciones.*;
 
-import ServidorCentral.logica.*;
+import src.ServidorCentral.logica.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class ConsultaTipoRegistroTest {
@@ -44,7 +44,7 @@ public class ConsultaTipoRegistroTest {
 	    String descripcionOrg = "Organización de testeos";
 	    String webOrg = "https://testeo.com";
 	    try {
-	    	controlerUSR.AltaOrganizador(nickOrg, mailOrg, nombreOrg, descripcionOrg, webOrg);
+	    	controlerUSR.AltaOrganizador(nickOrg, mailOrg, nombreOrg, descripcionOrg, webOrg,"1234");
 	    } catch (UsuarioRepetidoException e) {
 	        fail(e.getMessage());
 	        e.printStackTrace();
@@ -104,7 +104,7 @@ public class ConsultaTipoRegistroTest {
 	        String descripcionOrg = "Organización de eventos deportivos en Uruguay.";
 	        String webOrg = "https://montevideorunners.uy";
 
-	        controlerUSR.AltaOrganizador(nickOrg, mailOrg, nombreOrg, descripcionOrg, webOrg);
+	        controlerUSR.AltaOrganizador(nickOrg, mailOrg, nombreOrg, descripcionOrg, webOrg, "1234");
 	        Organizador org = controlerUSR.getOrganizador(nickOrg);
 
 	        String nombreEdicion = "Edición 2025";

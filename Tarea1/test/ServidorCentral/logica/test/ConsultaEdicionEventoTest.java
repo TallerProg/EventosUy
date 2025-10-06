@@ -1,8 +1,8 @@
-package ServidorCentral.logica.test;
+package test.ServidorCentral.logica.test;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ServidorCentral.logica.*;
+import src.ServidorCentral.logica.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ class ConsultaEdicionEventoTest {
         eventoBase = new Evento("ConferenciaX", "C-2025", "Evento de prueba", LocalDate.now(), new ArrayList<>());
         ManejadorEvento.getInstancia().agregarEvento(eventoBase);
 
-        organizador = new Organizador("org1", "org1@mail.com", "Org Principal", "Organizador Principal");
+        organizador = new Organizador("org1", "org1@mail.com", "Org Principal", "Organizador Principal","1234");
 
         controller.altaEdicionDeEvento(
             "Edicion2025",

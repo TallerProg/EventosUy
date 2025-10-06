@@ -1,4 +1,4 @@
-package ServidorCentral.presentacion;
+package src.ServidorCentral.presentacion;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -10,13 +10,13 @@ import java.util.List;
 
 import javax.swing.*;
 
-import ServidorCentral.logica.Asistente;
-import ServidorCentral.logica.DTUsuarioListaConsulta;
-import ServidorCentral.logica.Edicion;
-import ServidorCentral.logica.IControllerEvento;
-import ServidorCentral.logica.IControllerUsuario;
-import ServidorCentral.logica.Organizador;
-import ServidorCentral.logica.Usuario;
+import src.ServidorCentral.logica.Asistente;
+import src.ServidorCentral.logica.DTUsuarioListaConsulta;
+import src.ServidorCentral.logica.Edicion;
+import src.ServidorCentral.logica.IControllerEvento;
+import src.ServidorCentral.logica.IControllerUsuario;
+import src.ServidorCentral.logica.Organizador;
+import src.ServidorCentral.logica.Usuario;
 
 public class ConsultarUsuario extends JInternalFrame {
 

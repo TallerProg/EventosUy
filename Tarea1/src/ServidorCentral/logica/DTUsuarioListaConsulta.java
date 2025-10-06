@@ -1,4 +1,4 @@
-package ServidorCentral.logica;
+package src.ServidorCentral.logica;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

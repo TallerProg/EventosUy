@@ -1,4 +1,4 @@
-package ServidorCentral.presentacion;
+package src.ServidorCentral.presentacion;
 
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
@@ -6,11 +6,11 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-import cargardatospk.CargarDatos;
-import ServidorCentral.logica.Factory;
-import ServidorCentral.logica.IControllerUsuario;
-import ServidorCentral.logica.IControllerEvento;
-import ServidorCentral.logica.IControllerInstitucion;
+import test.recursos.cargardatospk.*;
+import src.ServidorCentral.logica.Factory;
+import src.ServidorCentral.logica.IControllerUsuario;
+import src.ServidorCentral.logica.IControllerEvento;
+import src.ServidorCentral.logica.IControllerInstitucion;
 
 import javax.swing.JMenu;
 

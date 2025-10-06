@@ -1,15 +1,15 @@
-package ServidorCentral.logica;
+package src.ServidorCentral.logica;
 
-import ServidorCentral.excepciones.*;
+import src.ServidorCentral.excepciones.*;
 import java.time.LocalDate;
 import java.util.List;
 
 public interface IControllerUsuario {
 
 	void AltaAsistente(String nicknameUsu, String correo, String nombre, String apellido, LocalDate fNacimiento,
-			Institucion ins) throws UsuarioRepetidoException;
+			Institucion ins, String contrasena) throws UsuarioRepetidoException;
 
-	void AltaOrganizador(String nicknameUsu, String correo, String nombre, String descripcion, String url)
+	void AltaOrganizador(String nicknameUsu, String correo, String nombre, String descripcion, String url, String contrasena)
 			throws UsuarioRepetidoException;
 
 	public DTRegistro getDTRegistro(String tipNEdicion, String nickAsistente);

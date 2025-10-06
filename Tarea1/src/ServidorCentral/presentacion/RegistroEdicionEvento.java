@@ -1,8 +1,8 @@
-package ServidorCentral.presentacion;
+package src.ServidorCentral.presentacion;
 
 import java.util.List;
 import javax.swing.*;
-import ServidorCentral.logica.*;
+import src.ServidorCentral.logica.*;
 import net.miginfocom.swing.MigLayout;
 
 public class RegistroEdicionEvento extends JInternalFrame {

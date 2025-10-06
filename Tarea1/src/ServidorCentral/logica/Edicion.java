@@ -1,10 +1,8 @@
-package ServidorCentral.logica;
+package src.ServidorCentral.logica;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
-import ServidorCentral.logica.EstadoEdicion;
 
 public class Edicion {
 
@@ -37,7 +35,7 @@ public class Edicion {
 		this.organizadores = new ArrayList<>();
 		this.registros = new ArrayList<>();
 		this.patrocinios = new ArrayList<>();
-		this.estado = Ingresada;
+		this.estado = EstadoEdicion.Ingresada;
 	}
 
 	public LocalDate getFechaAlta() { return fAlta; }
@@ -199,5 +197,13 @@ public class Edicion {
 	@Override
 	public String toString() {
 	    return this.getNombre();
+	}
+
+	public void setEstado(EstadoEdicion estado) {
+		this.estado = estado;
+	}
+
+	public EstadoEdicion getEstado() {
+		return estado;
 	}
 }

@@ -1,4 +1,4 @@
-package ServidorCentral.logica.test;
+package test.ServidorCentral.logica.test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -9,16 +9,16 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 
-import ServidorCentral.excepciones.UsuarioRepetidoException;
-import ServidorCentral.logica.Asistente;
-import ServidorCentral.logica.DTUsuarioLista;
-import ServidorCentral.logica.Factory;
-import ServidorCentral.logica.IControllerUsuario;
-import ServidorCentral.logica.Institucion;
-import ServidorCentral.logica.Organizador;
-import ServidorCentral.logica.Registro;
-import ServidorCentral.logica.TipoRegistro;
-import ServidorCentral.logica.ManejadorUsuario;
+import src.ServidorCentral.excepciones.UsuarioRepetidoException;
+import src.ServidorCentral.logica.Asistente;
+import src.ServidorCentral.logica.DTUsuarioLista;
+import src.ServidorCentral.logica.Factory;
+import src.ServidorCentral.logica.IControllerUsuario;
+import src.ServidorCentral.logica.Institucion;
+import src.ServidorCentral.logica.Organizador;
+import src.ServidorCentral.logica.Registro;
+import src.ServidorCentral.logica.TipoRegistro;
+import src.ServidorCentral.logica.ManejadorUsuario;
 
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -47,7 +47,7 @@ class ControllerUsuarioTest {
 		Institucion insTest = new Institucion("ins1", "www.ins.com", "institucion1");
 		
 		try {
-			controladorUsu.AltaAsistente(nicknameTest, correoTest, nombreTest, apellidoTest, fNacimientoTest, insTest);
+			controladorUsu.AltaAsistente(nicknameTest, correoTest, nombreTest, apellidoTest, fNacimientoTest, insTest, "1234");
 			Asistente a = controladorUsu.getAsistente(nicknameTest);
 			
 			assertEquals(a.getNickname(), nicknameTest);
@@ -74,7 +74,7 @@ class ControllerUsuarioTest {
 		LocalDate fNacimientoTest = LocalDate.parse("12/03/2001", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 				
 		try {
-			controladorUsu.AltaAsistente(nicknameTest, correoTest, nombreTest, apellidoTest, fNacimientoTest, null);
+			controladorUsu.AltaAsistente(nicknameTest, correoTest, nombreTest, apellidoTest, fNacimientoTest, null, "1234");
 			Asistente a =controladorUsu.getAsistente(nicknameTest);
 			
 			assertEquals(a.getNickname(), nicknameTest);
@@ -102,7 +102,7 @@ class ControllerUsuarioTest {
 		String urlTest = "www.url.com";
 		
 		try {
-			controladorUsu.AltaOrganizador(nicknameTest, correoTest, nombreTest, descTest, urlTest);
+			controladorUsu.AltaOrganizador(nicknameTest, correoTest, nombreTest, descTest, urlTest, "1234");
 			Organizador o =controladorUsu.getOrganizador(nicknameTest);
 			
 			assertEquals(o.getNickname(), nicknameTest);
@@ -128,7 +128,7 @@ class ControllerUsuarioTest {
 		String descTest = "descripcion";
 		
 		try {
-			controladorUsu.AltaOrganizador(nicknameTest, correoTest, nombreTest, descTest, null);
+			controladorUsu.AltaOrganizador(nicknameTest, correoTest, nombreTest, descTest, null, "1234");
 			Organizador o =controladorUsu.getOrganizador(nicknameTest);
 			
 			assertEquals(o.getNickname(), nicknameTest);
@@ -155,13 +155,13 @@ class ControllerUsuarioTest {
 		String urlTest = "www.url.com";
 		
 		try {
-			controladorUsu.AltaOrganizador(nicknameTest, correoTest, nombreTest, descTest, urlTest);
+			controladorUsu.AltaOrganizador(nicknameTest, correoTest, nombreTest, descTest, urlTest, "1234");
 			
 		} catch (UsuarioRepetidoException e) {
 			fail(e.getMessage());
 			e.printStackTrace();
 		};
-		assertThrows(UsuarioRepetidoException.class, ()->{controladorUsu.AltaOrganizador(nicknameTest, correoTest, nombreTest, descTest, urlTest);});
+		assertThrows(UsuarioRepetidoException.class, ()->{controladorUsu.AltaOrganizador(nicknameTest, correoTest, nombreTest, descTest, urlTest, "1234");});
 	}
 	
 	
@@ -177,13 +177,13 @@ class ControllerUsuarioTest {
 		Institucion insTest = new Institucion("ins1", "www.ins.com", "institucion1");
 		
 		try {
-			controladorUsu.AltaAsistente(nicknameTest, correoTest, nombreTest, apellidoTest, fNacimientoTest, insTest);
+			controladorUsu.AltaAsistente(nicknameTest, correoTest, nombreTest, apellidoTest, fNacimientoTest, insTest, "1234");
 			
 		} catch (UsuarioRepetidoException e) {
 			fail(e.getMessage());
 			e.printStackTrace();
 		};
-		assertThrows(UsuarioRepetidoException.class, ()->{controladorUsu.AltaAsistente(nicknameTest, correoTest, nombreTest, apellidoTest, fNacimientoTest, insTest);});
+		assertThrows(UsuarioRepetidoException.class, ()->{controladorUsu.AltaAsistente(nicknameTest, correoTest, nombreTest, apellidoTest, fNacimientoTest, insTest,"1234");});
 	}
 	
 	 @Test
@@ -192,8 +192,8 @@ class ControllerUsuarioTest {
 	        Institucion ins = new Institucion("insTest", "www.test.com", "Institucion Test");
 	        try {
 	            controladorUsu.AltaAsistente("asist01", "asist01@test.com", "Ana", "Perez",
-	                    LocalDate.parse("01/01/2000", DateTimeFormatter.ofPattern("dd/MM/yyyy")), ins);
-	            controladorUsu.AltaOrganizador("org01", "org01@test.com", "Carlos", "Desc Organizador", null);
+	                    LocalDate.parse("01/01/2000", DateTimeFormatter.ofPattern("dd/MM/yyyy")), ins, "1234");
+	            controladorUsu.AltaOrganizador("org01", "org01@test.com", "Carlos", "Desc Organizador", null, "1234");
 	        } catch (UsuarioRepetidoException e) {
 	            fail(e.getMessage());
 	        }
@@ -227,9 +227,9 @@ class ControllerUsuarioTest {
 	        Institucion ins = new Institucion("insTest2", "www.test2.com", "Institucion Test2");
 	        try {
 	            controladorUsu.AltaAsistente("asist02", "asist02@test.com", "Luis", "Gomez",
-	                    LocalDate.parse("02/02/2002", DateTimeFormatter.ofPattern("dd/MM/yyyy")), ins);
+	                    LocalDate.parse("02/02/2002", DateTimeFormatter.ofPattern("dd/MM/yyyy")), ins, "1234");
 	            controladorUsu.AltaAsistente("asist03", "asist03@test.com", "Marta", "Lopez",
-	                    LocalDate.parse("03/03/2003", DateTimeFormatter.ofPattern("dd/MM/yyyy")), null);
+	                    LocalDate.parse("03/03/2003", DateTimeFormatter.ofPattern("dd/MM/yyyy")), null, "1234");
 	        } catch (UsuarioRepetidoException e) {
 	            fail(e.getMessage());
 	        }

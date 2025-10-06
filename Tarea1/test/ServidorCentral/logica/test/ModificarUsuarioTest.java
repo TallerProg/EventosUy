@@ -1,9 +1,8 @@
-package ServidorCentral.logica.test;
+package test.ServidorCentral.logica.test;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import ServidorCentral.logica.*;
-import ServidorCentral.excepciones.*;
+import org.junit.jupiter.api.*;
+import src.ServidorCentral.logica.*;
+import src.ServidorCentral.excepciones.*;
 
 import java.time.LocalDate;
 
@@ -27,7 +26,8 @@ class ModificarUsuarioTest {
                 "Juan",
                 "Perez",
                 LocalDate.of(2000, 1, 1),
-                null
+                null,
+                "1234"
         );
         asistente = controller.getAsistente("asist1");
 
@@ -36,7 +36,8 @@ class ModificarUsuarioTest {
                 "org1@mail.com",
                 "Org Principal",
                 "Descripcion inicial",
-                "www.url.com"
+                "www.url.com",
+                "1234"
         );
         organizador = controller.getOrganizador("org1");
     }
@@ -98,7 +99,8 @@ class ModificarUsuarioTest {
                 "asist1_mod@mail.com",        
                 "JuanMod",                    
                 "PerezMod",                   
-                LocalDate.of(2002, 3, 3)     
+                LocalDate.of(2002, 3, 3),
+                 "12345"
         );
 
         controller.modificarUsuario1(actualizado);

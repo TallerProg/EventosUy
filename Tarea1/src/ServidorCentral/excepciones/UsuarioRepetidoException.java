@@ -1,4 +1,4 @@
-package ServidorCentral.excepciones;
+package src.ServidorCentral.excepciones;
 
 
 @SuppressWarnings("serial")

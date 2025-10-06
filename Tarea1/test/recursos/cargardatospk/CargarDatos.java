@@ -1,5 +1,5 @@
-package cargardatospk;
-import ServidorCentral.logica.*;
+package test.recursos.cargardatospk;
+import src.ServidorCentral.logica.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -105,35 +105,36 @@ public class CargarDatos {
 		// Crear Asistentes
 		// ------------------
 		try {
-			ICU.AltaAsistente("atorres", "atorres@gmail.com", "Ana", "Torres", LocalDate.parse("12/05/1990", formatter),
-					INS01);
+			ICU.AltaAsistente("atorres", "atorres@gmail.com", "Ana", "Torres",
+			        LocalDate.parse("12/05/1990", formatter), INS01, "12345678");
 
 			ICU.AltaAsistente("msilva", "martin.silva@fing.edu.uy", "Martin", "Silva",
-					LocalDate.parse("21/08/1987", formatter), INS01);
+			        LocalDate.parse("21/08/1987", formatter), INS01, "12345678");
 
 			ICU.AltaAsistente("sofirod", "srodriguez@outlook.com", "Sofia", "Rodriguez",
-					LocalDate.parse("03/02/1995", formatter), INS03);
+			        LocalDate.parse("03/02/1995", formatter), INS03, "12345678");
 
 			ICU.AltaAsistente("vale23", "valentina.costa@mail.com", "Valentina", "Costa",
-					LocalDate.parse("01/12/1992", formatter), null);
+			        LocalDate.parse("01/12/1992", formatter), null, "12345678");
 
 			ICU.AltaAsistente("luciag", "lucia.garcia@mail.com", "Lucía", "García",
-					LocalDate.parse("09/11/1993", formatter), null);
+			        LocalDate.parse("09/11/1993", formatter), null, "12345678");
 
 			ICU.AltaAsistente("andrearod", "andrea.rod@mail.com", "Andrea", "Rodríguez",
-					LocalDate.parse("10/06/2000", formatter), INS05);
+			        LocalDate.parse("10/06/2000", formatter), INS05, "12345678");
 
-			ICU.AltaAsistente("AnaG", "ana.gomez@hotmail.com", "Ana", "Gómez", LocalDate.parse("15/03/1998", formatter),
-					null);
+			ICU.AltaAsistente("AnaG", "ana.gomez@hotmail.com", "Ana", "Gómez",
+			        LocalDate.parse("15/03/1998", formatter), null, "12345678");
 
 			ICU.AltaAsistente("JaviL", "javier.lopez@outlook.com", "Javier", "López",
-					LocalDate.parse("22/07/1995", formatter), null);
+			        LocalDate.parse("22/07/1995", formatter), null, "12345678");
 
 			ICU.AltaAsistente("MariR", "maria.rodriguez@gmail.com", "María", "Rodríguez",
-					LocalDate.parse("10/11/2000", formatter), null);
+			        LocalDate.parse("10/11/2000", formatter), null, "12345678");
 
 			ICU.AltaAsistente("SofiM", "sofia.martinez@yahoo.com", "Sofía", "Martínez",
-					LocalDate.parse("05/02/1997", formatter), null);
+			        LocalDate.parse("05/02/1997", formatter), null, "12345678");
+
 
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
@@ -144,19 +145,19 @@ public class CargarDatos {
 		// ------------------
 		try {
 			ICU.AltaOrganizador("miseventos", "contacto@miseventos.com", "MisEventos",
-					"Empresa de organización de eventos.", "https://miseventos.com");
+					"Empresa de organización de eventos.", "https://miseventos.com", "12345678");
 
 			ICU.AltaOrganizador("techcorp", "info@techcorp.com", "Corporación Tecnológica",
-					"Empresa líder en tecnologías de la información.", null);
+					"Empresa líder en tecnologías de la información.", null, "12345678");
 
 			ICU.AltaOrganizador("imm", "contacto@imm.gub.uy", "Intendencia de Montevideo",
-					"Gobierno departamental de Montevideo.", "https://montevideo.gub.uy");
+					"Gobierno departamental de Montevideo.", "https://montevideo.gub.uy", "12345678");
 
 			ICU.AltaOrganizador("udelar", "contacto@udelar.edu.uy", "Universidad de la República",
-					"Universidad pública de Uruguay.", "https://udelar.edu.uy");
+					"Universidad pública de Uruguay.", "https://udelar.edu.uy", "12345678");
 
 			ICU.AltaOrganizador("mec", "mec@mec.gub.uy", "Ministerio de Educación y Cultura",
-					"Institución pública promotora de cultura.", "https://mec.gub.uy");
+					"Institución pública promotora de cultura.", "https://mec.gub.uy", "12345678");
 
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());

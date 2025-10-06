@@ -1,5 +1,5 @@
 
-package ServidorCentral.logica.test;
+package test.ServidorCentral.logica.test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -8,7 +8,7 @@ import org.junit.jupiter.api.*;
 import java.time.LocalDate;
 import java.util.List;
 
-import ServidorCentral.logica.*;
+import src.ServidorCentral.logica.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class ConsultaEventoTest {
@@ -84,7 +84,7 @@ public class ConsultaEventoTest {
 	        String descripcionOrg = "Organización de eventos deportivos en Uruguay.";
 	        String webOrg = "https://montevideorunners.uy";
 
-	        controlerUSR.AltaOrganizador(nickOrg, mailOrg, nombreOrg, descripcionOrg, webOrg);
+	        controlerUSR.AltaOrganizador(nickOrg, mailOrg, nombreOrg, descripcionOrg, webOrg,"1234");
 	        Organizador org = controlerUSR.getOrganizador(nickOrg);
 
 	        String nombreEdicion = "Edición test de 2025";
