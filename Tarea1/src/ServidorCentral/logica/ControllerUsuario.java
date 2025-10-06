@@ -3,22 +3,20 @@ package src.ServidorCentral.logica;
 import src.ServidorCentral.excepciones.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;     // ⟵ NUEVO (solo si querés timestamp de login)
+import java.time.LocalDateTime;     
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class ControllerUsuario implements IControllerUsuario {
 
-    // ====== NUEVO: tipos auxiliares para sesión ======
     public enum RolUsuario { ASISTENTE, ORGANIZADOR, VISITANTE }
 
-    /** DTO mínimo para guardar en HttpSession desde la capa web */
     public static class DTSesionUsuario {
         private final String nickname;
         private final String correo;
         private final RolUsuario rol;
-        private final LocalDateTime fechaHoraInicio; // opcional
+        private final LocalDateTime fechaHoraInicio; 
 
         public DTSesionUsuario(String nickname, String correo, RolUsuario rol, LocalDateTime fechaHoraInicio) {
             this.nickname = nickname;
@@ -51,7 +49,6 @@ public class ControllerUsuario implements IControllerUsuario {
 
         ManejadorUsuario mu = ManejadorUsuario.getinstance();
 
-        // buscar por nickname, si no, por correo
         Usuario u = mu.findUsuario(login);
         if (u == null) {
             u = mu.findCorreo(login);
@@ -70,14 +67,8 @@ public class ControllerUsuario implements IControllerUsuario {
 
         return new DTSesionUsuario(u.getNickname(), u.getCorreo(), rol, LocalDateTime.now());
     }
-
-    /**
-     * Cierra sesión. A nivel dominio no invalida nada (eso es propio de la HttpSession).
-     * Se deja para auditoría o lógica adicional si se necesitara.
-     */
     public void cerrarSesion(DTSesionUsuario sesion) {
         Objects.requireNonNull(sesion);
-        // opcional: registrar auditoría, métricas, etc.
     }
 
     private static boolean isBlank(String s) { return s == null || s.trim().isEmpty(); }
