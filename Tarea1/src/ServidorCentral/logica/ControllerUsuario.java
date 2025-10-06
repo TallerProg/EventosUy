@@ -86,7 +86,6 @@ public class ControllerUsuario implements IControllerUsuario {
         return Objects.equals(ingresada, almacenada);
     }
 
-    // ================== TU CÓDIGO EXISTENTE ==================
 
     public DTUsuarioListaConsulta ConsultaDeUsuario(String nicknameUsu) {
         ManejadorUsuario manejador = ManejadorUsuario.getinstance();
