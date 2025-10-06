@@ -37,6 +37,7 @@ public class Principal {
 	private AltaPatrocinio altaPatrocinioInternalFrame;
 	private ConsultaPatrocinio conPatrocinioInternalFrame;
 	private ModificarUsuario modUsuarioInternalFrame;
+	private AceptarRechazarEdicion aceptarRechazarEdicionFrame;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(() -> {
@@ -71,6 +72,7 @@ public class Principal {
 		altaPatrocinioInternalFrame = new AltaPatrocinio(ICE, ICU);
 		conPatrocinioInternalFrame = new ConsultaPatrocinio(ICE);
 		modUsuarioInternalFrame = new ModificarUsuario(ICU,ICI);
+		aceptarRechazarEdicionFrame = new AceptarRechazarEdicion(ICE);
 
 		desktopPane.add(creUsrInternalFrame);
 		desktopPane.add(conUsrInternalFrame);
@@ -85,6 +87,7 @@ public class Principal {
 		desktopPane.add(altaPatrocinioInternalFrame);
 		desktopPane.add(conPatrocinioInternalFrame);
 		desktopPane.add(modUsuarioInternalFrame);
+		desktopPane.add(aceptarRechazarEdicionFrame);
 	}
 
 	private void initialize() {
@@ -179,6 +182,13 @@ public class Principal {
 			mostrarInternalFrame(conEdiEveInternalFrame);
 		});
 		menuEventos.add(menuConsultaEdicion);
+		
+		JMenuItem menuAceptarRechazarEdicion = new JMenuItem("Aceptar/Rechazar Edición de Evento");
+		menuAceptarRechazarEdicion.addActionListener(e -> {
+			aceptarRechazarEdicionFrame.cargarEventos();
+			mostrarInternalFrame(aceptarRechazarEdicionFrame);
+		});
+		menuEventos.add(menuAceptarRechazarEdicion);
 
 		JMenuItem menuAltaTipoReg = new JMenuItem("Alta de Tipo de Registro");
 		menuAltaTipoReg.addActionListener(e -> {
