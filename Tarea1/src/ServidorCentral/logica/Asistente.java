@@ -16,19 +16,20 @@ public class Asistente extends Usuario {
 	private List<Patrocinio> patrocinios;
 
 	public Asistente(String nickname, String correo, String nombre, String apellido, LocalDate fNacimiento,
-			Institucion ins) {
+			Institucion ins, String contrasena) {
 
-		super(nickname, correo, nombre);
+		super(nickname, correo, nombre, contrasena);
 		this.apellido = apellido;
 		this.fNacimiento = fNacimiento;
 		this.registros = new ArrayList<>();
 		this.institucion = ins;
 		this.patrocinios = new ArrayList<>();
+		
 	}
 
-	public Asistente(String nickname, String correo, String nombre, String apellido, LocalDate fNacimiento) {
+	public Asistente(String nickname, String correo, String nombre, String apellido, LocalDate fNacimiento, String contrasena) {
 
-		super(nickname, correo, nombre);
+		super(nickname, correo, nombre, contrasena);
 		this.apellido = apellido;
 		this.fNacimiento = fNacimiento;
 		this.registros = new ArrayList<>();

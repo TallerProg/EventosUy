@@ -4,11 +4,13 @@ public class Usuario {
 	private String nickname;
 	private String correo;
 	private String nombre;
+	private String contrasena;
 
-	public Usuario(String nick, String correo, String nom) {
+	public Usuario(String nick, String correo, String nom, String contrasena) {
 		this.nickname = nick;
 		this.correo = correo;
 		this.nombre = nom;
+		this.contrasena = contrasena;
 	}
 
 	public String getNickname() {
@@ -30,6 +32,9 @@ public class Usuario {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-
+	
+	public void setContrasena(String contrasena) {
+		this.contrasena = contrasena;
+	}
 
 }

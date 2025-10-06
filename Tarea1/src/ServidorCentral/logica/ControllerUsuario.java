@@ -43,18 +43,18 @@ public class ControllerUsuario implements IControllerUsuario {
 	}     
 
     public void AltaAsistente(String nicknameUsu, String correo, String nombre, String apellido, 
-    LocalDate fNacimiento,Institucion ins) throws UsuarioRepetidoException {
+    LocalDate fNacimiento,Institucion ins, String contrasena) throws UsuarioRepetidoException {
     	ManejadorUsuario mu = ManejadorUsuario.getinstance();
         Usuario u = mu.findUsuario(nicknameUsu);
         Usuario ucorreo = mu.findCorreo(correo);
         if (u != null || ucorreo!=null)
             throw new UsuarioRepetidoException("El usuario " + nicknameUsu + " ya esta registrado");
         if(ins==null) {
-        	Asistente a = new Asistente(nicknameUsu, correo, nombre, apellido, fNacimiento);
+        	Asistente a = new Asistente(nicknameUsu, correo, nombre, apellido, fNacimiento, contrasena);
         	mu.agregarAsistente(a);
         	mu.agregarUsuario(a);
         }else {
-            Asistente a = new Asistente(nicknameUsu, correo, nombre, apellido, fNacimiento,ins);
+            Asistente a = new Asistente(nicknameUsu, correo, nombre, apellido, fNacimiento,ins, contrasena);
             mu.agregarAsistente(a);
             mu.agregarUsuario(a);
             ins.addAsistente(a);
@@ -68,7 +68,7 @@ public class ControllerUsuario implements IControllerUsuario {
 		return manejador.listarUsuarios();
 	}
 
-	public void AltaOrganizador(String nicknameUsu, String correo, String nombre, String descripcion, String url)
+	public void AltaOrganizador(String nicknameUsu, String correo, String nombre, String descripcion, String url, String contrasena)
 			throws UsuarioRepetidoException {
 		ManejadorUsuario mu = ManejadorUsuario.getinstance();
 		Usuario u = mu.findUsuario(nicknameUsu);
@@ -76,11 +76,11 @@ public class ControllerUsuario implements IControllerUsuario {
 		if (u != null || ucorreo != null)
 			throw new UsuarioRepetidoException("El usuario " + nicknameUsu + " ya esta registrado");
 		if (url != null) {
-			Organizador o = new Organizador(nicknameUsu, correo, nombre, descripcion, url);
+			Organizador o = new Organizador(nicknameUsu, correo, nombre, descripcion, url, contrasena);
 			mu.agregarOrganizador(o);
 			mu.agregarUsuario(o);
 		} else {
-			Organizador o = new Organizador(nicknameUsu, correo, nombre, descripcion);
+			Organizador o = new Organizador(nicknameUsu, correo, nombre, descripcion, contrasena);
 			mu.agregarOrganizador(o);
 			mu.agregarUsuario(o);
 		}
