@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import ServidorCentral.logica.EstadoEdicion;
+
 public class Edicion {
 
 	private String nombre;
@@ -18,6 +20,7 @@ public class Edicion {
 	private List<Registro> registros;
 	private List<Patrocinio> patrocinios;
 	private Evento evento;
+	private EstadoEdicion estado;
 
 
 	public Edicion(String nombre, String sigla, LocalDate fInicio, LocalDate fFin,LocalDate fAlta, String ciudad, String pais,
@@ -34,6 +37,7 @@ public class Edicion {
 		this.organizadores = new ArrayList<>();
 		this.registros = new ArrayList<>();
 		this.patrocinios = new ArrayList<>();
+		this.estado = Ingresada;
 	}
 
 	public LocalDate getFechaAlta() { return fAlta; }

@@ -377,4 +377,17 @@ public class ControllerEvento implements IControllerEvento {
 		}
 		return null;
 	}
+	
+	public void AceptarRechazarEdicion(String nombreEdicion, boolean aceptar) throws Exception {
+        ManejadorEvento me = ManejadorEvento.getInstancia();
+        Edicion ed = me.findEdicion(nombreEdicion);
+        if (ed == null) {
+            throw new Exception("La edición " + nombreEdicion + " no existe");
+        }
+        if (aceptar) {
+            ed.setEstado(EEstadoEdicion.ACEPTADA);
+        } else {
+            ed.setEstado(EEstadoEdicion.RECHAZADA);
+        }
+	}
 }

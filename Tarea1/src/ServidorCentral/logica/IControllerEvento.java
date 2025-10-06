@@ -51,4 +51,6 @@ public interface IControllerEvento {
 	public Evento obtenerEventoPorNombre(String nombreEventoSeleccionado);
 
 	public Organizador obtenerOrganizadorPorNombre(String nombreOrganizadorSeleccionado);
+	
+	public void AceptarRechazarEdicion(String nombreEdicion, boolean aceptar) throws Exception;
 }
