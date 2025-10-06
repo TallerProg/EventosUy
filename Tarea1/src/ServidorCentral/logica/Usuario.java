@@ -24,6 +24,9 @@ public class Usuario {
 	public String getNombre() {
 		return nombre;
 	}
+	public String getContrasena() {
+		return contrasena;
+	}
 
 	public void setCorreo(String correo) {
 		this.correo = correo;

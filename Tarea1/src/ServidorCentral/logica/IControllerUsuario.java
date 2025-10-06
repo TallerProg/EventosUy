@@ -1,6 +1,8 @@
 package src.ServidorCentral.logica;
 
 import src.ServidorCentral.excepciones.*;
+import src.ServidorCentral.logica.ControllerUsuario.DTSesionUsuario;
+
 import java.time.LocalDate;
 import java.util.List;
 
@@ -34,7 +36,8 @@ public interface IControllerUsuario {
 	public void modificarUsuario1(Usuario u);
 
 	public Asistente getAsistente(String nicknameTest);
-	
 	public Usuario getUsuario(String nicknameTest);
-
+    public void cerrarSesion(DTSesionUsuario sesion);
+    public DTSesionUsuario iniciarSesion(String login, String contrasena)
+            throws UsuarioNoExisteException, CredencialesInvalidasException;
 }
