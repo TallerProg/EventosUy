@@ -93,21 +93,22 @@
         <div class="col-md-6">
           <label for="evento" class="form-label">Evento <span class="req">*</span></label>
           <select id="evento" name="evento" class="form-select" required>
-            <option value="">-- Seleccione un evento --</option>
-            <%
-              // Espera: request.setAttribute(RequestKeys.LISTA_EVENTOS, String[])
-              Object evosObj = request.getAttribute(com.helpers.RequestKeys.LISTA_EVENTOS);
-              if (evosObj instanceof String[]) {
-                String sel = (String) request.getAttribute("form_evento");
-                for (String ev : (String[]) evosObj) {
-                  boolean selected = sel != null && sel.equals(ev);
-            %>
-                  <option value="<%=ev%>" <%=selected ? "selected": ""%>><%=ev%></option>
-            <%
-                }
-              }
-            %>
-          </select>
+		  <option value="">-- Seleccione un evento --</option>
+		  <%
+		    // Leemos el atributo como String[] usando la clave literal que usa el servlet
+		    Object evosObj = request.getAttribute("LISTA_EVENTOS");
+		    if (evosObj instanceof String[]) {
+		      String sel = (String) request.getAttribute("form_evento");
+		      for (String ev : (String[]) evosObj) {
+		        boolean selected = sel != null && sel.equals(ev);
+		  %>
+		        <option value="<%=ev%>" <%= selected ? "selected" : "" %>><%=ev%></option>
+		  <%
+		      }
+		    }
+		  %>
+		</select>
+
         </div>
 
         <!-- Nombre -->
