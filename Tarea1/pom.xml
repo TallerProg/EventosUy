@@ -7,24 +7,59 @@
     <groupId>uy.fing.tprog</groupId>
     <artifactId>tpgr27-parent</artifactId>
     <version>1.0.0</version>
-    <relativePath>../pom.xml</relativePath>
   </parent>
 
   <artifactId>servidor-central</artifactId>
   <packaging>jar</packaging>
   <name>servidor-central</name>
 
-  <dependencies>
-    <!-- (Solo si tu lógica usa algo extra, por ahora nada) -->
-  </dependencies>
+  <properties>
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
 
   <build>
+    <!-- Código fuente “oficial” de Maven -->
+    <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
+    <testSourceDirectory>${project.basedir}/src/test/java</testSourceDirectory>
+
     <plugins>
+      <!-- Compilar SOLO lógica + excepciones (+ datatypes si tenés) -->
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.13.0</version>
         <configuration>
-          <release>${maven.compiler.source}</release>
+          <release>17</release>
+          <includes>
+            <include>ServidorCentral/logica/**/*.java</include>
+            <include>ServidorCentral/excepciones/**/*.java</include>
+            <!-- si tenés DTOs/datatypes, sumalos -->
+            <include>ServidorCentral/datatypes/**/*.java</include>
+          </includes>
+        </configuration>
+      </plugin>
+
+      <!-- Empaquetar SOLO esas clases en el JAR -->
+      <plugin>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>3.3.0</version>
+        <configuration>
+          <includes>
+            <include>ServidorCentral/logica/**</include>
+            <include>ServidorCentral/excepciones/**</include>
+            <include>ServidorCentral/datatypes/**</include>
+          </includes>
+        </configuration>
+      </plugin>
+
+      <!-- (Opcional) No correr tests por ahora -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.2.5</version>
+        <configuration>
+          <skipTests>true</skipTests>
         </configuration>
       </plugin>
     </plugins>
