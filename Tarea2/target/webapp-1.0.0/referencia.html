@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>EventUY</title>
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+
+  <!-- Favicons -->
+  <link href="img/logoeuy.png" rel="icon">
+  <link href="img/logoeuy.png" rel="apple-touch-icon">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&family=Rubik:wght@300;400;500;700;900&family=Kanit:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="vendor/aos/aos.css" rel="stylesheet">
+  <link href="vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+  <link href="vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+
+  <!-- Main CSS File -->
+  <link href="css/main.css" rel="stylesheet">
+
+</head>
+
+<body class="index-page">
+
+  <header id="header" class="header d-flex align-items-center fixed-top">
+    <div class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
+
+      <nav id="navmenu" class="navmenu">
+        <ul>
+          <li>
+            <a href="index.html" class="logo d-flex align-items-center">
+              <img src="img/logoeuy.png" alt="">
+            </a>
+          </li>
+          <li><a href="contact.html">Boton1</a></li>
+          <li><a href="contact.html">Boton2</a></li>
+          <li><a href="contact.html">Boton3</a></li>
+          <li class="dropdown">
+            <a href="#"><span>Más páginas</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+            <ul>
+              <li><a href="speaker-details.html">Detalles</a></li>
+              <li><a href="buy-tickets.html">Iniciar</a></li>
+              <li><a href="terms.html">Términos</a></li>
+              <li><a href="privacy.html">Privacidad</a></li>
+              <li><a href="404.html">404</a></li>
+            </ul>
+          </li>
+          <li class="dropdown">
+            <a href="#"><span>Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+            <ul>
+              <li><a href="#">Dropdown 1</a></li>
+              <li class="dropdown">
+                <a href="#"><span>Deep Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                <ul>
+                  <li><a href="#">Deep Dropdown 1</a></li>
+                  <li><a href="#">Deep Dropdown 2</a></li>
+                  <li><a href="#">Deep Dropdown 3</a></li>
+                  <li><a href="#">Deep Dropdown 4</a></li>
+                  <li><a href="#">Deep Dropdown 5</a></li>
+                </ul>
+              </li>
+              <li><a href="#">Dropdown 2</a></li>
+              <li><a href="#">Dropdown 3</a></li>
+              <li><a href="#">Dropdown 4</a></li>
+            </ul>
+          </li>
+          <li><a href="contact.html">Contacto</a></li>
+          <li class="ms-auto">
+            <a href="login.html" class="login-icon" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Login / Registrarse">
+              <i class="bi bi-box-arrow-in-right fs-3"></i>
+            </a>
+          </li>
+        </ul>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main">
+
+    <!-- Eventos Section -->
+    <section id="speakers" class="speakers section">
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Eventos</h2>
+      </div>
+
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+        <div class="row g-4 justify-content-center">
+
+          <!-- Ejemplo Evento -->
+          <div class="col-lg-3 col-md-6">
+            <div class="speaker-card">
+              <div class="speaker-image">
+                <img src="img/events/speaker-8.webp" alt="Evento" class="img-fluid">
+              </div>
+              <div class="speaker-content">
+                <div class="speaker-badge">Ejemplo Evento</div>
+                <p class="speaker-title">Chief Technology Officer</p>
+                <p class="speaker-company">TechFlow Solutions</p>
+                <p class="speaker-bio">Leading digital transformation initiatives...</p>
+                <div class="event-details mb-4">
+                  <div class="detail-item"><i class="bi bi-calendar-event"></i> <span>15-17 Marzo 2026</span></div>
+                  <div class="detail-item"><i class="bi bi-geo-alt"></i> <span>San Francisco Convention Center</span></div>
+                  <div class="detail-item"><i class="bi bi-people"></i> <span>5000+ asistentes</span></div>
+                </div>
+                <a href="buy-tickets.html" class="btn btn-primary btn-lg me-3">Registrarse</a>
+              </div>
+            </div>
+          </div>
+          <!-- /Ejemplo Evento -->
+
+          <!-- Podés duplicar más tarjetas iguales -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Tickets Section -->
+    <section id="tickets" class="tickets section">
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Tickets</h2>
+        <p>Opciones de compra para el evento</p>
+      </div>
+
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+        <div class="row justify-content-center">
+          <!-- Tarjeta Ticket -->
+          <div class="col-lg-3 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="100">
+            <div class="ticket-card">
+              <div class="ticket-header">
+                <div class="ticket-icon"><i class="bi bi-calendar-event"></i></div>
+                <h4 class="ticket-title">Early Bird</h4>
+                <div class="price-section"><span class="currency">$</span><span class="amount">75</span></div>
+                <p class="ticket-subtitle">Oferta limitada</p>
+              </div>
+              <div class="ticket-body">
+                <ul class="benefits-list">
+                  <li><i class="bi bi-check2"></i> Entrada</li>
+                  <li><i class="bi bi-check2"></i> Kit de bienvenida</li>
+                  <li><i class="bi bi-check2"></i> Refrigerio</li>
+                  <li><i class="bi bi-x"></i> Asientos premium</li>
+                  <li><i class="bi bi-x"></i> Networking</li>
+                </ul>
+                <a href="buy-tickets.html" class="ticket-btn">Comprar</a>
+              </div>
+            </div>
+          </div>
+          <!-- /Tarjeta Ticket -->
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="footer" class="footer position-relative light-background">
+    <div class="container copyright text-center mt-4">
+      <p>© <span>Copyright</span> <strong class="px-1 sitename">EventUY</strong> <span>Todos los derechos reservados</span></p>
+    </div>
+  </footer>
+
+  <!-- Scroll Top -->
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Preloader -->
+  <div id="preloader"></div>
+
+  <!-- Vendor JS Files -->
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="vendor/php-email-form/validate.js"></script>
+  <script src="vendor/aos/aos.js"></script>
+  <script src="vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="vendor/glightbox/js/glightbox.min.js"></script>
+
+  <!-- Main JS File -->
+  <script src="js/main.js"></script>
+
+</body>
+</html>

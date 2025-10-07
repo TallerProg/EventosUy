@@ -1,21 +1,24 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
   <parent>
     <groupId>uy.fing.tprog</groupId>
     <artifactId>tpgr27-parent</artifactId>
     <version>1.0.0</version>
+    <relativePath>../pom.xml</relativePath>
   </parent>
-  <modelVersion>4.0.0</modelVersion>
 
   <artifactId>servidor-central</artifactId>
   <packaging>jar</packaging>
   <name>servidor-central</name>
 
-  <build>
-    <!-- Como tus fuentes NO están en src/main/java, configuramos el directorio -->
-    <sourceDirectory>${project.basedir}/src.ServidorCentral</sourceDirectory>
+  <dependencies>
+    <!-- (Solo si tu lógica usa algo extra, por ahora nada) -->
+  </dependencies>
 
+  <build>
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -26,9 +29,4 @@
       </plugin>
     </plugins>
   </build>
-
-  <dependencies>
-    <!-- Agrega acá dependencias que tu lógica necesite (si las hubiera) -->
-  </dependencies>
 </project>
-

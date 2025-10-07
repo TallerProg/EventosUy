@@ -1,40 +1,40 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
   <parent>
     <groupId>uy.fing.tprog</groupId>
     <artifactId>tpgr27-parent</artifactId>
     <version>1.0.0</version>
+    <relativePath>../pom.xml</relativePath>
   </parent>
-  <modelVersion>4.0.0</modelVersion>
 
   <artifactId>webapp</artifactId>
   <packaging>war</packaging>
   <name>tprog-webapp</name>
 
   <dependencies>
-    <!-- Dependencia al JAR de la lógica -->
+    <!-- Lógica (tu jar de Tarea1) -->
     <dependency>
       <groupId>uy.fing.tprog</groupId>
       <artifactId>servidor-central</artifactId>
       <version>${project.version}</version>
     </dependency>
 
-    <!-- Jakarta EE 10 (Tomcat 11) -->
+    <!-- APIs provistas por Tomcat (scope provided) -->
     <dependency>
       <groupId>jakarta.servlet</groupId>
       <artifactId>jakarta.servlet-api</artifactId>
       <version>${jakarta.servlet.version}</version>
       <scope>provided</scope>
     </dependency>
-
     <dependency>
       <groupId>jakarta.servlet.jsp</groupId>
       <artifactId>jakarta.servlet.jsp-api</artifactId>
       <version>${jakarta.jsp.version}</version>
       <scope>provided</scope>
     </dependency>
-
     <dependency>
       <groupId>jakarta.el</groupId>
       <artifactId>jakarta.el-api</artifactId>
@@ -42,20 +42,20 @@
       <scope>provided</scope>
     </dependency>
 
-    <!-- JSTL para JSP -->
-    <dependency>
-      <groupId>org.glassfish.web</groupId>
-      <artifactId>jakarta.servlet.jsp.jstl</artifactId>
-      <version>${jakarta.jstl.impl.version}</version>
-    </dependency>
+    <!-- JSTL: la impl va dentro del WAR, la API puede ser provided -->
     <dependency>
       <groupId>jakarta.servlet.jsp.jstl</groupId>
       <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
       <version>${jakarta.jstl.api.version}</version>
       <scope>provided</scope>
     </dependency>
+    <dependency>
+      <groupId>org.glassfish.web</groupId>
+      <artifactId>jakarta.servlet.jsp.jstl</artifactId>
+      <version>${jakarta.jstl.impl.version}</version>
+    </dependency>
 
-    <!-- Utilidades (opcional) -->
+    <!-- Utilidades opcionales -->
     <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
@@ -64,8 +64,8 @@
   </dependencies>
 
   <build>
-    <!-- Tu código Java NO está en src/main/java; lo apuntamos -->
-    <sourceDirectory>${project.basedir}/src.main/java.com</sourceDirectory>
+    <!-- (Opcional) Nombre del WAR y contexto más lindo -->
+    <finalName>tprog-webapp</finalName>
 
     <plugins>
       <plugin>
@@ -76,12 +76,11 @@
         </configuration>
       </plugin>
 
-      <!-- Empaquetado WAR: tomará /webapp como raíz del contenido web -->
       <plugin>
         <artifactId>maven-war-plugin</artifactId>
         <version>3.4.0</version>
         <configuration>
-          <warSourceDirectory>${project.basedir}/webapp</warSourceDirectory>
+          <!-- Usa la ruta estándar src/main/webapp -->
           <failOnMissingWebXml>false</failOnMissingWebXml>
         </configuration>
       </plugin>
