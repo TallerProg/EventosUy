@@ -1,5 +1,5 @@
 
-package src.ServidorCentral.logica;
+package ServidorCentral.logica;
 
 import java.time.LocalDate;
 

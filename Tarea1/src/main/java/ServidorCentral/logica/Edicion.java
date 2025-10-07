@@ -1,4 +1,4 @@
-package src.ServidorCentral.logica;
+package ServidorCentral.logica;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -19,6 +19,7 @@ public class Edicion {
 	private List<Patrocinio> patrocinios;
 	private Evento evento;
 	private EstadoEdicion estado;
+    private String imagenWebPath; 
 
 
 	public Edicion(String nombre, String sigla, LocalDate fInicio, LocalDate fFin,LocalDate fAlta, String ciudad, String pais,
@@ -98,7 +99,13 @@ public class Edicion {
 	public List<Patrocinio> getPatrocinios() {
 		return patrocinios;
 	}
-
+	
+	public String getImagenWebPath() {
+        return imagenWebPath;
+    }
+    public void setImagenWebPath(String imagenWebPath) {
+        this.imagenWebPath = imagenWebPath;
+    }
 	public void addLinkRegistro(Registro reg) {
 		if (reg != null && !this.registros.contains(reg)) {
 			this.registros.add(reg);

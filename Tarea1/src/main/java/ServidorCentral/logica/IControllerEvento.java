@@ -1,4 +1,4 @@
-package src.ServidorCentral.logica;
+package ServidorCentral.logica;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -6,7 +6,7 @@ import java.util.List;
 public interface IControllerEvento {
 
 	public void altaEdicionDeEvento(String nombre, String sigla, String ciudad, String pais, LocalDate fInicio,
-			LocalDate fFin,LocalDate fAlta, Evento evento, Organizador org) throws Exception;
+			LocalDate fFin,LocalDate fAlta, Evento evento, Organizador org,String imagenWebPath) throws Exception;
 
 	public DTEdicion consultaEdicionDeEvento(String nombreEvento, String nombreEdicion);
 
@@ -51,6 +51,7 @@ public interface IControllerEvento {
 	public Evento obtenerEventoPorNombre(String nombreEventoSeleccionado);
 
 	public Organizador obtenerOrganizadorPorNombre(String nombreOrganizadorSeleccionado);
-	
+	public List<String> listarNombresEventos() ;
+
 	public void AceptarRechazarEdicion(String nombreEdicion, boolean aceptar) throws Exception;
 }

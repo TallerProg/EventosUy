@@ -1,4 +1,5 @@
-package src.ServidorCentral.logica;
+//package src.ServidorCentral.logica;
+package ServidorCentral.logica;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -6,25 +7,24 @@ import java.util.List;
 
 public class ControllerEvento implements IControllerEvento {
 
-	public void altaEdicionDeEvento(String nombre, String sigla, String ciudad, String pais, 
-	        LocalDate fInicio, LocalDate fFin, LocalDate fAlta, 
-	        Evento evento, Organizador org) throws Exception {
+	public void altaEdicionDeEvento(String nombre, String sigla, String ciudad, String pais,
+            LocalDate fInicio, LocalDate fFin, LocalDate fAlta,
+            Evento evento, Organizador org,
+            String imagenWebPath) throws Exception {
 
-	    if (fFin.isBefore(fInicio)) {
-	        throw new IllegalArgumentException("La fecha de fin no puede ser anterior a la fecha de inicio");
-	    }
-
-	    if (evento.tieneEdicion(nombre) || evento.tieneEdicion(sigla)) {
-	        throw new IllegalArgumentException("Ya existe una edición con ese nombre o sigla");
-	    }
-
-	    Edicion ed = new Edicion(nombre, sigla, fInicio, fFin, fAlta, ciudad, pais, evento);
-	    ed.getOrganizadores().add(org);
-	    evento.agregarEdicion(ed);
-	    ManejadorEvento manejadorEvento = ManejadorEvento.getInstancia();
-	    manejadorEvento.agregarEdicion(ed);
-	    org.agregarEdicionOrg(ed);
-	}
+		if (fFin.isBefore(fInicio)) throw new IllegalArgumentException("La fecha de fin no puede ser anterior a la fecha de inicio");
+		if (evento.tieneEdicion(nombre) || evento.tieneEdicion(sigla)) throw new IllegalArgumentException("Ya existe una edición con ese nombre o sigla");
+		
+		Edicion ed = new Edicion(nombre, sigla, fInicio, fFin, fAlta, ciudad, pais, evento);
+		ed.setImagenWebPath(imagenWebPath); 
+		
+		ed.getOrganizadores().add(org);
+		evento.agregarEdicion(ed);
+		ManejadorEvento manejadorEvento = ManejadorEvento.getInstancia();
+		manejadorEvento.agregarEdicion(ed);
+		org.agregarEdicionOrg(ed);
+		}
+	
 
 	public void altaTipoRegistro(String nombreTR, String descripcion, Float costo, Integer cupo, Edicion edicion)
 			throws Exception { // VICHAR MATEO
@@ -322,6 +322,15 @@ public class ControllerEvento implements IControllerEvento {
 	        }
 	    }
 	    return res;
+	}
+	public List<String> listarNombresEventos() {
+	    List<String> nombres = new ArrayList<>();
+	    for (Evento e : listarEventos()) {           
+	        if (e != null && e.getNombre() != null) {
+	            nombres.add(e.getNombre());
+	        }
+	    }
+	    return nombres;
 	}
 
 

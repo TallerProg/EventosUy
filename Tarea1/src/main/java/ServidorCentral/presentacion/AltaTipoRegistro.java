@@ -1,10 +1,10 @@
-package src.ServidorCentral.presentacion;
+package ServidorCentral.presentacion;
 
 import javax.swing.*;
 
-import src.ServidorCentral.logica.IControllerEvento;
-import src.ServidorCentral.logica.Evento;
-import src.ServidorCentral.logica.Edicion;
+import ServidorCentral.logica.IControllerEvento;
+import ServidorCentral.logica.Evento;
+import ServidorCentral.logica.Edicion;
 
 import java.awt.GridBagLayout;
 import java.awt.Dimension;

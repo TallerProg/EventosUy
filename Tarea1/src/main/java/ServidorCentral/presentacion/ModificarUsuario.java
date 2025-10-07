@@ -1,6 +1,6 @@
-package src.ServidorCentral.presentacion;
+package ServidorCentral.presentacion;
 
-import src.ServidorCentral.logica.*;
+import ServidorCentral.logica.*;
 import javax.swing.*;
 import java.awt.*;
 import java.time.LocalDate;

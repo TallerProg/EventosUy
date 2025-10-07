@@ -1,4 +1,4 @@
-package src.ServidorCentral.presentacion;
+package ServidorCentral.presentacion;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -10,11 +10,11 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.util.List;
 
-import src.ServidorCentral.logica.Categoria;
-import src.ServidorCentral.logica.DTevento;
-import src.ServidorCentral.logica.Edicion;
-import src.ServidorCentral.logica.Evento;
-import src.ServidorCentral.logica.IControllerEvento;
+import ServidorCentral.logica.Categoria;
+import ServidorCentral.logica.DTevento;
+import ServidorCentral.logica.Edicion;
+import ServidorCentral.logica.Evento;
+import ServidorCentral.logica.IControllerEvento;
 
 public class ConsultaEvento extends JInternalFrame {
 

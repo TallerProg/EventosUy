@@ -15,14 +15,14 @@
   <name>tprog-webapp</name>
 
   <dependencies>
-    <!-- Lógica (tu jar de Tarea1) -->
+    <!-- Lógica de Tarea1 -->
     <dependency>
       <groupId>uy.fing.tprog</groupId>
       <artifactId>servidor-central</artifactId>
-      <version>${project.version}</version>
+      <version>1.0.0</version>
     </dependency>
 
-    <!-- APIs provistas por Tomcat (scope provided) -->
+    <!-- APIs de Jakarta (Tomcat 11) -->
     <dependency>
       <groupId>jakarta.servlet</groupId>
       <artifactId>jakarta.servlet-api</artifactId>
@@ -42,7 +42,7 @@
       <scope>provided</scope>
     </dependency>
 
-    <!-- JSTL: la impl va dentro del WAR, la API puede ser provided -->
+    <!-- JSTL -->
     <dependency>
       <groupId>jakarta.servlet.jsp.jstl</groupId>
       <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
@@ -55,7 +55,6 @@
       <version>${jakarta.jstl.impl.version}</version>
     </dependency>
 
-    <!-- Utilidades opcionales -->
     <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
@@ -64,9 +63,7 @@
   </dependencies>
 
   <build>
-    <!-- (Opcional) Nombre del WAR y contexto más lindo -->
     <finalName>tprog-webapp</finalName>
-
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -75,15 +72,14 @@
           <release>${maven.compiler.source}</release>
         </configuration>
       </plugin>
-
       <plugin>
         <artifactId>maven-war-plugin</artifactId>
         <version>3.4.0</version>
         <configuration>
-          <!-- Usa la ruta estándar src/main/webapp -->
           <failOnMissingWebXml>false</failOnMissingWebXml>
         </configuration>
       </plugin>
     </plugins>
   </build>
 </project>
+

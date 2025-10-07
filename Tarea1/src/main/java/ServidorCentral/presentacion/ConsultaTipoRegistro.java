@@ -1,14 +1,14 @@
-package src.ServidorCentral.presentacion;
+package ServidorCentral.presentacion;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
-import src.ServidorCentral.logica.DTTipoRegistro;
-import src.ServidorCentral.logica.Edicion;
-import src.ServidorCentral.logica.Evento;
-import src.ServidorCentral.logica.TipoRegistro;
-import src.ServidorCentral.logica.IControllerEvento;
+import ServidorCentral.logica.DTTipoRegistro;
+import ServidorCentral.logica.Edicion;
+import ServidorCentral.logica.Evento;
+import ServidorCentral.logica.TipoRegistro;
+import ServidorCentral.logica.IControllerEvento;
 
 public class ConsultaTipoRegistro extends JInternalFrame {
 	private JTextField textField_nombre;

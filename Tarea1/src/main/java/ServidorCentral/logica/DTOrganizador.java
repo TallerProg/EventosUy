@@ -1,4 +1,4 @@
-package src.ServidorCentral.logica;
+package ServidorCentral.logica;
 
 public class DTOrganizador {
 	private String nickname;

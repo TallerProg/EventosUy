@@ -1,4 +1,4 @@
-package src.ServidorCentral.presentacion;
+package ServidorCentral.presentacion;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -7,7 +7,7 @@ import java.awt.Insets;
 
 import javax.swing.*;
 
-import src.ServidorCentral.logica.IControllerInstitucion;
+import ServidorCentral.logica.IControllerInstitucion;
 
 public class AltaInstitucion extends JInternalFrame {
 

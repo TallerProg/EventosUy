@@ -1,9 +1,9 @@
-package src.ServidorCentral.presentacion;
+package ServidorCentral.presentacion;
 
 import javax.swing.*;
 import java.awt.*;
 
-import src.ServidorCentral.logica.*;
+import ServidorCentral.logica.*;
 
 public class ConsultaEdicionEvento extends JInternalFrame {
 

@@ -1,4 +1,4 @@
-package src.ServidorCentral.presentacion;
+package ServidorCentral.presentacion;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,10 +11,10 @@ import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
-import src.ServidorCentral.logica.Edicion;
-import src.ServidorCentral.logica.EstadoEdicion;
-import src.ServidorCentral.logica.Evento;
-import src.ServidorCentral.logica.IControllerEvento;
+import ServidorCentral.logica.Edicion;
+import ServidorCentral.logica.EstadoEdicion;
+import ServidorCentral.logica.Evento;
+import ServidorCentral.logica.IControllerEvento;
 
 public class AceptarRechazarEdicion extends JInternalFrame {
 

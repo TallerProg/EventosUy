@@ -1,9 +1,9 @@
-package src.ServidorCentral.presentacion;
+package ServidorCentral.presentacion;
 
-import src.ServidorCentral.excepciones.UsuarioRepetidoException;
-import src.ServidorCentral.logica.IControllerUsuario;
-import src.ServidorCentral.logica.Institucion;
-import src.ServidorCentral.logica.IControllerInstitucion;
+import ServidorCentral.excepciones.UsuarioRepetidoException;
+import ServidorCentral.logica.IControllerUsuario;
+import ServidorCentral.logica.Institucion;
+import ServidorCentral.logica.IControllerInstitucion;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;

@@ -1,5 +1,4 @@
-package src.ServidorCentral.excepciones;
-
+package ServidorCentral.excepciones;
 @SuppressWarnings("serial")
 
 public class UsuarioNoExisteException extends Exception {

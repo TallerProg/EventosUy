@@ -1,7 +1,7 @@
-package src.ServidorCentral.presentacion;
+package ServidorCentral.presentacion;
 
-import src.ServidorCentral.logica.IControllerEvento;
-import src.ServidorCentral.logica.Categoria;
+import ServidorCentral.logica.IControllerEvento;
+import ServidorCentral.logica.Categoria;
 
 import javax.swing.*;
 import java.awt.*;

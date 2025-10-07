@@ -1,11 +1,12 @@
-package src.ServidorCentral.presentacion;
+package ServidorCentral.presentacion;
 
-import src.ServidorCentral.logica.*;
+import ServidorCentral.logica.*;
 import javax.swing.*;
 import javax.swing.text.MaskFormatter;
 import java.awt.*;
 import java.text.ParseException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class AltaEdicionEvento extends JInternalFrame {
@@ -176,7 +177,8 @@ public class AltaEdicionEvento extends JInternalFrame {
         getContentPane().add(lblFechaFin, gbc_lblFechaFin);
         row++;
 
-        txtFechaAlta = crearCampoFecha(LocalDate.now().format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        txtFechaAlta = crearCampoFecha("##/##/####");
+        txtFechaAlta.setText(LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
         GridBagConstraints gbc_txtFechaAlta = new GridBagConstraints();
         gbc_txtFechaAlta.insets = new Insets(5,5,5,5);
         gbc_txtFechaAlta.fill = GridBagConstraints.HORIZONTAL;
@@ -212,21 +214,24 @@ public class AltaEdicionEvento extends JInternalFrame {
         cargarOrganizadores();
 
         btnCancelar.addActionListener(e -> {
-			txtNombre.setText("");
-			txtSigla.setText("");
-			txtCiudad.setText("");
-			txtPais.setText("");
-			txtFechaIni.setText("");
-			txtFechaFin.setText("");
-			txtFechaAlta.setText("");
-			comboEvento.setSelectedIndex(0);
-			comboOrganizador.setSelectedIndex(0);
-			dispose();
+            txtNombre.setText("");
+            txtSigla.setText("");
+            txtCiudad.setText("");
+            txtPais.setText("");
+            txtFechaIni.setText("");
+            txtFechaFin.setText("");
+            txtFechaAlta.setText("");
+            if (comboEvento.getItemCount() > 0) comboEvento.setSelectedIndex(0);
+            if (comboOrganizador.getItemCount() > 0) comboOrganizador.setSelectedIndex(0);
+            dispose();
         });
 
         btnAceptar.addActionListener(e -> {
             try {
                 if (!validarNombre()) return;
+
+                // <<< faltaba definir nombre >>>
+                String nombre = txtNombre.getText().trim();
 
                 String sigla = txtSigla.getText().trim();
                 String ciudad = txtCiudad.getText().trim();
@@ -248,18 +253,16 @@ public class AltaEdicionEvento extends JInternalFrame {
                 LocalDate fFin = parseFecha(txtFechaFin.getText());
                 LocalDate fAlta = parseFecha(txtFechaAlta.getText());
 
+                // Si no manejás imagen aún, mandamos null
+                String imagenWebPath = null;
+
+                // <<< usar org en vez de 'organizador' y pasar imagenWebPath >>>
                 controller.altaEdicionDeEvento(
-                        txtNombre.getText().trim(),
-                        sigla,
-                        ciudad,
-                        pais,
-                        fIni,
-                        fFin,
-                        fAlta,
-                        evento,
-                        org
+                        nombre, sigla, ciudad, pais,
+                        fIni, fFin, fAlta,
+                        evento, org, imagenWebPath
                 );
-                
+
                 txtNombre.setText("");
                 txtSigla.setText("");
                 txtCiudad.setText("");
@@ -267,8 +270,8 @@ public class AltaEdicionEvento extends JInternalFrame {
                 txtFechaIni.setText("");
                 txtFechaFin.setText("");
                 txtFechaAlta.setText("");
-                comboEvento.setSelectedIndex(0);
-                comboOrganizador.setSelectedIndex(0);
+                if (comboEvento.getItemCount() > 0) comboEvento.setSelectedIndex(0);
+                if (comboOrganizador.getItemCount() > 0) comboOrganizador.setSelectedIndex(0);
 
                 JOptionPane.showMessageDialog(this, "Edición creada con éxito");
                 dispose();
@@ -342,6 +345,3 @@ public class AltaEdicionEvento extends JInternalFrame {
 
     private static final long serialVersionUID = 1L;
 }
-
-
-
