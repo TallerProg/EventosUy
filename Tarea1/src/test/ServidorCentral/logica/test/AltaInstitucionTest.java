@@ -1,11 +1,11 @@
-package test.ServidorCentral.logica.test;
+package ServidorCentral.logica.test;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
-import src.ServidorCentral.logica.*;
+import ServidorCentral.logica.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
