@@ -9,25 +9,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Alta de Edición de Evento</title>
 
-  <!-- Bootstrap / Icons (CDN de respaldo) -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
-  <!-- Vendors locales -->
   <link href="<%=ctx%>/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
   <link href="<%=ctx%>/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
 
-  <!-- Tu CSS -->
   <link href="<%=ctx%>/media/css/main.css" rel="stylesheet">
 
-  <!-- Favicons -->
   <link href="<%=ctx%>/media/img/logoeuy.png" rel="icon">
   <link href="<%=ctx%>/media/img/logoeuy.png" rel="apple-touch-icon">
 </head>
 
 <body class="index-page">
 
-  <!-- ===== Header ORIGINAL (rutas corregidas) ===== -->
   <header id="header" class="header d-flex align-items-center fixed-top">
     <div class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
       <nav id="navmenu" class="navmenu">
@@ -59,7 +54,6 @@
     </div>
   </header>
 
-  <!-- ===== Cuerpo “lindo” tal cual lo querías ===== -->
   <main class="main mt-5 pt-5">
     <section class="container">
       <div class="mb-4 text-center">
@@ -67,7 +61,6 @@
         <p class="text-muted mb-0">Completá los datos para asociar una nueva edición a un evento.</p>
       </div>
 
-      <!-- Alertas inline -->
       <%
         Object okMsg  = request.getAttribute("msgOk");
         Object errMsg = request.getAttribute("msgError");
@@ -183,7 +176,6 @@
     </section>
   </main>
 
-  <!-- ===== Footer ORIGINAL (rutas corregidas) ===== -->
   <hr class="mt-5 mb-4" style="border: 0; height: 3px; background: #bbb; border-radius: 2px;">
   <footer id="footer" class="footer position-relative light-background">
     <div class="container mt-4">
@@ -222,7 +214,6 @@
     </div>
   </footer>
 
-  <!-- JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="<%=ctx%>/vendor/swiper/swiper-bundle.min.js"></script>
   <script src="<%=ctx%>/vendor/glightbox/js/glightbox.min.js"></script>

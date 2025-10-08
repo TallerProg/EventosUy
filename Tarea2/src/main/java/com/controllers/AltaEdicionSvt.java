@@ -35,7 +35,6 @@ public class AltaEdicionSvt extends HttpServlet {
       Factory fabrica = Factory.getInstance();
       IControllerEvento ctrl = fabrica.getIControllerEvento();
 
-      // Si tenés listarNombresEventos() úsalo; si no, arma los nombres desde listarEventos()
       List<String> eventos = ctrl.listarNombresEventos();
       req.setAttribute("LISTA_EVENTOS", eventos.toArray(new String[0]));
     } catch (Exception e) {
@@ -61,7 +60,6 @@ public class AltaEdicionSvt extends HttpServlet {
     String sFin         = req.getParameter("fechaFin");
     String sAlta        = req.getParameter("fechaAlta");
 
-    // Devolvemos lo ingresado para re-render si hay error
     req.setAttribute("form_evento", nombreEvento);
     req.setAttribute("form_nombre", nombre);
     req.setAttribute("form_sigla", sigla);
@@ -71,7 +69,6 @@ public class AltaEdicionSvt extends HttpServlet {
     req.setAttribute("form_fechaFin", sFin);
     req.setAttribute("form_fechaAlta", sAlta);
 
-    // Cargar lista de eventos siempre (para el combo tras forward)
     try {
       Factory fabrica = Factory.getInstance();
       IControllerEvento ctrl = fabrica.getIControllerEvento();
@@ -82,7 +79,6 @@ public class AltaEdicionSvt extends HttpServlet {
       req.setAttribute("LISTA_EVENTOS", new String[0]);
     }
 
-    // Validaciones básicas
     if (isBlank(nombreEvento) || isBlank(nombre) || isBlank(sigla) || isBlank(ciudad)
         || isBlank(pais) || isBlank(sIni) || isBlank(sFin) || isBlank(sAlta)) {
       req.setAttribute("msgError", "Todos los campos son obligatorios (salvo la imagen).");
@@ -92,7 +88,6 @@ public class AltaEdicionSvt extends HttpServlet {
 
     LocalDate fIni, fFin, fAlta;
     try {
-      // Asume formato ISO (yyyy-MM-dd) del input date HTML
       fIni  = LocalDate.parse(sIni);
       fFin  = LocalDate.parse(sFin);
       fAlta = LocalDate.parse(sAlta);
@@ -108,7 +103,6 @@ public class AltaEdicionSvt extends HttpServlet {
       return;
     }
 
-    // Subida de imagen (opcional)
     String imagenWebPath = null;
     Part imagenPart = req.getPart("imagen");
     if (imagenPart != null && imagenPart.getSize() > 0) {
@@ -130,8 +124,7 @@ public class AltaEdicionSvt extends HttpServlet {
       Factory fabrica = Factory.getInstance();
       IControllerEvento ctrl = fabrica.getIControllerEvento();
 
-      // Buscar entidades
-      Evento evento = ctrl.obtenerEventoPorNombre(nombreEvento); // o ctrl.getEvento(nombreEvento);
+      Evento evento = ctrl.obtenerEventoPorNombre(nombreEvento); 
       if (evento == null) {
         throw new IllegalArgumentException("El evento seleccionado no existe.");
       }
@@ -141,7 +134,6 @@ public class AltaEdicionSvt extends HttpServlet {
         throw new IllegalStateException("No hay organizador en sesión.");
       }
 
-      // ¡Ojo! ahora el método requiere imagenWebPath como último parámetro
       ctrl.altaEdicionDeEvento(
           nombre, sigla, ciudad, pais,
           fIni, fFin, fAlta,
