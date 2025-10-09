@@ -83,25 +83,17 @@
           <form action="<%= ctx %>/organizador/ediciones/alta"
                 method="post" enctype="multipart/form-data" class="row g-3">
 
-            <!-- Evento -->
-            <div class="col-md-6">
-              <label for="evento" class="form-label">Evento <span class="text-danger">*</span></label>
-              <select id="evento" name="evento" class="form-select" required>
-                <option value="">-- Seleccione un evento --</option>
-                <%
-                  Object evosObj = request.getAttribute("LISTA_EVENTOS");
-                  if (evosObj instanceof String[]) {
-                    String sel = (String) request.getAttribute("form_evento");
-                    for (String ev : (String[]) evosObj) {
-                      boolean selected = sel != null && sel.equals(ev);
-                %>
-                      <option value="<%=ev%>" <%= selected ? "selected" : "" %>><%=ev%></option>
-                <%
-                    }
-                  }
-                %>
-              </select>
-            </div>
+            <!-- Evento (fijo, sin combo) -->
+			<div class="col-md-6">
+			  <label class="form-label">Evento <span class="text-danger">*</span></label>
+			  <input type="text"
+			         class="form-control"
+			         value="<%= (request.getAttribute("form_evento")!=null? request.getAttribute("form_evento") : "") %>"
+			         readonly>
+			  <input type="hidden" name="evento"
+			         value="<%= (request.getAttribute("form_evento")!=null? request.getAttribute("form_evento") : "") %>">
+			</div>
+
 
             <!-- Nombre -->
             <div class="col-md-6">

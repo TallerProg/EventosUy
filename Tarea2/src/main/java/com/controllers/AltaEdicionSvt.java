@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
-import java.util.List;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -31,17 +30,16 @@ public class AltaEdicionSvt extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
-    try {
-      Factory fabrica = Factory.getInstance();
-      IControllerEvento ctrl = fabrica.getIControllerEvento();
 
-      List<String> eventos = ctrl.listarNombresEventos();
-      req.setAttribute("LISTA_EVENTOS", eventos.toArray(new String[0]));
-    } catch (Exception e) {
-      req.setAttribute("msgError", "No se pudo cargar la lista de eventos: " + e.getMessage());
-      req.setAttribute("LISTA_EVENTOS", new String[0]);
+    String nombreEvento = req.getParameter("evento"); 
+
+    if (isBlank(nombreEvento)) {
+      req.setAttribute("msgError", "Falta el parámetro 'evento'. Volvé a la página del evento y elegí 'Dar de alta edición'.");
+      req.getRequestDispatcher("/WEB-INF/views/AltaEdicion.jsp").forward(req, resp);
+      return;
     }
 
+    req.setAttribute("form_evento", nombreEvento);
     req.getRequestDispatcher("/WEB-INF/views/AltaEdicion.jsp").forward(req, resp);
   }
 
@@ -68,16 +66,6 @@ public class AltaEdicionSvt extends HttpServlet {
     req.setAttribute("form_fechaIni", sIni);
     req.setAttribute("form_fechaFin", sFin);
     req.setAttribute("form_fechaAlta", sAlta);
-
-    try {
-      Factory fabrica = Factory.getInstance();
-      IControllerEvento ctrl = fabrica.getIControllerEvento();
-      List<String> eventos = ctrl.listarNombresEventos();
-      req.setAttribute("LISTA_EVENTOS", eventos.toArray(new String[0]));
-    } catch (Exception e) {
-      req.setAttribute("msgError", "No se pudo cargar la lista de eventos: " + e.getMessage());
-      req.setAttribute("LISTA_EVENTOS", new String[0]);
-    }
 
     if (isBlank(nombreEvento) || isBlank(nombre) || isBlank(sigla) || isBlank(ciudad)
         || isBlank(pais) || isBlank(sIni) || isBlank(sFin) || isBlank(sAlta)) {
@@ -121,12 +109,11 @@ public class AltaEdicionSvt extends HttpServlet {
     }
 
     try {
-      Factory fabrica = Factory.getInstance();
-      IControllerEvento ctrl = fabrica.getIControllerEvento();
+      IControllerEvento ctrl = Factory.getInstance().getIControllerEvento();
 
-      Evento evento = ctrl.obtenerEventoPorNombre(nombreEvento); 
+      Evento evento = ctrl.obtenerEventoPorNombre(nombreEvento);
       if (evento == null) {
-        throw new IllegalArgumentException("El evento seleccionado no existe.");
+        throw new IllegalArgumentException("El evento '" + nombreEvento + "' no existe.");
       }
 
       Organizador org = (Organizador) req.getSession().getAttribute("usuarioOrganizador");
@@ -153,7 +140,6 @@ public class AltaEdicionSvt extends HttpServlet {
   private static boolean isBlank(String s) {
     return s == null || s.trim().isEmpty();
   }
-
   private static String getFileName(Part part) {
     String cd = part.getHeader("content-disposition");
     if (cd == null) return null;
@@ -165,16 +151,13 @@ public class AltaEdicionSvt extends HttpServlet {
     }
     return null;
   }
-
   private static String sanitizeFileName(String fileName) {
     if (fileName == null) return null;
     fileName = fileName.replace("\\", "/");
     fileName = fileName.substring(fileName.lastIndexOf('/') + 1);
     return fileName.replaceAll("[^a-zA-Z0-9._-]", "_");
   }
-
   private static void clearForm(HttpServletRequest req) {
-    req.setAttribute("form_evento", null);
     req.setAttribute("form_nombre", null);
     req.setAttribute("form_sigla", null);
     req.setAttribute("form_ciudad", null);
