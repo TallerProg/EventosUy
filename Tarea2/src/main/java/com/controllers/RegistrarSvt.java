@@ -31,7 +31,6 @@ public class RegistrarSvt extends HttpServlet {
 	@Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        // Muestra el formulario
         req.getRequestDispatcher("/WEB-INF/views/Registrarse.jsp").forward(req, resp);
     }
 
@@ -165,7 +164,7 @@ public class RegistrarSvt extends HttpServlet {
     private static LocalDate parseFecha(String iso) {
         if (isBlank(iso)) return null;
         try {
-            return LocalDate.parse(iso); // espera "yyyy-MM-dd"
+            return LocalDate.parse(iso);
         } catch (DateTimeParseException e) {
             return null;
         }
