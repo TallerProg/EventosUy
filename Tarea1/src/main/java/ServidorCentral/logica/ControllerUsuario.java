@@ -32,11 +32,9 @@ public class ControllerUsuario implements IControllerUsuario {
         public RolUsuario getRol() { return rol; }
         public LocalDateTime getFechaHoraInicio() { return fechaHoraInicio; }
     }
-    // ==================================================
 
     public ControllerUsuario() {}
 
-    // ================== NUEVO: INICIAR / CERRAR SESIÓN ==================
 
     /**
      * Inicia sesión con nickname o correo + contraseña.
