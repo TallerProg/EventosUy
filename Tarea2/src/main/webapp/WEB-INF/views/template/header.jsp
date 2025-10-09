@@ -6,7 +6,7 @@
 <div class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
   <nav id="navmenu" class="navmenu">
     <ul>
-      <a href="" class="logo d-flex align-items-center">
+      <a href="/tprog-webapp/home" class="logo d-flex align-items-center">
         <img src="media/img/logoeuy.png" alt="">
       </a>
       <li><a href="/tprog-webapp/Usuarios">Usuarios</a></li>
