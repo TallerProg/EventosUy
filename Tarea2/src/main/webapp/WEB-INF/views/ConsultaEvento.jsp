@@ -2,11 +2,15 @@
 <%@ page import="ServidorCentral.logica.Evento" %>
 <%@ page import="ServidorCentral.logica.Categoria" %>
 <%@ page import="ServidorCentral.logica.DTEdicion" %>
+<%@ page import="ServidorCentral.logica.Organizador" %>
 <%@ page import="java.util.List" %>
 
 <%
   String ctx = request.getContextPath();
+  Organizador org = (Organizador) session.getAttribute("usuarioOrganizador");
+
 %>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -67,6 +71,7 @@
 		    Evento evento = (Evento) request.getAttribute("EVENTO");
 
 			%>
+
     <section id="evento-detalles" class="section">
       <div class="container section-title text-center">
         <h2 id="eventTitle"><%= evento.getNombre() %></h2>
@@ -126,10 +131,12 @@
         </section>
       </div>
     </section>
+    <% if (org != null) { %>
     <div class="text-center mt-4">
-      <a href="altaEdicionDeEvento.html" class="btn btn-primary ">
+      <a href="altaEdicionDeEvento.html?evento=<%= evento.getNombre() %>" class="btn btn-primary ">
          <i class="bi bi-plus-circle me-1"></i> Nueva Edicion
       </a>
+       <% } %>
     </div>
 
   </main>
