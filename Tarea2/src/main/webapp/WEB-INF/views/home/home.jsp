@@ -2,13 +2,13 @@
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <jsp:include page="/WEB-INF/template/head.jsp" />
+<head>	
+<jsp:include page="../template/head.jsp" /> 
 </head>
 <body class="index-page">
 	<!-- Header -->
 	<header id="header" class="header d-flex align-items-center fixed-top">
-		<jsp:include page="/WEB-INF/template/header.jsp" />
+		<jsp:include page="../template/header.jsp" />
 		
 	</header>
 	<main class="main">
@@ -144,14 +144,14 @@
 							</div>
 						</a>
 					</div>
-				</div>
+				</div>	
 			</div>
 	</main>
 	<!-- Footer -->
 	<hr class="mt-5 mb-4"
 		style="border: 0; height: 3px; background: #bbb; border-radius: 2px;">
 	<footer id="footer" class="footer position-relative light-background">
-	<jsp:include page="/WEB-INF/template/footer.jsp" />
+	<jsp:include page="../template/footer.jsp" />
 	</footer>
 	<!-- Scroll Top -->
 	<a href="#" id="scroll-top"

@@ -7,13 +7,14 @@
 <!doctype html>
 <html lang="es">
 <head>
-  <jsp:include page="/WEB-INF/views/common/head.jsp" />
+  <jsp:include page="template/head.jsp" />
   <title>Registro - EventUY</title>
 
 </head>
 <body class="bg-light">
-  <jsp:include page="/WEB-INF/views/common/header.jsp" />
-
+	<header id="header" class="header d-flex align-items-center fixed-top">
+		 <jsp:include page="template/header.jsp" />
+	</header>
   <main class="container py-5">
     <!-- Mensajes del servidor -->
     <c:if test="${not empty error}">
@@ -141,7 +142,7 @@
     </div>
   </main>
 
-  <jsp:include page="/WEB-INF/views/common/footer.jsp" />
+  <jsp:include page="template/footer.jsp" />
 
 
 
