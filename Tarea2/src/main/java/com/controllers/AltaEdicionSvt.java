@@ -31,7 +31,7 @@ public class AltaEdicionSvt extends HttpServlet {
   protected void doGet(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
 
-    String nombreEvento = req.getParameter("evento"); // viene de la página anterior
+    String nombreEvento = req.getParameter("evento"); 
 
     if (isBlank(nombreEvento)) {
       req.setAttribute("msgError", "Falta el parámetro 'evento'. Volvé a la página del evento y elegí 'Dar de alta edición'.");
@@ -39,7 +39,6 @@ public class AltaEdicionSvt extends HttpServlet {
       return;
     }
 
-    // Guardamos para mostrar en el JSP
     req.setAttribute("form_evento", nombreEvento);
     req.getRequestDispatcher("/WEB-INF/views/AltaEdicion.jsp").forward(req, resp);
   }
@@ -50,7 +49,6 @@ public class AltaEdicionSvt extends HttpServlet {
 
     req.setCharacterEncoding("UTF-8");
 
-    // El evento llega por hidden (NO combo)
     String nombreEvento = req.getParameter("evento");
     String nombre       = req.getParameter("nombre");
     String sigla        = req.getParameter("sigla");
@@ -60,7 +58,6 @@ public class AltaEdicionSvt extends HttpServlet {
     String sFin         = req.getParameter("fechaFin");
     String sAlta        = req.getParameter("fechaAlta");
 
-    // Devolvemos lo ingresado para re-render si hay error
     req.setAttribute("form_evento", nombreEvento);
     req.setAttribute("form_nombre", nombre);
     req.setAttribute("form_sigla", sigla);
@@ -94,7 +91,6 @@ public class AltaEdicionSvt extends HttpServlet {
       return;
     }
 
-    // Subida de imagen (opcional)
     String imagenWebPath = null;
     Part imagenPart = req.getPart("imagen");
     if (imagenPart != null && imagenPart.getSize() > 0) {
@@ -162,7 +158,6 @@ public class AltaEdicionSvt extends HttpServlet {
     return fileName.replaceAll("[^a-zA-Z0-9._-]", "_");
   }
   private static void clearForm(HttpServletRequest req) {
-    // Mantenemos el evento (no lo limpiamos) para que siga visible al volver
     req.setAttribute("form_nombre", null);
     req.setAttribute("form_sigla", null);
     req.setAttribute("form_ciudad", null);
