@@ -1,9 +1,9 @@
-package test.ServidorCentral.logica.test;
+package ServidorCentral.logica.test;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import src.ServidorCentral.logica.*;
+import ServidorCentral.logica.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -46,7 +46,8 @@ class AltaEdicionEventoTest {
                 LocalDate.of(2025, 5, 10),  
                 LocalDate.of(2025, 4, 20),  
                 eventoBase,
-                organizador
+                organizador,
+                "Ruta 1"
             );
         });
     }
@@ -59,7 +60,7 @@ class AltaEdicionEventoTest {
             LocalDate.of(2025, 5, 1),
             LocalDate.of(2025, 5, 10),
             LocalDate.of(2025, 4, 20), 
-            eventoBase, organizador
+            eventoBase, organizador, "Ruta 1"
         );
 
         Exception ex = assertThrows(IllegalArgumentException.class, () -> {
@@ -69,7 +70,7 @@ class AltaEdicionEventoTest {
                 LocalDate.of(2025, 5, 1),
                 LocalDate.of(2025, 5, 10),
                 LocalDate.of(2025, 4, 20), 
-                eventoBase, organizador
+                eventoBase, organizador, "Ruta 1"
             );
         });
 
@@ -86,7 +87,7 @@ class AltaEdicionEventoTest {
                 LocalDate.of(2025, 5, 1),   
                 LocalDate.of(2025, 4, 20),  
                 eventoBase,
-                organizador
+                organizador, "Ruta 1"
             );
         });
 

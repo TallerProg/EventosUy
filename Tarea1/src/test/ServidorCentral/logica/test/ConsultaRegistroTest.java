@@ -1,4 +1,4 @@
-package test.ServidorCentral.logica.test;
+package ServidorCentral.logica.test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -7,9 +7,9 @@ import org.junit.jupiter.api.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-import src.ServidorCentral.excepciones.*;
+import ServidorCentral.excepciones.*;
 
-import src.ServidorCentral.logica.*;
+import ServidorCentral.logica.*;
 
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -77,7 +77,7 @@ public class ConsultaRegistroTest {
 		String ciudad = "Ciudad Test";
 		try {
 			iCE.altaEdicionDeEvento(nombreEd, siglaE, ciudad, lugarEd, fechaInicioEd,
-			fechaFinEd,fechaAlta, EVE01, ORG01);
+			fechaFinEd,fechaAlta, EVE01, ORG01,"imagen");
 		} catch (Exception e) { 
 			e.printStackTrace();
 		}
@@ -172,7 +172,7 @@ public class ConsultaRegistroTest {
 	    String ciudadEdicion = "Montevideo";
 	    try {
 	        iCE.altaEdicionDeEvento(nombreEdicion, siglaEvento, ciudadEdicion, lugarEdicion, fechaInicioEd,
-	                fechaFinEd,fechaAlta, evento02, organizador02);
+	                fechaFinEd,fechaAlta, evento02, organizador02,"imagen");
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	    }
@@ -263,7 +263,7 @@ public class ConsultaRegistroTest {
 	    String ciudadEdicion = "Montevideo";
 	    try {
 	        iCE.altaEdicionDeEvento(nombreEdicion, siglaEvento, ciudadEdicion, lugarEdicion, fechaInicioEd,
-	                fechaFinEd, fechaAlta, evento02, organizador02);
+	                fechaFinEd, fechaAlta, evento02, organizador02, "imagen");
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	    }

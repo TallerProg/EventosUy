@@ -1,8 +1,8 @@
-package test.ServidorCentral.logica.test;
+package ServidorCentral.logica.test;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import src.ServidorCentral.logica.*;
+import ServidorCentral.logica.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -34,7 +34,8 @@ class ConsultaEdicionEventoTest {
             LocalDate.of(2025, 5, 10),
             LocalDate.of(2024, 10, 01),
             eventoBase,
-            organizador
+            organizador,
+            "LugarX"
         );
     }
 

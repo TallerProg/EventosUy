@@ -1,4 +1,4 @@
-package test.ServidorCentral.logica.test;
+package ServidorCentral.logica.test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -7,9 +7,9 @@ import org.junit.jupiter.api.*;
 import java.time.LocalDate;
 import java.util.List;
 
-import src.ServidorCentral.excepciones.*;
+import ServidorCentral.excepciones.*;
 
-import src.ServidorCentral.logica.*;
+import ServidorCentral.logica.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class ConsultaTipoRegistroTest {
@@ -59,7 +59,7 @@ public class ConsultaTipoRegistroTest {
 	    String ciudadEdicion = "test";
 	    try {
 	    	controllerE.altaEdicionDeEvento(nombreEdicion, siglaEvento, ciudadEdicion, lugarEdicion, fechaInicioEd,
-	                fechaFinEd,fechaAlta, evento, org);
+	                fechaFinEd,fechaAlta, evento, org, "imagenTest");
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	    }
@@ -115,7 +115,7 @@ public class ConsultaTipoRegistroTest {
 	        String ciudadEdicion = "Montevideo";
 
 	        controllerE.altaEdicionDeEvento(nombreEdicion, siglaEvento, ciudadEdicion, lugarEdicion,
-	                fechaInicioEd, fechaFinEd,fechaAlta, evento, org);
+	                fechaInicioEd, fechaFinEd,fechaAlta, evento, org, "imagenEdicion");
 	        Edicion edicion = controllerE.findEdicion(nombreEdicion);
 
 	        String nombreTipoReg = "Inscripción General 42K";

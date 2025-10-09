@@ -1,4 +1,4 @@
-package test.ServidorCentral.logica.test;
+package ServidorCentral.logica.test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -9,16 +9,16 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 
-import src.ServidorCentral.excepciones.UsuarioRepetidoException;
-import src.ServidorCentral.logica.Asistente;
-import src.ServidorCentral.logica.DTUsuarioLista;
-import src.ServidorCentral.logica.Factory;
-import src.ServidorCentral.logica.IControllerUsuario;
-import src.ServidorCentral.logica.Institucion;
-import src.ServidorCentral.logica.Organizador;
-import src.ServidorCentral.logica.Registro;
-import src.ServidorCentral.logica.TipoRegistro;
-import src.ServidorCentral.logica.ManejadorUsuario;
+import ServidorCentral.excepciones.UsuarioRepetidoException;
+import ServidorCentral.logica.Asistente;
+import ServidorCentral.logica.DTUsuarioLista;
+import ServidorCentral.logica.Factory;
+import ServidorCentral.logica.IControllerUsuario;
+import ServidorCentral.logica.Institucion;
+import ServidorCentral.logica.Organizador;
+import ServidorCentral.logica.Registro;
+import ServidorCentral.logica.TipoRegistro;
+import ServidorCentral.logica.ManejadorUsuario;
 
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)

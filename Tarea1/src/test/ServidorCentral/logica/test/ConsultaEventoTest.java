@@ -1,5 +1,5 @@
 
-package test.ServidorCentral.logica.test;
+package ServidorCentral.logica.test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -8,7 +8,7 @@ import org.junit.jupiter.api.*;
 import java.time.LocalDate;
 import java.util.List;
 
-import src.ServidorCentral.logica.*;
+import ServidorCentral.logica.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class ConsultaEventoTest {
@@ -94,7 +94,7 @@ public class ConsultaEventoTest {
 	        String lugarEdicion = "Rambla de Montevideo";
 	        String ciudadEdicion = "Montevideo";
 
-	        controllerE.altaEdicionDeEvento(nombreEdicion, siglaEvento, ciudadEdicion, lugarEdicion,fechaInicioEd, fechaFinEd,fechaAlta, evento, org);
+	        controllerE.altaEdicionDeEvento(nombreEdicion, siglaEvento, ciudadEdicion, lugarEdicion,fechaInicioEd, fechaFinEd,fechaAlta, evento, org, "imagen.jpg");
 	        
 	        List<Categoria> categoriasEvento =evento.getCategoria();
 	        for (String nombreCat : nombresCategorias) {

@@ -1,5 +1,5 @@
-package test.recursos.cargardatospk;
-import src.ServidorCentral.logica.*;
+package recursos.cargardatospk;
+import ServidorCentral.logica.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -170,53 +170,53 @@ public class CargarDatos {
 			// EDEV01
 			ICE.altaEdicionDeEvento("Montevideo Rock 2025", "MONROCK25", "Montevideo", "Uruguay",
 					LocalDate.parse("20/11/2025", formatter), LocalDate.parse("22/11/2025", formatter),LocalDate.parse("12/03/2025",formatter),
-					ICE.getEvento("Montevideo Rock"), ICU.getOrganizador("imm"));
+					ICE.getEvento("Montevideo Rock"), ICU.getOrganizador("imm"), "Rambla de Montevideo");
 
 			// EDEV02 
 			ICE.altaEdicionDeEvento("Maratón de Montevideo 2025", "MARATON25", "Montevideo", "Uruguay",
 					LocalDate.parse("14/09/2025", formatter), LocalDate.parse("14/09/2025", formatter),LocalDate.parse("05/02/2025", formatter),
-					ICE.getEvento("Maratón de Montevideo"), ICU.getOrganizador("imm"));
+					ICE.getEvento("Maratón de Montevideo"), ICU.getOrganizador("imm"), "Rambla de Montevideo");
 
 			// EDEV03 
 			ICE.altaEdicionDeEvento("Maratón de Montevideo 2024", "MARATON24", "Montevideo", "Uruguay",
 					LocalDate.parse("14/09/2024", formatter), LocalDate.parse("14/09/2024", formatter),LocalDate.parse("21/04/2024", formatter),
-					ICE.getEvento("Maratón de Montevideo"), ICU.getOrganizador("imm"));
+					ICE.getEvento("Maratón de Montevideo"), ICU.getOrganizador("imm"), "Rambla de Montevideo");
 
 			// EDEV04 
 
 			ICE.altaEdicionDeEvento("Maratón de Montevideo 2022", "MARATON22", "Montevideo", "Uruguay",
 					LocalDate.parse("14/09/2022", formatter), LocalDate.parse("14/09/2022", formatter),LocalDate.parse("21/05/2022", formatter),
-					ICE.getEvento("Maratón de Montevideo"), ICU.getOrganizador("imm"));
+					ICE.getEvento("Maratón de Montevideo"), ICU.getOrganizador("imm"), "Rambla de Montevideo");
 
 			// EDEV05 
 			ICE.altaEdicionDeEvento("Montevideo Comics 2024", "COMICS24", "Montevideo", "Uruguay",
 					LocalDate.parse("18/07/2024", formatter), LocalDate.parse("21/07/2024", formatter),LocalDate.parse("20/06/2024", formatter),
-					ICE.getEvento("Montevideo Comics"), ICU.getOrganizador("miseventos"));
+					ICE.getEvento("Montevideo Comics"), ICU.getOrganizador("miseventos"), "Centro de Convenciones");
 
 			// EDEV06 
 			ICE.altaEdicionDeEvento("Montevideo Comics 2025", "COMICS25", "Montevideo", "Uruguay",
 					LocalDate.parse("04/08/2025", formatter), LocalDate.parse("06/08/2025", formatter),LocalDate.parse("04/07/2025", formatter),
-					ICE.getEvento("Montevideo Comics"), ICU.getOrganizador("miseventos"));
+					ICE.getEvento("Montevideo Comics"), ICU.getOrganizador("miseventos"), "Centro de Convenciones");
 
 			// EDEV07 
 			ICE.altaEdicionDeEvento("Expointer Uruguay 2025", "EXPOAGRO25", "Durazno", "Uruguay",
 					LocalDate.parse("11/09/2025", formatter), LocalDate.parse("17/09/2025", formatter),LocalDate.parse("01/02/2025", formatter),
-					ICE.getEvento("Expointer Uruguay"), ICU.getOrganizador("miseventos"));
+					ICE.getEvento("Expointer Uruguay"), ICU.getOrganizador("miseventos"), "Predio Ferial");
 
 			// EDEV08 
 			ICE.altaEdicionDeEvento("Tecnología Punta del Este 2026", "CONFTECH26", "Punta del Este", "Uruguay",
 					LocalDate.parse("06/04/2026", formatter), LocalDate.parse("10/04/2026", formatter),LocalDate.parse("01/08/2025", formatter),
-					ICE.getEvento("Conferencia de Tecnología"), ICU.getOrganizador("udelar"));
+					ICE.getEvento("Conferencia de Tecnología"), ICU.getOrganizador("udelar"), "Hotel Conrad");
 
 			// EDEV09 
 			ICE.altaEdicionDeEvento("Mobile World Congress 2025", "MWC", "Barcelona", "España",
 					LocalDate.parse("12/12/2025", formatter), LocalDate.parse("15/12/2025", formatter),LocalDate.parse("21/08/2025", formatter),
-					ICE.getEvento("Conferencia de Tecnología"), ICU.getOrganizador("techcorp"));
+					ICE.getEvento("Conferencia de Tecnología"), ICU.getOrganizador("techcorp"), "Fira Gran Via");
 
 			// EDEV10 
 			ICE.altaEdicionDeEvento("Web Summit 2026", "WS26", "Lisboa", "Portugal",
 					LocalDate.parse("13/01/2026", formatter), LocalDate.parse("01/02/2026", formatter),LocalDate.parse("04/06/2025", formatter),
-					ICE.getEvento("Conferencia de Tecnología"), ICU.getOrganizador("techcorp"));
+					ICE.getEvento("Conferencia de Tecnología"), ICU.getOrganizador("techcorp"), "Parque das Nações");
 
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
