@@ -8,12 +8,16 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.IOException;
-import java.util.Locale;
+
 
 @WebServlet("/login")
 public class LoginSvt extends HttpServlet {
 
-    private IControllerUsuario ICU ;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private IControllerUsuario ICU ;
 
     @Override
     public void init() {
@@ -24,7 +28,7 @@ public class LoginSvt extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        req.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/views/InicioSesion.jsp").forward(req, resp);
     }
 
     @Override
@@ -44,13 +48,11 @@ public class LoginSvt extends HttpServlet {
 		try {
 			usuario = ICU.iniciarSesion(identifier, password);
 		} catch (UsuarioNoExisteException | CredencialesInvalidasException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
         if (usuario == null) {
             req.setAttribute("error", "Credenciales inválidas.");
-            // preservamos el identifier para no hacerlo reescribir
             req.setAttribute("identifier_prev", identifier);
             req.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(req, resp);
             return;

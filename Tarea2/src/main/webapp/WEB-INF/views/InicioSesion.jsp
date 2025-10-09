@@ -39,7 +39,7 @@
 
     <div class="text-center mt-3">
       <p class="mb-0">¿No tienes cuenta?
-        <a href="${pageContext.request.contextPath}/alta-usuario" class="text-decoration-none">Regístrate</a>
+        <a href="${pageContext.request.contextPath}/Registrarse" class="text-decoration-none">Regístrate</a>
       </p>
     </div>
   </div>

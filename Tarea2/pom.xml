@@ -11,18 +11,30 @@
   </parent>
 
   <artifactId>webapp</artifactId>
-  <packaging>war</packaging>
   <name>tprog-webapp</name>
+  <packaging>war</packaging>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
+
+    <jakarta.servlet.version>6.1.0</jakarta.servlet.version>
+    <jakarta.jsp.version>3.1.1</jakarta.jsp.version>
+    <jakarta.el.version>6.0.1</jakarta.el.version>
+
+    <jakarta.jstl.api.version>3.0.2</jakarta.jstl.api.version>
+    <jakarta.jstl.impl.version>3.0.1</jakarta.jstl.impl.version>
+  </properties>
 
   <dependencies>
-    <!-- Lógica de Tarea1 -->
+
     <dependency>
       <groupId>uy.fing.tprog</groupId>
       <artifactId>servidor-central</artifactId>
       <version>1.0.0</version>
     </dependency>
 
-    <!-- APIs de Jakarta (Tomcat 11) -->
     <dependency>
       <groupId>jakarta.servlet</groupId>
       <artifactId>jakarta.servlet-api</artifactId>
@@ -42,12 +54,10 @@
       <scope>provided</scope>
     </dependency>
 
-    <!-- JSTL -->
     <dependency>
       <groupId>jakarta.servlet.jsp.jstl</groupId>
       <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
       <version>${jakarta.jstl.api.version}</version>
-      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.glassfish.web</groupId>
@@ -72,6 +82,7 @@
           <release>${maven.compiler.source}</release>
         </configuration>
       </plugin>
+
       <plugin>
         <artifactId>maven-war-plugin</artifactId>
         <version>3.4.0</version>
@@ -82,4 +93,3 @@
     </plugins>
   </build>
 </project>
-
