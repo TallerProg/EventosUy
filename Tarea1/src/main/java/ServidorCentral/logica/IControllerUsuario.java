@@ -28,6 +28,8 @@ public interface IControllerUsuario {
 	public List<DTUsuarioLista> getUsuarios();
 
 	public List<Asistente> getAsistentes();
+	
+	public List<Organizador> getOrganizadores();
 
 	public List<String> getAsistenteRegistro(String nickname);
 
