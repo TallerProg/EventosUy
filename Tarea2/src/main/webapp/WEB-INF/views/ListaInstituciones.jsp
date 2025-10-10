@@ -32,9 +32,10 @@
     <div class="container section-title d-flex justify-content-between align-items-center">
       <h2>Instituciones</h2>
 
-      <%-- Botón visible solo para organizador --%>
+      <!-- Botón visible solo para organizador -->
+      
       <% if (organizadorSesion != null) { %>
-        <a href="<%= ctx %>/altaInstitucionOrg.html" class="btn btn-primary">
+        <a href="<%= ctx %>/AltaInstitucion" class="btn btn-primary">
           <i class="bi bi-plus-circle me-1"></i> Alta de Institución
         </a>
       <% } %>
