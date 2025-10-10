@@ -22,6 +22,7 @@
     EstadoSesion est = (EstadoSesion) session.getAttribute("estado_sesion");
 
     if (est == EstadoSesion.NO_LOGIN || est == null) {
+
 %>
 
       <li class="ms-auto d-flex gap-2">
