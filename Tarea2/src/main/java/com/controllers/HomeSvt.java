@@ -30,23 +30,26 @@ public class HomeSvt extends HttpServlet {
 
 	public static EstadoSesion getEstado(HttpServletRequest request) {
 		return (EstadoSesion) request.getSession().getAttribute("estado_sesion");
-	}
+	}	
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		initSession(req);
 		IControllerEvento ice = Factory.getInstance().getIControllerEvento();
-		List<Evento> eventos = ice.listarEventos();
-		req.setAttribute("LISTA_EVENTOS", eventos.toArray(Evento[]::new));
 		IControllerUsuario icu = Factory.getInstance().getIControllerUsuario();
+
 		try {
 			CargarDatos.inicializar(icu, ice);
 		} catch (Exception e) {
 		    e.printStackTrace();
 		}
-
 		
-	
+		
+		List<Evento> eventos = ice.listarEventos();
+		req.setAttribute("LISTA_EVENTOS", eventos.toArray(Evento[]::new));
+
+
+
 		req.getRequestDispatcher("/WEB-INF/views/home/home.jsp").forward(req, resp);
 	}
 }

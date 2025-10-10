@@ -1,121 +1,126 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ page import="ServidorCentral.logica.Institucion"%>
-    
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="ServidorCentral.logica.Usuario,ServidorCentral.logica.Asistente,ServidorCentral.logica.Institucion"%>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
- 		<jsp:include page="template/head.jsp" />
-
+  <jsp:include page="template/head.jsp" />
+  <link rel="stylesheet" href="<%=request.getContextPath()%>/media/css/main.css">
 </head>
 <body class="index-page">
 
-  <!-- Header -->
-  <header id="header" class="header d-flex align-items-center fixed-top">
-    		<jsp:include page="template/header.jsp" />
-  </header>
+<header id="header" class="header d-flex align-items-center fixed-top">
+  <jsp:include page="template/header.jsp" />
+</header>
 
-  <!-- Main -->
-  <main class="main">
-    <section id="modificar-usuario" class="section">
-      <div class="container">
-        <div class="section-title">
-          <h2>Modificar Datos de Usuario</h2>
-          <p class="text-muted">Actualiza tu información personal</p>
-        </div>
+<%
+  Usuario us = (Usuario) request.getAttribute("USUARIO");
+  String tipo = (String) request.getAttribute("TIPO_USUARIO");
+  Institucion[] instituciones = (Institucion[]) request.getAttribute("LISTA_INSTITUCION");
+  boolean esAsistente = "asistente".equalsIgnoreCase(tipo) && us instanceof Asistente;
 
-        <div class="profile-card">
-          <form id="form-modificar" class="register-form" action="#" method="post" enctype="multipart/form-data">
+  String nick = (us != null) ? us.getNickname() : "";
+  String correo = (us != null) ? us.getCorreo() : "";
+  String nombre = (us != null) ? us.getNombre() : "";
+  String apellido = "";
+  String fechaISO = "";
+  String instUser = "";
+  if (esAsistente) {
+    Asistente a = (Asistente) us;
+    apellido = (a.getApellido() != null) ? a.getApellido() : "";
+    fechaISO = (a.getfNacimiento() != null) ? a.getfNacimiento().toString() : "";
+    if (a.getInstitucion() != null) instUser = a.getInstitucion().getNombre();
+  }
+%>
 
-            <!-- Imagen de perfil -->
-            <div class="profile-image">
-              <img id="preview" src="../img/usuarios/anaTorres.jpg" alt="Foto de perfil" class="profile-avatar">
-            </div>
-
-            <div class="form-group mb-3">
-              <label for="imagen">Imagen de perfil</label>
-              <input type="file" id="imagen" name="imagen" class="form-control" accept="image/*">
-            </div>
-
-            <!-- Nickname y correo (solo lectura) -->
-            <div class="form-group mb-3">
-              <label for="nickname">Nickname</label>
-              <input type="text" id="nickname" name="nickname" class="form-control" value="anatorres" readonly>
-            </div>
-            <div class="form-group mb-3">
-              <label for="correo">Correo electrónico</label>
-              <input type="email" id="correo" name="correo" class="form-control" value="atorres@mail.com" readonly>
-            </div>
-
-            <!-- Datos comunes -->
-            <div class="form-group mb-3">
-              <label for="nombre">Nombre</label>
-              <input type="text" id="nombre" name="nombre" class="form-control" value="Ana">
-            </div>
-
-            <!-- Campos exclusivos de Asistente -->            <div id="asistente-fields" class="hidden">
-              <div class="form-group mb-3">
-                <label for="apellido">Apellido</label>
-                <input type="text" id="apellido" name="apellido" class="form-control" value="Torres">
-              </div>
-              <div class="form-group mb-3">
-                <label for="fechaNacimiento">Fecha de nacimiento</label>
-                <input type="date" id="fechaNacimiento" name="fechaNacimiento" class="form-control" value="12-05-1990">
-              </div>
-              <div class="form-group mb-3">
-                <label for="institucion">Institución</label>
-                <select id="institucion" name="institucion" class="form-control">
-                  <option value="">-- Seleccione institución --</option>
-                  <%
-                  
-                  	Institucion[] instituciones = (Institucion[]) request.getAttribute("LISTA_INSTITUCION");
-                	if (instituciones != null){
-                		for (Institucion i : instituciones) {
-                  %>
-                  	<option value="<%= i.getNombre()%>"><%= i.getNombre()%></option>
-                  <%}} %>   
-                </select>
-              </div>
-            </div>
-
-
-            <!-- Contraseña -->
-            <div class="form-group mb-3">
-              <label for="password">Nueva contraseña</label>
-              <input type="password" id="password" name="password" class="form-control" placeholder="Dejar vacío si no cambia">
-            </div>
-
-            <!-- Botones -->
-            <button type="submit" class="btn-register">Aceptar</button>
-            <button type="reset" class="btn-register-secondary">Cancelar</button>
-
-          </form>
-        </div>
+<main class="main">
+  <section id="modificar-usuario" class="section">
+    <div class="container">
+      <div class="section-title">
+        <h2>Modificar datos de usuario</h2>
       </div>
-    </section>
-  </main>
 
-<!-- Footer -->
-<hr class="mt-5 mb-4" style="border: 0; height: 3px; background: #bbb; border-radius: 2px;">
+      <form action="<%=request.getContextPath()%>/perfil" method="post" enctype="multipart/form-data" id="form-modificar">
+        <input type="hidden" id="tipoUsuario" value="<%= tipo %>">
 
-<footer id="footer" class="footer position-relative light-background">
-  			<jsp:include page="template/footer.jsp" />
+        <div class="profile-image text-center mb-4">
+          <img id="preview" src="<%=request.getContextPath()%>/media/img/usuarios/default-user.png"
+               alt="Foto de perfil" class="rounded-circle" width="120">
+        </div>
+
+        <div class="mb-3">
+          <label for="imagen">Imagen de perfil</label>
+          <input type="file" id="imagen" name="imagen" class="form-control" accept="image/*">
+        </div>
+
+        <div class="mb-3">
+          <label>Nickname</label>
+          <input type="text" name="nickname" class="form-control" value="<%= nick %>" readonly>
+        </div>
+
+        <div class="mb-3">
+          <label>Correo</label>
+          <input type="email" name="correo" class="form-control" value="<%= correo %>" readonly>
+        </div>
+
+        <div class="mb-3">
+          <label>Nombre</label>
+          <input type="text" name="nombre" class="form-control" value="<%= nombre %>">
+        </div>
+
+        <% if (esAsistente) { %>
+        <div id="asistente-fields">
+          <div class="mb-3">
+            <label>Apellido</label>
+            <input type="text" name="apellido" class="form-control" value="<%= apellido %>">
+          </div>
+          <div class="mb-3">
+            <label>Fecha de nacimiento</label>
+            <input type="date" name="fechaNacimiento" class="form-control" value="<%= fechaISO %>">
+          </div>
+          <div class="mb-3">
+            <label>Institución</label>
+            <select name="institucion" class="form-control">
+              <option value="">-- Seleccione institución --</option>
+              <% if (instituciones != null) {
+                   for (Institucion i : instituciones) {
+                     String nombreInst = i.getNombre();
+                     String sel = nombreInst.equals(instUser) ? "selected" : "";
+              %>
+                <option value="<%= nombreInst %>" <%= sel %>><%= nombreInst %></option>
+              <%   }
+                 } %>
+            </select>
+          </div>
+        </div>
+        <% } %>
+
+        <div class="mb-3">
+          <label>Nueva contraseña</label>
+          <input type="password" name="password" class="form-control" placeholder="Dejar vacío si no cambia">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Aceptar</button>
+        <a href="<%=request.getContextPath()%>/perfil" class="btn btn-secondary">Cancelar</a>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="footer mt-5">
+  <jsp:include page="template/footer.jsp" />
 </footer>
+   <!-- Preloader -->
+      <div id="preloader"></div>
 
-  <!-- Scroll Top -->
-  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center">
-    <i class="bi bi-arrow-up-short"></i>
-  </a>
+      <!-- Vendor JS -->
+      <script src="media/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-  <!-- Preloader -->
-  <div id="preloader"></div>
+      <!-- Main JS -->
+      <script src="media/js/main.js"></script>
+      <script src="media/js/ModificarUsuario.js"></script>
 
-  <!-- Vendor JS -->
-  <script src="media/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-  <!-- Main JS -->
-  <script src="media/js/main.js"></script>
-  <script src="media/js/ModificarUsuario.js"></script>
-
+<script src="<%=request.getContextPath()%>/media/js/ModificarUsuario.js"></script>
 </body>
 </html>

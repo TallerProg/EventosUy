@@ -40,7 +40,7 @@
 %>
 	 
           <li class="ms-auto d-flex align-items-center gap-2">
-            <a href="perfil_US01.html" class="user-info text-decoration-none d-flex align-items-center gap-2">
+            <a href="/perfil" class="user-info text-decoration-none d-flex align-items-center gap-2">
               <img src="../media/img/default.png" alt=" ">
               <span class="fw-semibold"><%= nick %></span>
             </a>
