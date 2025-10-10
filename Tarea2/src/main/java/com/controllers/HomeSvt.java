@@ -7,15 +7,16 @@ import com.model.EstadoSesion;
 
 import ServidorCentral.logica.Factory;
 import ServidorCentral.logica.IControllerEvento;
+import ServidorCentral.logica.IControllerUsuario;
 import ServidorCentral.logica.Categoria;
 import ServidorCentral.logica.Evento;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-// import ServidorCentral.test.CargarDatos;
+import com.model.CargarDatos;
 import ServidorCentral.logica.ManejadorEvento;
 import jakarta.servlet.http.*;
 
-@WebServlet(urlPatterns = "/home", loadOnStartup = 1)
+@WebServlet(urlPatterns = "/home")
 public class HomeSvt extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
@@ -37,14 +38,15 @@ public class HomeSvt extends HttpServlet {
 		IControllerEvento ice = Factory.getInstance().getIControllerEvento();
 		List<Evento> eventos = ice.listarEventos();
 		req.setAttribute("LISTA_EVENTOS", eventos.toArray(Evento[]::new));
-		List<Categoria> categorias = ice.getCategorias();
-		req.setAttribute("LISTA_CATEGORIAS", categorias.toArray(Categoria[]::new) );
+		IControllerUsuario icu = Factory.getInstance().getIControllerUsuario();
+		try {
+			CargarDatos.inicializar(icu, ice);
+		} catch (Exception e) {
+		    e.printStackTrace();
+		}
 
-		/*
-		 * Cuando tengamos el cargar datos IControllerUsuario icu =
-		 * Factory.getInstance().getIControllerUsuario(); IControllerEvento ice =
-		 * Factory.getInstance().getIControllerEvento(); CargarDatos.(icu, ice);
-		 */
+		
+	
 		req.getRequestDispatcher("/WEB-INF/views/home/home.jsp").forward(req, resp);
 	}
 }
