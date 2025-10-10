@@ -1,10 +1,6 @@
 package com.controllers;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,13 +10,11 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.Part;
 
 import ServidorCentral.logica.Factory;
 import ServidorCentral.logica.IControllerEvento;
 import ServidorCentral.logica.DTEdicion;
 import ServidorCentral.logica.Evento;
-import ServidorCentral.logica.Organizador;
 
 @WebServlet(name = "ConsultaEveSvt", urlPatterns = {"/ConsultaEvento"})
 @MultipartConfig(
@@ -37,6 +31,7 @@ public class ConsultaEveSvt extends HttpServlet {
 
 	    if (isBlank(nombreEvento)) {
 	      req.setAttribute("msgError", "Falta el parámetro 'evento'.");
+	      req.getRequestDispatcher("/WEB-INF/views/ConsultaEvento.jsp").forward(req, resp);
 	      return;
 	    }
 

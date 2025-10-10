@@ -19,7 +19,7 @@ import ServidorCentral.logica.IControllerEvento;
 import ServidorCentral.logica.Evento;
 import ServidorCentral.logica.Organizador;
 
-@WebServlet(name = "AltaEdicionSvt", urlPatterns = {"/ediciones/alta"})
+@WebServlet(name = "AltaEdicionSvt", urlPatterns = {"/ediciones-alta"})
 @MultipartConfig(
     fileSizeThreshold = 1 * 1024 * 1024,
     maxFileSize = 10 * 1024 * 1024,

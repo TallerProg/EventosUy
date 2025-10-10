@@ -14,7 +14,7 @@ import ServidorCentral.logica.IControllerEvento;
 import ServidorCentral.logica.Organizador;
 import ServidorCentral.logica.Edicion;
 
-@WebServlet(name = "AltaTipoRegistroSvt", urlPatterns = {"/organizador/tipos-registro/alta"})
+@WebServlet(name = "AltaTipoRegistroSvt", urlPatterns = { "/organizador-tipos-registro-alta" })
 public class AltaTRegSvt extends HttpServlet {
 
   @Override
@@ -55,24 +55,26 @@ public class AltaTRegSvt extends HttpServlet {
     req.setAttribute("form_costo", sCosto);
     req.setAttribute("form_cupo", sCupo);
 
-    // Combo siempre cargado
+    // Combo siempre cargado para el re-render
     try {
       Organizador org = (Organizador) req.getSession().getAttribute("usuarioOrganizador");
       req.setAttribute("LISTA_EDICIONES", org != null ? org.getEdiciones() : java.util.Collections.emptyList());
-    } catch (Exception ignore) {}
+    } catch (Exception ignore) { }
 
+    // Validación de requeridos (servidor)
     if (isBlank(edSel) || isBlank(nombreTR) || isBlank(descr) || isBlank(sCosto) || isBlank(sCupo)) {
       req.setAttribute("msgError", "Todos los campos son obligatorios.");
       req.getRequestDispatcher("/WEB-INF/views/AltaTipoRegistro.jsp").forward(req, resp);
       return;
     }
 
+    // Tipos numéricos
     Float costo;
     Integer cupo;
     try {
       costo = Float.valueOf(sCosto);
       if (costo < 0) throw new NumberFormatException("costo negativo");
-      cupo = Integer.valueOf(sCupo);
+      cupo  = Integer.valueOf(sCupo);
       if (cupo < 0) throw new NumberFormatException("cupo negativo");
     } catch (NumberFormatException nfe) {
       req.setAttribute("msgError", "Costo o cupo inválidos.");
@@ -84,22 +86,30 @@ public class AltaTRegSvt extends HttpServlet {
       Organizador org = (Organizador) req.getSession().getAttribute("usuarioOrganizador");
       if (org == null) throw new IllegalStateException("No hay organizador en sesión.");
 
-      // Buscar la edición por nombre
+      // Buscar edición seleccionada por nombre
       Edicion edicion = null;
       for (Edicion e : org.getEdiciones()) {
-        String nombre = e.getNombre();
-        if (nombre != null && nombre.equals(edSel)) { edicion = e; break; }
+        if (e.getNombre() != null && e.getNombre().equals(edSel)) {
+          edicion = e; break;
+        }
       }
       if (edicion == null) throw new IllegalArgumentException("No se encontró la edición seleccionada.");
 
+      // Chequeo de duplicado en la propia edición (defensa temprana)
+      if (edicion.existeTR(nombreTR)) {
+        req.setAttribute("msgError", "El nombre de tipo de registro \"" + nombreTR + "\" ya fue utilizado en esa edición.");
+        req.getRequestDispatcher("/WEB-INF/views/AltaTipoRegistro.jsp").forward(req, resp);
+        return;
+      }
+
+      // Lógica de negocio
       IControllerEvento ctrl = Factory.getInstance().getIControllerEvento();
-      // Llama a tu método de negocio
       ctrl.altaTipoRegistro(nombreTR, descr, costo, cupo, edicion);
 
-      // POST OK → PRG con flash
+      // PRG + flash
       req.getSession().setAttribute("flashOk",
           "Tipo de registro \"" + nombreTR + "\" creado en la edición \"" + edSel + "\".");
-      resp.sendRedirect(req.getContextPath() + "/organizador/tipos-registro/alta");
+      resp.sendRedirect(req.getContextPath() + "/organizador-tipos-registro-alta");
       return;
 
     } catch (Exception e) {
@@ -108,5 +118,7 @@ public class AltaTRegSvt extends HttpServlet {
     }
   }
 
-  private static boolean isBlank(String s) { return s == null || s.trim().isEmpty(); }
+  private static boolean isBlank(String s) {
+    return s == null || s.trim().isEmpty();
+  }
 }

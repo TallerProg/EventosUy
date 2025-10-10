@@ -17,7 +17,7 @@ import ServidorCentral.logica.DTTipoRegistro;
 import ServidorCentral.logica.DTRegistro;
 import ServidorCentral.logica.DTPatrocinio;
 
-@WebServlet(name = "ConsultaEdicionSvt", urlPatterns = {"/ediciones/consulta"})
+@WebServlet(name = "ConsultaEdicionSvt", urlPatterns = {"/ediciones-consulta"})
 public class ConsultaEdicionSvt extends HttpServlet {
 
   @Override
