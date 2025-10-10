@@ -44,7 +44,7 @@
 
 <body class="index-page">
 <header id="header" class="header d-flex align-items-center fixed-top">
-          <jsp:include page="/WEB-INF/views/template/header.jsp" />
+  <jsp:include page="/WEB-INF/views/template/header.jsp" />
 </header>
 
 <main class="main mt-5 pt-5">
@@ -83,7 +83,7 @@
             <% if (tipos != null && !tipos.isEmpty()) {
                  for (java.util.Map<String,String> tr : tipos) {
                    String tn = tr.get("nombre");
-                   String tc = tr.get("costo"); // puede venir null/"" si el DTO no lo tiene
+                   String tc = tr.get("costo");
                    String cp = tr.get("cupos");
             %>
               <li>
@@ -152,7 +152,6 @@
 <footer id="footer" class="footer position-relative light-background">
   <jsp:include page="/WEB-INF/views/template/footer.jsp" />
 </footer>
-
 
 <script src="<%=ctx%>/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 

@@ -10,8 +10,6 @@ import jakarta.servlet.http.*;
 
 import ServidorCentral.logica.Factory;
 import ServidorCentral.logica.IControllerEvento;
-
-// DTOs (ajustá nombres de paquetes si difieren)
 import ServidorCentral.logica.DTEdicion;
 import ServidorCentral.logica.DTTipoRegistro;
 import ServidorCentral.logica.DTRegistro;
@@ -29,65 +27,54 @@ public class ConsultaEdicionSvt extends HttpServlet {
 
     if (isBlank(nombreEvento) || isBlank(nombreEdicion)) {
       req.setAttribute("msgError", "Faltan parámetros: evento y/o edición.");
-      req.getRequestDispatcher("/WEB-INF/views/ConsultaEdicion.jsp").forward(req, resp);
+      forward(req, resp);
       return;
     }
 
     try {
       IControllerEvento ctrl = Factory.getInstance().getIControllerEvento();
       DTEdicion ed = ctrl.consultaEdicionDeEvento(nombreEvento, nombreEdicion);
-
       if (ed == null) {
         req.setAttribute("msgError", "No se encontró la edición solicitada.");
-        req.getRequestDispatcher("/WEB-INF/views/ConsultaEdicion.jsp").forward(req, resp);
+        forward(req, resp);
         return;
       }
 
-      // ===== Roles (organizador / asistente en sesión) =====
+      // Roles de sesión (ajustá nombres de atributos si difieren)
       HttpSession session = req.getSession(false);
       boolean esOrganizador = false;
       boolean esAsistente   = false;
       String  nombreAsistenteSesion = null;
 
       if (session != null) {
-        if (session.getAttribute("usuarioOrganizador") != null) {
-          esOrganizador = true;
-        }
+        esOrganizador = (session.getAttribute("usuarioOrganizador") != null);
         Object asi = session.getAttribute("usuarioAsistente");
         if (asi != null) {
           esAsistente = true;
-          // Ajustá el getter real del Asistente de sesión:
-          // nombreAsistenteSesion = ((ServidorCentral.logica.Asistente) asi).getNombre();
           nombreAsistenteSesion = tryToString(asi, "getNombre", "getNickname", "getNick", "getId");
         }
       }
 
-      // ===== Aplanamos DTEdicion a un “view model” =====
+      // ===== Armar VM que la JSP espera =====
       Map<String, Object> vm = new HashMap<>();
 
       vm.put("nombre", tryToString(ed, "getNombre"));
       vm.put("sigla",  tryToString(ed, "getSigla"));
 
-      // Organizador
       Object orgDTO = tryCall(ed, "getOrganizador", "getDTOrganizador", "getOrganizadorDTO");
       vm.put("organizadorNombre", tryToString(orgDTO, "getNombre", "getNickname", "getNick"));
 
-      // Fechas
+      DateTimeFormatter out = DateTimeFormatter.ofPattern("dd/MM/yyyy");
       Object fIni = tryCall(ed, "getFechaInicio", "getFechaIni", "getFIni", "getInicio");
       Object fFin = tryCall(ed, "getFechaFin",    "getFechaFinal", "getFFin", "getFin");
-      DateTimeFormatter out = DateTimeFormatter.ofPattern("dd/MM/yyyy");
       vm.put("fechaIni", toDateString(fIni, out));
       vm.put("fechaFin", toDateString(fFin, out));
 
-      // Ciudad / País
       vm.put("ciudad", tryToString(ed, "getCiudad"));
       vm.put("pais",   tryToString(ed, "getPais"));
+      vm.put("imagen", tryToString(ed, "getImagenWebPath", "getImagenURL", "getUrlImagen", "getImagen"));
 
-      // Imagen (si tu DTO no tiene nada de imagen, dejará null)
-      String imagen = tryToString(ed, "getImagenWebPath", "getImagenURL", "getUrlImagen", "getImagen");
-      vm.put("imagen", imagen);
-
-      // Tipos de Registro
+      // Tipos de registro
       List<Map<String, String>> tiposVM = new ArrayList<>();
       @SuppressWarnings("unchecked")
       List<DTTipoRegistro> tregs = (List<DTTipoRegistro>) tryCall(ed, "getTiposRegistro", "getDTTiposRegistro", "listarTiposRegistro");
@@ -95,19 +82,14 @@ public class ConsultaEdicionSvt extends HttpServlet {
         for (DTTipoRegistro tr : tregs) {
           Map<String, String> row = new LinkedHashMap<>();
           row.put("nombre", tryToString(tr, "getNombre"));
-
-          // costo/cupos podrían ser primitivos => los convierto a String
-          String costo = tryToString(tr, "getCosto", "getPrecio");
-          String cupos = tryToString(tr, "getCupos", "getCupo", "getCapacidad");
-          row.put("costo", costo);  // puede ser null o ""
-          row.put("cupos", cupos);  // puede ser null o ""
-
+          row.put("costo",  tryToString(tr, "getCosto", "getPrecio"));         // puede venir null
+          row.put("cupos",  tryToString(tr, "getCupos", "getCupo", "getCapacidad"));
           tiposVM.add(row);
         }
       }
       vm.put("tipos", tiposVM);
 
-      // Registros (para tabla del organizador)
+      // Registros
       List<Map<String, String>> regsVM = new ArrayList<>();
       @SuppressWarnings("unchecked")
       List<DTRegistro> regs = (List<DTRegistro>) tryCall(ed, "getRegistros", "getDTRegistros", "listarRegistros");
@@ -124,7 +106,7 @@ public class ConsultaEdicionSvt extends HttpServlet {
       }
       vm.put("registros", regsVM);
 
-      // “Mi registro” (si es asistente)
+      // Mi registro (si corresponde)
       Map<String, String> miRegVM = null;
       if (esAsistente && regs != null && nombreAsistenteSesion != null) {
         for (DTRegistro r : regs) {
@@ -147,28 +129,31 @@ public class ConsultaEdicionSvt extends HttpServlet {
       List<DTPatrocinio> pats = (List<DTPatrocinio>) tryCall(ed, "getPatrocinios", "getDTPatrocinios", "listarPatrocinios");
       if (pats != null) {
         for (DTPatrocinio p : pats) {
-          // nombre de patrocinio o de la institución asociada
           String pn = tryToString(p, "getNombre", "getInstitucionNombre", "getNombreInstitucion");
           if (pn != null) patsVM.add(pn);
         }
       }
       vm.put("patrocinios", patsVM);
 
-      // ===== Atributos para el JSP =====
-      req.setAttribute("EVENTO_NOMBRE", nombreEvento);
+      // Atributos para JSP
       req.setAttribute("VM", vm);
       req.setAttribute("ES_ORGANIZADOR", esOrganizador);
       req.setAttribute("ES_ASISTENTE",   esAsistente);
 
-      req.getRequestDispatcher("/WEB-INF/views/ConsultaEdicion.jsp").forward(req, resp);
+      forward(req, resp);
 
     } catch (Exception e) {
       req.setAttribute("msgError", "Error al consultar la edición: " + e.getMessage());
-      req.getRequestDispatcher("/WEB-INF/views/ConsultaEdicion.jsp").forward(req, resp);
+      forward(req, resp);
     }
   }
 
-  // ===== Utilidades =====
+  private void forward(HttpServletRequest req, HttpServletResponse resp)
+      throws ServletException, IOException {
+    req.getRequestDispatcher("/WEB-INF/views/ConsultaEdicion.jsp").forward(req, resp);
+  }
+
+  // ===== Utils =====
   private static boolean isBlank(String s) { return s == null || s.trim().isEmpty(); }
 
   private static Object tryCall(Object target, String... methodNames) {
@@ -190,17 +175,13 @@ public class ConsultaEdicionSvt extends HttpServlet {
 
   private static String toDateString(Object dateLike, DateTimeFormatter outFmt) {
     if (dateLike == null) return null;
-    // Soporta LocalDate / LocalDateTime / String
     try {
-      // java.time.LocalDate
       if (dateLike instanceof java.time.LocalDate ld) {
         return ld.format(outFmt);
       }
-      // java.time.LocalDateTime
       if (dateLike instanceof java.time.LocalDateTime ldt) {
         return ldt.toLocalDate().format(outFmt);
       }
-      // String “yyyy-MM-dd”
       String s = String.valueOf(dateLike);
       if (s.matches("\\d{4}-\\d{2}-\\d{2}.*")) {
         return java.time.LocalDate.parse(s.substring(0, 10)).format(outFmt);
@@ -211,3 +192,4 @@ public class ConsultaEdicionSvt extends HttpServlet {
     }
   }
 }
+

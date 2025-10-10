@@ -40,7 +40,7 @@
 
       <div class="card shadow-sm">
         <div class="card-body">
-          <form action="<%= ctx %>/organizador/ediciones/alta"
+          <form action="<%= ctx %>/organizador/ediciones-alta"
                 method="post" enctype="multipart/form-data" class="row g-3">
 
             <!-- Evento (fijo, sin combo) -->

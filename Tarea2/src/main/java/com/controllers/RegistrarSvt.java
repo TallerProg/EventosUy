@@ -15,7 +15,7 @@ import jakarta.servlet.http.Part;
 import ServidorCentral.logica.ControllerUsuario;
 import ServidorCentral.excepciones.UsuarioRepetidoException;
 
-@WebServlet("/registrarse")
+@WebServlet("/Registrarse")
 @MultipartConfig( // límites razonables; ajustá si hace falta
     fileSizeThreshold = 1024 * 64, // 64 KB en memoria antes de volcar a disco temp
     maxFileSize = 1024 * 1024 * 5, // 5 MB por archivo

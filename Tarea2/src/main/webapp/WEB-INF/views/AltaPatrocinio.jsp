@@ -45,7 +45,7 @@
     <div class="card shadow-sm">
       <div class="card-body">
 
-        <form action="<%=ctx%>/organizador/patrocinios/alta" method="post" class="row g-3">
+        <form action="<%=ctx%>/organizador/patrocinios-alta" method="post" class="row g-3">
           <div class="col-md-6">
             <label class="form-label">Evento</label>
             <input type="text" class="form-control" value="<%= (eventoSel!=null?eventoSel:"") %>" readonly>
