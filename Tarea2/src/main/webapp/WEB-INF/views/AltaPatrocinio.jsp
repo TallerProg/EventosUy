@@ -18,20 +18,13 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Alta de Patrocinio</title>
-
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-  <link href="<%=ctx%>/media/css/main.css" rel="stylesheet">
-  <link href="<%=ctx%>/media/img/logoeuy.png" rel="icon">
+  <jsp:include page="/WEB-INF/views/template/head.jsp" />
+  <title>EventUY - Alta Patrocinio</title>
 </head>
 
 <body class="index-page">
-
 <header id="header" class="header d-flex align-items-center fixed-top">
-  <jsp:include page="/WEB-INF/views/template/head.jsp" />
+          <jsp:include page="/WEB-INF/views/template/header.jsp" />
 </header>
 
 <main class="main mt-5 pt-5">

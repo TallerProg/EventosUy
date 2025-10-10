@@ -10,7 +10,7 @@ import jakarta.servlet.http.*;
 
 import ServidorCentral.logica.*;
 
-@WebServlet(name = "AltaPatrocinioSvt", urlPatterns = {"/organizador/patrocinios/alta"})
+@WebServlet(name = "AltaPatrocinioSvt", urlPatterns = {"/organizador-patrocinios-alta"})
 public class AltaPatrocinioSvt extends HttpServlet {
 
   @Override
