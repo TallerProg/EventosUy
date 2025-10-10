@@ -175,6 +175,11 @@ public class ControllerUsuario implements IControllerUsuario {
         return mu.listarAsistentes();
     }
 
+    public List<Organizador> getOrganizadores() {
+        ManejadorUsuario mu = ManejadorUsuario.getinstance();
+        return mu.listarOrganizadores();
+    }
+    
     public Asistente getAsistente(String nicknameAsis) {
         ManejadorUsuario mu = ManejadorUsuario.getinstance();
         return mu.findAsistente(nicknameAsis);

@@ -9,7 +9,7 @@
       <a href="/tprog-webapp/home" class="logo d-flex align-items-center">
         <img src="media/img/logoeuy.png" alt="">
       </a>
-      <li><a href="/tprog-webapp/Usuarios">Usuarios</a></li>
+      <li><a href="/tprog-webapp/ListaUsuarios">Usuarios</a></li>
       <li><a href="/tprog-webapp/Eventos">Eventos</a></li>
       <li><a href="/tprog-webapp/Instituciones">Instituciones</a></li>
       <li class="nav-item search-item ms-auto">
