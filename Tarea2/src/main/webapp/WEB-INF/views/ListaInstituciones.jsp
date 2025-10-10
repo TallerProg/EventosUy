@@ -1,0 +1,89 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="java.util.List" %>
+<%@ page import="ServidorCentral.logica.Institucion" %>
+<%
+  String ctx = request.getContextPath();
+
+  // Mostrar botón de alta solo si hay organizador logueado
+  ServidorCentral.logica.Organizador organizadorSesion =
+    (ServidorCentral.logica.Organizador) session.getAttribute("usuarioOrganizador");
+
+  @SuppressWarnings("unchecked")
+  List<Institucion> instituciones = (List<Institucion>) request.getAttribute("INSTITUCIONES");
+
+  Object errMsg = request.getAttribute("msgError");
+%>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <jsp:include page="template/head.jsp" />
+  <title>Lista de Instituciones</title>
+</head>
+
+<body class="index-page">
+
+<header id="header" class="header d-flex align-items-center fixed-top">
+  <jsp:include page="template/header.jsp" />
+</header>
+
+<main class="main mt-5 pt-5">
+
+  <section id="instituciones" class="speakers section">
+    <div class="container section-title d-flex justify-content-between align-items-center">
+      <h2>Instituciones</h2>
+
+      <%-- Botón visible solo para organizador --%>
+      <% if (organizadorSesion != null) { %>
+        <a href="<%= ctx %>/altaInstitucionOrg.html" class="btn btn-primary">
+          <i class="bi bi-plus-circle me-1"></i> Alta de Institución
+        </a>
+      <% } %>
+    </div>
+
+    <div class="container">
+
+      <% if (errMsg != null) { %>
+        <div class="alert alert-danger d-flex align-items-center">
+          <i class="bi bi-exclamation-triangle me-2"></i><%= errMsg %>
+        </div>
+      <% } %>
+
+      <% if (instituciones == null || instituciones.isEmpty()) { %>
+        <div class="alert alert-warning">No hay instituciones para mostrar.</div>
+      <% } else { %>
+        <div class="row g-4 justify-content-center">
+          <% for (Institucion i : instituciones) {
+               String nombre = (i != null && i.getNombre() != null) ? i.getNombre() : "";
+               String desc   = (i != null && i.getDescripcion() != null) ? i.getDescripcion() : "";
+               String web    = (i != null && i.getUrl() != null) ? i.getUrl() : "";
+          %>
+          <div class="col-lg-3 col-md-6">
+            <div class="speaker-card text-center">
+              <div class="speaker-image">
+                <img src="<%= ctx %>/media/img/default.png" alt="<%= nombre %>" class="img-fluid p-3">
+              </div>
+              <div class="speaker-content">
+                <p class="speaker-title"><%= nombre %></p>
+                <p class="speaker-company"><%= desc %></p>
+                <% if (!web.isBlank()) { %>
+                  <p><a href="<%= web %>" target="_blank" rel="noopener"><%= web %></a></p>
+                <% } %>
+              </div>
+            </div>
+          </div>
+          <% } %>
+        </div>
+      <% } %>
+    </div>
+  </section>
+
+</main>
+
+<hr class="mt-5 mb-4" style="border: 0; height: 3px; background: #bbb; border-radius: 2px;">
+<footer id="footer" class="footer position-relative light-background">
+  <jsp:include page="template/footer.jsp" />
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
