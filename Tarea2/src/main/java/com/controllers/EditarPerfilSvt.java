@@ -10,13 +10,13 @@ import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 
-@WebServlet("/perfil")
+@WebServlet("/editarperfil")
 @MultipartConfig(
     fileSizeThreshold = 1024 * 1024, // 1MB
     maxFileSize = 10 * 1024 * 1024,  // 10MB
     maxRequestSize = 20 * 1024 * 1024 // 20MB
 )
-public class PerfilSvt extends HttpServlet {
+public class EditarPerfilSvt extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     // ---------- GET: mostrar datos del usuario ----------

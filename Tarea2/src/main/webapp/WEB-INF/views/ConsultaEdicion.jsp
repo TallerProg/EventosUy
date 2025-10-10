@@ -1,4 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="java.util.*, ServidorCentral.logica.DTPatrocinio" %>
+
+
 <%
   String ctx = request.getContextPath();
 
@@ -32,8 +35,7 @@
   java.util.Map<String,String> miReg =
     VM != null ? (java.util.Map<String,String>) VM.get("miRegistro") : null;
 
-  java.util.List<String> pats =
-    VM != null ? (java.util.List<String>) VM.get("patrocinios") : java.util.Collections.emptyList();
+  java.util.List<DTPatrocinio> pats = (List<DTPatrocinio>) request.getAttribute("patrocinios");
 %>
 <!DOCTYPE html>
 <html lang="es">
@@ -135,10 +137,14 @@
       <div class="mt-5">
         <h5><i class="bi bi-people"></i> Patrocinios</h5>
         <ul class="mb-0">
-          <% if (pats != null && !pats.isEmpty()) {
-               for (String p : pats) { %>
-            <li><%= nv(p) %></li>
-          <% } } else { %>
+          <% if (pats != null ) { %>
+     <div class="mt-5" id="patrocinios">
+		  <h5><i class="bi bi-people"></i> Patrocinios</h5>
+		  <div id="contenido-patrocinios">
+							<jsp:include page="/WEB-INF/views/ConsultaPatrocinio.jsp" />
+						</div>
+		</div>		
+          <%  } else { %>
             <li class="text-muted">No hay patrocinios cargados.</li>
           <% } %>
         </ul>

@@ -43,7 +43,7 @@ public class LoginSvt extends HttpServlet {
             req.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(req, resp);
             return;
         }
-
+        
         DTSesionUsuario usuario = null;
 		try {
 			usuario = ICU.iniciarSesion(identifier, password);

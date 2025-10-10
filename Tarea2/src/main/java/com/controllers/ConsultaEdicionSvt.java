@@ -124,16 +124,10 @@ public class ConsultaEdicionSvt extends HttpServlet {
       vm.put("miRegistro", miRegVM);
 
       // Patrocinios
-      List<String> patsVM = new ArrayList<>();
+     
       @SuppressWarnings("unchecked")
       List<DTPatrocinio> pats = (List<DTPatrocinio>) tryCall(ed, "getPatrocinios", "getDTPatrocinios", "listarPatrocinios");
-      if (pats != null) {
-        for (DTPatrocinio p : pats) {
-          String pn = tryToString(p, "getNombre", "getInstitucionNombre", "getNombreInstitucion");
-          if (pn != null) patsVM.add(pn);
-        }
-      }
-      vm.put("patrocinios", patsVM);
+      req.setAttribute("patrocinios", pats);
 
       // Atributos para JSP
       req.setAttribute("VM", vm);
