@@ -11,6 +11,7 @@ ServidorCentral\logica\Institucion.class
 ServidorCentral\logica\ManejadorUsuario.class
 ServidorCentral\logica\Factory.class
 ServidorCentral\presentacion\Principal$1.class
+recursos\cargardatospk\CargarDatos.class
 ServidorCentral\logica\DTUsuarioListaConsulta.class
 ServidorCentral\excepciones\UsuarioRepetidoException.class
 ServidorCentral\presentacion\RegistroEdicionEvento.class
