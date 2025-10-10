@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 
 import ServidorCentral.logica.*;
+import ServidorCentral.logica.ControllerUsuario.DTSesionUsuario;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
@@ -25,16 +26,16 @@ public class EditarPerfilSvt extends HttpServlet {
             throws ServletException, IOException {
 
         HttpSession session = req.getSession(false);
-        String nickUsuario = (session != null) ? (String) session.getAttribute("NICKNAME") : null;
-
-        if (nickUsuario == null || nickUsuario.isBlank()) {
+        DTSesionUsuario sesUser = (session != null) ? (DTSesionUsuario) session.getAttribute("usuario_logueado"): null;
+      
+        if (sesUser == null ) {
             resp.sendRedirect(req.getContextPath() + "/login");
             return;
         }
 
         // Obtener datos del usuario
         IControllerUsuario icu = Factory.getInstance().getIControllerUsuario();
-        Usuario usuario = icu.getUsuario(nickUsuario);
+        Usuario usuario = icu.getUsuario(sesUser.getNickname());
         if (usuario == null) {
             resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Usuario no encontrado.");
             return;
@@ -57,12 +58,12 @@ public class EditarPerfilSvt extends HttpServlet {
 
         req.setCharacterEncoding("UTF-8");
         HttpSession session = req.getSession(false);
-        if (session == null || session.getAttribute("NICKNAME") == null) {
+        if (session == null || session.getAttribute("usuario_logueado") == null) {
             resp.sendRedirect(req.getContextPath() + "/login");
             return;
         }
-
-        String nickname = (String) session.getAttribute("NICKNAME");
+        DTSesionUsuario dtu = (session != null) ? (DTSesionUsuario) session.getAttribute("usuario_logueado"): null;
+        String nickname = (String) dtu.getNickname();
         IControllerUsuario icu = Factory.getInstance().getIControllerUsuario();
         Usuario user = icu.getUsuario(nickname);
 

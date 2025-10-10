@@ -7,7 +7,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <jsp:include page="../template/head.jsp" />
+  <jsp:include page="../template/head.jsp" />	
 </head>
 <body class="index-page">
   <!-- Header -->

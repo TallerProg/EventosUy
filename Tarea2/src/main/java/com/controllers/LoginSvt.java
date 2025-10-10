@@ -9,19 +9,15 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.IOException;
 
-
 @WebServlet("/login")
 public class LoginSvt extends HttpServlet {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private IControllerUsuario ICU ;
+    private static final long serialVersionUID = 1L;
+    private IControllerUsuario ICU;
 
     @Override
     public void init() {
-    	Factory fabrica = Factory.getInstance();
+        Factory fabrica = Factory.getInstance();
         this.ICU = fabrica.getIControllerUsuario();
     }
 
@@ -35,26 +31,29 @@ public class LoginSvt extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
+        req.setCharacterEncoding("UTF-8");
+
         String identifier = trim(req.getParameter("identifier"));
         String password   = trim(req.getParameter("password"));
 
         if (isEmpty(identifier) || isEmpty(password)) {
             req.setAttribute("error", "Completá usuario y contraseña.");
-            req.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(req, resp);
+            req.getRequestDispatcher("/WEB-INF/views/InicioSesion.jsp").forward(req, resp);
             return;
         }
-        
-        DTSesionUsuario usuario = null;
-		try {
-			usuario = ICU.iniciarSesion(identifier, password);
-		} catch (UsuarioNoExisteException | CredencialesInvalidasException e) {
-			e.printStackTrace();
-		}
+
+        DTSesionUsuario usuario;
+        try {
+            usuario = ICU.iniciarSesion(identifier, password);
+        } catch (UsuarioNoExisteException | CredencialesInvalidasException e) {
+            req.setAttribute("error", e.getMessage()); // muestra el motivo
+            req.getRequestDispatcher("/WEB-INF/views/InicioSesion.jsp").forward(req, resp);
+            return;
+        }
 
         if (usuario == null) {
             req.setAttribute("error", "Credenciales inválidas.");
-            req.setAttribute("identifier_prev", identifier);
-            req.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(req, resp);
+            req.getRequestDispatcher("/WEB-INF/views/InicioSesion.jsp").forward(req, resp);
             return;
         }
 
