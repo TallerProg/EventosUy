@@ -16,9 +16,9 @@
   <title>EventUY - Alta de Evento</title>
 </head>
 <body class="index-page">
-
-  <jsp:include page="/WEB-INF/views/template/header.jsp" />
-
+	<header id="header" class="header d-flex align-items-center fixed-top">
+  		<jsp:include page="/WEB-INF/views/template/header.jsp" />
+	</header>
   <main class="main mt-5 pt-5">
     <section class="section">
       <div class="container">
