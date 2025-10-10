@@ -142,8 +142,10 @@
     </div>
   </main>
 
-  <jsp:include page="template/footer.jsp" />
-
+<hr class="mt-5 mb-4" style="border: 0; height: 3px; background: #bbb; border-radius: 2px;">
+<footer id="footer" class="footer position-relative light-background">
+  <jsp:include page="/WEB-INF/views/template/footer.jsp" />
+</footer>
 
 
   <script src="${pageContext.request.contextPath}/js/AltaUsuario.js"></script>
