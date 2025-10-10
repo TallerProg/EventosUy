@@ -32,7 +32,7 @@
             <h4 class="mt-2 text-primary">Registro de Usuario</h4>
           </div>
 
-          <!-- IMPORTANTE: multipart para imagen -->
+          <!-- comentario para subir -->
           <form id="registroForm"
                 method="post"
                 action="${pageContext.request.contextPath}/registrarse"

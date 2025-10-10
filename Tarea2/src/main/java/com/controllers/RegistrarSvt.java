@@ -19,7 +19,7 @@ import ServidorCentral.excepciones.UsuarioRepetidoException;
 @MultipartConfig( // límites razonables; ajustá si hace falta
     fileSizeThreshold = 1024 * 64, // 64 KB en memoria antes de volcar a disco temp
     maxFileSize = 1024 * 1024 * 5, // 5 MB por archivo
-    maxRequestSize = 1024 * 1024 * 10 // 10 MB total
+    maxRequestSize = 1024 * 1024 * 10 // 10 MB total comentario para subir
 )
 public class RegistrarSvt extends HttpServlet {
 
@@ -31,7 +31,6 @@ public class RegistrarSvt extends HttpServlet {
 	@Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        // Muestra el formulario
         req.getRequestDispatcher("/WEB-INF/views/Registrarse.jsp").forward(req, resp);
     }
 
@@ -165,7 +164,7 @@ public class RegistrarSvt extends HttpServlet {
     private static LocalDate parseFecha(String iso) {
         if (isBlank(iso)) return null;
         try {
-            return LocalDate.parse(iso); // espera "yyyy-MM-dd"
+            return LocalDate.parse(iso);
         } catch (DateTimeParseException e) {
             return null;
         }
