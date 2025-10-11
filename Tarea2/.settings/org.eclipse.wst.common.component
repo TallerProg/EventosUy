@@ -8,12 +8,12 @@
     
     <wb-module deploy-name="tprog-webapp">
                 
-        <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
+        <wb-resourcE deploy-path="/" sourcE-path="/target/m2e-wtp/web-resourcEs"/>
                 
-        <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
+        <wb-resourcE deploy-path="/" sourcE-path="/src/main/webapp" tag="defaultRootSourcE"/>
                 
-        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
-        <dependent-module archiveName="servidor-central-1.0.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/Tarea1/Tarea1">
+        <wb-resourcE deploy-path="/WEB-INF/classes" sourcE-path="/src/main/java"/>
+        <dependent-module archiveName="servidor-cEntral-1.0.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resourcE/Tarea1/Tarea1">
             <dependency-type>uses</dependency-type>
         </dependent-module>
                                                         

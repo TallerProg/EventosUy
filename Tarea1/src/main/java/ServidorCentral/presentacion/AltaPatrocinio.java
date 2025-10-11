@@ -4,17 +4,30 @@ import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
+import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
-import javax.swing.*;
-
-
-import ServidorCentral.logica.*;
+import ServidorCentral.logica.Asistente;
+import ServidorCentral.logica.ETipoNivel;
+import ServidorCentral.logica.Edicion;
+import ServidorCentral.logica.Evento;
+import ServidorCentral.logica.IControllerEvento;
+import ServidorCentral.logica.IControllerUsuario;
+import ServidorCentral.logica.Institucion;
+import ServidorCentral.logica.ManejadorInstitucion;
+import ServidorCentral.logica.TipoRegistro;
 import net.miginfocom.swing.MigLayout;
 
 public class AltaPatrocinio extends JInternalFrame {
 	private static final long serialVersionUID = 1L;
 	private JTextField textFieldCodigo;
-	private IControllerEvento ice;
+	private IControllerEvento icE;
 	private IControllerUsuario icu;
 	private JComboBox<String> comboBoxEvento;
 	private JComboBox<String> comboBoxEdicion;
@@ -23,10 +36,10 @@ public class AltaPatrocinio extends JInternalFrame {
 	private JTextField textField;
 	private JTextField textFieldCodigo2;
 
-	public AltaPatrocinio(IControllerEvento ice, IControllerUsuario icu) {
+	public AltaPatrocinio(IControllerEvento icE, IControllerUsuario icu) {
 
 		super("Alta de Patrocinio", false, false, false, false);
-		this.ice = ice;
+		this.icE = icE;
 		this.icu = icu;
 
 		setSize(838, 403);
@@ -96,12 +109,12 @@ public class AltaPatrocinio extends JInternalFrame {
 		getContentPane().add(textFieldCodigo2, "cell 14 11,growx");
 		textFieldCodigo2.setColumns(10);
 
-		JButton btnRegistrar = new JButton("Aceptar");
+		JButton btnRegistrar = new JButton("Aceptar ");
 		btnRegistrar.setEnabled(false);
 		getContentPane().add(btnRegistrar, "cell 0 13");
 
-		JButton btnCancelar = new JButton("Cancelar");
-		getContentPane().add(btnCancelar, "cell 14 13");
+		JButton btnCancElar = new JButton("CancElar");
+		getContentPane().add(btnCancElar, "cell 14 13");
 
 		comboBoxEdicion.setEnabled(false);
 		comboBoxRegistro.setEnabled(false);
@@ -208,7 +221,7 @@ public class AltaPatrocinio extends JInternalFrame {
 			String cuposGrati = textField.getText().trim();
 			String codigo = textFieldCodigo2.getText().trim();
 
-			if ((aporteEconomic == null) || (cuposGrati == null) || (codigo == null)) {
+			if (aporteEconomic == null || cuposGrati == null || codigo == null) {
 				JOptionPane.showMessageDialog(this, "Debe completar todos los campos antes de registrar.",
 						"Campos incompletos", JOptionPane.WARNING_MESSAGE);
 				return;
@@ -222,7 +235,7 @@ public class AltaPatrocinio extends JInternalFrame {
 					throw new Exception("Aporte económico debe ser un número positivo");
 				}
 
-				ice.altaPatrocinio(codigo, LocalDate.now(), cuposGrati.equals("") ? 0 : Integer.parseInt(cuposGrati),
+				icE.altaPatrocinio(codigo, LocalDate.now(), cuposGrati.equals("") ? 0 : Integer.parseInt(cuposGrati),
 						aporteEconomic.equals("") ? 0f : Float.parseFloat(aporteEconomic), nivel, institucionNombre,
 						edicionNombre, tipoRegistroNombre);
 				JOptionPane.showMessageDialog(this, "Registro exitoso", "Éxito", JOptionPane.INFORMATION_MESSAGE);
@@ -248,11 +261,11 @@ public class AltaPatrocinio extends JInternalFrame {
 			}
 		});
 
-		btnCancelar.addActionListener(e -> this.dispose());
+		btnCancElar.addActionListener(e -> this.dispose());
 	}
 
 	public void cargarEventos() {
-		List<Evento> eventos = ice.listarEventos();
+		List<Evento> eventos = icE.listarEventos();
 		if (eventos.isEmpty()) {
 
 			comboBoxEvento.addItem("Sin eventos");
@@ -271,7 +284,7 @@ public class AltaPatrocinio extends JInternalFrame {
 	}
 
 	public void cargarEdiciones(String nombreEvento) {
-		Evento evento = ice.getEvento(nombreEvento);
+		Evento evento = icE.getEvento(nombreEvento);
 		if (evento != null) {
 			List<Edicion> ediciones = evento.getEdiciones();
 			if (ediciones.isEmpty()) {
@@ -292,7 +305,7 @@ public class AltaPatrocinio extends JInternalFrame {
 	}
 
 	public void cargarRegistros(String nombreEedicion) {
-		List<TipoRegistro> registros = ice.findEdicion(nombreEedicion).getTipoRegistros();
+		List<TipoRegistro> registros = icE.findEdicion(nombreEedicion).getTipoRegistros();
 		if (registros != null) {
 			comboBoxRegistro.setEnabled(true);
 			List<String> nombres = new java.util.ArrayList<>();

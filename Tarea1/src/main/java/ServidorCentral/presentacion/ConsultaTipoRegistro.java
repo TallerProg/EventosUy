@@ -1,20 +1,34 @@
 package ServidorCentral.presentacion;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Insets;
 import java.util.List;
+
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.UIManager;
 
 import ServidorCentral.logica.DTTipoRegistro;
 import ServidorCentral.logica.Edicion;
 import ServidorCentral.logica.Evento;
-import ServidorCentral.logica.TipoRegistro;
 import ServidorCentral.logica.IControllerEvento;
+import ServidorCentral.logica.TipoRegistro;
 
 public class ConsultaTipoRegistro extends JInternalFrame {
-	private JTextField textField_nombre;
-	private JTextArea textField_1_desc;
-	private JTextField textField_2_costo;
-	private JTextField textField_3_cupo;
+	private JTextField textFieldNombre;
+	private JTextArea textField1desc;
+	private JTextField textField2costo;
+	private JTextField textField3cupo;
 	private JComboBox<String> comboBoxEvento;
 	private JComboBox<String> comboBoxEdicion;
 	private JComboBox<String> comboBoxTipoRegistro;
@@ -87,15 +101,15 @@ public class ConsultaTipoRegistro extends JInternalFrame {
 		gbc_lblNewLabel.gridy = 0;
 		panel_3.add(lblNewLabel, gbc_lblNewLabel);
 
-		textField_nombre = new JTextField();
-		textField_nombre.setEditable(false);
+		textFieldNombre = new JTextField();
+		textFieldNombre.setEditable(false);
 		GridBagConstraints gbc_textField_nombre = new GridBagConstraints();
 		gbc_textField_nombre.insets = new Insets(0, 0, 5, 0);
 		gbc_textField_nombre.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField_nombre.gridx = 1;
 		gbc_textField_nombre.gridy = 0;
-		panel_3.add(textField_nombre, gbc_textField_nombre);
-		textField_nombre.setColumns(10);
+		panel_3.add(textFieldNombre, gbc_textField_nombre);
+		textFieldNombre.setColumns(10);
 
 		JLabel lblNewLabel_1 = new JLabel("Descripción:");
 		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
@@ -104,12 +118,12 @@ public class ConsultaTipoRegistro extends JInternalFrame {
 		gbc_lblNewLabel_1.gridx = 0;
 		gbc_lblNewLabel_1.gridy = 1;
 		panel_3.add(lblNewLabel_1, gbc_lblNewLabel_1);
-		textField_1_desc = new JTextArea(3, 30);
-		textField_1_desc.setBackground(UIManager.getColor("TextField.inactiveBackground"));
-		textField_1_desc.setEditable(false);
-		textField_1_desc.setLineWrap(true);
-		textField_1_desc.setWrapStyleWord(true);
-		JScrollPane scrollDescripcion = new JScrollPane(textField_1_desc);
+		textField1desc = new JTextArea(3, 30);
+		textField1desc.setBackground(UIManager.getColor("TextField.inactiveBackground"));
+		textField1desc.setEditable(false);
+		textField1desc.setLineWrap(true);
+		textField1desc.setWrapStyleWord(true);
+		JScrollPane scrollDescripcion = new JScrollPane(textField1desc);
 		GridBagConstraints gbc_textField_1_desc = new GridBagConstraints();
 		gbc_textField_1_desc.insets = new Insets(0, 0, 5, 0);
 		gbc_textField_1_desc.fill = GridBagConstraints.BOTH;
@@ -126,15 +140,15 @@ public class ConsultaTipoRegistro extends JInternalFrame {
 		gbc_lblNewLabel_2.gridy = 2;
 		panel_3.add(lblNewLabel_2, gbc_lblNewLabel_2);
 
-		textField_2_costo = new JTextField();
-		textField_2_costo.setEditable(false);
+		textField2costo = new JTextField();
+		textField2costo.setEditable(false);
 		GridBagConstraints gbc_textField_2_costo = new GridBagConstraints();
 		gbc_textField_2_costo.insets = new Insets(0, 0, 5, 0);
 		gbc_textField_2_costo.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField_2_costo.gridx = 1;
 		gbc_textField_2_costo.gridy = 2;
-		panel_3.add(textField_2_costo, gbc_textField_2_costo);
-		textField_2_costo.setColumns(10);
+		panel_3.add(textField2costo, gbc_textField_2_costo);
+		textField2costo.setColumns(10);
 
 		JLabel lblNewLabel_3 = new JLabel("Cupo:");
 		GridBagConstraints gbc_lblNewLabel_3 = new GridBagConstraints();
@@ -144,14 +158,14 @@ public class ConsultaTipoRegistro extends JInternalFrame {
 		gbc_lblNewLabel_3.gridy = 3;
 		panel_3.add(lblNewLabel_3, gbc_lblNewLabel_3);
 
-		textField_3_cupo = new JTextField();
-		textField_3_cupo.setEditable(false);
+		textField3cupo = new JTextField();
+		textField3cupo.setEditable(false);
 		GridBagConstraints gbc_textField_3_cupo = new GridBagConstraints();
 		gbc_textField_3_cupo.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField_3_cupo.gridx = 1;
 		gbc_textField_3_cupo.gridy = 3;
-		panel_3.add(textField_3_cupo, gbc_textField_3_cupo);
-		textField_3_cupo.setColumns(10);
+		panel_3.add(textField3cupo, gbc_textField_3_cupo);
+		textField3cupo.setColumns(10);
 
 		comboBoxEvento.addActionListener(e -> {
 			String nombreEventoSeleccionado = (String) comboBoxEvento.getSelectedItem();
@@ -182,7 +196,7 @@ public class ConsultaTipoRegistro extends JInternalFrame {
 				try {
 					cargarTipoRegistros(nombreEdicionSeleccionado);
 					String nombreTipoRegistroSeleccionado = (String) comboBoxTipoRegistro.getSelectedItem();
-					cargarDatos(nombreEdicionSeleccionado,nombreTipoRegistroSeleccionado);
+					cargarDatos(nombreEdicionSeleccionado, nombreTipoRegistroSeleccionado);
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
@@ -199,7 +213,7 @@ public class ConsultaTipoRegistro extends JInternalFrame {
 			String nombreTipoRegistroSeleccionado = (String) comboBoxTipoRegistro.getSelectedItem();
 			if (nombreEdicionSeleccionado != null && nombreTipoRegistroSeleccionado != null) {
 				try {
-					cargarDatos(nombreEdicionSeleccionado,nombreTipoRegistroSeleccionado);
+					cargarDatos(nombreEdicionSeleccionado, nombreTipoRegistroSeleccionado);
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
@@ -269,20 +283,20 @@ public class ConsultaTipoRegistro extends JInternalFrame {
 	}
 
 	private void limpiarCamposTexto() {
-		textField_nombre.setText("");
-		textField_1_desc.setText("");
-		textField_2_costo.setText("");
-		textField_3_cupo.setText("");
+		textFieldNombre.setText("");
+		textField1desc.setText("");
+		textField2costo.setText("");
+		textField3cupo.setText("");
 	}
 
-	public void cargarDatos(String nombreEdicionSeleccionado,String nombreTipoRegistroSeleccionado ) {
+	public void cargarDatos(String nombreEdicionSeleccionado, String nombreTipoRegistroSeleccionado ) {
 
-		DTTipoRegistro dt = controlEvento.consultaTipoRegistro(nombreEdicionSeleccionado,nombreTipoRegistroSeleccionado);
+		DTTipoRegistro dt = controlEvento.consultaTipoRegistro(nombreEdicionSeleccionado, nombreTipoRegistroSeleccionado);
 		if (dt != null) {
-		textField_nombre.setText(dt.getNombre());
-		textField_1_desc.setText(dt.getDescripcion());
-		textField_2_costo.setText(String.valueOf(dt.getCosto()));
-		textField_3_cupo.setText(String.valueOf(dt.getCupo()));
+		textFieldNombre.setText(dt.getNombre());
+		textField1desc.setText(dt.getDescripcion());
+		textField2costo.setText(String.valueOf(dt.getCosto()));
+		textField3cupo.setText(String.valueOf(dt.getCupo()));
 		}
 	}
 
@@ -290,10 +304,10 @@ public class ConsultaTipoRegistro extends JInternalFrame {
 		if (dtTipo == null)
 			return;
 
-		textField_nombre.setText(dtTipo.getNombre());
-		textField_1_desc.setText(dtTipo.getDescripcion());
-		textField_2_costo.setText(String.valueOf(dtTipo.getCosto()));
-		textField_3_cupo.setText(String.valueOf(dtTipo.getCupo()));
+		textFieldNombre.setText(dtTipo.getNombre());
+		textField1desc.setText(dtTipo.getDescripcion());
+		textField2costo.setText(String.valueOf(dtTipo.getCosto()));
+		textField3cupo.setText(String.valueOf(dtTipo.getCupo()));
 
 		comboBoxEvento.removeAllItems();
 		comboBoxEvento.addItem(nombreEvento);

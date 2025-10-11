@@ -2,13 +2,21 @@ package ServidorCentral.presentacion;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-import javax.swing.*;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDesktopPane;
+import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import ServidorCentral.logica.Asistente;
 import ServidorCentral.logica.DTUsuarioListaConsulta;
@@ -41,9 +49,9 @@ public class ConsultarUsuario extends JInternalFrame {
 	private JPanel panelDatos;
 	private JButton btnVerDetalles;
 
-	public ConsultarUsuario(IControllerUsuario icu, IControllerEvento ice, JDesktopPane desktopPane) {
+	public ConsultarUsuario(IControllerUsuario icu, IControllerEvento icE, JDesktopPane desktopPane) {
 		controlUsuario = icu;
-		controlEvento = ice;
+		controlEvento = icE;
 
 		setResizable(true);
 		setIconifiable(true);
@@ -132,7 +140,7 @@ public class ConsultarUsuario extends JInternalFrame {
 			limpiarCampos();
 
 			if (nicknameSeleccionado != null) {
-				DTUsuarioListaConsulta dt = controlUsuario.ConsultaDeUsuario(nicknameSeleccionado);
+				DTUsuarioListaConsulta dt = controlUsuario.consultaDeUsuario(nicknameSeleccionado);
 				if (dt == null)
 					return;
 

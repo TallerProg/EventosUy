@@ -1,13 +1,21 @@
 package ServidorCentral.logica.test;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import ServidorCentral.logica.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import ServidorCentral.logica.ControllerEvento;
+import ServidorCentral.logica.DTEdicion;
+import ServidorCentral.logica.Evento;
+import ServidorCentral.logica.IControllerEvento;
+import ServidorCentral.logica.ManejadorEvento;
+import ServidorCentral.logica.Organizador;
 
 class ConsultaEdicionEventoTest {
 
@@ -23,7 +31,7 @@ class ConsultaEdicionEventoTest {
         eventoBase = new Evento("ConferenciaX", "C-2025", "Evento de prueba", LocalDate.now(), new ArrayList<>());
         ManejadorEvento.getInstancia().agregarEvento(eventoBase);
 
-        organizador = new Organizador("org1", "org1@mail.com", "Org Principal", "Organizador Principal","1234");
+        organizador = new Organizador("org1", "org1@mail.com", "Org Principal", "Organizador Principal", "1234");
 
         controller.altaEdicionDeEvento(
             "Edicion2025",

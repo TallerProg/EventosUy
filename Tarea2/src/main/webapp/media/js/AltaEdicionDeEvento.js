@@ -44,12 +44,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (nombresExistentes.includes(nombre)) {
       const confirmar = confirm(
-        "El nombre de la edición ya está en uso.\n\n¿Desea modificarlo? (Cancelar aborta el alta)"
+        "El nombre de la edición ya está en uso.\n\n¿Desea modificarlo? (CancElar aborta el alta)"
       );
       if (confirmar) {
         return; // usuario corrige el nombre
       } else {
-        alert("Alta de edición cancelada.");
+        alert("Alta de edición cancElada.");
         form.reset();
         preview.innerHTML = "";
         return;

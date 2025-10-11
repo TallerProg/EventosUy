@@ -1,8 +1,8 @@
-// Función para procesar el registro general
-   function procesarRegistroGeneral() {
-     const successMessage = document.getElementById("successMessage");
-     successMessage.style.display = "block";
-     successMessage.scrollIntoView({ behavior: 'smooth' });
+// Función para procEsar el registro general
+   function procEsarRegistroGeneral() {
+     const succEssMessage = document.getElementById("succEssMessage");
+     succEssMessage.style.display = "block";
+     succEssMessage.scrollIntoView({ behavior: 'smooth' });
    }
    
    // Función para abrir el modal de patrocinio
@@ -26,7 +26,7 @@
      const modal = bootstrap.Modal.getInstance(document.getElementById('registroModal'));
      modal.hide();
      
-     const successMessage = document.getElementById("successMessage");
-     successMessage.style.display = "block";
-     successMessage.scrollIntoView({ behavior: 'smooth' });
+     const succEssMessage = document.getElementById("succEssMessage");
+     succEssMessage.style.display = "block";
+     succEssMessage.scrollIntoView({ behavior: 'smooth' });
    }

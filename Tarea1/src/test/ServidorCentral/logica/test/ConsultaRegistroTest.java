@@ -1,15 +1,31 @@
 package ServidorCentral.logica.test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import org.junit.jupiter.api.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-import ServidorCentral.excepciones.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 
-import ServidorCentral.logica.*;
+import ServidorCentral.excepciones.UsuarioRepetidoException;
+import ServidorCentral.logica.Asistente;
+import ServidorCentral.logica.DTRegistro;
+import ServidorCentral.logica.DTRegistroDetallado;
+import ServidorCentral.logica.ETipoNivel;
+import ServidorCentral.logica.Edicion;
+import ServidorCentral.logica.Evento;
+import ServidorCentral.logica.Factory;
+import ServidorCentral.logica.IControllerEvento;
+import ServidorCentral.logica.IControllerUsuario;
+import ServidorCentral.logica.Institucion;
+import ServidorCentral.logica.Organizador;
+import ServidorCentral.logica.Patrocinio;
+import ServidorCentral.logica.TipoRegistro;
 
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -39,7 +55,7 @@ public class ConsultaRegistroTest {
 		String apellidoTest = "Guimerans";
 		LocalDate fNacimientoTest = LocalDate.parse("12/03/2001", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 		try {
-			iCU.AltaAsistente(nicknameTest, correoTest, nombreTest, apellidoTest, fNacimientoTest, INS01,"1234");
+			iCU.altaAsistente(nicknameTest, correoTest, nombreTest, apellidoTest, fNacimientoTest, INS01, "1234");
 		} catch (UsuarioRepetidoException e) {
 			fail(e.getMessage());
 			e.printStackTrace();
@@ -63,7 +79,7 @@ public class ConsultaRegistroTest {
 		String descripcionO = "Empresa de organización de eventos.";
 		String paginaWebO = "https://miseventos.com";
 		try {
-			iCU.AltaOrganizador(nicknameO, correoO, nombreO, descripcionO, paginaWebO,"1234");
+			iCU.altaOrganizador(nicknameO, correoO, nombreO, descripcionO, paginaWebO, "1234");
 		} catch (UsuarioRepetidoException e) {
 			fail(e.getMessage());
 			e.printStackTrace();
@@ -77,7 +93,7 @@ public class ConsultaRegistroTest {
 		String ciudad = "Ciudad Test";
 		try {
 			iCE.altaEdicionDeEvento(nombreEd, siglaE, ciudad, lugarEd, fechaInicioEd,
-			fechaFinEd,fechaAlta, EVE01, ORG01,"imagen");
+			fechaFinEd, fechaAlta, EVE01, ORG01, "imagen");
 		} catch (Exception e) { 
 			e.printStackTrace();
 		}
@@ -133,7 +149,7 @@ public class ConsultaRegistroTest {
 	    String apellidoAsist = "Rodriguez";
 	    LocalDate fechaNacAsist = LocalDate.parse("05/07/1990", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 	    try {
-	        iCU.AltaAsistente(nickAsist, mailAsist, nombreAsist, apellidoAsist, fechaNacAsist, null,"1234");
+	        iCU.altaAsistente(nickAsist, mailAsist, nombreAsist, apellidoAsist, fechaNacAsist, null, "1234");
 	    } catch (UsuarioRepetidoException e) {
 	        fail(e.getMessage());
 	        e.printStackTrace();
@@ -157,7 +173,7 @@ public class ConsultaRegistroTest {
 	    String descripcionOrg = "Organización de eventos médicos";
 	    String webOrg = "https://saludeventos.com";
 	    try {
-	        iCU.AltaOrganizador(nickOrg, mailOrg, nombreOrg, descripcionOrg, webOrg,"1234");
+	        iCU.altaOrganizador(nickOrg, mailOrg, nombreOrg, descripcionOrg, webOrg, "1234");
 	    } catch (UsuarioRepetidoException e) {
 	        fail(e.getMessage());
 	        e.printStackTrace();
@@ -172,7 +188,7 @@ public class ConsultaRegistroTest {
 	    String ciudadEdicion = "Montevideo";
 	    try {
 	        iCE.altaEdicionDeEvento(nombreEdicion, siglaEvento, ciudadEdicion, lugarEdicion, fechaInicioEd,
-	                fechaFinEd,fechaAlta, evento02, organizador02,"imagen");
+	                fechaFinEd, fechaAlta, evento02, organizador02, "imagen");
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	    }
@@ -221,7 +237,7 @@ public class ConsultaRegistroTest {
 	    String apellidoAsist = "Gimenez";
 	    LocalDate fechaNacAsist = LocalDate.parse("12/08/1990", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 	    try {
-	        iCU.AltaAsistente(nickAsist, mailAsist, nombreAsist, apellidoAsist, fechaNacAsist, null,"1234");
+	        iCU.altaAsistente(nickAsist, mailAsist, nombreAsist, apellidoAsist, fechaNacAsist, null, "1234");
 	    } catch (UsuarioRepetidoException e) {
 	        fail(e.getMessage());
 	        e.printStackTrace();
@@ -247,7 +263,7 @@ public class ConsultaRegistroTest {
 	    String descripcionOrg = "Organización de congresos médicos";
 	    String webOrg = "https://eventosmedicos.com";
 	    try {
-	        iCU.AltaOrganizador(nickOrg, mailOrg, nombreOrg, descripcionOrg, webOrg,"1234");
+	        iCU.altaOrganizador(nickOrg, mailOrg, nombreOrg, descripcionOrg, webOrg, "1234");
 	    } catch (UsuarioRepetidoException e) {
 	        fail(e.getMessage());
 	        e.printStackTrace();
@@ -297,7 +313,7 @@ public class ConsultaRegistroTest {
 	        DTRegistro dTRe = iCU.getDTRegistro(ed02.getNombre(), asist02.getNickname());
 	        
 	        assertEquals(dTRe.getCosto(), costoTipoReg);
-	        assertEquals(dTRe.getfInicio(),LocalDate.parse("01/07/2024", DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+	        assertEquals(dTRe.getfInicio(), LocalDate.parse("01/07/2024", DateTimeFormatter.ofPattern("dd/MM/yyyy")));
 	        assertEquals(regDet.getNombreEvento(), nombreEvento);
 	        assertEquals(regDet.getNombreEdicion(), nombreEdicion);
 	        assertEquals(regDet.getTipoRegistro(), nombreTipoReg);

@@ -26,7 +26,7 @@
         Object errMsg = request.getAttribute("msgError");
         if (okMsg != null) {
       %>
-        <div class="alert alert-success d-flex align-items-center" role="alert">
+        <div class="alert alert-succEss d-flex align-items-center" role="alert">
           <i class="bi bi-check-circle me-2"></i><div><%= okMsg %></div>
         </div>
       <% } %>
@@ -60,7 +60,7 @@
               <label for="nombre" class="form-label">Nombre de edición <span class="text-danger">*</span></label>
               <input type="text" id="nombre" name="nombre" class="form-control"
                      value="<%= request.getAttribute("form_nombre")!=null?request.getAttribute("form_nombre"):"" %>"
-                     placeholder="Ej: Tecnología Punta del Este 2026" required>
+                     placEholder="Ej: Tecnología Punta del Este 2026" required>
             </div>
 
             <!-- Sigla -->
@@ -68,7 +68,7 @@
               <label for="sigla" class="form-label">Sigla <span class="text-danger">*</span></label>
               <input type="text" id="sigla" name="sigla" class="form-control"
                      value="<%= request.getAttribute("form_sigla")!=null?request.getAttribute("form_sigla"):"" %>"
-                     placeholder="Ej: CONFTECH26" required>
+                     placEholder="Ej: CONFTECH26" required>
             </div>
 
             <!-- Ciudad -->
@@ -76,7 +76,7 @@
               <label for="ciudad" class="form-label">Ciudad <span class="text-danger">*</span></label>
               <input type="text" id="ciudad" name="ciudad" class="form-control"
                      value="<%= request.getAttribute("form_ciudad")!=null?request.getAttribute("form_ciudad"):"" %>"
-                     placeholder="Montevideo" required>
+                     placEholder="Montevideo" required>
             </div>
 
             <!-- País -->
@@ -84,7 +84,7 @@
               <label for="pais" class="form-label">País <span class="text-danger">*</span></label>
               <input type="text" id="pais" name="pais" class="form-control"
                      value="<%= request.getAttribute("form_pais")!=null?request.getAttribute("form_pais"):"" %>"
-                     placeholder="Uruguay" required>
+                     placEholder="Uruguay" required>
             </div>
 
             <!-- Fechas -->
@@ -109,7 +109,7 @@
             <!-- Imagen -->
             <div class="col-12">
               <label for="imagen" class="form-label">Imagen (opcional)</label>
-              <input type="file" id="imagen" name="imagen" accept="image/*" class="form-control">
+              <input type="file" id="imagen" name="imagen" accEpt="image/*" class="form-control">
               <small class="text-muted">Formatos sugeridos: JPG/PNG · Máx 10MB</small>
               <div class="preview-imagenes mt-2" id="preview"></div>
             </div>
@@ -117,9 +117,9 @@
             <!-- Botones -->
             <div class="col-12 d-flex gap-2">
               <button type="submit" class="btn btn-primary">
-                <i class="bi bi-check2-circle me-1"></i> Aceptar
+                <i class="bi bi-check2-circle me-1"></i> Aceptar 
               </button>
-              <a href="<%=ctx%>/" class="btn btn-outline-secondary">Cancelar</a>
+              <a href="<%=ctx%>/" class="btn btn-outline-secondary">CancElar</a>
             </div>
 
           </form>
@@ -134,8 +134,6 @@
 </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="<%=ctx%>/vendor/swiper/swiper-bundle.min.js"></script>
-  <script src="<%=ctx%>/vendor/glightbox/js/glightbox.min.js"></script>
   <script>
     // Preview simple de imagen
     const inp = document.getElementById('imagen');

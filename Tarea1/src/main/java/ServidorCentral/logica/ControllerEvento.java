@@ -1,4 +1,3 @@
-//package src.ServidorCentral.logica;
 package ServidorCentral.logica;
 
 import java.time.LocalDate;
@@ -96,7 +95,7 @@ public class ControllerEvento implements IControllerEvento {
 	}
 
 	public List<Organizador> listarOrganizadores() {
-		ManejadorUsuario mu = ManejadorUsuario.getinstance();
+		ManejadorUsuario mu = ManejadorUsuario.getInstance();
 
 		return mu.listarOrganizadores();
 	}
@@ -133,7 +132,7 @@ public class ControllerEvento implements IControllerEvento {
 	@Override
 	public void altaRegistro(String nombreEdicion, String nickAsistente, String nombreTR, String codigo)
 			throws Exception {
-		ManejadorUsuario manejadorUsuario = ManejadorUsuario.getinstance();
+		ManejadorUsuario manejadorUsuario = ManejadorUsuario.getInstance();
 		ManejadorEvento manejadorEvento = ManejadorEvento.getInstancia();
 		if (!manejadorEvento.existeEdicion(nombreEdicion)) {
 			throw new Exception("Edición no existe");
@@ -144,7 +143,7 @@ public class ControllerEvento implements IControllerEvento {
 		}
 		Asistente asistente = manejadorUsuario.findAsistente(nickAsistente);
 		
-		if(asistente.getInstitucion() == null) {
+		if (asistente.getInstitucion() == null) {
 			throw new Exception("Asistente no asociado a institución");
 		}
 		if (asistente != null && asistente.getInstitucion().findPatrocinio(codigo) == null) {
@@ -155,7 +154,7 @@ public class ControllerEvento implements IControllerEvento {
 		if (!pa.consultarRegistros()) {
 			throw new Exception("Ya no quedan cupos gratuitos para ese código");
 		}
-		if(pa.getTipoRegistro().getNombre() != nombreTR) {
+		if (pa.getTipoRegistro().getNombre() != nombreTR) {
 			throw new Exception("El código no es válido para ese tipo de registro");
 		}
 		if (edicion.habilitadoAsistente(nombreTR, asistente)) {
@@ -177,7 +176,7 @@ public class ControllerEvento implements IControllerEvento {
 	}
 	
     public void altaRegistro(String nombreEdicion, String nickAsistente, String nombreTR, String codigo, LocalDate fecha) throws Exception{
-    	ManejadorUsuario manejadorUsuario = ManejadorUsuario.getinstance();
+    	ManejadorUsuario manejadorUsuario = ManejadorUsuario.getInstance();
 		ManejadorEvento manejadorEvento = ManejadorEvento.getInstancia();
 		if (!manejadorEvento.existeEdicion(nombreEdicion)) {
 			throw new Exception("Edición no existe");
@@ -187,7 +186,7 @@ public class ControllerEvento implements IControllerEvento {
 			throw new Exception("Asistente no existe");
 		}
 		Asistente asistente = manejadorUsuario.findAsistente(nickAsistente);
-		if(asistente.getInstitucion() == null) {
+		if (asistente.getInstitucion() == null) {
 			throw new Exception("Asistente no asociado a institución");
 		}
 		if (asistente != null && asistente.getInstitucion().findPatrocinio(codigo) == null) {
@@ -220,7 +219,7 @@ public class ControllerEvento implements IControllerEvento {
     
     
     public void altaRegistro(String nombreEdicion, String nickAsistente, String nombreTR, LocalDate fecha) throws Exception{
-    	ManejadorUsuario manejadorUsuario = ManejadorUsuario.getinstance();
+    	ManejadorUsuario manejadorUsuario = ManejadorUsuario.getInstance();
 		ManejadorEvento manejadorEvento = ManejadorEvento.getInstancia();
 		if (!manejadorEvento.existeEdicion(nombreEdicion)) {
 			throw new Exception(nombreEdicion + " Edición no existe");
@@ -249,7 +248,7 @@ public class ControllerEvento implements IControllerEvento {
 
 	@Override
 	public void altaRegistro(String nombreEdicion, String nickAsistente, String nombreTR) throws Exception {
-		ManejadorUsuario manejadorUsuario = ManejadorUsuario.getinstance();
+		ManejadorUsuario manejadorUsuario = ManejadorUsuario.getInstance();
 		ManejadorEvento manejadorEvento = ManejadorEvento.getInstancia();
 		if (!manejadorEvento.existeEdicion(nombreEdicion)) {
 			throw new Exception(nombreEdicion + " Edición no existe");
@@ -303,7 +302,7 @@ public class ControllerEvento implements IControllerEvento {
 
 	public Organizador obtenerOrganizadorPorNombre(String nombreOrganizador) {
 	    if (nombreOrganizador == null) return null;
-	    ManejadorUsuario mu = ManejadorUsuario.getinstance();
+	    ManejadorUsuario mu = ManejadorUsuario.getInstance();
 	    for (Organizador o : mu.listarOrganizadores()) {
 	        if (o.getNombre().equals(nombreOrganizador)) {
 	            return o;
@@ -387,13 +386,13 @@ public class ControllerEvento implements IControllerEvento {
 		return null;
 	}
 	
-	public void AceptarRechazarEdicion(String nombreEdicion, boolean aceptar) throws Exception {
+	public void aceptarRechazarEdicion(String nombreEdicion, boolean Aceptar ) throws Exception {
         ManejadorEvento me = ManejadorEvento.getInstancia();
         Edicion ed = me.findEdicion(nombreEdicion);
         if (ed == null) {
             throw new Exception("La edición " + nombreEdicion + " no existe");
         }
-        if (aceptar) {
+        if (Aceptar ) {
             ed.setEstado(EstadoEdicion.Aceptada);
         } else {
             ed.setEstado(EstadoEdicion.Rechazada);

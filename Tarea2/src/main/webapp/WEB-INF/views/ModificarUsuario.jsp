@@ -34,13 +34,13 @@
 %>
 
 <main class="main">
-  <section id="modificar-usuario" class="section">
+  <section id="modificar-usuario" class="section">	
     <div class="container">
       <div class="section-title">
         <h2>Modificar datos de usuario</h2>
       </div>
 
-      <form action="<%=request.getContextPath()%>/perfil" method="post" enctype="multipart/form-data" id="form-modificar">
+      <form action="<%=request.getContextPath()%>/editarperfil" method="post" enctype="multipart/form-data" id="form-modificar">
         <input type="hidden" id="tipoUsuario" value="<%= tipo %>">
 
         <div class="profile-image text-center mb-4">
@@ -101,7 +101,7 @@
         </div>
 
         <button type="submit" class="btn btn-primary">Aceptar</button>
-        <a href="<%=request.getContextPath()%>/perfil" class="btn btn-secondary">Cancelar</a>
+        <a href="<%=request.getContextPath()%>/editarperfil" class="btn btn-secondary">Cancelar</a>
       </form>
     </div>
   </section>
@@ -124,3 +124,4 @@
 <script src="<%=request.getContextPath()%>/media/js/ModificarUsuario.js"></script>
 </body>
 </html>
+

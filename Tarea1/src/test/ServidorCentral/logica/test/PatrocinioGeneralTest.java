@@ -1,15 +1,28 @@
 package ServidorCentral.logica.test;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Test;
-
-import ServidorCentral.logica.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import ServidorCentral.logica.ControllerEvento;
+import ServidorCentral.logica.DTPatrocinio;
+import ServidorCentral.logica.ETipoNivel;
+import ServidorCentral.logica.Edicion;
+import ServidorCentral.logica.Evento;
+import ServidorCentral.logica.Institucion;
+import ServidorCentral.logica.ManejadorEvento;
+import ServidorCentral.logica.ManejadorInstitucion;
+import ServidorCentral.logica.Patrocinio;
+import ServidorCentral.logica.TipoRegistro;
 
 class PatrocinioGeneralTest {
     private ControllerEvento controller;
@@ -26,7 +39,7 @@ class PatrocinioGeneralTest {
         ManejadorInstitucion.getInstance().limpiar();
 
         evento = new Evento("EventoTest", "EVT", "desc", LocalDate.now(), new ArrayList<>());
-        edicion = new Edicion("EdicionTest", "EDT", LocalDate.of(2025,5,1), LocalDate.of(2025,5,10),LocalDate.of(2024,5,10), "Montevideo", "UY", evento);
+        edicion = new Edicion("EdicionTest", "EDT", LocalDate.of(2025, 5, 1), LocalDate.of(2025, 5, 10), LocalDate.of(2024, 5, 10), "Montevideo", "UY", evento);
         tipoRegistro = new TipoRegistro("General", "Acceso general", 100f, 50, edicion);
         edicion.agregarTipoRegistro(tipoRegistro);
         evento.agregarEdicion(edicion);

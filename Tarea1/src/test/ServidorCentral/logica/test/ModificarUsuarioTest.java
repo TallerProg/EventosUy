@@ -1,12 +1,19 @@
 package ServidorCentral.logica.test;
 
-import org.junit.jupiter.api.*;
-import ServidorCentral.logica.*;
-import ServidorCentral.excepciones.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import ServidorCentral.excepciones.UsuarioNoExisteException;
+import ServidorCentral.excepciones.UsuarioRepetidoException;
+import ServidorCentral.logica.Asistente;
+import ServidorCentral.logica.ControllerUsuario;
+import ServidorCentral.logica.ManejadorUsuario;
+import ServidorCentral.logica.Organizador;
 
 class ModificarUsuarioTest {
 
@@ -18,9 +25,9 @@ class ModificarUsuarioTest {
     void setUp() throws UsuarioRepetidoException {
         controller = new ControllerUsuario();
         
-        ManejadorUsuario.getinstance().limpiarUsuarios();
+        ManejadorUsuario.getInstance().limpiarUsuarios();
 
-        controller.AltaAsistente(
+        controller.altaAsistente(
                 "asist1",
                 "asist1@mail.com",
                 "Juan",
@@ -31,7 +38,7 @@ class ModificarUsuarioTest {
         );
         asistente = controller.getAsistente("asist1");
 
-        controller.AltaOrganizador(
+        controller.altaOrganizador(
                 "org1",
                 "org1@mail.com",
                 "Org Principal",
@@ -93,7 +100,7 @@ class ModificarUsuarioTest {
         });
     }
     @Test
-    void testModificarUsuario1_Asistente() {
+    void testModificarUsuario1Asistente() {
         Asistente actualizado = new Asistente(
                 "asist1",                    
                 "asist1_mod@mail.com",        
@@ -113,7 +120,7 @@ class ModificarUsuarioTest {
     }
 
     @Test
-    void testModificarUsuario1_Organizador() {
+    void testModificarUsuario1Organizador() {
         Organizador actualizado = new Organizador(
                 "org1",                       
                 "org1_mod@mail.com",          

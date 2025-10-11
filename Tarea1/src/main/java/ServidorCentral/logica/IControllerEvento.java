@@ -5,8 +5,8 @@ import java.util.List;
 
 public interface IControllerEvento {
 
-	public void altaEdicionDeEvento(String nombre, String sigla, String ciudad, String pais, LocalDate fInicio,
-			LocalDate fFin,LocalDate fAlta, Evento evento, Organizador org,String imagenWebPath) throws Exception;
+	public void altaEdicionDeEvento(String nombre, String sigla, String ciudad, String pais, LocalDate fInicio, 
+			LocalDate fFin, LocalDate fAlta, Evento evento, Organizador org, String imagenWebPath) throws Exception;
 
 	public DTEdicion consultaEdicionDeEvento(String nombreEvento, String nombreEdicion);
 
@@ -53,5 +53,5 @@ public interface IControllerEvento {
 	public Organizador obtenerOrganizadorPorNombre(String nombreOrganizadorSeleccionado);
 	public List<String> listarNombresEventos() ;
 
-	public void AceptarRechazarEdicion(String nombreEdicion, boolean aceptar) throws Exception;
+	public void aceptarRechazarEdicion(String nombreEdicion, boolean Aceptar ) throws Exception;
 }

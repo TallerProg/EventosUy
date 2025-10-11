@@ -1,13 +1,25 @@
 package ServidorCentral.presentacion;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.util.List;
-import ServidorCentral.logica.Patrocinio;
+
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
+import javax.swing.JDesktopPane;
+import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
 import ServidorCentral.logica.DTPatrocinio;
 import ServidorCentral.logica.Edicion;
 import ServidorCentral.logica.Evento;
 import ServidorCentral.logica.IControllerEvento;
+import ServidorCentral.logica.Patrocinio;
 
 public class ConsultaPatrocinio extends JInternalFrame {
 

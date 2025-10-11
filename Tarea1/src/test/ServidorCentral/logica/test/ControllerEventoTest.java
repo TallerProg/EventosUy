@@ -1,19 +1,25 @@
 package ServidorCentral.logica.test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
 
-import org.junit.jupiter.api.*;
-
-import java.time.*;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+
+import ServidorCentral.logica.Categoria;
+import ServidorCentral.logica.Evento;
 import ServidorCentral.logica.Factory;
 import ServidorCentral.logica.IControllerEvento;
 import ServidorCentral.logica.IControllerUsuario;
-import ServidorCentral.logica.Categoria;
-import ServidorCentral.logica.Evento;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class ControllerEventoTest {
@@ -43,17 +49,17 @@ class ControllerEventoTest {
 			controladorEve.altaEvento(nomTest, descTest, fAltaTest, siglaTest, catTest);
 			Evento e = controladorEve.getEvento(nomTest);
 			
-			assertEquals(e.getNombre(),nomTest);
-			assertEquals(e.getDescripcion(),descTest);
-			assertEquals(e.getFAlta(),fAltaTest);
-			assertEquals(e.getSigla(),siglaTest);
-			assertEquals(e.getCategoria(),catTest);
+			assertEquals(e.getNombre(), nomTest);
+			assertEquals(e.getDescripcion(), descTest);
+			assertEquals(e.getFAlta(), fAltaTest);
+			assertEquals(e.getSigla(), siglaTest);
+			assertEquals(e.getCategoria(), catTest);
 			
 		} catch (Exception e){
 			fail(e.getMessage());
 			e.printStackTrace();
-
-		};
+			}
+		;
 		
 		
 	}
@@ -74,9 +80,10 @@ class ControllerEventoTest {
 		} catch (Exception e){
 			fail(e.getMessage());
 			e.printStackTrace();
-
-		};
-		assertThrows(Exception.class, ()->{controladorEve.altaEvento(nomTest, descTest, fAltaTest, siglaTest, catTest);});
+			}
+		;
+		assertThrows(Exception.class, ()-> {controladorEve.altaEvento(nomTest, descTest, fAltaTest, siglaTest, catTest); })
+		;
 		
 	}
 	

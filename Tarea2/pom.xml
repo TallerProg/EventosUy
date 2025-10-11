@@ -15,8 +15,8 @@
   <packaging>war</packaging>
 
   <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>17</maven.compiler.source>
+    <project.build.sourcEEncoding>UTF-8</project.build.sourcEEncoding>
+    <maven.compiler.sourcE>17</maven.compiler.sourcE>
     <maven.compiler.target>17</maven.compiler.target>
 
     <jakarta.servlet.version>6.1.0</jakarta.servlet.version>
@@ -31,7 +31,7 @@
 
     <dependency>
       <groupId>uy.fing.tprog</groupId>
-      <artifactId>servidor-central</artifactId>
+      <artifactId>servidor-cEntral</artifactId>
       <version>1.0.0</version>
     </dependency>
 
@@ -79,7 +79,7 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.13.0</version>
         <configuration>
-          <release>${maven.compiler.source}</release>
+          <release>${maven.compiler.sourcE}</release>
         </configuration>
       </plugin>
 

@@ -1,4 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="java.util.*, ServidorCentral.logica.DTPatrocinio" %>
+
+
 <%
   String ctx = request.getContextPath();
 
@@ -32,8 +35,7 @@
   java.util.Map<String,String> miReg =
     VM != null ? (java.util.Map<String,String>) VM.get("miRegistro") : null;
 
-  java.util.List<String> pats =
-    VM != null ? (java.util.List<String>) VM.get("patrocinios") : java.util.Collections.emptyList();
+  java.util.List<DTPatrocinio> pats = (List<DTPatrocinio>) request.getAttribute("patrocinios");
 %>
 <!DOCTYPE html>
 <html lang="es">
@@ -76,26 +78,39 @@
           <p><strong>Ciudad:</strong> <%= nv(ciudad) %></p>
           <p><strong>País:</strong> <%= nv(pais) %></p>
 
-          <h5 class="mt-3">
-            <i class="bi bi-ticket-perforated"></i> Tipos de Registro
-          </h5>
-          <ul class="mb-3">
-            <% if (tipos != null && !tipos.isEmpty()) {
-                 for (java.util.Map<String,String> tr : tipos) {
-                   String tn = tr.get("nombre");
-                   String tc = tr.get("costo");
-                   String cp = tr.get("cupos");
-            %>
-              <li>
-                <%= nv(tn) %>
-                (<% if (tc != null && !tc.isEmpty()) { %>costo: $<%= tc %><% } %>
-                 <% if (cp != null && !cp.isEmpty()) { %><%= (tc!=null && !tc.isEmpty()) ? ", " : "" %>cupos: <%= cp %><% } %>)
-              </li>
-            <%   }
-               } else { %>
-              <li>No hay tipos de registro.</li>
-            <% } %>
-          </ul>
+          <h5 class="mt-3 d-flex align-items-center gap-2">
+			  <i class="bi bi-ticket-perforated"></i> Tipos de Registro
+			
+			  <% if (ES_ORGANIZADOR) { %>
+			    <a href="<%= ctx %>/organizador-tipos-registro-alta"
+			       class="btn btn-sm btn-primary ms-auto d-inline-flex align-items-center justify-content-center"
+			       style="width: 32px; height: 32px; border-radius: 8px;"
+			       title="Alta de Tipo de Registro" aria-label="Alta de Tipo de Registro">
+			      <i class="bi bi-plus"></i>
+			    </a>
+			  <% } %>
+		</h5>
+
+			<ul class="mb-3">
+			  <% if (tipos != null && !tipos.isEmpty()) {
+			       for (java.util.Map<String,String> tr : tipos) {
+			         String tn = tr.get("nombre"); // solo el nombre
+			         String encEd = java.net.URLEncoder.encode(nombre, java.nio.charset.StandardCharsets.UTF_8);
+			         String encTn = java.net.URLEncoder.encode(tn,      java.nio.charset.StandardCharsets.UTF_8);
+			  %>
+			    <li class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+			      <span><%= nv(tn) %></span>
+			      <a class="btn btn-sm btn-outline-primary"
+			         href="<%= ctx %>/ConsultaTipoRegistro?edicion=<%= encEd %>&tipo=<%= encTn %>">
+			        Ver detalles
+			      </a>
+			    </li>
+			  <% } } else { %>
+			    <li class="text-muted">No hay tipos de registro.</li>
+			  <% } %>
+			</ul>
+
+
         </div>
       </div>
 
@@ -135,10 +150,14 @@
       <div class="mt-5">
         <h5><i class="bi bi-people"></i> Patrocinios</h5>
         <ul class="mb-0">
-          <% if (pats != null && !pats.isEmpty()) {
-               for (String p : pats) { %>
-            <li><%= nv(p) %></li>
-          <% } } else { %>
+          <% if (pats != null ) { %>
+     <div class="mt-5" id="patrocinios">
+		  <h5><i class="bi bi-people"></i> Patrocinios</h5>
+		  <div id="contenido-patrocinios">
+							<jsp:include page="/WEB-INF/views/ConsultaPatrocinio.jsp" />
+						</div>
+		</div>		
+          <%  } else { %>
             <li class="text-muted">No hay patrocinios cargados.</li>
           <% } %>
         </ul>

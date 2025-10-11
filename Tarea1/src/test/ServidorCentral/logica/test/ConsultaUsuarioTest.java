@@ -1,13 +1,25 @@
 package ServidorCentral.logica.test;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import ServidorCentral.logica.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import ServidorCentral.logica.Asistente;
+import ServidorCentral.logica.ControllerUsuario;
+import ServidorCentral.logica.DTUsuarioListaConsulta;
+import ServidorCentral.logica.Edicion;
+import ServidorCentral.logica.Evento;
+import ServidorCentral.logica.ManejadorEvento;
+import ServidorCentral.logica.ManejadorUsuario;
+import ServidorCentral.logica.Organizador;
+import ServidorCentral.logica.Registro;
+import ServidorCentral.logica.TipoRegistro;
 
 class ConsultaUsuarioTest {
 
@@ -20,14 +32,14 @@ class ConsultaUsuarioTest {
 
     @BeforeEach
     void setUp() throws Exception {
-        manejadorUsuario = ManejadorUsuario.getinstance();
+        manejadorUsuario = ManejadorUsuario.getInstance();
         controllerUsuario = new ControllerUsuario();
 
-        org1 = new Organizador("org90", "org1@mail.com", "Org Principal", "Organizador Principal","1234");
+        org1 = new Organizador("org90", "org1@mail.com", "Org Principal", "Organizador Principal", "1234");
         manejadorUsuario.agregarUsuario(org1);
 
         asist1 = new Asistente("asist1", "asist1@mail.com", "Asistente 1", "Apellido",
-                LocalDate.of(2000, 5, 1),"1234");
+                LocalDate.of(2000, 5, 1), "1234");
         manejadorUsuario.agregarUsuario(asist1);
 
         evento1 = new Evento("ConferenciaX", "C-2025", "Evento de prueba",
@@ -35,8 +47,8 @@ class ConsultaUsuarioTest {
         ManejadorEvento.getInstancia().agregarEvento(evento1);
 
         edicion1 = new Edicion("Edicion2025", "ED2025",
-                LocalDate.of(2025,5,1), LocalDate.of(2025,5,10),LocalDate.of(2024,5,10),
-                "Montevideo","Uruguay", evento1);
+                LocalDate.of(2025, 5, 1), LocalDate.of(2025, 5, 10), LocalDate.of(2024, 5, 10), 
+                "Montevideo", "Uruguay", evento1);
 
         edicion1.getOrganizadores().add(org1);
         org1.agregarEdicionOrg(edicion1);
@@ -54,7 +66,7 @@ class ConsultaUsuarioTest {
 
     @Test
     void testConsultaOrganizador() {
-        DTUsuarioListaConsulta dt = controllerUsuario.ConsultaDeUsuario("org90");
+        DTUsuarioListaConsulta dt = controllerUsuario.consultaDeUsuario("org90");
         assertNotNull(dt);
         assertEquals("org90", dt.getNickname());
         assertEquals("org1@mail.com", dt.getCorreo());
@@ -70,13 +82,13 @@ class ConsultaUsuarioTest {
 
     @Test
     void testConsultaAsistente() {
-        DTUsuarioListaConsulta dt = controllerUsuario.ConsultaDeUsuario("asist1");
+        DTUsuarioListaConsulta dt = controllerUsuario.consultaDeUsuario("asist1");
         assertNotNull(dt);
         assertEquals("asist1", dt.getNickname());
         assertEquals("asist1@mail.com", dt.getCorreo());
         assertEquals("Asistente 1", dt.getNombre());
         assertEquals("Apellido", dt.getApellido());
-        assertEquals(LocalDate.of(2000,5,1), dt.getFNacimiento());
+        assertEquals(LocalDate.of(2000, 5, 1), dt.getFNacimiento());
         assertEquals(1, dt.getRegistros().size());
         assertEquals("Edicion2025", dt.getRegistros().get(0).getEdicion().getNombre());
         assertEquals(1, dt.getEdiciones().size());
@@ -88,7 +100,7 @@ class ConsultaUsuarioTest {
 
     @Test
     void testUsuarioInexistente() {
-        DTUsuarioListaConsulta dt = controllerUsuario.ConsultaDeUsuario("usuarioInexistente");
+        DTUsuarioListaConsulta dt = controllerUsuario.consultaDeUsuario("usuarioInexistente");
         assertNull(dt);
     }
 }

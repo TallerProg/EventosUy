@@ -1,10 +1,17 @@
 package recursos.cargardatospk;
-import ServidorCentral.logica.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 
 import javax.swing.JOptionPane;
+
+import ServidorCentral.logica.Categoria;
+import ServidorCentral.logica.ETipoNivel;
+import ServidorCentral.logica.IControllerEvento;
+import ServidorCentral.logica.IControllerUsuario;
+import ServidorCentral.logica.Institucion;
+import ServidorCentral.logica.ManejadorInstitucion;
+import ServidorCentral.logica.Patrocinio;
 
 public class CargarDatos {
 
@@ -105,34 +112,34 @@ public class CargarDatos {
 		// Crear Asistentes
 		// ------------------
 		try {
-			ICU.AltaAsistente("atorres", "atorres@gmail.com", "Ana", "Torres",
+			ICU.altaAsistente("atorres", "atorres@gmail.com", "Ana", "Torres",
 			        LocalDate.parse("12/05/1990", formatter), INS01, "12345678");
 
-			ICU.AltaAsistente("msilva", "martin.silva@fing.edu.uy", "Martin", "Silva",
+			ICU.altaAsistente("msilva", "martin.silva@fing.edu.uy", "Martin", "Silva",
 			        LocalDate.parse("21/08/1987", formatter), INS01, "12345678");
 
-			ICU.AltaAsistente("sofirod", "srodriguez@outlook.com", "Sofia", "Rodriguez",
+			ICU.altaAsistente("sofirod", "srodriguez@outlook.com", "Sofia", "Rodriguez",
 			        LocalDate.parse("03/02/1995", formatter), INS03, "12345678");
 
-			ICU.AltaAsistente("vale23", "valentina.costa@mail.com", "Valentina", "Costa",
+			ICU.altaAsistente("vale23", "valentina.costa@mail.com", "Valentina", "Costa",
 			        LocalDate.parse("01/12/1992", formatter), null, "12345678");
 
-			ICU.AltaAsistente("luciag", "lucia.garcia@mail.com", "Lucía", "García",
+			ICU.altaAsistente("luciag", "lucia.garcia@mail.com", "Lucía", "García",
 			        LocalDate.parse("09/11/1993", formatter), null, "12345678");
 
-			ICU.AltaAsistente("andrearod", "andrea.rod@mail.com", "Andrea", "Rodríguez",
+			ICU.altaAsistente("andrearod", "andrea.rod@mail.com", "Andrea", "Rodríguez",
 			        LocalDate.parse("10/06/2000", formatter), INS05, "12345678");
 
-			ICU.AltaAsistente("AnaG", "ana.gomez@hotmail.com", "Ana", "Gómez",
+			ICU.altaAsistente("AnaG", "ana.gomez@hotmail.com", "Ana", "Gómez",
 			        LocalDate.parse("15/03/1998", formatter), null, "12345678");
 
-			ICU.AltaAsistente("JaviL", "javier.lopez@outlook.com", "Javier", "López",
+			ICU.altaAsistente("JaviL", "javier.lopez@outlook.com", "Javier", "López",
 			        LocalDate.parse("22/07/1995", formatter), null, "12345678");
 
-			ICU.AltaAsistente("MariR", "maria.rodriguez@gmail.com", "María", "Rodríguez",
+			ICU.altaAsistente("MariR", "maria.rodriguez@gmail.com", "María", "Rodríguez",
 			        LocalDate.parse("10/11/2000", formatter), null, "12345678");
 
-			ICU.AltaAsistente("SofiM", "sofia.martinez@yahoo.com", "Sofía", "Martínez",
+			ICU.altaAsistente("SofiM", "sofia.martinez@yahoo.com", "Sofía", "Martínez",
 			        LocalDate.parse("05/02/1997", formatter), null, "12345678");
 
 
@@ -144,19 +151,19 @@ public class CargarDatos {
 		// Crear Organizadores
 		// ------------------
 		try {
-			ICU.AltaOrganizador("miseventos", "contacto@miseventos.com", "MisEventos",
+			ICU.altaOrganizador("miseventos", "contacto@miseventos.com", "MisEventos",
 					"Empresa de organización de eventos.", "https://miseventos.com", "12345678");
 
-			ICU.AltaOrganizador("techcorp", "info@techcorp.com", "Corporación Tecnológica",
+			ICU.altaOrganizador("techcorp", "info@techcorp.com", "Corporación Tecnológica",
 					"Empresa líder en tecnologías de la información.", null, "12345678");
 
-			ICU.AltaOrganizador("imm", "contacto@imm.gub.uy", "Intendencia de Montevideo",
+			ICU.altaOrganizador("imm", "contacto@imm.gub.uy", "Intendencia de Montevideo",
 					"Gobierno departamental de Montevideo.", "https://montevideo.gub.uy", "12345678");
 
-			ICU.AltaOrganizador("udelar", "contacto@udelar.edu.uy", "Universidad de la República",
+			ICU.altaOrganizador("udelar", "contacto@udelar.edu.uy", "Universidad de la República",
 					"Universidad pública de Uruguay.", "https://udelar.edu.uy", "12345678");
 
-			ICU.AltaOrganizador("mec", "mec@mec.gub.uy", "Ministerio de Educación y Cultura",
+			ICU.altaOrganizador("mec", "mec@mec.gub.uy", "Ministerio de Educación y Cultura",
 					"Institución pública promotora de cultura.", "https://mec.gub.uy", "12345678");
 
 		} catch (Exception e) {
@@ -169,53 +176,53 @@ public class CargarDatos {
 		try {
 			// EDEV01
 			ICE.altaEdicionDeEvento("Montevideo Rock 2025", "MONROCK25", "Montevideo", "Uruguay",
-					LocalDate.parse("20/11/2025", formatter), LocalDate.parse("22/11/2025", formatter),LocalDate.parse("12/03/2025",formatter),
+					LocalDate.parse("20/11/2025", formatter), LocalDate.parse("22/11/2025", formatter), LocalDate.parse("12/03/2025", formatter),
 					ICE.getEvento("Montevideo Rock"), ICU.getOrganizador("imm"), "Rambla de Montevideo");
 
 			// EDEV02 
 			ICE.altaEdicionDeEvento("Maratón de Montevideo 2025", "MARATON25", "Montevideo", "Uruguay",
-					LocalDate.parse("14/09/2025", formatter), LocalDate.parse("14/09/2025", formatter),LocalDate.parse("05/02/2025", formatter),
+					LocalDate.parse("14/09/2025", formatter), LocalDate.parse("14/09/2025", formatter), LocalDate.parse("05/02/2025", formatter),
 					ICE.getEvento("Maratón de Montevideo"), ICU.getOrganizador("imm"), "Rambla de Montevideo");
 
 			// EDEV03 
 			ICE.altaEdicionDeEvento("Maratón de Montevideo 2024", "MARATON24", "Montevideo", "Uruguay",
-					LocalDate.parse("14/09/2024", formatter), LocalDate.parse("14/09/2024", formatter),LocalDate.parse("21/04/2024", formatter),
+					LocalDate.parse("14/09/2024", formatter), LocalDate.parse("14/09/2024", formatter), LocalDate.parse("21/04/2024", formatter),
 					ICE.getEvento("Maratón de Montevideo"), ICU.getOrganizador("imm"), "Rambla de Montevideo");
 
 			// EDEV04 
 
 			ICE.altaEdicionDeEvento("Maratón de Montevideo 2022", "MARATON22", "Montevideo", "Uruguay",
-					LocalDate.parse("14/09/2022", formatter), LocalDate.parse("14/09/2022", formatter),LocalDate.parse("21/05/2022", formatter),
+					LocalDate.parse("14/09/2022", formatter), LocalDate.parse("14/09/2022", formatter), LocalDate.parse("21/05/2022", formatter),
 					ICE.getEvento("Maratón de Montevideo"), ICU.getOrganizador("imm"), "Rambla de Montevideo");
 
 			// EDEV05 
 			ICE.altaEdicionDeEvento("Montevideo Comics 2024", "COMICS24", "Montevideo", "Uruguay",
-					LocalDate.parse("18/07/2024", formatter), LocalDate.parse("21/07/2024", formatter),LocalDate.parse("20/06/2024", formatter),
+					LocalDate.parse("18/07/2024", formatter), LocalDate.parse("21/07/2024", formatter), LocalDate.parse("20/06/2024", formatter),
 					ICE.getEvento("Montevideo Comics"), ICU.getOrganizador("miseventos"), "Centro de Convenciones");
 
 			// EDEV06 
 			ICE.altaEdicionDeEvento("Montevideo Comics 2025", "COMICS25", "Montevideo", "Uruguay",
-					LocalDate.parse("04/08/2025", formatter), LocalDate.parse("06/08/2025", formatter),LocalDate.parse("04/07/2025", formatter),
+					LocalDate.parse("04/08/2025", formatter), LocalDate.parse("06/08/2025", formatter), LocalDate.parse("04/07/2025", formatter),
 					ICE.getEvento("Montevideo Comics"), ICU.getOrganizador("miseventos"), "Centro de Convenciones");
 
 			// EDEV07 
 			ICE.altaEdicionDeEvento("Expointer Uruguay 2025", "EXPOAGRO25", "Durazno", "Uruguay",
-					LocalDate.parse("11/09/2025", formatter), LocalDate.parse("17/09/2025", formatter),LocalDate.parse("01/02/2025", formatter),
+					LocalDate.parse("11/09/2025", formatter), LocalDate.parse("17/09/2025", formatter), LocalDate.parse("01/02/2025", formatter),
 					ICE.getEvento("Expointer Uruguay"), ICU.getOrganizador("miseventos"), "Predio Ferial");
 
 			// EDEV08 
 			ICE.altaEdicionDeEvento("Tecnología Punta del Este 2026", "CONFTECH26", "Punta del Este", "Uruguay",
-					LocalDate.parse("06/04/2026", formatter), LocalDate.parse("10/04/2026", formatter),LocalDate.parse("01/08/2025", formatter),
+					LocalDate.parse("06/04/2026", formatter), LocalDate.parse("10/04/2026", formatter), LocalDate.parse("01/08/2025", formatter),
 					ICE.getEvento("Conferencia de Tecnología"), ICU.getOrganizador("udelar"), "Hotel Conrad");
 
 			// EDEV09 
 			ICE.altaEdicionDeEvento("Mobile World Congress 2025", "MWC", "Barcelona", "España",
-					LocalDate.parse("12/12/2025", formatter), LocalDate.parse("15/12/2025", formatter),LocalDate.parse("21/08/2025", formatter),
+					LocalDate.parse("12/12/2025", formatter), LocalDate.parse("15/12/2025", formatter), LocalDate.parse("21/08/2025", formatter),
 					ICE.getEvento("Conferencia de Tecnología"), ICU.getOrganizador("techcorp"), "Fira Gran Via");
 
 			// EDEV10 
 			ICE.altaEdicionDeEvento("Web Summit 2026", "WS26", "Lisboa", "Portugal",
-					LocalDate.parse("13/01/2026", formatter), LocalDate.parse("01/02/2026", formatter),LocalDate.parse("04/06/2025", formatter),
+					LocalDate.parse("13/01/2026", formatter), LocalDate.parse("01/02/2026", formatter), LocalDate.parse("04/06/2025", formatter),
 					ICE.getEvento("Conferencia de Tecnología"), ICU.getOrganizador("techcorp"), "Parque das Nações");
 
 		} catch (Exception e) {

@@ -3,7 +3,7 @@ package ServidorCentral.logica;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ManejadorInstitucion {
+public final class ManejadorInstitucion {
 
 	private static ManejadorInstitucion instancia = null;
 	private List<Institucion> instituciones;

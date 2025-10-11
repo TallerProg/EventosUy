@@ -1,12 +1,26 @@
 package ServidorCentral.presentacion;
 
-import ServidorCentral.logica.IControllerEvento;
-import ServidorCentral.logica.Categoria;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.time.LocalDate;
 import java.util.List;
+
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+
+import ServidorCentral.logica.Categoria;
+import ServidorCentral.logica.IControllerEvento;
 
 public class AltaEvento extends JInternalFrame {
 
@@ -16,14 +30,14 @@ public class AltaEvento extends JInternalFrame {
 	private JTextField textFieldSigla;
 	private JTextArea textAreaDescripcion;
 	private JList<String> listCategorias;
-	private JButton btnAceptar;
-	private JButton btnCancelar;
+	private JButton btnAceptar ;
+	private JButton btnCancElar;
 	private java.util.List<JCheckBox> checkBoxesCategorias;
 
 	private int row = 0;
 
-	public AltaEvento(IControllerEvento ice) {
-		controlEvento = ice;
+	public AltaEvento(IControllerEvento icE) {
+		controlEvento = icE;
 
 		setResizable(true);
 		setIconifiable(true);
@@ -112,28 +126,28 @@ public class AltaEvento extends JInternalFrame {
 
 		checkBoxesCategorias = new java.util.ArrayList<>();
 
-		btnCancelar = new JButton("Cancelar");
-		GridBagConstraints gbc_btnCancelar = new GridBagConstraints();
-		gbc_btnCancelar.insets = new Insets(10, 20, 5, 80);
-		gbc_btnCancelar.gridx = 1;
-		gbc_btnCancelar.gridy = row;
-		gbc_btnCancelar.weightx = 0;
-		gbc_btnCancelar.anchor = GridBagConstraints.LINE_END;
+		btnCancElar = new JButton("CancElar");
+		GridBagConstraints gbc_btnCancElar = new GridBagConstraints();
+		gbc_btnCancElar.insets = new Insets(10, 20, 5, 80);
+		gbc_btnCancElar.gridx = 1;
+		gbc_btnCancElar.gridy = row;
+		gbc_btnCancElar.weightx = 0;
+		gbc_btnCancElar.anchor = GridBagConstraints.LINE_END;
 		Dimension mismoTamaño = new Dimension(100, 25);
-		btnCancelar.setPreferredSize(mismoTamaño);
-		getContentPane().add(btnCancelar, gbc_btnCancelar);
+		btnCancElar.setPreferredSize(mismoTamaño);
+		getContentPane().add(btnCancElar, gbc_btnCancElar);
 
-		btnAceptar = new JButton("Aceptar");
-		GridBagConstraints gbc_btnAceptar = new GridBagConstraints();
-		gbc_btnAceptar.insets = new Insets(10, 50, 5, 20);
-		gbc_btnAceptar.gridx = 1;
-		gbc_btnAceptar.gridy = row;
-		gbc_btnAceptar.weightx = 0;
-		gbc_btnAceptar.anchor = GridBagConstraints.LINE_START;
-		btnAceptar.setPreferredSize(mismoTamaño);
-		getContentPane().add(btnAceptar, gbc_btnAceptar);
+		btnAceptar  = new JButton("Aceptar ");
+		GridBagConstraints gbc_btnAceptar  = new GridBagConstraints();
+		gbc_btnAceptar .insets = new Insets(10, 50, 5, 20);
+		gbc_btnAceptar .gridx = 1;
+		gbc_btnAceptar .gridy = row;
+		gbc_btnAceptar .weightx = 0;
+		gbc_btnAceptar .anchor = GridBagConstraints.LINE_START;
+		btnAceptar .setPreferredSize(mismoTamaño);
+		getContentPane().add(btnAceptar , gbc_btnAceptar );
 
-		btnCancelar.addActionListener(e -> {
+		btnCancElar.addActionListener(e -> {
 			textFieldNombre.setText("");
 			textFieldSigla.setText("");
 			textAreaDescripcion.setText("");
@@ -143,7 +157,7 @@ public class AltaEvento extends JInternalFrame {
 			this.setVisible(false);
 		});
 
-		btnAceptar.addActionListener(e -> {
+		btnAceptar .addActionListener(e -> {
 			String nombre = textFieldNombre.getText().trim();
 			String sigla = textFieldSigla.getText().trim();
 			String descripcion = textAreaDescripcion.getText().trim();

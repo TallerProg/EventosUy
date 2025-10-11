@@ -1,24 +1,37 @@
 package ServidorCentral.presentacion;
 
 import java.util.List;
-import javax.swing.*;
-import ServidorCentral.logica.*;
+
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+
+import ServidorCentral.logica.Asistente;
+import ServidorCentral.logica.Edicion;
+import ServidorCentral.logica.Evento;
+import ServidorCentral.logica.IControllerEvento;
+import ServidorCentral.logica.IControllerUsuario;
+import ServidorCentral.logica.TipoRegistro;
 import net.miginfocom.swing.MigLayout;
 
 public class RegistroEdicionEvento extends JInternalFrame {
 	private static final long serialVersionUID = 1L;
 	private JTextField textFieldCodigo;
-	private IControllerEvento ice;
+	private IControllerEvento icE;
 	private IControllerUsuario icu;
 	private JComboBox<String> comboBoxEvento;
 	private JComboBox<String> comboBoxEdicion;
 	private JComboBox<String> comboBoxRegistro;
 	private JComboBox<String> comboBoxAsistente;
 
-	public RegistroEdicionEvento(IControllerEvento ice, IControllerUsuario icu) {
+	public RegistroEdicionEvento(IControllerEvento icE, IControllerUsuario icu) {
 
 		super("Registro a Edicion de Evento", false, false, false, false);
-		this.ice = ice;
+		this.icE = icE;
 		this.icu = icu;
 		setSize(466, 349);
 		setClosable(true);
@@ -59,8 +72,8 @@ public class RegistroEdicionEvento extends JInternalFrame {
 		btnRegistrar.setEnabled(false);
 		getContentPane().add(btnRegistrar, "cell 0 12");
 
-		JButton btnCancelar = new JButton("Cancelar");
-		getContentPane().add(btnCancelar, "cell 14 12");
+		JButton btnCancElar = new JButton("CancElar");
+		getContentPane().add(btnCancElar, "cell 14 12");
 
 		comboBoxEdicion.setEnabled(false);
 		comboBoxRegistro.setEnabled(false);
@@ -155,9 +168,9 @@ public class RegistroEdicionEvento extends JInternalFrame {
 
 			try {
 				if (codigo.isEmpty()) {
-					ice.altaRegistro(edicionSel, asistenteSel, tipoRegistroSel);
+					icE.altaRegistro(edicionSel, asistenteSel, tipoRegistroSel);
 				} else {
-					ice.altaRegistro(edicionSel, asistenteSel, tipoRegistroSel, codigo);
+					icE.altaRegistro(edicionSel, asistenteSel, tipoRegistroSel, codigo);
 				}
 
 				JOptionPane.showMessageDialog(this, "Registro exitoso", "Éxito", JOptionPane.INFORMATION_MESSAGE);
@@ -179,7 +192,7 @@ public class RegistroEdicionEvento extends JInternalFrame {
 			}
 		});
 
-		btnCancelar.addActionListener(e -> {
+		btnCancElar.addActionListener(e -> {
 			cargarEventos();
 			comboBoxEdicion.removeAllItems();
 			comboBoxRegistro.removeAllItems();
@@ -195,7 +208,7 @@ public class RegistroEdicionEvento extends JInternalFrame {
 	}
 
 	public void cargarEventos() {
-		List<Evento> eventos = ice.listarEventos();
+		List<Evento> eventos = icE.listarEventos();
 		if (eventos.isEmpty()) {
 
 			comboBoxEvento.addItem("Sin eventos");
@@ -214,7 +227,7 @@ public class RegistroEdicionEvento extends JInternalFrame {
 	}
 
 	public void cargarEdiciones(String nombreEvento) {
-		Evento evento = ice.getEvento(nombreEvento);
+		Evento evento = icE.getEvento(nombreEvento);
 		if (evento != null) {
 			List<Edicion> ediciones = evento.getEdiciones();
 			if (ediciones.isEmpty()) {
@@ -235,7 +248,7 @@ public class RegistroEdicionEvento extends JInternalFrame {
 	}
 
 	public void cargarRegistros(String nombreEedicion) {
-		List<TipoRegistro> registros = ice.findEdicion(nombreEedicion).getTipoRegistros();
+		List<TipoRegistro> registros = icE.findEdicion(nombreEedicion).getTipoRegistros();
 		if (registros != null) {
 			comboBoxRegistro.setEnabled(true);
 			List<String> nombres = new java.util.ArrayList<>();

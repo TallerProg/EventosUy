@@ -1,9 +1,27 @@
 package ServidorCentral.presentacion;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 
-import ServidorCentral.logica.*;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDesktopPane;
+import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+import ServidorCentral.logica.DTEdicion;
+import ServidorCentral.logica.DTOrganizador;
+import ServidorCentral.logica.DTPatrocinio;
+import ServidorCentral.logica.DTRegistro;
+import ServidorCentral.logica.DTTipoRegistro;
+import ServidorCentral.logica.Evento;
+import ServidorCentral.logica.IControllerEvento;
 
 public class ConsultaEdicionEvento extends JInternalFrame {
 
@@ -11,8 +29,8 @@ public class ConsultaEdicionEvento extends JInternalFrame {
 
 	private IControllerEvento controller;
 
-	private JTextField NombreEdicion, CiudadEdicion, SiglaEdicion, PaisEdicion, FAltaEdicion, FInicioEdicion,
-			FFinEdicion;
+	private JTextField nombreEdicion, ciudadEdicion, siglaEdicion, paisEdicion, fAltaEdicion, fInicioEdicion,
+			fFinEdicion;
 	private JComboBox<String> comboEventos, comboEdiciones, comboTiposRegistro, comboRegistros, comboPatrocinios,
 			comboOrganizadores;
 
@@ -82,14 +100,14 @@ public class ConsultaEdicionEvento extends JInternalFrame {
 	    gbcLblNombre.insets = new Insets(5, 5, 5, 5);
 	    panel.add(new JLabel("Nombre :"), gbcLblNombre);
 
-	    NombreEdicion = new JTextField();
-	    NombreEdicion.setEditable(false);
+	    nombreEdicion = new JTextField();
+	    nombreEdicion.setEditable(false);
 	    GridBagConstraints gbcNombre = new GridBagConstraints();
 	    gbcNombre.gridx = 1;
 	    gbcNombre.gridy = row;
 	    gbcNombre.fill = GridBagConstraints.HORIZONTAL;
 	    gbcNombre.insets = new Insets(5, 5, 5, 5);
-	    panel.add(NombreEdicion, gbcNombre);
+	    panel.add(nombreEdicion, gbcNombre);
 
 	    GridBagConstraints gbcLblSigla = new GridBagConstraints();
 	    gbcLblSigla.gridx = 2;
@@ -98,14 +116,14 @@ public class ConsultaEdicionEvento extends JInternalFrame {
 	    gbcLblSigla.insets = new Insets(5, 5, 5, 5);
 	    panel.add(new JLabel("Sigla :"), gbcLblSigla);
 
-	    SiglaEdicion = new JTextField();
-	    SiglaEdicion.setEditable(false);
+	    siglaEdicion = new JTextField();
+	    siglaEdicion.setEditable(false);
 	    GridBagConstraints gbcSigla = new GridBagConstraints();
 	    gbcSigla.gridx = 3;
 	    gbcSigla.gridy = row;
 	    gbcSigla.fill = GridBagConstraints.HORIZONTAL;
 	    gbcSigla.insets = new Insets(5, 5, 5, 5);
-	    panel.add(SiglaEdicion, gbcSigla);
+	    panel.add(siglaEdicion, gbcSigla);
 	    row++;
 
 	    GridBagConstraints gbcLblCiudad = new GridBagConstraints();
@@ -115,14 +133,14 @@ public class ConsultaEdicionEvento extends JInternalFrame {
 	    gbcLblCiudad.insets = new Insets(5, 5, 5, 5);
 	    panel.add(new JLabel("Ciudad :"), gbcLblCiudad);
 
-	    CiudadEdicion = new JTextField();
-	    CiudadEdicion.setEditable(false);
+	    ciudadEdicion = new JTextField();
+	    ciudadEdicion.setEditable(false);
 	    GridBagConstraints gbcCiudad = new GridBagConstraints();
 	    gbcCiudad.gridx = 1;
 	    gbcCiudad.gridy = row;
 	    gbcCiudad.fill = GridBagConstraints.HORIZONTAL;
 	    gbcCiudad.insets = new Insets(5, 5, 5, 5);
-	    panel.add(CiudadEdicion, gbcCiudad);
+	    panel.add(ciudadEdicion, gbcCiudad);
 
 	    GridBagConstraints gbcLblPais = new GridBagConstraints();
 	    gbcLblPais.gridx = 2;
@@ -131,14 +149,14 @@ public class ConsultaEdicionEvento extends JInternalFrame {
 	    gbcLblPais.insets = new Insets(5, 5, 5, 5);
 	    panel.add(new JLabel("Pais :"), gbcLblPais);
 
-	    PaisEdicion = new JTextField();
-	    PaisEdicion.setEditable(false);
+	    paisEdicion = new JTextField();
+	    paisEdicion.setEditable(false);
 	    GridBagConstraints gbcPais = new GridBagConstraints();
 	    gbcPais.gridx = 3;
 	    gbcPais.gridy = row;
 	    gbcPais.fill = GridBagConstraints.HORIZONTAL;
 	    gbcPais.insets = new Insets(5, 5, 5, 5);
-	    panel.add(PaisEdicion, gbcPais);
+	    panel.add(paisEdicion, gbcPais);
 	    row++;
 
 	    GridBagConstraints gbcLblAlta = new GridBagConstraints();
@@ -148,14 +166,14 @@ public class ConsultaEdicionEvento extends JInternalFrame {
 	    gbcLblAlta.insets = new Insets(5, 5, 5, 5);
 	    panel.add(new JLabel("Fecha de Alta :"), gbcLblAlta);
 
-	    FAltaEdicion = new JTextField();
-	    FAltaEdicion.setEditable(false);
+	    fAltaEdicion = new JTextField();
+	    fAltaEdicion.setEditable(false);
 	    GridBagConstraints gbcAlta = new GridBagConstraints();
 	    gbcAlta.gridx = 1;
 	    gbcAlta.gridy = row;
 	    gbcAlta.fill = GridBagConstraints.HORIZONTAL;
 	    gbcAlta.insets = new Insets(5, 5, 5, 5);
-	    panel.add(FAltaEdicion, gbcAlta);
+	    panel.add(fAltaEdicion, gbcAlta);
 
 	    GridBagConstraints gbcLblInicio = new GridBagConstraints();
 	    gbcLblInicio.gridx = 2;
@@ -164,14 +182,14 @@ public class ConsultaEdicionEvento extends JInternalFrame {
 	    gbcLblInicio.insets = new Insets(5, 5, 5, 5);
 	    panel.add(new JLabel("Fecha de Inicio :"), gbcLblInicio);
 
-	    FInicioEdicion = new JTextField();
-	    FInicioEdicion.setEditable(false);
+	    fInicioEdicion = new JTextField();
+	    fInicioEdicion.setEditable(false);
 	    GridBagConstraints gbcInicio = new GridBagConstraints();
 	    gbcInicio.gridx = 3;
 	    gbcInicio.gridy = row;
 	    gbcInicio.fill = GridBagConstraints.HORIZONTAL;
 	    gbcInicio.insets = new Insets(5, 5, 5, 5);
-	    panel.add(FInicioEdicion, gbcInicio);
+	    panel.add(fInicioEdicion, gbcInicio);
 	    row++;
 
 	    GridBagConstraints gbcLblFin = new GridBagConstraints();
@@ -181,14 +199,14 @@ public class ConsultaEdicionEvento extends JInternalFrame {
 	    gbcLblFin.insets = new Insets(5, 5, 5, 5);
 	    panel.add(new JLabel("Fecha de Finalización :"), gbcLblFin);
 
-	    FFinEdicion = new JTextField();
-	    FFinEdicion.setEditable(false);
+	    fFinEdicion = new JTextField();
+	    fFinEdicion.setEditable(false);
 	    GridBagConstraints gbcFin = new GridBagConstraints();
 	    gbcFin.gridx = 1;
 	    gbcFin.gridy = row;
 	    gbcFin.fill = GridBagConstraints.HORIZONTAL;
 	    gbcFin.insets = new Insets(5, 5, 5, 5);
-	    panel.add(FFinEdicion, gbcFin);
+	    panel.add(fFinEdicion, gbcFin);
 	    row++;
 
 	    GridBagConstraints gbcLblTipo = new GridBagConstraints();
@@ -315,13 +333,13 @@ public class ConsultaEdicionEvento extends JInternalFrame {
 		if (dtEd == null)
 			return;
 
-		NombreEdicion.setText(dtEd.getNombre());
-		SiglaEdicion.setText(dtEd.getSigla());
-		CiudadEdicion.setText(dtEd.getCiudad());
-		PaisEdicion.setText(dtEd.getPais());
-		FAltaEdicion.setText(dtEd.getfAlta().toString());
-		FInicioEdicion.setText(dtEd.getfInicio().toString());
-		FFinEdicion.setText(dtEd.getfFin().toString());
+		nombreEdicion.setText(dtEd.getNombre());
+		siglaEdicion.setText(dtEd.getSigla());
+		ciudadEdicion.setText(dtEd.getCiudad());
+		paisEdicion.setText(dtEd.getPais());
+		fAltaEdicion.setText(dtEd.getfAlta().toString());
+		fInicioEdicion.setText(dtEd.getfInicio().toString());
+		fFinEdicion.setText(dtEd.getfFin().toString());
 
 		comboTiposRegistro.removeAllItems();
 		for (DTTipoRegistro tr : dtEd.getTipoRegistros())

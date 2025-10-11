@@ -16,7 +16,7 @@ public class Organizador extends Usuario {
     }
     
     public Organizador(String nickname, String correo, String nombre, String descripcion, String contrasena) {
-    	super(nickname,correo,nombre,contrasena);
+    	super(nickname, correo, nombre, contrasena);
     	this.descripcion=descripcion;
     	this.url=null;
     }

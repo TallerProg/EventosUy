@@ -1,13 +1,31 @@
 package ServidorCentral.presentacion;
 
-import ServidorCentral.logica.*;
-import javax.swing.*;
-import javax.swing.text.MaskFormatter;
-import java.awt.*;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
+import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.text.MaskFormatter;
+
+import ServidorCentral.logica.Edicion;
+import ServidorCentral.logica.Evento;
+import ServidorCentral.logica.IControllerEvento;
+import ServidorCentral.logica.Organizador;
 
 public class AltaEdicionEvento extends JInternalFrame {
 
@@ -15,7 +33,7 @@ public class AltaEdicionEvento extends JInternalFrame {
     private JComboBox<String> comboOrganizador;
     private JTextField txtNombre, txtSigla, txtCiudad, txtPais;
     private JFormattedTextField txtFechaIni, txtFechaFin, txtFechaAlta;
-    private JButton btnAceptar, btnCancelar;
+    private JButton btnAceptar , btnCancElar;
 
     private IControllerEvento controller;
     private List<Evento> eventos;
@@ -23,8 +41,8 @@ public class AltaEdicionEvento extends JInternalFrame {
 
     private int row = 0;
 
-    public AltaEdicionEvento(IControllerEvento ice) {
-        this.controller = ice;
+    public AltaEdicionEvento(IControllerEvento icE) {
+        this.controller = icE;
 
         setClosable(true);
         setIconifiable(true);
@@ -43,7 +61,7 @@ public class AltaEdicionEvento extends JInternalFrame {
 
         JLabel labelEvento = new JLabel("Evento:");
         GridBagConstraints gbc_labelEvento = new GridBagConstraints();
-        gbc_labelEvento.insets = new Insets(5,5,5,5);
+        gbc_labelEvento.insets = new Insets(5, 5, 5, 5);
         gbc_labelEvento.gridx = 0;
         gbc_labelEvento.gridy = row;
         gbc_labelEvento.anchor = GridBagConstraints.EAST;
@@ -51,7 +69,7 @@ public class AltaEdicionEvento extends JInternalFrame {
 
         comboEvento = new JComboBox<>();
         GridBagConstraints gbc_comboEvento = new GridBagConstraints();
-        gbc_comboEvento.insets = new Insets(5,5,5,5);
+        gbc_comboEvento.insets = new Insets(5, 5, 5, 5);
         gbc_comboEvento.fill = GridBagConstraints.HORIZONTAL;
         gbc_comboEvento.gridx = 1;
         gbc_comboEvento.gridy = row;
@@ -60,7 +78,7 @@ public class AltaEdicionEvento extends JInternalFrame {
 
         JLabel labelOrg = new JLabel("Organizador:");
         GridBagConstraints gbc_labelOrg = new GridBagConstraints();
-        gbc_labelOrg.insets = new Insets(5,5,5,5);
+        gbc_labelOrg.insets = new Insets(5, 5, 5, 5);
         gbc_labelOrg.gridx = 0;
         gbc_labelOrg.gridy = row;
         gbc_labelOrg.anchor = GridBagConstraints.EAST;
@@ -68,7 +86,7 @@ public class AltaEdicionEvento extends JInternalFrame {
 
         comboOrganizador = new JComboBox<>();
         GridBagConstraints gbc_comboOrg = new GridBagConstraints();
-        gbc_comboOrg.insets = new Insets(5,5,5,5);
+        gbc_comboOrg.insets = new Insets(5, 5, 5, 5);
         gbc_comboOrg.fill = GridBagConstraints.HORIZONTAL;
         gbc_comboOrg.gridx = 1;
         gbc_comboOrg.gridy = row;
@@ -77,7 +95,7 @@ public class AltaEdicionEvento extends JInternalFrame {
 
         JLabel labelNombre = new JLabel("Nombre:");
         GridBagConstraints gbc_labelNombre = new GridBagConstraints();
-        gbc_labelNombre.insets = new Insets(5,5,5,5);
+        gbc_labelNombre.insets = new Insets(5, 5, 5, 5);
         gbc_labelNombre.gridx = 0;
         gbc_labelNombre.gridy = row;
         gbc_labelNombre.anchor = GridBagConstraints.EAST;
@@ -85,7 +103,7 @@ public class AltaEdicionEvento extends JInternalFrame {
 
         txtNombre = new JTextField();
         GridBagConstraints gbc_txtNombre = new GridBagConstraints();
-        gbc_txtNombre.insets = new Insets(5,5,5,5);
+        gbc_txtNombre.insets = new Insets(5, 5, 5, 5);
         gbc_txtNombre.fill = GridBagConstraints.HORIZONTAL;
         gbc_txtNombre.gridx = 1;
         gbc_txtNombre.gridy = row;
@@ -94,7 +112,7 @@ public class AltaEdicionEvento extends JInternalFrame {
 
         JLabel labelSigla = new JLabel("Sigla:");
         GridBagConstraints gbc_labelSigla = new GridBagConstraints();
-        gbc_labelSigla.insets = new Insets(5,5,5,5);
+        gbc_labelSigla.insets = new Insets(5, 5, 5, 5);
         gbc_labelSigla.gridx = 0;
         gbc_labelSigla.gridy = row;
         gbc_labelSigla.anchor = GridBagConstraints.EAST;
@@ -102,7 +120,7 @@ public class AltaEdicionEvento extends JInternalFrame {
 
         txtSigla = new JTextField();
         GridBagConstraints gbc_txtSigla = new GridBagConstraints();
-        gbc_txtSigla.insets = new Insets(5,5,5,5);
+        gbc_txtSigla.insets = new Insets(5, 5, 5, 5);
         gbc_txtSigla.fill = GridBagConstraints.HORIZONTAL;
         gbc_txtSigla.gridx = 1;
         gbc_txtSigla.gridy = row;
@@ -111,7 +129,7 @@ public class AltaEdicionEvento extends JInternalFrame {
 
         JLabel labelCiudad = new JLabel("Ciudad:");
         GridBagConstraints gbc_labelCiudad = new GridBagConstraints();
-        gbc_labelCiudad.insets = new Insets(5,5,5,5);
+        gbc_labelCiudad.insets = new Insets(5, 5, 5, 5);
         gbc_labelCiudad.gridx = 0;
         gbc_labelCiudad.gridy = row;
         gbc_labelCiudad.anchor = GridBagConstraints.EAST;
@@ -119,7 +137,7 @@ public class AltaEdicionEvento extends JInternalFrame {
 
         txtCiudad = new JTextField();
         GridBagConstraints gbc_txtCiudad = new GridBagConstraints();
-        gbc_txtCiudad.insets = new Insets(5,5,5,5);
+        gbc_txtCiudad.insets = new Insets(5, 5, 5, 5);
         gbc_txtCiudad.fill = GridBagConstraints.HORIZONTAL;
         gbc_txtCiudad.gridx = 1;
         gbc_txtCiudad.gridy = row;
@@ -128,7 +146,7 @@ public class AltaEdicionEvento extends JInternalFrame {
 
         JLabel labelPais = new JLabel("País:");
         GridBagConstraints gbc_labelPais = new GridBagConstraints();
-        gbc_labelPais.insets = new Insets(5,5,5,5);
+        gbc_labelPais.insets = new Insets(5, 5, 5, 5);
         gbc_labelPais.gridx = 0;
         gbc_labelPais.gridy = row;
         gbc_labelPais.anchor = GridBagConstraints.EAST;
@@ -136,7 +154,7 @@ public class AltaEdicionEvento extends JInternalFrame {
 
         txtPais = new JTextField();
         GridBagConstraints gbc_txtPais = new GridBagConstraints();
-        gbc_txtPais.insets = new Insets(5,5,5,5);
+        gbc_txtPais.insets = new Insets(5, 5, 5, 5);
         gbc_txtPais.fill = GridBagConstraints.HORIZONTAL;
         gbc_txtPais.gridx = 1;
         gbc_txtPais.gridy = row;
@@ -145,7 +163,7 @@ public class AltaEdicionEvento extends JInternalFrame {
 
         txtFechaIni = crearCampoFecha("##/##/####");
         GridBagConstraints gbc_txtFechaIni = new GridBagConstraints();
-        gbc_txtFechaIni.insets = new Insets(5,5,5,5);
+        gbc_txtFechaIni.insets = new Insets(5, 5, 5, 5);
         gbc_txtFechaIni.fill = GridBagConstraints.HORIZONTAL;
         gbc_txtFechaIni.gridx = 1;
         gbc_txtFechaIni.gridy = row;
@@ -153,7 +171,7 @@ public class AltaEdicionEvento extends JInternalFrame {
 
         JLabel lblFechaIni = new JLabel("Fecha Inicio:");
         GridBagConstraints gbc_lblFechaIni = new GridBagConstraints();
-        gbc_lblFechaIni.insets = new Insets(5,5,5,5);
+        gbc_lblFechaIni.insets = new Insets(5, 5, 5, 5);
         gbc_lblFechaIni.gridx = 0;
         gbc_lblFechaIni.gridy = row;
         gbc_lblFechaIni.anchor = GridBagConstraints.EAST;
@@ -162,7 +180,7 @@ public class AltaEdicionEvento extends JInternalFrame {
 
         txtFechaFin = crearCampoFecha("##/##/####");
         GridBagConstraints gbc_txtFechaFin = new GridBagConstraints();
-        gbc_txtFechaFin.insets = new Insets(5,5,5,5);
+        gbc_txtFechaFin.insets = new Insets(5, 5, 5, 5);
         gbc_txtFechaFin.fill = GridBagConstraints.HORIZONTAL;
         gbc_txtFechaFin.gridx = 1;
         gbc_txtFechaFin.gridy = row;
@@ -170,7 +188,7 @@ public class AltaEdicionEvento extends JInternalFrame {
 
         JLabel lblFechaFin = new JLabel("Fecha Fin:");
         GridBagConstraints gbc_lblFechaFin = new GridBagConstraints();
-        gbc_lblFechaFin.insets = new Insets(5,5,5,5);
+        gbc_lblFechaFin.insets = new Insets(5, 5, 5, 5);
         gbc_lblFechaFin.gridx = 0;
         gbc_lblFechaFin.gridy = row;
         gbc_lblFechaFin.anchor = GridBagConstraints.EAST;
@@ -180,7 +198,7 @@ public class AltaEdicionEvento extends JInternalFrame {
         txtFechaAlta = crearCampoFecha("##/##/####");
         txtFechaAlta.setText(LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
         GridBagConstraints gbc_txtFechaAlta = new GridBagConstraints();
-        gbc_txtFechaAlta.insets = new Insets(5,5,5,5);
+        gbc_txtFechaAlta.insets = new Insets(5, 5, 5, 5);
         gbc_txtFechaAlta.fill = GridBagConstraints.HORIZONTAL;
         gbc_txtFechaAlta.gridx = 1;
         gbc_txtFechaAlta.gridy = row;
@@ -188,7 +206,7 @@ public class AltaEdicionEvento extends JInternalFrame {
 
         JLabel lblFechaAlta = new JLabel("Fecha Alta:");
         GridBagConstraints gbc_lblFechaAlta = new GridBagConstraints();
-        gbc_lblFechaAlta.insets = new Insets(5,5,5,5);
+        gbc_lblFechaAlta.insets = new Insets(5, 5, 5, 5);
         gbc_lblFechaAlta.gridx = 0;
         gbc_lblFechaAlta.gridy = row;
         gbc_lblFechaAlta.anchor = GridBagConstraints.EAST;
@@ -196,13 +214,13 @@ public class AltaEdicionEvento extends JInternalFrame {
         row++;
 
         JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
-        btnAceptar = new JButton("Aceptar");
-        btnCancelar = new JButton("Cancelar");
-        panelBotones.add(btnAceptar);
-        panelBotones.add(btnCancelar);
+        btnAceptar  = new JButton("Aceptar ");
+        btnCancElar = new JButton("Cancelar");
+        panelBotones.add(btnAceptar );
+        panelBotones.add(btnCancElar);
 
         GridBagConstraints gbc_panelBotones = new GridBagConstraints();
-        gbc_panelBotones.insets = new Insets(10,5,5,5);
+        gbc_panelBotones.insets = new Insets(10, 5, 5, 5);
         gbc_panelBotones.gridx = 0;
         gbc_panelBotones.gridy = row;
         gbc_panelBotones.gridwidth = 2;
@@ -213,7 +231,7 @@ public class AltaEdicionEvento extends JInternalFrame {
         cargarEventos();
         cargarOrganizadores();
 
-        btnCancelar.addActionListener(e -> {
+        btnCancElar.addActionListener(e -> {
             txtNombre.setText("");
             txtSigla.setText("");
             txtCiudad.setText("");
@@ -226,7 +244,7 @@ public class AltaEdicionEvento extends JInternalFrame {
             dispose();
         });
 
-        btnAceptar.addActionListener(e -> {
+        btnAceptar .addActionListener(e -> {
             try {
                 if (!validarNombre()) return;
 

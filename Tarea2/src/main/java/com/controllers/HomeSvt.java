@@ -21,20 +21,8 @@ public class HomeSvt extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
-	public static void initSession(HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		if (session.getAttribute("estado_sesion") == null) {
-			session.setAttribute("estado_sesion", EstadoSesion.NO_LOGIN);
-		}
-	}
-
-	public static EstadoSesion getEstado(HttpServletRequest request) {
-		return (EstadoSesion) request.getSession().getAttribute("estado_sesion");
-	}	
-
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		initSession(req);
 		IControllerEvento ice = Factory.getInstance().getIControllerEvento();
 		IControllerUsuario icu = Factory.getInstance().getIControllerUsuario();
 

@@ -12,7 +12,7 @@
 
   <artifactId>servidor-central</artifactId>
   <packaging>jar</packaging>
-  <name>servidor-central</name>
+  <name>servidor-cEntral</name>
 
   <dependencies>
     <!-- (si usás tests con JUnit 5) -->
@@ -38,7 +38,7 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.13.0</version>
         <configuration>
-          <source>17</source>
+          <sourcE>17</sourcE>
           <target>17</target>
           <!-- Para compilar solo la lógica si te molestan clases Swing/tests -->
           <!--

@@ -48,7 +48,7 @@ public class ControllerUsuario implements IControllerUsuario {
             throw new CredencialesInvalidasException("Debe ingresar usuario (nickname o correo) y contraseña.");
         }
 
-        ManejadorUsuario mu = ManejadorUsuario.getinstance();
+        ManejadorUsuario mu = ManejadorUsuario.getInstance();
 
         Usuario u = mu.findUsuario(login);
         if (u == null) {
@@ -74,13 +74,13 @@ public class ControllerUsuario implements IControllerUsuario {
 
     private static boolean isBlank(String s) { return s == null || s.trim().isEmpty(); }
     /** Si usás hash, adaptá esta comparación. */
-    private boolean passwordCoincide(String ingresada, String almacenada) {
-        return Objects.equals(ingresada, almacenada);
+    private boolean passwordCoincide(String ingresada, String almacEnada) {
+        return Objects.equals(ingresada, almacEnada);
     }
 
 
-    public DTUsuarioListaConsulta ConsultaDeUsuario(String nicknameUsu) {
-        ManejadorUsuario manejador = ManejadorUsuario.getinstance();
+    public DTUsuarioListaConsulta consultaDeUsuario(String nicknameUsu) {
+        ManejadorUsuario manejador = ManejadorUsuario.getInstance();
         Usuario usuario = manejador.findUsuario(nicknameUsu);
         if (usuario == null)
             return null;
@@ -109,10 +109,10 @@ public class ControllerUsuario implements IControllerUsuario {
         return dt;
     }
 
-    public void AltaAsistente(String nicknameUsu, String correo, String nombre, String apellido,
+    public void altaAsistente(String nicknameUsu, String correo, String nombre, String apellido,
                               LocalDate fNacimiento, Institucion ins, String contrasena)
             throws UsuarioRepetidoException {
-        ManejadorUsuario mu = ManejadorUsuario.getinstance();
+        ManejadorUsuario mu = ManejadorUsuario.getInstance();
         Usuario u = mu.findUsuario(nicknameUsu);
         Usuario ucorreo = mu.findCorreo(correo);
         if (u != null || ucorreo != null)
@@ -130,13 +130,13 @@ public class ControllerUsuario implements IControllerUsuario {
     }
 
     public List<Usuario> listarUsuarios() {
-        ManejadorUsuario manejador = ManejadorUsuario.getinstance();
+        ManejadorUsuario manejador = ManejadorUsuario.getInstance();
         return manejador.listarUsuarios();
     }
 
-    public void AltaOrganizador(String nicknameUsu, String correo, String nombre, String descripcion, String url, String contrasena)
+    public void altaOrganizador(String nicknameUsu, String correo, String nombre, String descripcion, String url, String contrasena)
             throws UsuarioRepetidoException {
-        ManejadorUsuario mu = ManejadorUsuario.getinstance();
+        ManejadorUsuario mu = ManejadorUsuario.getInstance();
         Usuario u = mu.findUsuario(nicknameUsu);
         Usuario ucorreo = mu.findUsuario(correo);
         if (u != null || ucorreo != null)
@@ -154,7 +154,7 @@ public class ControllerUsuario implements IControllerUsuario {
 
     public List<DTUsuarioLista> getUsuarios() {
         List<DTUsuarioLista> lista = new ArrayList<>();
-        ManejadorUsuario mu = ManejadorUsuario.getinstance();
+        ManejadorUsuario mu = ManejadorUsuario.getInstance();
         for (Usuario u : mu.listarUsuarios()) {
             List<Edicion> ediciones = new ArrayList<>();
             List<Registro> registros = new ArrayList<>();
@@ -171,27 +171,27 @@ public class ControllerUsuario implements IControllerUsuario {
     }
 
     public List<Asistente> getAsistentes() {
-        ManejadorUsuario mu = ManejadorUsuario.getinstance();
+        ManejadorUsuario mu = ManejadorUsuario.getInstance();
         return mu.listarAsistentes();
     }
 
     public List<Organizador> getOrganizadores() {
-        ManejadorUsuario mu = ManejadorUsuario.getinstance();
+        ManejadorUsuario mu = ManejadorUsuario.getInstance();
         return mu.listarOrganizadores();
     }
     
     public Asistente getAsistente(String nicknameAsis) {
-        ManejadorUsuario mu = ManejadorUsuario.getinstance();
+        ManejadorUsuario mu = ManejadorUsuario.getInstance();
         return mu.findAsistente(nicknameAsis);
     }
 
     public Organizador getOrganizador(String nicknameOrg) {
-        ManejadorUsuario mu = ManejadorUsuario.getinstance();
+        ManejadorUsuario mu = ManejadorUsuario.getInstance();
         return mu.findOrganizador(nicknameOrg);
     }
 
     public List<String> getAsistenteRegistro(String nickname) {
-        ManejadorUsuario mU = ManejadorUsuario.getinstance();
+        ManejadorUsuario mU = ManejadorUsuario.getInstance();
         List<Registro> regg = mU.findAsistente(nickname).getRegistros();
         List<String> nombres = new ArrayList<>();
         for (Registro r : regg) {
@@ -201,7 +201,7 @@ public class ControllerUsuario implements IControllerUsuario {
     }
 
     public DTRegistroDetallado getRegistroDetalle(String tipNEdicion, String nickAsistente) {
-        ManejadorUsuario mU = ManejadorUsuario.getinstance();
+        ManejadorUsuario mU = ManejadorUsuario.getInstance();
         List<Registro> registros = mU.findAsistente(nickAsistente).getRegistros();
         for (Registro re : registros) {
             if (re.getTipoRegistro().getEdicion().getNombre().equals(tipNEdicion)) {
@@ -212,7 +212,7 @@ public class ControllerUsuario implements IControllerUsuario {
     }
 
     public DTRegistro getDTRegistro(String tipNEdicion, String nickAsistente) {
-        ManejadorUsuario mU = ManejadorUsuario.getinstance();
+        ManejadorUsuario mU = ManejadorUsuario.getInstance();
         List<Registro> registros = mU.findAsistente(nickAsistente).getRegistros();
         for (Registro re : registros) {
             if (re.getTipoRegistro().getEdicion().getNombre().equals(tipNEdicion)) {
@@ -224,7 +224,7 @@ public class ControllerUsuario implements IControllerUsuario {
 
     public void modificarUsuario(String nickname, String nombre, String apellido, LocalDate fNac, String descripcion, String url)
             throws UsuarioNoExisteException {
-        ManejadorUsuario mu = ManejadorUsuario.getinstance();
+        ManejadorUsuario mu = ManejadorUsuario.getInstance();
         Usuario u = mu.findUsuario(nickname);
         if (u == null)
             throw new UsuarioNoExisteException("No existe el usuario " + nickname);
@@ -242,7 +242,7 @@ public class ControllerUsuario implements IControllerUsuario {
     }
 
     public void modificarUsuario1(Usuario u) {
-        ManejadorUsuario mu = ManejadorUsuario.getinstance();
+        ManejadorUsuario mu = ManejadorUsuario.getInstance();
         Usuario existente = mu.findUsuario(u.getNickname());
         existente.setNombre(u.getNombre());
         existente.setCorreo(u.getCorreo());
@@ -261,7 +261,7 @@ public class ControllerUsuario implements IControllerUsuario {
     }
 
     public Usuario getUsuario(String nickname) {
-        ManejadorUsuario mu = ManejadorUsuario.getinstance();
+        ManejadorUsuario mu = ManejadorUsuario.getInstance();
         return mu.findUsuario(nickname);
     }
 }

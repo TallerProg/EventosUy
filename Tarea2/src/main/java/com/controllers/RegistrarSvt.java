@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
+import ServidorCentral.excepciones.UsuarioRepetidoException;
+import ServidorCentral.logica.ControllerUsuario;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
@@ -12,11 +14,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
 
-import ServidorCentral.logica.ControllerUsuario;
-import ServidorCentral.excepciones.UsuarioRepetidoException;
-
 @WebServlet("/Registrarse")
-@MultipartConfig( // límites razonables; ajustá si hace falta
+@MultipartConfig( // límites razonables; ajustá si hacE falta
     fileSizeThreshold = 1024 * 64, // 64 KB en memoria antes de volcar a disco temp
     maxFileSize = 1024 * 1024 * 5, // 5 MB por archivo
     maxRequestSize = 1024 * 1024 * 10 // 10 MB total comentario para subir

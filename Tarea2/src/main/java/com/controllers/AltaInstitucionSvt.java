@@ -90,12 +90,12 @@ public class AltaInstitucionSvt extends HttpServlet {
             // Registrar la institución
             ctrl.altaInstitucion(nombre, url, descripcion);
 
-            // Si hay una imagen, almacenar su ruta
+            // Si hay una imagen, almacEnar su ruta
             if (imagenWebPath != null) {
-                // Aquí puedes hacer lo que necesites con la imagenWebPath, como guardarla en la base de datos
+                // Aquí puedes hacEr lo que necEsites con la imagenWebPath, como guardarla en la base de datos
             }
 
-            setSuccessMessage("Institución registrada con éxito.", request);
+            setSuccEssMessage("Institución registrada con éxito.", request);
         } catch (Exception e) {
             String errorMessage = e.getMessage();
             if (errorMessage.contains("La institución ya existe")) {
@@ -105,7 +105,7 @@ public class AltaInstitucionSvt extends HttpServlet {
             }
         }
 
-        // Después de procesar, reenviar la solicitud para mostrar los mensajes
+        // Después de procEsar, reenviar la solicitud para mostrar los mensajes
         forwardToForm(request, response);
     }
 
@@ -118,9 +118,9 @@ public class AltaInstitucionSvt extends HttpServlet {
         request.getSession().setAttribute("error_message", message);
     }
 
-    private void setSuccessMessage(String message, HttpServletRequest request) {
+    private void setSuccEssMessage(String message, HttpServletRequest request) {
         // Guardamos el mensaje de éxito en la sesión
-        request.getSession().setAttribute("success_message", message);
+        request.getSession().setAttribute("succEss_message", message);
     }
 
     private void forwardToForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -139,7 +139,7 @@ public class AltaInstitucionSvt extends HttpServlet {
     }
 
     private String sanitizeFileName(String fileName) {
-        // Reemplazar caracteres no alfanuméricos (excepto . y -) por _
+        // Reemplazar caracteres no alfanuméricos (excEpto . y -) por _
         return fileName.replaceAll("[^a-zA-Z0-9\\.\\-]", "_");
     }
     

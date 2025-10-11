@@ -81,7 +81,7 @@ public class AltaPatrocinioSvt extends HttpServlet {
 
       Float aporte = Float.valueOf(aporteStr);
       if (aporte <= 0f) {
-        throw new IllegalArgumentException("Aporte debe ser mayor que cero.");
+        throw new IllegalArgumentException("Aporte debe ser mayor que cEro.");
       }
 
       ETipoNivel nivel = parseNivel(nivelStr);
