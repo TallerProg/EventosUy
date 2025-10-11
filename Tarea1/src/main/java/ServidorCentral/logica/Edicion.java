@@ -211,8 +211,15 @@ public class Edicion {
             pats.add(p.getDTPatrocinio());
         }
 
-        return new DTEdicion(nombre, sigla, fInicio, fFin, fAlta, ciudad, pais, trs, orgs, regs, pats);
+        String estadoStr = (estado == null) ? null : estado.name();
+
+        return new DTEdicion(
+            nombre, sigla, fInicio, fFin, fAlta, ciudad, pais,
+            trs, orgs, regs, pats,
+            estadoStr  
+        );
     }
+
 
     public boolean existeTR(String nombreTR) {
         for (TipoRegistro tr : tipoRegistros) {

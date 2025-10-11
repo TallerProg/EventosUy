@@ -326,9 +326,9 @@ boolean yaInscriptoEnAlguno = (miReg != null && miReg.get("tipo") != null);
   private static String estadoBadge(String e) {
     if (e == null) return "bg-secondary";
     switch (e) {
-      case "CONFIRMADA": return "bg-success";
-      case "ACEPTADA":   return "bg-primary";
-      case "RECHAZADA":  return "bg-danger";
+      case "Ingresada": return "bg-success";
+      case "Aceptada":   return "bg-primary";
+      case "Rechazada":  return "bg-danger";
       default:           return "bg-secondary";
     }
   }

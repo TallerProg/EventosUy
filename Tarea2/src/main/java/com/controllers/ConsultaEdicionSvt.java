@@ -80,7 +80,9 @@ public class ConsultaEdicionSvt extends HttpServlet {
       VM.put("fechaFin", format(ed.getfFin()));
       VM.put("ciudad",   safe(ed.getCiudad()));
       VM.put("pais",     safe(ed.getPais()));
-      VM.put("imagen",   null); // el JSP pone default si es null
+      VM.put("imagen",   null); 
+      VM.put("estado", ed.getEstado()); 
+
 
       // Organizadores
       VM.put("organizadorNombre", joinOrganizadores(ed.getOrganizadores()));
