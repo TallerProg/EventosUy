@@ -2,17 +2,16 @@
 <%@ page import="java.util.List" %>
 <%@ page import="ServidorCentral.logica.Institucion" %>
 <%
-  String ctx = request.getContextPath();
-
-  // Mostrar botón de alta solo si hay organizador logueado
-  ServidorCentral.logica.Organizador organizadorSesion =
-    (ServidorCentral.logica.Organizador) session.getAttribute("usuarioOrganizador");
+  String ctx = request.getContextPath(); 
+  boolean ES_ORG = Boolean.TRUE.equals(request.getAttribute("ES_ORG"));
 
   @SuppressWarnings("unchecked")
-  List<Institucion> instituciones = (List<Institucion>) request.getAttribute("INSTITUCIONES");
+  java.util.List<ServidorCentral.logica.Institucion> instituciones =
+      (java.util.List<ServidorCentral.logica.Institucion>) request.getAttribute("INSTITUCIONES");
 
   Object errMsg = request.getAttribute("msgError");
 %>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -33,10 +32,10 @@
       <h2>Instituciones</h2>
 
       <!-- Botón visible solo para organizador -->
-      <% if (organizadorSesion != null) { %>
-        <a href="<%= ctx %>/AltaInstitucion" class="btn btn-primary">
-          <i class="bi bi-plus-circle me-1"></i> Alta de Institución
-        </a>
+      <% if (ES_ORG) { %>
+    	<a href="<%= ctx %>/AltaInstitucion" class="btn btn-primary" title="Alta de Institución" aria-label="Alta de Institución">
+      	<i class="bi bi-plus-circle me-1"></i> Alta de Institución
+    	</a>
       <% } %>
     </div>
 
