@@ -33,10 +33,10 @@ public class AltaTipoRegistro extends JInternalFrame {
 	private JTextField textFieldCosto;
 	private JTextField textFieldCupo;
 	private JButton btnAceptar ;
-	private JButton btnCancElar;
+	private JButton btnCancelar;
 
-	public AltaTipoRegistro(IControllerEvento icE) {
-		controlEvento = icE;
+	public AltaTipoRegistro(IControllerEvento ice) {
+		controlEvento = ice;
 
 		setResizable(true);
 		setIconifiable(true);
@@ -161,7 +161,7 @@ public class AltaTipoRegistro extends JInternalFrame {
 		getContentPane().add(panelBotones, gbc_panelBotones);
 
 		btnAceptar  = new JButton("Aceptar ");
-		btnCancElar = new JButton("CancElar");
+		btnCancelar = new JButton("Cancelar");
 
 		GridBagConstraints gbc_btnAceptar  = new GridBagConstraints();
 		gbc_btnAceptar .insets = new Insets(0, 0, 0, 20); 
@@ -171,18 +171,18 @@ public class AltaTipoRegistro extends JInternalFrame {
 		btnAceptar .setPreferredSize(new Dimension(100, 25));
 		panelBotones.add(btnAceptar , gbc_btnAceptar );
 
-		GridBagConstraints gbc_btnCancElar = new GridBagConstraints();
-		gbc_btnCancElar.gridx = 1;
-		gbc_btnCancElar.gridy = 0;
-		gbc_btnCancElar.anchor = GridBagConstraints.LINE_START;
-		btnCancElar.setPreferredSize(new Dimension(100, 25));
-		panelBotones.add(btnCancElar, gbc_btnCancElar);
+		GridBagConstraints gbc_btnCancelar = new GridBagConstraints();
+		gbc_btnCancelar.gridx = 1;
+		gbc_btnCancelar.gridy = 0;
+		gbc_btnCancelar.anchor = GridBagConstraints.LINE_START;
+		btnCancelar.setPreferredSize(new Dimension(100, 25));
+		panelBotones.add(btnCancelar, gbc_btnCancelar);
 
 		cargarEventos();
 
 		comboBoxEvento.addActionListener(e -> cargarEdiciones());
 
-		btnCancElar.addActionListener(e -> {
+		btnCancelar.addActionListener(e -> {
 			textFieldNombre.setText("");
 			textAreaDescripcion.setText("");
 			textFieldCosto.setText("");

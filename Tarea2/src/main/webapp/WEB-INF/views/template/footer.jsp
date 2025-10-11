@@ -8,7 +8,7 @@
 					<p class="text-muted small">
 						En <strong>eventos.uy</strong> nos apasiona conectar personas a
 						través de conferencias, talleres, hackatones y todo tipo de
-						encuentros. Queremos hacEr más fácil organizar, descubrir y
+						encuentros. Queremos hacer más fácil organizar, descubrir y
 						disfrutar eventos. <br> Si sos organizador, vas a encontrar
 						herramientas para gestionar tus ediciones, inscripciones y
 						patrocinios. Y si sos asistente, podes consultar por tus eventos
@@ -26,7 +26,7 @@
 					<div
 						class="social-links d-flex justify-content-lg-end justify-content-md-end justify-content-center">
 						<a href=""><i class="bi bi-twitter-x"></i></a> <a href=""><i
-							class="bi bi-facEbook"></i></a> <a href=""><i
+							class="bi bi-facebook"></i></a> <a href=""><i
 							class="bi bi-instagram"></i></a> <a href=""><i
 							class="bi bi-linkedin"></i></a> <a
 							href="https://gitlab.fing.edu.uy/tprog/tpgr27"><i

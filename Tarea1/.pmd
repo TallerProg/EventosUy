@@ -6,15 +6,15 @@
     <rules>
         <rule>
             <name>AbstractClassWithoutAbstractMethod</name>
-            <ruleset>Best PracticEs</ruleset>
+            <ruleset>Best Practices</ruleset>
         </rule>
         <rule>
             <name>LooseCoupling</name>
-            <ruleset>Best PracticEs</ruleset>
+            <ruleset>Best Practices</ruleset>
         </rule>
         <rule>
             <name>UnusedPrivateField</name>
-            <ruleset>Best PracticEs</ruleset>
+            <ruleset>Best Practices</ruleset>
         </rule>
         <rule>
             <name>PackageCase</name>

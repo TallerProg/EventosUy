@@ -1,7 +1,7 @@
 /*!
  * Bootstrap Grid v5.3.8 (https://getbootstrap.com/)
  * Copyright 2011-2025 The Bootstrap Authors
- * LicEnsed under MIT (https://github.com/twbs/bootstrap/blob/main/LIcENSE)
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LIceNSE)
  */
 .container,
 .container-fluid,
@@ -1230,15 +1230,15 @@
 }
 
 .justify-content-between {
-  justify-content: spacE-between !important;
+  justify-content: space-between !important;
 }
 
 .justify-content-around {
-  justify-content: spacE-around !important;
+  justify-content: space-around !important;
 }
 
 .justify-content-evenly {
-  justify-content: spacE-evenly !important;
+  justify-content: space-evenly !important;
 }
 
 .align-items-start {
@@ -1274,11 +1274,11 @@
 }
 
 .align-content-between {
-  align-content: spacE-between !important;
+  align-content: space-between !important;
 }
 
 .align-content-around {
-  align-content: spacE-around !important;
+  align-content: space-around !important;
 }
 
 .align-content-stretch {
@@ -1811,13 +1811,13 @@
     justify-content: center !important;
   }
   .justify-content-sm-between {
-    justify-content: spacE-between !important;
+    justify-content: space-between !important;
   }
   .justify-content-sm-around {
-    justify-content: spacE-around !important;
+    justify-content: space-around !important;
   }
   .justify-content-sm-evenly {
-    justify-content: spacE-evenly !important;
+    justify-content: space-evenly !important;
   }
   .align-items-sm-start {
     align-items: flex-start !important;
@@ -1844,10 +1844,10 @@
     align-content: center !important;
   }
   .align-content-sm-between {
-    align-content: spacE-between !important;
+    align-content: space-between !important;
   }
   .align-content-sm-around {
-    align-content: spacE-around !important;
+    align-content: space-around !important;
   }
   .align-content-sm-stretch {
     align-content: stretch !important;
@@ -2274,13 +2274,13 @@
     justify-content: center !important;
   }
   .justify-content-md-between {
-    justify-content: spacE-between !important;
+    justify-content: space-between !important;
   }
   .justify-content-md-around {
-    justify-content: spacE-around !important;
+    justify-content: space-around !important;
   }
   .justify-content-md-evenly {
-    justify-content: spacE-evenly !important;
+    justify-content: space-evenly !important;
   }
   .align-items-md-start {
     align-items: flex-start !important;
@@ -2307,10 +2307,10 @@
     align-content: center !important;
   }
   .align-content-md-between {
-    align-content: spacE-between !important;
+    align-content: space-between !important;
   }
   .align-content-md-around {
-    align-content: spacE-around !important;
+    align-content: space-around !important;
   }
   .align-content-md-stretch {
     align-content: stretch !important;
@@ -2737,13 +2737,13 @@
     justify-content: center !important;
   }
   .justify-content-lg-between {
-    justify-content: spacE-between !important;
+    justify-content: space-between !important;
   }
   .justify-content-lg-around {
-    justify-content: spacE-around !important;
+    justify-content: space-around !important;
   }
   .justify-content-lg-evenly {
-    justify-content: spacE-evenly !important;
+    justify-content: space-evenly !important;
   }
   .align-items-lg-start {
     align-items: flex-start !important;
@@ -2770,10 +2770,10 @@
     align-content: center !important;
   }
   .align-content-lg-between {
-    align-content: spacE-between !important;
+    align-content: space-between !important;
   }
   .align-content-lg-around {
-    align-content: spacE-around !important;
+    align-content: space-around !important;
   }
   .align-content-lg-stretch {
     align-content: stretch !important;
@@ -3200,13 +3200,13 @@
     justify-content: center !important;
   }
   .justify-content-xl-between {
-    justify-content: spacE-between !important;
+    justify-content: space-between !important;
   }
   .justify-content-xl-around {
-    justify-content: spacE-around !important;
+    justify-content: space-around !important;
   }
   .justify-content-xl-evenly {
-    justify-content: spacE-evenly !important;
+    justify-content: space-evenly !important;
   }
   .align-items-xl-start {
     align-items: flex-start !important;
@@ -3233,10 +3233,10 @@
     align-content: center !important;
   }
   .align-content-xl-between {
-    align-content: spacE-between !important;
+    align-content: space-between !important;
   }
   .align-content-xl-around {
-    align-content: spacE-around !important;
+    align-content: space-around !important;
   }
   .align-content-xl-stretch {
     align-content: stretch !important;
@@ -3663,13 +3663,13 @@
     justify-content: center !important;
   }
   .justify-content-xxl-between {
-    justify-content: spacE-between !important;
+    justify-content: space-between !important;
   }
   .justify-content-xxl-around {
-    justify-content: spacE-around !important;
+    justify-content: space-around !important;
   }
   .justify-content-xxl-evenly {
-    justify-content: spacE-evenly !important;
+    justify-content: space-evenly !important;
   }
   .align-items-xxl-start {
     align-items: flex-start !important;
@@ -3696,10 +3696,10 @@
     align-content: center !important;
   }
   .align-content-xxl-between {
-    align-content: spacE-between !important;
+    align-content: space-between !important;
   }
   .align-content-xxl-around {
-    align-content: spacE-around !important;
+    align-content: space-around !important;
   }
   .align-content-xxl-stretch {
     align-content: stretch !important;
@@ -4081,4 +4081,4 @@
     display: none !important;
   }
 }
-/*# sourcEMappingURL=bootstrap-grid.rtl.css.map */
+/*# sourceMappingURL=bootstrap-grid.rtl.css.map */

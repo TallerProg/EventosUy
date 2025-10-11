@@ -15,7 +15,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
 
 @WebServlet("/Registrarse")
-@MultipartConfig( // límites razonables; ajustá si hacE falta
+@MultipartConfig( // límites razonables; ajustá si hace falta
     fileSizeThreshold = 1024 * 64, // 64 KB en memoria antes de volcar a disco temp
     maxFileSize = 1024 * 1024 * 5, // 5 MB por archivo
     maxRequestSize = 1024 * 1024 * 10 // 10 MB total comentario para subir
@@ -111,7 +111,7 @@ public class RegistrarSvt extends HttpServlet {
                 }
 
 
-                ctrl.AltaAsistente(
+                ctrl.altaAsistente(
                         nickname,
                         email,
                         nombre,
@@ -129,7 +129,7 @@ public class RegistrarSvt extends HttpServlet {
                 }
 
 
-                ctrl.AltaOrganizador(
+                ctrl.altaOrganizador(
                         nickname,
                         email,
                         nombre,

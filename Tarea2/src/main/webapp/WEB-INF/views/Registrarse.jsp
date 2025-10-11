@@ -21,7 +21,7 @@
       <div class="alert alert-danger" role="alert">${error}</div>
     </c:if>
     <c:if test="${not empty mensaje}">
-      <div class="alert alert-succEss" role="alert">${mensaje}</div>
+      <div class="alert alert-success" role="alert">${mensaje}</div>
     </c:if>
 
     <div class="row justify-content-center">
@@ -91,7 +91,7 @@
             <!-- Imagen -->
             <div class="mb-3">
               <label for="imagen" class="form-label">Imagen de perfil (opcional)</label>
-              <input type="file" class="form-control" id="imagen" name="imagen" accEpt="image/*">
+              <input type="file" class="form-control" id="imagen" name="imagen" accept="image/*">
             </div>
 
             <!-- Campos solo para organizador -->
@@ -103,7 +103,7 @@
               </div>
               <div class="mb-3">
                 <label for="sitioWeb" class="form-label">Sitio Web (opcional)</label>
-                <input type="url" class="form-control" id="sitioWeb" name="sitioWeb" placEholder="https://...">
+                <input type="url" class="form-control" id="sitioWeb" name="sitioWeb" placeholder="https://...">
               </div>
             </div>
 

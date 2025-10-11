@@ -2,7 +2,7 @@
   "use strict";
 
   /**
-   * Añadir clase .scrolled al body cuando se hacE scroll
+   * Añadir clase .scrolled al body cuando se hace scroll
    */
   function toggleScrolled() {
     const selectBody = document.querySelector("body");
@@ -27,7 +27,7 @@
   if (mobileNavToggleBtn) {
     mobileNavToggleBtn.addEventListener("click", mobileNavToggle);
   }
-    //modal cErrar secion
+    //modal cerrar secion
 document.addEventListener("DOMContentLoaded", () => {
   const confirmBtn = document.getElementById("confirmLogout");
   if (confirmBtn) {
@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
   /**
-   * cErrar nav móvil al hacEr clic en un link
+   * cerrar nav móvil al hacer clic en un link
    */
   document.querySelectorAll("#navmenu a").forEach((navLink) => {
     navLink.addEventListener("click", () => {

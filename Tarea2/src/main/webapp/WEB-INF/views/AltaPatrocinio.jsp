@@ -36,7 +36,7 @@
     </div>
 
     <% if (msgOk != null) { %>
-      <div class="alert alert-succEss d-flex align-items-center"><i class="bi bi-check2-circle me-2"></i><%= msgOk %></div>
+      <div class="alert alert-success d-flex align-items-center"><i class="bi bi-check2-circle me-2"></i><%= msgOk %></div>
     <% } %>
     <% if (msgErr != null) { %>
       <div class="alert alert-danger d-flex align-items-center"><i class="bi bi-exclamation-triangle me-2"></i><%= msgErr %></div>
@@ -115,7 +115,7 @@
 
           <div class="col-12 d-flex gap-2">
             <button type="submit" class="btn btn-primary">Registrar</button>
-            <a href="<%=ctx%>/" class="btn btn-outline-secondary">CancElar</a>
+            <a href="<%=ctx%>/" class="btn btn-outline-secondary">Cancelar</a>
           </div>
         </form>
 

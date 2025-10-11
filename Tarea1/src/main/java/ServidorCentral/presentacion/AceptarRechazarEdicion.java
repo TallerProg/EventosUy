@@ -23,7 +23,7 @@ public class AceptarRechazarEdicion extends JInternalFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private final IControllerEvento cE;
+	private final IControllerEvento ce;
 
     private JLabel lblEventos;
     private JComboBox<String> comboEventos;
@@ -34,8 +34,8 @@ public class AceptarRechazarEdicion extends JInternalFrame {
     private JButton btnAceptar ;
     private JButton btnRechazar;
 
-    public AceptarRechazarEdicion(IControllerEvento cE) {
-        this.cE = cE;
+    public AceptarRechazarEdicion(IControllerEvento ce) {
+        this.ce = ce;
 
         setResizable(true);
         setIconifiable(true);
@@ -87,8 +87,8 @@ public class AceptarRechazarEdicion extends JInternalFrame {
                     return;
                 }
                 try {
-                    cE.aceptarRechazarEdicion(ed, true);
-                    JOptionPane.showMessageDialog(AceptarRechazarEdicion.this, "Edición acEptada.");
+                    ce.aceptarRechazarEdicion(ed, true);
+                    JOptionPane.showMessageDialog(AceptarRechazarEdicion.this, "Edición aceptada.");
                     recargarEdicionesIngresadas();
                 } catch (Exception ex) {
                     ex.printStackTrace();
@@ -109,7 +109,7 @@ public class AceptarRechazarEdicion extends JInternalFrame {
                     return;
                 }
                 try {
-                    cE.aceptarRechazarEdicion(ed, false);
+                    ce.aceptarRechazarEdicion(ed, false);
                     JOptionPane.showMessageDialog(AceptarRechazarEdicion.this, "Edición rechazada.");
                     recargarEdicionesIngresadas();
                 } catch (Exception ex) {
@@ -128,7 +128,7 @@ public class AceptarRechazarEdicion extends JInternalFrame {
 
     public void cargarEventos() {
         try {
-            String[] nombres = cE.listarEventos().stream()
+            String[] nombres = ce.listarEventos().stream()
                     .map(Evento::getNombre)
                     .toArray(String[]::new);
             comboEventos.setModel(new DefaultComboBoxModel<>(nombres));
@@ -152,7 +152,7 @@ public class AceptarRechazarEdicion extends JInternalFrame {
             return;
         }
         try {
-            String[] edIngresadas = cE.listarEdiciones().stream()
+            String[] edIngresadas = ce.listarEdiciones().stream()
                     .filter(ed -> {
                         String nomEv = ed.getEvento() != null ? ed.getEvento().getNombre() : null;
                         return eventoSel.equals(nomEv) && ed.getEstado() == EstadoEdicion.Ingresada;

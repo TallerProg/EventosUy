@@ -30,8 +30,8 @@ public class AltaPatrocinioSvt extends HttpServlet {
 
     try {
       // Validamos que la edición exista
-      IControllerEvento cEvt = Factory.getInstance().getIControllerEvento();
-      DTEdicion dto = cEvt.consultaEdicionDeEvento(evento, edicion);
+      IControllerEvento cevt = Factory.getInstance().getIControllerEvento();
+      DTEdicion dto = cevt.consultaEdicionDeEvento(evento, edicion);
       if (dto == null) {
         throw new IllegalArgumentException("No se encontró la edición '" + edicion + "' del evento '" + evento + "'.");
       }
@@ -81,7 +81,7 @@ public class AltaPatrocinioSvt extends HttpServlet {
 
       Float aporte = Float.valueOf(aporteStr);
       if (aporte <= 0f) {
-        throw new IllegalArgumentException("Aporte debe ser mayor que cEro.");
+        throw new IllegalArgumentException("Aporte debe ser mayor que cero.");
       }
 
       ETipoNivel nivel = parseNivel(nivelStr);

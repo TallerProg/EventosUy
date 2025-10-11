@@ -26,15 +26,15 @@
 
                 <%-- Mostrar mensaje de éxito si existe --%>
                 <%
-                    String succEssMessage = (String) session.getAttribute("succEss_message");
-                    if (succEssMessage != null) {
+                    String successMessage = (String) session.getAttribute("success_message");
+                    if (successMessage != null) {
                 %>
-                    <div class="alert alert-succEss">
-                        <%= succEssMessage %>
+                    <div class="alert alert-success">
+                        <%= successMessage %>
                     </div>
                 <%
                     // Limpiar el mensaje después de mostrarlo
-                    session.removeAttribute("succEss_message");
+                    session.removeAttribute("success_message");
                     }
                 %>
 
@@ -71,7 +71,7 @@
                     <!-- Imagen -->
                     <div class="mb-3">
                         <label for="imagen" class="form-label">Imagen de perfil (opcional)</label>
-                        <input type="file" class="form-control" id="imagen" name="imagen" accEpt="image/*">
+                        <input type="file" class="form-control" id="imagen" name="imagen" accept="image/*">
                     </div>
                     <!-- Botón -->
                     <button type="submit" class="btn btn-primary w-100">Registrar</button>

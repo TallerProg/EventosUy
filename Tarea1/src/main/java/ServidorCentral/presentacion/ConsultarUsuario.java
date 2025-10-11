@@ -49,9 +49,9 @@ public class ConsultarUsuario extends JInternalFrame {
 	private JPanel panelDatos;
 	private JButton btnVerDetalles;
 
-	public ConsultarUsuario(IControllerUsuario icu, IControllerEvento icE, JDesktopPane desktopPane) {
+	public ConsultarUsuario(IControllerUsuario icu, IControllerEvento ice, JDesktopPane desktopPane) {
 		controlUsuario = icu;
-		controlEvento = icE;
+		controlEvento = ice;
 
 		setResizable(true);
 		setIconifiable(true);

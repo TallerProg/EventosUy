@@ -22,7 +22,7 @@ public class AltaInstitucion extends JInternalFrame {
 	private JTextField txtDescripcion;
 	private JTextField txtURL;
 	private JButton btnAceptar ;
-	private JButton btnCancElar;
+	private JButton btnCancelar;
 
 	public AltaInstitucion(IControllerInstitucion controller) {
 		this.controllerInstitucion = controller;
@@ -100,17 +100,17 @@ public class AltaInstitucion extends JInternalFrame {
 		btnAceptar .setPreferredSize(mismoTamaño);
 		getContentPane().add(btnAceptar , gbc_btnAceptar );
 
-		btnCancElar = new JButton("CancElar");
-		GridBagConstraints gbc_btnCancElar = new GridBagConstraints();
-		gbc_btnCancElar.insets = new Insets(10, 20, 5, 80);
-		gbc_btnCancElar.gridx = 1;
-		gbc_btnCancElar.gridy = 4;
-		gbc_btnCancElar.weightx = 0;
-		gbc_btnCancElar.anchor = GridBagConstraints.LINE_END;
-		btnCancElar.setPreferredSize(mismoTamaño);
-		getContentPane().add(btnCancElar, gbc_btnCancElar);
+		btnCancelar = new JButton("Cancelar");
+		GridBagConstraints gbc_btnCancelar = new GridBagConstraints();
+		gbc_btnCancelar.insets = new Insets(10, 20, 5, 80);
+		gbc_btnCancelar.gridx = 1;
+		gbc_btnCancelar.gridy = 4;
+		gbc_btnCancelar.weightx = 0;
+		gbc_btnCancelar.anchor = GridBagConstraints.LINE_END;
+		btnCancelar.setPreferredSize(mismoTamaño);
+		getContentPane().add(btnCancelar, gbc_btnCancelar);
 
-		btnCancElar.addActionListener(e -> {
+		btnCancelar.addActionListener(e -> {
 			txtNombre.setText("");
 			txtDescripcion.setText("");
 			txtURL.setText("");

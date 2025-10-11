@@ -33,7 +33,7 @@ public class AltaEdicionEvento extends JInternalFrame {
     private JComboBox<String> comboOrganizador;
     private JTextField txtNombre, txtSigla, txtCiudad, txtPais;
     private JFormattedTextField txtFechaIni, txtFechaFin, txtFechaAlta;
-    private JButton btnAceptar , btnCancElar;
+    private JButton btnAceptar , btnCancelar;
 
     private IControllerEvento controller;
     private List<Evento> eventos;
@@ -41,8 +41,8 @@ public class AltaEdicionEvento extends JInternalFrame {
 
     private int row = 0;
 
-    public AltaEdicionEvento(IControllerEvento icE) {
-        this.controller = icE;
+    public AltaEdicionEvento(IControllerEvento ice) {
+        this.controller = ice;
 
         setClosable(true);
         setIconifiable(true);
@@ -215,9 +215,9 @@ public class AltaEdicionEvento extends JInternalFrame {
 
         JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
         btnAceptar  = new JButton("Aceptar ");
-        btnCancElar = new JButton("Cancelar");
+        btnCancelar = new JButton("Cancelar");
         panelBotones.add(btnAceptar );
-        panelBotones.add(btnCancElar);
+        panelBotones.add(btnCancelar);
 
         GridBagConstraints gbc_panelBotones = new GridBagConstraints();
         gbc_panelBotones.insets = new Insets(10, 5, 5, 5);
@@ -231,7 +231,7 @@ public class AltaEdicionEvento extends JInternalFrame {
         cargarEventos();
         cargarOrganizadores();
 
-        btnCancElar.addActionListener(e -> {
+        btnCancelar.addActionListener(e -> {
             txtNombre.setText("");
             txtSigla.setText("");
             txtCiudad.setText("");

@@ -74,8 +74,8 @@ public class ControllerUsuario implements IControllerUsuario {
 
     private static boolean isBlank(String s) { return s == null || s.trim().isEmpty(); }
     /** Si usás hash, adaptá esta comparación. */
-    private boolean passwordCoincide(String ingresada, String almacEnada) {
-        return Objects.equals(ingresada, almacEnada);
+    private boolean passwordCoincide(String ingresada, String almacenada) {
+        return Objects.equals(ingresada, almacenada);
     }
 
 

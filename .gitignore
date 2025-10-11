@@ -36,7 +36,7 @@ coverage/
 # Archivos temporales de plugins
 pom.xml.versionsBackup
 release.properties
-dependency-reducEd-pom.xml
+dependency-reduced-pom.xml
 buildNumber.properties
 .mvn/timing.properties
 
@@ -81,9 +81,9 @@ nbdist/
 .nb-gradle/
 
 # =========================
-# Servidores locales / Tomcat (workspacE de Eclipse)
+# Servidores locales / Tomcat (workspace de Eclipse)
 # =========================
-# Proyectos "Servers" y metadatos del workspacE
+# Proyectos "Servers" y metadatos del workspace
 Servers/
 .metadata/
 **/.metadata/

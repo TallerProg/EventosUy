@@ -51,7 +51,7 @@ public class AltaUsuario extends JInternalFrame {
 
     private JComboBox<String> comboTipoUsuario;
     private JButton btnAceptar ;
-    private JButton btnCancElar;
+    private JButton btnCancelar;
 
     private int row = 0;
 
@@ -208,16 +208,16 @@ public class AltaUsuario extends JInternalFrame {
         btnAceptar .setPreferredSize(mismoTamaño);
         getContentPane().add(btnAceptar , gbc_btnAceptar );
 
-        btnCancElar = new JButton("CancElar");
-        GridBagConstraints gbc_btnCancElar = new GridBagConstraints();
-        gbc_btnCancElar.insets = new Insets(10, 20, 5, 80);
-        gbc_btnCancElar.gridx = 1;
-        gbc_btnCancElar.gridy = 11;
-        gbc_btnCancElar.anchor = GridBagConstraints.LINE_END;
-        btnCancElar.setPreferredSize(mismoTamaño);
-        getContentPane().add(btnCancElar, gbc_btnCancElar);
+        btnCancelar = new JButton("Cancelar");
+        GridBagConstraints gbc_btnCancelar = new GridBagConstraints();
+        gbc_btnCancelar.insets = new Insets(10, 20, 5, 80);
+        gbc_btnCancelar.gridx = 1;
+        gbc_btnCancelar.gridy = 11;
+        gbc_btnCancelar.anchor = GridBagConstraints.LINE_END;
+        btnCancelar.setPreferredSize(mismoTamaño);
+        getContentPane().add(btnCancelar, gbc_btnCancelar);
 
-        btnCancElar.addActionListener(e -> {
+        btnCancelar.addActionListener(e -> {
             textFieldNickName.setText("");
             textFieldCorreo.setText("");
             textFieldNombre.setText("");

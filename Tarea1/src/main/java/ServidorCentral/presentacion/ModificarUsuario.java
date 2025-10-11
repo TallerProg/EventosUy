@@ -55,7 +55,7 @@ public class ModificarUsuario extends JInternalFrame {
     private JComboBox<String> comboInstitucion;
 
     private JButton btnAceptar ;
-    private JButton btnCancElar;
+    private JButton btnCancelar;
 
     public ModificarUsuario(IControllerUsuario icu, IControllerInstitucion ici) {
         controlUsr = icu;
@@ -214,7 +214,7 @@ public class ModificarUsuario extends JInternalFrame {
         comboInstitucion.setVisible(false);
 
         btnAceptar  = new JButton("Guardar");
-        btnCancElar = new JButton("CancElar");
+        btnCancelar = new JButton("Cancelar");
 
         GridBagConstraints gbc_btnAceptar  = new GridBagConstraints();
         gbc_btnAceptar .insets = new Insets(10, 50, 5, 20);
@@ -224,15 +224,15 @@ public class ModificarUsuario extends JInternalFrame {
         btnAceptar .setPreferredSize(new Dimension(100, 25));
         getContentPane().add(btnAceptar , gbc_btnAceptar );
 
-        GridBagConstraints gbc_btnCancElar = new GridBagConstraints();
-        gbc_btnCancElar.insets = new Insets(10, 20, 5, 80);
-        gbc_btnCancElar.gridx = 1;
-        gbc_btnCancElar.gridy = row;
-        gbc_btnCancElar.anchor = GridBagConstraints.LINE_END;
-        btnCancElar.setPreferredSize(new Dimension(100, 25));
-        getContentPane().add(btnCancElar, gbc_btnCancElar);
+        GridBagConstraints gbc_btnCancelar = new GridBagConstraints();
+        gbc_btnCancelar.insets = new Insets(10, 20, 5, 80);
+        gbc_btnCancelar.gridx = 1;
+        gbc_btnCancelar.gridy = row;
+        gbc_btnCancelar.anchor = GridBagConstraints.LINE_END;
+        btnCancelar.setPreferredSize(new Dimension(100, 25));
+        getContentPane().add(btnCancelar, gbc_btnCancelar);
 
-        btnCancElar.addActionListener(e -> this.setVisible(false));
+        btnCancelar.addActionListener(e -> this.setVisible(false));
         comboUsuarios.addActionListener(e -> actualizarCampos());
         btnAceptar .addActionListener(e -> modificarUsuario());
     }

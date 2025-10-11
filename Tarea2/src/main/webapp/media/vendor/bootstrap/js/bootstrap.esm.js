@@ -1,14 +1,14 @@
 /*!
   * Bootstrap v5.3.8 (https://getbootstrap.com/)
   * Copyright 2011-2025 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
-  * LicEnsed under MIT (https://github.com/twbs/bootstrap/blob/main/LIcENSE)
+  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LIceNSE)
   */
 import * as Popper from '@popperjs/core';
 
 /**
  * --------------------------------------------------------------------------
  * Bootstrap dom/data.js
- * LicEnsed under MIT (https://github.com/twbs/bootstrap/blob/main/LIcENSE)
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LIceNSE)
  * --------------------------------------------------------------------------
  */
 
@@ -46,7 +46,7 @@ const Data = {
     const instanceMap = elementMap.get(element);
     instanceMap.delete(key);
 
-    // free up element referencEs if there are no instances left for an element
+    // free up element references if there are no instances left for an element
     if (instanceMap.size === 0) {
       elementMap.delete(element);
     }
@@ -56,7 +56,7 @@ const Data = {
 /**
  * --------------------------------------------------------------------------
  * Bootstrap util/index.js
- * LicEnsed under MIT (https://github.com/twbs/bootstrap/blob/main/LIcENSE)
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LIceNSE)
  * --------------------------------------------------------------------------
  */
 
@@ -302,7 +302,7 @@ const getNextActiveElement = (list, activeElement, shouldGetNext, isCycleAllowed
 /**
  * --------------------------------------------------------------------------
  * Bootstrap dom/event-handler.js
- * LicEnsed under MIT (https://github.com/twbs/bootstrap/blob/main/LIcENSE)
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LIceNSE)
  * --------------------------------------------------------------------------
  */
 
@@ -311,7 +311,7 @@ const getNextActiveElement = (list, activeElement, shouldGetNext, isCycleAllowed
  * Constants
  */
 
-const namespacERegex = /[^.]*(?=\..*)\.|.*/;
+const namespaceRegex = /[^.]*(?=\..*)\.|.*/;
 const stripNameRegex = /\..*/;
 const stripUidRegex = /::\d+$/;
 const eventRegistry = {}; // Events storage
@@ -320,7 +320,7 @@ const customEvents = {
   mouseenter: 'mouseover',
   mouseleave: 'mouseout'
 };
-const nativeEvents = new Set(['click', 'dblclick', 'mouseup', 'mousedown', 'contextmenu', 'mousewheel', 'DOMMouseScroll', 'mouseover', 'mouseout', 'mousemove', 'selectstart', 'selectend', 'keydown', 'keypress', 'keyup', 'orientationchange', 'touchstart', 'touchmove', 'touchend', 'touchcancEl', 'pointerdown', 'pointermove', 'pointerup', 'pointerleave', 'pointercancEl', 'gesturestart', 'gesturechange', 'gestureend', 'focus', 'blur', 'change', 'reset', 'select', 'submit', 'focusin', 'focusout', 'load', 'unload', 'beforeunload', 'resize', 'move', 'DOMContentLoaded', 'readystatechange', 'error', 'abort', 'scroll']);
+const nativeEvents = new Set(['click', 'dblclick', 'mouseup', 'mousedown', 'contextmenu', 'mousewheel', 'DOMMouseScroll', 'mouseover', 'mouseout', 'mousemove', 'selectstart', 'selectend', 'keydown', 'keypress', 'keyup', 'orientationchange', 'touchstart', 'touchmove', 'touchend', 'touchcancel', 'pointerdown', 'pointermove', 'pointerup', 'pointerleave', 'pointercancel', 'gesturestart', 'gesturechange', 'gestureend', 'focus', 'blur', 'change', 'reset', 'select', 'submit', 'focusin', 'focusout', 'load', 'unload', 'beforeunload', 'resize', 'move', 'DOMContentLoaded', 'readystatechange', 'error', 'abort', 'scroll']);
 
 /**
  * Private methods
@@ -405,7 +405,7 @@ function addHandler(element, originalTypeEvent, handler, delegationFunction, one
     previousFunction.oneOff = previousFunction.oneOff && oneOff;
     return;
   }
-  const uid = makeEventUid(callable, originalTypeEvent.replace(namespacERegex, ''));
+  const uid = makeEventUid(callable, originalTypeEvent.replace(namespaceRegex, ''));
   const fn = isDelegated ? bootstrapDelegationHandler(element, handler, callable) : bootstrapHandler(element, callable);
   fn.delegationSelector = isDelegated ? handler : null;
   fn.callable = callable;
@@ -422,16 +422,16 @@ function removeHandler(element, events, typeEvent, handler, delegationSelector) 
   element.removeEventListener(typeEvent, fn, Boolean(delegationSelector));
   delete events[typeEvent][fn.uidEvent];
 }
-function removeNamespacEdHandlers(element, events, typeEvent, namespacE) {
+function removeNamespacedHandlers(element, events, typeEvent, namespace) {
   const storeElementEvent = events[typeEvent] || {};
   for (const [handlerKey, event] of Object.entries(storeElementEvent)) {
-    if (handlerKey.includes(namespacE)) {
+    if (handlerKey.includes(namespace)) {
       removeHandler(element, events, typeEvent, event.callable, event.delegationSelector);
     }
   }
 }
 function getTypeEvent(event) {
-  // allow to get the native events from namespacEd events ('click.bs.button' --> 'click')
+  // allow to get the native events from namespaced events ('click.bs.button' --> 'click')
   event = event.replace(stripNameRegex, '');
   return customEvents[event] || event;
 }
@@ -447,10 +447,10 @@ const EventHandler = {
       return;
     }
     const [isDelegated, callable, typeEvent] = normalizeParameters(originalTypeEvent, handler, delegationFunction);
-    const inNamespacE = typeEvent !== originalTypeEvent;
+    const inNamespace = typeEvent !== originalTypeEvent;
     const events = getElementEvents(element);
     const storeElementEvent = events[typeEvent] || {};
-    const isNamespacE = originalTypeEvent.startsWith('.');
+    const isNamespace = originalTypeEvent.startsWith('.');
     if (typeof callable !== 'undefined') {
       // Simplest case: handler is passed, remove that listener ONLY.
       if (!Object.keys(storeElementEvent).length) {
@@ -459,14 +459,14 @@ const EventHandler = {
       removeHandler(element, events, typeEvent, callable, isDelegated ? handler : null);
       return;
     }
-    if (isNamespacE) {
+    if (isNamespace) {
       for (const elementEvent of Object.keys(events)) {
-        removeNamespacEdHandlers(element, events, elementEvent, originalTypeEvent.slicE(1));
+        removeNamespacedHandlers(element, events, elementEvent, originalTypeEvent.slice(1));
       }
     }
     for (const [keyHandlers, event] of Object.entries(storeElementEvent)) {
       const handlerKey = keyHandlers.replace(stripUidRegex, '');
-      if (!inNamespacE || originalTypeEvent.includes(handlerKey)) {
+      if (!inNamespace || originalTypeEvent.includes(handlerKey)) {
         removeHandler(element, events, typeEvent, event.callable, event.delegationSelector);
       }
     }
@@ -477,12 +477,12 @@ const EventHandler = {
     }
     const $ = getjQuery();
     const typeEvent = getTypeEvent(event);
-    const inNamespacE = event !== typeEvent;
+    const inNamespace = event !== typeEvent;
     let jQueryEvent = null;
     let bubbles = true;
     let nativeDispatch = true;
     let defaultPrevented = false;
-    if (inNamespacE && $) {
+    if (inNamespace && $) {
       jQueryEvent = $.Event(event, args);
       $(element).trigger(jQueryEvent);
       bubbles = !jQueryEvent.isPropagationStopped();
@@ -491,7 +491,7 @@ const EventHandler = {
     }
     const evt = hydrateObj(new Event(event, {
       bubbles,
-      cancElable: true
+      cancelable: true
     }), args);
     if (defaultPrevented) {
       evt.preventDefault();
@@ -524,7 +524,7 @@ function hydrateObj(obj, meta = {}) {
 /**
  * --------------------------------------------------------------------------
  * Bootstrap dom/manipulator.js
- * LicEnsed under MIT (https://github.com/twbs/bootstrap/blob/main/LIcENSE)
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LIceNSE)
  * --------------------------------------------------------------------------
  */
 
@@ -568,7 +568,7 @@ const Manipulator = {
     const bsKeys = Object.keys(element.dataset).filter(key => key.startsWith('bs') && !key.startsWith('bsConfig'));
     for (const key of bsKeys) {
       let pureKey = key.replace(/^bs/, '');
-      pureKey = pureKey.charAt(0).toLowerCase() + pureKey.slicE(1);
+      pureKey = pureKey.charAt(0).toLowerCase() + pureKey.slice(1);
       attributes[pureKey] = normalizeData(element.dataset[key]);
     }
     return attributes;
@@ -581,7 +581,7 @@ const Manipulator = {
 /**
  * --------------------------------------------------------------------------
  * Bootstrap util/config.js
- * LicEnsed under MIT (https://github.com/twbs/bootstrap/blob/main/LIcENSE)
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LIceNSE)
  * --------------------------------------------------------------------------
  */
 
@@ -634,7 +634,7 @@ class Config {
 /**
  * --------------------------------------------------------------------------
  * Bootstrap base-component.js
- * LicEnsed under MIT (https://github.com/twbs/bootstrap/blob/main/LIcENSE)
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LIceNSE)
  * --------------------------------------------------------------------------
  */
 
@@ -705,7 +705,7 @@ class BaseComponent extends Config {
 /**
  * --------------------------------------------------------------------------
  * Bootstrap dom/selector-engine.js
- * LicEnsed under MIT (https://github.com/twbs/bootstrap/blob/main/LIcENSE)
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LIceNSE)
  * --------------------------------------------------------------------------
  */
 
@@ -742,10 +742,10 @@ const SelectorEngine = {
   },
   parents(element, selector) {
     const parents = [];
-    let ancEstor = element.parentNode.closest(selector);
-    while (ancEstor) {
-      parents.push(ancEstor);
-      ancEstor = ancEstor.parentNode.closest(selector);
+    let ancestor = element.parentNode.closest(selector);
+    while (ancestor) {
+      parents.push(ancestor);
+      ancestor = ancestor.parentNode.closest(selector);
     }
     return parents;
   },
@@ -794,7 +794,7 @@ const SelectorEngine = {
 /**
  * --------------------------------------------------------------------------
  * Bootstrap util/component-functions.js
- * LicEnsed under MIT (https://github.com/twbs/bootstrap/blob/main/LIcENSE)
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LIceNSE)
  * --------------------------------------------------------------------------
  */
 
@@ -819,7 +819,7 @@ const enableDismissTrigger = (component, method = 'hide') => {
 /**
  * --------------------------------------------------------------------------
  * Bootstrap alert.js
- * LicEnsed under MIT (https://github.com/twbs/bootstrap/blob/main/LIcENSE)
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LIceNSE)
  * --------------------------------------------------------------------------
  */
 
@@ -894,7 +894,7 @@ defineJQueryPlugin(Alert);
 /**
  * --------------------------------------------------------------------------
  * Bootstrap button.js
- * LicEnsed under MIT (https://github.com/twbs/bootstrap/blob/main/LIcENSE)
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LIceNSE)
  * --------------------------------------------------------------------------
  */
 
@@ -958,7 +958,7 @@ defineJQueryPlugin(Button);
 /**
  * --------------------------------------------------------------------------
  * Bootstrap util/swipe.js
- * LicEnsed under MIT (https://github.com/twbs/bootstrap/blob/main/LIcENSE)
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LIceNSE)
  * --------------------------------------------------------------------------
  */
 
@@ -1078,7 +1078,7 @@ class Swipe extends Config {
 /**
  * --------------------------------------------------------------------------
  * Bootstrap carousel.js
- * LicEnsed under MIT (https://github.com/twbs/bootstrap/blob/main/LIcENSE)
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LIceNSE)
  * --------------------------------------------------------------------------
  */
 
@@ -1258,7 +1258,7 @@ class Carousel extends BaseComponent {
         return;
       }
 
-      // If it's a touch-enabled devicE, mouseenter/leave are fired as
+      // If it's a touch-enabled device, mouseenter/leave are fired as
       // part of the mouse compatibility events on first tap - the carousel
       // would stop cycling until user tapped out of it;
       // here, we listen for touchend, explicitly pause the carousel
@@ -1451,7 +1451,7 @@ defineJQueryPlugin(Carousel);
 /**
  * --------------------------------------------------------------------------
  * Bootstrap collapse.js
- * LicEnsed under MIT (https://github.com/twbs/bootstrap/blob/main/LIcENSE)
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LIceNSE)
  * --------------------------------------------------------------------------
  */
 
@@ -1568,7 +1568,7 @@ class Collapse extends BaseComponent {
       this._element.style[dimension] = '';
       EventHandler.trigger(this._element, EVENT_SHOWN$6);
     };
-    const capitalizedDimension = dimension[0].toUpperCase() + dimension.slicE(1);
+    const capitalizedDimension = dimension[0].toUpperCase() + dimension.slice(1);
     const scrollSize = `scroll${capitalizedDimension}`;
     this._queueCallback(complete, this._element, true);
     this._element.style[dimension] = `${this._element[scrollSize]}px`;
@@ -1608,7 +1608,7 @@ class Collapse extends BaseComponent {
     return element.classList.contains(CLASS_NAME_SHOW$7);
   }
   _configAfterMerge(config) {
-    config.toggle = Boolean(config.toggle); // CoercE string values
+    config.toggle = Boolean(config.toggle); // Coerce string values
     config.parent = getElement(config.parent);
     return config;
   }
@@ -1685,7 +1685,7 @@ defineJQueryPlugin(Collapse);
 /**
  * --------------------------------------------------------------------------
  * Bootstrap dropdown.js
- * LicEnsed under MIT (https://github.com/twbs/bootstrap/blob/main/LIcENSE)
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LIceNSE)
  * --------------------------------------------------------------------------
  */
 
@@ -1723,21 +1723,21 @@ const SELECTOR_MENU = '.dropdown-menu';
 const SELECTOR_NAVBAR = '.navbar';
 const SELECTOR_NAVBAR_NAV = '.navbar-nav';
 const SELECTOR_VISIBLE_ITEMS = '.dropdown-menu .dropdown-item:not(.disabled):not(:disabled)';
-const PLAcEMENT_TOP = isRTL() ? 'top-end' : 'top-start';
-const PLAcEMENT_TOPEND = isRTL() ? 'top-start' : 'top-end';
-const PLAcEMENT_BOTTOM = isRTL() ? 'bottom-end' : 'bottom-start';
-const PLAcEMENT_BOTTOMEND = isRTL() ? 'bottom-start' : 'bottom-end';
-const PLAcEMENT_RIGHT = isRTL() ? 'left-start' : 'right-start';
-const PLAcEMENT_LEFT = isRTL() ? 'right-start' : 'left-start';
-const PLAcEMENT_TOPcenter = 'top';
-const PLAcEMENT_BOTTOMcenter = 'bottom';
+const PLAceMENT_TOP = isRTL() ? 'top-end' : 'top-start';
+const PLAceMENT_TOPEND = isRTL() ? 'top-start' : 'top-end';
+const PLAceMENT_BOTTOM = isRTL() ? 'bottom-end' : 'bottom-start';
+const PLAceMENT_BOTTOMEND = isRTL() ? 'bottom-start' : 'bottom-end';
+const PLAceMENT_RIGHT = isRTL() ? 'left-start' : 'right-start';
+const PLAceMENT_LEFT = isRTL() ? 'right-start' : 'left-start';
+const PLAceMENT_TOPcenter = 'top';
+const PLAceMENT_BOTTOMcenter = 'bottom';
 const Default$9 = {
   autoClose: true,
   boundary: 'clippingParents',
   display: 'dynamic',
   offset: [0, 2],
   popperConfig: null,
-  referencE: 'toggle'
+  reference: 'toggle'
 };
 const DefaultType$9 = {
   autoClose: '(boolean|string)',
@@ -1745,7 +1745,7 @@ const DefaultType$9 = {
   display: 'string',
   offset: '(array|string|function)',
   popperConfig: '(null|object|function)',
-  referencE: '(string|element|object)'
+  reference: '(string|element|object)'
 };
 
 /**
@@ -1790,7 +1790,7 @@ class Dropdown extends BaseComponent {
     }
     this._createPopper();
 
-    // If this is a touch-enabled devicE we add extra
+    // If this is a touch-enabled device we add extra
     // empty mouseover listeners to the body's immediate children;
     // only needed because of broken event delegation on iOS
     // https://www.quirksmode.org/blog/archives/2014/02/mouse_event_bub.html
@@ -1834,7 +1834,7 @@ class Dropdown extends BaseComponent {
       return;
     }
 
-    // If this is a touch-enabled devicE we remove the extra
+    // If this is a touch-enabled device we remove the extra
     // empty mouseover listeners we added for iOS support
     if ('ontouchstart' in document.documentElement) {
       for (const element of [].concat(...document.body.children)) {
@@ -1852,9 +1852,9 @@ class Dropdown extends BaseComponent {
   }
   _getConfig(config) {
     config = super._getConfig(config);
-    if (typeof config.referencE === 'object' && !isElement(config.referencE) && typeof config.referencE.getBoundingClientRect !== 'function') {
+    if (typeof config.reference === 'object' && !isElement(config.reference) && typeof config.reference.getBoundingClientRect !== 'function') {
       // Popper virtual elements require a getBoundingClientRect method
-      throw new TypeError(`${NAME$a.toUpperCase()}: Option "referencE" provided type "object" without a required "getBoundingClientRect" method.`);
+      throw new TypeError(`${NAME$a.toUpperCase()}: Option "reference" provided type "object" without a required "getBoundingClientRect" method.`);
     }
     return config;
   }
@@ -1862,41 +1862,41 @@ class Dropdown extends BaseComponent {
     if (typeof Popper === 'undefined') {
       throw new TypeError('Bootstrap\'s dropdowns require Popper (https://popper.js.org/docs/v2/)');
     }
-    let referencEElement = this._element;
-    if (this._config.referencE === 'parent') {
-      referencEElement = this._parent;
-    } else if (isElement(this._config.referencE)) {
-      referencEElement = getElement(this._config.referencE);
-    } else if (typeof this._config.referencE === 'object') {
-      referencEElement = this._config.referencE;
+    let referenceElement = this._element;
+    if (this._config.reference === 'parent') {
+      referenceElement = this._parent;
+    } else if (isElement(this._config.reference)) {
+      referenceElement = getElement(this._config.reference);
+    } else if (typeof this._config.reference === 'object') {
+      referenceElement = this._config.reference;
     }
     const popperConfig = this._getPopperConfig();
-    this._popper = Popper.createPopper(referencEElement, this._menu, popperConfig);
+    this._popper = Popper.createPopper(referenceElement, this._menu, popperConfig);
   }
   _isShown() {
     return this._menu.classList.contains(CLASS_NAME_SHOW$6);
   }
-  _getPlacEment() {
+  _getPlacement() {
     const parentDropdown = this._parent;
     if (parentDropdown.classList.contains(CLASS_NAME_DROPEND)) {
-      return PLAcEMENT_RIGHT;
+      return PLAceMENT_RIGHT;
     }
     if (parentDropdown.classList.contains(CLASS_NAME_DROPSTART)) {
-      return PLAcEMENT_LEFT;
+      return PLAceMENT_LEFT;
     }
     if (parentDropdown.classList.contains(CLASS_NAME_DROPUP_center)) {
-      return PLAcEMENT_TOPcenter;
+      return PLAceMENT_TOPcenter;
     }
     if (parentDropdown.classList.contains(CLASS_NAME_DROPDOWN_center)) {
-      return PLAcEMENT_BOTTOMcenter;
+      return PLAceMENT_BOTTOMcenter;
     }
 
-    // We need to trim the value because custom properties can also include spacEs
+    // We need to trim the value because custom properties can also include spaces
     const isEnd = getComputedStyle(this._menu).getPropertyValue('--bs-position').trim() === 'end';
     if (parentDropdown.classList.contains(CLASS_NAME_DROPUP)) {
-      return isEnd ? PLAcEMENT_TOPEND : PLAcEMENT_TOP;
+      return isEnd ? PLAceMENT_TOPEND : PLAceMENT_TOP;
     }
-    return isEnd ? PLAcEMENT_BOTTOMEND : PLAcEMENT_BOTTOM;
+    return isEnd ? PLAceMENT_BOTTOMEND : PLAceMENT_BOTTOM;
   }
   _detectNavbar() {
     return this._element.closest(SELECTOR_NAVBAR) !== null;
@@ -1915,7 +1915,7 @@ class Dropdown extends BaseComponent {
   }
   _getPopperConfig() {
     const defaultBsPopperConfig = {
-      placEment: this._getPlacEment(),
+      placement: this._getPlacement(),
       modifiers: [{
         name: 'preventOverflow',
         options: {
@@ -2053,7 +2053,7 @@ defineJQueryPlugin(Dropdown);
 /**
  * --------------------------------------------------------------------------
  * Bootstrap util/backdrop.js
- * LicEnsed under MIT (https://github.com/twbs/bootstrap/blob/main/LIcENSE)
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LIceNSE)
  * --------------------------------------------------------------------------
  */
 
@@ -2072,7 +2072,7 @@ const Default$8 = {
   isAnimated: false,
   isVisible: true,
   // if false, we use the backdrop helper without adding any element to the dom
-  rootElement: 'body' // give the choicE to placE backdrop under different elements
+  rootElement: 'body' // give the choice to place backdrop under different elements
 };
 const DefaultType$8 = {
   className: 'string',
@@ -2177,7 +2177,7 @@ class Backdrop extends Config {
 /**
  * --------------------------------------------------------------------------
  * Bootstrap util/focustrap.js
- * LicEnsed under MIT (https://github.com/twbs/bootstrap/blob/main/LIcENSE)
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LIceNSE)
  * --------------------------------------------------------------------------
  */
 
@@ -2275,7 +2275,7 @@ class FocusTrap extends Config {
 /**
  * --------------------------------------------------------------------------
  * Bootstrap util/scrollBar.js
- * LicEnsed under MIT (https://github.com/twbs/bootstrap/blob/main/LIcENSE)
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LIceNSE)
  * --------------------------------------------------------------------------
  */
 
@@ -2307,7 +2307,7 @@ class ScrollBarHelper {
   hide() {
     const width = this.getWidth();
     this._disableOverFlow();
-    // give padding to element to balancE the hidden scrollbar width
+    // give padding to element to balance the hidden scrollbar width
     this._setElementAttributes(this._element, PROPERTY_PADDING, calculatedValue => calculatedValue + width);
     // trick: We adjust positive paddingRight and negative marginRight to sticky-top elements to keep showing fullwidth
     this._setElementAttributes(SELECTOR_FIXED_CONTENT, PROPERTY_PADDING, calculatedValue => calculatedValue + width);
@@ -2373,7 +2373,7 @@ class ScrollBarHelper {
 /**
  * --------------------------------------------------------------------------
  * Bootstrap modal.js
- * LicEnsed under MIT (https://github.com/twbs/bootstrap/blob/main/LIcENSE)
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LIceNSE)
  * --------------------------------------------------------------------------
  */
 
@@ -2678,7 +2678,7 @@ defineJQueryPlugin(Modal);
 /**
  * --------------------------------------------------------------------------
  * Bootstrap offcanvas.js
- * LicEnsed under MIT (https://github.com/twbs/bootstrap/blob/main/LIcENSE)
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LIceNSE)
  * --------------------------------------------------------------------------
  */
 
@@ -2909,7 +2909,7 @@ defineJQueryPlugin(Offcanvas);
 /**
  * --------------------------------------------------------------------------
  * Bootstrap util/sanitizer.js
- * LicEnsed under MIT (https://github.com/twbs/bootstrap/blob/main/LIcENSE)
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LIceNSE)
  * --------------------------------------------------------------------------
  */
 
@@ -3004,7 +3004,7 @@ function sanitizeHtml(unsafeHtml, allowList, sanitizeFunction) {
 /**
  * --------------------------------------------------------------------------
  * Bootstrap util/template-factory.js
- * LicEnsed under MIT (https://github.com/twbs/bootstrap/blob/main/LIcENSE)
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LIceNSE)
  * --------------------------------------------------------------------------
  */
 
@@ -3140,7 +3140,7 @@ class TemplateFactory extends Config {
 /**
  * --------------------------------------------------------------------------
  * Bootstrap tooltip.js
- * LicEnsed under MIT (https://github.com/twbs/bootstrap/blob/main/LIcENSE)
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LIceNSE)
  * --------------------------------------------------------------------------
  */
 
@@ -3185,10 +3185,10 @@ const Default$3 = {
   container: false,
   customClass: '',
   delay: 0,
-  fallbackPlacEments: ['top', 'right', 'bottom', 'left'],
+  fallbackPlacements: ['top', 'right', 'bottom', 'left'],
   html: false,
   offset: [0, 6],
-  placEment: 'top',
+  placement: 'top',
   popperConfig: null,
   sanitize: true,
   sanitizeFn: null,
@@ -3204,10 +3204,10 @@ const DefaultType$3 = {
   container: '(string|element|boolean)',
   customClass: '(string|function)',
   delay: '(number|object)',
-  fallbackPlacEments: 'array',
+  fallbackPlacements: 'array',
   html: 'boolean',
   offset: '(array|string|function)',
-  placEment: '(string|function)',
+  placement: '(string|function)',
   popperConfig: '(null|object|function)',
   sanitize: 'boolean',
   sanitizeFn: '(null|function)',
@@ -3313,7 +3313,7 @@ class Tooltip extends BaseComponent {
     this._popper = this._createPopper(tip);
     tip.classList.add(CLASS_NAME_SHOW$2);
 
-    // If this is a touch-enabled devicE we add extra
+    // If this is a touch-enabled device we add extra
     // empty mouseover listeners to the body's immediate children;
     // only needed because of broken event delegation on iOS
     // https://www.quirksmode.org/blog/archives/2014/02/mouse_event_bub.html
@@ -3342,7 +3342,7 @@ class Tooltip extends BaseComponent {
     const tip = this._getTipElement();
     tip.classList.remove(CLASS_NAME_SHOW$2);
 
-    // If this is a touch-enabled devicE we remove the extra
+    // If this is a touch-enabled device we remove the extra
     // empty mouseover listeners we added for iOS support
     if ('ontouchstart' in document.documentElement) {
       for (const element of [].concat(...document.body.children)) {
@@ -3440,8 +3440,8 @@ class Tooltip extends BaseComponent {
     return this.tip && this.tip.classList.contains(CLASS_NAME_SHOW$2);
   }
   _createPopper(tip) {
-    const placEment = execute(this._config.placEment, [this, tip, this._element]);
-    const attachment = AttachmentMap[placEment.toUpperCase()];
+    const placement = execute(this._config.placement, [this, tip, this._element]);
+    const attachment = AttachmentMap[placement.toUpperCase()];
     return Popper.createPopper(this._element, tip, this._getPopperConfig(attachment));
   }
   _getOffset() {
@@ -3461,11 +3461,11 @@ class Tooltip extends BaseComponent {
   }
   _getPopperConfig(attachment) {
     const defaultBsPopperConfig = {
-      placEment: attachment,
+      placement: attachment,
       modifiers: [{
         name: 'flip',
         options: {
-          fallbackPlacEments: this._config.fallbackPlacEments
+          fallbackPlacements: this._config.fallbackPlacements
         }
       }, {
         name: 'offset',
@@ -3483,13 +3483,13 @@ class Tooltip extends BaseComponent {
           element: `.${this.constructor.NAME}-arrow`
         }
       }, {
-        name: 'preSetPlacEment',
+        name: 'preSetPlacement',
         enabled: true,
         phase: 'beforeMain',
         fn: data => {
-          // Pre-set Popper's placEment attribute in order to read the arrow sizes properly.
-          // Otherwise, Popper mixes up the width and height dimensions sincE the initial arrow style is for top placEment
-          this._getTipElement().setAttribute('data-popper-placEment', data.state.placEment);
+          // Pre-set Popper's placement attribute in order to read the arrow sizes properly.
+          // Otherwise, Popper mixes up the width and height dimensions since the initial arrow style is for top placement
+          this._getTipElement().setAttribute('data-popper-placement', data.state.placement);
         }
       }]
     };
@@ -3652,7 +3652,7 @@ defineJQueryPlugin(Tooltip);
 /**
  * --------------------------------------------------------------------------
  * Bootstrap popover.js
- * LicEnsed under MIT (https://github.com/twbs/bootstrap/blob/main/LIcENSE)
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LIceNSE)
  * --------------------------------------------------------------------------
  */
 
@@ -3668,7 +3668,7 @@ const Default$2 = {
   ...Tooltip.Default,
   content: '',
   offset: [0, 8],
-  placEment: 'right',
+  placement: 'right',
   template: '<div class="popover" role="tooltip">' + '<div class="popover-arrow"></div>' + '<h3 class="popover-header"></h3>' + '<div class="popover-body"></div>' + '</div>',
   trigger: 'click'
 };
@@ -3733,7 +3733,7 @@ defineJQueryPlugin(Popover);
 /**
  * --------------------------------------------------------------------------
  * Bootstrap scrollspy.js
- * LicEnsed under MIT (https://github.com/twbs/bootstrap/blob/main/LIcENSE)
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LIceNSE)
  * --------------------------------------------------------------------------
  */
 
@@ -3879,7 +3879,7 @@ class ScrollSpy extends BaseComponent {
     const targetElement = entry => this._targetLinks.get(`#${entry.target.id}`);
     const activate = entry => {
       this._previousScrollData.visibleEntryTop = entry.target.offsetTop;
-      this._procEss(targetElement(entry));
+      this._process(targetElement(entry));
     };
     const parentScrollTop = (this._rootElement || document.documentElement).scrollTop;
     const userScrollsDown = parentScrollTop >= this._previousScrollData.parentScrollTop;
@@ -3925,7 +3925,7 @@ class ScrollSpy extends BaseComponent {
       }
     }
   }
-  _procEss(target) {
+  _process(target) {
     if (this._activeTarget === target) {
       return;
     }
@@ -3945,7 +3945,7 @@ class ScrollSpy extends BaseComponent {
     }
     for (const listGroup of SelectorEngine.parents(target, SELECTOR_NAV_LIST_GROUP)) {
       // Set triggered links parents as active
-      // With both <ul> and <nav> markup a parent is the previous sibling of any nav ancEstor
+      // With both <ul> and <nav> markup a parent is the previous sibling of any nav ancestor
       for (const item of SelectorEngine.prev(listGroup, SELECTOR_LINK_ITEMS)) {
         item.classList.add(CLASS_NAME_ACTIVE$1);
       }
@@ -3993,7 +3993,7 @@ defineJQueryPlugin(ScrollSpy);
 /**
  * --------------------------------------------------------------------------
  * Bootstrap tab.js
- * LicEnsed under MIT (https://github.com/twbs/bootstrap/blob/main/LIcENSE)
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LIceNSE)
  * --------------------------------------------------------------------------
  */
 
@@ -4042,7 +4042,7 @@ class Tab extends BaseComponent {
     this._parent = this._element.closest(SELECTOR_TAB_PANEL);
     if (!this._parent) {
       return;
-      // TODO: should throw excEption in v6
+      // TODO: should throw exception in v6
       // throw new TypeError(`${element.outerHTML} has not a valid parent ${SELECTOR_INNER_ELEM}`)
     }
 
@@ -4263,7 +4263,7 @@ defineJQueryPlugin(Tab);
 /**
  * --------------------------------------------------------------------------
  * Bootstrap toast.js
- * LicEnsed under MIT (https://github.com/twbs/bootstrap/blob/main/LIcENSE)
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LIceNSE)
  * --------------------------------------------------------------------------
  */
 
@@ -4444,4 +4444,4 @@ enableDismissTrigger(Toast);
 defineJQueryPlugin(Toast);
 
 export { Alert, Button, Carousel, Collapse, Dropdown, Modal, Offcanvas, Popover, ScrollSpy, Tab, Toast, Tooltip };
-//# sourcEMappingURL=bootstrap.esm.js.map
+//# sourceMappingURL=bootstrap.esm.js.map
