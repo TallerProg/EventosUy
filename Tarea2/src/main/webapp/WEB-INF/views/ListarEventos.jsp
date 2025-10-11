@@ -50,9 +50,10 @@
 </head>
 <body class="index-page">
 
- <header id="header" class="header d-flex align-items-center fixed-top">
+  <header id="header" class="header d-flex align-items-center fixed-top">
     <jsp:include page="./template/header.jsp" />
   </header>
+
   <main class="main">
     <section id="eventos" class="speakers section">
       <div class="container section-title d-flex justify-content-between align-items-center">
@@ -67,10 +68,6 @@
               for (Evento ev : eventos) {
                 String nombre  = (ev != null) ? orEmpty(ev.getNombre()) : "";
                 String desc    = (ev != null) ? orEmpty(ev.getDescripcion()) : "";
-              //imagen String imgPath = (ev != null) ? orEmpty(ev.getImgPath()): "";
-				
-				
-               // if (imgPath.isEmpty()) imgPath = ctx + "/img/default.png";
 
                 String encNombre = URLEncoder.encode(nombre, StandardCharsets.UTF_8.name());
                 // Ajustá endpoint de detalle si corresponde
@@ -79,39 +76,43 @@
                 List<Categoria> cats = (ev != null) ? ev.getCategoria() : null;
           %>
 
-          <div class="col-lg-3 col-md-6">
-            <a href="<%= detalleHref %>" class="text-decoration-none">
-              <div class="speaker-card text-center">
-                <div class="speaker-image">
-                  <img src="<%=ctx%>/media/img/default.png" alt="<%= nombre %>" class="img-fluid p-2">
-                </div>
-                <div class="speaker-content">
-                  <p class="speaker-title"><%= nombre %></p>
-                  <p class="speaker-company"><%= desc %></p>
-                  <div class="categories">
-                    <%
-                      if (cats != null && !cats.isEmpty()) {
-                        int shown = 0;
-                        for (Categoria c : cats) {
-                          if (c == null) continue;
-                          String cn = orEmpty(c.getNombre());
-                          String icon = iconFor(cn);
-                    %>
-                          <a href="#" title="<%= cn %>"><i class="bi <%= icon %>"></i></a>
-                    <%
-                          shown++;
-                          if (shown >= 3) break;
-                        }
-                      }
-                    %>
-                  </div>
-                </div>
+          <!-- Card uniforme -->
+          <div class="col-lg-3 col-md-6 d-flex">
+            <div class="speaker-card text-center h-100 d-flex flex-column position-relative w-100">
+              <div class="speaker-image">
+                <img src="<%= ctx %>/media/img/default.png" alt="<%= nombre %>" class="img-fluid">
               </div>
-            </a>
+
+              <div class="speaker-content d-flex flex-column">
+                <p class="speaker-title mb-1"><%= nombre %></p>
+                <p class="speaker-company mb-2 flex-grow-1"><%= desc %></p>
+
+                <div class="categories mb-3">
+                  <%
+                    if (cats != null && !cats.isEmpty()) {
+                      int shown = 0;
+                      for (Categoria c : cats) {
+                        if (c == null) continue;
+                        String cn = orEmpty(c.getNombre());
+                        String icon = iconFor(cn);
+                  %>
+                        <span class="me-1" title="<%= cn %>"><i class="bi <%= icon %>"></i></span>
+                  <%
+                        shown++;
+                        if (shown >= 3) break; // máximo 3 íconos
+                      }
+                    }
+                  %>
+                </div>
+
+                <!-- Link principal: hace clickeable toda la card -->
+                <a href="<%= detalleHref %>" class="stretched-link" aria-label="Ver <%= nombre %>"></a>
+              </div>
+            </div>
           </div>
 
           <%
-              }
+              } // for
             } else {
           %>
             <div class="col-12">
@@ -120,7 +121,7 @@
               </div>
             </div>
           <%
-            } 
+            }
           %>
 
         </div>
