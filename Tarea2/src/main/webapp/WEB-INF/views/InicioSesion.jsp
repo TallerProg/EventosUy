@@ -1,5 +1,15 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%!
+  private static String esc(Object o) {
+    if (o == null) return "";
+    String s = String.valueOf(o);
+    return s.replace("&","&amp;")
+            .replace("<","&lt;")
+            .replace(">","&gt;")
+            .replace("\"","&quot;")
+            .replace("'","&#x27;");
+  }
+%>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -17,16 +27,24 @@
       <h4 class="mt-2">Iniciar Sesión</h4>
     </div>
 
-    <c:if test="${not empty error}">
-      <div class="alert alert-danger" role="alert">${error}</div>
-    </c:if>
+    <% if (request.getAttribute("error") != null) { %>
+      <div class="alert alert-danger" role="alert"><%= esc(request.getAttribute("error")) %></div>
+    <% } %>
 
-    <form action="${pageContext.request.contextPath}/login" method="post" novalidate>
+    <form action="<%= request.getContextPath() %>/login" method="post" novalidate>
       <div class="mb-3">
         <label for="identifier" class="form-label">Correo o Nickname</label>
-        <input type="text" class="form-control" id="identifier" name="identifier"
-               placeholder="ej: pepe23 o pepe@email.com" required
-               value="${param.identifier != null ? param.identifier : ''}">
+        <input type="text"
+               class="form-control"
+               id="identifier"
+               name="identifier"
+               placeholder="ej: pepe23 o pepe@email.com"
+               required
+               value="<%
+                        Object prev = request.getAttribute("identifier_prev");
+                        String val = prev != null ? prev.toString() : request.getParameter("identifier");
+                        out.print(esc(val));
+                      %>">
       </div>
 
       <div class="mb-3">
@@ -34,12 +52,12 @@
         <input type="password" class="form-control" id="password" name="password" placeholder="********" required>
       </div>
 
-      <button type="submit" class="btn btn-primary w-100">Iniciar Sesion</button>
+      <button type="submit" class="btn btn-primary w-100">Iniciar Sesión</button>
     </form>
 
     <div class="text-center mt-3">
       <p class="mb-0">¿No tienes cuenta?
-        <a href="${pageContext.request.contextPath}/registrarse" class="text-decoration-none">Regístrate</a>
+        <a href="<%= request.getContextPath() %>/registrarse" class="text-decoration-none">Regístrate</a>
       </p>
     </div>
   </div>
@@ -47,3 +65,4 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
