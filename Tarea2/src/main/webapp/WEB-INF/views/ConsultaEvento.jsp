@@ -30,6 +30,7 @@
     <%
       Evento evento = (Evento) request.getAttribute("EVENTO");
       if (evento != null) {
+    	  String img = (evento != null && evento.getImg() != null && !evento.getImg().isBlank()) ? (ctx + evento.getImg()): (ctx + "/media/img/default.png");
     %>
       <section id="evento-detalles" class="section">
         <div class="container section-title text-center">
@@ -40,7 +41,7 @@
           <div class="row justify-content-center align-items-center">
             <div class="col-lg-6 text-center">
               <div id="eventImage" class="event-image">
-                <img src="<%=ctx%>/media/img/default.png" alt="<%= evento.getNombre() %>" class="img-fluid rounded shadow">
+                <img src="<%=img%>" alt="<%= evento.getNombre() %>" class="img-fluid rounded shadow">
               </div>
             </div>
 
