@@ -121,13 +121,15 @@ class ModificarUsuarioTest {
 
     @Test
     void testModificarUsuario1Organizador() {
-        Organizador actualizado = new Organizador(
-                "org1",                       
-                "org1_mod@mail.com",          
-                "OrgMod",                    
-                "Nueva descripcion",          
-                "www.nuevaurl.com"            
-        );
+    	Organizador actualizado = new Organizador(
+    		    "org1",
+    		    "org1_mod@mail.com",
+    		    "OrgMod",
+    		    "Nueva descripcion",
+    		    "www.nuevaurl.com",
+    		    "dummy-pass" 
+    		);
+
 
         controller.modificarUsuario1(actualizado);
 

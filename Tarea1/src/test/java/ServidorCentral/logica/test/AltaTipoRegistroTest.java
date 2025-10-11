@@ -14,7 +14,6 @@ import ServidorCentral.logica.Edicion;
 import ServidorCentral.logica.Evento;
 import ServidorCentral.logica.ManejadorEvento;
 import ServidorCentral.logica.TipoRegistro;
-
 class AltaTipoRegistroTest {
 
     private Evento evento1;

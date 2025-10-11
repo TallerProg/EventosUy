@@ -26,7 +26,7 @@ public class ControllerEvento implements IControllerEvento {
 	
 
 	public void altaTipoRegistro(String nombreTR, String descripcion, Float costo, Integer cupo, Edicion edicion)
-			throws Exception { // VICHAR MATEO
+			throws Exception { 
 		boolean e = edicion.existeTR(nombreTR);
 		if (e)
 			throw new Exception("El nombre de tipo de registro \"" + nombreTR + "\" ya fue utilizado");
