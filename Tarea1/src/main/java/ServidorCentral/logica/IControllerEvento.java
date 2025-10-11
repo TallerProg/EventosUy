@@ -34,7 +34,7 @@ public interface IControllerEvento {
 			throws Exception;
 	
 
-	public void altaEvento(String nombre, String descripcion, LocalDate fecha, String sigla, List<Categoria> categorias)
+	public void altaEvento(String nombre, String descripcion, LocalDate fecha, String sigla, List<Categoria> categorias,String img)
 			throws Exception;
 
 	public String obtenerNombreEdicionPorEvento(String nombreEvento);

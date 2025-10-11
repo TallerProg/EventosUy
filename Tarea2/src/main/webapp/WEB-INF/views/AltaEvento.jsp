@@ -24,14 +24,14 @@
       <div class="container">
         <div class="section-title d-flex justify-content-between align-items-center">
           <h2>Alta de Evento</h2>
-          <a href="<%= ctx %>/organizador/listaEventos" class="btn btn-outline-secondary">
+          <a href="<%= ctx %>/listaEventos" class="btn btn-outline-secondary">
             <i class="bi bi-arrow-left me-1"></i> Volver a la lista
           </a>
         </div>
 
         <form id="altaEventoForm"
               class="p-4 border rounded bg-light shadow-sm"
-              action="<%= ctx %>/organizador/alta-evento"
+              action="<%= ctx %>/alta-evento"
               method="post" enctype="multipart/form-data">
 
           <!-- Nombre -->

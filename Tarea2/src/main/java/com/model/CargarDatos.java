@@ -44,31 +44,31 @@ public class CargarDatos {
 		try {
 			// EV01
 			Ice.altaEvento("Conferencia de Tecnología", "Evento sobre innovación tecnológica",
-					LocalDate.parse("10/01/2025", formatter), "CONFTEC", Arrays.asList(CA01, CA02));
+					LocalDate.parse("10/01/2025", formatter), "CONFTEC", Arrays.asList(CA01, CA02),null);
 
 			// EV02
 			Ice.altaEvento("Feria del Libro", "Encuentro anual de literatura", LocalDate.parse("01/02/2025", formatter),
-					"FERLIB", Arrays.asList(CA03, CA04));
+					"FERLIB", Arrays.asList(CA03, CA04),null);
 
 			// EV03
 			Ice.altaEvento("Montevideo Rock", "Festival de rock con artistas nacionales e internacionales",
-					LocalDate.parse("15/03/2023", formatter), "MONROCK", Arrays.asList(CA04, CA05));
+					LocalDate.parse("15/03/2023", formatter), "MONROCK", Arrays.asList(CA04, CA05),null);
 
 			// EV04
 			Ice.altaEvento("Maratón de Montevideo", "Competencia deportiva anual en la capital",
-					LocalDate.parse("01/01/2022", formatter), "MARATON", Arrays.asList(CA06, CA07));
+					LocalDate.parse("01/01/2022", formatter), "MARATON", Arrays.asList(CA06, CA07),null);
 
 			// EV05
 			Ice.altaEvento("Montevideo Comics", "Convención de historietas, cine y cultura geek",
-					LocalDate.parse("10/04/2024", formatter), "COMICS", Arrays.asList(CA04, CA08));
+					LocalDate.parse("10/04/2024", formatter), "COMICS", Arrays.asList(CA04, CA08),null);
 
 			// EV06
 			Ice.altaEvento("Expointer Uruguay", "Exposición internacional agropecuaria y ganadera",
-					LocalDate.parse("12/12/2024", formatter), "EXPOAGRO", Arrays.asList(CA09, CA10));
+					LocalDate.parse("12/12/2024", formatter), "EXPOAGRO", Arrays.asList(CA09, CA10),null);
 
 			// EV07
 			Ice.altaEvento("Montevideo Fashion Week", "Pasarela de moda uruguaya e internacional",
-					LocalDate.parse("20/07/2025", formatter), "MFASHION", Arrays.asList(CA04, CA11));
+					LocalDate.parse("20/07/2025", formatter), "MFASHION", Arrays.asList(CA04, CA11),null);
 
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());

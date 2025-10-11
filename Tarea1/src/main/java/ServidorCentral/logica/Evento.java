@@ -10,15 +10,18 @@ public class Evento {
 	private String sigla;
 	private String descripcion;
 	private LocalDate fAlta;
+	private String img;
+
 	private List<Categoria> categorias = new ArrayList<>();
 	private List<Edicion> ediciones = new ArrayList<>();
 
-	public Evento(String nombre, String sigla, String descripcion, LocalDate fAlta, List<Categoria> categorias) {
+	public Evento(String nombre, String sigla, String descripcion, LocalDate fAlta, List<Categoria> categorias,String img) {
 		this.nombre = nombre;
 		this.sigla = sigla;
 		this.descripcion = descripcion;
 		this.fAlta = fAlta;
 		this.categorias = categorias;
+		this.img = img;
 	}
 
 	public String getNombre() {
@@ -92,5 +95,11 @@ public class Evento {
 
 	public DTevento getDTevento() {
 		return new DTevento(nombre, sigla, descripcion, fAlta, categorias, ediciones);
+	}
+	public String getImg() {
+		return img;
+	}
+	public void setImg(String img) {
+		this.img = img;
 	}
 }

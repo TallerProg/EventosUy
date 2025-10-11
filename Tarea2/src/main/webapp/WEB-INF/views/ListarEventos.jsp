@@ -67,6 +67,7 @@
                  String desc    = (ev != null) ? orEmpty(ev.getDescripcion()) : "";
                  String encNombre = URLEncoder.encode(nombre, StandardCharsets.UTF_8.name());
                  String detalleHref = ctx + "/ConsultaEvento?evento=" + encNombre;
+           	  	 String img = (ev != null && ev.getImg() != null && !ev.getImg().isBlank()) ? (ctx + ev.getImg()): (ctx + "/media/img/default.png");
 
                  List<Categoria> cats = (ev != null) ? ev.getCategoria() : null;
             %>
@@ -78,7 +79,7 @@
                  class="speaker-card text-center h-100 d-flex flex-column position-relative w-100 text-reset text-decoration-none">
 
                 <div class="speaker-image">
-                  <img src="<%= ctx %>/media/img/default.png" alt="<%= nombre %>" class="img-fluid">
+                  <img src="<%= img %>"  alt="<%= nombre %>" class="img-fluid">
                 </div>
 
                 <div class="speaker-content d-flex flex-column">
