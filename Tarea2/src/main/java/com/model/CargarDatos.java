@@ -79,26 +79,26 @@ public class CargarDatos {
 		// ------------------
 		// INS01
 		Institucion INS01 = new Institucion("Facultad de Ingeniería", "https://www.fing.edu.uy",
-				"Facultad de Ingeniería de la Universidad de la República");
+				"Facultad de Ingeniería de la Universidad de la República",null);
 		mI.agregarInstitucion(INS01);
 
 		// INS02
 		Institucion INS02 = new Institucion("ORT Uruguay", "https://ort.edu.uy",
-				"Universidad privada enfocada en tecnología y gestión");
+				"Universidad privada enfocada en tecnología y gestión",null);
 		mI.agregarInstitucion(INS02);
 
 		// INS03
 		Institucion INS03 = new Institucion("Universidad Católica del Uruguay", "https://ucu.edu.uy",
-				"Institución de educación superior privada");
+				"Institución de educación superior privada",null);
 		mI.agregarInstitucion(INS03);
 
 		// INS04
-		Institucion INS04 = new Institucion("Antel", "https://antel.com.uy", "Empresa estatal de telecomunicaciones");
+		Institucion INS04 = new Institucion("Antel", "https://antel.com.uy", "Empresa estatal de telecomunicaciones",null);
 		mI.agregarInstitucion(INS04);
 
 		// INS05
 		Institucion INS05 = new Institucion("Agencia Nacional de Investigación e Innovación (ANII)",
-				"https://anii.org.uy", "Fomenta la investigación y la innovación en Uruguay");
+				"https://anii.org.uy", "Fomenta la investigación y la innovación en Uruguay",null);
 		mI.agregarInstitucion(INS05);
 
 		// ------------------

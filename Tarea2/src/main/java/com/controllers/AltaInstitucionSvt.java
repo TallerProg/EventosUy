@@ -27,7 +27,7 @@ import ServidorCentral.logica.ControllerUsuario.RolUsuario;
     maxRequestSize = 15 * 1024 * 1024
 )
 public class AltaInstitucionSvt extends HttpServlet {
-    private static final String EVENT_IMG_DIR = "/media/img/eventos";
+    private static final String INST_IMG_DIR = "/media/img/institucion";
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	HttpSession session = request.getSession(false); 
@@ -93,7 +93,7 @@ public class AltaInstitucionSvt extends HttpServlet {
                 String stamp = DateTimeFormatter.ofPattern("yyyyMMddHHmmss").format(LocalDateTime.now());
                 String fileName = safeBase + "_" + stamp + (ext.isEmpty() ? "" : "." + ext);
 
-                String realDir = getServletContext().getRealPath(EVENT_IMG_DIR);
+                String realDir = getServletContext().getRealPath(INST_IMG_DIR);
                 if (realDir == null) {
                     realDir = System.getProperty("java.io.tmpdir") + File.separator + "eventuy-img";
                 }
@@ -103,7 +103,7 @@ public class AltaInstitucionSvt extends HttpServlet {
                 File destino = new File(dir, fileName);
                 imgPart.write(destino.getAbsolutePath());
 
-                imagenWebPath = EVENT_IMG_DIR + "/" + fileName;
+                imagenWebPath = INST_IMG_DIR + "/" + fileName;
         }
         } catch (IllegalStateException ise) {
         	setErrorMessage("La imagen supera el tamaño permitido (5 MB por archivo, 10 MB por solicitud).",request);
@@ -115,12 +115,7 @@ public class AltaInstitucionSvt extends HttpServlet {
 
         try {
             // Registrar la institución
-            ctrl.altaInstitucion(nombre, url, descripcion);
-
-            // Si hay una imagen, almacenar su ruta
-            if (imagenWebPath != null) {
-                // Aquí puedes hacer lo que necesites con la imagenWebPath, como guardarla en la base de datos
-            }
+            ctrl.altaInstitucion(nombre, url, descripcion,imagenWebPath);
 
             setSuccessMessage("Institución registrada con éxito.", request);
         } catch (Exception e) {

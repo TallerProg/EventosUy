@@ -52,6 +52,7 @@
       <% } else { %>
         <div class="row g-4 justify-content-center">
           <% for (Institucion i : instituciones) {
+        	  String img = (i != null && i.getImg() != null && !i.getImg().isBlank()) ? (ctx + i.getImg()): (ctx + "/media/img/default.png");
                String nombre = (i != null && i.getNombre() != null) ? i.getNombre() : "";
                String desc   = (i != null && i.getDescripcion() != null) ? i.getDescripcion() : "";
                String web    = (i != null && i.getUrl() != null) ? i.getUrl() : "";
@@ -62,7 +63,7 @@
             <!-- Card flexible a 100% de la altura disponible -->
             <div class="speaker-card text-center h-100 d-flex flex-column position-relative w-100">
               <div class="speaker-image">
-                <img src="<%= ctx %>/media/img/default.png" alt="<%= nombre %>" class="img-fluid">
+                <img src="<%= img %>" alt="<%= nombre %>" class="img-fluid">
               </div>
               <div class="speaker-content d-flex flex-column">
                 <p class="speaker-title mb-1"><%= nombre %></p>
