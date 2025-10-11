@@ -115,3 +115,7 @@ build/
 *.keystore
 *.jks
 *.p12
+.pmd
+.project
+.classpath
+.checkstyle
