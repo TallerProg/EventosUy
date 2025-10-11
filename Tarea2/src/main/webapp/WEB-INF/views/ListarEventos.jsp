@@ -71,7 +71,7 @@
 
                 String encNombre = URLEncoder.encode(nombre, StandardCharsets.UTF_8.name());
                 // Ajustá endpoint de detalle si corresponde
-                String detalleHref = ctx + "/ConsultaEvento?nombre=" + encNombre;
+                String detalleHref = ctx + "/ConsultaEvento?evento=" + encNombre;
 
                 List<Categoria> cats = (ev != null) ? ev.getCategoria() : null;
           %>

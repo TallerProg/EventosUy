@@ -4,10 +4,11 @@
 <%@ page import="ServidorCentral.logica.DTEdicion" %>
 <%@ page import="ServidorCentral.logica.Organizador" %>
 <%@ page import="java.util.List" %>
+<%@ page import="java.net.URLEncoder, java.nio.charset.StandardCharsets" %>
 
 <%
   String ctx = request.getContextPath();
-  Organizador orgg = (Organizador) session.getAttribute("usuarioOrganizador");
+  boolean ES_ORG  = Boolean.TRUE.equals(request.getAttribute("ES_ORG"));
 %>
 
 <!DOCTYPE html>
@@ -54,7 +55,7 @@
                     List<Categoria> categorias = evento.getCategoria();
                     for (Categoria categoria : categorias) {
                   %>
-                    <li><%= categoria %></li>
+                    <li><%= categoria.getNombre() %></li>
                   <% } %>
                 </ul>
               </div>
@@ -77,7 +78,7 @@
                       <h5 class="card-title"><%= edicion.getNombre() %></h5>
                       <p class="card-text">📍 <%= edicion.getCiudad() %>, <%= edicion.getPais() %></p>
                       <p class="card-text"><small class="text-muted"><%= edicion.getfInicio() %></small></p>
-                      <a href="ConsultaEdicionDeEvento.html?edicion=<%= edicion.getNombre() %>" class="btn btn-primary">Ver detalles de la edición</a>
+					  <a href="<%= ctx %>/ediciones-consulta?evento=<%= URLEncoder.encode(evento.getNombre(), StandardCharsets.UTF_8) %>&edicion=<%= URLEncoder.encode(edicion.getNombre(), StandardCharsets.UTF_8) %>"class="btn btn-primary">Ver detalles de la edición</a>
                     </div>
                   </div>
                 </div>
@@ -98,9 +99,9 @@
       } 
     %>
 
-    <% if (orgg != null) { %>
+    <% if (ES_ORG) { %>
     <div class="text-center mt-4">
-      <a href="altaEdicionDeEvento.html?evento=<%= evento != null ? evento.getNombre() : "" %>" class="btn btn-primary ">
+      <a href="<%=ctx%>/ediciones-alta?evento=<%= URLEncoder.encode(evento.getNombre(), StandardCharsets.UTF_8) %>" class="btn btn-primary ">
          <i class="bi bi-plus-circle me-1"></i> Nueva Edicion
       </a>
     </div>
@@ -109,7 +110,7 @@
   </main>
 
   <!-- Footer -->
-  
+
 <hr class="mt-5 mb-4" style="border: 0; height: 3px; background: #bbb; border-radius: 2px;">
 <footer id="footer" class="footer position-relative light-background">
   <jsp:include page="/WEB-INF/views/template/footer.jsp" />
