@@ -35,9 +35,6 @@ public class HomeSvt extends HttpServlet {
 		
 		List<Evento> eventos = ice.listarEventos();
 		req.setAttribute("LISTA_EVENTOS", eventos.toArray(Evento[]::new));
-
-
-
 		req.getRequestDispatcher("/WEB-INF/views/home/home.jsp").forward(req, resp);
 	}
 }

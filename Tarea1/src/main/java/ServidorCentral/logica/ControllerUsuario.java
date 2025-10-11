@@ -25,7 +25,7 @@ public class ControllerUsuario implements IControllerUsuario {
             this.nickname = nickname;
             this.correo = correo;
             this.rol = rol;
-            this.fechaHoraInicio = fechaHoraInicio;
+            this.fechaHoraInicio = fechaHoraInicio;`
         }
         public String getNickname() { return nickname; }
         public String getCorreo() { return correo; }

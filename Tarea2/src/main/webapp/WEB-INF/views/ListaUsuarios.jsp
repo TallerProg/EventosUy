@@ -39,7 +39,7 @@
                     String imagenRuta = ctx + "/img/usuarios/" + asistente.getNickname() + ".jpg"; // Suponiendo que la imagen tiene extensión .jpg
         %>
                     <div class="col-lg-3 col-md-6">
-                        <a href="consultaUsuarioAsisAT.html" class="text-decoration-none">
+						<a href="<%= request.getContextPath() %>/ConsultaUsuario?nick=<%= java.net.URLEncoder.encode(asistente.getNickname(), java.nio.charset.StandardCharsets.UTF_8) %>" class="text-decoration-none">
                             <div class="speaker-card text-center">
                                 <div class="speaker-image">
                                     <img src="<%=ctx%>/media/img/default.png" alt="<%= asistente.getNickname() %>" class="img-fluid rounded-circle p-3">
@@ -73,7 +73,8 @@
                     String imagenRuta = ctx + "/img/usuarios/" + organizador.getNickname() + ".jpg"; // Suponiendo que la imagen tiene extensión .jpg
         %>
                     <div class="col-lg-3 col-md-6">
-                        <a href="consultaUsuariosOrgAT.html" class="text-decoration-none">
+                    <a href="<%= request.getContextPath() %>/ConsultaUsuario?nick=<%= java.net.URLEncoder.encode(organizador.getNickname(), java.nio.charset.StandardCharsets.UTF_8) %>" class="text-decoration-none">
+                    		
                             <div class="speaker-card text-center">
                                 <div class="speaker-image">
                                     <img src="<%=ctx%>/media/img/default.png" alt="<%= organizador.getNickname() %>" class="img-fluid rounded-circle p-3">
