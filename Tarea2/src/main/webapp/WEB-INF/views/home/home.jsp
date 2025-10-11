@@ -55,7 +55,7 @@
                 String detalleHref = ctx + "/ConsultaEvento?evento=" + encNombre; // <<< igual que ListarEventos
             %>
               <div class="carousel-item <%= (i == 0) ? "active" : "" %>">
-                <img src="<%= ctx %>/media/img/default.png"
+                <img src="<%= (e != null && e.getImg() != null && !e.getImg().isBlank()) ? (ctx + e.getImg()): (ctx + "/media/img/default.png") %>"
                      class="d-block w-100 carousel-img"
                      alt="<%= e.getNombre() %>">
                 <div class="carousel-caption d-none d-md-block">
@@ -174,7 +174,7 @@
             <div class="speaker-card h-100 d-flex flex-column w-100 position-relative"
                  data-categories="<%= catString %>">
               <div class="speaker-image">
-                <img src="<%= ctx %>/media/img/default.png" class="img-fluid" alt="<%= e.getNombre() %>">
+                <img src="<%= (e != null && e.getImg() != null && !e.getImg().isBlank()) ? (ctx + e.getImg()): (ctx + "/media/img/default.png") %>" class="img-fluid" alt="<%= e.getNombre() %>">
               </div>
 
               <div class="speaker-content d-flex flex-column">

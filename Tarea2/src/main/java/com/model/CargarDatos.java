@@ -52,7 +52,7 @@ public class CargarDatos {
 
 			// EV03
 			Ice.altaEvento("Montevideo Rock", "Festival de rock con artistas nacionales e internacionales",
-					LocalDate.parse("15/03/2023", formatter), "MONROCK", Arrays.asList(CA04, CA05),null);
+					LocalDate.parse("15/03/2023", formatter), "MONROCK", Arrays.asList(CA04, CA05),"/media/img/events/IMG-EV04.png");
 
 			// EV04
 			Ice.altaEvento("Maratón de Montevideo", "Competencia deportiva anual en la capital",
