@@ -8,6 +8,7 @@
 <%
   String ctx = request.getContextPath();
   Evento[] eventos = (Evento[]) request.getAttribute("LISTA_EVENTOS");
+  Categoria[] categorias = (Categoria[]) request.getAttribute("LISTA_CATEGORIAS");
 %>
 
 <!DOCTYPE html>
@@ -99,42 +100,39 @@
           <div class="carousel-inner">
             <div class="carousel-item active">
               <div class="d-flex flex-wrap gap-2 justify-content-center">
-                <button type="button" class="btn btn-outline-primary category-btn" data-category="tecnologia">
-                  <i class="bi bi-cpu"></i> Tecnología
+              	<%
+              		if (categorias != null && categorias.length > 0){
+              			for(Categoria c : categorias){
+              				String nomCat = c.getNombre();
+              	%>
+              
+                <button type="button" class="btn btn-outline-primary category-btn" data-category="<%= nomCat %>">
+                  <% if (nomCat.contains("Tecnología")) { %><i class="bi bi-cpu" title="Tecnología"></i><% } %>
+                  <% if (nomCat.contains("Innovación")) { %><i class="bi bi-lightbulb" title="Innovación"></i><% } %>
+                  <% if (nomCat.contains("Literatura")) { %><i class="bi bi-book" title="Literatura"></i><% } %>
+                  <% if (nomCat.contains("Cultura")) { %><i class="bi bi-bank" title="Cultura"></i><% } %>
+                  <% if (nomCat.contains("Musica")) { %><i class="bi bi-music-note-beamed" title="Música"></i><% } %>
+                  <% if (nomCat.contains("Deporte")) { %><i class="bi bi-trophy" title="Deporte"></i><% } %>
+                  <% if (nomCat.contains("Salud")) { %><i class="bi bi-heart-pulse" title="Salud"></i><% } %>
+                  <% if (nomCat.contains("Entretenimiento")) { %><i class="bi bi-film" title="Entretenimiento"></i><% } %>
+                  <% if (nomCat.contains("Agro")) { %><i class="bi bi-tree" title="Agro"></i><% } %>
+                  <% if (nomCat.contains("Negocios")) { %><i class="bi bi-briefcase" title="Negocios"></i><% } %>
+                  <% if (nomCat.contains("Moda")) { %><i class="bi bi-scissors" title="Moda"></i><% } %>
+                  <% if (nomCat.contains("Investigación")) { %><i class="bi bi-flask" title="Investigación"></i><% } %>
+                  <%= nomCat %>
                 </button>
-                <button type="button" class="btn btn-outline-primary category-btn" data-category="innovacion">
-                  <i class="bi bi-lightbulb"></i> Innovación
-                </button>
-                <button type="button" class="btn btn-outline-primary category-btn" data-category="literatura">
-                  <i class="bi bi-book"></i> Literatura
-                </button>
-                <button type="button" class="btn btn-outline-primary category-btn" data-category="cultura">
-                  <i class="bi bi-bank"></i> Cultura
-                </button>
-                <button type="button" class="btn btn-outline-primary category-btn" data-category="musica">
-                  <i class="bi bi-music-note-beamed"></i> Música
-                </button>
-                <button type="button" class="btn btn-outline-primary category-btn" data-category="deporte">
-                  <i class="bi bi-trophy"></i> Deporte
-                </button>
-                <button type="button" class="btn btn-outline-primary category-btn" data-category="salud">
-                  <i class="bi bi-heart-pulse"></i> Salud
-                </button>
-                <button type="button" class="btn btn-outline-primary category-btn" data-category="entretenimiento">
-                  <i class="bi bi-film"></i> Entretenimiento
-                </button>
-                <button type="button" class="btn btn-outline-primary category-btn" data-category="agro">
-                  <i class="bi bi-tree"></i> Agro
-                </button>
-                <button type="button" class="btn btn-outline-primary category-btn" data-category="negocios">
-                  <i class="bi bi-briefcase"></i> Negocios
-                </button>
-                <button type="button" class="btn btn-outline-primary category-btn" data-category="moda">
-                  <i class="bi bi-scissors"></i> Moda
-                </button>
-                <button type="button" class="btn btn-outline-primary category-btn" data-category="investigacion">
-                  <i class="bi bi-flask"></i> Investigación
-                </button>
+                <% } }
+              			else{
+                %>
+                <div class="col-12">
+	              <div class="alert alert-info text-center" role="alert">
+	                No hay categorias para listar.
+	              </div>
+	            </div>
+	            <%
+              			}
+	            %>
+	            
               </div>
             </div>
           </div>
@@ -153,19 +151,18 @@
           <%
             if (eventos != null && eventos.length > 0) {
               for (Evento e : eventos) {
-                // URL destino igual que en ListarEventos
                 String encNombre = URLEncoder.encode(e.getNombre(), StandardCharsets.UTF_8.name());
                 String detalleHref = ctx + "/ConsultaEvento?evento=" + encNombre;
 
-                List<Categoria> categorias = e.getCategoria();
+                List<Categoria> categoriaseve = e.getCategoria();
                 StringBuilder catBuilder = new StringBuilder();
-                for (int i = 0; i < categorias.size(); i++) {
-                  String nombre = categorias.get(i).getNombre()
+                for (int i = 0; i < categoriaseve.size(); i++) {
+                  String nombre = categoriaseve.get(i).getNombre()
                     .toLowerCase()
                     .replace("á","a").replace("é","e").replace("í","i")
                     .replace("ó","o").replace("ú","u");
                   catBuilder.append(nombre);
-                  if (i < categorias.size() - 1) catBuilder.append(",");
+                  if (i < categoriaseve.size() - 1) catBuilder.append(",");
                 }
                 String catString = catBuilder.toString();
           %>

@@ -57,7 +57,7 @@
 
     <div class="text-center mt-3">
       <p class="mb-0">¿No tienes cuenta?
-        <a href="<%= request.getContextPath() %>/registrarse" class="text-decoration-none">Regístrate</a>
+        <a href="<%= request.getContextPath() %>/Registrarse" class="text-decoration-none">Regístrate</a>
       </p>
     </div>
   </div>

@@ -7,7 +7,7 @@ import com.model.CargarDatos;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
-
+import ServidorCentral.logica.Categoria;
 import ServidorCentral.logica.Evento;
 import ServidorCentral.logica.Factory;
 import ServidorCentral.logica.IControllerEvento;
@@ -28,7 +28,9 @@ public class HomeSvt extends HttpServlet {
         ensureSeedOnce(req.getServletContext(), icu, ice);
 
         List<Evento> eventos = ice.listarEventos();
+        List<Categoria> categorias = ice.getCategorias();
         req.setAttribute("LISTA_EVENTOS", eventos.toArray(Evento[]::new));
+        req.setAttribute("LISTA_CATEGORIAS", categorias.toArray(Categoria[]::new));
 
         req.getRequestDispatcher("/WEB-INF/views/home/home.jsp").forward(req, resp);
     }
