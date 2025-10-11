@@ -11,7 +11,7 @@ import ServidorCentral.logica.Factory;
 import ServidorCentral.logica.IControllerInstitucion;
 import ServidorCentral.logica.Institucion;
 
-@WebServlet(name = "ListaInstitucionesSvt", urlPatterns = {"/instituciones"})
+@WebServlet(name = "ListaInstitucionesSvt", urlPatterns = {"/Instituciones"})
 public class ListaInstitucionesSvt extends HttpServlet {
 
   @Override
