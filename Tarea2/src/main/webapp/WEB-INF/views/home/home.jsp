@@ -2,6 +2,8 @@
 <%@ page import="ServidorCentral.logica.Evento"%>
 <%@ page import="ServidorCentral.logica.Categoria"%>
 <%@ page import="java.util.List"%>
+<%@ page import="java.net.URLEncoder" %>
+<%@ page import="java.nio.charset.StandardCharsets" %>
 
 <%
   String ctx = request.getContextPath();
@@ -11,10 +13,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-
   <jsp:include page="../template/head.jsp" />
-
-
   <title>EventUY — Inicio</title>
 </head>
 
@@ -26,15 +25,14 @@
 
   <main class="main">
 
+    <!-- HERO / CARRUSEL -->
     <section id="hero-carousel" class="section mt-5 pt-4">
       <div class="container">
-
         <%
           if (eventos != null && eventos.length > 0) {
         %>
-
         <div id="eventCarousel" class="carousel slide" data-bs-ride="carousel">
-
+          <!-- Indicadores -->
           <div class="carousel-indicators">
             <%
               for (int i = 0; i < eventos.length; i++) {
@@ -48,11 +46,13 @@
             %>
           </div>
 
- 
+          <!-- Slides -->
           <div class="carousel-inner">
             <%
               for (int i = 0; i < eventos.length; i++) {
                 Evento e = eventos[i];
+                String encNombre = URLEncoder.encode(e.getNombre(), StandardCharsets.UTF_8.name());
+                String detalleHref = ctx + "/ConsultaEvento?evento=" + encNombre; // <<< igual que ListarEventos
             %>
               <div class="carousel-item <%= (i == 0) ? "active" : "" %>">
                 <img src="<%= ctx %>/media/img/default.png"
@@ -61,8 +61,7 @@
                 <div class="carousel-caption d-none d-md-block">
                   <h5 class="carousel-title"><%= e.getNombre() %></h5>
                   <p class="carousel-text"><%= e.getDescripcion() %></p>
-        
-                  <a href="<%= ctx %>/consultz" class="btn btn-primary btn-lg me-3">Ver ediciones</a>
+                  <a href="<%= detalleHref %>" class="btn btn-primary btn-lg me-3">Ver ediciones</a>
                 </div>
               </div>
             <%
@@ -70,7 +69,7 @@
             %>
           </div>
 
-
+          <!-- Controles -->
           <button class="carousel-control-prev" type="button" data-bs-target="#eventCarousel" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Anterior</span>
@@ -80,11 +79,9 @@
             <span class="visually-hidden">Siguiente</span>
           </button>
         </div>
-
         <%
           } else {
         %>
-         
           <div class="text-center py-5">
             <h3 class="mb-3">Todavía no hay eventos para mostrar</h3>
             <p class="text-muted">Cuando se carguen eventos, aparecerán aquí.</p>
@@ -95,7 +92,7 @@
       </div>
     </section>
 
-
+    <!-- CATEGORÍAS -->
     <section id="categories-carousel" class="py-3">
       <div class="container">
         <div id="categoriesCarousel" class="carousel slide" data-bs-interval="false">
@@ -145,7 +142,7 @@
       </div>
     </section>
 
-    <!-- Grid de eventos -->
+    <!-- GRID DE EVENTOS -->
     <section id="speakers" class="speakers section">
       <div class="container section-title">
         <h2>Eventos</h2>
@@ -153,10 +150,13 @@
 
       <div class="container">
         <div class="row g-4 justify-content-center">
-
           <%
             if (eventos != null && eventos.length > 0) {
               for (Evento e : eventos) {
+                // URL destino igual que en ListarEventos
+                String encNombre = URLEncoder.encode(e.getNombre(), StandardCharsets.UTF_8.name());
+                String detalleHref = ctx + "/ConsultaEvento?evento=" + encNombre;
+
                 List<Categoria> categorias = e.getCategoria();
                 StringBuilder catBuilder = new StringBuilder();
                 for (int i = 0; i < categorias.size(); i++) {
@@ -173,7 +173,6 @@
           <div class="col-lg-3 col-md-6 d-flex">
             <div class="speaker-card h-100 d-flex flex-column w-100 position-relative"
                  data-categories="<%= catString %>">
-
               <div class="speaker-image">
                 <img src="<%= ctx %>/media/img/default.png" class="img-fluid" alt="<%= e.getNombre() %>">
               </div>
@@ -197,15 +196,15 @@
                   <% if (catString.contains("investigacion")) { %><i class="bi bi-flask" title="Investigación"></i><% } %>
                 </div>
 
-               
-                <a href="<%= ctx %>/consultz" class="btn btn-primary mt-auto">Ver ediciones</a>
-                <a href="<%= ctx %>/consultz" class="stretched-link" aria-label="Ver ediciones de <%= e.getNombre() %>"></a>
+                <!-- Enlaces al detalle del evento -->
+                <a href="<%= detalleHref %>" class="btn btn-primary mt-auto">Ver ediciones</a>
+                <a href="<%= detalleHref %>" class="stretched-link" aria-label="Ver ediciones de <%= e.getNombre() %>"></a>
               </div>
             </div>
           </div>
 
           <%
-              } 
+              } // for
             } else {
           %>
             <div class="col-12">
@@ -214,9 +213,8 @@
               </div>
             </div>
           <%
-            }
+            } // if eventos
           %>
-
         </div>
       </div>
     </section>
@@ -227,16 +225,14 @@
     <jsp:include page="../template/footer.jsp" />
   </footer>
 
-
   <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center">
     <i class="bi bi-arrow-up-short"></i>
   </a>
 
-
   <div id="preloader"></div>
-
 
   <script src="<%= ctx %>/media/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="<%= ctx %>/media/js/main.js"></script>
 </body>
 </html>
+
