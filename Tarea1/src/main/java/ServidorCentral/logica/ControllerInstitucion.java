@@ -4,13 +4,13 @@ import java.util.List;
 
 public class ControllerInstitucion implements IControllerInstitucion {
 
-	public void altaInstitucion(String nombreIns, String url, String descripcion) throws Exception {
+	public void altaInstitucion(String nombreIns, String url, String descripcion,String img) throws Exception {
 		ManejadorInstitucion mi = ManejadorInstitucion.getInstance();
 		Institucion institucionExistente = mi.findInstitucion(nombreIns);
 		if (institucionExistente != null) {
 			throw new Exception("La institución ya existe.");
 		}
-		Institucion nuevaInstitucion = new Institucion(nombreIns, url, descripcion);
+		Institucion nuevaInstitucion = new Institucion(nombreIns, url, descripcion,img);
 		mi.agregarInstitucion(nuevaInstitucion);
 	}
 		
