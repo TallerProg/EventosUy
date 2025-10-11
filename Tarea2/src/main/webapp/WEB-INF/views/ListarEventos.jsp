@@ -7,14 +7,10 @@
 <%@ page import="ServidorCentral.logica.Categoria" %>
 
 <%!
-  // ==== Helpers declarados (válidos en JSP) ====
+  // ==== Helpers ====
+  private String orEmpty(String s) { return (s == null) ? "" : s; }
 
-  // Devuelve s o cadena vacía si es null
-  private String orEmpty(String s) {
-    return (s == null) ? "" : s;
-  }
-
-  // Normaliza nombre de categoría a un ícono de Bootstrap Icons
+  // Mapea nombre de categoría a un ícono de Bootstrap Icons
   private String iconFor(String catNombre) {
     if (catNombre == null) return "bi-bookmark";
     String n = catNombre.toLowerCase();
@@ -54,77 +50,62 @@
     <jsp:include page="./template/header.jsp" />
   </header>
 
-  <main class="main">
+  <main class="main mt-5 pt-5">
     <section id="eventos" class="speakers section">
       <div class="container section-title d-flex justify-content-between align-items-center">
         <h2>Eventos</h2>
       </div>
 
       <div class="container">
-        <div class="row g-4 justify-content-center">
+        <% if (eventos.isEmpty()) { %>
+          <div class="alert alert-info text-center">No hay eventos disponibles por el momento.</div>
+        <% } else { %>
+          <div class="row g-4 justify-content-center">
 
-          <%
-            if (!eventos.isEmpty()) {
-              for (Evento ev : eventos) {
-                String nombre  = (ev != null) ? orEmpty(ev.getNombre()) : "";
-                String desc    = (ev != null) ? orEmpty(ev.getDescripcion()) : "";
+            <% for (Evento ev : eventos) {
+                 String nombre  = (ev != null) ? orEmpty(ev.getNombre()) : "";
+                 String desc    = (ev != null) ? orEmpty(ev.getDescripcion()) : "";
+                 String encNombre = URLEncoder.encode(nombre, StandardCharsets.UTF_8.name());
+                 // Tu servlet espera "evento"
+                 String detalleHref = ctx + "/ConsultaEvento?evento=" + encNombre;
 
-                String encNombre = URLEncoder.encode(nombre, StandardCharsets.UTF_8.name());
-                // Ajustá endpoint de detalle si corresponde
-                String detalleHref = ctx + "/ConsultaEvento?evento=" + encNombre;
+                 List<Categoria> cats = (ev != null) ? ev.getCategoria() : null;
+            %>
 
-                List<Categoria> cats = (ev != null) ? ev.getCategoria() : null;
-          %>
+            <!-- Columna flexible para igualar alturas -->
+            <div class="col-lg-3 col-md-6 d-flex">
+              <!-- Toda la card es el enlace -->
+              <a href="<%= detalleHref %>"
+                 class="speaker-card text-center h-100 d-flex flex-column position-relative w-100 text-reset text-decoration-none">
 
-          <!-- Card uniforme -->
-          <div class="col-lg-3 col-md-6 d-flex">
-            <div class="speaker-card text-center h-100 d-flex flex-column position-relative w-100">
-              <div class="speaker-image">
-                <img src="<%= ctx %>/media/img/default.png" alt="<%= nombre %>" class="img-fluid">
-              </div>
-
-              <div class="speaker-content d-flex flex-column">
-                <p class="speaker-title mb-1"><%= nombre %></p>
-                <p class="speaker-company mb-2 flex-grow-1"><%= desc %></p>
-
-                <div class="categories mb-3">
-                  <%
-                    if (cats != null && !cats.isEmpty()) {
-                      int shown = 0;
-                      for (Categoria c : cats) {
-                        if (c == null) continue;
-                        String cn = orEmpty(c.getNombre());
-                        String icon = iconFor(cn);
-                  %>
-                        <span class="me-1" title="<%= cn %>"><i class="bi <%= icon %>"></i></span>
-                  <%
-                        shown++;
-                        if (shown >= 3) break; // máximo 3 íconos
-                      }
-                    }
-                  %>
+                <div class="speaker-image">
+                  <img src="<%= ctx %>/media/img/default.png" alt="<%= nombre %>" class="img-fluid">
                 </div>
 
-                <!-- Link principal: hace clickeable toda la card -->
-                <a href="<%= detalleHref %>" class="stretched-link" aria-label="Ver <%= nombre %>"></a>
-              </div>
+                <div class="speaker-content d-flex flex-column">
+                  <p class="speaker-title mb-1"><%= nombre %></p>
+                  <p class="speaker-company mb-2 flex-grow-1"><%= desc %></p>
+
+                  <div class="categories mb-3">
+                    <% if (cats != null && !cats.isEmpty()) {
+                         int shown = 0;
+                         for (Categoria c : cats) {
+                           if (c == null) continue;
+                           String cn = orEmpty(c.getNombre());
+                           String icon = iconFor(cn);
+                    %>
+                      <span class="me-1" title="<%= cn %>"><i class="bi <%= icon %>"></i></span>
+                    <%   if (++shown >= 3) break;
+                         }
+                       } %>
+                  </div>
+                </div>
+              </a>
             </div>
+
+            <% } // for %>
           </div>
-
-          <%
-              } // for
-            } else {
-          %>
-            <div class="col-12">
-              <div class="alert alert-info text-center">
-                No hay eventos disponibles por el momento.
-              </div>
-            </div>
-          <%
-            }
-          %>
-
-        </div>
+        <% } // else %>
       </div>
     </section>
   </main>
