@@ -95,13 +95,13 @@
 			  <% if (tipos != null && !tipos.isEmpty()) {
 			       for (java.util.Map<String,String> tr : tipos) {
 			         String tn = tr.get("nombre"); // solo el nombre
-			         String enced = java.net.URLEncoder.encode(nombre, java.nio.charset.StandardCharsets.UTF_8);
+			         String encEd = java.net.URLEncoder.encode(nombre, java.nio.charset.StandardCharsets.UTF_8);
 			         String encTn = java.net.URLEncoder.encode(tn,      java.nio.charset.StandardCharsets.UTF_8);
 			  %>
 			    <li class="d-flex align-items-center justify-content-between flex-wrap gap-2">
 			      <span><%= nv(tn) %></span>
 			      <a class="btn btn-sm btn-outline-primary"
-			         href="<%= ctx %>/ConsultaTipoRegistro?edicion=<%= enced %>&tipo=<%= encTn %>">
+			         href="<%= ctx %>/ConsultaTipoRegistro?edicion=<%= encEd %>&tipo=<%= encTn %>">
 			        Ver detalles
 			      </a>
 			    </li>
