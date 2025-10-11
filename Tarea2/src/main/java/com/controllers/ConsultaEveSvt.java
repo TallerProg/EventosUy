@@ -10,9 +10,12 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
+import jakarta.servlet.http.HttpSession;
 import ServidorCentral.logica.Factory;
 import ServidorCentral.logica.IControllerEvento;
+import ServidorCentral.logica.ControllerUsuario.DTSesionUsuario;
+import ServidorCentral.logica.ControllerUsuario.RolUsuario;
+import ServidorCentral.logica.ControllerUsuario;
 import ServidorCentral.logica.DTEdicion;
 import ServidorCentral.logica.Evento;
 
@@ -48,6 +51,17 @@ public class ConsultaEveSvt extends HttpServlet {
           edicionesCompletas.add(edicion); 
         }
       req.setAttribute("LISTA_EDICIONES", edicionesCompletas);
+      HttpSession session = req.getSession(false); 
+      if (session != null) {
+          DTSesionUsuario usuario = (DTSesionUsuario) session.getAttribute("usuario_logueado");
+          if (usuario != null) {
+        	  RolUsuario rol = usuario.getRol(); // enum
+              boolean esOrg  = rol == ControllerUsuario.RolUsuario.ORGANIZADOR;
+              req.setAttribute("ES_ORG", esOrg);
+
+          }
+      }
+      
     } catch (Exception e) {
       req.setAttribute("msgError", "No se pudo cargar la lista de ediciones: " + e.getMessage());
       req.setAttribute("LISTA_EDICIONES", null);

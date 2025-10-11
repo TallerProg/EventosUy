@@ -68,7 +68,7 @@
                   <li><strong>Institución:</strong> <%= (ins != null) ? ins.getNombre() : "(sin institución)" %></li>
                 <% } %>
               </ul>
-              <a href="/tprog-webapp/EditarPerfil" class="btn btn-primary mt-4">Editar Perfil</a>
+              <a href="<%=ctx %>/editarperfil" class="btn btn-primary mt-4">Editar Perfil</a>
             </div>
           </div>
         </div>
