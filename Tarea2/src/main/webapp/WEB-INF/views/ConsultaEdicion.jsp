@@ -136,17 +136,16 @@ boolean yaInscriptoEnAlguno = (miReg != null && miReg.get("tipo") != null);
             <% } %>
 
             <div class="d-flex align-items-center gap-2 mb-2">
-			  <h5 class="mb-0"><i class="bi bi-ticket-perforated"></i> Tipos de Registro</h5>
-			  <% if (ES_ORGANIZADOR_ED) { %>
-			    <a href="<%= ctx %>/organizador-tipos-registro-alta?evento=<%= encEv %>&edicion=<%= encEd %>"
-			       class="btn btn-sm btn-primary ms-auto d-inline-flex align-items-center justify-content-center"
-			       style="width:32px; height:32px; border-radius:8px;"
-			       title="Alta de Tipo de Registro" aria-label="Alta de Tipo de Registro">
-			      <i class="bi bi-plus"></i>
-			    </a>
-			  <% } %>
-			</div>
-
+              <h5 class="mb-0"><i class="bi bi-ticket-perforated"></i> Tipos de Registro</h5>
+              <% if (ES_ORGANIZADOR_ED) { %>
+                <a href="<%= ctx %>/organizador-tipos-registro-alta?evento=<%= encEv %>&edicion=<%= encEd %>"
+                   class="btn btn-sm btn-primary ms-auto d-inline-flex align-items-center justify-content-center"
+                   style="width:32px; height:32px; border-radius:8px;"
+                   title="Alta de Tipo de Registro" aria-label="Alta de Tipo de Registro">
+                  <i class="bi bi-plus"></i>
+                </a>
+              <% } %>
+            </div>
 
             <%-- === Botón Inscribirme (global) === --%>
             <%
@@ -300,7 +299,18 @@ boolean yaInscriptoEnAlguno = (miReg != null && miReg.get("tipo") != null);
       <!-- ===== Patrocinios ===== -->
       <div class="card shadow-sm">
         <div class="card-body">
-          <h5 class="card-title"><i class="bi bi-people"></i> Patrocinios</h5>
+          <div class="d-flex align-items-center gap-2 mb-2">
+            <h5 class="card-title mb-0"><i class="bi bi-people"></i> Patrocinios</h5>
+            <% if (ES_ORGANIZADOR_ED) { %>
+              <a href="<%= ctx %>/organizador-patrocinios-alta?evento=<%= encEv %>&edicion=<%= encEd %>"
+                 class="btn btn-sm btn-primary ms-auto d-inline-flex align-items-center justify-content-center"
+                 style="width:32px; height:32px; border-radius:8px;"
+                 title="Alta de Patrocinio" aria-label="Alta de Patrocinio">
+                <i class="bi bi-plus"></i>
+              </a>
+            <% } %>
+          </div>
+
           <% if (pats != null) { %>
             <div id="contenido-patrocinios">
               <jsp:include page="/WEB-INF/views/ConsultaPatrocinio.jsp" />
@@ -336,5 +346,4 @@ boolean yaInscriptoEnAlguno = (miReg != null && miReg.get("tipo") != null);
 %>
 </body>
 </html>
-
 

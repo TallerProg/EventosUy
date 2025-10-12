@@ -14,6 +14,9 @@
   String form_tipoReg     = (String) request.getAttribute("form_tipoRegistro");
   String form_cant        = (String) request.getAttribute("form_cantidad");
   String form_codigo      = (String) request.getAttribute("form_codigo");
+  String encEvento = java.net.URLEncoder.encode(eventoSel == null ? "" : eventoSel, java.nio.charset.StandardCharsets.UTF_8.name());
+  String encEdicion = java.net.URLEncoder.encode(edicionSel == null ? "" : edicionSel, java.nio.charset.StandardCharsets.UTF_8.name());
+  String encMsg = java.net.URLEncoder.encode("Operación cancelada.", java.nio.charset.StandardCharsets.UTF_8.name());
 %>
 <!DOCTYPE html>
 <html lang="es">
@@ -24,7 +27,7 @@
 
 <body class="index-page">
 <header id="header" class="header d-flex align-items-center fixed-top">
-          <jsp:include page="/WEB-INF/views/template/header.jsp" />
+  <jsp:include page="/WEB-INF/views/template/header.jsp" />
 </header>
 
 <main class="main mt-5 pt-5">
@@ -45,17 +48,18 @@
     <div class="card shadow-sm">
       <div class="card-body">
 
-        <form action="<%=ctx%>/organizador/patrocinios-alta" method="post" class="row g-3">
+        <!-- ACTION CORREGIDO -->
+        <form action="<%=ctx%>/organizador-patrocinios-alta" method="post" class="row g-3" id="form-patro">
           <div class="col-md-6">
             <label class="form-label">Evento</label>
             <input type="text" class="form-control" value="<%= (eventoSel!=null?eventoSel:"") %>" readonly>
-            <input type="hidden" name="evento" value="<%= (eventoSel!=null?eventoSel:"") %>">
+            <input type="hidden" name="evento" id="evento" value="<%= (eventoSel!=null?eventoSel:"") %>">
           </div>
 
           <div class="col-md-6">
             <label class="form-label">Edición</label>
             <input type="text" class="form-control" value="<%= (edicionSel!=null?edicionSel:"") %>" readonly>
-            <input type="hidden" name="edicion" value="<%= (edicionSel!=null?edicionSel:"") %>">
+            <input type="hidden" name="edicion" id="edicion" value="<%= (edicionSel!=null?edicionSel:"") %>">
           </div>
 
           <div class="col-md-6">
@@ -88,21 +92,23 @@
 
           <div class="col-md-6">
             <label class="form-label">Aporte Económico (UYU)</label>
-            <input type="number" name="aporte" min="1" class="form-control"
+            <input type="number" name="aporte" id="aporte" min="1" class="form-control"
                    value="<%= (form_aporte!=null?form_aporte:"") %>" required>
             <small class="text-muted">Hasta el 20 % del aporte se usa para registros gratuitos.</small>
           </div>
 
           <div class="col-md-6">
             <label class="form-label">Tipo de Registro Gratuito</label>
-            <input type="text" name="tipoRegistro" class="form-control"
+            <input type="text" name="tipoRegistro" id="tipoRegistro" class="form-control"
                    value="<%= (form_tipoReg!=null?form_tipoReg:"") %>" required>
             <small class="text-muted">Escribí el nombre exacto del tipo de registro.</small>
+            <!-- Info de costo calculado (cuando exista) -->
+            <div class="form-text" id="costoTRinfo" style="min-height:1.2rem;"></div>
           </div>
 
           <div class="col-md-6">
             <label class="form-label">Cantidad de Registros Gratuitos</label>
-            <input type="number" name="cantidadRegistros" class="form-control"
+            <input type="number" name="cantidadRegistros" id="cantidadRegistros" class="form-control"
                    value="<%= (form_cant!=null?form_cant:"") %>" readonly>
             <small class="text-muted">Se calcula automáticamente según el 20 % del aporte.</small>
           </div>
@@ -115,7 +121,12 @@
 
           <div class="col-12 d-flex gap-2">
             <button type="submit" class="btn btn-primary">Registrar</button>
-            <a href="<%=ctx%>/" class="btn btn-outline-secondary">Cancelar</a>
+
+            <!-- CANCELAR: vuelve a la edición con mensaje "Operación cancelada" -->
+            <a class="btn btn-outline-secondary"
+			   href="<%= ctx %>/ediciones-consulta?evento=<%= encEvento %>&edicion=<%= encEdicion %>&msgOk=<%= encMsg %>">
+			  Cancelar
+			</a>
           </div>
         </form>
 
@@ -131,6 +142,53 @@
 </footer>
 
 <script src="<%=ctx%>/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Cálculo en vivo de cantidad (20% del aporte / costo del tipo) -->
+<script>
+(function(){
+  const ctx = '<%=ctx%>';
+  const edicion = document.getElementById('edicion')?.value || '';
+  const aporteEl = document.getElementById('aporte');
+  const tipoEl   = document.getElementById('tipoRegistro');
+  const cantEl   = document.getElementById('cantidadRegistros');
+  const costoInfo= document.getElementById('costoTRinfo');
+
+  async function recalcular(){
+    const aporte = aporteEl?.value || '';
+    const tipo   = tipoEl?.value || '';
+    if(!aporte || !tipo) { 
+      if (cantEl) cantEl.value='';
+      if (costoInfo) costoInfo.innerText='';
+      return; 
+    }
+
+    try {
+      const params = new URLSearchParams({
+        calc:'1',
+        edicion: edicion,
+        tipoRegistro: tipo,
+        aporte: aporte
+      });
+      const res = await fetch(`${ctx}/organizador-patrocinios-alta?`+params.toString(), {cache:'no-store'});
+      if(!res.ok) throw new Error('calc failed');
+      const data = await res.json();
+      if (cantEl)  cantEl.value = (data && typeof data.cantidad === 'number') ? data.cantidad : '';
+      if (costoInfo) {
+        if (data && data.costo != null) {
+          costoInfo.innerText = `Costo del tipo: $${data.costo}`;
+        } else {
+          costoInfo.innerText = '';
+        }
+      }
+    } catch(e) {
+      if (cantEl) cantEl.value = '';
+      if (costoInfo) costoInfo.innerText = '';
+    }
+  }
+
+  aporteEl?.addEventListener('input', recalcular);
+  tipoEl?.addEventListener('input',  recalcular);
+})();
+</script>
 </body>
 </html>
-
