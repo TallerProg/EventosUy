@@ -2,6 +2,9 @@
 <%@ page import="ServidorCentral.logica.Usuario,ServidorCentral.logica.Asistente,ServidorCentral.logica.Institucion"%>
 <%
   String ctx = request.getContextPath();
+  String img = (String) session.getAttribute("IMAGEN_LOGUEADO");
+  String imagen = (img != null && !img.isBlank()) ? (ctx + img) : (ctx + "/media/img/default.png"); 
+
 %>
 <!DOCTYPE html>
 <html lang="es">
@@ -44,9 +47,8 @@
 
       <form action="<%=ctx%>/editarperfil" method="post" enctype="multipart/form-data" id="form-modificar">
         <input type="hidden" id="tipoUsuario" value="<%= tipo %>">
-
         <div class="profile-image text-center mb-4">
-          <img id="preview" src="<%=ctx%>/media/img/usuarios/default-user.png"
+          <img id="preview" src="<%=imagen%>"
                alt="Foto de perfil" class="rounded-circle" width="120">
         </div>
 
