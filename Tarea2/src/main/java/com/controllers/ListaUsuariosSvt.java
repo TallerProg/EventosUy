@@ -12,7 +12,6 @@ import ServidorCentral.logica.Factory;
 import ServidorCentral.logica.IControllerUsuario;
 import ServidorCentral.logica.Organizador;
 import ServidorCentral.logica.Asistente;
-import ServidorCentral.logica.DTUsuarioLista;
 
 @WebServlet(name = "ListaUsuariosSvt", urlPatterns = {"/ListaUsuarios"})
 @MultipartConfig(
