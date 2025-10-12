@@ -15,6 +15,8 @@
   DTTipoRegistro tipoRegistro = (DTTipoRegistro) request.getAttribute("TIPO_REGISTRO");
 
   Object errMsg = request.getAttribute("msgError");
+  String img = (evento != null && evento.getImg() != null && !evento.getImg().isBlank()) ? (ctx + evento.getImg()): (ctx + "/media/img/default.png");
+
 %>
 <!DOCTYPE html>
 <html lang="es">
@@ -51,7 +53,7 @@
 
           <!-- Imagen (si no tenés imagen en DTO uso default) -->
           <div class="text-center mb-4">
-            <img src="<%=ctx%>/media/img/default.png"
+            <img src="<%=img%>"
                  alt="<%= edicion.getNombre() %>"
                  class="img-fluid rounded shadow-sm"
                  style="max-width: 450px;">
