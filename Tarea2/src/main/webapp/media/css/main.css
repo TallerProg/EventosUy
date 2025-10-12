@@ -964,3 +964,8 @@ section,
     .carousel-img { max-height: 460px; object-fit: cover; }
     .carousel-title { font-weight: 700; text-shadow: 0 2px 12px rgba(0,0,0,.45); }
     .carousel-text { text-shadow: 0 1px 8px rgba(0,0,0,.45); }
+    
+.speaker-card{display:flex;flex-direction:column;height:100%;}
+.speaker-content{display:flex;flex-direction:column;flex:1;}
+.speaker-card .btn-ver-ediciones{margin-top:auto;}
+    
