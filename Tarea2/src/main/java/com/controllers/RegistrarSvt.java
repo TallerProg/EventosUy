@@ -32,6 +32,7 @@ import jakarta.servlet.http.Part;
 public class RegistrarSvt extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private static final String USR_IMG_DIR = "/media/img/usuarios";
+    private static final String EMAIL_REGEX = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
 
 
     private IControllerInstitucion ci;
@@ -105,6 +106,10 @@ public class RegistrarSvt extends HttpServlet {
         if (isBlank(nombre))     { setErrorAndForward("El nombre es obligatorio.", request, response);       return; }
         if (isBlank(password) || isBlank(confirm)) {
             setErrorAndForward("Debés ingresar y confirmar la contraseña.", request, response);
+            return;
+        }
+        if (!email.matches(EMAIL_REGEX)) {
+            setErrorAndForward("El correo electrónico no tiene un formato válido.", request, response);
             return;
         }
         if (!password.equals(confirm)) {

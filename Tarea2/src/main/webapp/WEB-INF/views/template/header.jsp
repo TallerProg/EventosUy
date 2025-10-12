@@ -4,6 +4,10 @@
 <%
   String ctx = request.getContextPath(); // "/tprog-webapp"
   DTSesionUsuario ses = (DTSesionUsuario) session.getAttribute("usuario_logueado");
+  String img = (String) session.getAttribute("IMAGEN_LOGUEADO");
+  String imagen = (img != null && !img.isBlank()) ? (ctx + img) : (ctx + "/media/img/default.png"); 
+
+
 %>
 
 <div class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
@@ -31,38 +35,17 @@
           <a href="<%= ctx %>/login" class="btn btn-primary btn-sm text-white">Iniciar Sesión</a>
           <a href="<%= ctx %>/Registrarse" class="btn btn-outline-primary btn-sm">Registrarse</a>
         </li>
-     <% } else {
-    	 
-    	 
-    	  String nick = ses.getNickname();
-
-    	  // Rutas posibles (chequeás cuál existe)
-    	  String[] extensiones = {".png", ".jpg", ".jpeg"};
-    	  String imgSrc = ctx + "/media/img/default.png"; // imagen por defecto
-
-    	  String realPath = application.getRealPath("/media/img/usuarios/");
-    	  java.io.File carpeta = new java.io.File(realPath);
-
-    	  for (String ext : extensiones) {
-    	    java.io.File f = new java.io.File(carpeta, nick + ext);
-    	    if (f.exists()) {
-    	      imgSrc = ctx + "/media/img/usuarios/" + nick + ext;
-    	      break;
-    	    }
-    	  }
-    	
-    	%>
-  <li class="ms-auto d-flex align-items-center gap-2">
-    <a href="<%= ctx %>/perfil" class="user-info text-decoration-none d-flex align-items-center gap-2">
-      <img src="<%= imgSrc %>" alt="Foto de <%= nick %>"
-           style="width:32px;height:32px;object-fit:cover;border-radius:50%">
-      <span class="fw-semibold"><%= nick %></span>
-    </a>
-    <a href="<%= ctx %>/logout" class="btn p-0 border-0 bg-transparent">
-      <i class="login-icon bi bi-box-arrow-in-right fs-3" title="Cerrar Sesión"></i>
-    </a>
-  </li>
-<% } %>
+		<% } else { %>
+		   <li class="ms-auto d-flex align-items-center gap-2">
+		     <a href="<%= ctx %>/perfil" class="user-info text-decoration-none d-flex align-items-center gap-2">
+		       <img src="<%= imagen %>" alt="">
+		       <span class="fw-semibold"><%= ses.getNickname() %></span>
+		     </a>
+		     <a href="<%= ctx %>/logout" class="btn p-0 border-0 bg-transparent">
+		       <i class="login-icon bi bi-box-arrow-in-right fs-3" title="Cerrar Sesión"></i>
+		     </a>
+		   </li>
+		 <% } %>
 
       
       

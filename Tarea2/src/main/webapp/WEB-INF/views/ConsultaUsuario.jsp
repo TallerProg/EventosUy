@@ -93,7 +93,6 @@
                     <%
                       @SuppressWarnings("unchecked")
                       List<Edicion> ediciones = (List<Edicion>) request.getAttribute("Ediciones");
-
                       java.util.List<Edicion> visibles = new java.util.ArrayList<>();
                       if (ediciones != null) {
                         for (Edicion e : ediciones) {
@@ -114,11 +113,13 @@
                         for (int i = 0; i < visibles.size(); i++) {
                           Edicion e = visibles.get(i);
                           String nombre = e.getNombre();
+                      	  String imgagenedicion = (e != null && e.getImagenWebPath() != null && !e.getImagenWebPath().isBlank()) ? (ctx + e.getImagenWebPath()): (ctx + "/media/img/default.png");
+
                           
                     %>
                       <div class="carousel-item <%= (i == 0) ? "active" : "" %>">
                         <div class="text-center">
-                          <img src="<%= ctx %>/media/img/default.png"
+                          <img src="<%= imgagenedicion %>"
                                class="d-block w-100 edition-carousel-img"
                                alt="<%= nombre %>">
                           <div class="mt-3">
@@ -173,12 +174,14 @@
                           if (e == null) continue;
 
                           String nombreEd = e.getNombre();
+                      	  String imgagenedicion = (e != null && e.getImagenWebPath() != null && !e.getImagenWebPath().isBlank()) ? (ctx + e.getImagenWebPath()): (ctx + "/media/img/default.png");
+
                           String href = ctx + "/consultaRegistroAsis?edicion=" +
                                         URLEncoder.encode(nombreEd, StandardCharsets.UTF_8.name());
                     %>
                       <div class="carousel-item <%= (i == 0) ? "active" : "" %>">
                         <div class="text-center">
-                          <img src="<%= ctx %>/media/img/default.png"
+                          <img src="<%= imgagenedicion %>"
                                class="d-block w-100 edition-carousel-img"
                                alt="<%= nombreEd %>">
                           <div class="mt-3">

@@ -30,14 +30,20 @@ public class ConsultaUsuarioSvt extends HttpServlet {
 			return;
 		}
 		nick = nick.trim(); // FIX 1: evita espacios que rompan la búsqueda
-
+		
 		IControllerUsuario icu = Factory.getInstance().getIControllerUsuario();
 
 		// FIX 2: primero detecto si existe y qué rol tiene
 		Asistente asis = icu.getAsistente(nick);
 		Organizador org = (asis == null) ? icu.getOrganizador(nick) : null;
 		String rol = (asis != null) ? "A" : (org != null) ? "O" : "v";
-
+		if(asis!=null) {
+			String img=asis.getImg();
+            req.setAttribute("IMAGEN", img);
+		}else if(org!=null){
+			String img=org.getImg();
+            req.setAttribute("IMAGEN", img);
+		}
 		if ("v".equals(rol)) {
 			// No existe ni como Asistente ni como Organizador → 404
 			resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Usuario no encontrado.");
@@ -65,14 +71,11 @@ public class ConsultaUsuarioSvt extends HttpServlet {
 		if ("A".equals(rol) && S) {
 			List<Registro> regis = asis.getRegistros();
 			req.setAttribute("Registros", regis);
-			String img=asis.getImg();
-            req.setAttribute("IMAGEN", img);
+
 		}
 		if ("O".equals(rol)) {
 			List<Edicion> edis = org.getEdiciones();
 			req.setAttribute("Ediciones", edis);
-			String img=org.getImg();
-            req.setAttribute("IMAGEN", img);
 		}
 
 		req.setAttribute("esSuPerfil", S);
