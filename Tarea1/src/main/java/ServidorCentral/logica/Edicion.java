@@ -216,7 +216,7 @@ public class Edicion {
         return new DTEdicion(
             nombre, sigla, fInicio, fFin, fAlta, ciudad, pais,
             trs, orgs, regs, pats,
-            estadoStr  
+            estadoStr,imagenWebPath
         );
     }
 
