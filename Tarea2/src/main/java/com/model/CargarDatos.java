@@ -102,19 +102,62 @@ public class CargarDatos {
 		// Crear Ediciones de Eventos
 		// ------------------
 		try {
-			Ice.altaEdicionDeEvento("Montevideo Rock 2025", "MONROCK25", "Montevideo", "Uruguay", LocalDate.parse("20/11/2025", formatter), LocalDate.parse("22/11/2025", formatter), LocalDate.parse("12/03/2025", formatter), Ice.getEvento("Montevideo Rock"), ICU.getOrganizador("imm"), null);
-			Ice.altaEdicionDeEvento("Maratón de Montevideo 2025", "MARATON25", "Montevideo", "Uruguay", LocalDate.parse("14/09/2025", formatter), LocalDate.parse("14/09/2025", formatter), LocalDate.parse("05/02/2025", formatter), Ice.getEvento("Maratón de Montevideo"), ICU.getOrganizador("imm"), null);
-			Ice.altaEdicionDeEvento("Maratón de Montevideo 2024", "MARATON24", "Montevideo", "Uruguay", LocalDate.parse("14/09/2024", formatter), LocalDate.parse("14/09/2024", formatter), LocalDate.parse("21/04/2024", formatter), Ice.getEvento("Maratón de Montevideo"), ICU.getOrganizador("imm"), null);
-			Ice.altaEdicionDeEvento("Maratón de Montevideo 2022", "MARATON22", "Montevideo", "Uruguay", LocalDate.parse("14/09/2022", formatter), LocalDate.parse("14/09/2022", formatter), LocalDate.parse("21/05/2022", formatter), Ice.getEvento("Maratón de Montevideo"), ICU.getOrganizador("imm"), null);
-			Ice.altaEdicionDeEvento("Montevideo Comics 2024", "COMICS24", "Montevideo", "Uruguay", LocalDate.parse("18/07/2024", formatter), LocalDate.parse("21/07/2024", formatter), LocalDate.parse("20/06/2024", formatter), Ice.getEvento("Montevideo Comics"), ICU.getOrganizador("miseventos"), null);
-			Ice.altaEdicionDeEvento("Montevideo Comics 2025", "COMICS25", "Montevideo", "Uruguay", LocalDate.parse("04/08/2025", formatter), LocalDate.parse("06/08/2025", formatter), LocalDate.parse("04/07/2025", formatter), Ice.getEvento("Montevideo Comics"), ICU.getOrganizador("miseventos"), null);
-			Ice.altaEdicionDeEvento("Expointer Uruguay 2025", "EXPOAGRO25", "Durazno", "Uruguay", LocalDate.parse("11/09/2025", formatter), LocalDate.parse("17/09/2025", formatter), LocalDate.parse("01/02/2025", formatter), Ice.getEvento("Expointer Uruguay"), ICU.getOrganizador("miseventos"), null);
-			Ice.altaEdicionDeEvento("Tecnología Punta del Este 2026", "CONFTECH26", "Punta del Este", "Uruguay", LocalDate.parse("06/04/2026", formatter), LocalDate.parse("10/04/2026", formatter), LocalDate.parse("01/08/2025", formatter), Ice.getEvento("Conferencia de Tecnología"), ICU.getOrganizador("udelar"), null);
-			Ice.altaEdicionDeEvento("Mobile World Congress 2025", "MWC", "Barcelona", "España", LocalDate.parse("12/12/2025", formatter), LocalDate.parse("15/12/2025", formatter), LocalDate.parse("21/08/2025", formatter), Ice.getEvento("Conferencia de Tecnología"), ICU.getOrganizador("techcorp"), null);
-			Ice.altaEdicionDeEvento("Web Summit 2026", "WS26", "Lisboa", "Portugal", LocalDate.parse("13/01/2026", formatter), LocalDate.parse("01/02/2026", formatter), LocalDate.parse("04/06/2025", formatter), Ice.getEvento("Conferencia de Tecnología"), ICU.getOrganizador("techcorp"), null);
-			Ice.altaEdicionDeEvento("Montevideo Fashion Week 2026", "MFW26", "Nueva York", "Estados Unidos", LocalDate.parse("16/02/2026", formatter), LocalDate.parse("20/02/2026", formatter), LocalDate.parse("02/10/2025", formatter), Ice.getEvento("Montevideo Fashion Week"), ICU.getOrganizador("mec"), null);
+		    Ice.altaEdicionDeEvento("Montevideo Rock 2025", "MONROCK25", "Montevideo", "Uruguay",
+		            LocalDate.parse("20/11/2025", formatter), LocalDate.parse("22/11/2025", formatter), LocalDate.parse("12/03/2025", formatter),
+		            Ice.getEvento("Montevideo Rock"), ICU.getOrganizador("imm"), null);
+		    Ice.findEdicion("Montevideo Rock 2025").setEstado(EstadoEdicion.Aceptada);
+
+		    Ice.altaEdicionDeEvento("Maratón de Montevideo 2025", "MARATON25", "Montevideo", "Uruguay",
+		            LocalDate.parse("14/09/2025", formatter), LocalDate.parse("14/09/2025", formatter), LocalDate.parse("05/02/2025", formatter),
+		            Ice.getEvento("Maratón de Montevideo"), ICU.getOrganizador("imm"), null);
+		    Ice.findEdicion("Maratón de Montevideo 2025").setEstado(EstadoEdicion.Aceptada);
+
+		    Ice.altaEdicionDeEvento("Maratón de Montevideo 2024", "MARATON24", "Montevideo", "Uruguay",
+		            LocalDate.parse("14/09/2024", formatter), LocalDate.parse("14/09/2024", formatter), LocalDate.parse("21/04/2024", formatter),
+		            Ice.getEvento("Maratón de Montevideo"), ICU.getOrganizador("imm"), null);
+		    Ice.findEdicion("Maratón de Montevideo 2024").setEstado(EstadoEdicion.Aceptada);
+
+		    Ice.altaEdicionDeEvento("Maratón de Montevideo 2022", "MARATON22", "Montevideo", "Uruguay",
+		            LocalDate.parse("14/09/2022", formatter), LocalDate.parse("14/09/2022", formatter), LocalDate.parse("21/05/2022", formatter),
+		            Ice.getEvento("Maratón de Montevideo"), ICU.getOrganizador("imm"), null);
+		    Ice.findEdicion("Maratón de Montevideo 2022").setEstado(EstadoEdicion.Rechazada);
+
+		    Ice.altaEdicionDeEvento("Montevideo Comics 2024", "COMICS24", "Montevideo", "Uruguay",
+		            LocalDate.parse("18/07/2024", formatter), LocalDate.parse("21/07/2024", formatter), LocalDate.parse("20/06/2024", formatter),
+		            Ice.getEvento("Montevideo Comics"), ICU.getOrganizador("miseventos"), null);
+		    Ice.findEdicion("Montevideo Comics 2024").setEstado(EstadoEdicion.Aceptada);
+
+		    Ice.altaEdicionDeEvento("Montevideo Comics 2025", "COMICS25", "Montevideo", "Uruguay",
+		            LocalDate.parse("04/08/2025", formatter), LocalDate.parse("06/08/2025", formatter), LocalDate.parse("04/07/2025", formatter),
+		            Ice.getEvento("Montevideo Comics"), ICU.getOrganizador("miseventos"), null);
+		    Ice.findEdicion("Montevideo Comics 2025").setEstado(EstadoEdicion.Aceptada);
+
+		    Ice.altaEdicionDeEvento("Expointer Uruguay 2025", "EXPOAGRO25", "Durazno", "Uruguay",
+		            LocalDate.parse("11/09/2025", formatter), LocalDate.parse("17/09/2025", formatter), LocalDate.parse("01/02/2025", formatter),
+		            Ice.getEvento("Expointer Uruguay"), ICU.getOrganizador("miseventos"), null);
+		    Ice.findEdicion("Expointer Uruguay 2025").setEstado(EstadoEdicion.Ingresada);
+
+		    Ice.altaEdicionDeEvento("Tecnología Punta del Este 2026", "CONFTECH26", "Punta del Este", "Uruguay",
+		            LocalDate.parse("06/04/2026", formatter), LocalDate.parse("10/04/2026", formatter), LocalDate.parse("01/08/2025", formatter),
+		            Ice.getEvento("Conferencia de Tecnología"), ICU.getOrganizador("udelar"), null);
+		    Ice.findEdicion("Tecnología Punta del Este 2026").setEstado(EstadoEdicion.Aceptada);
+
+		    Ice.altaEdicionDeEvento("Mobile World Congress 2025", "MWC", "Barcelona", "España",
+		            LocalDate.parse("12/12/2025", formatter), LocalDate.parse("15/12/2025", formatter), LocalDate.parse("21/08/2025", formatter),
+		            Ice.getEvento("Conferencia de Tecnología"), ICU.getOrganizador("techcorp"), null);
+		    Ice.findEdicion("Mobile World Congress 2025").setEstado(EstadoEdicion.Aceptada);
+
+		    Ice.altaEdicionDeEvento("Web Summit 2026", "WS26", "Lisboa", "Portugal",
+		            LocalDate.parse("13/01/2026", formatter), LocalDate.parse("01/02/2026", formatter), LocalDate.parse("04/06/2025", formatter),
+		            Ice.getEvento("Conferencia de Tecnología"), ICU.getOrganizador("techcorp"), null);
+		    Ice.findEdicion("Web Summit 2026").setEstado(EstadoEdicion.Aceptada);
+
+		    Ice.altaEdicionDeEvento("Montevideo Fashion Week 2026", "MFW26", "Nueva York", "Estados Unidos",
+		            LocalDate.parse("16/02/2026", formatter), LocalDate.parse("20/02/2026", formatter), LocalDate.parse("02/10/2025", formatter),
+		            Ice.getEvento("Montevideo Fashion Week"), ICU.getOrganizador("mec"), null);
+		    Ice.findEdicion("Montevideo Fashion Week 2026").setEstado(EstadoEdicion.Ingresada);
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, e.getMessage());
+		    JOptionPane.showMessageDialog(null, e.getMessage());
 		}
 
 		// ------------------
