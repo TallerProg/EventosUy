@@ -25,7 +25,6 @@ import ServidorCentral.logica.ControllerUsuario.RolUsuario;
 
 @WebServlet(name = "ConsultaEdicionSvt", urlPatterns = {"/ediciones-consulta"})
 public class ConsultaEdicionSvt extends HttpServlet {
-
   private static final long serialVersionUID = 1L;
   private static final DateTimeFormatter FMT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
@@ -42,14 +41,21 @@ public class ConsultaEdicionSvt extends HttpServlet {
       return;
     }
 
+    // Permitir mensajes por querystring (útil para redirects con avisos)
+    if (req.getParameter("msgOk") != null && req.getAttribute("msgOk") == null) {
+      req.setAttribute("msgOk", decode(req.getParameter("msgOk")));
+    }
+    if (req.getParameter("msgError") != null && req.getAttribute("msgError") == null) {
+      req.setAttribute("msgError", decode(req.getParameter("msgError")));
+    }
+
+    // ===== Sesión → rol y nick
     HttpSession session = req.getSession(false);
     boolean esOrganizador = false;
     boolean esAsistente   = false;
     String  nickSesion    = null;
-    String  correoSesion  = null; // *** NUEVO ***
 
     if (session != null) {
-      // 1) DTO común
       Object dto = session.getAttribute("usuario_logueado");
       if (dto instanceof DTSesionUsuario) {
         DTSesionUsuario u = (DTSesionUsuario) dto;
@@ -57,29 +63,28 @@ public class ConsultaEdicionSvt extends HttpServlet {
           esOrganizador = (u.getRol() == RolUsuario.ORGANIZADOR);
           esAsistente   = (u.getRol() == RolUsuario.ASISTENTE);
         }
-        nickSesion   = extraerNickSeguro(u);
-        correoSesion = extraerCorreoSeguro(u); // *** NUEVO ***
+        nickSesion = extraerNickSeguro(u);
       }
-
-      // 2) Objetos de dominio en sesión
-      Object asis = session.getAttribute("usuarioAsistente");
-      if (asis != null) {
-        esAsistente = true; // *** asegura rol asistente ***
-        if (nickSesion == null)   nickSesion   = extraerNicknameGenerico(asis);
-        if (correoSesion == null) correoSesion = extraerCorreoGenerico(asis); // *** NUEVO ***
-      }
-
-      Object org = session.getAttribute("usuarioOrganizador");
-      if (org != null) {
-        esOrganizador = true;
-        if (nickSesion == null)   nickSesion   = extraerNicknameGenerico(org);
-        if (correoSesion == null) correoSesion = extraerCorreoGenerico(org); // *** NUEVO ***
-      }
-
-      // 3) Fallback a NICKNAME crudo
       if (nickSesion == null) {
-        Object nickRaw = session.getAttribute("NICKNAME"); // *** NUEVO ***
-        if (nickRaw != null) nickSesion = String.valueOf(nickRaw);
+        Object asis = session.getAttribute("usuarioAsistente");
+        if (asis != null) {
+          esAsistente = true;
+          nickSesion  = extraerNicknameGenerico(asis);
+        }
+      }
+      if (nickSesion == null) {
+        Object org = session.getAttribute("usuarioOrganizador");
+        if (org != null) {
+          esOrganizador = true;
+          nickSesion    = extraerNicknameGenerico(org);
+        }
+      }
+      if (nickSesion == null) {
+        Object nickAttr = session.getAttribute("NICKNAME");
+        if (nickAttr != null && !String.valueOf(nickAttr).isBlank()) {
+          nickSesion = String.valueOf(nickAttr);
+          if (!esOrganizador) esAsistente = true;
+        }
       }
     }
 
@@ -92,6 +97,7 @@ public class ConsultaEdicionSvt extends HttpServlet {
         return;
       }
 
+      // ====== ViewModel ======
       Map<String, Object> VM = new HashMap<>();
       VM.put("eventoNombre", nombreEvento);
       VM.put("nombre",   ed.getNombre());
@@ -114,7 +120,7 @@ public class ConsultaEdicionSvt extends HttpServlet {
       if (regs != null) {
         for (DTRegistro r : regs) {
           Map<String,String> row = new LinkedHashMap<>();
-          row.put("asistente", safe(r.getAsistenteNickname())); // suele venir nick o correo
+          row.put("asistente", safe(r.getAsistenteNickname()));
           row.put("tipo",      safe(r.getTipoRegistroNombre()));
           String fechaReg = null;
           try { fechaReg = format(r.getfInicio()); } catch (Throwable ignore) {}
@@ -142,70 +148,66 @@ public class ConsultaEdicionSvt extends HttpServlet {
       }
       VM.put("tipos", tiposVM);
 
-      // ===== Mi registro: comparar por nickname o correo =====
+   // ===== Mi registro (búsqueda imperativa, sin lambdas) =====
       Map<String,String> miRegVM = null;
-      if (esAsistente && regs != null && (!isBlank(nickSesion) || !isBlank(correoSesion))) {
-        String nickNorm   = isBlank(nickSesion)   ? null : nickSesion.trim().toLowerCase();
-        String correoNorm = isBlank(correoSesion) ? null : correoSesion.trim().toLowerCase();
+      boolean esAsistenteInscriptoEd = false;
 
+      if (esAsistente && nickSesion != null && regs != null) {
         for (DTRegistro r : regs) {
-          String idReg = safe(r.getAsistenteNickname()); // a veces es correo
-          String idNorm = isBlank(idReg) ? null : idReg.trim().toLowerCase();
-
-          boolean match =
-              (nickNorm   != null && nickNorm.equals(idNorm)) ||
-              (correoNorm != null && correoNorm.equals(idNorm)); // *** NUEVO ***
-
-          if (match) {
+          String nickReg = String.valueOf(r.getAsistenteNickname());
+          if (nickReg != null && nickSesion.equalsIgnoreCase(nickReg)) {
+            esAsistenteInscriptoEd = true;
             miRegVM = new LinkedHashMap<>();
             miRegVM.put("tipo",   safe(r.getTipoRegistroNombre()));
             String fechaReg = null;
             try { fechaReg = format(r.getfInicio()); } catch (Throwable ignore) {}
             miRegVM.put("fecha",  fechaReg);
-            miRegVM.put("estado", "");
+            miRegVM.put("estado", ""); // <-- si no tenés estado real, poné vacío para que no rompa el JSP
             break;
           }
         }
       }
       VM.put("miRegistro", miRegVM);
 
+      // ⚠️ IMPORTANTE: enviar el flag al JSP
+      req.setAttribute("ES_ASISTENTE_INSCRIPTO_ED", esAsistenteInscriptoEd);
+      req.setAttribute("ES_ASIS_ED", esAsistenteInscriptoEd);
+
+
       // Patrocinios
       List<DTPatrocinio> pats = ed.getPatrocinios();
       req.setAttribute("patrocinios", pats);
 
-      // Organizador de esta edición
+      // Permiso: organizador de esta edición
       boolean esOrganizadorDeEstaEdicion = false;
-      if (esOrganizador && ed.getOrganizadores() != null && !isBlank(nickSesion)) {
+      if (esOrganizador && ed.getOrganizadores() != null && nickSesion != null) {
         String nickNorm = nickSesion.trim().toLowerCase();
         for (DTOrganizador o : ed.getOrganizadores()) {
           String orgId = null;
           try { orgId = String.valueOf(o.getClass().getMethod("getNickname").invoke(o)); }
           catch (Exception ignore) {}
-          if (isBlank(orgId)) {
+          if (orgId == null || orgId.isBlank()) {
             try { orgId = String.valueOf(o.getClass().getMethod("getNombre").invoke(o)); }
             catch (Exception ignore2) {}
           }
-          if (!isBlank(orgId) && orgId.trim().toLowerCase().equals(nickNorm)) {
+          if (orgId != null && orgId.trim().toLowerCase().equals(nickNorm)) {
             esOrganizadorDeEstaEdicion = true;
             break;
           }
         }
       }
 
-      boolean esAsistenteInscriptoEd = (miRegVM != null);
-
+      // Flags al JSP
       req.setAttribute("ES_ORGANIZADOR", esOrganizador);
       req.setAttribute("ES_ASISTENTE",   esAsistente);
       req.setAttribute("ES_ORG",         esOrganizador);
       req.setAttribute("ES_ASIS",        esAsistente);
-
       req.setAttribute("ES_ORGANIZADOR_ED",         esOrganizadorDeEstaEdicion);
       req.setAttribute("ES_ORG_ED",                 esOrganizadorDeEstaEdicion);
       req.setAttribute("ES_ASISTENTE_INSCRIPTO_ED", esAsistenteInscriptoEd);
       req.setAttribute("ES_ASIS_ED",                esAsistenteInscriptoEd);
 
       req.setAttribute("VM", VM);
-
       forward(req, resp);
 
     } catch (Exception e) {
@@ -272,23 +274,6 @@ public class ConsultaEdicionSvt extends HttpServlet {
     return null;
   }
 
-  // *** NUEVO: correo desde DTO ***
-  private static String extraerCorreoSeguro(DTSesionUsuario u) {
-    if (u == null) return null;
-    try {
-      Object mail = u.getClass().getMethod("getCorreo").invoke(u);
-      if (mail != null && !String.valueOf(mail).isBlank()) return String.valueOf(mail);
-    } catch (Exception ignore) {}
-    try {
-      Object usuario = u.getClass().getMethod("getUsuario").invoke(u);
-      if (usuario != null) {
-        Object mail = usuario.getClass().getMethod("getCorreo").invoke(usuario);
-        if (mail != null && !String.valueOf(mail).isBlank()) return String.valueOf(mail);
-      }
-    } catch (Exception ignore) {}
-    return null;
-  }
-
   private static String extraerNicknameGenerico(Object o) {
     if (o == null) return null;
     try {
@@ -301,14 +286,6 @@ public class ConsultaEdicionSvt extends HttpServlet {
     } catch (Exception ignore) {}
     return null;
   }
-
-  // *** NUEVO: correo desde objeto de dominio (Asistente/Organizador) ***
-  private static String extraerCorreoGenerico(Object o) {
-    if (o == null) return null;
-    try {
-      Object mail = o.getClass().getMethod("getCorreo").invoke(o);
-      if (mail != null && !String.valueOf(mail).isBlank()) return String.valueOf(mail);
-    } catch (Exception ignore) {}
-    return null;
-  }
 }
+
+
