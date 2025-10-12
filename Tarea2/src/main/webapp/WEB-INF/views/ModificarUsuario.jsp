@@ -1,11 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="ServidorCentral.logica.Usuario,ServidorCentral.logica.Asistente,ServidorCentral.logica.Institucion"%>
-
+<%
+  String ctx = request.getContextPath();
+%>
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <jsp:include page="template/head.jsp" />
-  <link rel="stylesheet" href="<%=request.getContextPath()%>/media/css/main.css">
+  <link rel="stylesheet" href="<%=ctx%>/media/css/main.css">
 </head>
 <body class="index-page">
 
@@ -40,11 +42,11 @@
         <h2>Modificar datos de usuario</h2>
       </div>
 
-      <form action="<%=request.getContextPath()%>/editarperfil" method="post" enctype="multipart/form-data" id="form-modificar">
+      <form action="<%=ctx%>/editarperfil" method="post" enctype="multipart/form-data" id="form-modificar">
         <input type="hidden" id="tipoUsuario" value="<%= tipo %>">
 
         <div class="profile-image text-center mb-4">
-          <img id="preview" src="<%=request.getContextPath()%>/media/img/usuarios/default-user.png"
+          <img id="preview" src="<%=ctx%>/media/img/usuarios/default-user.png"
                alt="Foto de perfil" class="rounded-circle" width="120">
         </div>
 
@@ -101,7 +103,7 @@
         </div>
 
         <button type="submit" class="btn btn-primary">Aceptar</button>
-        <a href="<%=request.getContextPath()%>/editarperfil" class="btn btn-secondary">Cancelar</a>
+        <a href="<%=ctx%>/perfil" class="btn btn-secondary">Cancelar</a>
       </form>
     </div>
   </section>
@@ -110,18 +112,13 @@
 <footer class="footer mt-5">
   <jsp:include page="template/footer.jsp" />
 </footer>
-   <!-- Preloader -->
-      <div id="preloader"></div>
 
-      <!-- Vendor JS -->
-      <script src="media/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<div id="preloader"></div>
 
-      <!-- Main JS -->
-      <script src="media/js/main.js"></script>
-      <script src="media/js/ModificarUsuario.js"></script>
-
-
-<script src="<%=request.getContextPath()%>/media/js/ModificarUsuario.js"></script>
+<script src="<%=ctx%>/media/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="<%=ctx%>/media/js/main.js"></script>
+<script src="<%=ctx%>/media/js/ModificarUsuario.js"></script>
 </body>
 </html>
+
 

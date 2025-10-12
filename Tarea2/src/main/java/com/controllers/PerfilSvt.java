@@ -3,6 +3,7 @@ package com.controllers;
 import ServidorCentral.logica.Factory;
 import ServidorCentral.logica.IControllerUsuario;
 import ServidorCentral.logica.Institucion;
+import ServidorCentral.logica.Organizador;
 import ServidorCentral.logica.Asistente;
 import ServidorCentral.logica.ControllerUsuario;
 import ServidorCentral.logica.ControllerUsuario.DTSesionUsuario;
@@ -48,10 +49,17 @@ public class PerfilSvt extends HttpServlet {
 
         try {
             if (esAsis) {
-
                 Asistente asist =ctrl.getAsistente(dtusuario.getNickname()); // <-- AJUSTAR NOMBRE
                 Institucion inst = asist.getInstitucion();
+            	String img = asist.getImg();
                 req.setAttribute("INSTITUCION", inst);
+                req.setAttribute("IMAGEN", img);
+
+            }else {
+                Organizador organ =ctrl.getOrganizador(dtusuario.getNickname()); // <-- AJUSTAR NOMBRE
+            	String img = organ.getImg();
+                req.setAttribute("IMAGEN", img);
+
             }
         } catch (Exception e) {
             req.setAttribute("INSTITUCION", null);
