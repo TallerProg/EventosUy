@@ -11,6 +11,7 @@
   String ctx = request.getContextPath();
   DTUsuarioListaConsulta u = (DTUsuarioListaConsulta) request.getAttribute("usuario");
   String rol = (String) request.getAttribute("rol");
+  String img = (String) request.getAttribute("IMAGEN");
 
   // s == true solo si es su propio perfil
   Object sObj = request.getAttribute("esSuPerfil");
@@ -47,16 +48,16 @@
 
       <div class="container">
         <div class="row">
-
+ 		<% String imagen = (img != null && !img.isBlank()) ? (ctx + img) : (ctx + "/media/img/default.png"); %>
           <!-- Columna izquierda: Datos -->
           <div class="col-lg-6">
             <div class="card p-4 h-100">
               <div class="d-flex">
                 <div class="me-3">
-                  <img src="<%= ctx %>/media/img/default.png" alt="<%= u.getNickname() %>" class="img-fluid"
+                  <img src="<%= imagen %>" alt="<%= u.getNickname() %>" class="img-fluid"
                        style="max-width:150px; border-radius:8px;">
                 </div>
-                <div>aa
+                <div>
                   <p class="fw-bold fs-4 mb-1"><%= u.getNickname() %></p>
                   <p class="text-muted mb-1"><%= u.getCorreo() %></p>
 

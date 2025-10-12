@@ -12,6 +12,7 @@
     String ctx = request.getContextPath();
 	DTSesionUsuario dtrol = (DTSesionUsuario) request.getAttribute("USUARIOROL");
 	DTUsuarioListaConsulta dtusuario = (DTUsuarioListaConsulta) request.getAttribute("USUARIO");
+	String img = (String) request.getAttribute("IMAGEN");
 
 	  boolean ES_ORG  = Boolean.TRUE.equals(request.getAttribute("ES_ORG"));
 	  boolean ES_ASIS = Boolean.TRUE.equals(request.getAttribute("ES_ASIS"));
@@ -38,12 +39,12 @@
       <div class="container section-title text-center">
         <h2>Perfil de Usuario</h2>
       </div>
-
+ 		<% String imagen = (img != null && !img.isBlank()) ? (ctx + img) : (ctx + "/media/img/default.png"); %>
       <div class="container">
         <div class="row justify-content-center align-items-center">
           <div class="col-lg-4 text-center">
             <div class="profile-avatar">
-              <img src="<%=ctx%>/media/img/default.png" alt="<%= dtusuario.getNickname() %>">
+              <img src="<%=imagen%>" alt="<%= dtusuario.getNickname() %>">
             </div>
             <h4 class="mt-3"><%= dtusuario.getNombre() %></h4>
             <p class="text-muted"><%= dtrol.getRol() %></p>

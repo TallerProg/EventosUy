@@ -43,7 +43,6 @@ public class ConsultaUsuarioSvt extends HttpServlet {
 			resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Usuario no encontrado.");
 			return;
 		}
-
 		DTUsuarioListaConsulta u = icu.consultaDeUsuario(nick);
 		if (u == null) {
 			if (asis != null) {
@@ -51,6 +50,7 @@ public class ConsultaUsuarioSvt extends HttpServlet {
 			} else if (org != null) {
 				u = icu.consultaDeUsuario(org.getNickname());
 			}
+
 			if (u == null) {
 				resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Usuario no encontrado.");
 				return;
@@ -65,10 +65,14 @@ public class ConsultaUsuarioSvt extends HttpServlet {
 		if ("A".equals(rol) && S) {
 			List<Registro> regis = asis.getRegistros();
 			req.setAttribute("Registros", regis);
+			String img=asis.getImg();
+            req.setAttribute("IMAGEN", img);
 		}
 		if ("O".equals(rol)) {
 			List<Edicion> edis = org.getEdiciones();
 			req.setAttribute("Ediciones", edis);
+			String img=org.getImg();
+            req.setAttribute("IMAGEN", img);
 		}
 
 		req.setAttribute("esSuPerfil", S);
