@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="ServidorCentral.logica.ControllerUsuario.DTSesionUsuario" %>
+<%@ page import="ServidorCentral.logica.ControllerUsuario.RolUsuario" %>
 <%
   String ctx = request.getContextPath(); // "/tprog-webapp"
   DTSesionUsuario ses = (DTSesionUsuario) session.getAttribute("usuario_logueado");
@@ -14,6 +15,9 @@
       <li><a href="<%= ctx %>/ListaUsuarios">Usuarios</a></li>
       <li><a href="<%= ctx %>/Eventos">Eventos</a></li>
       <li><a href="<%= ctx %>/Instituciones">Instituciones</a></li>
+     <% if (ses !=null && ses.getRol() == RolUsuario.ORGANIZADOR){ %>
+      <li><a href="<%= ctx %>/MisEdiciones">Mis Ediciones</a></li>
+    <%} %> 
 
       <li class="nav-item search-item ms-auto">
         <form class="search-form" action="<%= ctx %>/search" method="get">
