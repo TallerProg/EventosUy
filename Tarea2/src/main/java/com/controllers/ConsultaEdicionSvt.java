@@ -18,13 +18,7 @@ import ServidorCentral.logica.DTTipoRegistro;
 import ServidorCentral.logica.DTRegistro;
 import ServidorCentral.logica.DTPatrocinio;
 import ServidorCentral.logica.DTOrganizador;
-import ServidorCentral.logica.DTOrganizador;
 
-// >>> imports del módulo de usuarios (como en tu otro servlet)
-import ServidorCentral.logica.ControllerUsuario.DTSesionUsuario;
-import ServidorCentral.logica.ControllerUsuario.RolUsuario;
-
-// >>> imports del módulo de usuarios (como en tu otro servlet)
 import ServidorCentral.logica.ControllerUsuario.DTSesionUsuario;
 import ServidorCentral.logica.ControllerUsuario.RolUsuario;
 
@@ -38,7 +32,6 @@ public class ConsultaEdicionSvt extends HttpServlet {
   protected void doGet(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
 
-    // ----- Parámetros obligatorios -----
     String nombreEvento  = decode(req.getParameter("evento"));
     String nombreEdicion = decode(req.getParameter("edicion"));
 
@@ -48,20 +41,18 @@ public class ConsultaEdicionSvt extends HttpServlet {
       return;
     }
 
-    // ----- Flags y nick a partir de usuario_logueado (como en ConsultaEveSvt) -----
+    // Sesión → rol y nick
     HttpSession session = req.getSession(false);
     boolean esOrganizador = false;
     boolean esAsistente   = false;
-    String  nickSesion = null;
+    String  nickSesion    = null;
 
     if (session != null) {
       DTSesionUsuario u = (DTSesionUsuario) session.getAttribute("usuario_logueado");
       if (u != null && u.getRol() != null) {
-        RolUsuario rol = u.getRol();
-        esOrganizador = (rol == RolUsuario.ORGANIZADOR);
-        esAsistente   = (rol == RolUsuario.ASISTENTE);
-        // intentar obtener nickname del usuario logueado
-        nickSesion = extraerNickSeguro(u);
+        esOrganizador = (u.getRol() == RolUsuario.ORGANIZADOR);
+        esAsistente   = (u.getRol() == RolUsuario.ASISTENTE);
+        nickSesion    = extraerNickSeguro(u);
       }
     }
 
@@ -74,25 +65,28 @@ public class ConsultaEdicionSvt extends HttpServlet {
         return;
       }
 
-      // ================= VM que el JSP espera =================
+      // ====== ViewModel que espera tu JSP ======
       Map<String, Object> VM = new HashMap<>();
-
-      // Datos básicos
       VM.put("eventoNombre", nombreEvento);
       VM.put("nombre",   ed.getNombre());
       VM.put("sigla",    ed.getSigla());
-      VM.put("fechaIni", format(ed.getfInicio()));
+      VM.put("fechaIni", format(ed.getfInicio()));   // si tu DTE usa getfInicio()
       VM.put("fechaFin", format(ed.getfFin()));
       VM.put("ciudad",   safe(ed.getCiudad()));
       VM.put("pais",     safe(ed.getPais()));
-      VM.put("imagen",   null); 
-      VM.put("estado", ed.getEstado()); 
+      VM.put("estado",   safe(ed.getEstado()));      // String o enum.toString()
 
+      // Imagen de la edición (si tu DTE la trae)
+      String img = null;
+      try { 
+        img = ed.getImagenWebPath();
+      } catch (Throwable ignore) {}
+      VM.put("imagen", (img != null && !img.isBlank()) ? (req.getContextPath() + img) : null);
 
       // Organizadores
       VM.put("organizadorNombre", joinOrganizadores(ed.getOrganizadores()));
 
-      // ===== Registros (DTRegistro) =====
+      // Registros
       List<DTRegistro> regs = ed.getRegistros();
       List<Map<String,String>> regsVM = new ArrayList<>();
       if (regs != null) {
@@ -100,55 +94,46 @@ public class ConsultaEdicionSvt extends HttpServlet {
           Map<String,String> row = new LinkedHashMap<>();
           row.put("asistente", safe(r.getAsistenteNickname()));
           row.put("tipo",      safe(r.getTipoRegistroNombre()));
-          row.put("fecha",     safe(format(r.getfInicio())));
-          row.put("estado",    ""); // si tu DTO no trae estado
+          // si tu DTRegistro no tiene fecha, dejá vacío
+          String fechaReg = null;
+          try { 
+            LocalDate fr = r.getfInicio(); 
+            fechaReg = format(fr);
+          } catch (Throwable ignore) {}
+          row.put("fecha",  fechaReg);
+          row.put("estado", ""); // si no hay estado en el DTO
           regsVM.add(row);
         }
       }
       VM.put("registros", regsVM);
 
-      // ===== Tipos de registro (costo + cupos) =====
+      // Tipos de registro
       List<Map<String,String>> tiposVM = new ArrayList<>();
       List<DTTipoRegistro> tregs = ed.getTipoRegistros();
       if (tregs != null) {
         for (DTTipoRegistro tr : tregs) {
           Map<String,String> row = new LinkedHashMap<>();
           row.put("nombre", safe(tr.getNombre()));
-
-          // costo
-          Float costo = null;
-          try { costo = tr.getCosto(); } catch (Throwable ignore) {}
-          row.put("costo", (costo != null) ? String.valueOf(costo) : null);
-
-          // cupo
-          Integer cupo = null;
-          try { cupo = tr.getCupo(); } catch (Throwable ignore) {}
-          if (cupo == null) {
-            try { cupo = (Integer) tr.getClass().getMethod("getCupo").invoke(tr); } catch (Exception ignore2) {}
-          }
-          String cupoStr = (cupo != null) ? String.valueOf(cupo) : null;
-
-          row.put("cupos",     cupoStr);
-          row.put("cupoTotal", cupoStr);
-
+          Float costo = null;  try { costo = tr.getCosto(); } catch (Throwable ignore) {}
+          Integer cupo = null; try { cupo = tr.getCupo();  } catch (Throwable ignore) {}
+          row.put("costo",  (costo != null) ? String.valueOf(costo) : null);
+          row.put("cupos",  (cupo  != null) ? String.valueOf(cupo)  : null);
+          row.put("cupoTotal", row.get("cupos"));
           tiposVM.add(row);
         }
       }
       VM.put("tipos", tiposVM);
 
-      // ===== "Mi registro" (si hay asistente en sesión) =====
+      // Mi registro (si hay asistente en sesión)
       Map<String,String> miRegVM = null;
       if (esAsistente && nickSesion != null && regs != null) {
         for (DTRegistro r : regs) {
           if (nickSesion.equalsIgnoreCase(safe(r.getAsistenteNickname()))) {
             miRegVM = new LinkedHashMap<>();
             miRegVM.put("tipo",   safe(r.getTipoRegistroNombre()));
-            miRegVM.put("fecha",  safe(format(r.getfInicio())));
-            miRegVM.put("estado", "");
-          if (nickSesion.equalsIgnoreCase(safe(r.getAsistenteNickname()))) {
-            miRegVM = new LinkedHashMap<>();
-            miRegVM.put("tipo",   safe(r.getTipoRegistroNombre()));
-            miRegVM.put("fecha",  safe(format(r.getfInicio())));
+            String fechaReg = null;
+            try { fechaReg = format(r.getfInicio()); } catch (Throwable ignore) {}
+            miRegVM.put("fecha",  fechaReg);
             miRegVM.put("estado", "");
             break;
           }
@@ -156,11 +141,11 @@ public class ConsultaEdicionSvt extends HttpServlet {
       }
       VM.put("miRegistro", miRegVM);
 
-      // ===== Patrocinios =====
+      // Patrocinios
       List<DTPatrocinio> pats = ed.getPatrocinios();
       req.setAttribute("patrocinios", pats);
 
-      // ===== NUEVO: permisos por edición =====
+      // Permiso: organizador de esta edición
       boolean esOrganizadorDeEstaEdicion = false;
       if (esOrganizador && ed.getOrganizadores() != null && nickSesion != null) {
         for (DTOrganizador o : ed.getOrganizadores()) {
@@ -178,34 +163,30 @@ public class ConsultaEdicionSvt extends HttpServlet {
         }
       }
 
-
       boolean esAsistenteInscriptoEd = (miRegVM != null);
 
-
-      // Flags + VM (seteamos ambos nombres para compatibilidad)
+      // Flags (ambos nombres para compatibilidad con tu JSP)
       req.setAttribute("ES_ORGANIZADOR", esOrganizador);
       req.setAttribute("ES_ASISTENTE",   esAsistente);
-      req.setAttribute("ES_ORG",  esOrganizador);  // compat
-      req.setAttribute("ES_ASIS", esAsistente);    // compat
+      req.setAttribute("ES_ORG",         esOrganizador);
+      req.setAttribute("ES_ASIS",        esAsistente);
 
-      // NUEVOS flags por edición
-      req.setAttribute("ES_ORGANIZADOR_ED",        esOrganizadorDeEstaEdicion);
-      req.setAttribute("ES_ORG_ED",                esOrganizadorDeEstaEdicion);   // alias
+      req.setAttribute("ES_ORGANIZADOR_ED",         esOrganizadorDeEstaEdicion);
+      req.setAttribute("ES_ORG_ED",                 esOrganizadorDeEstaEdicion);
       req.setAttribute("ES_ASISTENTE_INSCRIPTO_ED", esAsistenteInscriptoEd);
-      req.setAttribute("ES_ASIS_ED",               esAsistenteInscriptoEd);       // alias
+      req.setAttribute("ES_ASIS_ED",                esAsistenteInscriptoEd);
 
       req.setAttribute("VM", VM);
 
       forward(req, resp);
 
-      }} catch (Exception e) {
+    } catch (Exception e) {
       req.setAttribute("msgError", "Error al consultar la edición: " + e.getMessage());
       forward(req, resp);
     }
   }
 
-  // ===================== Helpers =====================
-
+  // ---------- Helpers ----------
   private static void forward(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
     req.getRequestDispatcher("/WEB-INF/views/ConsultaEdicion.jsp").forward(req, resp);
@@ -243,22 +224,16 @@ public class ConsultaEdicionSvt extends HttpServlet {
     return nombres.isEmpty() ? null : String.join(", ", nombres);
   }
 
-  // Extrae nickname de forma defensiva desde DTSesionUsuario
   private static String extraerNickSeguro(DTSesionUsuario u) {
     if (u == null) return null;
-    // 1) Si DTSesionUsuario tiene getNickname():
     try {
       Object nick = u.getClass().getMethod("getNickname").invoke(u);
       if (nick != null && !String.valueOf(nick).isBlank()) return String.valueOf(nick);
     } catch (Exception ignore) {}
-
-    // 2) Si expone getNombre():
     try {
       Object nom = u.getClass().getMethod("getNombre").invoke(u);
       if (nom != null && !String.valueOf(nom).isBlank()) return String.valueOf(nom);
     } catch (Exception ignore) {}
-
-    // 3) Si tiene getUsuario() y ese tiene getNickname():
     try {
       Object usuario = u.getClass().getMethod("getUsuario").invoke(u);
       if (usuario != null) {
@@ -266,8 +241,8 @@ public class ConsultaEdicionSvt extends HttpServlet {
         if (nick != null && !String.valueOf(nick).isBlank()) return String.valueOf(nick);
       }
     } catch (Exception ignore) {}
-
     return null;
   }
 }
+
 

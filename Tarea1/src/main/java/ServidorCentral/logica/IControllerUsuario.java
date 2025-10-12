@@ -11,9 +11,9 @@ import java.util.List;
 public interface IControllerUsuario {
 
 	void altaAsistente(String nicknameUsu, String correo, String nombre, String apellido, LocalDate fNacimiento,
-			Institucion ins, String contrasena) throws UsuarioRepetidoException;
+			Institucion ins, String contrasena,String img) throws UsuarioRepetidoException;
 
-	void altaOrganizador(String nicknameUsu, String correo, String nombre, String descripcion, String url, String contrasena)
+	void altaOrganizador(String nicknameUsu, String correo, String nombre, String descripcion, String url, String contrasena,String img)
 			throws UsuarioRepetidoException;
 
 	public DTRegistro getDTRegistro(String tipNEdicion, String nickAsistente);

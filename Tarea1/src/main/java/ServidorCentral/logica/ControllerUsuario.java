@@ -110,7 +110,7 @@ public class ControllerUsuario implements IControllerUsuario {
     }
 
     public void altaAsistente(String nicknameUsu, String correo, String nombre, String apellido,
-                              LocalDate fNacimiento, Institucion ins, String contrasena)
+                              LocalDate fNacimiento, Institucion ins, String contrasena,String img)
             throws UsuarioRepetidoException {
         ManejadorUsuario mu = ManejadorUsuario.getInstance();
         Usuario u = mu.findUsuario(nicknameUsu);
@@ -118,11 +118,11 @@ public class ControllerUsuario implements IControllerUsuario {
         if (u != null || ucorreo != null)
             throw new UsuarioRepetidoException("El usuario " + nicknameUsu + " ya esta registrado");
         if (ins == null) {
-            Asistente a = new Asistente(nicknameUsu, correo, nombre, apellido, fNacimiento, contrasena);
+            Asistente a = new Asistente(nicknameUsu, correo, nombre, apellido, fNacimiento, contrasena,img);
             mu.agregarAsistente(a);
             mu.agregarUsuario(a);
         } else {
-            Asistente a = new Asistente(nicknameUsu, correo, nombre, apellido, fNacimiento, ins, contrasena);
+            Asistente a = new Asistente(nicknameUsu, correo, nombre, apellido, fNacimiento, ins, contrasena,img);
             mu.agregarAsistente(a);
             mu.agregarUsuario(a);
             ins.addAsistente(a);
@@ -134,7 +134,7 @@ public class ControllerUsuario implements IControllerUsuario {
         return manejador.listarUsuarios();
     }
 
-    public void altaOrganizador(String nicknameUsu, String correo, String nombre, String descripcion, String url, String contrasena)
+    public void altaOrganizador(String nicknameUsu, String correo, String nombre, String descripcion, String url, String contrasena,String img)
             throws UsuarioRepetidoException {
         ManejadorUsuario mu = ManejadorUsuario.getInstance();
         Usuario u = mu.findUsuario(nicknameUsu);
@@ -142,11 +142,11 @@ public class ControllerUsuario implements IControllerUsuario {
         if (u != null || ucorreo != null)
             throw new UsuarioRepetidoException("El usuario " + nicknameUsu + " ya esta registrado");
         if (url != null) {
-            Organizador o = new Organizador(nicknameUsu, correo, nombre, descripcion, url, contrasena);
+            Organizador o = new Organizador(nicknameUsu, correo, nombre, descripcion, url, contrasena,img);
             mu.agregarOrganizador(o);
             mu.agregarUsuario(o);
         } else {
-            Organizador o = new Organizador(nicknameUsu, correo, nombre, descripcion, contrasena);
+            Organizador o = new Organizador(nicknameUsu, correo, nombre, descripcion, contrasena,img);
             mu.agregarOrganizador(o);
             mu.agregarUsuario(o);
         }

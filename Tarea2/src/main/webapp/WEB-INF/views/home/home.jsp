@@ -111,8 +111,14 @@
               		if (categorias != null && categorias.length > 0){
               			for (Categoria c : categorias) {
               				String nomCat = c.getNombre();
+              				// normalizar igual que en data-categories de las cards
+              				String normCat = nomCat.toLowerCase()
+              				  .replace("á","a").replace("é","e").replace("í","i")
+              				  .replace("ó","o").replace("ú","u");
               	%>
-                <button type="button" class="btn btn-outline-primary category-btn" data-category="<%= nomCat %>">
+                <button type="button"
+                        class="btn btn-outline-primary category-btn"
+                        data-category="<%= normCat %>">
                   <% if (nomCat.contains("Tecnología")) { %><i class="bi bi-cpu" title="Tecnología"></i><% } %>
                   <% if (nomCat.contains("Innovación")) { %><i class="bi bi-lightbulb" title="Innovación"></i><% } %>
                   <% if (nomCat.contains("Literatura")) { %><i class="bi bi-book" title="Literatura"></i><% } %>
@@ -222,6 +228,11 @@
             } // if eventos
           %>
         </div>
+
+        <!-- Mensaje de "sin resultados" para el filtro -->
+        <div id="no-results-msg" class="alert alert-warning text-center mt-3 d-none">
+          No hay eventos que coincidan con el filtro.
+        </div>
       </div>
     </section>
   </main>
@@ -239,5 +250,49 @@
 
   <script src="<%= ctx %>/media/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="<%= ctx %>/media/js/main.js"></script>
+
+  <!-- Filtro por categorías (single-select con toggle) -->
+  <script>
+    (function() {
+      const buttons = document.querySelectorAll('.category-btn');
+      // cada card vive dentro de una col; nos conviene ocultar la col
+      const cols = document.querySelectorAll('#speakers .row > [class*="col-"]');
+      const cards = document.querySelectorAll('#speakers [data-categories]');
+      const noRes = document.getElementById('no-results-msg');
+
+      function getCol(el){
+        return el.closest('[class*="col-"]') || el.parentElement;
+      }
+
+      function applyFilter(activeCat) {
+        let visibles = 0;
+        cards.forEach(card => {
+          const cats = (card.getAttribute('data-categories') || '')
+                        .split(',')
+                        .map(s => s.trim())
+                        .filter(Boolean);
+          const show = !activeCat || cats.includes(activeCat);
+          const col = getCol(card);
+          if (col) col.classList.toggle('d-none', !show);
+          if (show) visibles++;
+        });
+        if (noRes) noRes.classList.toggle('d-none', visibles > 0);
+      }
+
+      buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const wasActive = btn.classList.contains('active');
+          buttons.forEach(b => b.classList.remove('active'));
+          if (!wasActive) btn.classList.add('active');
+          const activeBtn = document.querySelector('.category-btn.active');
+          const activeCat = activeBtn ? activeBtn.getAttribute('data-category') : null;
+          applyFilter(activeCat);
+        });
+      });
+
+      // Estado inicial: sin filtro
+      applyFilter(null);
+    })();
+  </script>
 </body>
 </html>

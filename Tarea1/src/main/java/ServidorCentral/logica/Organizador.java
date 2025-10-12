@@ -9,14 +9,14 @@ public class Organizador extends Usuario {
 	private String url;
 	private List<Edicion> ediciones = new ArrayList<>();
 
-    public Organizador(String nickname, String correo, String nombre, String descripcion, String url, String contrasena) {
-        super(nickname, correo, nombre, contrasena);
+    public Organizador(String nickname, String correo, String nombre, String descripcion, String url, String contrasena,String img) {
+        super(nickname, correo, nombre, contrasena,img);
         this.descripcion = descripcion;
         this.url = url;
     }
     
-    public Organizador(String nickname, String correo, String nombre, String descripcion, String contrasena) {
-    	super(nickname, correo, nombre, contrasena);
+    public Organizador(String nickname, String correo, String nombre, String descripcion, String contrasena,String img) {
+    	super(nickname, correo, nombre, contrasena,img);
     	this.descripcion=descripcion;
     	this.url=null;
     }

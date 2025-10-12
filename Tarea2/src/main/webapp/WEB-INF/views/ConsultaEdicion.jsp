@@ -136,16 +136,17 @@ boolean yaInscriptoEnAlguno = (miReg != null && miReg.get("tipo") != null);
             <% } %>
 
             <div class="d-flex align-items-center gap-2 mb-2">
-              <h5 class="mb-0"><i class="bi bi-ticket-perforated"></i> Tipos de Registro</h5>
-              <% if (ES_ORGANIZADOR) { %>
-                <a href="<%= ctx %>/organizador-tipos-registro-alta?evento=<%= encEv %>&edicion=<%= encEd %>"
-                   class="btn btn-sm btn-primary ms-auto d-inline-flex align-items-center justify-content-center"
-                   style="width:32px; height:32px; border-radius:8px;"
-                   title="Alta de Tipo de Registro" aria-label="Alta de Tipo de Registro">
-                  <i class="bi bi-plus"></i>
-                </a>
-              <% } %>
-            </div>
+			  <h5 class="mb-0"><i class="bi bi-ticket-perforated"></i> Tipos de Registro</h5>
+			  <% if (ES_ORGANIZADOR_ED) { %>
+			    <a href="<%= ctx %>/organizador-tipos-registro-alta?evento=<%= encEv %>&edicion=<%= encEd %>"
+			       class="btn btn-sm btn-primary ms-auto d-inline-flex align-items-center justify-content-center"
+			       style="width:32px; height:32px; border-radius:8px;"
+			       title="Alta de Tipo de Registro" aria-label="Alta de Tipo de Registro">
+			      <i class="bi bi-plus"></i>
+			    </a>
+			  <% } %>
+			</div>
+
 
             <%-- === Botón Inscribirme (global) === --%>
             <%
