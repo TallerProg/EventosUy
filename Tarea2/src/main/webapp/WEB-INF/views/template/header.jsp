@@ -3,6 +3,10 @@
 <%
   String ctx = request.getContextPath(); // "/tprog-webapp"
   DTSesionUsuario ses = (DTSesionUsuario) session.getAttribute("usuario_logueado");
+  String img = (String) session.getAttribute("IMAGEN_LOGUEADO");
+  String imagen = (img != null && !img.isBlank()) ? (ctx + img) : (ctx + "/media/img/default.png"); 
+
+
 %>
 
 <div class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
@@ -30,7 +34,7 @@
       <% } else { %>
         <li class="ms-auto d-flex align-items-center gap-2">
           <a href="<%= ctx %>/perfil" class="user-info text-decoration-none d-flex align-items-center gap-2">
-            <img src="<%= ctx %>/media/img/default.png" alt="">
+            <img src="<%= imagen %>" alt="">
             <span class="fw-semibold"><%= ses.getNickname() %></span>
           </a>
           <a href="<%= ctx %>/logout" class="btn p-0 border-0 bg-transparent">

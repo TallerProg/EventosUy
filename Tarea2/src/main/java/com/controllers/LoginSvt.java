@@ -4,6 +4,7 @@ import ServidorCentral.excepciones.CredencialesInvalidasException;
 import ServidorCentral.excepciones.UsuarioNoExisteException;
 import ServidorCentral.logica.Factory;
 import ServidorCentral.logica.IControllerUsuario;
+import ServidorCentral.logica.Usuario;
 import ServidorCentral.logica.ControllerUsuario.DTSesionUsuario;
 
 import jakarta.servlet.ServletException;
@@ -46,9 +47,12 @@ public class LoginSvt extends HttpServlet {
 
         try {
             DTSesionUsuario usuario = ICU.iniciarSesion(identifier, password);
-
+            Factory fabrica = Factory.getInstance();
+            IControllerUsuario ctrl = fabrica.getIControllerUsuario();
+            Usuario usr=ctrl.getUsuario(usuario.getNickname());
             HttpSession ses = req.getSession(true);
             ses.setAttribute("usuario_logueado", usuario);
+            ses.setAttribute("IMAGEN_LOGUEADO", usr.getImg());
 
             // Cambiá "/home" si tu landing es otra (por ejemplo, "/IndexLoggeado.jsp")
             resp.sendRedirect(req.getContextPath() + "/home");
