@@ -148,7 +148,7 @@ public class ConsultaEdicionSvt extends HttpServlet {
       }
       VM.put("tipos", tiposVM);
 
-      // ===== Mi registro (búsqueda imperativa, sin lambdas) =====
+   // ===== Mi registro (búsqueda imperativa, sin lambdas) =====
       Map<String,String> miRegVM = null;
       boolean esAsistenteInscriptoEd = false;
 
@@ -162,12 +162,17 @@ public class ConsultaEdicionSvt extends HttpServlet {
             String fechaReg = null;
             try { fechaReg = format(r.getfInicio()); } catch (Throwable ignore) {}
             miRegVM.put("fecha",  fechaReg);
-            miRegVM.put("estado", "");
+            miRegVM.put("estado", ""); // <-- si no tenés estado real, poné vacío para que no rompa el JSP
             break;
           }
         }
       }
       VM.put("miRegistro", miRegVM);
+
+      // ⚠️ IMPORTANTE: enviar el flag al JSP
+      req.setAttribute("ES_ASISTENTE_INSCRIPTO_ED", esAsistenteInscriptoEd);
+      req.setAttribute("ES_ASIS_ED", esAsistenteInscriptoEd);
+
 
       // Patrocinios
       List<DTPatrocinio> pats = ed.getPatrocinios();

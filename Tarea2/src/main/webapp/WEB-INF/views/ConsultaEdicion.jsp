@@ -227,7 +227,7 @@ String encEv = (evNom  != null) ? URLEncoder.encode(evNom,  StandardCharsets.UTF
       <hr class="my-4">
 
       <!-- ===== Mi registro (solo si asistente inscripto en esta edición) ===== -->
-      <% if (ES_ASISTENTE && ES_ASISTENTE_INSCRIPTO_ED && miReg != null) { %>
+<% if (ES_ASISTENTE && miReg != null) { %>
       <div class="card shadow-sm mb-4">
         <div class="card-body">
           <h5 class="card-title"><i class="bi bi-person-badge"></i> Mi registro</h5>
