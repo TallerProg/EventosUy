@@ -36,13 +36,14 @@
         <% 
             if (asistentes != null) {
                 for (Asistente asistente : asistentes) {
-                    String imagenRuta = ctx + "/img/usuarios/" + asistente.getNickname() + ".jpg"; // Suponiendo que la imagen tiene extensión .jpg
-        %>
+              	  String img = (asistente != null && asistente.getImg() != null && !asistente.getImg().isBlank()) ? (ctx + asistente.getImg()): (ctx + "/media/img/default.png");
+              	  
+        %>        
                     <div class="col-lg-3 col-md-6">
 						<a href="<%= request.getContextPath() %>/ConsultaUsuario?nick=<%= java.net.URLEncoder.encode(asistente.getNickname(), java.nio.charset.StandardCharsets.UTF_8) %>" class="text-decoration-none">
                             <div class="speaker-card text-center">
                                 <div class="speaker-image">
-                                    <img src="<%=ctx%>/media/img/default.png" alt="<%= asistente.getNickname() %>" class="img-fluid rounded-circle p-3">
+                                    <img src="<%=img%>" alt="<%= asistente.getNickname() %>" class="img-fluid rounded-circle p-3">
                                 </div>
                                 <div class="speaker-content">
                                     <p class="speaker-title"><%= asistente.getNombre() %></p>
@@ -70,14 +71,14 @@
         <% 
             if (organizadores != null) {
                 for (Organizador organizador : organizadores) {
-                    String imagenRuta = ctx + "/img/usuarios/" + organizador.getNickname() + ".jpg"; // Suponiendo que la imagen tiene extensión .jpg
+                	  String img = (organizador != null && organizador.getImg() != null && !organizador.getImg().isBlank()) ? (ctx + organizador.getImg()): (ctx + "/media/img/default.png");
         %>
                     <div class="col-lg-3 col-md-6">
                     <a href="<%= request.getContextPath() %>/ConsultaUsuario?nick=<%= java.net.URLEncoder.encode(organizador.getNickname(), java.nio.charset.StandardCharsets.UTF_8) %>" class="text-decoration-none">
                     		
                             <div class="speaker-card text-center">
                                 <div class="speaker-image">
-                                    <img src="<%=ctx%>/media/img/default.png" alt="<%= organizador.getNickname() %>" class="img-fluid rounded-circle p-3">
+                                    <img src="<%=img%>" alt="<%= organizador.getNickname() %>" class="img-fluid rounded-circle p-3">
                                 </div>
                                 <div class="speaker-content">
                                     <p class="speaker-title"><%= organizador.getNombre() %></p>
@@ -93,7 +94,6 @@
       </div>
     </div>
   </section>
-
 </main>
 
 <!-- Footer -->

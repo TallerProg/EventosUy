@@ -5,12 +5,14 @@ public class Usuario {
 	private String correo;
 	private String nombre;
 	private String contrasena;
+	private String img;
 
-	public Usuario(String nick, String correo, String nom, String contrasena) {
+	public Usuario(String nick, String correo, String nom, String contrasena,String img) {
 		this.nickname = nick;
 		this.correo = correo;
 		this.nombre = nom;
 		this.contrasena = contrasena;
+		this.img=img;
 	}
 
 	public String getNickname() {
@@ -28,6 +30,10 @@ public class Usuario {
 		return contrasena;
 	}
 
+	public String getImg() {
+		return img;
+	}
+	
 	public void setCorreo(String correo) {
 		this.correo = correo;
 	}
@@ -38,6 +44,9 @@ public class Usuario {
 	
 	public void setContrasena(String contrasena) {
 		this.contrasena = contrasena;
+	}
+	public void setImg(String img) {
+		this.img = img;
 	}
 
 }

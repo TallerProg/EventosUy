@@ -71,16 +71,16 @@ public class CargarDatos {
 		// Crear Asistentes
 		// ------------------
 		try {
-			ICU.altaAsistente("atorres", "atorres@gmail.com", "Ana", "Torres", LocalDate.parse("12/05/1990", formatter), INS01, "123.torres");
-			ICU.altaAsistente("msilva", "martin.silva@fing.edu.uy", "Martin", "Silva", LocalDate.parse("21/08/1987", formatter), INS01, "msilva2025");
-			ICU.altaAsistente("sofirod", "srodriguez@outlook.com", "Sofia", "Rodriguez", LocalDate.parse("03/02/1995", formatter), INS03, "srod.abc1");
-			ICU.altaAsistente("vale23", "valentina.costa@mail.com", "Valentina", "Costa", LocalDate.parse("01/12/1992", formatter), null, "valen11c");
-			ICU.altaAsistente("luciag", "lucia.garcia@mail.com", "Lucía", "García", LocalDate.parse("09/11/1993", formatter), null, "garcia.22l");
-			ICU.altaAsistente("andrearod", "andrea.rod@mail.com", "Andrea", "Rodríguez", LocalDate.parse("10/06/2000", formatter), INS05, "rod77and");
-			ICU.altaAsistente("AnaG", "ana.gomez@hotmail.com", "Ana", "Gómez", LocalDate.parse("15/03/1998", formatter), null, "gomez88a");
-			ICU.altaAsistente("JaviL", "javier.lopez@outlook.com", "Javier", "López", LocalDate.parse("22/07/1995", formatter), null, "jl99lopez");
-			ICU.altaAsistente("MariR", "maria.rodriguez@gmail.com", "María", "Rodríguez", LocalDate.parse("10/11/2000", formatter), null, "maria55r");
-			ICU.altaAsistente("SofiM", "sofia.martinez@yahoo.com", "Sofía", "Martínez", LocalDate.parse("05/02/1997", formatter), null, "smarti99z");
+			ICU.altaAsistente("atorres", "atorres@gmail.com", "Ana", "Torres", LocalDate.parse("12/05/1990", formatter), INS01, "123.torres",null);
+			ICU.altaAsistente("msilva", "martin.silva@fing.edu.uy", "Martin", "Silva", LocalDate.parse("21/08/1987", formatter), INS01, "msilva2025",null);
+			ICU.altaAsistente("sofirod", "srodriguez@outlook.com", "Sofia", "Rodriguez", LocalDate.parse("03/02/1995", formatter), INS03, "srod.abc1",null);
+			ICU.altaAsistente("vale23", "valentina.costa@mail.com", "Valentina", "Costa", LocalDate.parse("01/12/1992", formatter), null, "valen11c",null);
+			ICU.altaAsistente("luciag", "lucia.garcia@mail.com", "Lucía", "García", LocalDate.parse("09/11/1993", formatter), null, "garcia.22l",null);
+			ICU.altaAsistente("andrearod", "andrea.rod@mail.com", "Andrea", "Rodríguez", LocalDate.parse("10/06/2000", formatter), INS05, "rod77and",null);
+			ICU.altaAsistente("AnaG", "ana.gomez@hotmail.com", "Ana", "Gómez", LocalDate.parse("15/03/1998", formatter), null, "gomez88a",null);
+			ICU.altaAsistente("JaviL", "javier.lopez@outlook.com", "Javier", "López", LocalDate.parse("22/07/1995", formatter), null, "jl99lopez",null);
+			ICU.altaAsistente("MariR", "maria.rodriguez@gmail.com", "María", "Rodríguez", LocalDate.parse("10/11/2000", formatter), null, "maria55r",null);
+			ICU.altaAsistente("SofiM", "sofia.martinez@yahoo.com", "Sofía", "Martínez", LocalDate.parse("05/02/1997", formatter), null, "smarti99z",null);
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
@@ -89,11 +89,11 @@ public class CargarDatos {
 		// Crear Organizadores
 		// ------------------
 		try {
-			ICU.altaOrganizador("miseventos", "contacto@miseventos.com", "MisEventos", "Empresa de organización de eventos.", "https://miseventos.com", "22miseventos");
-			ICU.altaOrganizador("techcorp", "info@techcorp.com", "Corporación Tecnológica", "Empresa líder en tecnologías de la información.", null, "tech25corp");
-			ICU.altaOrganizador("imm", "contacto@imm.gub.uy", "Intendencia de Montevideo", "Gobierno departamental de Montevideo.", "https://montevideo.gub.uy", "imm2025");
-			ICU.altaOrganizador("udelar", "contacto@udelar.edu.uy", "Universidad de la República", "Universidad pública de Uruguay.", "https://udelar.edu.uy", "25udelar");
-			ICU.altaOrganizador("mec", "mec@mec.gub.uy", "Ministerio de Educación y Cultura", "Institución pública promotora de cultura.", "https://mec.gub.uy", "mec2025ok");
+			ICU.altaOrganizador("miseventos", "contacto@miseventos.com", "MisEventos", "Empresa de organización de eventos.", "https://miseventos.com", "22miseventos",null);
+			ICU.altaOrganizador("techcorp", "info@techcorp.com", "Corporación Tecnológica", "Empresa líder en tecnologías de la información.", null, "tech25corp",null);
+			ICU.altaOrganizador("imm", "contacto@imm.gub.uy", "Intendencia de Montevideo", "Gobierno departamental de Montevideo.", "https://montevideo.gub.uy", "imm2025",null);
+			ICU.altaOrganizador("udelar", "contacto@udelar.edu.uy", "Universidad de la República", "Universidad pública de Uruguay.", "https://udelar.edu.uy", "25udelar",null);
+			ICU.altaOrganizador("mec", "mec@mec.gub.uy", "Ministerio de Educación y Cultura", "Institución pública promotora de cultura.", "https://mec.gub.uy", "mec2025ok",null);
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}

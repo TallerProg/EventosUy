@@ -1,9 +1,13 @@
 package com.controllers;
 
+import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
+import java.util.Locale;
 
 import ServidorCentral.excepciones.UsuarioRepetidoException;
 import ServidorCentral.logica.ControllerUsuario;
@@ -27,6 +31,8 @@ import jakarta.servlet.http.Part;
 )
 public class RegistrarSvt extends HttpServlet {
     private static final long serialVersionUID = 1L;
+    private static final String USR_IMG_DIR = "/media/img/usuarios";
+
 
     private IControllerInstitucion ci;
 
@@ -62,13 +68,35 @@ public class RegistrarSvt extends HttpServlet {
 
         String fechaNacStr     = trim(request.getParameter("fechaNacimiento"));
         String institucionName = trim(request.getParameter("institucion")); 
+        Part imgPart = request.getPart("imagen");
 
-        Part imagenPart = null;
+        String imagenWebPath = null;
+
+        // Verificar si hay un archivo
         try {
-            imagenPart = request.getPart("imagen");
-        } catch (IllegalStateException ex) {
-            setErrorAndForward("El archivo enviado es demasiado grande.", request, response);
-            return;
+        if (imgPart != null && imgPart.getSize() > 0) {
+            	String original = submittedFileName(imgPart);
+                String ext = extensionOf(original);
+                String safeBase = slug(nombre.isEmpty() ? "evento" : nombre);
+                String stamp = DateTimeFormatter.ofPattern("yyyyMMddHHmmss").format(LocalDateTime.now());
+                String fileName = safeBase + "_" + stamp + (ext.isEmpty() ? "" : "." + ext);
+
+                String realDir = getServletContext().getRealPath(USR_IMG_DIR);
+                if (realDir == null) {
+                    realDir = System.getProperty("java.io.tmpdir") + File.separator + "eventuy-img";
+                }
+                File dir = new File(realDir);
+                if (!dir.exists()) dir.mkdirs();
+
+                File destino = new File(dir, fileName);
+                imgPart.write(destino.getAbsolutePath());
+
+                imagenWebPath = USR_IMG_DIR + "/" + fileName;
+        }
+        } catch (IllegalStateException ise) {
+        	setErrorMessage("La imagen supera el tamaño permitido (5 MB por archivo, 10 MB por solicitud).",request);
+        } catch (Exception ex) {
+        	setErrorMessage("No se pudo guardar la imagen: " + ex.getMessage(),request);
         }
 
         if (isBlank(tipo))       { setErrorAndForward("Seleccioná un tipo de usuario.", request, response); return; }
@@ -112,7 +140,7 @@ public class RegistrarSvt extends HttpServlet {
                 }
 
                 ctrl.altaAsistente(
-                        nickname, email, nombre, apellido, fechaNac, institucion, password
+                        nickname, email, nombre, apellido, fechaNac, institucion, password,imagenWebPath
                 );
 
             } else if ("organizador".equalsIgnoreCase(tipo)) {
@@ -122,7 +150,7 @@ public class RegistrarSvt extends HttpServlet {
                 }
 
                 ctrl.altaOrganizador(
-                        nickname, email, nombre, descripcion, sitioWeb, password
+                        nickname, email, nombre, descripcion, sitioWeb, password,imagenWebPath
                 );
 
             } else {
@@ -163,6 +191,38 @@ public class RegistrarSvt extends HttpServlet {
         req.setAttribute("error", msg);
         cargarInstitucionesYHoy(req);
         req.getRequestDispatcher("/WEB-INF/views/Registrarse.jsp").forward(req, resp);
+    }
+    private static String submittedFileName(Part part) {
+        String cd = part.getHeader("content-disposition");
+        if (cd != null) {
+            for (String token : cd.split(";")) {
+                String t = token.trim();
+                if (t.startsWith("filename")) {
+                    String fn = t.substring(t.indexOf('=') + 1).trim().replace("\"", "");
+                    return new File(fn).getName();
+                }
+            }
+        }
+        try { return part.getSubmittedFileName(); } catch (Throwable ignore) {}
+        return "upload";
+    }
+    
+    private static String extensionOf(String filename) {
+        if (filename == null) return "";
+        int dot = filename.lastIndexOf('.');
+        if (dot < 0 || dot == filename.length() - 1) return "";
+        return filename.substring(dot + 1).toLowerCase(Locale.ROOT);
+    }
+    
+    private static String slug(String s) {
+        String base = (s == null || s.isEmpty()) ? "evento" : s.toLowerCase(Locale.ROOT);
+        base = base.replaceAll("[^a-z0-9-_]+", "-");
+        base = base.replaceAll("-{2,}", "-");
+        return base.replaceAll("^-|-$", "");
+    }
+    private void setErrorMessage(String message, HttpServletRequest request) {
+        // Guardamos el mensaje de error en la sesión
+        request.getSession().setAttribute("error_message", message);
     }
 }
 

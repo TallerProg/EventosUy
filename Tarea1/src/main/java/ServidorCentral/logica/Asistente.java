@@ -16,9 +16,9 @@ public class Asistente extends Usuario {
 	private List<Patrocinio> patrocinios;
 
 	public Asistente(String nickname, String correo, String nombre, String apellido, LocalDate fNacimiento,
-			Institucion ins, String contrasena) {
+			Institucion ins, String contrasena,String img) {
 
-		super(nickname, correo, nombre, contrasena);
+		super(nickname, correo, nombre, contrasena,img);
 		this.apellido = apellido;
 		this.fNacimiento = fNacimiento;
 		this.registros = new ArrayList<>();
@@ -27,9 +27,9 @@ public class Asistente extends Usuario {
 		
 	}
 
-	public Asistente(String nickname, String correo, String nombre, String apellido, LocalDate fNacimiento, String contrasena) {
+	public Asistente(String nickname, String correo, String nombre, String apellido, LocalDate fNacimiento, String contrasena,String img) {
 
-		super(nickname, correo, nombre, contrasena);
+		super(nickname, correo, nombre, contrasena,img);
 		this.apellido = apellido;
 		this.fNacimiento = fNacimiento;
 		this.registros = new ArrayList<>();
