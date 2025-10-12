@@ -25,10 +25,10 @@
 
   <main class="container py-5">
     <% if (request.getAttribute("error") != null) { %>
-      <div class="alert alert-danger" role="alert"><%= esc(request.getAttribute("error")) %></div>
+      <div class="alert alert-danger" role="alert" style="margin-top: 120px;"><%= esc(request.getAttribute("error")) %></div>
     <% } %>
     <% if (request.getAttribute("mensaje") != null) { %>
-      <div class="alert alert-success" role="alert"><%= esc(request.getAttribute("mensaje")) %></div>
+      <div class="alert alert-success" role="alert" style="margin-top: 120px;"><%= esc(request.getAttribute("mensaje")) %></div>
     <% } %>
 
     <div class="row justify-content-center">
