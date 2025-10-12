@@ -967,5 +967,13 @@ section,
     
 .speaker-card{display:flex;flex-direction:column;height:100%;}
 .speaker-content{display:flex;flex-direction:column;flex:1;}
-.speaker-card .btn-ver-ediciones{margin-top:auto;}
+.speaker-card .btn-ver-ediciones,
+.btn-ver-ediciones:visited,
+.btn-ver-ediciones:hover,
+.btn-ver-ediciones:focus,
+.btn-ver-ediciones:active {
+  margin-top:auto;
+  color: #fff !important;
+}
+
     
