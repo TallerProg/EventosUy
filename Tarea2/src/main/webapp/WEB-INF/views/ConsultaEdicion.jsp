@@ -275,7 +275,7 @@ boolean yaInscriptoEnAlguno = (miReg != null && miReg.get("tipo") != null);
           <div class="table-responsive">
             <table class="table table-bordered align-middle mb-0">
               <thead class="table-light">
-                <tr><th>Nombre</th><th>Tipo Registro</th><th>Fecha</th><th>Estado</th></tr>
+                <tr><th>Tipo Registro</th><th>Nombre</th><th>Fecha</th></tr>
               </thead>
               <tbody>
                 <% if (regs != null && !regs.isEmpty()) {
@@ -284,7 +284,6 @@ boolean yaInscriptoEnAlguno = (miReg != null && miReg.get("tipo") != null);
                     <td><%= nv(r.get("asistente")) %></td>
                     <td><%= nv(r.get("tipo")) %></td>
                     <td><%= nv(r.get("fecha")) %></td>
-                    <td><%= nv(r.get("estado")) %></td>
                   </tr>
                 <% } } else { %>
                   <tr><td colspan="4" class="text-center text-muted">No hay registros aún.</td></tr>
