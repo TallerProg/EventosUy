@@ -1,28 +1,35 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<jsp:useBean id="now" class="java.util.Date" />
-<fmt:formatDate value="${now}" pattern="yyyy-MM-dd" var="hoy"/>
-
+<%!
+  private static String esc(Object o) {
+    if (o == null) return "";
+    String s = String.valueOf(o);
+    return s.replace("&","&amp;")
+            .replace("<","&lt;")
+            .replace(">","&gt;")
+            .replace("\"","&quot;")
+            .replace("'","&#x27;");
+  }
+%>
+<%@ page import="java.util.List" %>
+<%@ page import="ServidorCentral.logica.Institucion" %>
 <!doctype html>
 <html lang="es">
 <head>
   <jsp:include page="template/head.jsp" />
   <title>Registro - EventUY</title>
-
 </head>
 <body class="bg-light">
-	<header id="header" class="header d-flex align-items-center fixed-top">
-		 <jsp:include page="template/header.jsp" />
-	</header>
+  <header id="header" class="header d-flex align-items-center fixed-top">
+     <jsp:include page="template/header.jsp" />
+  </header>
+
   <main class="container py-5">
-    <!-- Mensajes del servidor -->
-    <c:if test="${not empty error}">
-      <div class="alert alert-danger" role="alert">${error}</div>
-    </c:if>
-    <c:if test="${not empty mensaje}">
-      <div class="alert alert-success" role="alert">${mensaje}</div>
-    </c:if>
+    <% if (request.getAttribute("error") != null) { %>
+      <div class="alert alert-danger" role="alert"><%= esc(request.getAttribute("error")) %></div>
+    <% } %>
+    <% if (request.getAttribute("mensaje") != null) { %>
+      <div class="alert alert-success" role="alert"><%= esc(request.getAttribute("mensaje")) %></div>
+    <% } %>
 
     <div class="row justify-content-center">
       <div class="col-12 col-md-8 col-lg-6">
@@ -32,51 +39,49 @@
             <h4 class="mt-2 text-primary">Registro de Usuario</h4>
           </div>
 
-          <!-- comentario para subir -->
           <form id="registroForm"
                 method="post"
-                action="${pageContext.request.contextPath}/registrarse"
+                action="<%= request.getContextPath() %>/Registrarse"
                 enctype="multipart/form-data"
                 novalidate>
 
-            <!-- Tipo de usuario -->
             <div class="mb-3">
               <label class="form-label">Tipo de Usuario</label>
               <select class="form-select" id="tipoUsuario" name="tipoUsuario" required>
-                <option value="" disabled selected>Seleccione...</option>
-                <option value="asistente">Asistente</option>
-                <option value="organizador">Organizador</option>
+                <option value="" disabled <%= request.getParameter("tipoUsuario")==null ? "selected" : "" %> >Seleccione...</option>
+                <option value="asistente"  <%= "asistente".equalsIgnoreCase(request.getParameter("tipoUsuario")) ? "selected" : "" %> >Asistente</option>
+                <option value="organizador"<%= "organizador".equalsIgnoreCase(request.getParameter("tipoUsuario")) ? "selected" : "" %> >Organizador</option>
               </select>
               <div class="invalid-feedback">Seleccione un tipo de usuario.</div>
             </div>
 
-            <!-- Nickname y Correo -->
             <div class="mb-3">
               <label for="nickname" class="form-label">Nickname (único)</label>
-              <input type="text" class="form-control" id="nickname" name="nickname" required>
+              <input type="text" class="form-control" id="nickname" name="nickname"
+                     value="<%= esc(request.getParameter("nickname")) %>" required>
               <div class="invalid-feedback">Ingrese un nickname.</div>
             </div>
             <div class="mb-3">
               <label for="email" class="form-label">Correo electrónico (único)</label>
-              <input type="email" class="form-control" id="email" name="email" required>
+              <input type="email" class="form-control" id="email" name="email"
+                     value="<%= esc(request.getParameter("email")) %>" required>
               <div class="invalid-feedback">Ingrese un correo válido.</div>
             </div>
 
-            <!-- Nombre -->
             <div class="mb-3">
               <label for="nombre" class="form-label">Nombre</label>
-              <input type="text" class="form-control" id="nombre" name="nombre" required>
+              <input type="text" class="form-control" id="nombre" name="nombre"
+                     value="<%= esc(request.getParameter("nombre")) %>" required>
               <div class="invalid-feedback">Ingrese su nombre.</div>
             </div>
 
-            <!-- Apellido (solo asistentes) -->
             <div id="apellidoAsistente" class="mb-3" style="display: none;">
               <label for="apellido" class="form-label">Apellido</label>
-              <input type="text" class="form-control" id="apellido" name="apellido">
+              <input type="text" class="form-control" id="apellido" name="apellido"
+                     value="<%= esc(request.getParameter("apellido")) %>">
               <div class="invalid-feedback">Ingrese su apellido.</div>
             </div>
 
-            <!-- Contraseña -->
             <div class="mb-3">
               <label for="password" class="form-label">Contraseña</label>
               <input type="password" class="form-control" id="password" name="password" required>
@@ -88,53 +93,64 @@
               <div class="invalid-feedback">Confirme su contraseña.</div>
             </div>
 
-            <!-- Imagen -->
             <div class="mb-3">
               <label for="imagen" class="form-label">Imagen de perfil (opcional)</label>
               <input type="file" class="form-control" id="imagen" name="imagen" accept="image/*">
             </div>
 
-            <!-- Campos solo para organizador -->
             <div id="organizadorFields" style="display: none;">
               <div class="mb-3">
                 <label for="descripcion" class="form-label">Descripción General</label>
-                <textarea class="form-control" id="descripcion" name="descripcion" rows="3"></textarea>
+                <textarea class="form-control" id="descripcion" name="descripcion" rows="3"><%= esc(request.getParameter("descripcion")) %></textarea>
                 <div class="invalid-feedback">Ingrese una descripción.</div>
               </div>
               <div class="mb-3">
                 <label for="sitioWeb" class="form-label">Sitio Web (opcional)</label>
-                <input type="url" class="form-control" id="sitioWeb" name="sitioWeb" placeholder="https://...">
+                <input type="url" class="form-control" id="sitioWeb" name="sitioWeb"
+                       value="<%= esc(request.getParameter("sitioWeb")) %>" placeholder="https://...">
               </div>
             </div>
 
-            <!-- Campos solo para asistente -->
             <div id="asistenteFields" style="display: none;">
               <div class="mb-3">
                 <label for="fechaNacimiento" class="form-label">Fecha de Nacimiento</label>
-                <input type="date" class="form-control" id="fechaNacimiento" name="fechaNacimiento" max="${hoy}">
+                <input type="date" class="form-control" id="fechaNacimiento" name="fechaNacimiento"
+                       max="<%= esc(request.getAttribute("hoy")) %>"
+                       value="<%= esc(request.getParameter("fechaNacimiento")) %>">
                 <div class="invalid-feedback">Ingrese una fecha válida.</div>
               </div>
+
               <div class="mb-3">
                 <label for="institucion" class="form-label">Institución (opcional)</label>
                 <select class="form-select" id="institucion" name="institucion">
-                  <option value="" selected>Ninguna</option>
-                  <option value="INS01">Facultad de Ingeniería</option>
-                  <option value="INS02">ORT Uruguay</option>
-                  <option value="INS03">Universidad Católica del Uruguay</option>
-                  <option value="INS04">Antel</option>
-                  <option value="INS05">Agencia Nacional de Investigación e Innovación (ANII)</option>
+                  <%
+                    // value y comparación por NOMBRE
+                    List<Institucion> instituciones = (List<Institucion>) request.getAttribute("instituciones");
+                    String instSel = request.getParameter("institucion");
+                  %>
+                  <option value="" <%= (instSel==null || instSel.isEmpty()) ? "selected" : "" %> >Ninguna</option>
+                  <%
+                    if (instituciones != null) {
+                      for (Institucion inst : instituciones) {
+                        String nombreInst = esc(inst.getNombre()); // ← usa el NOMBRE
+                        String sel = (instSel != null && instSel.equals(inst.getNombre())) ? " selected" : "";
+                  %>
+                        <option value="<%= nombreInst %>" <%= sel %>><%= nombreInst %></option>
+                  <%
+                      }
+                    }
+                  %>
                 </select>
               </div>
             </div>
 
-            <!-- Botón -->
             <button type="submit" class="btn btn-primary w-100">Registrarse</button>
           </form>
 
           <div class="text-center mt-3">
             <p class="mb-0">
               ¿Ya tienes cuenta?
-              <a href="${pageContext.request.contextPath}/login" class="text-decoration-none">Inicia sesión</a>
+              <a href="<%= request.getContextPath() %>/login" class="text-decoration-none">Inicia sesión</a>
             </p>
           </div>
         </div>
@@ -142,31 +158,28 @@
     </div>
   </main>
 
-<hr class="mt-5 mb-4" style="border: 0; height: 3px; background: #bbb; border-radius: 2px;">
-<footer id="footer" class="footer position-relative light-background">
-  <jsp:include page="/WEB-INF/views/template/footer.jsp" />
-</footer>
+  <hr class="mt-5 mb-4" style="border: 0; height: 3px; background: #bbb; border-radius: 2px;">
+  <footer id="footer" class="footer position-relative light-background">
+    <jsp:include page="/WEB-INF/views/template/footer.jsp" />
+  </footer>
 
-
-  <script src="${pageContext.request.contextPath}/js/AltaUsuario.js"></script>
-
-
+  <script src="<%= request.getContextPath() %>/js/AltaUsuario.js"></script>
   <script>
     (function () {
       const tipo = document.getElementById('tipoUsuario');
-      const org = document.getElementById('organizadorFields');
+      const org  = document.getElementById('organizadorFields');
       const asis = document.getElementById('asistenteFields');
-      const ape = document.getElementById('apellidoAsistente');
-
+      const ape  = document.getElementById('apellidoAsistente');
       function toggle() {
-        const v = tipo.value;
+        const v = (tipo && tipo.value) || "";
         org.style.display  = (v === 'organizador') ? 'block' : 'none';
         asis.style.display = (v === 'asistente')   ? 'block' : 'none';
         ape.style.display  = (v === 'asistente')   ? 'block' : 'none';
       }
-
       if (tipo) {
         tipo.addEventListener('change', toggle);
+        const prev = '<%= esc(request.getParameter("tipoUsuario")) %>';
+        if (prev) tipo.value = prev;
         toggle();
       }
     })();

@@ -3,7 +3,7 @@ package ServidorCentral.logica;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ManejadorUsuario {
+public final class ManejadorUsuario {
 
 	private List<Usuario> usuarios = new ArrayList<>();
 	private List<Organizador> organizadores = new ArrayList<>();
@@ -13,7 +13,7 @@ public class ManejadorUsuario {
 	private ManejadorUsuario() {
 	}
 
-	public static ManejadorUsuario getinstance() {
+	public static ManejadorUsuario getInstance() {
 		if (instancia == null)
 			instancia = new ManejadorUsuario();
 		return instancia;

@@ -1,10 +1,5 @@
 package ServidorCentral.presentacion;
 
-import ServidorCentral.excepciones.UsuarioRepetidoException;
-import ServidorCentral.logica.IControllerUsuario;
-import ServidorCentral.logica.Institucion;
-import ServidorCentral.logica.IControllerInstitucion;
-
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -13,7 +8,18 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+
+import ServidorCentral.excepciones.UsuarioRepetidoException;
+import ServidorCentral.logica.IControllerInstitucion;
+import ServidorCentral.logica.IControllerUsuario;
+import ServidorCentral.logica.Institucion;
 
 public class AltaUsuario extends JInternalFrame {
 
@@ -44,7 +50,7 @@ public class AltaUsuario extends JInternalFrame {
     private JPasswordField confirmPasswordField;
 
     private JComboBox<String> comboTipoUsuario;
-    private JButton btnAceptar;
+    private JButton btnAceptar ;
     private JButton btnCancelar;
 
     private int row = 0;
@@ -191,16 +197,16 @@ public class AltaUsuario extends JInternalFrame {
             comboInstitucion.addItem(ins.getNombre());
         }
 
-        btnAceptar = new JButton("Aceptar");
-        GridBagConstraints gbc_btnAceptar = new GridBagConstraints();
-        gbc_btnAceptar.insets = new Insets(10, 50, 5, 20);
-        gbc_btnAceptar.gridx = 1;
+        btnAceptar  = new JButton("Aceptar ");
+        GridBagConstraints gbc_btnAceptar  = new GridBagConstraints();
+        gbc_btnAceptar .insets = new Insets(10, 50, 5, 20);
+        gbc_btnAceptar .gridx = 1;
         // Muevo los botones más abajo para no chocar con campos dinámicos
-        gbc_btnAceptar.gridy = 11;
-        gbc_btnAceptar.anchor = GridBagConstraints.LINE_START;
+        gbc_btnAceptar .gridy = 11;
+        gbc_btnAceptar .anchor = GridBagConstraints.LINE_START;
         Dimension mismoTamaño = new Dimension(100, 25);
-        btnAceptar.setPreferredSize(mismoTamaño);
-        getContentPane().add(btnAceptar, gbc_btnAceptar);
+        btnAceptar .setPreferredSize(mismoTamaño);
+        getContentPane().add(btnAceptar , gbc_btnAceptar );
 
         btnCancelar = new JButton("Cancelar");
         GridBagConstraints gbc_btnCancelar = new GridBagConstraints();
@@ -227,7 +233,7 @@ public class AltaUsuario extends JInternalFrame {
         comboTipoUsuario.addActionListener(e -> actualizarCampos(row));
         comboTipoUsuario.setSelectedIndex(0);
 
-        btnAceptar.addActionListener(e -> {
+        btnAceptar .addActionListener(e -> {
             String tipo = (String) comboTipoUsuario.getSelectedItem();
             String nick = textFieldNickName.getText().trim();
             String nombre = textFieldNombre.getText().trim();
@@ -282,7 +288,7 @@ public class AltaUsuario extends JInternalFrame {
                     }
 
                     // Agrego password como último parámetro
-                    controlUsr.AltaAsistente(nick, correo, nombre, apellido, fecha, inst, password);
+                    controlUsr.altaAsistente(nick, correo, nombre, apellido, fecha, inst, password);
 
                     textFieldNickName.setText("");
                     textFieldCorreo.setText("");
@@ -303,7 +309,7 @@ public class AltaUsuario extends JInternalFrame {
                         url = null;
 
                     // Agrego password como último parámetro
-                    controlUsr.AltaOrganizador(nick, correo, nombre, descripcion, url, password);
+                    controlUsr.altaOrganizador(nick, correo, nombre, descripcion, url, password);
 
                     textFieldNickName.setText("");
                     textFieldCorreo.setText("");

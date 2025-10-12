@@ -1,15 +1,28 @@
 package ServidorCentral.logica.test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import org.junit.jupiter.api.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.time.LocalDate;
 import java.util.List;
 
-import ServidorCentral.excepciones.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 
-import ServidorCentral.logica.*;
+import ServidorCentral.excepciones.UsuarioRepetidoException;
+import ServidorCentral.logica.DTTipoRegistro;
+import ServidorCentral.logica.Edicion;
+import ServidorCentral.logica.Evento;
+import ServidorCentral.logica.Factory;
+import ServidorCentral.logica.IControllerEvento;
+import ServidorCentral.logica.IControllerUsuario;
+import ServidorCentral.logica.Organizador;
+import ServidorCentral.logica.TipoRegistro;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class ConsultaTipoRegistroTest {
@@ -26,7 +39,7 @@ public class ConsultaTipoRegistroTest {
 	
 	@Test
 	@Order(1)
-	void TestConsultaValoresDTTipoRegistro() {
+	void testConsultaValoresDTTipoRegistro() {
 	    String nombreEvento = "EventoTesteo1";
 	    String descripcionEvento = "Estamos testeando evento1";
 	    LocalDate fechaEvento = LocalDate.of(2025, 05, 01);
@@ -44,7 +57,7 @@ public class ConsultaTipoRegistroTest {
 	    String descripcionOrg = "Organización de testeos";
 	    String webOrg = "https://testeo.com";
 	    try {
-	    	controlerUSR.AltaOrganizador(nickOrg, mailOrg, nombreOrg, descripcionOrg, webOrg,"1234");
+	    	controlerUSR.altaOrganizador(nickOrg, mailOrg, nombreOrg, descripcionOrg, webOrg, "1234");
 	    } catch (UsuarioRepetidoException e) {
 	        fail(e.getMessage());
 	        e.printStackTrace();
@@ -59,7 +72,7 @@ public class ConsultaTipoRegistroTest {
 	    String ciudadEdicion = "test";
 	    try {
 	    	controllerE.altaEdicionDeEvento(nombreEdicion, siglaEvento, ciudadEdicion, lugarEdicion, fechaInicioEd,
-	                fechaFinEd,fechaAlta, evento, org, "imagenTest");
+	                fechaFinEd, fechaAlta, evento, org, "imagenTest");
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	    }
@@ -88,7 +101,7 @@ public class ConsultaTipoRegistroTest {
 	
 	@Test
 	@Order(2)
-	void TestcargarDatosCombo() {
+	void testcargarDatosCombo() {
 		try {
 	        String nombreEvento = "Maratón de Montevideo";
 	        String descripcionEvento = "Carrera anual de 42K, 21K y 10K por las calles de Montevideo.";
@@ -104,7 +117,7 @@ public class ConsultaTipoRegistroTest {
 	        String descripcionOrg = "Organización de eventos deportivos en Uruguay.";
 	        String webOrg = "https://montevideorunners.uy";
 
-	        controlerUSR.AltaOrganizador(nickOrg, mailOrg, nombreOrg, descripcionOrg, webOrg, "1234");
+	        controlerUSR.altaOrganizador(nickOrg, mailOrg, nombreOrg, descripcionOrg, webOrg, "1234");
 	        Organizador org = controlerUSR.getOrganizador(nickOrg);
 
 	        String nombreEdicion = "Edición 2025";
@@ -115,7 +128,7 @@ public class ConsultaTipoRegistroTest {
 	        String ciudadEdicion = "Montevideo";
 
 	        controllerE.altaEdicionDeEvento(nombreEdicion, siglaEvento, ciudadEdicion, lugarEdicion,
-	                fechaInicioEd, fechaFinEd,fechaAlta, evento, org, "imagenEdicion");
+	                fechaInicioEd, fechaFinEd, fechaAlta, evento, org, "imagenEdicion");
 	        Edicion edicion = controllerE.findEdicion(nombreEdicion);
 
 	        String nombreTipoReg = "Inscripción General 42K";

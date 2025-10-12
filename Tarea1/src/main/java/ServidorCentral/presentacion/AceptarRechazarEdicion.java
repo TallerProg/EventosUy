@@ -23,7 +23,7 @@ public class AceptarRechazarEdicion extends JInternalFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private final IControllerEvento CE;
+	private final IControllerEvento ce;
 
     private JLabel lblEventos;
     private JComboBox<String> comboEventos;
@@ -31,18 +31,18 @@ public class AceptarRechazarEdicion extends JInternalFrame {
     private JLabel lblEdiciones;
     private JComboBox<String> comboEdiciones;
 
-    private JButton btnAceptar;
+    private JButton btnAceptar ;
     private JButton btnRechazar;
 
-    public AceptarRechazarEdicion(IControllerEvento CE) {
-        this.CE = CE;
+    public AceptarRechazarEdicion(IControllerEvento ce) {
+        this.ce = ce;
 
         setResizable(true);
         setIconifiable(true);
         setMaximizable(true);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setClosable(true);
-        setTitle("Aceptar/Rechazar edición de evento");
+        setTitle("Aceptar /Rechazar edición de evento");
         setBounds(10, 40, 600, 200);
 
         getContentPane().setLayout(null);
@@ -66,9 +66,9 @@ public class AceptarRechazarEdicion extends JInternalFrame {
         getContentPane().add(comboEdiciones);
 
         // --- Botones ---
-        btnAceptar = new JButton("Aceptar edición");
-        btnAceptar.setBounds(80, 110, 170, 25);
-        getContentPane().add(btnAceptar);
+        btnAceptar  = new JButton("Aceptar  edición");
+        btnAceptar .setBounds(80, 110, 170, 25);
+        getContentPane().add(btnAceptar );
 
         btnRechazar = new JButton("Rechazar edición");
         btnRechazar.setBounds(330, 110, 170, 25);
@@ -77,7 +77,7 @@ public class AceptarRechazarEdicion extends JInternalFrame {
         // Listeners
         comboEventos.addActionListener(e -> recargarEdicionesIngresadas());
 
-        btnAceptar.addActionListener(new ActionListener() {
+        btnAceptar .addActionListener(new ActionListener() {
             @Override public void actionPerformed(ActionEvent e) {
                 String ed = (String) comboEdiciones.getSelectedItem();
                 if (ed == null) {
@@ -87,13 +87,13 @@ public class AceptarRechazarEdicion extends JInternalFrame {
                     return;
                 }
                 try {
-                    CE.AceptarRechazarEdicion(ed, true);
+                    ce.aceptarRechazarEdicion(ed, true);
                     JOptionPane.showMessageDialog(AceptarRechazarEdicion.this, "Edición aceptada.");
                     recargarEdicionesIngresadas();
                 } catch (Exception ex) {
                     ex.printStackTrace();
                     JOptionPane.showMessageDialog(AceptarRechazarEdicion.this,
-                            "Error al aceptar: " + ex.getMessage(),
+                            "Error al Aceptar : " + ex.getMessage(),
                             "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
@@ -109,7 +109,7 @@ public class AceptarRechazarEdicion extends JInternalFrame {
                     return;
                 }
                 try {
-                    CE.AceptarRechazarEdicion(ed, false);
+                    ce.aceptarRechazarEdicion(ed, false);
                     JOptionPane.showMessageDialog(AceptarRechazarEdicion.this, "Edición rechazada.");
                     recargarEdicionesIngresadas();
                 } catch (Exception ex) {
@@ -128,7 +128,7 @@ public class AceptarRechazarEdicion extends JInternalFrame {
 
     public void cargarEventos() {
         try {
-            String[] nombres = CE.listarEventos().stream()
+            String[] nombres = ce.listarEventos().stream()
                     .map(Evento::getNombre)
                     .toArray(String[]::new);
             comboEventos.setModel(new DefaultComboBoxModel<>(nombres));
@@ -152,7 +152,7 @@ public class AceptarRechazarEdicion extends JInternalFrame {
             return;
         }
         try {
-            String[] edIngresadas = CE.listarEdiciones().stream()
+            String[] edIngresadas = ce.listarEdiciones().stream()
                     .filter(ed -> {
                         String nomEv = ed.getEvento() != null ? ed.getEvento().getNombre() : null;
                         return eventoSel.equals(nomEv) && ed.getEstado() == EstadoEdicion.Ingresada;
@@ -171,7 +171,7 @@ public class AceptarRechazarEdicion extends JInternalFrame {
 
     private void actualizarEstadoBotones() {
         boolean hayEd = comboEdiciones.getItemCount() > 0;
-        btnAceptar.setEnabled(hayEd);
+        btnAceptar .setEnabled(hayEd);
         btnRechazar.setEnabled(hayEd);
     }
 }

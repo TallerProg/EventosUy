@@ -4,21 +4,27 @@ import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.*;
+import javax.swing.JDesktopPane;
+import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 
 import ServidorCentral.logica.Factory;
-import ServidorCentral.logica.IControllerUsuario;
 import ServidorCentral.logica.IControllerEvento;
 import ServidorCentral.logica.IControllerInstitucion;
+import ServidorCentral.logica.IControllerUsuario;
 
 public class Principal {
 
     private JFrame frmEventosUy;
     private JDesktopPane desktopPane;
 
-    private IControllerUsuario ICU;
-    private IControllerEvento ICE;
-    private IControllerInstitucion ICI;
+    private IControllerUsuario icu;
+    private IControllerEvento ice;
+    private IControllerInstitucion ici;
 
     private AltaUsuario creUsrInternalFrame;
     private ConsultarUsuario conUsrInternalFrame;
@@ -51,25 +57,25 @@ public class Principal {
         initialize();
 
         Factory fabrica = Factory.getInstance();
-        ICU = fabrica.getIControllerUsuario();
-        ICE = fabrica.getIControllerEvento();
-        ICI = fabrica.getIControllerInstitucion();
+        icu = fabrica.getIControllerUsuario();
+        ice = fabrica.getIControllerEvento();
+        ici = fabrica.getIControllerInstitucion();
 
-        creUsrInternalFrame = new AltaUsuario(ICU, ICI);
-        conUsrInternalFrame = new ConsultarUsuario(ICU, ICE, desktopPane);
-        creEdiEveInternalFrame = new AltaEdicionEvento(ICE);
-        creEveInternalFrame = new AltaEvento(ICE);
-        creTRegInternalFrame = new AltaTipoRegistro(ICE);
-        conEveInternalFrame = new ConsultaEvento(ICE, desktopPane);
-        conRegInternalFrame = new ConsultaRegistro(ICU);
-        regEdiEveInternalFrame = new RegistroEdicionEvento(ICE, ICU);
-        conTRegInternalFrame = new ConsultaTipoRegistro(ICE);
-        conEdiEveInternalFrame = new ConsultaEdicionEvento(ICE);
-        creInsInternalFrame = new AltaInstitucion(ICI);
-        altaPatrocinioInternalFrame = new AltaPatrocinio(ICE, ICU);
-        conPatrocinioInternalFrame = new ConsultaPatrocinio(ICE);
-        modUsuarioInternalFrame = new ModificarUsuario(ICU, ICI);
-        aceptarRechazarEdicionFrame = new AceptarRechazarEdicion(ICE);
+        creUsrInternalFrame = new AltaUsuario(icu, ici);
+        conUsrInternalFrame = new ConsultarUsuario(icu, ice, desktopPane);
+        creEdiEveInternalFrame = new AltaEdicionEvento(ice);
+        creEveInternalFrame = new AltaEvento(ice);
+        creTRegInternalFrame = new AltaTipoRegistro(ice);
+        conEveInternalFrame = new ConsultaEvento(ice, desktopPane);
+        conRegInternalFrame = new ConsultaRegistro(icu);
+        regEdiEveInternalFrame = new RegistroEdicionEvento(ice, icu);
+        conTRegInternalFrame = new ConsultaTipoRegistro(ice);
+        conEdiEveInternalFrame = new ConsultaEdicionEvento(ice);
+        creInsInternalFrame = new AltaInstitucion(ici);
+        altaPatrocinioInternalFrame = new AltaPatrocinio(ice, icu);
+        conPatrocinioInternalFrame = new ConsultaPatrocinio(ice);
+        modUsuarioInternalFrame = new ModificarUsuario(icu, ici);
+        aceptarRechazarEdicionFrame = new AceptarRechazarEdicion(ice);
 
         desktopPane.add(creUsrInternalFrame);
         desktopPane.add(conUsrInternalFrame);
@@ -160,7 +166,7 @@ public class Principal {
         JMenuItem menuConsultaEvento = new JMenuItem("Consulta de Evento");
         menuConsultaEvento.addActionListener(e -> {
             mostrarInternalFrame(conEveInternalFrame);
-            conEveInternalFrame.ConsultaEventocargar();
+            conEveInternalFrame.consultaEventocargar();
             conEveInternalFrame.setVisible(true);
         });
         menuEventos.add(menuConsultaEvento);

@@ -10,10 +10,10 @@ import java.util.List;
 
 public interface IControllerUsuario {
 
-	void AltaAsistente(String nicknameUsu, String correo, String nombre, String apellido, LocalDate fNacimiento,
+	void altaAsistente(String nicknameUsu, String correo, String nombre, String apellido, LocalDate fNacimiento,
 			Institucion ins, String contrasena) throws UsuarioRepetidoException;
 
-	void AltaOrganizador(String nicknameUsu, String correo, String nombre, String descripcion, String url, String contrasena)
+	void altaOrganizador(String nicknameUsu, String correo, String nombre, String descripcion, String url, String contrasena)
 			throws UsuarioRepetidoException;
 
 	public DTRegistro getDTRegistro(String tipNEdicion, String nickAsistente);
@@ -23,7 +23,7 @@ public interface IControllerUsuario {
 
 	public Organizador getOrganizador(String nicknameOrg);
 
-	public DTUsuarioListaConsulta ConsultaDeUsuario(String nicknameUsu);
+	public DTUsuarioListaConsulta consultaDeUsuario(String nicknameUsu);
 
 	public List<DTUsuarioLista> getUsuarios();
 

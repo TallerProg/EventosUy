@@ -4,11 +4,24 @@ import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
+import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
-import javax.swing.*;
-
-
-import ServidorCentral.logica.*;
+import ServidorCentral.logica.Asistente;
+import ServidorCentral.logica.ETipoNivel;
+import ServidorCentral.logica.Edicion;
+import ServidorCentral.logica.Evento;
+import ServidorCentral.logica.IControllerEvento;
+import ServidorCentral.logica.IControllerUsuario;
+import ServidorCentral.logica.Institucion;
+import ServidorCentral.logica.ManejadorInstitucion;
+import ServidorCentral.logica.TipoRegistro;
 import net.miginfocom.swing.MigLayout;
 
 public class AltaPatrocinio extends JInternalFrame {
@@ -96,7 +109,7 @@ public class AltaPatrocinio extends JInternalFrame {
 		getContentPane().add(textFieldCodigo2, "cell 14 11,growx");
 		textFieldCodigo2.setColumns(10);
 
-		JButton btnRegistrar = new JButton("Aceptar");
+		JButton btnRegistrar = new JButton("Aceptar ");
 		btnRegistrar.setEnabled(false);
 		getContentPane().add(btnRegistrar, "cell 0 13");
 
@@ -208,7 +221,7 @@ public class AltaPatrocinio extends JInternalFrame {
 			String cuposGrati = textField.getText().trim();
 			String codigo = textFieldCodigo2.getText().trim();
 
-			if ((aporteEconomic == null) || (cuposGrati == null) || (codigo == null)) {
+			if (aporteEconomic == null || cuposGrati == null || codigo == null) {
 				JOptionPane.showMessageDialog(this, "Debe completar todos los campos antes de registrar.",
 						"Campos incompletos", JOptionPane.WARNING_MESSAGE);
 				return;

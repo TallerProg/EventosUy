@@ -7,22 +7,29 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.util.List;
 
-import javax.swing.*;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
+import javax.swing.JDesktopPane;
+import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import ServidorCentral.logica.Asistente;
 import ServidorCentral.logica.DTRegistroDetallado;
 import ServidorCentral.logica.IControllerUsuario;
 
 public class ConsultaRegistro extends JInternalFrame {
-	private JTextField textField_finicio;
-	private JTextField textField_1_costo;
+	private JTextField textFieldfinicio;
+	private JTextField textField1costo;
 	private IControllerUsuario icu;
 	private JComboBox<String> comboBoxUsuario;
 	private JComboBox<String> comboBoxRegistro;
 	private static final long serialVersionUID = 1L;
 	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
+	private JTextField textField1;
+	private JTextField textField2;
 
 	public ConsultaRegistro(IControllerUsuario icu) {
 		this.icu = icu;
@@ -78,15 +85,15 @@ public class ConsultaRegistro extends JInternalFrame {
 		gbc_lblNewLabel.gridy = 0;
 		panel_3.add(lblNewLabel, gbc_lblNewLabel);
 
-		textField_finicio = new JTextField();
-		textField_finicio.setEditable(false);
+		textFieldfinicio = new JTextField();
+		textFieldfinicio.setEditable(false);
 		GridBagConstraints gbc_textField_finicio = new GridBagConstraints();
 		gbc_textField_finicio.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField_finicio.insets = new Insets(0, 0, 5, 0);
 		gbc_textField_finicio.gridx = 1;
 		gbc_textField_finicio.gridy = 0;
-		panel_3.add(textField_finicio, gbc_textField_finicio);
-		textField_finicio.setColumns(10);
+		panel_3.add(textFieldfinicio, gbc_textField_finicio);
+		textFieldfinicio.setColumns(10);
 
 		JLabel lblNewLabel_1 = new JLabel("Costo:");
 		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
@@ -96,16 +103,16 @@ public class ConsultaRegistro extends JInternalFrame {
 		gbc_lblNewLabel_1.gridy = 1;
 		panel_3.add(lblNewLabel_1, gbc_lblNewLabel_1);
 
-		textField_1_costo = new JTextField();
-		textField_1_costo.setEditable(false);
+		textField1costo = new JTextField();
+		textField1costo.setEditable(false);
 		GridBagConstraints gbc_textField_1_costo = new GridBagConstraints();
 		gbc_textField_1_costo.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField_1_costo.insets = new Insets(0, 0, 5, 0);
 		gbc_textField_1_costo.gridx = 1;
 		gbc_textField_1_costo.gridy = 1;
-		panel_3.add(textField_1_costo, gbc_textField_1_costo);
-		textField_1_costo.setColumns(10);
-
+		panel_3.add(textField1costo, gbc_textField_1_costo);
+		textField1costo.setColumns(10);
+		
 		JLabel lblNewLabel_2 = new JLabel("Evento: ");
 		GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
 		gbc_lblNewLabel_2.fill = GridBagConstraints.HORIZONTAL;
@@ -132,15 +139,15 @@ public class ConsultaRegistro extends JInternalFrame {
 		gbc_lblNewLabel_3.gridy = 3;
 		panel_3.add(lblNewLabel_3, gbc_lblNewLabel_3);
 
-		textField_1 = new JTextField();
-		textField_1.setEditable(false);
+		textField1 = new JTextField();
+		textField1.setEditable(false);
 		GridBagConstraints gbc_textField_1 = new GridBagConstraints();
 		gbc_textField_1.insets = new Insets(0, 0, 5, 0);
 		gbc_textField_1.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField_1.gridx = 1;
 		gbc_textField_1.gridy = 3;
-		panel_3.add(textField_1, gbc_textField_1);
-		textField_1.setColumns(10);
+		panel_3.add(textField1, gbc_textField_1);
+		textField1.setColumns(10);
 
 		JLabel lblNewLabel_4 = new JLabel("Tipo de registro:");
 		GridBagConstraints gbc_lblNewLabel_4 = new GridBagConstraints();
@@ -150,25 +157,25 @@ public class ConsultaRegistro extends JInternalFrame {
 		gbc_lblNewLabel_4.gridy = 4;
 		panel_3.add(lblNewLabel_4, gbc_lblNewLabel_4);
 
-		textField_2 = new JTextField();
-		textField_2.setEditable(false);
+		textField2 = new JTextField();
+		textField2.setEditable(false);
 		GridBagConstraints gbc_textField_2 = new GridBagConstraints();
 		gbc_textField_2.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField_2.gridx = 1;
 		gbc_textField_2.gridy = 4;
-		panel_3.add(textField_2, gbc_textField_2);
-		textField_2.setColumns(10);
+		panel_3.add(textField2, gbc_textField_2);
+		textField2.setColumns(10);
 
 		comboBoxUsuario.addActionListener(e -> {
 			String usuarioSeleccionado = (String) comboBoxUsuario.getSelectedItem();
 			if (usuarioSeleccionado != null) {
 				listarRegistrosAsistente(usuarioSeleccionado);
 				if (comboBoxRegistro.getSelectedItem() == null) {
-					textField_finicio.setText("");
-					textField_1_costo.setText("");
+					textFieldfinicio.setText("");
+					textField1costo.setText("");
 					textField.setText("");
-					textField_1.setText("");
-					textField_2.setText("");
+					textField1.setText("");
+					textField2.setText("");
 				}
 			} else {
 				comboBoxRegistro.setEnabled(false);
@@ -182,11 +189,11 @@ public class ConsultaRegistro extends JInternalFrame {
 
 				DTRegistroDetallado dto = icu.getRegistroDetalle(registroSeleccionado, usuarioSeleccionado);
 
-				textField_finicio.setText(dto.getfRegistro().toString());
-				textField_1_costo.setText(String.valueOf(dto.getCosto()));
+				textFieldfinicio.setText(dto.getfRegistro().toString());
+				textField1costo.setText(String.valueOf(dto.getCosto()));
 				textField.setText(dto.getNombreEvento());
-				textField_1.setText(dto.getNombreEdicion());
-				textField_2.setText(dto.getTipoRegistro());
+				textField1.setText(dto.getNombreEdicion());
+				textField2.setText(dto.getTipoRegistro());
 			}
 		});
 
@@ -245,11 +252,11 @@ public class ConsultaRegistro extends JInternalFrame {
 				cr.comboBoxRegistro.setSelectedItem(nombreEdicion);
 
 				DTRegistroDetallado dto = controllerU.getRegistroDetalle(nombreEdicion, nombreUsuario);
-				cr.textField_finicio.setText(dto.getfRegistro().toString());
-				cr.textField_1_costo.setText(String.valueOf(dto.getCosto()));
+				cr.textFieldfinicio.setText(dto.getfRegistro().toString());
+				cr.textField1costo.setText(String.valueOf(dto.getCosto()));
 				cr.textField.setText(dto.getNombreEvento());
-				cr.textField_1.setText(dto.getNombreEdicion());
-				cr.textField_2.setText(dto.getTipoRegistro());
+				cr.textField1.setText(dto.getNombreEdicion());
+				cr.textField2.setText(dto.getTipoRegistro());
 			}
 		}
 

@@ -11,6 +11,7 @@ public class DTEdicion {
 	private LocalDate fAlta;
 	private String ciudad;
 	private String pais;
+    private String estado;
 
 	private List<DTTipoRegistro> tipoRegistros;
 	private List<DTOrganizador> organizadores;
@@ -19,7 +20,7 @@ public class DTEdicion {
 
 	public DTEdicion(String nombre, String sigla, LocalDate fInicio, LocalDate fFin, LocalDate fAlta, String ciudad,
 			String pais, List<DTTipoRegistro> tipoRegistros, List<DTOrganizador> organizadores,
-			List<DTRegistro> registros, List<DTPatrocinio> patrocinios) {
+			List<DTRegistro> registros, List<DTPatrocinio> patrocinios,String estado ) {
 		this.nombre = nombre;
 		this.sigla = sigla;
 		this.fInicio = fInicio;
@@ -31,6 +32,7 @@ public class DTEdicion {
 		this.organizadores = organizadores;
 		this.registros = registros;
 		this.patrocinios = patrocinios;
+        this.estado = estado; 
 	}
 
 	public String getNombre() {
@@ -76,4 +78,7 @@ public class DTEdicion {
 	public List<DTPatrocinio> getPatrocinios() {
 		return patrocinios;
 	}
+    
+    public String getEstado() { 
+    	return estado; }
 }

@@ -30,8 +30,8 @@ public class AltaPatrocinioSvt extends HttpServlet {
 
     try {
       // Validamos que la edición exista
-      IControllerEvento cEvt = Factory.getInstance().getIControllerEvento();
-      DTEdicion dto = cEvt.consultaEdicionDeEvento(evento, edicion);
+      IControllerEvento cevt = Factory.getInstance().getIControllerEvento();
+      DTEdicion dto = cevt.consultaEdicionDeEvento(evento, edicion);
       if (dto == null) {
         throw new IllegalArgumentException("No se encontró la edición '" + edicion + "' del evento '" + evento + "'.");
       }

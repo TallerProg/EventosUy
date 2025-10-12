@@ -2,8 +2,10 @@ package com.controllers;
 
 import ServidorCentral.excepciones.CredencialesInvalidasException;
 import ServidorCentral.excepciones.UsuarioNoExisteException;
-import ServidorCentral.logica.*;
+import ServidorCentral.logica.Factory;
+import ServidorCentral.logica.IControllerUsuario;
 import ServidorCentral.logica.ControllerUsuario.DTSesionUsuario;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
@@ -11,7 +13,6 @@ import java.io.IOException;
 
 @WebServlet("/login")
 public class LoginSvt extends HttpServlet {
-
     private static final long serialVersionUID = 1L;
     private IControllerUsuario ICU;
 
@@ -38,28 +39,28 @@ public class LoginSvt extends HttpServlet {
 
         if (isEmpty(identifier) || isEmpty(password)) {
             req.setAttribute("error", "Completá usuario y contraseña.");
-            req.getRequestDispatcher("/WEB-INF/views/InicioSesion.jsp").forward(req, resp);
+            req.setAttribute("identifier_prev", identifier);
+            req.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(req, resp);
             return;
         }
 
-        DTSesionUsuario usuario;
         try {
-            usuario = ICU.iniciarSesion(identifier, password);
+            DTSesionUsuario usuario = ICU.iniciarSesion(identifier, password);
+
+            HttpSession ses = req.getSession(true);
+            ses.setAttribute("usuario_logueado", usuario);
+
+            // Cambiá "/home" si tu landing es otra (por ejemplo, "/IndexLoggeado.jsp")
+            resp.sendRedirect(req.getContextPath() + "/home");
         } catch (UsuarioNoExisteException | CredencialesInvalidasException e) {
-            req.setAttribute("error", e.getMessage()); // muestra el motivo
+            req.setAttribute("error", e.getMessage());
+            req.setAttribute("identifier_prev", identifier);
             req.getRequestDispatcher("/WEB-INF/views/InicioSesion.jsp").forward(req, resp);
-            return;
-        }
-
-        if (usuario == null) {
-            req.setAttribute("error", "Credenciales inválidas.");
+        } catch (Exception e) {
+            req.setAttribute("error", "Ocurrió un error al iniciar sesión.");
+            req.setAttribute("identifier_prev", identifier);
             req.getRequestDispatcher("/WEB-INF/views/InicioSesion.jsp").forward(req, resp);
-            return;
         }
-
-        HttpSession ses = req.getSession(true);
-        ses.setAttribute("usuario_logueado", usuario);
-        resp.sendRedirect(req.getContextPath() + "/home");
     }
 
     private String trim(String s) { return s == null ? null : s.trim(); }

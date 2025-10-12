@@ -1,13 +1,25 @@
 package ServidorCentral.presentacion;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.util.List;
-import ServidorCentral.logica.Patrocinio;
+
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
+import javax.swing.JDesktopPane;
+import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
 import ServidorCentral.logica.DTPatrocinio;
 import ServidorCentral.logica.Edicion;
 import ServidorCentral.logica.Evento;
 import ServidorCentral.logica.IControllerEvento;
+import ServidorCentral.logica.Patrocinio;
 
 public class ConsultaPatrocinio extends JInternalFrame {
 
@@ -44,10 +56,10 @@ public class ConsultaPatrocinio extends JInternalFrame {
 		int row = 0;
 
 		JLabel lblEvento = new JLabel("Evento:");
-		GridBagConstraints gbcEvento = new GridBagConstraints();
-		gbcEvento.gridx = 0;
-		gbcEvento.gridy = row;
-		panel.add(lblEvento, gbcEvento);
+		GridBagConstraints gbcevento = new GridBagConstraints();
+		gbcevento.gridx = 0;
+		gbcevento.gridy = row;
+		panel.add(lblEvento, gbcevento);
 
 		comboEventos = new JComboBox<>();
 		GridBagConstraints gbcComboEventos = new GridBagConstraints();
@@ -60,10 +72,10 @@ public class ConsultaPatrocinio extends JInternalFrame {
 		gbcComboEventos.gridwidth = 1;
 
 		JLabel lblEdicion = new JLabel("Edición:");
-		GridBagConstraints gbcEdicion = new GridBagConstraints();
-		gbcEdicion.gridx = 0;
-		gbcEdicion.gridy = row;
-		panel.add(lblEdicion, gbcEdicion);
+		GridBagConstraints gbcedicion = new GridBagConstraints();
+		gbcedicion.gridx = 0;
+		gbcedicion.gridy = row;
+		panel.add(lblEdicion, gbcedicion);
 
 		comboEdiciones = new JComboBox<>();
 		GridBagConstraints gbccomboEdicion = new GridBagConstraints();

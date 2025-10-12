@@ -1,14 +1,27 @@
 
 package ServidorCentral.logica.test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import org.junit.jupiter.api.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
 import java.util.List;
 
-import ServidorCentral.logica.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+
+import ServidorCentral.logica.Categoria;
+import ServidorCentral.logica.DTevento;
+import ServidorCentral.logica.Evento;
+import ServidorCentral.logica.Factory;
+import ServidorCentral.logica.IControllerEvento;
+import ServidorCentral.logica.IControllerUsuario;
+import ServidorCentral.logica.Organizador;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class ConsultaEventoTest {
@@ -25,7 +38,7 @@ public class ConsultaEventoTest {
 	}
 	@Test
 	@Order(1)
-	void ConsultaEventoExistente() {
+	void consultaEventoExistente() {
 		try {
 		String nombreEvento = "Existe";
         String descripcionEvento = "Carrera de existencia";
@@ -41,7 +54,7 @@ public class ConsultaEventoTest {
 	
 	@Test
 	@Order(2)
-	void TestConsultarValoresDTEvento() {
+	void testConsultarValoresDTEvento() {
 		try {
 		 	String nombreEvento = "Maratón de Panama";
 	        String descripcionEvento = "Carrera anual de 10K";
@@ -84,7 +97,7 @@ public class ConsultaEventoTest {
 	        String descripcionOrg = "Organización de eventos deportivos en Uruguay.";
 	        String webOrg = "https://montevideorunners.uy";
 
-	        controlerUSR.AltaOrganizador(nickOrg, mailOrg, nombreOrg, descripcionOrg, webOrg,"1234");
+	        controlerUSR.altaOrganizador(nickOrg, mailOrg, nombreOrg, descripcionOrg, webOrg, "1234");
 	        Organizador org = controlerUSR.getOrganizador(nickOrg);
 
 	        String nombreEdicion = "Edición test de 2025";
@@ -94,7 +107,7 @@ public class ConsultaEventoTest {
 	        String lugarEdicion = "Rambla de Montevideo";
 	        String ciudadEdicion = "Montevideo";
 
-	        controllerE.altaEdicionDeEvento(nombreEdicion, siglaEvento, ciudadEdicion, lugarEdicion,fechaInicioEd, fechaFinEd,fechaAlta, evento, org, "imagen.jpg");
+	        controllerE.altaEdicionDeEvento(nombreEdicion, siglaEvento, ciudadEdicion, lugarEdicion, fechaInicioEd, fechaFinEd, fechaAlta, evento, org, "imagen.jpg");
 	        
 	        List<Categoria> categoriasEvento =evento.getCategoria();
 	        for (String nombreCat : nombresCategorias) {

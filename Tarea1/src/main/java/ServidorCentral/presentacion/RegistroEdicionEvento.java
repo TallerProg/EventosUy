@@ -1,8 +1,21 @@
 package ServidorCentral.presentacion;
 
 import java.util.List;
-import javax.swing.*;
-import ServidorCentral.logica.*;
+
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+
+import ServidorCentral.logica.Asistente;
+import ServidorCentral.logica.Edicion;
+import ServidorCentral.logica.Evento;
+import ServidorCentral.logica.IControllerEvento;
+import ServidorCentral.logica.IControllerUsuario;
+import ServidorCentral.logica.TipoRegistro;
 import net.miginfocom.swing.MigLayout;
 
 public class RegistroEdicionEvento extends JInternalFrame {

@@ -2,7 +2,6 @@ package com.controllers;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
@@ -14,8 +13,12 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import ServidorCentral.logica.ControllerInstitucion;
+import ServidorCentral.logica.ControllerUsuario;
+import ServidorCentral.logica.ControllerUsuario.DTSesionUsuario;
+import ServidorCentral.logica.ControllerUsuario.RolUsuario;
 
 @WebServlet(name = "AltaInstitucionSvt", urlPatterns = {"/AltaInstitucion"})
 @MultipartConfig(
@@ -24,10 +27,28 @@ import ServidorCentral.logica.ControllerInstitucion;
     maxRequestSize = 15 * 1024 * 1024
 )
 public class AltaInstitucionSvt extends HttpServlet {
-    private static final String EVENT_IMG_DIR = "/media/img/eventos";
+    private static final String INST_IMG_DIR = "/media/img/institucion";
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Mostrar el formulario HTML (GET)
+    	HttpSession session = request.getSession(false); 
+        if (session == null) {
+            response.sendRedirect(request.getContextPath() + "/login"); 
+            return;
+        }else {
+        	 DTSesionUsuario usuario = (DTSesionUsuario) session.getAttribute("usuario_logueado");
+             if (usuario != null) {
+           	  	 RolUsuario rol = usuario.getRol(); // enum
+                 boolean esOrg  = rol == ControllerUsuario.RolUsuario.ORGANIZADOR;
+                 if(!esOrg) {
+                	 response.sendRedirect(request.getContextPath() + "/login"); 
+                     return;
+                 }
+
+             }else {
+            	 response.sendRedirect(request.getContextPath() + "/login"); 
+                 return;
+             }
+        }
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/AltaInstitucion.jsp");
         dispatcher.forward(request, response);
     }
@@ -54,6 +75,12 @@ public class AltaInstitucionSvt extends HttpServlet {
             forwardToForm(request, response);
             return;
         }
+        
+        if (!isValidURL(url)) {
+            setErrorMessage("La URL debe ser una dirección web válida (ej: https://ejemplo.com).", request);
+            forwardToForm(request, response);
+            return;
+        }
 
         String imagenWebPath = null;
 
@@ -66,7 +93,7 @@ public class AltaInstitucionSvt extends HttpServlet {
                 String stamp = DateTimeFormatter.ofPattern("yyyyMMddHHmmss").format(LocalDateTime.now());
                 String fileName = safeBase + "_" + stamp + (ext.isEmpty() ? "" : "." + ext);
 
-                String realDir = getServletContext().getRealPath(EVENT_IMG_DIR);
+                String realDir = getServletContext().getRealPath(INST_IMG_DIR);
                 if (realDir == null) {
                     realDir = System.getProperty("java.io.tmpdir") + File.separator + "eventuy-img";
                 }
@@ -76,7 +103,7 @@ public class AltaInstitucionSvt extends HttpServlet {
                 File destino = new File(dir, fileName);
                 imgPart.write(destino.getAbsolutePath());
 
-                imagenWebPath = EVENT_IMG_DIR + "/" + fileName;
+                imagenWebPath = INST_IMG_DIR + "/" + fileName;
         }
         } catch (IllegalStateException ise) {
         	setErrorMessage("La imagen supera el tamaño permitido (5 MB por archivo, 10 MB por solicitud).",request);
@@ -88,12 +115,7 @@ public class AltaInstitucionSvt extends HttpServlet {
 
         try {
             // Registrar la institución
-            ctrl.altaInstitucion(nombre, url, descripcion);
-
-            // Si hay una imagen, almacenar su ruta
-            if (imagenWebPath != null) {
-                // Aquí puedes hacer lo que necesites con la imagenWebPath, como guardarla en la base de datos
-            }
+            ctrl.altaInstitucion(nombre, url, descripcion,imagenWebPath);
 
             setSuccessMessage("Institución registrada con éxito.", request);
         } catch (Exception e) {
@@ -129,20 +151,7 @@ public class AltaInstitucionSvt extends HttpServlet {
         dispatcher.forward(request, response);
     }
 
-    private String getFileName(Part part) {
-        for (String cd : part.getHeader("content-disposition").split(";")) {
-            if (cd.trim().startsWith("filename")) {
-                return cd.substring(cd.indexOf('=') + 1).trim().replace("\"", "");
-            }
-        }
-        return null;
-    }
 
-    private String sanitizeFileName(String fileName) {
-        // Reemplazar caracteres no alfanuméricos (excepto . y -) por _
-        return fileName.replaceAll("[^a-zA-Z0-9\\.\\-]", "_");
-    }
-    
     private static String submittedFileName(Part part) {
         String cd = part.getHeader("content-disposition");
         if (cd != null) {
@@ -170,6 +179,25 @@ public class AltaInstitucionSvt extends HttpServlet {
         base = base.replaceAll("[^a-z0-9-_]+", "-");
         base = base.replaceAll("-{2,}", "-");
         return base.replaceAll("^-|-$", "");
+    }
+    
+    private static boolean isValidURL(String url) {
+        try {
+        	java.net.URL parsed = new java.net.URL(url);
+            parsed.toURI(); 
+
+            String host = parsed.getHost();
+            if (host == null || host.isEmpty()) return false;
+
+            if (!host.matches("^[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")) {
+                return false;
+            }
+            // Solo aceptar http o https
+            String protocol = parsed.getProtocol().toLowerCase(Locale.ROOT);
+            return protocol.equals("http") || protocol.equals("https");
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
 

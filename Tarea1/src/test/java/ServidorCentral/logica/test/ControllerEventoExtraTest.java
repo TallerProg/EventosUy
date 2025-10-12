@@ -1,14 +1,28 @@
 package ServidorCentral.logica.test;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import ServidorCentral.logica.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import ServidorCentral.logica.ControllerEvento;
+import ServidorCentral.logica.DTPatrocinio;
+import ServidorCentral.logica.ETipoNivel;
+import ServidorCentral.logica.Edicion;
+import ServidorCentral.logica.Evento;
+import ServidorCentral.logica.Institucion;
+import ServidorCentral.logica.ManejadorEvento;
+import ServidorCentral.logica.ManejadorInstitucion;
+import ServidorCentral.logica.ManejadorUsuario;
+import ServidorCentral.logica.Organizador;
+import ServidorCentral.logica.TipoRegistro;
 
 class ControllerEventoExtrasTest {
     private ControllerEvento controller;
@@ -21,10 +35,10 @@ class ControllerEventoExtrasTest {
         controller = new ControllerEvento();
         
         ManejadorEvento.getInstancia().limpiar();
-        ManejadorUsuario.getinstance().limpiar();
+        ManejadorUsuario.getInstance().limpiar();
         
         evento = new Evento("EventoTest", "EVT", "desc", LocalDate.now(), new ArrayList<>());
-        edicion = new Edicion("EdicionTest", "EDT", LocalDate.of(2025,5,1), LocalDate.of(2025,5,10),LocalDate.of(2024,5,10),
+        edicion = new Edicion("EdicionTest", "EDT", LocalDate.of(2025, 5, 1), LocalDate.of(2025, 5, 10), LocalDate.of(2024, 5, 10),
                 "Montevideo", "UY", evento);
         evento.agregarEdicion(edicion);
         ManejadorEvento.getInstancia().agregarEvento(evento);
@@ -37,7 +51,7 @@ class ControllerEventoExtrasTest {
         	    "Descripción test",
         	    "1234"
         	);
-        	ManejadorUsuario.getinstance().agregarOrganizador(organizador);
+        	ManejadorUsuario.getInstance().agregarOrganizador(organizador);
 
     }
 

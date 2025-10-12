@@ -1,16 +1,25 @@
 package ServidorCentral.presentacion;
 
-import javax.swing.*;
-
-import ServidorCentral.logica.IControllerEvento;
-import ServidorCentral.logica.Evento;
-import ServidorCentral.logica.Edicion;
-
-import java.awt.GridBagLayout;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.util.List;
+
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+
+import ServidorCentral.logica.Edicion;
+import ServidorCentral.logica.Evento;
+import ServidorCentral.logica.IControllerEvento;
 
 public class AltaTipoRegistro extends JInternalFrame {
 
@@ -23,7 +32,7 @@ public class AltaTipoRegistro extends JInternalFrame {
 	private JTextField textFieldNombre;
 	private JTextField textFieldCosto;
 	private JTextField textFieldCupo;
-	private JButton btnAceptar;
+	private JButton btnAceptar ;
 	private JButton btnCancelar;
 
 	public AltaTipoRegistro(IControllerEvento ice) {
@@ -151,16 +160,16 @@ public class AltaTipoRegistro extends JInternalFrame {
 		gbc_panelBotones.fill = GridBagConstraints.HORIZONTAL;
 		getContentPane().add(panelBotones, gbc_panelBotones);
 
-		btnAceptar = new JButton("Aceptar");
+		btnAceptar  = new JButton("Aceptar ");
 		btnCancelar = new JButton("Cancelar");
 
-		GridBagConstraints gbc_btnAceptar = new GridBagConstraints();
-		gbc_btnAceptar.insets = new Insets(0, 0, 0, 20); 
-		gbc_btnAceptar.gridx = 0;
-		gbc_btnAceptar.gridy = 0;
-		gbc_btnAceptar.anchor = GridBagConstraints.LINE_END;
-		btnAceptar.setPreferredSize(new Dimension(100, 25));
-		panelBotones.add(btnAceptar, gbc_btnAceptar);
+		GridBagConstraints gbc_btnAceptar  = new GridBagConstraints();
+		gbc_btnAceptar .insets = new Insets(0, 0, 0, 20); 
+		gbc_btnAceptar .gridx = 0;
+		gbc_btnAceptar .gridy = 0;
+		gbc_btnAceptar .anchor = GridBagConstraints.LINE_END;
+		btnAceptar .setPreferredSize(new Dimension(100, 25));
+		panelBotones.add(btnAceptar , gbc_btnAceptar );
 
 		GridBagConstraints gbc_btnCancelar = new GridBagConstraints();
 		gbc_btnCancelar.gridx = 1;
@@ -184,7 +193,7 @@ public class AltaTipoRegistro extends JInternalFrame {
 			this.setVisible(false);
 		});
 
-		btnAceptar.addActionListener(e -> {
+		btnAceptar .addActionListener(e -> {
 			String nombre = textFieldNombre.getText().trim();
 			String descripcion = textAreaDescripcion.getText().trim();
 			String costoStr = textFieldCosto.getText().trim();

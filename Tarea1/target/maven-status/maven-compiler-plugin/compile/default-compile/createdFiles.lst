@@ -3,7 +3,7 @@ ServidorCentral\logica\ControllerUsuario.class
 ServidorCentral\logica\Asistente.class
 ServidorCentral\logica\Usuario.class
 ServidorCentral\logica\ETipoNivel.class
-ServidorCentral\presentacion\AceptarRechazarEdicion.class
+ServidorCentral\presentacion\Aceptar RechazarEdicion.class
 ServidorCentral\presentacion\AltaPatrocinio.class
 ServidorCentral\logica\DTRegistro.class
 ServidorCentral\logica\ManejadorEvento.class
@@ -20,7 +20,7 @@ ServidorCentral\logica\Organizador.class
 ServidorCentral\presentacion\ConsultaPatrocinio.class
 ServidorCentral\excepciones\CredencialesInvalidasException.class
 ServidorCentral\logica\Categoria.class
-ServidorCentral\presentacion\AceptarRechazarEdicion$2.class
+ServidorCentral\presentacion\Aceptar RechazarEdicion$2.class
 ServidorCentral\logica\DTPatrocinio.class
 ServidorCentral\presentacion\AltaUsuario.class
 ServidorCentral\logica\DTEdicion.class
@@ -30,7 +30,7 @@ ServidorCentral\presentacion\ModificarUsuario.class
 ServidorCentral\excepciones\UsuarioNoExisteException.class
 ServidorCentral\logica\ControllerUsuario$RolUsuario.class
 ServidorCentral\presentacion\ConsultaEdicionEvento.class
-ServidorCentral\presentacion\AceptarRechazarEdicion$1.class
+ServidorCentral\presentacion\Aceptar RechazarEdicion$1.class
 ServidorCentral\logica\DTevento.class
 ServidorCentral\logica\ControllerInstitucion.class
 ServidorCentral\logica\Edicion.class

@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
   /**
-   * Cerrar nav móvil al hacer clic en un link
+   * cerrar nav móvil al hacer clic en un link
    */
   document.querySelectorAll("#navmenu a").forEach((navLink) => {
     navLink.addEventListener("click", () => {

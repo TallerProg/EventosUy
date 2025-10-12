@@ -1,12 +1,31 @@
 package ServidorCentral.presentacion;
 
-import ServidorCentral.logica.*;
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
+
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+
+import ServidorCentral.logica.Asistente;
+import ServidorCentral.logica.IControllerInstitucion;
+import ServidorCentral.logica.IControllerUsuario;
+import ServidorCentral.logica.Institucion;
+import ServidorCentral.logica.Organizador;
+import ServidorCentral.logica.Usuario;
 
 public class ModificarUsuario extends JInternalFrame {
 
@@ -35,7 +54,7 @@ public class ModificarUsuario extends JInternalFrame {
     private JLabel lblInstitucion;
     private JComboBox<String> comboInstitucion;
 
-    private JButton btnAceptar;
+    private JButton btnAceptar ;
     private JButton btnCancelar;
 
     public ModificarUsuario(IControllerUsuario icu, IControllerInstitucion ici) {
@@ -194,16 +213,16 @@ public class ModificarUsuario extends JInternalFrame {
         lblInstitucion.setVisible(false);
         comboInstitucion.setVisible(false);
 
-        btnAceptar = new JButton("Guardar");
+        btnAceptar  = new JButton("Guardar");
         btnCancelar = new JButton("Cancelar");
 
-        GridBagConstraints gbc_btnAceptar = new GridBagConstraints();
-        gbc_btnAceptar.insets = new Insets(10, 50, 5, 20);
-        gbc_btnAceptar.gridx = 1;
-        gbc_btnAceptar.gridy = row;
-        gbc_btnAceptar.anchor = GridBagConstraints.LINE_START;
-        btnAceptar.setPreferredSize(new Dimension(100, 25));
-        getContentPane().add(btnAceptar, gbc_btnAceptar);
+        GridBagConstraints gbc_btnAceptar  = new GridBagConstraints();
+        gbc_btnAceptar .insets = new Insets(10, 50, 5, 20);
+        gbc_btnAceptar .gridx = 1;
+        gbc_btnAceptar .gridy = row;
+        gbc_btnAceptar .anchor = GridBagConstraints.LINE_START;
+        btnAceptar .setPreferredSize(new Dimension(100, 25));
+        getContentPane().add(btnAceptar , gbc_btnAceptar );
 
         GridBagConstraints gbc_btnCancelar = new GridBagConstraints();
         gbc_btnCancelar.insets = new Insets(10, 20, 5, 80);
@@ -215,7 +234,7 @@ public class ModificarUsuario extends JInternalFrame {
 
         btnCancelar.addActionListener(e -> this.setVisible(false));
         comboUsuarios.addActionListener(e -> actualizarCampos());
-        btnAceptar.addActionListener(e -> modificarUsuario());
+        btnAceptar .addActionListener(e -> modificarUsuario());
     }
 
     private void addField(JLabel label, JComponent field, int row) {
@@ -328,7 +347,7 @@ public class ModificarUsuario extends JInternalFrame {
 		if (!usuarios.isEmpty()) {
 			comboUsuarios.setSelectedIndex(0);
 			String nick = usuarios.get(0).getNickname();
-			if(nick != null)
+			if (nick != null)
 			actualizarCampos();
 		}
     }

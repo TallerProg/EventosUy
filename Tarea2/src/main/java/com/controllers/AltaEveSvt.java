@@ -104,8 +104,8 @@ public class AltaEveSvt extends HttpServlet {
 
         try {
 
-            getController().altaEvento(nombre, descripcion, LocalDate.now(), sigla, categorias);
-            response.sendRedirect(request.getContextPath() + "/organizador/eventos?ok=1");
+            getController().altaEvento(nombre, descripcion, LocalDate.now(), sigla, categorias,imagenWebPath);
+            response.sendRedirect(request.getContextPath() + "/alta-evento?ok=1");
         } catch (Exception e) {
             errores.add(e.getMessage() != null ? e.getMessage() : "Error al dar de alta el evento.");
             mirrorBack(request, nombre, descripcion, sigla, paramCats, errores);

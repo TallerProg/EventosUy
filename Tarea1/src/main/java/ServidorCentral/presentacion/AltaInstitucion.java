@@ -5,7 +5,11 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 import ServidorCentral.logica.IControllerInstitucion;
 
@@ -17,7 +21,7 @@ public class AltaInstitucion extends JInternalFrame {
 	private JTextField txtNombre;
 	private JTextField txtDescripcion;
 	private JTextField txtURL;
-	private JButton btnAceptar;
+	private JButton btnAceptar ;
 	private JButton btnCancelar;
 
 	public AltaInstitucion(IControllerInstitucion controller) {
@@ -85,16 +89,16 @@ public class AltaInstitucion extends JInternalFrame {
 		gbc_txtURL.gridy = 2;
 		getContentPane().add(txtURL, gbc_txtURL);
 
-		btnAceptar = new JButton("Aceptar");
-		GridBagConstraints gbc_btnAceptar = new GridBagConstraints();
-		gbc_btnAceptar.insets = new Insets(10, 50, 5, 20);
-		gbc_btnAceptar.gridx = 1;
-		gbc_btnAceptar.gridy = 4;
-		gbc_btnAceptar.weightx = 0;
-		gbc_btnAceptar.anchor = GridBagConstraints.LINE_START;
+		btnAceptar  = new JButton("Aceptar ");
+		GridBagConstraints gbc_btnAceptar  = new GridBagConstraints();
+		gbc_btnAceptar .insets = new Insets(10, 50, 5, 20);
+		gbc_btnAceptar .gridx = 1;
+		gbc_btnAceptar .gridy = 4;
+		gbc_btnAceptar .weightx = 0;
+		gbc_btnAceptar .anchor = GridBagConstraints.LINE_START;
 		Dimension mismoTamaño = new Dimension(100, 25);
-		btnAceptar.setPreferredSize(mismoTamaño);
-		getContentPane().add(btnAceptar, gbc_btnAceptar);
+		btnAceptar .setPreferredSize(mismoTamaño);
+		getContentPane().add(btnAceptar , gbc_btnAceptar );
 
 		btnCancelar = new JButton("Cancelar");
 		GridBagConstraints gbc_btnCancelar = new GridBagConstraints();
@@ -113,7 +117,7 @@ public class AltaInstitucion extends JInternalFrame {
 			this.setVisible(false);
 		});
 
-		btnAceptar.addActionListener(e -> {
+		btnAceptar .addActionListener(e -> {
 			String nombre = txtNombre.getText().trim();
 			String descripcion = txtDescripcion.getText().trim();
 			String url = txtURL.getText().trim();

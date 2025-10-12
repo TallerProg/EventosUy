@@ -1,15 +1,22 @@
 package ServidorCentral.logica.test;
 
-import org.junit.jupiter.api.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import ServidorCentral.excepciones.CredencialesInvalidasException;
 import ServidorCentral.excepciones.UsuarioNoExisteException;
 import ServidorCentral.excepciones.UsuarioRepetidoException;
-import ServidorCentral.logica.*;
+import ServidorCentral.logica.ControllerUsuario;
+import ServidorCentral.logica.ManejadorUsuario;
 
 class ControllerUsuarioLoginTest {
 
@@ -20,12 +27,12 @@ class ControllerUsuarioLoginTest {
         controller = new ControllerUsuario();
 
         // Limpieza
-        ManejadorUsuario.getinstance().limpiarUsuarios();
+        ManejadorUsuario.getInstance().limpiarUsuarios();
 
         // Alta de un asistente y un organizador (con contraseñas en texto plano)
         ControllerUsuario cu = controller;
 
-        cu.AltaAsistente(
+        cu.altaAsistente(
                 "asist1",
                 "asist1@mail.com",
                 "Juan",
@@ -35,7 +42,7 @@ class ControllerUsuarioLoginTest {
                 "1234"
         );
 
-        cu.AltaOrganizador(
+        cu.altaOrganizador(
                 "org1",
                 "org1@mail.com",
                 "Org Uno",
@@ -46,7 +53,7 @@ class ControllerUsuarioLoginTest {
     }
 
     @Test
-    void loginPorNickname_Asistente_OK() throws Exception {
+    void loginPorNicknameAsistenteOK() throws Exception {
         ControllerUsuario.DTSesionUsuario s = controller.iniciarSesion("asist1", "1234");
         assertNotNull(s);
         assertEquals("asist1", s.getNickname());
@@ -57,7 +64,7 @@ class ControllerUsuarioLoginTest {
     }
 
     @Test
-    void loginPorCorreo_Organizador_OK() throws Exception {
+    void loginPorCorreoOrganizadorOK() throws Exception {
         ControllerUsuario.DTSesionUsuario s = controller.iniciarSesion("org1@mail.com", "abcd");
         assertNotNull(s);
         assertEquals("org1", s.getNickname());
@@ -66,19 +73,19 @@ class ControllerUsuarioLoginTest {
     }
 
     @Test
-    void loginUsuarioInexistente_falla() {
+    void loginUsuarioInexistentefalla() {
         assertThrows(UsuarioNoExisteException.class, () ->
                 controller.iniciarSesion("noexiste", "1234"));
     }
 
     @Test
-    void loginPasswordInvalida_falla() {
+    void loginPasswordInvalidafalla() {
         assertThrows(CredencialesInvalidasException.class, () ->
                 controller.iniciarSesion("asist1", "mal_pass"));
     }
 
     @Test
-    void loginParametrosVacios_falla() {
+    void loginParametrosVaciosfalla() {
         assertThrows(CredencialesInvalidasException.class, () ->
                 controller.iniciarSesion("", "1234"));
 
@@ -90,7 +97,7 @@ class ControllerUsuarioLoginTest {
     }
 
     @Test
-    void cerrarSesion_NoNPE() {
+    void cerrarSesionNoNPE() {
         // Simplemente verificamos que no tire NPE (usa Objects.requireNonNull)
         ControllerUsuario.DTSesionUsuario ses =
                 new ControllerUsuario.DTSesionUsuario("asist1", "asist1@mail.com",

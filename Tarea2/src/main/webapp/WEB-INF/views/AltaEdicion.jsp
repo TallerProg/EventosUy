@@ -117,7 +117,7 @@
             <!-- Botones -->
             <div class="col-12 d-flex gap-2">
               <button type="submit" class="btn btn-primary">
-                <i class="bi bi-check2-circle me-1"></i> Aceptar
+                <i class="bi bi-check2-circle me-1"></i> Aceptar 
               </button>
               <a href="<%=ctx%>/" class="btn btn-outline-secondary">Cancelar</a>
             </div>
@@ -134,8 +134,6 @@
 </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="<%=ctx%>/vendor/swiper/swiper-bundle.min.js"></script>
-  <script src="<%=ctx%>/vendor/glightbox/js/glightbox.min.js"></script>
   <script>
     // Preview simple de imagen
     const inp = document.getElementById('imagen');

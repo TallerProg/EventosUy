@@ -1,15 +1,18 @@
 package ServidorCentral.logica.test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
+
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
-import ServidorCentral.logica.*;
-
-import static org.junit.jupiter.api.Assertions.*;
-
-import org.junit.jupiter.api.BeforeAll;
+import ServidorCentral.logica.Factory;
+import ServidorCentral.logica.IControllerInstitucion;
+import ServidorCentral.logica.Institucion;
+import ServidorCentral.logica.ManejadorUsuario;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class AltaInstitucionTest {
@@ -24,7 +27,7 @@ class AltaInstitucionTest {
 
 	@BeforeEach
 	void limpiarUsuarios() {
-		ManejadorUsuario.getinstance().limpiar();
+		ManejadorUsuario.getInstance().limpiar();
 	}
 
 	@Test
@@ -46,7 +49,8 @@ class AltaInstitucionTest {
 			assertEquals(insRecuperada.getPatrocinios().size(), 0);
 			
 		} catch (Exception e) {
-			fail(e.getMessage());
-		};
+			fail(e.getMessage()); 
+			}
+		;
 	}
 }

@@ -2,17 +2,16 @@
 <%@ page import="java.util.List" %>
 <%@ page import="ServidorCentral.logica.Institucion" %>
 <%
-  String ctx = request.getContextPath();
-
-  // Mostrar botón de alta solo si hay organizador logueado
-  ServidorCentral.logica.Organizador organizadorSesion =
-    (ServidorCentral.logica.Organizador) session.getAttribute("usuarioOrganizador");
+  String ctx = request.getContextPath(); 
+  boolean ES_ORG = Boolean.TRUE.equals(request.getAttribute("ES_ORG"));
 
   @SuppressWarnings("unchecked")
-  List<Institucion> instituciones = (List<Institucion>) request.getAttribute("INSTITUCIONES");
+  java.util.List<ServidorCentral.logica.Institucion> instituciones =
+      (java.util.List<ServidorCentral.logica.Institucion>) request.getAttribute("INSTITUCIONES");
 
   Object errMsg = request.getAttribute("msgError");
 %>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -33,11 +32,10 @@
       <h2>Instituciones</h2>
 
       <!-- Botón visible solo para organizador -->
-      
-      <% if (organizadorSesion != null) { %>
-        <a href="<%= ctx %>/AltaInstitucion" class="btn btn-primary">
-          <i class="bi bi-plus-circle me-1"></i> Alta de Institución
-        </a>
+      <% if (ES_ORG) { %>
+    	<a href="<%= ctx %>/AltaInstitucion" class="btn btn-primary" title="Alta de Institución" aria-label="Alta de Institución">
+      	<i class="bi bi-plus-circle me-1"></i> Alta de Institución
+    	</a>
       <% } %>
     </div>
 
@@ -54,24 +52,32 @@
       <% } else { %>
         <div class="row g-4 justify-content-center">
           <% for (Institucion i : instituciones) {
+        	  String img = (i != null && i.getImg() != null && !i.getImg().isBlank()) ? (ctx + i.getImg()): (ctx + "/media/img/default.png");
                String nombre = (i != null && i.getNombre() != null) ? i.getNombre() : "";
                String desc   = (i != null && i.getDescripcion() != null) ? i.getDescripcion() : "";
                String web    = (i != null && i.getUrl() != null) ? i.getUrl() : "";
           %>
-          <div class="col-lg-3 col-md-6">
-            <div class="speaker-card text-center">
+
+          <!-- Columna flexible para igualar alturas -->
+          <div class="col-lg-3 col-md-6 d-flex">
+            <!-- Card flexible a 100% de la altura disponible -->
+            <div class="speaker-card text-center h-100 d-flex flex-column position-relative w-100">
               <div class="speaker-image">
-                <img src="<%= ctx %>/media/img/default.png" alt="<%= nombre %>" class="img-fluid p-3">
+                <img src="<%= img %>" alt="<%= nombre %>" class="img-fluid">
               </div>
-              <div class="speaker-content">
-                <p class="speaker-title"><%= nombre %></p>
-                <p class="speaker-company"><%= desc %></p>
+              <div class="speaker-content d-flex flex-column">
+                <p class="speaker-title mb-1"><%= nombre %></p>
+                <p class="speaker-company mb-3 flex-grow-1"><%= desc %></p>
+
                 <% if (!web.isBlank()) { %>
-                  <p><a href="<%= web %>" target="_blank" rel="noopener"><%= web %></a></p>
+                  <a href="<%= web %>" target="_blank" rel="noopener" class="btn btn-outline-primary mt-auto">
+                    Visitar sitio
+                  </a>
                 <% } %>
               </div>
             </div>
           </div>
+
           <% } %>
         </div>
       <% } %>

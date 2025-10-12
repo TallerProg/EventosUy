@@ -8,15 +8,16 @@ public class Institucion {
     private String nombre;
     private String url;
     private String descripcion;
-
+    private String img;
     
     private List<Patrocinio> patrocinios;
     private List<Asistente> asistentes;
 
-    public Institucion(String nombre, String url, String descripcion) {
+    public Institucion(String nombre, String url, String descripcion,String img) {
         this.nombre = nombre;
         this.url = url;
         this.descripcion = descripcion;
+        this.img = img;
         this.patrocinios = new ArrayList<>();
         this.asistentes = new ArrayList<>();
     }
@@ -27,6 +28,9 @@ public class Institucion {
     public String getUrl() { return url; }
     public void setUrl(String url) { this.url = url; }
 
+    public String getImg() { return img; }
+    public void setImg(String img) { this.img = img; }
+    
     public String getDescripcion() { return descripcion; }
     public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
 
