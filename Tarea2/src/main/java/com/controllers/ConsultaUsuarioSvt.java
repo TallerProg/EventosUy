@@ -44,12 +44,12 @@ public class ConsultaUsuarioSvt extends HttpServlet {
 			return;
 		}
 
-		DTUsuarioListaConsulta u = icu.ConsultaDeUsuario(nick);
+		DTUsuarioListaConsulta u = icu.consultaDeUsuario(nick);
 		if (u == null) {
 			if (asis != null) {
-				u = icu.ConsultaDeUsuario(asis.getNickname());
+				u = icu.consultaDeUsuario(asis.getNickname());
 			} else if (org != null) {
-				u = icu.ConsultaDeUsuario(org.getNickname());
+				u = icu.consultaDeUsuario(org.getNickname());
 			}
 			if (u == null) {
 				resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Usuario no encontrado.");
