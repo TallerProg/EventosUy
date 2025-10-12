@@ -118,6 +118,8 @@ public class AltaInstitucionSvt extends HttpServlet {
             ctrl.altaInstitucion(nombre, url, descripcion,imagenWebPath);
 
             setSuccessMessage("Institución registrada con éxito.", request);
+            response.sendRedirect(request.getContextPath() + "/Instituciones"); // Redirige a la página de la lista de instituciones
+
         } catch (Exception e) {
             String errorMessage = e.getMessage();
             if (errorMessage.contains("La institución ya existe")) {
@@ -125,10 +127,10 @@ public class AltaInstitucionSvt extends HttpServlet {
             } else {
                 setErrorMessage("No se pudo completar el Alta de institución: " + errorMessage, request);
             }
+            forwardToForm(request, response);
+
         }
 
-        // Después de procesar, reenviar la solicitud para mostrar los mensajes
-        forwardToForm(request, response);
     }
 
     private static boolean isBlank(String s) {

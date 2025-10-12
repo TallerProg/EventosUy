@@ -28,10 +28,14 @@
     if (n.contains("literat") || n.contains("libro")) return "bi-book";
     return "bi-bookmark";
   }
+  
+
 %>
 
 <%
   final String ctx = request.getContextPath();
+
+	boolean ES_ORG = Boolean.TRUE.equals(request.getAttribute("ES_ORG"));
 
   @SuppressWarnings("unchecked")
   List<Evento> eventos = (List<Evento>) request.getAttribute("LISTA_EVENTOS");
@@ -54,6 +58,12 @@
     <section id="eventos" class="speakers section">
       <div class="container section-title d-flex justify-content-between align-items-center">
         <h2>Eventos</h2>
+        
+	      <% if (ES_ORG) { %>
+	    	<a href="<%= ctx %>/alta-evento" class="btn btn-primary" title="Alta de Evento" aria-label="Alta de Evento">
+	      	<i class="bi bi-plus-circle me-1"></i> Alta de Evento
+	    	</a>
+	      <% } %>
       </div>
 
       <div class="container">

@@ -16,6 +16,13 @@
 <head>
   <jsp:include page="../template/head.jsp" />
   <title>EventUY — Inicio</title>
+
+  <!-- Estilos puntuales para asegurar el botón al fondo de la card -->
+  <style>
+    .speaker-card { display: flex; flex-direction: column; height: 100%; }
+    .speaker-content { display: flex; flex-direction: column; flex: 1; }
+    .speaker-card .btn-ver-ediciones { margin-top: auto; }
+  </style>
 </head>
 
 <body class="index-page">
@@ -53,7 +60,7 @@
               for (int i = 0; i < eventos.length; i++) {
                 Evento e = eventos[i];
                 String encNombre = URLEncoder.encode(e.getNombre(), StandardCharsets.UTF_8.name());
-                String detalleHref = ctx + "/ConsultaEvento?evento=" + encNombre; // <<< igual que ListarEventos
+                String detalleHref = ctx + "/ConsultaEvento?evento=" + encNombre; // igual que ListarEventos
             %>
               <div class="carousel-item <%= (i == 0) ? "active" : "" %>">
                 <img src="<%= (e != null && e.getImg() != null && !e.getImg().isBlank()) ? (ctx + e.getImg()): (ctx + "/media/img/default.png") %>"
@@ -102,10 +109,9 @@
               <div class="d-flex flex-wrap gap-2 justify-content-center">
               	<%
               		if (categorias != null && categorias.length > 0){
-              			for(Categoria c : categorias){
+              			for (Categoria c : categorias) {
               				String nomCat = c.getNombre();
               	%>
-              
                 <button type="button" class="btn btn-outline-primary category-btn" data-category="<%= nomCat %>">
                   <% if (nomCat.contains("Tecnología")) { %><i class="bi bi-cpu" title="Tecnología"></i><% } %>
                   <% if (nomCat.contains("Innovación")) { %><i class="bi bi-lightbulb" title="Innovación"></i><% } %>
@@ -121,8 +127,9 @@
                   <% if (nomCat.contains("Investigación")) { %><i class="bi bi-flask" title="Investigación"></i><% } %>
                   <%= nomCat %>
                 </button>
-                <% } }
-              			else{
+                <%
+                      }
+                    } else {
                 %>
                 <div class="col-12">
 	              <div class="alert alert-info text-center" role="alert">
@@ -130,9 +137,8 @@
 	              </div>
 	            </div>
 	            <%
-              			}
+                    }
 	            %>
-	            
               </div>
             </div>
           </div>
@@ -140,7 +146,7 @@
       </div>
     </section>
 
-    <!-- GRID DE EVENTOS -->
+    <!-- GRID DE EVENTOS (máximo 4) -->
     <section id="speakers" class="speakers section">
       <div class="container section-title">
         <h2>Eventos</h2>
@@ -150,19 +156,22 @@
         <div class="row g-4 justify-content-center">
           <%
             if (eventos != null && eventos.length > 0) {
-              for (Evento e : eventos) {
+              int max = Math.min(4, eventos.length);
+              for (int i = 0; i < max; i++) {
+                Evento e = eventos[i];
+
                 String encNombre = URLEncoder.encode(e.getNombre(), StandardCharsets.UTF_8.name());
                 String detalleHref = ctx + "/ConsultaEvento?evento=" + encNombre;
 
                 List<Categoria> categoriaseve = e.getCategoria();
                 StringBuilder catBuilder = new StringBuilder();
-                for (int i = 0; i < categoriaseve.size(); i++) {
-                  String nombre = categoriaseve.get(i).getNombre()
+                for (int j = 0; j < categoriaseve.size(); j++) {
+                  String nombre = categoriaseve.get(j).getNombre()
                     .toLowerCase()
                     .replace("á","a").replace("é","e").replace("í","i")
                     .replace("ó","o").replace("ú","u");
                   catBuilder.append(nombre);
-                  if (i < categoriaseve.size() - 1) catBuilder.append(",");
+                  if (j < categoriaseve.size() - 1) catBuilder.append(",");
                 }
                 String catString = catBuilder.toString();
           %>
@@ -193,15 +202,15 @@
                   <% if (catString.contains("investigacion")) { %><i class="bi bi-flask" title="Investigación"></i><% } %>
                 </div>
 
-                <!-- Enlaces al detalle del evento -->
-                <a href="<%= detalleHref %>" class="btn btn-primary mt-auto">Ver ediciones</a>
+                <!-- Botón fijo abajo -->
+                <a href="<%= detalleHref %>" class="btn btn-primary mt-auto btn-ver-ediciones">Ver ediciones</a>
                 <a href="<%= detalleHref %>" class="stretched-link" aria-label="Ver ediciones de <%= e.getNombre() %>"></a>
               </div>
             </div>
           </div>
 
           <%
-              } // for
+              } // for i<max
             } else {
           %>
             <div class="col-12">
@@ -232,4 +241,3 @@
   <script src="<%= ctx %>/media/js/main.js"></script>
 </body>
 </html>
-

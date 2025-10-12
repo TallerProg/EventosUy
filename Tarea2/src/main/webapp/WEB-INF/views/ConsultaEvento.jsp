@@ -71,10 +71,11 @@
                 <%
                 List<DTEdicion> ediciones = (List<DTEdicion>) request.getAttribute("LISTA_EDICIONES");
                 for (DTEdicion edicion : ediciones) {
+                	String imge = (edicion != null && edicion.getImagenWebPath() != null && !edicion.getImagenWebPath().isBlank()) ? (ctx + edicion.getImagenWebPath()): (ctx + "/media/img/default.png");
                 %>
                 <div class="col-lg-4 col-md-6">
                   <div class="edition-card card shadow-sm h-100">
-                    <img src="<%=ctx%>/media/img/ediciones/ConfrenciaPunta2025.jpg" class="card-img-top" alt="Tecnología Punta del Este 2026" height="250px">
+                    <img src="<%=imge%>" class="card-img-top" alt="Tecnología Punta del Este 2026" height="250px">
                     <div class="card-body">
                       <h5 class="card-title"><%= edicion.getNombre() %></h5>
                       <p class="card-text">📍 <%= edicion.getCiudad() %>, <%= edicion.getPais() %></p>

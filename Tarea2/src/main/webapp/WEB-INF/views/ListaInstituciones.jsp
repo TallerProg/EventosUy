@@ -70,7 +70,7 @@
                 <p class="speaker-company mb-3 flex-grow-1"><%= desc %></p>
 
                 <% if (!web.isBlank()) { %>
-                  <a href="<%= web %>" target="_blank" rel="noopener" class="btn btn-outline-primary mt-auto">
+                  <a href="<%= web %>" target="_blank" rel="noopener" class="btn btn-primary btn-ver-ediciones mt-auto">
                     Visitar sitio
                   </a>
                 <% } %>

@@ -8,9 +8,11 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
+import jakarta.servlet.http.HttpSession;
 import ServidorCentral.logica.Evento;
 import ServidorCentral.logica.IControllerEvento;
+import ServidorCentral.logica.ControllerUsuario.DTSesionUsuario;
+import ServidorCentral.logica.ControllerUsuario.RolUsuario;
 import ServidorCentral.logica.Factory; 
 
 @WebServlet("/Eventos")
@@ -24,6 +26,16 @@ public class ListaEventosSvt extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
+    	
+        boolean esOrg = false;
+        HttpSession session = req.getSession(false);
+        if (session != null) {
+          Object o = session.getAttribute("usuario_logueado");
+          if (o instanceof DTSesionUsuario u && u.getRol() == RolUsuario.ORGANIZADOR) {
+            esOrg = true;
+          }
+        }
+        req.setAttribute("ES_ORG", esOrg);
 
         try {
             IControllerEvento icEvento = getController();
