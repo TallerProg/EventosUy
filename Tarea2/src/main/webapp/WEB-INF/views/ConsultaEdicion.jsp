@@ -7,11 +7,9 @@ String ctx = request.getContextPath();
 @SuppressWarnings("unchecked")
 java.util.Map<String, Object> VM = (java.util.Map<String, Object>) request.getAttribute("VM");
 
-// 1) Intentar por sesión (si el login guardó los objetos)
+// Flags (acepta de sesión o de request)
 boolean ES_ORGANIZADOR = (session != null && session.getAttribute("usuarioOrganizador") != null);
 boolean ES_ASISTENTE   = (session != null && session.getAttribute("usuarioAsistente")   != null);
-
-// 2) Si no hubo sesión, tomar de request (aceptar ambos nombres)
 if (!ES_ORGANIZADOR) {
   Object v = request.getAttribute("ES_ORGANIZADOR");
   if (v == null) v = request.getAttribute("ES_ORG");
@@ -22,8 +20,6 @@ if (!ES_ASISTENTE) {
   if (v == null) v = request.getAttribute("ES_ASIS");
   ES_ASISTENTE = Boolean.TRUE.equals(v) || "true".equalsIgnoreCase(String.valueOf(v));
 }
-
-// 3) NUEVO: flags específicos de ESTA edición
 boolean ES_ORGANIZADOR_ED = false;
 Object _orgEd = request.getAttribute("ES_ORGANIZADOR_ED");
 if (_orgEd == null) _orgEd = request.getAttribute("ES_ORG_ED");
@@ -46,9 +42,7 @@ String ciudad = VM != null ? (String) VM.get("ciudad") : null;
 String pais   = VM != null ? (String) VM.get("pais")   : null;
 String estado = VM != null ? (String) VM.get("estado") : null;
 String imagen = VM != null ? (String) VM.get("imagen") : null;
-
-// nombre del evento para armar links
-String evNom = VM != null ? (String) VM.get("eventoNombre") : null;
+String evNom  = VM != null ? (String) VM.get("eventoNombre") : null;
 
 if (imagen == null || imagen.isEmpty()) {
   imagen = ctx + "/media/img/ediciones/default.jpg";
@@ -69,10 +63,9 @@ java.util.Map<String,String> miReg =
 @SuppressWarnings("unchecked")
 java.util.List<DTPatrocinio> pats = (List<DTPatrocinio>) request.getAttribute("patrocinios");
 
-// Helpers encoding / flags
+// Helpers encoding
 String encEd = (nombre != null) ? URLEncoder.encode(nombre, StandardCharsets.UTF_8.name()) : "";
 String encEv = (evNom  != null) ? URLEncoder.encode(evNom,  StandardCharsets.UTF_8.name()) : "";
-boolean yaInscriptoEnAlguno = (miReg != null && miReg.get("tipo") != null);
 %>
 <!DOCTYPE html>
 <html lang="es">
@@ -89,20 +82,6 @@ boolean yaInscriptoEnAlguno = (miReg != null && miReg.get("tipo") != null);
 <main class="main mt-5 pt-5">
   <section class="container">
 
-    <%-- DEBUG opcional: activar con ?debug=1 --%>
-    <% if ("1".equals(request.getParameter("debug"))) { %>
-      <div class="alert alert-info py-2 my-2">
-        <small>
-          DEBUG → ES_ASISTENTE=<%= ES_ASISTENTE %>,
-          ES_ORGANIZADOR=<%= ES_ORGANIZADOR %>,
-          ES_ORGANIZADOR_ED=<%= ES_ORGANIZADOR_ED %>,
-          ES_ASISTENTE_INSCRIPTO_ED=<%= ES_ASISTENTE_INSCRIPTO_ED %>,
-          tipos.size=<%= (tipos==null?0:tipos.size()) %>,
-          miReg=<%= (miReg==null?"null":miReg.toString()) %>
-        </small>
-      </div>
-    <% } %>
-
     <% if (msgOk != null) { %>
       <div class="alert alert-success d-flex align-items-center"><i class="bi bi-check2-circle me-2"></i><%= msgOk %></div>
     <% } %>
@@ -116,7 +95,7 @@ boolean yaInscriptoEnAlguno = (miReg != null && miReg.get("tipo") != null);
 
       <div class="section-title"><h2><%= nombre %></h2></div>
 
-      <!-- ===== Cabecera: imagen + datos + Tipos de Registro ===== -->
+      <!-- ===== Cabecera ===== -->
       <div class="row g-4">
         <div class="col-lg-6">
           <img src="<%= imagen %>" alt="<%= nombre %>"
@@ -147,20 +126,15 @@ boolean yaInscriptoEnAlguno = (miReg != null && miReg.get("tipo") != null);
               <% } %>
             </div>
 
-            <%-- === Botón Inscribirme (global) === --%>
+            <%-- Botón Inscribirme (global) --%>
             <%
-              boolean esAsis = ES_ASISTENTE;
-              boolean sinRegistro = (miReg == null)
-                                    || miReg.isEmpty()
-                                    || miReg.get("tipo") == null
+              boolean sinRegistro = (miReg == null) || miReg.isEmpty() || miReg.get("tipo") == null
                                     || String.valueOf(miReg.get("tipo")).isBlank();
               boolean hayTipos = (tipos != null && !tipos.isEmpty());
-
-              boolean puedeMostrarInscribirme = esAsis && sinRegistro && hayTipos;
+              boolean puedeMostrarInscribirme = ES_ASISTENTE && sinRegistro && hayTipos;
 
               if (puedeMostrarInscribirme) {
                 int cantTipos = tipos.size();
-
                 if (cantTipos == 1) {
                   java.util.Map<String,String> tr0 = tipos.get(0);
                   String t0n = tr0.get("nombre");
@@ -202,8 +176,8 @@ boolean yaInscriptoEnAlguno = (miReg != null && miReg.get("tipo") != null);
                     </div>
                   </div>
             <%
-                } // cantTipos > 1
-              } // puedeMostrarInscribirme
+                }
+              }
             %>
 
             <div class="list-group">
@@ -240,7 +214,7 @@ boolean yaInscriptoEnAlguno = (miReg != null && miReg.get("tipo") != null);
                 </div>
               </div>
             <%
-                } // for
+                }
               } else {
             %>
               <div class="list-group-item text-muted">No hay tipos de registro.</div>
@@ -249,12 +223,11 @@ boolean yaInscriptoEnAlguno = (miReg != null && miReg.get("tipo") != null);
           </div>
         </div>
       </div>
-      <!-- ===== Fin cabecera ===== -->
 
       <hr class="my-4">
 
-      <!-- ===== Mi registro (solo si asistente INSCRIPTO en ESTA edición) ===== -->
-      <% if (ES_ASISTENTE_INSCRIPTO_ED) { %>
+      <!-- ===== Mi registro (solo si asistente inscripto en esta edición) ===== -->
+      <% if (ES_ASISTENTE && ES_ASISTENTE_INSCRIPTO_ED && miReg != null) { %>
       <div class="card shadow-sm mb-4">
         <div class="card-body">
           <h5 class="card-title"><i class="bi bi-person-badge"></i> Mi registro</h5>
@@ -267,7 +240,7 @@ boolean yaInscriptoEnAlguno = (miReg != null && miReg.get("tipo") != null);
       </div>
       <% } %>
 
-      <!-- ===== Registros de Asistentes (solo si ORGANIZA ESTA edición) ===== -->
+      <!-- ===== Registros (solo si ORGANIZA ESTA edición) ===== -->
       <% if (ES_ORGANIZADOR_ED) { %>
       <div class="card shadow-sm mb-4">
         <div class="card-body">
@@ -337,12 +310,11 @@ boolean yaInscriptoEnAlguno = (miReg != null && miReg.get("tipo") != null);
     if (e == null) return "bg-secondary";
     switch (e) {
       case "Ingresada": return "bg-success";
-      case "Aceptada":   return "bg-primary";
-      case "Rechazada":  return "bg-danger";
-      default:           return "bg-secondary";
+      case "Aceptada":  return "bg-primary";
+      case "Rechazada": return "bg-danger";
+      default:          return "bg-secondary";
     }
   }
 %>
 </body>
 </html>
-
