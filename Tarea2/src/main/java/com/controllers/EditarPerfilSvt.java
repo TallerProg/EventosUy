@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 
 import ServidorCentral.logica.*;
+import ServidorCentral.logica.ControllerUsuario.DTSesionUsuario;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
@@ -12,9 +13,9 @@ import jakarta.servlet.http.*;
 
 @WebServlet("/editarperfil")
 @MultipartConfig(
-    fileSizeThreshold = 1024 * 1024, // 1MB
-    maxFileSize = 10 * 1024 * 1024,  // 10MB
-    maxRequestSize = 20 * 1024 * 1024 // 20MB
+    fileSizeThreshold = 1024 * 1024,    // 1MB
+    maxFileSize = 10 * 1024 * 1024,     // 10MB
+    maxRequestSize = 20 * 1024 * 1024   // 20MB
 )
 public class EditarPerfilSvt extends HttpServlet {
     private static final long serialVersionUID = 1L;
@@ -25,14 +26,19 @@ public class EditarPerfilSvt extends HttpServlet {
             throws ServletException, IOException {
 
         HttpSession session = req.getSession(false);
-        String nickUsuario = (session != null) ? (String) session.getAttribute("NICKNAME") : null;
-
-        if (nickUsuario == null || nickUsuario.isBlank()) {
+        if (session == null) {
             resp.sendRedirect(req.getContextPath() + "/login");
             return;
         }
 
-        // Obtener datos del usuario
+        // Usar el mismo atributo de sesión que el resto de la app
+        DTSesionUsuario ses = (DTSesionUsuario) session.getAttribute("usuario_logueado");
+        if (ses == null || ses.getNickname() == null || ses.getNickname().isBlank()) {
+            resp.sendRedirect(req.getContextPath() + "/login");
+            return;
+        }
+        String nickUsuario = ses.getNickname();
+
         IControllerUsuario icu = Factory.getInstance().getIControllerUsuario();
         Usuario usuario = icu.getUsuario(nickUsuario);
         if (usuario == null) {
@@ -56,16 +62,23 @@ public class EditarPerfilSvt extends HttpServlet {
             throws ServletException, IOException {
 
         req.setCharacterEncoding("UTF-8");
+
         HttpSession session = req.getSession(false);
-        if (session == null || session.getAttribute("NICKNAME") == null) {
+        if (session == null) {
             resp.sendRedirect(req.getContextPath() + "/login");
             return;
         }
 
-        String nickname = (String) session.getAttribute("NICKNAME");
+        // Usar usuario_logueado para identificar al dueño del perfil
+        DTSesionUsuario ses = (DTSesionUsuario) session.getAttribute("usuario_logueado");
+        if (ses == null || ses.getNickname() == null || ses.getNickname().isBlank()) {
+            resp.sendRedirect(req.getContextPath() + "/login");
+            return;
+        }
+        String nickname = ses.getNickname();
+
         IControllerUsuario icu = Factory.getInstance().getIControllerUsuario();
         Usuario user = icu.getUsuario(nickname);
-
         if (user == null) {
             throw new ServletException("Usuario no encontrado.");
         }
@@ -79,6 +92,7 @@ public class EditarPerfilSvt extends HttpServlet {
         // Si es asistente, actualizar datos específicos
         if (user instanceof Asistente) {
             Asistente a = (Asistente) user;
+
             String apellido = req.getParameter("apellido");
             if (apellido != null) a.setApellido(apellido);
 
@@ -108,7 +122,7 @@ public class EditarPerfilSvt extends HttpServlet {
             File destino = new File(dir, fileName);
             imagenPart.write(destino.getAbsolutePath());
 
-            // Si la clase Usuario tiene un campo o método setFoto
+            // Si la clase Usuario tiene setFoto(String)
             try {
                 user.getClass().getMethod("setFoto", String.class).invoke(user, fileName);
             } catch (Exception ignore) {}
@@ -117,8 +131,9 @@ public class EditarPerfilSvt extends HttpServlet {
         // Guardar cambios
         icu.modificarUsuario1(user);
 
-        // Redirigir al perfil (refrescado)
+        // Volver al perfil
         resp.sendRedirect(req.getContextPath() + "/perfil");
     }
 }
+
 
