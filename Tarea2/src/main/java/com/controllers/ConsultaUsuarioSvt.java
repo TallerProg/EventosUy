@@ -21,6 +21,7 @@ public class ConsultaUsuarioSvt extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	@Override
+
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
 		String nick = req.getParameter("nick");
@@ -28,38 +29,52 @@ public class ConsultaUsuarioSvt extends HttpServlet {
 			resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Falta parámetro 'nick'.");
 			return;
 		}
+		nick = nick.trim(); // FIX 1: evita espacios que rompan la búsqueda
 
 		IControllerUsuario icu = Factory.getInstance().getIControllerUsuario();
-		DTUsuarioListaConsulta u = icu.ConsultaDeUsuario(nick);
-		if (u == null) {
+
+		// FIX 2: primero detecto si existe y qué rol tiene
+		Asistente asis = icu.getAsistente(nick);
+		Organizador org = (asis == null) ? icu.getOrganizador(nick) : null;
+		String rol = (asis != null) ? "A" : (org != null) ? "O" : "v";
+
+		if ("v".equals(rol)) {
+			// No existe ni como Asistente ni como Organizador → 404
 			resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Usuario no encontrado.");
 			return;
 		}
-		String rol = (icu.getAsistente(nick) != null) ? "A" : (icu.getOrganizador(nick) != null) ? "O" : "v";
-		// Es su propio perfil?
-		HttpSession session = req.getSession(false);
-		boolean S = false;
-		if (session != null) {
-			DTSesionUsuario sesUser = (DTSesionUsuario) session.getAttribute("usuario_logueado");
-			if (sesUser.getNickname().equals(nick)) {
-				S = true;
-				if (rol.equals("A")) {
-					Asistente a = icu.getAsistente(nick);
-					List<Registro> regis = a.getRegistros();
-					session.setAttribute("Registros", regis);
-				}
-			}
-			if (rol.equals("O")) {
-				Organizador o = icu.getOrganizador(nick);
-				List<Edicion> edis = o.getEdiciones();
-				req.setAttribute("Ediciones", edis);
-			}
 
-			req.setAttribute("esSuPerfil", S);
-			req.setAttribute("rol", rol);
-			req.setAttribute("usuario", u);
-			req.getRequestDispatcher("/WEB-INF/views/ConsultaUsuario.jsp").forward(req, resp);
-
+		DTUsuarioListaConsulta u = icu.ConsultaDeUsuario(nick);
+		if (u == null) {
+			if (asis != null) {
+				u = icu.ConsultaDeUsuario(asis.getNickname());
+			} else if (org != null) {
+				u = icu.ConsultaDeUsuario(org.getNickname());
+			}
+			if (u == null) {
+				resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Usuario no encontrado.");
+				return;
+			}
 		}
+
+		HttpSession session = req.getSession(false);
+		DTSesionUsuario sesUser = (session != null) ? (DTSesionUsuario) session.getAttribute("usuario_logueado") : null;
+		boolean S = (sesUser != null) && sesUser.getNickname().equals(nick);
+
+		// Datos extra para la vista, según rol
+		if ("A".equals(rol) && S) {
+			List<Registro> regis = asis.getRegistros();
+			req.setAttribute("Registros", regis);
+		}
+		if ("O".equals(rol)) {
+			List<Edicion> edis = org.getEdiciones();
+			req.setAttribute("Ediciones", edis);
+		}
+
+		req.setAttribute("esSuPerfil", S);
+		req.setAttribute("rol", rol);
+		req.setAttribute("usuario", u);
+		req.getRequestDispatcher("/WEB-INF/views/ConsultaUsuario.jsp").forward(req, resp);
 	}
+
 }
