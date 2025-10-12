@@ -198,7 +198,7 @@ public class ConsultaEdicionSvt extends HttpServlet {
 
       forward(req, resp);
 
-    } catch (Exception e) {
+      }} catch (Exception e) {
       req.setAttribute("msgError", "Error al consultar la edición: " + e.getMessage());
       forward(req, resp);
     }

@@ -24,7 +24,7 @@
       <div class="container">
         <div class="section-title d-flex justify-content-between align-items-center">
           <h2>Alta de Evento</h2>
-          <a href="<%= ctx %>/listaEventos" class="btn btn-outline-secondary">
+          <a href="<%= ctx %>/Eventos" class="btn btn-outline-secondary">
             <i class="bi bi-arrow-left me-1"></i> Volver a la lista
           </a>
         </div>
