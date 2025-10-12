@@ -22,7 +22,7 @@ import ServidorCentral.logica.ControllerUsuario.RolUsuario;
 
 @WebServlet("/MisEdiciones")
 public class MisEdicionesSvt extends HttpServlet {
-
+	
     private static final long serialVersionUID = 1L;
     private static final String JSP_LISTA_EDICIONES = "/WEB-INF/views/MisEdiciones.jsp";
 
@@ -40,7 +40,11 @@ public class MisEdicionesSvt extends HttpServlet {
             if (o instanceof DTSesionUsuario u && u.getRol() == RolUsuario.ORGANIZADOR) {
                 esOrg = true;
                 nickname = u.getNickname();
+            }else {
+            	resp.sendRedirect(req.getContextPath() + "/home");
             }
+        }else {
+        	resp.sendRedirect(req.getContextPath() + "/home");
         }
         req.setAttribute("ES_ORG", esOrg);
 

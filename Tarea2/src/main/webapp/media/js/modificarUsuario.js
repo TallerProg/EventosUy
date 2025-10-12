@@ -1,7 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   const tipo = (document.querySelector("#tipoUsuario")?.value || "").toLowerCase();
 
-  // Mostrar los campos del tipo de usuario correspondiente
   const asistenteFields = document.querySelector("#asistente-fields");
   const organizadorFields = document.querySelector("#organizador-fields");
 
@@ -13,17 +12,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Previsualizar imagen antes de subir
   const inputImg = document.querySelector("#imagen");
-  if (inputImg) {
+  const img = document.querySelector("#preview");
+
+  if (inputImg && img) {
     inputImg.addEventListener("change", () => {
       const file = inputImg.files?.[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          const img = document.querySelector("#preview");
-          if (img) img.src = e.target.result;
-        };
-        reader.readAsDataURL(file);
-      }
+      if (!file) return;
+
+      // Más simple y rápido que FileReader
+      const url = URL.createObjectURL(file);
+      img.src = url;
+      img.onload = () => URL.revokeObjectURL(url);
     });
   }
 });

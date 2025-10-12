@@ -2,6 +2,7 @@ package com.controllers;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.time.LocalDate;
 
 import ServidorCentral.logica.*;
@@ -20,7 +21,6 @@ import jakarta.servlet.http.*;
 public class EditarPerfilSvt extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    // ---------- GET: mostrar datos del usuario ----------
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
@@ -31,14 +31,13 @@ public class EditarPerfilSvt extends HttpServlet {
             return;
         }
 
-        // Usar el mismo atributo de sesión que el resto de la app
         DTSesionUsuario ses = (DTSesionUsuario) session.getAttribute("usuario_logueado");
         if (ses == null || ses.getNickname() == null || ses.getNickname().isBlank()) {
             resp.sendRedirect(req.getContextPath() + "/login");
             return;
         }
-        String nickUsuario = ses.getNickname();
 
+        String nickUsuario = ses.getNickname();
         IControllerUsuario icu = Factory.getInstance().getIControllerUsuario();
         Usuario usuario = icu.getUsuario(nickUsuario);
         if (usuario == null) {
@@ -46,17 +45,14 @@ public class EditarPerfilSvt extends HttpServlet {
             return;
         }
 
-        // Instituciones (para asistentes)
         IControllerInstitucion ici = Factory.getInstance().getIControllerInstitucion();
         req.setAttribute("LISTA_INSTITUCION", ici.getInstituciones().toArray(Institucion[]::new));
-
         req.setAttribute("USUARIO", usuario);
         req.setAttribute("TIPO_USUARIO", (usuario instanceof Organizador) ? "organizador" : "asistente");
 
         req.getRequestDispatcher("/WEB-INF/views/ModificarUsuario.jsp").forward(req, resp);
     }
 
-    // ---------- POST: guardar cambios ----------
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
@@ -69,38 +65,31 @@ public class EditarPerfilSvt extends HttpServlet {
             return;
         }
 
-        // Usar usuario_logueado para identificar al dueño del perfil
         DTSesionUsuario ses = (DTSesionUsuario) session.getAttribute("usuario_logueado");
         if (ses == null || ses.getNickname() == null || ses.getNickname().isBlank()) {
             resp.sendRedirect(req.getContextPath() + "/login");
             return;
         }
-        String nickname = ses.getNickname();
 
+        String nickname = ses.getNickname();
         IControllerUsuario icu = Factory.getInstance().getIControllerUsuario();
         Usuario user = icu.getUsuario(nickname);
-        if (user == null) {
-            throw new ServletException("Usuario no encontrado.");
-        }
+        if (user == null) throw new ServletException("Usuario no encontrado.");
 
-        // Campos comunes
+        // --- Campos comunes ---
         String nombre = req.getParameter("nombre");
         String password = req.getParameter("password");
         if (nombre != null && !nombre.isBlank()) user.setNombre(nombre);
         if (password != null && !password.isBlank()) user.setContrasena(password);
 
-        // Si es asistente, actualizar datos específicos
-        if (user instanceof Asistente) {
-            Asistente a = (Asistente) user;
-
+        // --- Es asistente ---
+        if (user instanceof Asistente a) {
             String apellido = req.getParameter("apellido");
             if (apellido != null) a.setApellido(apellido);
 
             String fechaStr = req.getParameter("fechaNacimiento");
             if (fechaStr != null && !fechaStr.isBlank()) {
-                try {
-                    a.setfNacimiento(LocalDate.parse(fechaStr));
-                } catch (Exception ignore) {}
+                try { a.setfNacimiento(LocalDate.parse(fechaStr)); } catch (Exception ignore) {}
             }
 
             String inst = req.getParameter("institucion");
@@ -111,29 +100,88 @@ public class EditarPerfilSvt extends HttpServlet {
             }
         }
 
-        // Imagen de perfil
+        // --- Imagen de perfil: nick fijo, sobrescribe, limpia extensiones previas ---
         Part imagenPart = req.getPart("imagen");
         if (imagenPart != null && imagenPart.getSize() > 0) {
+
+            String contentType = imagenPart.getContentType();
+            if (contentType == null ||
+               !(contentType.equals("image/jpeg")
+                 || contentType.equals("image/png")
+                 || contentType.equals("image/webp"))) {
+                throw new ServletException("Formato de imagen no soportado. Use JPG/PNG/WEBP.");
+            }
+
+            String ext;
+            switch (contentType) {
+                case "image/jpeg": ext = ".jpg";  break; // normalizamos .jpeg -> .jpg
+                case "image/png":  ext = ".png";  break;
+                case "image/webp": ext = ".webp"; break;
+                default: ext = ".bin";
+            }
+
+            String fileName = nickname + ext;
+
+            // Directorio en WAR desplegado
             String uploadDir = getServletContext().getRealPath("/media/img/usuarios");
-            File dir = new File(uploadDir);
-            if (!dir.exists()) dir.mkdirs();
+            if (uploadDir == null) throw new ServletException("No se pudo resolver la ruta de subida.");
+            File dirDeploy = new File(uploadDir);
+            if (!dirDeploy.exists()) dirDeploy.mkdirs();
 
-            String fileName = nickname + "_" + System.currentTimeMillis() + ".jpg";
-            File destino = new File(dir, fileName);
-            imagenPart.write(destino.getAbsolutePath());
+            // Borrar variantes previas
+            String[] exts = {".jpg", ".jpeg", ".png", ".webp"};
+            for (String e : exts) {
+                new File(dirDeploy, nickname + e).delete();
+            }
 
-            // Si la clase Usuario tiene setFoto(String)
+            // Guardar en WAR
+            File destinoWAR = new File(dirDeploy, fileName);
+            imagenPart.write(destinoWAR.getAbsolutePath());
+
+            // Copia persistente al proyecto fuente (sobrevive Clean/Restart)
+            String projectPath = System.getProperty("user.dir") + "/src/main/webapp/media/img/usuarios";
+            File dirProyecto = new File(projectPath);
+            if (!dirProyecto.exists()) dirProyecto.mkdirs();
+
+            for (String e : exts) {
+                new File(dirProyecto, nickname + e).delete();
+            }
+
             try {
-                user.getClass().getMethod("setFoto", String.class).invoke(user, fileName);
-            } catch (Exception ignore) {}
+                Files.copy(destinoWAR.toPath(),
+                           new File(dirProyecto, fileName).toPath(),
+                           java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+            } catch (Exception e) {
+                throw new ServletException("No se pudo copiar la imagen al proyecto fuente", e);
+            }
+
+            // Persistir en el dominio: preferir setImg, fallback setFoto
+            boolean seteado = false;
+            try {
+                user.getClass().getMethod("setImg", String.class).invoke(user, fileName);
+                seteado = true;
+            } catch (NoSuchMethodException nsme) {
+                // ignore y probamos setFoto
+            } catch (Exception e) {
+                throw new ServletException("Error seteando imagen (setImg)", e);
+            }
+            if (!seteado) {
+                try {
+                    user.getClass().getMethod("setFoto", String.class).invoke(user, fileName);
+                    seteado = true;
+                } catch (Exception e) {
+                    throw new ServletException("Error seteando imagen (setFoto)", e);
+                }
+            }
+
+            // Sesión para reflejo inmediato en el header
+            session.setAttribute("IMAGEN_LOGUEADO", "/media/img/usuarios/" + fileName);
         }
 
-        // Guardar cambios
+        // Guardar cambios en el repositorio/BD
         icu.modificarUsuario1(user);
 
         // Volver al perfil
         resp.sendRedirect(req.getContextPath() + "/perfil");
     }
 }
-
-
