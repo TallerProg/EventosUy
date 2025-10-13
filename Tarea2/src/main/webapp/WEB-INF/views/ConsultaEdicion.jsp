@@ -234,7 +234,6 @@ String encEv = (evNom  != null) ? URLEncoder.encode(evNom,  StandardCharsets.UTF
           <div class="row">
             <div class="col-md-4"><strong>Tipo:</strong> <%= nv(miReg.get("tipo")) %></div>
             <div class="col-md-4"><strong>Fecha:</strong> <%= nv(miReg.get("fecha")) %></div>
-            <div class="col-md-4"><strong>Estado:</strong> <%= nv(miReg.get("estado")) %></div>
           </div>
         </div>
       </div>
@@ -248,7 +247,7 @@ String encEv = (evNom  != null) ? URLEncoder.encode(evNom,  StandardCharsets.UTF
           <div class="table-responsive">
             <table class="table table-bordered align-middle mb-0">
               <thead class="table-light">
-                <tr><th>Tipo Registro</th><th>Nombre</th><th>Fecha</th></tr>
+                <tr><th>Nombre</th><th>Tipo Registro</th><th>Fecha</th></tr>
               </thead>
               <tbody>
                 <% if (regs != null && !regs.isEmpty()) {
