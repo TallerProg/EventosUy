@@ -189,7 +189,7 @@ public class AltaEvento extends JInternalFrame {
 					}
 				}
 
-				controlEvento.altaEvento(nombre, descripcion, fechaAlta, sigla, listaCategorias);
+				controlEvento.altaEvento(nombre, descripcion, fechaAlta, sigla, listaCategorias,null);
 				textFieldNombre.setText("");
 				textFieldSigla.setText("");
 				textAreaDescripcion.setText("");

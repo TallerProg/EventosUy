@@ -288,7 +288,7 @@ public class AltaUsuario extends JInternalFrame {
                     }
 
                     // Agrego password como último parámetro
-                    controlUsr.altaAsistente(nick, correo, nombre, apellido, fecha, inst, password);
+                    controlUsr.altaAsistente(nick, correo, nombre, apellido, fecha, inst, password,null);
 
                     textFieldNickName.setText("");
                     textFieldCorreo.setText("");
@@ -309,7 +309,7 @@ public class AltaUsuario extends JInternalFrame {
                         url = null;
 
                     // Agrego password como último parámetro
-                    controlUsr.altaOrganizador(nick, correo, nombre, descripcion, url, password);
+                    controlUsr.altaOrganizador(nick, correo, nombre, descripcion, url, password,null);
 
                     textFieldNickName.setText("");
                     textFieldCorreo.setText("");
