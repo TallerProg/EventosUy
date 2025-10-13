@@ -120,22 +120,23 @@
                       }
 
                       if (!visibles.isEmpty()) {
-                     
-                        for (int i = 0; i < visibles.size(); i++) {
-                          Edicion e = visibles.get(i);
-                          String nombre = e.getNombre();
-                      	  String imgagenedicion = (e != null && e.getImagenWebPath() != null && !e.getImagenWebPath().isBlank()) ? (ctx + e.getImagenWebPath()): (ctx + "/media/img/default.png");
+                      for (int i = 0; i < visibles.size(); i++) {
+                        Edicion e = visibles.get(i);
+                        String nombre = e.getNombre();
+                        String nombreEvento = (e.getEvento() != null) ? e.getEvento().getNombre() : "Evento no disponible"; // Obtener el nombre del evento
+                        String imgagenedicion = (e != null && e.getImagenWebPath() != null && !e.getImagenWebPath().isBlank()) ? (ctx + e.getImagenWebPath()) : (ctx + "/media/img/default.png");
 
-                          
+                        // Generar la URL con evento y edición
+                        String href = ctx + "/ediciones-consulta?evento=" + URLEncoder.encode(nombreEvento, StandardCharsets.UTF_8) 
+                                      + "&edicion=" + URLEncoder.encode(nombre, StandardCharsets.UTF_8);
+
                     %>
                       <div class="carousel-item <%= (i == 0) ? "active" : "" %>">
                         <div class="text-center">
-                          <img src="<%= imgagenedicion %>"
-                               class="d-block w-100 edition-carousel-img"
-                               alt="<%= nombre %>">
+                          <img src="<%= imgagenedicion %>" class="d-block w-100 edition-carousel-img" alt="<%= nombre %>">
                           <div class="mt-3">
                             <h5><%= nombre %></h5>
-                            <a href="" class="btn btn-primary btn-sm">Ver detalles</a>
+                            <a href="<%= href %>" class="btn btn-primary btn-sm">Ver detalles</a>
                           </div>
                         </div>
                       </div>
@@ -185,16 +186,17 @@
                           if (e == null) continue;
 
                           String nombreEd = e.getNombre();
-                      	  String imgagenedicion = (e != null && e.getImagenWebPath() != null && !e.getImagenWebPath().isBlank()) ? (ctx + e.getImagenWebPath()): (ctx + "/media/img/default.png");
+                          String nombreEvento = (e.getEvento() != null) ? e.getEvento().getNombre() : "Evento no disponible"; // Obtener el nombre del evento
+                          String imgagenedicion = (e != null && e.getImagenWebPath() != null && !e.getImagenWebPath().isBlank()) ? (ctx + e.getImagenWebPath()) : (ctx + "/media/img/default.png");
 
-                          String href = ctx + "/consultaRegistroAsis?edicion=" +
-                                        URLEncoder.encode(nombreEd, StandardCharsets.UTF_8.name());
+                          // Generar la URL con evento y edición
+                          String href = ctx + "/ediciones-consulta?evento=" + URLEncoder.encode(nombreEvento, StandardCharsets.UTF_8) 
+                                        + "&edicion=" + URLEncoder.encode(nombreEd, StandardCharsets.UTF_8);
+
                     %>
                       <div class="carousel-item <%= (i == 0) ? "active" : "" %>">
                         <div class="text-center">
-                          <img src="<%= imgagenedicion %>"
-                               class="d-block w-100 edition-carousel-img"
-                               alt="<%= nombreEd %>">
+                          <img src="<%= imgagenedicion %>" class="d-block w-100 edition-carousel-img" alt="<%= nombreEd %>">
                           <div class="mt-3">
                             <h5><%= nombreEd %></h5>
                             <a href="<%= href %>" class="btn btn-primary btn-sm">Ver detalles</a>
