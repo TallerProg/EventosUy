@@ -162,7 +162,7 @@
         <div class="row g-4 justify-content-center">
           <%
             if (eventos != null && eventos.length > 0) {
-              int max = Math.min(4, eventos.length);
+              int max = Math.min(10000, eventos.length);
               for (int i = 0; i < max; i++) {
                 Evento e = eventos[i];
 
