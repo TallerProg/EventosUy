@@ -16,6 +16,7 @@ import ServidorCentral.logica.Factory;
 import ServidorCentral.logica.IControllerEvento;
 import ServidorCentral.logica.IControllerInstitucion;
 import ServidorCentral.logica.IControllerUsuario;
+import dataset.CargarDatos;
 
 public class Principal {
 
@@ -114,12 +115,16 @@ public class Principal {
         JMenuItem menuInitDatos = new JMenuItem("Inicializar datos del sistema");
         // Antes llamaba a CargarDatos; ahora solo informa que no está disponible
         menuInitDatos.addActionListener(e -> {
-            JOptionPane.showMessageDialog(
-                frmEventosUy,
-                "Inicialización deshabilitada (CargarDatos removido).",
-                "Información",
-                JOptionPane.INFORMATION_MESSAGE
-            );
+			try {
+				CargarDatos.inicializar(icu, ice);
+				JOptionPane.showMessageDialog(frmEventosUy, "La carga de datos fue exitosa",
+						"Información", JOptionPane.INFORMATION_MESSAGE);
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+			
         });
 
         menuSistema.add(menuInitDatos);
