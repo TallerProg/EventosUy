@@ -48,7 +48,18 @@
 
       <div class="container">
         <div class="row">
- 		<% String imagen = (img != null && !img.isBlank()) ? (ctx + img) : (ctx + "/media/img/default.png"); %>
+ 		<%              
+        String rel = (img != null && !img.isBlank())
+                   ? (img.startsWith("/") ? img : "/media/img/usuarios/" + img)
+                   : "/media/img/default.png";
+        String abs = application.getRealPath(rel);
+        long ver = 0L;
+        if (abs != null) {
+          java.io.File f = new java.io.File(abs);
+          if (f.exists()) ver = f.lastModified();
+        }
+ 		String imagen = ctx + rel + (ver > 0 ? "?v=" + ver : ""); 
+ 		%>
           <!-- Columna izquierda: Datos -->
           <div class="col-lg-6">
             <div class="card p-4 h-100">
