@@ -7,7 +7,7 @@
 <%@ page import="ServidorCentral.logica.Categoria" %>
 
 <%!
-  // ==== Helpers ====
+  // Funciones de ayuda
   private String orEmpty(String s) { return (s == null) ? "" : s; }
 
   // Mapea nombre de categoría a un ícono de Bootstrap Icons
@@ -46,7 +46,7 @@
 <html lang="es">
 <head>
   <jsp:include page="/WEB-INF/views/template/head.jsp" />
-  <title>EventUY - Eventos</title>
+  <title>Eventos</title>
 </head>
 <body class="index-page">
 
@@ -113,9 +113,9 @@
               </a>
             </div>
 
-            <% } // for %>
+            <% } %>
           </div>
-        <% } // else %>
+        <% } %>
       </div>
     </section>
   </main>

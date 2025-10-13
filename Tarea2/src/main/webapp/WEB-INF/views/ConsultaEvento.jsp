@@ -15,7 +15,7 @@
 <html lang="es">
 <head>
   <jsp:include page="/WEB-INF/views/template/head.jsp" />
-  <title>EventUY - Detalles del evento</title>
+  <title>Detalles del evento</title>
 </head>
 
 <body class="index-page">

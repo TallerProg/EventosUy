@@ -16,7 +16,7 @@
 <html lang="es">
 <head>
   <jsp:include page="template/head.jsp" />
-  <title>Registro - EventUY</title>
+  <title>Registro</title>
 </head>
 <body class="bg-light">
   <header id="header" class="header d-flex align-items-center fixed-top">

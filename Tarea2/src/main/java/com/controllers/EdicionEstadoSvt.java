@@ -22,10 +22,6 @@ public class EdicionEstadoSvt extends HttpServlet {
     String ip = req.getRemoteAddr();
     boolean isLocal = "127.0.0.1".equals(ip) || "0:0:0:0:0:0:0:1".equals(ip);
 
-    // Si estás detrás de proxy y usás X-Forwarded-For, podés habilitar esto:
-    // String xff = req.getHeader("X-Forwarded-For");
-    // if (xff != null && (xff.startsWith("127.0.0.1") || xff.startsWith("::1"))) isLocal = true;
-
     if (!isLocal) {
       resp.sendError(HttpServletResponse.SC_FORBIDDEN, "Solo disponible desde localhost.");
       return;
@@ -33,7 +29,7 @@ public class EdicionEstadoSvt extends HttpServlet {
 
     String evento  = trim(req.getParameter("evento"));
     String edicion = trim(req.getParameter("edicion"));
-    String accion  = trim(req.getParameter("accion")); // "aceptar" | "rechazar"
+    String accion  = trim(req.getParameter("accion")); // "aceptar" o "rechazar"
 
     if (isBlank(evento) || isBlank(edicion) || isBlank(accion)) {
       resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Parámetros inválidos.");

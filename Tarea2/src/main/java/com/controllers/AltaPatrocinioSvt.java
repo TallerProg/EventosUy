@@ -19,8 +19,7 @@ public class AltaPatrocinioSvt extends HttpServlet {
 
     req.setCharacterEncoding("UTF-8");
 
-    // ===== AJAX: cálculo en vivo =====
-    // /organizador-patrocinios-alta?calc=1&edicion=XYZ&tipoRegistro=ABC&aporte=1234
+    // AJAX: calculo en vivo 
     if ("1".equals(req.getParameter("calc"))) {
       resp.setContentType("application/json;charset=UTF-8");
       String edicion      = req.getParameter("edicion");
@@ -48,7 +47,7 @@ public class AltaPatrocinioSvt extends HttpServlet {
       return;
     }
 
-    // ===== Pantalla normal =====
+    // Pantalla normal 
     String evento  = req.getParameter("evento");
     String edicion = req.getParameter("edicion");
 
@@ -121,7 +120,7 @@ public class AltaPatrocinioSvt extends HttpServlet {
           tipoRegistro
       );
 
-      // ===== Redirigimos a la edición con mensaje OK =====
+      // Redirigimos a la edición con mensaje OK 
       String ok = "Patrocinio creado con éxito.";
       resp.sendRedirect(req.getContextPath()
           + "/ediciones-consulta?evento=" + url(evento)
@@ -144,7 +143,7 @@ public class AltaPatrocinioSvt extends HttpServlet {
     }
   }
 
-  // ---- Helpers
+  // Funciones de ayuda
   private static void forward(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
     req.getRequestDispatcher("/WEB-INF/views/AltaPatrocinio.jsp").forward(req, resp);

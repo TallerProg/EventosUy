@@ -54,7 +54,7 @@ public class LoginSvt extends HttpServlet {
             ses.setAttribute("usuario_logueado", usuario);
             ses.setAttribute("IMAGEN_LOGUEADO", usr.getImg());
 
-            // Cambiá "/home" si tu landing es otra (por ejemplo, "/IndexLoggeado.jsp")
+            // Cambia "/home" si tu landing es otra (por ejemplo, "/IndexLoggeado.jsp")
             resp.sendRedirect(req.getContextPath() + "/home");
         } catch (UsuarioNoExisteException | CredencialesInvalidasException e) {
             req.setAttribute("error", e.getMessage());

@@ -22,7 +22,7 @@
 <html lang="es">
 <head>
   <jsp:include page="/WEB-INF/views/template/head.jsp" />
-  <title>EventUY - Alta Patrocinio</title>
+  <title>Alta Patrocinio</title>
 </head>
 
 <body class="index-page">
@@ -48,7 +48,6 @@
     <div class="card shadow-sm">
       <div class="card-body">
 
-        <!-- ACTION CORREGIDO -->
         <form action="<%=ctx%>/organizador-patrocinios-alta" method="post" class="row g-3" id="form-patro">
           <div class="col-md-6">
             <label class="form-label">Evento</label>

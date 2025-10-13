@@ -15,7 +15,6 @@ import ServidorCentral.logica.DTEdicion;
 import ServidorCentral.logica.DTTipoRegistro;
 import ServidorCentral.logica.Evento;
 
-// >>> imports del módulo de usuarios (como en tus otros servlets)
 import ServidorCentral.logica.ControllerUsuario.DTSesionUsuario;
 import ServidorCentral.logica.ControllerUsuario.RolUsuario;
 
@@ -28,7 +27,7 @@ public class RegistroAltaSvt extends HttpServlet {
   protected void doGet(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
 
-    // === Autenticación/rol: debe ser ASISTENTE ===
+    // Autenticacion rol: debe ser asistente 
     HttpSession session = req.getSession(false);
     DTSesionUsuario usuario = (session != null) ? (DTSesionUsuario) session.getAttribute("usuario_logueado") : null;
 
@@ -78,7 +77,7 @@ public class RegistroAltaSvt extends HttpServlet {
   protected void doPost(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
 
-    // === Autenticación/rol: debe ser ASISTENTE ===
+    // Autenticacion rol: debe ser asistente
     HttpSession session = req.getSession(false);
     DTSesionUsuario usuario = (session != null) ? (DTSesionUsuario) session.getAttribute("usuario_logueado") : null;
 
@@ -95,7 +94,7 @@ public class RegistroAltaSvt extends HttpServlet {
     String modalidad  = req.getParameter("modalidad"); // "general" | "patrocinio"
     String codigoPat  = req.getParameter("codigo");    // puede ser null
 
-    // Nick del asistente de sesión (robusto)
+    // Nick del asistente de sesión 
     String nickAsistente = extraerNickSeguro(usuario);
 
     if (isBlank(nomEvento) || isBlank(nomEdicion) || isBlank(nomTipo) || isBlank(nickAsistente)) {
@@ -117,7 +116,7 @@ public class RegistroAltaSvt extends HttpServlet {
         return;
       }
 
-      // 1) Ya registrado
+      // Ya registrado
       boolean yaRegistrado = ed.getRegistros() != null && ed.getRegistros().stream()
           .anyMatch(r -> nickAsistente.equalsIgnoreCase(String.valueOf(r.getAsistenteNickname())));
       if (yaRegistrado) {
@@ -127,8 +126,8 @@ public class RegistroAltaSvt extends HttpServlet {
         return;
       }
 
-      // 2) Cupo
-      Integer cupoTipo = tr.getCupo(); // según tu DTO
+      // Cupo
+      Integer cupoTipo = tr.getCupo(); 
       if (cupoTipo != null) {
         long usados = (ed.getRegistros() == null) ? 0 :
             ed.getRegistros().stream()
@@ -142,7 +141,7 @@ public class RegistroAltaSvt extends HttpServlet {
         }
       }
 
-      // 3) Alta usando firmas existentes
+      // Alta usando firmas existentes
       boolean conPatro = "patrocinio".equalsIgnoreCase(modalidad);
 
       if (!conPatro) {
@@ -188,7 +187,7 @@ public class RegistroAltaSvt extends HttpServlet {
     req.setAttribute("CUPO_TIPO",  tr.getCupo());
   }
 
-  /** Igual que en tus otros servlets: saca el nick de forma defensiva de DTSesionUsuario. */
+  // Igual que en otros servlets: saca el nick de DTSesionUsuario
   private static String extraerNickSeguro(DTSesionUsuario u) {
     if (u == null) return null;
     try {

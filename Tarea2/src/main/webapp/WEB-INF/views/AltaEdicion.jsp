@@ -25,7 +25,7 @@
 <html lang="es">
 <head>
   <jsp:include page="/WEB-INF/views/template/head.jsp" />
-  <title>EventUY - Alta Edición</title>
+  <title>Alta Edición</title>
 </head>
 
 <body class="index-page">
@@ -110,7 +110,7 @@
                    value="<%= (formFechaFin!=null?formFechaFin:"") %>" required>
           </div>
 
-          <!-- Fecha de alta (automática, visual + hidden) -->
+          <!-- Fecha de alta -->
           <div class="col-md-4">
             <label class="form-label">Fecha alta (automática)</label>
             <input type="text" id="fechaAltaVista" class="form-control" value="<%= (formFechaAlta!=null?formFechaAlta:"") %>" readonly>

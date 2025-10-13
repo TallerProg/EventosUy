@@ -16,7 +16,7 @@
 <html lang="es">
 <head>
   <jsp:include page="/WEB-INF/views/template/head.jsp" />
-  <title>EventUY - Perfil</title>
+  <title>Perfil</title>
   <link href="<%= ctx %>/media/css/perfil.css" rel="stylesheet">
 </head>
 

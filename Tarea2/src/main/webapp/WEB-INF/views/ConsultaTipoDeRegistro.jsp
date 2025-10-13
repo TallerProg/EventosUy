@@ -6,9 +6,6 @@
 <%
   String ctx = request.getContextPath();
 
-  // Usuario logueado (si aplica, para header dinámico simple)
-  Organizador organizadorSesion = (Organizador) session.getAttribute("usuarioOrganizador");
-
   // Datos enviados por el servlet
   Evento evento               = (Evento) request.getAttribute("EVENTO");
   DTEdicion edicion           = (DTEdicion) request.getAttribute("EDICION");
@@ -22,18 +19,18 @@
 <html lang="es">
 <head>
    <jsp:include page="template/head.jsp" />
-  <title>Consulta Tipo de Registro - EventUY</title>
+  <title>Consulta Tipo de Registro</title>
 
 </head>
 
 <body class="index-page">
 
-  <!-- ===== Header (igual estilo que otros JSPs del proyecto) ===== -->
+  <!-- Header -->
   <header id="header" class="header d-flex align-items-center fixed-top">
   		<jsp:include page="template/header.jsp" />
   </header>
 
-  <!-- ===== Main ===== -->
+  <!-- Main -->
   <main class="main mt-5 pt-5">
     <section id="consulta-registro" class="section">
       <div class="container">
@@ -51,7 +48,7 @@
 
         <% if (evento != null && edicion != null && tipoRegistro != null) { %>
 
-          <!-- Imagen (si no tenés imagen en DTO uso default) -->
+          <!-- Imagen (si no tenés imagen en DT uso default) -->
           <div class="text-center mb-4">
             <img src="<%=img%>"
                  alt="<%= edicion.getNombre() %>"
@@ -85,7 +82,7 @@
     </section>
   </main>
 
-  <!-- ===== Footer ===== -->
+  <!-- Footer -->
   <hr class="mt-5 mb-4" style="border: 0; height: 3px; background: #bbb; border-radius: 2px;">
   <footer id="footer" class="footer position-relative light-background">
   	<jsp:include page="template/footer.jsp" />

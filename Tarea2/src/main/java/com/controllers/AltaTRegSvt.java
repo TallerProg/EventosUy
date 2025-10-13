@@ -36,7 +36,7 @@ public class AltaTRegSvt extends HttpServlet {
       throws ServletException, IOException {
 
     Organizador org = getOrganizadorEnSesion(req);
-    if (org == null) { // ruta protegida para organizadores (guarda silenciosa)
+    if (org == null) { // Por si de alguna forma no llega organizador
       resp.sendRedirect(req.getContextPath() + "/login");
       return;
     }
@@ -65,14 +65,14 @@ public class AltaTRegSvt extends HttpServlet {
     String sCosto   = req.getParameter("costo");
     String sCupo    = req.getParameter("cupo");
 
-    // Echo para re-render ante error
+    // Para que se vuelva a ver ante error
     req.setAttribute("form_edicion", edSel);
     req.setAttribute("form_nombre", nombreTR);
     req.setAttribute("form_descripcion", descr);
     req.setAttribute("form_costo", sCosto);
     req.setAttribute("form_cupo", sCupo);
 
-    // Organizador en sesión (ruta protegida)
+    // Organizador en sesión 
     Organizador org = getOrganizadorEnSesion(req);
     if (org == null) {
       resp.sendRedirect(req.getContextPath() + "/login");
@@ -82,7 +82,7 @@ public class AltaTRegSvt extends HttpServlet {
     // Combo por si hay que re-renderizar
     req.setAttribute("LISTA_EDICIONES", org.getEdiciones());
 
-    // Validaciones mínimas
+    // Chequeos
     if (isBlank(edSel) || isBlank(nombreTR) || isBlank(descr) || isBlank(sCosto) || isBlank(sCupo)) {
       req.setAttribute("msgError", "Todos los campos son obligatorios.");
       req.getRequestDispatcher("/WEB-INF/views/AltaTipoRegistro.jsp").forward(req, resp);
@@ -115,7 +115,7 @@ public class AltaTRegSvt extends HttpServlet {
         return;
       }
 
-      // Duplicado
+      // Si ya existe un tr con mismo nombre
       if (edicion.existeTR(nombreTR)) {
         req.setAttribute("msgError", "El nombre de tipo de registro \"" + nombreTR + "\" ya fue utilizado en esa edición.");
         req.getRequestDispatcher("/WEB-INF/views/AltaTipoRegistro.jsp").forward(req, resp);
@@ -125,7 +125,7 @@ public class AltaTRegSvt extends HttpServlet {
       // Alta
       ce().altaTipoRegistro(nombreTR, descr, costo, cupo, edicion);
 
-      // PRG + flash
+      // Si hay exito
       req.getSession().setAttribute("flashOk",
         "Tipo de registro \"" + nombreTR + "\" creado en la edición \"" + edSel + "\".");
       resp.sendRedirect(req.getContextPath() + "/organizador-tipos-registro-alta");

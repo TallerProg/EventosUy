@@ -8,7 +8,7 @@
 <html lang="es">
 <head>
   <jsp:include page="/WEB-INF/views/template/head.jsp" />
-  <title>EventUY - Alta institucion</title>
+  <title>Alta institucion</title>
 </head>
 
 <body class="index-page">

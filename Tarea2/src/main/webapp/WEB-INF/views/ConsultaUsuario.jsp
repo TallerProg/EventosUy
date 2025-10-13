@@ -27,7 +27,7 @@
 <html lang="es">
 <head>
   <jsp:include page="/WEB-INF/views/template/head.jsp" />
-  <title>EventUY - Consulta Usuario</title>
+  <title>Consulta Usuario</title>
   <style>
     /* Asegura que los controles no queden tapados */
     .carousel-control-prev, .carousel-control-next { z-index: 1050; }
@@ -35,7 +35,7 @@
 </head>
 <body class="index-page">
 
-  <!-- Header como lo tenías -->
+  <!-- Header -->
   <header id="header" class="header d-flex align-items-center fixed-top">
     <jsp:include page="/WEB-INF/views/template/header.jsp" />
   </header>
@@ -150,7 +150,7 @@
                     <% } %>
                   </div>
 
-                  <!-- Controles (apuntan al ID único). Además, data-target-id para fallback JS -->
+                  <!-- Controles (apuntan al ID único) -->
                   <button class="carousel-control-prev" type="button"
                           data-bs-target="#<%= carouselIdOrg %>" data-bs-slide="prev"
                           data-target-id="<%= carouselIdOrg %>" data-dir="prev" aria-label="Anterior">
@@ -228,8 +228,8 @@
             </div>
           <% } %>
 
-        </div><!-- row -->
-      </div><!-- container -->
+        </div>
+      </div>
     </section>
   </main>
 

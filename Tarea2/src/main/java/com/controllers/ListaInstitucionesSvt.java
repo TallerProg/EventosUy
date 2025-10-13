@@ -23,7 +23,7 @@ public class ListaInstitucionesSvt extends HttpServlet {
   protected void doGet(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
 
-    // ---- Flag de rol para el JSP (siempre presente) ----
+    // Flag de rol para el JSP 
     boolean esOrg = false;
     HttpSession session = req.getSession(false);
     if (session != null) {
@@ -34,7 +34,7 @@ public class ListaInstitucionesSvt extends HttpServlet {
     }
     req.setAttribute("ES_ORG", esOrg);
 
-    // ---- Carga de instituciones ----
+    // Carga de instituciones 
     try {
       IControllerInstitucion ctrl = Factory.getInstance().getIControllerInstitucion();
       List<Institucion> instituciones = ctrl.getInstituciones();
@@ -44,7 +44,7 @@ public class ListaInstitucionesSvt extends HttpServlet {
       req.setAttribute("msgError", "No se pudo cargar la lista de instituciones: " + e.getMessage());
     }
 
-    // ---- Forward a la vista ----
+    // Forward a la vista 
     req.getRequestDispatcher("/WEB-INF/views/ListaInstituciones.jsp").forward(req, resp);
   }
 }

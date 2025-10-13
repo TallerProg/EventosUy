@@ -63,7 +63,7 @@ java.util.Map<String,String> miReg =
 @SuppressWarnings("unchecked")
 java.util.List<DTPatrocinio> pats = (List<DTPatrocinio>) request.getAttribute("patrocinios");
 
-// Helpers encoding
+// Ayuda encoding
 String encEd = (nombre != null) ? URLEncoder.encode(nombre, StandardCharsets.UTF_8.name()) : "";
 String encEv = (evNom  != null) ? URLEncoder.encode(evNom,  StandardCharsets.UTF_8.name()) : "";
 %>
@@ -71,7 +71,7 @@ String encEv = (evNom  != null) ? URLEncoder.encode(evNom,  StandardCharsets.UTF
 <html lang="es">
 <head>
   <jsp:include page="/WEB-INF/views/template/head.jsp" />
-  <title>EventUY - Consulta Edición</title>
+  <title>Consulta Edición</title>
 </head>
 
 <body class="index-page">
@@ -95,7 +95,7 @@ String encEv = (evNom  != null) ? URLEncoder.encode(evNom,  StandardCharsets.UTF
 
       <div class="section-title"><h2><%= nombre %></h2></div>
 
-      <!-- ===== Cabecera ===== -->
+      <!-- Cabecera -->
       <div class="row g-4">
         <div class="col-lg-6">
           <img src="<%= imagen %>" alt="<%= nombre %>"
@@ -226,7 +226,7 @@ String encEv = (evNom  != null) ? URLEncoder.encode(evNom,  StandardCharsets.UTF
 
       <hr class="my-4">
 
-      <!-- ===== Mi registro (solo si asistente inscripto en esta edición) ===== -->
+      <!-- Mi registro (solo si asistente inscripto en esta edición) -->
 <% if (ES_ASISTENTE && miReg != null) { %>
       <div class="card shadow-sm mb-4">
         <div class="card-body">
@@ -239,7 +239,7 @@ String encEv = (evNom  != null) ? URLEncoder.encode(evNom,  StandardCharsets.UTF
       </div>
       <% } %>
 
-      <!-- ===== Registros (solo si ORGANIZA ESTA edición) ===== -->
+      <!-- Registros (solo si organiza esta edición) -->
       <% if (ES_ORGANIZADOR_ED) { %>
       <div class="card shadow-sm mb-4">
         <div class="card-body">
@@ -267,7 +267,7 @@ String encEv = (evNom  != null) ? URLEncoder.encode(evNom,  StandardCharsets.UTF
       </div>
       <% } %>
 
-      <!-- ===== Patrocinios ===== -->
+      <!-- Patrocinios -->
       <div class="card shadow-sm">
         <div class="card-body">
           <div class="d-flex align-items-center gap-2 mb-2">

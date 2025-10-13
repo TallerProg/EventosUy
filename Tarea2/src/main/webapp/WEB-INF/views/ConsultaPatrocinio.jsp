@@ -18,7 +18,6 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>Consulta Patrocinio</title>
 
-  <!-- CSS (si ya los incluís en el padre, podés omitir estos) -->
   <link href="<%=ctx%>/media/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="<%=ctx%>/media/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
   <link href="<%=ctx%>/media/css/main.css" rel="stylesheet">
@@ -42,7 +41,7 @@
           <div class="row justify-content-center">
             <div class="col-lg-10 col-md-12">
               <div class="patro-card">
-                <!-- Imagen (no hay imagen en el DTO, uso una por defecto) -->
+                <!-- Imagen (no hay imagen en el DT, uso una por defecto) -->
                 <div class="patro-image">
                   <img src="<%=ctx%>/media/img/default.png" alt="Patrocinio <%= (p.getInstitucion()!=null? p.getInstitucion() : "N/D") %>">
                 </div>
@@ -79,7 +78,7 @@
                     <%= (p.getCodigo()!=null? p.getCodigo() : "—") %>
                   </div>
 
-                  <!-- Extra (hover) -->
+                  <!-- Extra -->
                   <div class="patro-extra">
                     <div class="card card-body">
                       <p><i class="bi bi-building"></i> <strong>Institución:</strong>
@@ -91,16 +90,16 @@
                     </div>
                   </div>
 
-                </div><!-- /.patro-content -->
-              </div><!-- /.patro-card -->
+                </div>
+              </div>
             </div>
           </div>
-        </div><!-- /.carousel-item -->
+        </div>
 
-        <%   } // for
-           } // else hayPats %>
+        <%   } 
+           } %>
 
-      </div><!-- /.carousel-inner -->
+      </div>
 
       <% if (hayPats && pats.size() > 1) { %>
       <!-- Controles solo si hay más de un item -->
@@ -112,10 +111,10 @@
       </button>
       <% } %>
 
-    </div><!-- /#patroCarousel -->
+    </div>
   </main>
 
-  <!-- JS (si ya están en el padre, podés omitir estos) -->
+  <!-- JS -->
   <script src="<%=ctx%>/media/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -59,7 +59,7 @@ public class AltaInstitucionSvt extends HttpServlet {
         String url = request.getParameter("url");
         Part imgPart = request.getPart("imagen");
 
-        // Validaciones mínimas
+        // Chequeos de campos
         if (isBlank(nombre)) {
             setErrorMessage("El nombre es obligatorio.", request);
             forwardToForm(request, response);
@@ -84,7 +84,7 @@ public class AltaInstitucionSvt extends HttpServlet {
 
         String imagenWebPath = null;
 
-        // Verificar si hay un archivo
+        // Verificar si hay imagen
         try {
         if (imgPart != null && imgPart.getSize() > 0) {
             	String original = submittedFileName(imgPart);
@@ -148,7 +148,7 @@ public class AltaInstitucionSvt extends HttpServlet {
     }
 
     private void forwardToForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Redirigir (reenviar) al mismo formulario
+        // Redirigir al mismo formulario
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/AltaInstitucion.jsp");
         dispatcher.forward(request, response);
     }
@@ -194,7 +194,6 @@ public class AltaInstitucionSvt extends HttpServlet {
             if (!host.matches("^[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")) {
                 return false;
             }
-            // Solo aceptar http o https
             String protocol = parsed.getProtocol().toLowerCase(Locale.ROOT);
             return protocol.equals("http") || protocol.equals("https");
         } catch (Exception e) {

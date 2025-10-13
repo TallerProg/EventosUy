@@ -76,13 +76,13 @@ public class EditarPerfilSvt extends HttpServlet {
         Usuario user = icu.getUsuario(nickname);
         if (user == null) throw new ServletException("Usuario no encontrado.");
 
-        // --- Campos comunes ---
+        // Campos comunes 
         String nombre = req.getParameter("nombre");
         String password = req.getParameter("password");
         if (nombre != null && !nombre.isBlank()) user.setNombre(nombre);
         if (password != null && !password.isBlank()) user.setContrasena(password);
 
-        // --- Es asistente ---
+        // Es asistente 
         if (user instanceof Asistente a) {
             String apellido = req.getParameter("apellido");
             if (apellido != null) a.setApellido(apellido);
@@ -100,7 +100,7 @@ public class EditarPerfilSvt extends HttpServlet {
             }
         }
 
-        // --- Imagen de perfil: nick fijo, sobrescribe, limpia extensiones previas ---
+        // Imagen de perfil: nick fijo, sobrescribe, limpia extensiones previas 
         Part imagenPart = req.getPart("imagen");
         if (imagenPart != null && imagenPart.getSize() > 0) {
 
@@ -114,7 +114,7 @@ public class EditarPerfilSvt extends HttpServlet {
 
             String ext;
             switch (contentType) {
-                case "image/jpeg": ext = ".jpg";  break; // normalizamos .jpeg -> .jpg
+                case "image/jpeg": ext = ".jpg";  break; // normalizamos .jpeg a .jpg
                 case "image/png":  ext = ".png";  break;
                 case "image/webp": ext = ".webp"; break;
                 default: ext = ".bin";
@@ -155,7 +155,7 @@ public class EditarPerfilSvt extends HttpServlet {
                 throw new ServletException("No se pudo copiar la imagen al proyecto fuente", e);
             }
 
-            // Persistir en el dominio: preferir setImg, fallback setFoto
+            // Persistir en el dominio
             boolean seteado = false;
             try {
                 user.getClass().getMethod("setImg", String.class).invoke(user, fileName);

@@ -35,19 +35,19 @@ public class ConsultaTRegSvt extends HttpServlet {
     try {
       IControllerEvento ctrl = Factory.getInstance().getIControllerEvento();
 
-      // Evento (para título / breadcrumbs)
+      // Evento 
       Evento evento = ctrl.getEvento(nomEvento);
       if (evento == null) {
         throw new IllegalArgumentException("El evento '" + nomEvento + "' no existe.");
       }
 
-      // Edición (DTO)
+      // Edición (DT)
       DTEdicion ed = ctrl.consultaEdicionDeEvento(nomEvento, nomEdicion);
       if (ed == null) {
         throw new IllegalArgumentException("La edición '" + nomEdicion + "' no existe para el evento '" + nomEvento + "'.");
       }
 
-      // Tipo de registro (DTO)
+      // Tipo de registro (DT)
       DTTipoRegistro tr = ctrl.consultaTipoRegistro(nomEdicion, nomTipo);
       if (tr == null) {
         throw new IllegalArgumentException("El tipo de registro '" + nomTipo + "' no existe en la edición '" + nomEdicion + "'.");

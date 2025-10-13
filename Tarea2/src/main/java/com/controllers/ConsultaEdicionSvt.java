@@ -41,7 +41,7 @@ public class ConsultaEdicionSvt extends HttpServlet {
       return;
     }
 
-    // Permitir mensajes por querystring (útil para redirects con avisos)
+    // Permitir mensajes por querystring 
     if (req.getParameter("msgOk") != null && req.getAttribute("msgOk") == null) {
       req.setAttribute("msgOk", decode(req.getParameter("msgOk")));
     }
@@ -49,7 +49,7 @@ public class ConsultaEdicionSvt extends HttpServlet {
       req.setAttribute("msgError", decode(req.getParameter("msgError")));
     }
 
-    // ===== Sesión → rol y nick
+    // Sesión rol y nick
     HttpSession session = req.getSession(false);
     boolean esOrganizador = false;
     boolean esAsistente   = false;
@@ -97,7 +97,7 @@ public class ConsultaEdicionSvt extends HttpServlet {
         return;
       }
 
-      // ====== ViewModel ======
+      // ViewModel 
       Map<String, Object> VM = new HashMap<>();
       VM.put("eventoNombre", nombreEvento);
       VM.put("nombre",   ed.getNombre());
@@ -148,7 +148,7 @@ public class ConsultaEdicionSvt extends HttpServlet {
       }
       VM.put("tipos", tiposVM);
 
-   // ===== Mi registro (búsqueda imperativa, sin lambdas) =====
+   // Mi registro 
       Map<String,String> miRegVM = null;
       boolean esAsistenteInscriptoEd = false;
 
@@ -162,14 +162,14 @@ public class ConsultaEdicionSvt extends HttpServlet {
             String fechaReg = null;
             try { fechaReg = format(r.getfInicio()); } catch (Throwable ignore) {}
             miRegVM.put("fecha",  fechaReg);
-            miRegVM.put("estado", ""); // <-- si no tenés estado real, poné vacío para que no rompa el JSP
+            miRegVM.put("estado", ""); // si no tenes estado real, pones vacio para que no rompa el JSP
             break;
           }
         }
       }
       VM.put("miRegistro", miRegVM);
 
-      // ⚠️ IMPORTANTE: enviar el flag al JSP
+      // IMPORTANTE: enviar el flag al JSP
       req.setAttribute("ES_ASISTENTE_INSCRIPTO_ED", esAsistenteInscriptoEd);
       req.setAttribute("ES_ASIS_ED", esAsistenteInscriptoEd);
 
@@ -216,7 +216,7 @@ public class ConsultaEdicionSvt extends HttpServlet {
     }
   }
 
-  // ---------- Helpers ----------
+  // Funciones de ayuda
   private static void forward(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
     req.getRequestDispatcher("/WEB-INF/views/ConsultaEdicion.jsp").forward(req, resp);

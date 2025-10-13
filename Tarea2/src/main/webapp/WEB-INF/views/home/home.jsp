@@ -73,7 +73,7 @@
                 </div>
               </div>
             <%
-              } // for
+              } 
             %>
           </div>
 
@@ -100,7 +100,7 @@
       </div>
     </section>
 
-    <!-- CATEGORÍAS -->
+    <!-- categorias -->
     <section id="categories-carousel" class="py-3">
       <div class="container">
         <div id="categoriesCarousel" class="carousel slide" data-bs-interval="false">
@@ -152,7 +152,7 @@
       </div>
     </section>
 
-    <!-- GRID DE EVENTOS (máximo 4) -->
+    <!-- grid de eventos (maximo 4) -->
     <section id="speakers" class="speakers section">
       <div class="container section-title">
         <h2>Eventos</h2>
@@ -208,7 +208,7 @@
                   <% if (catString.contains("investigacion")) { %><i class="bi bi-flask" title="Investigación"></i><% } %>
                 </div>
 
-                <!-- Botón fijo abajo -->
+                <!-- Boton fijo abajo -->
                 <a href="<%= detalleHref %>" class="btn btn-primary mt-auto btn-ver-ediciones">Ver ediciones</a>
                 <a href="<%= detalleHref %>" class="stretched-link" aria-label="Ver ediciones de <%= e.getNombre() %>"></a>
               </div>
@@ -216,7 +216,7 @@
           </div>
 
           <%
-              } // for i<max
+              } 
             } else {
           %>
             <div class="col-12">
@@ -225,7 +225,7 @@
               </div>
             </div>
           <%
-            } // if eventos
+            } 
           %>
         </div>
 
@@ -251,7 +251,7 @@
   <script src="<%= ctx %>/media/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="<%= ctx %>/media/js/main.js"></script>
 
-  <!-- Filtro por categorías (single-select con toggle) -->
+  <!-- Filtro por categorías -->
   <script>
     (function() {
       const buttons = document.querySelectorAll('.category-btn');

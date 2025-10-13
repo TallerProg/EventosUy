@@ -51,7 +51,7 @@ public class AltaEdicionSvt extends HttpServlet {
       return;
     }
 
-    // Prefill del form (sólo visual)
+    // Llena el form
     req.setAttribute("form_evento", nombreEvento);
     req.setAttribute("form_fechaAlta", LocalDate.now().toString());
 
@@ -81,10 +81,10 @@ public class AltaEdicionSvt extends HttpServlet {
     String sIni         = req.getParameter("fechaIni");
     String sFin         = req.getParameter("fechaFin");
 
-    // Fecha de alta SIEMPRE del servidor (hoy)
+    // Fecha de alta del servidor (hoy)
     LocalDate fAlta = LocalDate.now();
 
-    // Persistir valores del form ante error
+    // Aguantar valores del form por si hay error
     req.setAttribute("form_evento", nombreEvento);
     req.setAttribute("form_nombre", nombre);
     req.setAttribute("form_sigla", sigla);
@@ -111,7 +111,7 @@ public class AltaEdicionSvt extends HttpServlet {
       return;
     }
 
-    // Reglas de negocio de fechas
+    // Problemas de fechas
     if (fIni.isBefore(LocalDate.now())) {
       req.setAttribute("msgError", "La fecha de inicio no puede ser anterior a hoy.");
       req.getRequestDispatcher("/WEB-INF/views/AltaEdicion.jsp").forward(req, resp);
@@ -154,13 +154,13 @@ public class AltaEdicionSvt extends HttpServlet {
         throw new IllegalArgumentException("El evento '" + nombreEvento + "' no existe.");
       }
 
-      // Resolver Organizador de dominio a partir de la sesión (nickname)
+      // Ver organizador a partir de la sesión (nickname)
       Organizador org = resolverOrganizador(ctrl, u);
       if (org == null) {
         throw new IllegalStateException("No se pudo resolver el Organizador a partir del usuario en sesión.");
       }
 
-      // Alta con fecha de alta automática (fAlta)
+      // Alta con fecha de alta automática 
       ctrl.altaEdicionDeEvento(
           nombre, sigla, ciudad, pais,
           fIni, fFin, fAlta,
@@ -177,13 +177,13 @@ public class AltaEdicionSvt extends HttpServlet {
     req.getRequestDispatcher("/WEB-INF/views/AltaEdicion.jsp").forward(req, resp);
   }
 
-  /** Intentamos matchear por nickname; con fallback por reflexión a getNickname()/getCorreo(). */
+  // Intentamos matchear por nickname
   private static Organizador resolverOrganizador(IControllerEvento ctrl, DTSesionUsuario u) {
     if (u == null) return null;
     String nick = u.getNickname();
     String correo = u.getCorreo();
     try {
-      List<Organizador> lista = ctrl.listarOrganizadores(); // asumiendo que está en la interfaz
+      List<Organizador> lista = ctrl.listarOrganizadores(); 
       if (lista != null) {
         for (Organizador o : lista) {
           if (o == null) continue;

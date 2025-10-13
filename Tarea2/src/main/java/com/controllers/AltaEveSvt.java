@@ -113,7 +113,7 @@ public class AltaEveSvt extends HttpServlet {
         }
     }
 
-    /* ======================== Helpers ======================== */
+    //Funciones de ayuda
 
     private IControllerEvento getController() {
     	Factory fabrica = Factory.getInstance();

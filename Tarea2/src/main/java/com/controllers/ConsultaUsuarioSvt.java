@@ -12,7 +12,7 @@ import ServidorCentral.logica.Asistente;
 import ServidorCentral.logica.Organizador;
 import ServidorCentral.logica.ControllerUsuario.DTSesionUsuario;
 import ServidorCentral.logica.DTUsuarioListaConsulta;
-// Clases dominio que ya tenés:
+
 import ServidorCentral.logica.Edicion;
 import ServidorCentral.logica.Registro;
 
@@ -29,11 +29,11 @@ public class ConsultaUsuarioSvt extends HttpServlet {
 			resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Falta parámetro 'nick'.");
 			return;
 		}
-		nick = nick.trim(); // FIX 1: evita espacios que rompan la búsqueda
+		nick = nick.trim(); // Evita espacios que rompan la busqueda
 		
 		IControllerUsuario icu = Factory.getInstance().getIControllerUsuario();
 
-		// FIX 2: primero detecto si existe y qué rol tiene
+		// Primero detecto si existe y que rol tiene
 		Asistente asis = icu.getAsistente(nick);
 		Organizador org = (asis == null) ? icu.getOrganizador(nick) : null;
 		String rol = (asis != null) ? "A" : (org != null) ? "O" : "v";
@@ -45,7 +45,7 @@ public class ConsultaUsuarioSvt extends HttpServlet {
             req.setAttribute("IMAGEN", img);
 		}
 		if ("v".equals(rol)) {
-			// No existe ni como Asistente ni como Organizador → 404
+			// No existe ni como Asistente ni como Organizador 404
 			resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Usuario no encontrado.");
 			return;
 		}

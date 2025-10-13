@@ -13,7 +13,7 @@
 <html lang="es">
 <head>
   <jsp:include page="/WEB-INF/views/template/head.jsp" />
-  <title>EventUY - Alta de Evento</title>
+  <title>Alta de Evento</title>
 </head>
 <body class="index-page">
 	<header id="header" class="header d-flex align-items-center fixed-top">

@@ -33,7 +33,7 @@ public class MisEdicionesSvt extends HttpServlet {
         String nickname = null;
         boolean esOrg = false;
 
-        // ==== Obtener usuario logueado ====
+        // Obtener usuario logueado 
         HttpSession session = req.getSession(false);
         if (session != null) {
             Object o = session.getAttribute("usuario_logueado");
@@ -49,11 +49,11 @@ public class MisEdicionesSvt extends HttpServlet {
         req.setAttribute("ES_ORG", esOrg);
 
         try {
-            // ==== Obtener controlador y organizador ====
+            // Obtener controlador y organizador 
             IControllerUsuario icu = Factory.getInstance().getIControllerUsuario();
             Organizador org = icu.getOrganizador(nickname);
 
-            // ==== Convertir las ediciones del organizador a DTEdiciones ====
+            // Convertir las ediciones del organizador a DTEdiciones 
             List<Edicion> ediciones = org.getEdiciones();
             if (ediciones == null) {
                 ediciones = new ArrayList<>();
@@ -70,7 +70,7 @@ public class MisEdicionesSvt extends HttpServlet {
                 }
             }
 
-            // ==== Pasar la lista al JSP ====
+            // Pasar la lista al JSP 
             req.setAttribute("LISTA_EDICIONES", dtEdiciones);
 
            
