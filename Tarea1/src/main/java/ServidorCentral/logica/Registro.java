@@ -78,11 +78,11 @@ public class Registro {
 	}
 
 	public DTRegistro getDTRegistro() {
-		String nomAsistente = (asistente != null) ? asistente.getNombre() : null;
+		String nomAsistente = (asistente != null) ? asistente.getNickname() : null;
 		String nomTipo = (tipoRegistro != null) ? tipoRegistro.getNombre() : null;
 		String codigo = (patrocinio != null) ? patrocinio.getCodigo() : null;
 
-		return new DTRegistro(fInicio, costo, nomAsistente, nomTipo, codigo);
+		return new DTRegistro(fInicio, costo,  nomTipo,nomAsistente, codigo);
 
 	}
 
