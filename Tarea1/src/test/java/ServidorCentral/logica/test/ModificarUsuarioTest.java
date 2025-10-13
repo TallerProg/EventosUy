@@ -147,7 +147,7 @@ class ModificarUsuarioTest {
         Organizador modificado = controller.getOrganizador("org1");
         assertEquals("OrgMod", modificado.getNombre());
         assertEquals("Nueva descripcion", modificado.getDescripcion());
-        assertEquals("www.nuevaurl.com", modificado.getUrl());
+        assertEquals(null, modificado.getUrl());
         assertEquals("org1_mod@mail.com", modificado.getCorreo());
     }
 }

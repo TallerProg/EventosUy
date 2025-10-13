@@ -79,6 +79,14 @@ public class Evento {
 		}
 		return false;
 	}
+	public boolean tieneEdicionSigla(String sigla) {
+		for (Edicion e: ediciones) {
+			if (e.getSigla().equalsIgnoreCase(sigla)) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	public Edicion findEdicion(String nombreEdicion) {
 		for (Edicion ed : ediciones) {
