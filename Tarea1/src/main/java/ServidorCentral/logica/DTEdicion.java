@@ -21,7 +21,7 @@ public class DTEdicion {
 
 	public DTEdicion(String nombre, String sigla, LocalDate fInicio, LocalDate fFin, LocalDate fAlta, String ciudad,
 			String pais, List<DTTipoRegistro> tipoRegistros, List<DTOrganizador> organizadores,
-			List<DTRegistro> registros, List<DTPatrocinio> patrocinios,String estado,String imagenWebPath ) {
+			List<DTRegistro> registros, List<DTPatrocinio> patrocinios, String estado, String imagenWebPath ) {
 		this.nombre = nombre;
 		this.sigla = sigla;
 		this.fInicio = fInicio;

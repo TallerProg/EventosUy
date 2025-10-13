@@ -29,272 +29,294 @@ import ServidorCentral.logica.Organizador;
 import ServidorCentral.logica.Registro;
 import ServidorCentral.logica.TipoRegistro;
 
-
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class ControllerUsuarioTest {
-	
-	private static IControllerUsuario controladorUsu;
-	
-	@BeforeAll
-	public static void iniciar() {
-		Factory fabrica = Factory.getInstance();
-		controladorUsu = fabrica.getIControllerUsuario();
-	}
 
-	    @BeforeEach
-	    void limpiarUsuarios() {
-	        ManejadorUsuario.getInstance().limpiar(); }
-	@Test
-	@Order(1)
-	void testRegistrarAsistenteConInsOK() {
+    private static IControllerUsuario controladorUsu;
 
-		String nicknameTest = "gusgui01";
-		String correoTest = "gustavoguimerans01@gmail.com";
-		String nombreTest = "Gustavo";
-		String apellidoTest = "Guimerans";
-		LocalDate fNacimientoTest = LocalDate.parse("12/03/2001", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-		Institucion insTest = new Institucion("ins1", "www.ins.com", "institucion1");
-		
-		try {
-			controladorUsu.altaAsistente(nicknameTest, correoTest, nombreTest, apellidoTest, fNacimientoTest, insTest, "1234");
-			Asistente a = controladorUsu.getAsistente(nicknameTest);
-			
-			assertEquals(a.getNickname(), nicknameTest);
-			assertEquals(a.getCorreo(), correoTest);
-			assertEquals(a.getNombre(), nombreTest);
-			assertEquals(a.getApellido(), apellidoTest);
-			assertEquals(a.getfNacimiento(), fNacimientoTest);
-			assertEquals(a.getInstitucion(), insTest);
-			
-		} catch (UsuarioRepetidoException e) {
-			fail(e.getMessage());
-			e.printStackTrace();
-			}
-		;
-	}
-	
-	@Test
-	@Order(2)
-	void testRegistrarAsistenteSinInsOK() {
+    @BeforeAll
+    public static void iniciar() {
+        Factory fabrica = Factory.getInstance();
+        controladorUsu = fabrica.getIControllerUsuario();
+    }
 
-		String nicknameTest = "gusgui02";
-		String correoTest = "gustavoguimerans02@gmail.com";
-		String nombreTest = "Gustavo";
-		String apellidoTest = "Guimerans";
-		LocalDate fNacimientoTest = LocalDate.parse("12/03/2001", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-				
-		try {
-			controladorUsu.altaAsistente(nicknameTest, correoTest, nombreTest, apellidoTest, fNacimientoTest, null, "1234");
-			Asistente a =controladorUsu.getAsistente(nicknameTest);
-			
-			assertEquals(a.getNickname(), nicknameTest);
-			assertEquals(a.getCorreo(), correoTest);
-			assertEquals(a.getNombre(), nombreTest);
-			assertEquals(a.getApellido(), apellidoTest);
-			assertEquals(a.getfNacimiento(), fNacimientoTest);
-			assertEquals(a.getInstitucion(), null);
-			
-			
-		} catch (UsuarioRepetidoException e) {
-			fail(e.getMessage());
-			e.printStackTrace();
-			}
-		;
-	}
+    @BeforeEach
+    void limpiarUsuarios() {
+        // Si tu manejador tiene limpiarUsuarios(), usalo en su lugar
+        ManejadorUsuario.getInstance().limpiar();
+    }
 
-	@Test
-	@Order(3)
-	void testRegistrarOrganizadorConUrlOK() {
+    @Test
+    @Order(1)
+    void testRegistrarAsistenteConInsOK() {
 
-		String nicknameTest = "gusgui03";
-		String correoTest = "gustavoguimerans03@gmail.com";
-		String nombreTest = "Gustavo";
-		String descTest = "descripcion";
-		String urlTest = "www.url.com";
-		
-		try {
-			controladorUsu.altaOrganizador(nicknameTest, correoTest, nombreTest, descTest, urlTest, "1234");
-			Organizador o =controladorUsu.getOrganizador(nicknameTest);
-			
-			assertEquals(o.getNickname(), nicknameTest);
-			assertEquals(o.getCorreo(), correoTest);
-			assertEquals(o.getNombre(), nombreTest);
-			assertEquals(o.getDescripcion(), descTest);
-			assertEquals(o.getUrl(), urlTest);
+        String nicknameTest = "gusgui01";
+        String correoTest   = "gustavoguimerans01@gmail.com";
+        String nombreTest   = "Gustavo";
+        String apellidoTest = "Guimerans";
+        LocalDate fNacTest  = LocalDate.parse("12/03/2001", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 
-			
-		} catch (UsuarioRepetidoException e) {
-			fail(e.getMessage());
-			e.printStackTrace();
-			}
-		;
-	}
-	
-	@Test
-	@Order(4)
-	void testRegistrarOrganizadorSinUrlOK() {
+        // Institución con imagen
+        Institucion insTest = new Institucion("ins1", "www.ins.com", "institucion1", "ins1.png");
 
-		String nicknameTest = "gusgui04";
-		String correoTest = "gustavoguimerans04@gmail.com";
-		String nombreTest = "Gustavo";
-		String descTest = "descripcion";
-		
-		try {
-			controladorUsu.altaOrganizador(nicknameTest, correoTest, nombreTest, descTest, null, "1234");
-			Organizador o =controladorUsu.getOrganizador(nicknameTest);
-			
-			assertEquals(o.getNickname(), nicknameTest);
-			assertEquals(o.getCorreo(), correoTest);
-			assertEquals(o.getNombre(), nombreTest);
-			assertEquals(o.getDescripcion(), descTest);
-			assertEquals(o.getUrl(), null);
+        try {
+            controladorUsu.altaAsistente(
+                nicknameTest, correoTest, nombreTest, apellidoTest,
+                fNacTest, insTest, "1234", "asist01.png"
+            );
+            Asistente a = controladorUsu.getAsistente(nicknameTest);
 
-			
-		} catch (UsuarioRepetidoException e) {
-			fail(e.getMessage());
-			e.printStackTrace();
-			}
-		;
-	}
-	
-	@Test
-	@Order(6)
-	void testRegistrarOrganizadorRep() {
+            assertEquals(nicknameTest, a.getNickname());
+            assertEquals(correoTest,   a.getCorreo());
+            assertEquals(nombreTest,   a.getNombre());
+            assertEquals(apellidoTest, a.getApellido());
+            assertEquals(fNacTest,     a.getfNacimiento());
+            assertEquals(insTest,      a.getInstitucion());
 
-		String nicknameTest = "gusgui05";
-		String correoTest = "gustavoguimerans05@gmail.com";
-		String nombreTest = "Gustavo";
-		String descTest = "descripcion";
-		String urlTest = "www.url.com";
-		
-		try {
-			controladorUsu.altaOrganizador(nicknameTest, correoTest, nombreTest, descTest, urlTest, "1234");
-			
-		} catch (UsuarioRepetidoException e) {
-			fail(e.getMessage());
-			e.printStackTrace();
-			}
-		;
-		assertThrows(UsuarioRepetidoException.class, ()-> {controladorUsu.altaOrganizador(nicknameTest, correoTest, nombreTest, descTest, urlTest, "1234"); })
-		;
-	}
-	
-	
-	@Test
-	@Order(7)
-	void testRegistrarAsistenteRep() {
+        } catch (UsuarioRepetidoException e) {
+            fail(e.getMessage());
+        }
+    }
 
-		String nicknameTest = "gusgui06";
-		String correoTest = "gustavoguimerans06@gmail.com";
-		String nombreTest = "Gustavo";
-		String apellidoTest = "Guimerans";
-		LocalDate fNacimientoTest = LocalDate.parse("12/03/2001", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-		Institucion insTest = new Institucion("ins1", "www.ins.com", "institucion1");
-		
-		try {
-			controladorUsu.altaAsistente(nicknameTest, correoTest, nombreTest, apellidoTest, fNacimientoTest, insTest, "1234");
-			
-		} catch (UsuarioRepetidoException e) {
-			fail(e.getMessage());
-			e.printStackTrace();
-			}
-		;
-		assertThrows(UsuarioRepetidoException.class, ()-> {controladorUsu.altaAsistente(nicknameTest, correoTest, nombreTest, apellidoTest, fNacimientoTest, insTest, "1234"); })
-		;
-	}
-	
-	 @Test
-	    @Order(8)
-	    void testGetUsuarios() {
-	        Institucion ins = new Institucion("insTest", "www.test.com", "Institucion Test");
-	        try {
-	            controladorUsu.altaAsistente("asist01", "asist01@test.com", "Ana", "Perez",
-	                    LocalDate.parse("01/01/2000", DateTimeFormatter.ofPattern("dd/MM/yyyy")), ins, "1234");
-	            controladorUsu.altaOrganizador("org01", "org01@test.com", "Carlos", "Desc Organizador", null, "1234");
-	        } catch (UsuarioRepetidoException e) {
-	            fail(e.getMessage());
-	        }
+    @Test
+    @Order(2)
+    void testRegistrarAsistenteSinInsOK() {
 
-	        List<DTUsuarioLista> listaUsuarios = controladorUsu.getUsuarios();
-	        assertEquals(2, listaUsuarios.size(), "Debería haber 2 usuarios en la lista");
+        String nicknameTest = "gusgui02";
+        String correoTest   = "gustavoguimerans02@gmail.com";
+        String nombreTest   = "Gustavo";
+        String apellidoTest = "Guimerans";
+        LocalDate fNacTest  = LocalDate.parse("12/03/2001", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 
-	        boolean foundAsistente = false;
-	        boolean foundOrganizador = false;
+        try {
+            controladorUsu.altaAsistente(
+                nicknameTest, correoTest, nombreTest, apellidoTest,
+                fNacTest, null, "1234", "asist02.png"
+            );
+            Asistente a = controladorUsu.getAsistente(nicknameTest);
 
-	        for (DTUsuarioLista dt : listaUsuarios) {
-	            assertNotNull(dt);
-	            if (dt.getNickname().equals("asist01")) {
-	                foundAsistente = true;
-	                assertEquals("Ana", dt.getNombre());
-	                assertEquals(0, dt.getEdiciones().size(), "El asistente no debería tener ediciones");
-	            } else if (dt.getNickname().equals("org01")) {
-	                foundOrganizador = true;
-	                assertEquals("Carlos", dt.getNombre());
-	                assertEquals(0, dt.getRegistros().size(), "El organizador no debería tener registros");
-	            }
-	        }
+            assertEquals(nicknameTest, a.getNickname());
+            assertEquals(correoTest,   a.getCorreo());
+            assertEquals(nombreTest,   a.getNombre());
+            assertEquals(apellidoTest, a.getApellido());
+            assertEquals(fNacTest,     a.getfNacimiento());
+            assertNull(a.getInstitucion());
 
-	        assertTrue(foundAsistente, "No se encontró el Asistente en la lista");
-	        assertTrue(foundOrganizador, "No se encontró el Organizador en la lista");
-	    }
+        } catch (UsuarioRepetidoException e) {
+            fail(e.getMessage());
+        }
+    }
 
-	    @Test
-	    @Order(9)
-	    void testGetAsistentes() {
-	        Institucion ins = new Institucion("insTest2", "www.test2.com", "Institucion Test2");
-	        try {
-	            controladorUsu.altaAsistente("asist02", "asist02@test.com", "Luis", "Gomez",
-	                    LocalDate.parse("02/02/2002", DateTimeFormatter.ofPattern("dd/MM/yyyy")), ins, "1234");
-	            controladorUsu.altaAsistente("asist03", "asist03@test.com", "Marta", "Lopez",
-	                    LocalDate.parse("03/03/2003", DateTimeFormatter.ofPattern("dd/MM/yyyy")), null, "1234");
-	        } catch (UsuarioRepetidoException e) {
-	            fail(e.getMessage());
-	        }
+    @Test
+    @Order(3)
+    void testRegistrarOrganizadorConUrlOK() {
 
-	        List<Asistente> asistentes = controladorUsu.getAsistentes();
-	        assertEquals(2, asistentes.size(), "Debería haber 2 asistentes en la lista");
+        String nicknameTest = "gusgui03";
+        String correoTest   = "gustavoguimerans03@gmail.com";
+        String nombreTest   = "Gustavo";
+        String descTest     = "descripcion";
+        String urlTest      = "www.url.com";
 
-	        boolean foundLuis = false;
-	        boolean foundMarta = false;
+        try {
+            controladorUsu.altaOrganizador(
+                nicknameTest, correoTest, nombreTest, descTest, urlTest, "1234", "org03.png"
+            );
+            Organizador o = controladorUsu.getOrganizador(nicknameTest);
 
-	        for (Asistente a : asistentes) {
-	            if (a.getNickname().equals("asist02")) {
-	                foundLuis = true;
-	                assertEquals("Luis", a.getNombre());
-	                assertNotNull(a.getInstitucion());
-	            } else if (a.getNickname().equals("asist03")) {
-	                foundMarta = true;
-	                assertEquals("Marta", a.getNombre());
-	                assertNull(a.getInstitucion());
-	            }
-	        }
+            assertEquals(nicknameTest, o.getNickname());
+            assertEquals(correoTest,   o.getCorreo());
+            assertEquals(nombreTest,   o.getNombre());
+            assertEquals(descTest,     o.getDescripcion());
+            assertEquals(urlTest,      o.getUrl());
 
-	        assertTrue(foundLuis, "No se encontró el Asistente Luis");
-	        assertTrue(foundMarta, "No se encontró la Asistente Marta");
-	    }
-	    
-	    
-	    @Test
-	    @Order(10)
-	    void testRegistrosFechasEnTipoRegistro() {
-	        TipoRegistro tipo = new TipoRegistro("General", "Acceso general", 100f, 50, null);
+        } catch (UsuarioRepetidoException e) {
+            fail(e.getMessage());
+        }
+    }
 
-	        Asistente asistente = new Asistente("nickTest", "correo@test.com", "Nombre", "Apellido",
-	                                            LocalDate.of(1999, 5, 5), null);
+    @Test
+    @Order(4)
+    void testRegistrarOrganizadorSinUrlOK() {
 
-	        String hoy = LocalDate.now().toString();
+        String nicknameTest = "gusgui04";
+        String correoTest   = "gustavoguimerans04@gmail.com";
+        String nombreTest   = "Gustavo";
+        String descTest     = "descripcion";
 
-	        Registro r1 = new Registro(100f, null, asistente, tipo);
-	        Registro r2 = new Registro(200f, null, asistente, tipo);
+        try {
+            controladorUsu.altaOrganizador(
+                nicknameTest, correoTest, nombreTest, descTest, null, "1234", "org04.png"
+            );
+            Organizador o = controladorUsu.getOrganizador(nicknameTest);
 
-	        tipo.getRegistros().add(r1);
-	        tipo.getRegistros().add(r2);
+            assertEquals(nicknameTest, o.getNickname());
+            assertEquals(correoTest,   o.getCorreo());
+            assertEquals(nombreTest,   o.getNombre());
+            assertEquals(descTest,     o.getDescripcion());
+            assertNull(o.getUrl());
 
-	        List<String> fechas = tipo.registrosFechas();
+        } catch (UsuarioRepetidoException e) {
+            fail(e.getMessage());
+        }
+    }
 
-	        assertEquals(2, fechas.size(), "Debe devolver 2 fechas");
-	        assertTrue(fechas.stream().allMatch(f -> f.equals(hoy)),
-	                "Todas las fechas deben ser iguales a la fecha de hoy: " + hoy);
-	    }
+    @Test
+    @Order(6)
+    void testRegistrarOrganizadorRep() {
 
-	}
+        String nicknameTest = "gusgui05";
+        String correoTest   = "gustavoguimerans05@gmail.com";
+        String nombreTest   = "Gustavo";
+        String descTest     = "descripcion";
+        String urlTest      = "www.url.com";
+
+        try {
+            controladorUsu.altaOrganizador(
+                nicknameTest, correoTest, nombreTest, descTest, urlTest, "1234", "org05.png"
+            );
+        } catch (UsuarioRepetidoException e) {
+            fail(e.getMessage());
+        }
+
+        assertThrows(UsuarioRepetidoException.class, () ->
+            controladorUsu.altaOrganizador(
+                nicknameTest, correoTest, nombreTest, descTest, urlTest, "1234", "org05.png"
+            )
+        );
+    }
+
+    @Test
+    @Order(7)
+    void testRegistrarAsistenteRep() {
+
+        String nicknameTest = "gusgui06";
+        String correoTest   = "gustavoguimerans06@gmail.com";
+        String nombreTest   = "Gustavo";
+        String apellidoTest = "Guimerans";
+        LocalDate fNacTest  = LocalDate.parse("12/03/2001", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        Institucion insTest = new Institucion("ins1", "www.ins.com", "institucion1", "ins1.png");
+
+        try {
+            controladorUsu.altaAsistente(
+                nicknameTest, correoTest, nombreTest, apellidoTest,
+                fNacTest, insTest, "1234", "asist06.png"
+            );
+        } catch (UsuarioRepetidoException e) {
+            fail(e.getMessage());
+        }
+
+        assertThrows(UsuarioRepetidoException.class, () ->
+            controladorUsu.altaAsistente(
+                nicknameTest, correoTest, nombreTest, apellidoTest,
+                fNacTest, insTest, "1234", "asist06.png"
+            )
+        );
+    }
+
+    @Test
+    @Order(8)
+    void testGetUsuarios() {
+        Institucion ins = new Institucion("insTest", "www.test.com", "Institucion Test", "insTest.png");
+        try {
+            controladorUsu.altaAsistente(
+                "asist01", "asist01@test.com", "Ana", "Perez",
+                LocalDate.parse("01/01/2000", DateTimeFormatter.ofPattern("dd/MM/yyyy")),
+                ins, "1234", "ana.png"
+            );
+            controladorUsu.altaOrganizador(
+                "org01", "org01@test.com", "Carlos", "Desc Organizador",
+                null, "1234", "carlos.png"
+            );
+        } catch (UsuarioRepetidoException e) {
+            fail(e.getMessage());
+        }
+
+        List<DTUsuarioLista> listaUsuarios = controladorUsu.getUsuarios();
+        assertEquals(2, listaUsuarios.size(), "Debería haber 2 usuarios en la lista");
+
+        boolean foundAsistente = false;
+        boolean foundOrganizador = false;
+
+        for (DTUsuarioLista dt : listaUsuarios) {
+            assertNotNull(dt);
+            if (dt.getNickname().equals("asist01")) {
+                foundAsistente = true;
+                assertEquals("Ana", dt.getNombre());
+                assertEquals(0, dt.getEdiciones().size(), "El asistente no debería tener ediciones");
+            } else if (dt.getNickname().equals("org01")) {
+                foundOrganizador = true;
+                assertEquals("Carlos", dt.getNombre());
+                assertEquals(0, dt.getRegistros().size(), "El organizador no debería tener registros");
+            }
+        }
+
+        assertTrue(foundAsistente, "No se encontró el Asistente en la lista");
+        assertTrue(foundOrganizador, "No se encontró el Organizador en la lista");
+    }
+
+    @Test
+    @Order(9)
+    void testGetAsistentes() {
+        Institucion ins = new Institucion("insTest2", "www.test2.com", "Institucion Test2", "insTest2.png");
+        try {
+            controladorUsu.altaAsistente(
+                "asist02", "asist02@test.com", "Luis", "Gomez",
+                LocalDate.parse("02/02/2002", DateTimeFormatter.ofPattern("dd/MM/yyyy")),
+                ins, "1234", "luis.png"
+            );
+            controladorUsu.altaAsistente(
+                "asist03", "asist03@test.com", "Marta", "Lopez",
+                LocalDate.parse("03/03/2003", DateTimeFormatter.ofPattern("dd/MM/yyyy")),
+                null, "1234", "marta.png"
+            );
+        } catch (UsuarioRepetidoException e) {
+            fail(e.getMessage());
+        }
+
+        List<Asistente> asistentes = controladorUsu.getAsistentes();
+        assertEquals(2, asistentes.size(), "Debería haber 2 asistentes en la lista");
+
+        boolean foundLuis = false;
+        boolean foundMarta = false;
+
+        for (Asistente a : asistentes) {
+            if (a.getNickname().equals("asist02")) {
+                foundLuis = true;
+                assertEquals("Luis", a.getNombre());
+                assertNotNull(a.getInstitucion());
+            } else if (a.getNickname().equals("asist03")) {
+                foundMarta = true;
+                assertEquals("Marta", a.getNombre());
+                assertNull(a.getInstitucion());
+            }
+        }
+
+        assertTrue(foundLuis, "No se encontró el Asistente Luis");
+        assertTrue(foundMarta, "No se encontró la Asistente Marta");
+    }
+
+    @Test
+    @Order(10)
+    void testRegistrosFechasEnTipoRegistro() {
+        TipoRegistro tipo = new TipoRegistro("General", "Acceso general", 100f, 50, null);
+
+        Asistente asistente = new Asistente(
+            "nickTest", "correo@test.com", "Nombre", "Apellido",
+            LocalDate.of(1999, 5, 5), null, "avatar.png"
+        );
+
+        String hoy = LocalDate.now().toString();
+
+        Registro r1 = new Registro(100f, null, asistente, tipo);
+        Registro r2 = new Registro(200f, null, asistente, tipo);
+
+        tipo.getRegistros().add(r1);
+        tipo.getRegistros().add(r2);
+
+        List<String> fechas = tipo.registrosFechas();
+
+        assertEquals(2, fechas.size(), "Debe devolver 2 fechas");
+        assertTrue(fechas.stream().allMatch(f -> f.equals(hoy)),
+                "Todas las fechas deben ser iguales a la fecha de hoy: " + hoy);
+    }
+}

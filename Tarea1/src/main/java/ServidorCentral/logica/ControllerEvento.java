@@ -116,14 +116,14 @@ public class ControllerEvento implements IControllerEvento {
 		}
 	}
 
-	public void altaEvento(String nombre, String desc, LocalDate fAlta, String sigla, List<Categoria> categorias,String img)
+	public void altaEvento(String nombre, String desc, LocalDate fAlta, String sigla, List<Categoria> categorias, String img)
 			throws Exception {
 		ManejadorEvento me = ManejadorEvento.getInstancia();
 
 		if (me.existeEvento(nombre)) {
 			throw new Exception("El evento" + nombre + "ya esta registrado");
 		} else {
-			Evento Ev = new Evento(nombre, sigla, desc, fAlta, categorias,img);
+			Evento Ev = new Evento(nombre, sigla, desc, fAlta, categorias, img);
 			me.agregarEvento(Ev);
 
 		}

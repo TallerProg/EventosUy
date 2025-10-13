@@ -37,22 +37,40 @@ class ControllerEventoExtrasTest {
         ManejadorEvento.getInstancia().limpiar();
         ManejadorUsuario.getInstance().limpiar();
         
-        evento = new Evento("EventoTest", "EVT", "desc", LocalDate.now(), new ArrayList<>());
-        edicion = new Edicion("EdicionTest", "EDT", LocalDate.of(2025, 5, 1), LocalDate.of(2025, 5, 10), LocalDate.of(2024, 5, 10),
-                "Montevideo", "UY", evento);
+        // Evento ahora requiere imagen
+        evento = new Evento(
+            "EventoTest",
+            "EVT",
+            "desc",
+            LocalDate.now(),
+            new ArrayList<>(),
+            "evento.png"
+        );
+
+        edicion = new Edicion(
+            "EdicionTest",
+            "EDT",
+            LocalDate.of(2025, 5, 1),
+            LocalDate.of(2025, 5, 10),
+            LocalDate.of(2024, 5, 10),
+            "Montevideo",
+            "UY",
+            evento
+        );
         evento.agregarEdicion(edicion);
         ManejadorEvento.getInstancia().agregarEvento(evento);
         ManejadorEvento.getInstancia().agregarEdicion(edicion);
 
+        // Organizador ahora requiere imagen (usa ctor sin URL)
         organizador = new Organizador(
-        	    "nickOrgTest",     
-        	    "org@test.com",    
-        	    "OrgTest",         
-        	    "Descripción test",
-        	    "1234"
-        	);
-        	ManejadorUsuario.getInstance().agregarOrganizador(organizador);
-
+            "nickOrgTest",
+            "org@test.com",
+            "OrgTest",
+            "Descripción test",
+            "1234",
+            "org.png"
+        );
+        ManejadorUsuario.getInstance().agregarOrganizador(organizador);
     }
 
     @Test
@@ -102,12 +120,22 @@ class ControllerEventoExtrasTest {
     
     @Test
     void testListarPatrociniosDeEdicionConPatrocinio() throws Exception {
-        Institucion institucion = new Institucion("InstTest", "url", "desc");
+    	Institucion institucion = new Institucion("InstTest", "url", "desc", "inst.png");
         ManejadorInstitucion.getInstance().agregarInstitucion(institucion);
+
         TipoRegistro tr = new TipoRegistro("General", "Acceso", 100f, 10, edicion);
         edicion.agregarTipoRegistro(tr);
-        controller.altaPatrocinio("PAT001", LocalDate.now(), 1, 500f, ETipoNivel.Oro,
-                institucion.getNombre(), edicion.getNombre(), tr.getNombre());
+
+        controller.altaPatrocinio(
+            "PAT001",
+            LocalDate.now(),
+            1,
+            500f,
+            ETipoNivel.Oro,
+            institucion.getNombre(),
+            edicion.getNombre(),
+            tr.getNombre()
+        );
         
         List<DTPatrocinio> lista = controller.listarPatrociniosDeEdicion(edicion.getNombre());
         assertEquals(1, lista.size());

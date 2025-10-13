@@ -15,7 +15,7 @@ public class Evento {
 	private List<Categoria> categorias = new ArrayList<>();
 	private List<Edicion> ediciones = new ArrayList<>();
 
-	public Evento(String nombre, String sigla, String descripcion, LocalDate fAlta, List<Categoria> categorias,String img) {
+	public Evento(String nombre, String sigla, String descripcion, LocalDate fAlta, List<Categoria> categorias, String img) {
 		this.nombre = nombre;
 		this.sigla = sigla;
 		this.descripcion = descripcion;

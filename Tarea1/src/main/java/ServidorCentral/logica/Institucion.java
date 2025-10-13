@@ -13,7 +13,7 @@ public class Institucion {
     private List<Patrocinio> patrocinios;
     private List<Asistente> asistentes;
 
-    public Institucion(String nombre, String url, String descripcion,String img) {
+    public Institucion(String nombre, String url, String descripcion, String img) {
         this.nombre = nombre;
         this.url = url;
         this.descripcion = descripcion;

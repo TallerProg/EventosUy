@@ -14,6 +14,7 @@ import ServidorCentral.logica.Edicion;
 import ServidorCentral.logica.Evento;
 import ServidorCentral.logica.ManejadorEvento;
 import ServidorCentral.logica.TipoRegistro;
+
 class AltaTipoRegistroTest {
 
     private Evento evento1;
@@ -24,22 +25,34 @@ class AltaTipoRegistroTest {
     void setUp() throws Exception {
         controllerEvento = new ControllerEvento();
 
-        evento1 = new Evento("ConferenciaX", "C-2025", "Evento de prueba",
-                LocalDate.now(), new ArrayList<>());
+        // (opcional) limpiar por si otros tests dejaron estado
+        // ManejadorEvento.getInstancia().limpiar();
+
+        // 🔧 Evento ahora requiere imagen en el constructor
+        evento1 = new Evento(
+                "ConferenciaX",
+                "C-2025",
+                "Evento de prueba",
+                LocalDate.now(),
+                new ArrayList<>(),
+                "evento.png"
+        );
         ManejadorEvento.getInstancia().agregarEvento(evento1);
 
         edicion1 = new Edicion(
                 "Edicion2025",
                 "ED2025",
-                LocalDate.of(2025, 5, 1),   
-                LocalDate.of(2025, 5, 10),  
-                LocalDate.of(2025, 4, 20),  
+                LocalDate.of(2025, 5, 1),
+                LocalDate.of(2025, 5, 10),
+                LocalDate.of(2025, 4, 20),
                 "Montevideo",
                 "Uruguay",
                 evento1
         );
 
         evento1.agregarEdicion(edicion1);
+        // (opcional) si otros métodos dependen del manejador:
+        // ManejadorEvento.getInstancia().agregarEdicion(edicion1);
     }
 
     @Test
@@ -65,7 +78,7 @@ class AltaTipoRegistroTest {
         });
 
         assertEquals("El nombre de tipo de registro \"VIP\" ya fue utilizado", exception.getMessage());
-
         assertEquals(1, edicion1.getTipoRegistros().size());
     }
 }
+

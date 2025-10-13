@@ -29,26 +29,29 @@ class ControllerUsuarioLoginTest {
         // Limpieza
         ManejadorUsuario.getInstance().limpiarUsuarios();
 
-        // Alta de un asistente y un organizador (con contraseñas en texto plano)
         ControllerUsuario cu = controller;
 
+        // ⬇️ OJO: se agrega el parámetro Institucion (null en este caso) DESPUÉS de la fecha
         cu.altaAsistente(
                 "asist1",
                 "asist1@mail.com",
                 "Juan",
                 "Perez",
                 LocalDate.of(2000, 1, 1),
-                null,            // avatar
-                "1234"
+                null,           // Institucion (sin institución asociada)
+                "1234",
+                "asist1.png"    // imagen/avatar
         );
 
+        // Alta de organizador (con imagen al final)
         cu.altaOrganizador(
                 "org1",
                 "org1@mail.com",
                 "Org Uno",
                 "Desc org uno",
                 "https://org1.example",
-                "abcd"           // password organizador
+                "abcd",
+                "org1.png"
         );
     }
 
@@ -88,21 +91,21 @@ class ControllerUsuarioLoginTest {
     void loginParametrosVaciosfalla() {
         assertThrows(CredencialesInvalidasException.class, () ->
                 controller.iniciarSesion("", "1234"));
-
         assertThrows(CredencialesInvalidasException.class, () ->
                 controller.iniciarSesion("asist1", ""));
-
         assertThrows(CredencialesInvalidasException.class, () ->
                 controller.iniciarSesion(null, "1234"));
     }
 
     @Test
     void cerrarSesionNoNPE() {
-        // Simplemente verificamos que no tire NPE (usa Objects.requireNonNull)
         ControllerUsuario.DTSesionUsuario ses =
-                new ControllerUsuario.DTSesionUsuario("asist1", "asist1@mail.com",
-                        ControllerUsuario.RolUsuario.ASISTENTE, LocalDateTime.now());
-
+                new ControllerUsuario.DTSesionUsuario(
+                        "asist1", "asist1@mail.com",
+                        ControllerUsuario.RolUsuario.ASISTENTE,
+                        LocalDateTime.now()
+                );
         assertDoesNotThrow(() -> controller.cerrarSesion(ses));
     }
 }
+

@@ -38,13 +38,33 @@ class PatrocinioGeneralTest {
         ManejadorEvento.getInstancia().limpiar();
         ManejadorInstitucion.getInstance().limpiar();
 
-        evento = new Evento("EventoTest", "EVT", "desc", LocalDate.now(), new ArrayList<>());
-        edicion = new Edicion("EdicionTest", "EDT", LocalDate.of(2025, 5, 1), LocalDate.of(2025, 5, 10), LocalDate.of(2024, 5, 10), "Montevideo", "UY", evento);
+        // Evento ahora con imagen
+        evento = new Evento(
+                "EventoTest", "EVT", "desc",
+                LocalDate.now(), new ArrayList<>(),
+                "evento.png"
+        );
+
+        edicion = new Edicion(
+                "EdicionTest", "EDT",
+                LocalDate.of(2025, 5, 1),
+                LocalDate.of(2025, 5, 10),
+                LocalDate.of(2024, 5, 10),
+                "Montevideo", "UY",
+                evento
+        );
+
         tipoRegistro = new TipoRegistro("General", "Acceso general", 100f, 50, edicion);
         edicion.agregarTipoRegistro(tipoRegistro);
         evento.agregarEdicion(edicion);
 
-        institucion = new Institucion("InstitutoTest", "http://inst.test", "desc inst");
+        // Institución ahora con imagen
+        institucion = new Institucion(
+                "InstitutoTest",
+                "http://inst.test",
+                "desc inst",
+                "institucion.png"
+        );
 
         ManejadorEvento.getInstancia().agregarEvento(evento);
         ManejadorEvento.getInstancia().agregarEdicion(edicion);
@@ -135,4 +155,3 @@ class PatrocinioGeneralTest {
         assertNull(dt);
     }
 }
-

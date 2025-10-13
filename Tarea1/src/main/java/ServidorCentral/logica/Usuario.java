@@ -7,7 +7,7 @@ public class Usuario {
 	private String contrasena;
 	private String img;
 
-	public Usuario(String nick, String correo, String nom, String contrasena,String img) {
+	public Usuario(String nick, String correo, String nom, String contrasena, String img) {
 		this.nickname = nick;
 		this.correo = correo;
 		this.nombre = nom;

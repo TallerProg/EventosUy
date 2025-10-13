@@ -35,24 +35,53 @@ class ConsultaUsuarioTest {
         manejadorUsuario = ManejadorUsuario.getInstance();
         controllerUsuario = new ControllerUsuario();
 
-        org1 = new Organizador("org90", "org1@mail.com", "Org Principal", "Organizador Principal", "1234");
+        // Organizador (constructor con imagen; sin URL)
+        org1 = new Organizador(
+            "org90",
+            "org1@mail.com",
+            "Org Principal",
+            "Organizador Principal",
+            "1234",
+            "org.png"
+        );
         manejadorUsuario.agregarUsuario(org1);
 
-        asist1 = new Asistente("asist1", "asist1@mail.com", "Asistente 1", "Apellido",
-                LocalDate.of(2000, 5, 1), "1234");
+        // Asistente (constructor con imagen)
+        asist1 = new Asistente(
+            "asist1",
+            "asist1@mail.com",
+            "Asistente 1",
+            "Apellido",
+            LocalDate.of(2000, 5, 1),
+            "1234",
+            "asis.png"
+        );
         manejadorUsuario.agregarUsuario(asist1);
 
-        evento1 = new Evento("ConferenciaX", "C-2025", "Evento de prueba",
-                LocalDate.now(), new ArrayList<>());
+        // Evento (constructor con imagen)
+        evento1 = new Evento(
+            "ConferenciaX",
+            "C-2025",
+            "Evento de prueba",
+            LocalDate.now(),
+            new ArrayList<>(),
+            "evento.png"
+        );
         ManejadorEvento.getInstancia().agregarEvento(evento1);
 
-        edicion1 = new Edicion("Edicion2025", "ED2025",
-                LocalDate.of(2025, 5, 1), LocalDate.of(2025, 5, 10), LocalDate.of(2024, 5, 10), 
-                "Montevideo", "Uruguay", evento1);
+        edicion1 = new Edicion(
+            "Edicion2025",
+            "ED2025",
+            LocalDate.of(2025, 5, 1),
+            LocalDate.of(2025, 5, 10),
+            LocalDate.of(2024, 5, 10),
+            "Montevideo",
+            "Uruguay",
+            evento1
+        );
 
         edicion1.getOrganizadores().add(org1);
         org1.agregarEdicionOrg(edicion1);
-
         evento1.agregarEdicion(edicion1);
 
         TipoRegistro tr = new TipoRegistro("General", "Entrada general", 100f, 100, edicion1);
