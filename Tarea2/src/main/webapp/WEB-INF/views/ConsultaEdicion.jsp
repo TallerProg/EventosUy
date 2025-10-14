@@ -43,7 +43,7 @@ String pais   = VM != null ? (String) VM.get("pais")   : null;
 String estado = VM != null ? (String) VM.get("estado") : null;
 String imagen = VM != null ? (String) VM.get("imagen") : null;
 String evNom  = VM != null ? (String) VM.get("eventoNombre") : null;
-// Edición finalizada (boolean) si es verdadadero, habilita inscripciones
+//finalizada es false si la fecha actual es mayor a la fecha de fin de la edicion 
 Boolean finalizado = VM != null ? (Boolean) VM.get("finalizado") : Boolean.FALSE;
 
 if (imagen == null || imagen.isEmpty()) {
@@ -274,7 +274,7 @@ String encEv = (evNom  != null) ? URLEncoder.encode(evNom,  StandardCharsets.UTF
         <div class="card-body">
           <div class="d-flex align-items-center gap-2 mb-2">
             <h5 class="card-title mb-0"><i class="bi bi-people"></i> Patrocinios</h5>
-            <% if (ES_ORGANIZADOR_ED) { %>
+            <% if (ES_ORGANIZADOR_ED && finalizado) { %>
               <a href="<%= ctx %>/organizador-patrocinios-alta?evento=<%= encEv %>&edicion=<%= encEd %>"
                  class="btn btn-sm btn-primary ms-auto d-inline-flex align-items-center justify-content-center"
                  style="width:32px; height:32px; border-radius:8px;"

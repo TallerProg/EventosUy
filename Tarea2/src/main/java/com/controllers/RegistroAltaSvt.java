@@ -146,6 +146,7 @@ public class RegistroAltaSvt extends HttpServlet {
 
       if (!conPatro) {
         ctrl.altaRegistro(nomEdicion, nickAsistente, nomTipo);
+        
       } else {
         if (isBlank(codigoPat)) {
           req.setAttribute("msgError", "Debes ingresar un código de patrocinio.");
