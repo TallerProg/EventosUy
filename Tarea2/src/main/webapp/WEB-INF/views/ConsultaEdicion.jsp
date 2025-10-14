@@ -43,6 +43,8 @@ String pais   = VM != null ? (String) VM.get("pais")   : null;
 String estado = VM != null ? (String) VM.get("estado") : null;
 String imagen = VM != null ? (String) VM.get("imagen") : null;
 String evNom  = VM != null ? (String) VM.get("eventoNombre") : null;
+// Edición finalizada (boolean) si es verdadadero, habilita inscripciones
+Boolean finalizado = VM != null ? (Boolean) VM.get("finalizado") : Boolean.FALSE;
 
 if (imagen == null || imagen.isEmpty()) {
   imagen = ctx + "/media/img/ediciones/default.jpg";
@@ -131,7 +133,7 @@ String encEv = (evNom  != null) ? URLEncoder.encode(evNom,  StandardCharsets.UTF
               boolean sinRegistro = (miReg == null) || miReg.isEmpty() || miReg.get("tipo") == null
                                     || String.valueOf(miReg.get("tipo")).isBlank();
               boolean hayTipos = (tipos != null && !tipos.isEmpty());
-              boolean puedeMostrarInscribirme = ES_ASISTENTE && sinRegistro && hayTipos;
+              boolean puedeMostrarInscribirme = ES_ASISTENTE && sinRegistro && hayTipos && finalizado ;
 
               if (puedeMostrarInscribirme) {
                 int cantTipos = tipos.size();

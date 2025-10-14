@@ -107,6 +107,8 @@ public class ConsultaEdicionSvt extends HttpServlet {
       VM.put("ciudad",   safe(ed.getCiudad()));
       VM.put("pais",     safe(ed.getPais()));
       VM.put("estado",   safe(ed.getEstado()));
+      boolean vigente = !LocalDate.now().isAfter(ed.getfFin());
+      VM.put("fifinalizado", vigente);
 
       String img = null;
       try { img = ed.getImagenWebPath(); } catch (Throwable ignore) {}
