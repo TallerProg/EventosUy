@@ -139,6 +139,17 @@ public class AltaPatrocinioSvt extends HttpServlet {
       req.setAttribute("form_tipoRegistro", tipoRegistro);
       req.setAttribute("form_cantidad", cantidadStr);
       req.setAttribute("form_codigo", codigo);
+      IControllerEvento ctrl = Factory.getInstance().getIControllerEvento();
+      
+      
+	  Edicion edi = ctrl.findEdicion(edicion);
+		if (edi != null && edi.getEvento() != null && evento.equals(edi.getEvento().getNombre())) {
+	    List<TipoRegistro> treg =edi.getTipoRegistros();
+	
+    String[] nombresTipos = (treg == null) ? new String[0]
+        : treg.stream().map(TipoRegistro::getNombre).toArray(String[]::new);
+    req.setAttribute("TIPOS_REGISTRO", nombresTipos);
+    }
       cargarInstituciones(req);
       forward(req, resp);
     }
