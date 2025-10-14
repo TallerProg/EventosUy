@@ -133,7 +133,8 @@ String encEv = (evNom  != null) ? URLEncoder.encode(evNom,  StandardCharsets.UTF
               boolean sinRegistro = (miReg == null) || miReg.isEmpty() || miReg.get("tipo") == null
                                     || String.valueOf(miReg.get("tipo")).isBlank();
               boolean hayTipos = (tipos != null && !tipos.isEmpty());
-              boolean puedeMostrarInscribirme = ES_ASISTENTE && sinRegistro && hayTipos && finalizado ;
+              boolean puedeMostrarInscribirme = ES_ASISTENTE && sinRegistro && hayTipos && !finalizado;
+
 
               if (puedeMostrarInscribirme) {
                 int cantTipos = tipos.size();
@@ -203,7 +204,7 @@ String encEv = (evNom  != null) ? URLEncoder.encode(evNom,  StandardCharsets.UTF
                      href="<%= ctx %>/ConsultaTipoRegistro?evento=<%= encEv %>&edicion=<%= encEd %>&tipo=<%= encTn %>">
                     Ver detalles
                   </a>
-                  <% if (ES_ASISTENTE) { %>
+                  <% if (ES_ASISTENTE && !finalizado) { %>
                     <% if (yaInscriptoEnEsteTipo) { %>
                       <button class="btn btn-sm btn-secondary" type="button" disabled>Ya inscripto</button>
                     <% } else { %>
