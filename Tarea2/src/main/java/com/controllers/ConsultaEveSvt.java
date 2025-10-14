@@ -72,7 +72,6 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws Se
                 for (Organizador o : e.getOrganizadores()) {
                     if (o != null && o.getNickname() != null && o.getNickname().equals(nickSesion)) {
                         esOrgDeEsta = true;
-                        break;
                     }
                 }
             }
