@@ -18,74 +18,85 @@ import servidorcentral.logica.ControllerUsuario.RolUsuario;
 import servidorcentral.logica.ControllerUsuario;
 import servidorcentral.logica.DTEdicion;
 import servidorcentral.logica.Edicion;
+import servidorcentral.logica.EstadoEdicion;
 import servidorcentral.logica.Evento;
 import servidorcentral.logica.Organizador;
 
-@WebServlet(name = "ConsultaEveSvt", urlPatterns = {"/ConsultaEvento"})
-@MultipartConfig(
-    fileSizeThreshold = 1 * 1024 * 1024,
-    maxFileSize = 10 * 1024 * 1024,
-    maxRequestSize = 15 * 1024 * 1024
-)
+@WebServlet(name = "ConsultaEveSvt", urlPatterns = { "/ConsultaEvento" })
+@MultipartConfig(fileSizeThreshold = 1 * 1024 * 1024, maxFileSize = 10 * 1024 * 1024, maxRequestSize = 15 * 1024 * 1024)
 public class ConsultaEveSvt extends HttpServlet {
 
-  @Override
-  protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-      throws ServletException, IOException {
-	  String nombreEvento = req.getParameter("evento"); 
+	@Override
+	
+protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    String nombreEvento = req.getParameter("evento");
+    if (isBlank(nombreEvento)) {
+        req.setAttribute("msgError", "Falta el parámetro 'evento'.");
+        req.setAttribute("LISTA_EDICIONES", java.util.Collections.emptyList());
+        req.getRequestDispatcher("/WEB-INF/views/ConsultaEvento.jsp").forward(req, resp);
+        return;
+    }
 
-	    if (isBlank(nombreEvento)) {
-	      req.setAttribute("msgError", "Falta el parámetro 'evento'.");
-	      req.getRequestDispatcher("/WEB-INF/views/ConsultaEvento.jsp").forward(req, resp);
-	      return;
-	    }
-		
     try {
-      Factory fabrica = Factory.getInstance();
-      IControllerEvento ctrl = fabrica.getIControllerEvento();
-      Evento evento = ctrl.getEvento(nombreEvento); 
-      req.setAttribute("EVENTO", evento);
-      
-      HttpSession session = req.getSession(false);
-		DTSesionUsuario sesUser = (session != null) ? (DTSesionUsuario) session.getAttribute("usuario_logueado") : null;
-		String nick = sesUser.getNickname();
-		boolean S = false;
-
-      List<Edicion> ediciones = evento.getEdiciones();
-      List<DTEdicion> edicionesCompletas = new ArrayList<>();
-      for (Edicion e : ediciones) {
-    	  
-  		for (Organizador o : e.getOrganizadores()){
-			if(sesUser.getNickname().equals(nick)) {
-				S = true;
-				break;
-			}
-  		}
-        // Mostrar ediciones aceptadas o si el usuario es el organizador del evento
-    	  if(e.getEstado().equals("Aceptada") || S) {
-          DTEdicion edicion = ctrl.consultaEdicionDeEvento(nombreEvento, e.getNombre()); 
-          edicionesCompletas.add(edicion); 
+        IControllerEvento ctrl = Factory.getInstance().getIControllerEvento();
+        Evento evento = ctrl.getEvento(nombreEvento);
+        if (evento == null) {
+            req.setAttribute("msgError", "No se encontró el evento '" + nombreEvento + "'.");
+            req.setAttribute("LISTA_EDICIONES", java.util.Collections.emptyList());
+            req.getRequestDispatcher("/WEB-INF/views/ConsultaEvento.jsp").forward(req, resp);
+            return;
         }
-      req.setAttribute("LISTA_EDICIONES", edicionesCompletas);
-      if (session != null) {
-          DTSesionUsuario usuario = (DTSesionUsuario) session.getAttribute("usuario_logueado");
-          if (usuario != null) {
-        	  RolUsuario rol = usuario.getRol(); // enum
-              boolean esOrg  = rol == ControllerUsuario.RolUsuario.ORGANIZADOR;
-              req.setAttribute("ES_ORG", esOrg);
+        req.setAttribute("EVENTO", evento);
 
-          }
-      }
-      
-      }} catch (Exception e) {
-      req.setAttribute("msgError", "No se pudo cargar la lista de ediciones: " + e.getMessage());
-      req.setAttribute("LISTA_EDICIONES", null);
+        // sesión (puede ser null)
+        HttpSession session = req.getSession(false);
+        DTSesionUsuario sesUser = (session != null)
+                ? (DTSesionUsuario) session.getAttribute("usuario_logueado")
+                : null;
+
+        boolean esOrgGlobal = (sesUser != null && sesUser.getRol() == ControllerUsuario.RolUsuario.ORGANIZADOR);
+        req.setAttribute("ES_ORG", esOrgGlobal);
+
+        // lista de ediciones del evento (puede ser null)
+        List<Edicion> ediciones = evento.getEdiciones();
+        if (ediciones == null) ediciones = java.util.Collections.emptyList();
+
+        List<DTEdicion> edicionesCompletas = new ArrayList<>();
+
+        for (Edicion e : ediciones) {
+            if (e == null) continue;
+
+            boolean esOrgDeEsta = false;
+            if (sesUser != null && e.getOrganizadores() != null) {
+                String nickSesion = sesUser.getNickname();
+                for (Organizador o : e.getOrganizadores()) {
+                    if (o != null && o.getNickname() != null && o.getNickname().equals(nickSesion)) {
+                        esOrgDeEsta = true;
+                        break;
+                    }
+                }
+            }
+
+            boolean aceptada = (e.getEstado() == EstadoEdicion.Aceptada);
+            if (aceptada || esOrgDeEsta) {
+                DTEdicion dto = ctrl.consultaEdicionDeEvento(nombreEvento, e.getNombre());
+                if (dto != null) edicionesCompletas.add(dto);
+            }
+        }
+
+        req.setAttribute("LISTA_EDICIONES", edicionesCompletas);
+
+    } catch (Exception e) {
+        req.setAttribute("msgError", "No se pudo cargar la lista de ediciones: " + e.getMessage());
+        req.setAttribute("LISTA_EDICIONES", java.util.Collections.emptyList()); // <— nunca null
     }
 
     req.getRequestDispatcher("/WEB-INF/views/ConsultaEvento.jsp").forward(req, resp);
-  }
-  private static boolean isBlank(String s) {
-	    return s == null || s.trim().isEmpty();
-	  }
+}
+
+
+	private static boolean isBlank(String s) {
+		return s == null || s.trim().isEmpty();
+	}
 
 }

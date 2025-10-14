@@ -19,7 +19,7 @@ public class AltaPatrocinioSvt extends HttpServlet {
 
     req.setCharacterEncoding("UTF-8");
 
-    // AJAX: calculo en vivo 
+    // AJAX: cálculo sugerido (no es validación de negocio)
     if ("1".equals(req.getParameter("calc"))) {
       resp.setContentType("application/json;charset=UTF-8");
       String edicion      = req.getParameter("edicion");
@@ -35,9 +35,11 @@ public class AltaPatrocinioSvt extends HttpServlet {
           if (aporte > 0f) {
             IControllerEvento ctrl = Factory.getInstance().getIControllerEvento();
             DTTipoRegistro tr = ctrl.consultaTipoRegistro(edicion, tipoRegistro);
+            if (tr != null && tr.getCosto() > 0f) {
               costo = tr.getCosto();
               float maxUYU = aporte * 0.20f;
               cantidad = (int)Math.floor(maxUYU / costo);
+            }
           }
         }
       } catch (Exception ignore) {}
@@ -47,10 +49,11 @@ public class AltaPatrocinioSvt extends HttpServlet {
       return;
     }
 
-    // Pantalla normal 
+    // Pantalla normal
     String evento  = req.getParameter("evento");
     String edicion = req.getParameter("edicion");
 
+    // Mostramos el form; si faltan parámetros, lo indicamos pero no hacemos lógica de negocio acá
     if (isBlank(evento) || isBlank(edicion)) {
       req.setAttribute("msgError", "Faltan parámetros (evento y/o edición). Volvé desde la edición y reintentá.");
       forward(req, resp);
@@ -58,6 +61,7 @@ public class AltaPatrocinioSvt extends HttpServlet {
     }
 
     try {
+      // Chequeo liviano para completar encabezados (no valida reglas)
       IControllerEvento cevt = Factory.getInstance().getIControllerEvento();
       DTEdicion dto = cevt.consultaEdicionDeEvento(evento, edicion);
       if (dto == null) throw new IllegalArgumentException("No se encontró la edición '" + edicion + "' del evento '" + evento + "'.");
@@ -86,41 +90,28 @@ public class AltaPatrocinioSvt extends HttpServlet {
     String aporteStr     = req.getParameter("aporte");
     String tipoRegistro  = req.getParameter("tipoRegistro");
     String codigo        = req.getParameter("codigo");
+    String cantidadStr   = req.getParameter("cantidadRegistros");
 
     try {
-      if (isBlank(evento) || isBlank(edicion) || isBlank(institucion)
-          || isBlank(nivelStr) || isBlank(aporteStr) || isBlank(tipoRegistro) || isBlank(codigo)) {
-        throw new IllegalArgumentException("Todos los campos son obligatorios.");
-      }
-
-      Float aporte = Float.valueOf(aporteStr);
-      if (aporte <= 0f) throw new IllegalArgumentException("Aporte debe ser mayor que cero.");
-
+      // Parseo mínimo para tipos (el Controller hace todas las validaciones de negocio)
+      Float aporte = (aporteStr == null || aporteStr.isBlank()) ? null : Float.valueOf(aporteStr);
+      Integer cantidad = (cantidadStr == null || cantidadStr.isBlank()) ? null : Integer.valueOf(cantidadStr);
       ETipoNivel nivel = parseNivel(nivelStr);
+
       IControllerEvento ctrl = Factory.getInstance().getIControllerEvento();
 
-      DTTipoRegistro tr = ctrl.consultaTipoRegistro(edicion, tipoRegistro);
-      Float costoTR = (tr != null ? tr.getCosto() : null);
-      float costo = (costoTR != null) ? costoTR : 0f;
-
-      int cantidadCalculada = 0;
-      if (costo > 0f) {
-        float maxUYU = aporte * 0.20f;
-        cantidadCalculada = (int) Math.floor(maxUYU / costo);
-      }
-
+      // Delegamos TODO: si hay algo inválido, el Controller lanzará excepción
       ctrl.altaPatrocinio(
           codigo,
           LocalDate.now(),
-          cantidadCalculada,
-          aporte,
+          (cantidad == null ? 0 : cantidad),
+          (aporte == null ? 0f : aporte),
           nivel,
           institucion,
           edicion,
           tipoRegistro
       );
 
-      // Redirigimos a la edición con mensaje OK 
       String ok = "Patrocinio creado con éxito.";
       resp.sendRedirect(req.getContextPath()
           + "/ediciones-consulta?evento=" + url(evento)
@@ -129,7 +120,7 @@ public class AltaPatrocinioSvt extends HttpServlet {
       return;
 
     } catch (Exception e) {
-      // Si hay error, volvemos a la misma pantalla con el error
+      // Cualquier excepción (incluida la del Controller) se muestra en el JSP
       req.setAttribute("msgError", e.getMessage());
       req.setAttribute("EVENTO_SEL", evento);
       req.setAttribute("EDICION_SEL", edicion);
@@ -137,13 +128,14 @@ public class AltaPatrocinioSvt extends HttpServlet {
       req.setAttribute("form_nivel", nivelStr);
       req.setAttribute("form_aporte", aporteStr);
       req.setAttribute("form_tipoRegistro", tipoRegistro);
+      req.setAttribute("form_cantidad", cantidadStr);
       req.setAttribute("form_codigo", codigo);
       cargarInstituciones(req);
       forward(req, resp);
     }
   }
 
-  // Funciones de ayuda
+  // Helpers
   private static void forward(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
     req.getRequestDispatcher("/WEB-INF/views/AltaPatrocinio.jsp").forward(req, resp);

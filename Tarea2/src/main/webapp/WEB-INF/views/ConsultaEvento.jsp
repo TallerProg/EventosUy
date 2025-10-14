@@ -68,11 +68,24 @@
             <div class="container">
               <div id="editionsList" class="row g-4 justify-content-center">
 
+              
+                
                 <%
-                List<DTEdicion> ediciones = (List<DTEdicion>) request.getAttribute("LISTA_EDICIONES");
-                for (DTEdicion edicion : ediciones) {
-                	String imge = (edicion != null && edicion.getImagenWebPath() != null && !edicion.getImagenWebPath().isBlank()) ? (ctx + edicion.getImagenWebPath()): (ctx + "/media/img/default.png");
-                %>
+List<DTEdicion> ediciones = (List<DTEdicion>) request.getAttribute("LISTA_EDICIONES");
+if (ediciones == null) { ediciones = java.util.Collections.emptyList(); }
+%>
+
+<% if (ediciones.isEmpty()) { %>
+  <div class="alert alert-info text-center">Este evento no tiene ediciones visibles aún.</div>
+<% } %>
+
+<% for (DTEdicion edicion : ediciones) {
+     String imge = (edicion != null && edicion.getImagenWebPath() != null && !edicion.getImagenWebPath().isBlank())
+                   ? (ctx + edicion.getImagenWebPath())
+                   : (ctx + "/media/img/default.png");
+%>
+
+                
                 <div class="col-lg-4 col-md-6">
                   <div class="edition-card card shadow-sm h-100">
                     <img src="<%=imge%>" class="card-img-top" alt="Tecnología Punta del Este 2026" height="250px">
