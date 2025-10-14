@@ -56,6 +56,13 @@ public class AltaTRegSvt extends HttpServlet {
       req.getRequestDispatcher("/WEB-INF/views/AltaTipoRegistro.jsp").forward(req, resp);
       return;
     }
+    
+    try {
+    	Integer.parseInt(sCupo);
+    } catch(Exception e) {
+    	req.setAttribute("msgError", "El costo debe ser un numero sin coma.");
+    	req.getRequestDispatcher("/WEB-INF/views/AltaTipoRegistro.jsp").forward(req, resp);
+    }
 
     Float costo; Integer cupo;
          cupo  = Integer.valueOf(sCupo);
