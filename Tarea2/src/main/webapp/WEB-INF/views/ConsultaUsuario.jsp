@@ -18,20 +18,23 @@
   boolean s = (sObj instanceof Boolean) ? ((Boolean) sObj).booleanValue()
                                         : "true".equalsIgnoreCase(String.valueOf(sObj));
 
-  // IDs únicos carruseles
-  String safeNick = (u != null && u.getNickname()!=null) ? u.getNickname().replaceAll("[^A-Za-z0-9_-]", "-") : "user";
-  String carouselIdOrg  = "org-editions-"  + safeNick;
-  String carouselIdAsis = "asis-editions-" + safeNick;
+  // Imagen de perfil con cache-busting
+  String rel = (img != null && !img.isBlank())
+             ? (img.startsWith("/") ? img : "/media/img/usuarios/" + img)
+             : "/media/img/default.png";
+  String abs = application.getRealPath(rel);
+  long ver = 0L;
+  if (abs != null) {
+    java.io.File f = new java.io.File(abs);
+    if (f.exists()) ver = f.lastModified();
+  }
+  String imagenPerfil = ctx + rel + (ver > 0 ? "?v=" + ver : "");
 %>
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <jsp:include page="/WEB-INF/views/template/head.jsp" />
   <title>Consulta Usuario</title>
-  <style>
-    /* Asegura que los controles no queden tapados */
-    .carousel-control-prev, .carousel-control-next { z-index: 1050; }
-  </style>
 </head>
 <body class="index-page">
 
@@ -47,25 +50,13 @@
       </div>
 
       <div class="container">
-        <div class="row">
- 		<%              
-        String rel = (img != null && !img.isBlank())
-                   ? (img.startsWith("/") ? img : "/media/img/usuarios/" + img)
-                   : "/media/img/default.png";
-        String abs = application.getRealPath(rel);
-        long ver = 0L;
-        if (abs != null) {
-          java.io.File f = new java.io.File(abs);
-          if (f.exists()) ver = f.lastModified();
-        }
- 		String imagen = ctx + rel + (ver > 0 ? "?v=" + ver : ""); 
- 		%>
+        <div class="row g-4">
           <!-- Columna izquierda: Datos -->
           <div class="col-lg-6">
             <div class="card p-4 h-100">
               <div class="d-flex">
                 <div class="me-3">
-                  <img src="<%= imagen %>" alt="<%= u.getNickname() %>" class="img-fluid"
+                  <img src="<%= imagenPerfil %>" alt="<%= u.getNickname() %>" class="img-fluid"
                        style="max-width:150px; border-radius:8px;">
                 </div>
                 <div>
@@ -93,80 +84,68 @@
             </div>
           </div>
 
-          <!-- Columna derecha: Carrusel ORGANIZADOR -->
+          <!-- Columna derecha: Ediciones como CARDS (Organizador) -->
           <% if ("O".equals(rol)) { %>
             <div class="col-lg-6">
               <div class="card p-4 h-100">
-                <h4>Ediciones</h4>
+                <h4 class="mb-3">Ediciones</h4>
 
-                <div id="<%= carouselIdOrg %>" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
-                  <div class="carousel-inner">
-                    <%
-                      @SuppressWarnings("unchecked")
-                      List<Edicion> ediciones = (List<Edicion>) request.getAttribute("Ediciones");
-                      java.util.List<Edicion> visibles = new java.util.ArrayList<>();
-                      if (ediciones != null) {
-                        for (Edicion e : ediciones) {
-                          if (e == null) continue;
-                          if (s) {
-                            visibles.add(e);
-                          } else {
-                            String estado = (e.getEstado() != null) ? e.getEstado().name() : null;
-                            if ("Aceptada".equals(String.valueOf(estado))) {
-                              visibles.add(e);
-                            }
-                          }
+                <%
+                  @SuppressWarnings("unchecked")
+                  List<Edicion> ediciones = (List<Edicion>) request.getAttribute("Ediciones");
+                  java.util.List<Edicion> visibles = new java.util.ArrayList<>();
+                  if (ediciones != null) {
+                    for (Edicion e : ediciones) {
+                      if (e == null) continue;
+                      if (s) {
+                        // Si es su propio perfil, ve todas
+                        visibles.add(e);
+                      } else {
+                        // Si es público, solo Aceptadas (comparación por nombre para no depender del enum real)
+                        String estado = (e.getEstado() != null) ? e.getEstado().name() : null;
+                        if ("Aceptada".equals(String.valueOf(estado))) {
+                          visibles.add(e);
                         }
                       }
+                    }
+                  }
+                %>
 
-                      if (!visibles.isEmpty()) {
-                      for (int i = 0; i < visibles.size(); i++) {
-                        Edicion e = visibles.get(i);
+                <% if (visibles != null && !visibles.isEmpty()) { %>
+                  <div class="row g-3">
+                    <%
+                      for (Edicion e : visibles) {
                         String nombre = e.getNombre();
-                        String nombreEvento = (e.getEvento() != null) ? e.getEvento().getNombre() : "Evento no disponible"; // Obtener el nombre del evento
-                        String imgagenedicion = (e != null && e.getImagenWebPath() != null && !e.getImagenWebPath().isBlank()) ? (ctx + e.getImagenWebPath()) : (ctx + "/media/img/default.png");
-
-                        // Generar la URL con evento y edición
-                        String href = ctx + "/ediciones-consulta?evento=" + URLEncoder.encode(nombreEvento, StandardCharsets.UTF_8) 
+                        String nombreEvento = (e.getEvento() != null) ? e.getEvento().getNombre() : "Evento no disponible";
+                        String imagenEdicion = (e.getImagenWebPath() != null && !e.getImagenWebPath().isBlank())
+                                              ? (ctx + e.getImagenWebPath())
+                                              : (ctx + "/media/img/default.png");
+                        String href = ctx + "/ediciones-consulta?evento="
+                                      + URLEncoder.encode(nombreEvento, StandardCharsets.UTF_8)
                                       + "&edicion=" + URLEncoder.encode(nombre, StandardCharsets.UTF_8);
-
                     %>
-                      <div class="carousel-item <%= (i == 0) ? "active" : "" %>">
-                        <div class="text-center">
-                          <img src="<%= imgagenedicion %>" class="d-block w-100 edition-carousel-img" alt="<%= nombre %>">
-                          <div class="mt-3">
-                            <h5><%= nombre %></h5>
-                            <a href="<%= href %>" class="btn btn-primary btn-sm">Ver detalles</a>
+                      <div class="col-12 col-sm-6 col-md-4">
+                        <div class="card h-100">
+                          <img src="<%= imagenEdicion %>" class="card-img-top" alt="<%= nombre %>">
+                          <div class="card-body d-flex flex-column">
+                            <h6 class="card-title mb-2"><%= nombre %></h6>
+                            <p class="card-text text-muted small mb-3"><%= nombreEvento %></p>
+                            <div class="mt-auto">
+                              <a href="<%= href %>" class="btn btn-primary btn-sm w-100">Ver detalles</a>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    <%
-                        }
-                      } else {
-                    %>
-                      <div class="carousel-item active">
-                        <div class="text-center p-5 text-muted">Sin ediciones</div>
-                      </div>
                     <% } %>
                   </div>
-
-                  <!-- Controles (apuntan al ID único) -->
-                  <button class="carousel-control-prev" type="button"
-                          data-bs-target="#<%= carouselIdOrg %>" data-bs-slide="prev"
-                          data-target-id="<%= carouselIdOrg %>" data-dir="prev" aria-label="Anterior">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                  </button>
-                  <button class="carousel-control-next" type="button"
-                          data-bs-target="#<%= carouselIdOrg %>" data-bs-slide="next"
-                          data-target-id="<%= carouselIdOrg %>" data-dir="next" aria-label="Siguiente">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                  </button>
-                </div>
+                <% } else { %>
+                  <div class="text-center p-5 text-muted">Sin ediciones</div>
+                <% } %>
               </div>
             </div>
           <% } %>
 
-          <!-- Columna derecha: Carrusel ASISTENTE (solo si es su propio perfil) -->
+          <!-- Columna derecha: Ediciones como CARDS (Asistente, solo su perfil) -->
           <% if ("A".equals(rol) && s) { %>
             <%
               @SuppressWarnings("unchecked")
@@ -174,56 +153,40 @@
             %>
             <div class="col-lg-6">
               <div class="card p-4 h-100">
-                <h4>Ediciones</h4>
+                <h4 class="mb-3">Ediciones</h4>
 
-                <div id="<%= carouselIdAsis %>" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
-                  <div class="carousel-inner">
+                <% if (registros != null && !registros.isEmpty()) { %>
+                  <div class="row g-3">
                     <%
-                      if (registros != null && !registros.isEmpty()) {
-                        for (int i = 0; i < registros.size(); i++) {
-                          Registro r = registros.get(i);
-                          Edicion e = (r != null) ? r.getEdicion() : null;
-                          if (e == null) continue;
-
-                          String nombreEd = e.getNombre();
-                          String nombreEvento = (e.getEvento() != null) ? e.getEvento().getNombre() : "Evento no disponible"; // Obtener el nombre del evento
-                          String imgagenedicion = (e != null && e.getImagenWebPath() != null && !e.getImagenWebPath().isBlank()) ? (ctx + e.getImagenWebPath()) : (ctx + "/media/img/default.png");
-
-                          // Generar la URL con evento y edición
-                          String href = ctx + "/ediciones-consulta?evento=" + URLEncoder.encode(nombreEvento, StandardCharsets.UTF_8) 
-                                        + "&edicion=" + URLEncoder.encode(nombreEd, StandardCharsets.UTF_8);
-
+                      for (Registro r : registros) {
+                        if (r == null || r.getEdicion() == null) continue;
+                        Edicion e = r.getEdicion();
+                        String nombreEd = e.getNombre();
+                        String nombreEvento = (e.getEvento() != null) ? e.getEvento().getNombre() : "Evento no disponible";
+                        String imagenEdicion = (e.getImagenWebPath() != null && !e.getImagenWebPath().isBlank())
+                                              ? (ctx + e.getImagenWebPath())
+                                              : (ctx + "/media/img/default.png");
+                        String href = ctx + "/ediciones-consulta?evento="
+                                      + URLEncoder.encode(nombreEvento, StandardCharsets.UTF_8)
+                                      + "&edicion=" + URLEncoder.encode(nombreEd, StandardCharsets.UTF_8);
                     %>
-                      <div class="carousel-item <%= (i == 0) ? "active" : "" %>">
-                        <div class="text-center">
-                          <img src="<%= imgagenedicion %>" class="d-block w-100 edition-carousel-img" alt="<%= nombreEd %>">
-                          <div class="mt-3">
-                            <h5><%= nombreEd %></h5>
-                            <a href="<%= href %>" class="btn btn-primary btn-sm">Ver detalles</a>
+                      <div class="col-12 col-sm-6 col-md-4">
+                        <div class="card h-100">
+                          <img src="<%= imagenEdicion %>" class="card-img-top" alt="<%= nombreEd %>">
+                          <div class="card-body d-flex flex-column">
+                            <h6 class="card-title mb-2"><%= nombreEd %></h6>
+                            <p class="card-text text-muted small mb-3"><%= nombreEvento %></p>
+                            <div class="mt-auto">
+                              <a href="<%= href %>" class="btn btn-primary btn-sm w-100">Ver detalles</a>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    <%
-                        }
-                      } else {
-                    %>
-                      <div class="carousel-item active">
-                        <div class="text-center p-5 text-muted">Sin registros</div>
-                      </div>
                     <% } %>
                   </div>
-
-                  <button class="carousel-control-prev" type="button"
-                          data-bs-target="#<%= carouselIdAsis %>" data-bs-slide="prev"
-                          data-target-id="<%= carouselIdAsis %>" data-dir="prev" aria-label="Anterior">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                  </button>
-                  <button class="carousel-control-next" type="button"
-                          data-bs-target="#<%= carouselIdAsis %>" data-bs-slide="next"
-                          data-target-id="<%= carouselIdAsis %>" data-dir="next" aria-label="Siguiente">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                  </button>
-                </div>
+                <% } else { %>
+                  <div class="text-center p-5 text-muted">Sin registros</div>
+                <% } %>
               </div>
             </div>
           <% } %>
@@ -237,7 +200,6 @@
     <jsp:include page="/WEB-INF/views/template/footer.jsp" />
   </footer>
 
-<script src="media/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
+  <script src="media/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
