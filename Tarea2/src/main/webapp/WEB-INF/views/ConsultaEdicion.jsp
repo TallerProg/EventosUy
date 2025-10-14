@@ -118,7 +118,7 @@ String encEv = (evNom  != null) ? URLEncoder.encode(evNom,  StandardCharsets.UTF
 
             <div class="d-flex align-items-center gap-2 mb-2">
               <h5 class="mb-0"><i class="bi bi-ticket-perforated"></i> Tipos de Registro</h5>
-              <% if (ES_ORGANIZADOR_ED) { %>
+              <% if (ES_ORGANIZADOR_ED && !finalizado) { %>
                 <a href="<%= ctx %>/organizador-tipos-registro-alta?evento=<%= encEv %>&edicion=<%= encEd %>"
                    class="btn btn-sm btn-primary ms-auto d-inline-flex align-items-center justify-content-center"
                    style="width:32px; height:32px; border-radius:8px;"
@@ -243,7 +243,7 @@ String encEv = (evNom  != null) ? URLEncoder.encode(evNom,  StandardCharsets.UTF
       <% } %>
 
       <!-- Registros (solo si organiza esta edición) -->
-      <% if (ES_ORGANIZADOR_ED) { %>
+      <% if (ES_ORGANIZADOR_ED ) { %>
       <div class="card shadow-sm mb-4">
         <div class="card-body">
           <h5 class="card-title"><i class="bi bi-list"></i> Registros de Asistentes</h5>
