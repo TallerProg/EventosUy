@@ -1,13 +1,13 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.util.List" %>
-<%@ page import="ServidorCentral.logica.Institucion" %>
+<%@ page import="servidorcentral.logica.Institucion" %>
 <%
   String ctx = request.getContextPath(); 
   boolean ES_ORG = Boolean.TRUE.equals(request.getAttribute("ES_ORG"));
 
   @SuppressWarnings("unchecked")
-  java.util.List<ServidorCentral.logica.Institucion> instituciones =
-      (java.util.List<ServidorCentral.logica.Institucion>) request.getAttribute("INSTITUCIONES");
+  java.util.List<servidorcentral.logica.Institucion> instituciones =
+      (java.util.List<servidorcentral.logica.Institucion>) request.getAttribute("INSTITUCIONES");
 
   Object errMsg = request.getAttribute("msgError");
 %>

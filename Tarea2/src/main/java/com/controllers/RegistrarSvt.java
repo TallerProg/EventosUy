@@ -9,11 +9,10 @@ import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Locale;
 
-import ServidorCentral.excepciones.UsuarioRepetidoException;
-import ServidorCentral.logica.ControllerUsuario;
-import ServidorCentral.logica.Factory;
-import ServidorCentral.logica.IControllerInstitucion;
-import ServidorCentral.logica.Institucion;
+import servidorcentral.logica.ControllerUsuario;
+import servidorcentral.logica.Factory;
+import servidorcentral.logica.IControllerInstitucion;
+import servidorcentral.logica.Institucion;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -22,6 +21,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
+import servidorcentral.excepciones.UsuarioRepetidoException;
 
 @WebServlet("/Registrarse")
 @MultipartConfig(

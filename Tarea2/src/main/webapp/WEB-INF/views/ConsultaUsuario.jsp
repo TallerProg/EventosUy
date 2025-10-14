@@ -1,8 +1,8 @@
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="ServidorCentral.logica.DTUsuarioListaConsulta"%>
-<%@ page import="ServidorCentral.logica.Edicion"%>
-<%@ page import="ServidorCentral.logica.Registro"%>
-<%@ page import="ServidorCentral.logica.EstadoEdicion"%>
+<%@ page import="servidorcentral.logica.DTUsuarioListaConsulta"%>
+<%@ page import="servidorcentral.logica.Edicion"%>
+<%@ page import="servidorcentral.logica.Registro"%>
+<%@ page import="servidorcentral.logica.EstadoEdicion"%>
 <%@ page import="java.time.format.DateTimeFormatter"%>
 <%@ page import="java.util.List" %>
 <%@ page import="java.net.URLEncoder, java.nio.charset.StandardCharsets" %>

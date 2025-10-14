@@ -9,14 +9,14 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 
-import ServidorCentral.logica.Factory;
-import ServidorCentral.logica.IControllerEvento;
-import ServidorCentral.logica.DTEdicion;
-import ServidorCentral.logica.DTTipoRegistro;
-import ServidorCentral.logica.Evento;
+import servidorcentral.logica.Factory;
+import servidorcentral.logica.IControllerEvento;
+import servidorcentral.logica.DTEdicion;
+import servidorcentral.logica.DTTipoRegistro;
+import servidorcentral.logica.Evento;
 
-import ServidorCentral.logica.ControllerUsuario.DTSesionUsuario;
-import ServidorCentral.logica.ControllerUsuario.RolUsuario;
+import servidorcentral.logica.ControllerUsuario.DTSesionUsuario;
+import servidorcentral.logica.ControllerUsuario.RolUsuario;
 
 @WebServlet(name = "RegistroAltaSvt", urlPatterns = {"/RegistroAlta"})
 public class RegistroAltaSvt extends HttpServlet {

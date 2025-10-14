@@ -11,13 +11,13 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import ServidorCentral.logica.Factory;
-import ServidorCentral.logica.IControllerEvento;
-import ServidorCentral.logica.ControllerUsuario.DTSesionUsuario;
-import ServidorCentral.logica.ControllerUsuario.RolUsuario;
-import ServidorCentral.logica.ControllerUsuario;
-import ServidorCentral.logica.DTEdicion;
-import ServidorCentral.logica.Evento;
+import servidorcentral.logica.Factory;
+import servidorcentral.logica.IControllerEvento;
+import servidorcentral.logica.ControllerUsuario.DTSesionUsuario;
+import servidorcentral.logica.ControllerUsuario.RolUsuario;
+import servidorcentral.logica.ControllerUsuario;
+import servidorcentral.logica.DTEdicion;
+import servidorcentral.logica.Evento;
 
 @WebServlet(name = "ConsultaEveSvt", urlPatterns = {"/ConsultaEvento"})
 @MultipartConfig(

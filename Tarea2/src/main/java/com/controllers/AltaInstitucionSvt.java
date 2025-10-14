@@ -15,10 +15,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
-import ServidorCentral.logica.ControllerInstitucion;
-import ServidorCentral.logica.ControllerUsuario;
-import ServidorCentral.logica.ControllerUsuario.DTSesionUsuario;
-import ServidorCentral.logica.ControllerUsuario.RolUsuario;
+import servidorcentral.logica.ControllerInstitucion;
+import servidorcentral.logica.ControllerUsuario;
+import servidorcentral.logica.ControllerUsuario.DTSesionUsuario;
+import servidorcentral.logica.ControllerUsuario.RolUsuario;
 
 @WebServlet(name = "AltaInstitucionSvt", urlPatterns = {"/AltaInstitucion"})
 @MultipartConfig(

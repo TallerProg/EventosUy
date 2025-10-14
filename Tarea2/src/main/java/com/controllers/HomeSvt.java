@@ -7,11 +7,11 @@ import com.model.CargarDatos;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
-import ServidorCentral.logica.Categoria;
-import ServidorCentral.logica.Evento;
-import ServidorCentral.logica.Factory;
-import ServidorCentral.logica.IControllerEvento;
-import ServidorCentral.logica.IControllerUsuario;
+import servidorcentral.logica.Categoria;
+import servidorcentral.logica.Evento;
+import servidorcentral.logica.Factory;
+import servidorcentral.logica.IControllerEvento;
+import servidorcentral.logica.IControllerUsuario;
 
 @WebServlet(urlPatterns = "/home")
 public class HomeSvt extends HttpServlet {

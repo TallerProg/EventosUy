@@ -1,14 +1,14 @@
 package com.controllers;
 
-import ServidorCentral.logica.Factory;
-import ServidorCentral.logica.IControllerUsuario;
-import ServidorCentral.logica.Institucion;
-import ServidorCentral.logica.Organizador;
-import ServidorCentral.logica.Asistente;
-import ServidorCentral.logica.ControllerUsuario;
-import ServidorCentral.logica.ControllerUsuario.DTSesionUsuario;
-import ServidorCentral.logica.ControllerUsuario.RolUsuario;
-import ServidorCentral.logica.DTUsuarioListaConsulta;
+import servidorcentral.logica.Factory;
+import servidorcentral.logica.IControllerUsuario;
+import servidorcentral.logica.Institucion;
+import servidorcentral.logica.Organizador;
+import servidorcentral.logica.Asistente;
+import servidorcentral.logica.ControllerUsuario;
+import servidorcentral.logica.ControllerUsuario.DTSesionUsuario;
+import servidorcentral.logica.ControllerUsuario.RolUsuario;
+import servidorcentral.logica.DTUsuarioListaConsulta;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;

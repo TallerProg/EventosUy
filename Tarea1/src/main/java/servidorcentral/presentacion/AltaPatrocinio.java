@@ -1,0 +1,366 @@
+package servidorcentral.presentacion;
+
+import java.text.NumberFormat;
+import java.time.LocalDate;
+import java.util.List;
+
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
+import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+
+import net.miginfocom.swing.MigLayout;
+import servidorcentral.logica.Asistente;
+import servidorcentral.logica.ETipoNivel;
+import servidorcentral.logica.Edicion;
+import servidorcentral.logica.Evento;
+import servidorcentral.logica.IControllerEvento;
+import servidorcentral.logica.IControllerUsuario;
+import servidorcentral.logica.Institucion;
+import servidorcentral.logica.ManejadorInstitucion;
+import servidorcentral.logica.TipoRegistro;
+
+public class AltaPatrocinio extends JInternalFrame {
+	private static final long serialVersionUID = 1L;
+	private JTextField textFieldCodigo;
+	private IControllerEvento ice;
+	private IControllerUsuario icu;
+	private JComboBox<String> comboBoxEvento;
+	private JComboBox<String> comboBoxEdicion;
+	private JComboBox<String> comboBoxRegistro;
+	private JComboBox<String> comboBoxAsistente;
+	private JTextField textField;
+	private JTextField textFieldCodigo2;
+
+	public AltaPatrocinio(IControllerEvento ice, IControllerUsuario icu) {
+
+		super("Alta de Patrocinio", false, false, false, false);
+		this.ice = ice;
+		this.icu = icu;
+
+		setSize(838, 403);
+		setClosable(true);
+		setIconifiable(true);
+		setMaximizable(true);
+		setResizable(true);
+		setDefaultCloseOperation(HIDE_ON_CLOSE);
+		getContentPane().setLayout(new MigLayout("", "[115px][][][][][][][10px][][][28px][24px][][][130px,grow]",
+				"[14px][22px][14px][22px][14px][22px][14px][22px][][][30px][][][][33px]"));
+
+		JLabel lblEvento = new JLabel("Seleccione un evento:");
+		getContentPane().add(lblEvento, "cell 0 0,alignx left,aligny center");
+		comboBoxEvento = new JComboBox<>();
+		getContentPane().add(comboBoxEvento, "cell 14 0,alignx left,aligny center");
+
+		JLabel lblEdicion = new JLabel("Seleccione una edición:");
+		getContentPane().add(lblEdicion, "cell 0 2,alignx left,aligny center");
+		comboBoxEdicion = new JComboBox<>();
+		getContentPane().add(comboBoxEdicion, "cell 14 2,alignx left,aligny center");
+
+		JLabel lblTipoRegistro = new JLabel("Seleccione un Tipo de registro:");
+		getContentPane().add(lblTipoRegistro, "cell 0 4 11 1,alignx left,aligny center");
+		comboBoxRegistro = new JComboBox<>();
+		getContentPane().add(comboBoxRegistro, "cell 14 4,alignx left,aligny center");
+
+		JLabel lblAsistente = new JLabel("Seleccione institucion:");
+		getContentPane().add(lblAsistente, "cell 0 6,alignx left,aligny center");
+		comboBoxAsistente = new JComboBox<>();
+		getContentPane().add(comboBoxAsistente, "cell 14 6,alignx left,aligny center");
+
+		JLabel lblNewLabel_1 = new JLabel("Nivel:");
+		getContentPane().add(lblNewLabel_1, "cell 0 8");
+
+		JComboBox comboBoxNivel = new JComboBox();
+		comboBoxNivel.setEnabled(false);
+		getContentPane().add(comboBoxNivel, "cell 14 8,alignx left");
+		comboBoxNivel.addItem("Platino");
+		comboBoxNivel.addItem("Oro");
+		comboBoxNivel.addItem("Plata");
+		comboBoxNivel.addItem("Bronce");
+
+		JLabel lblCodigo = new JLabel("Aporte Económico:");
+		getContentPane().add(lblCodigo, "cell 0 9");
+
+		NumberFormat aporteEconomico = NumberFormat.getNumberInstance();
+		aporteEconomico.setGroupingUsed(false);
+
+		textFieldCodigo = new JFormattedTextField();
+		getContentPane().add(textFieldCodigo, "cell 14 9,growx");
+		textFieldCodigo.setColumns(10);
+
+		JLabel lblNewLabel = new JLabel("Cantidad de cupos:");
+		getContentPane().add(lblNewLabel, "cell 0 10");
+
+		NumberFormat numeroRegistro = NumberFormat.getIntegerInstance();
+		numeroRegistro.setGroupingUsed(false); 
+
+		textField = new JFormattedTextField();
+		getContentPane().add(textField, "cell 14 10,growx");
+		textField.setColumns(10);
+
+		JLabel lblNewLabel_2 = new JLabel("Codigo:");
+		getContentPane().add(lblNewLabel_2, "cell 0 11");
+
+		textFieldCodigo2 = new JTextField();
+		getContentPane().add(textFieldCodigo2, "cell 14 11,growx");
+		textFieldCodigo2.setColumns(10);
+
+		JButton btnRegistrar = new JButton("Aceptar ");
+		btnRegistrar.setEnabled(false);
+		getContentPane().add(btnRegistrar, "cell 0 13");
+
+		JButton btnCancelar = new JButton("Cancelar");
+		getContentPane().add(btnCancelar, "cell 14 13");
+
+		comboBoxEdicion.setEnabled(false);
+		comboBoxRegistro.setEnabled(false);
+		comboBoxAsistente.setEnabled(false);
+
+		comboBoxEvento.addActionListener(e -> {
+			String nombreEventoSeleccionado = (String) comboBoxEvento.getSelectedItem();
+			if (nombreEventoSeleccionado != null && !nombreEventoSeleccionado.equals("Sin eventos")) {
+				comboBoxEdicion.setEnabled(true);
+				try {
+					cargarEdiciones(nombreEventoSeleccionado);
+				} catch (Exception e1) {
+
+					e1.printStackTrace();
+				}
+
+				comboBoxRegistro.setEnabled(false);
+				comboBoxRegistro.removeAllItems();
+				comboBoxAsistente.setEnabled(false);
+				comboBoxAsistente.removeAllItems();
+				comboBoxNivel.setEnabled(false);
+			} else {
+				comboBoxEdicion.setEnabled(false);
+				comboBoxEdicion.removeAllItems();
+				comboBoxRegistro.setEnabled(false);
+				comboBoxRegistro.removeAllItems();
+				comboBoxAsistente.setEnabled(false);
+				comboBoxAsistente.removeAllItems();
+				comboBoxNivel.setEnabled(false);
+
+			}
+		});
+		comboBoxEdicion.addActionListener(e -> {
+			String nombreEedicionSeleccionada = (String) comboBoxEdicion.getSelectedItem();
+			if (nombreEedicionSeleccionada != null && !nombreEedicionSeleccionada.equals("Sin ediciones")) {
+				comboBoxRegistro.setEnabled(true);
+				try {
+					cargarRegistros(nombreEedicionSeleccionada);
+				} catch (Exception e1) {
+
+					e1.printStackTrace();
+				}
+
+				comboBoxAsistente.setEnabled(false);
+				comboBoxAsistente.removeAllItems();
+				comboBoxNivel.setEnabled(false);
+			} else {
+
+				comboBoxRegistro.setEnabled(false);
+				comboBoxRegistro.removeAllItems();
+				comboBoxAsistente.setEnabled(false);
+				comboBoxAsistente.removeAllItems();
+				comboBoxNivel.setEnabled(false);
+			}
+		});
+
+		comboBoxRegistro.addActionListener(e -> {
+			String nombreRegistroSeleccionado = (String) comboBoxRegistro.getSelectedItem();
+			if (nombreRegistroSeleccionado != null && !nombreRegistroSeleccionado.equals("Sin tipos de registros")) {
+				comboBoxAsistente.setEnabled(true);
+				try {
+					cargarInstituciones();
+
+				} catch (Exception e1) {
+
+					e1.printStackTrace();
+				}
+				comboBoxNivel.setEnabled(false);
+			} else {
+
+				comboBoxRegistro.setEnabled(false);
+				comboBoxRegistro.removeAllItems();
+				comboBoxAsistente.setEnabled(false);
+				comboBoxAsistente.removeAllItems();
+				comboBoxNivel.setEnabled(false);
+			}
+		});
+		comboBoxAsistente.addActionListener(e -> {
+			String nombreAsistente = (String) comboBoxAsistente.getSelectedItem();
+			if (nombreAsistente != null && !nombreAsistente.equals("Sin asistentes")) {
+				comboBoxNivel.setEnabled(true);
+			} else {
+				comboBoxNivel.setEnabled(false);
+			}
+
+		});
+		comboBoxNivel.addActionListener(e -> {
+			String nivel = (String) comboBoxNivel.getSelectedItem();
+			if (nivel != null && !nivel.equals("")) {
+				btnRegistrar.setEnabled(true);
+			}
+
+		});
+
+
+		btnRegistrar.addActionListener(e -> {
+			String eventoNombre = (String) comboBoxEvento.getSelectedItem();
+			String edicionNombre = (String) comboBoxEdicion.getSelectedItem();
+			String institucionNombre = (String) comboBoxAsistente.getSelectedItem();
+			String tipoRegistroNombre = (String) comboBoxRegistro.getSelectedItem();
+			String nivelS = (String) comboBoxNivel.getSelectedItem();
+			ETipoNivel nivel = ETipoNivel.valueOf(nivelS);
+			String aporteEconomic = textFieldCodigo.getText().trim();
+			String cuposGrati = textField.getText().trim();
+			String codigo = textFieldCodigo2.getText().trim();
+
+			if (aporteEconomic == null || cuposGrati == null || codigo == null) {
+				JOptionPane.showMessageDialog(this, "Debe completar todos los campos antes de registrar.",
+						"Campos incompletos", JOptionPane.WARNING_MESSAGE);
+				return;
+			}
+
+			try {
+				if (!cuposGrati.matches("\\d+")) {
+					throw new Exception("Cupos debe ser un número entero positivo");
+				}
+				if (!aporteEconomic.matches("\\d+(\\.\\d+)?")) {
+					throw new Exception("Aporte económico debe ser un número positivo");
+				}
+
+				ice.altaPatrocinio(codigo, LocalDate.now(), cuposGrati.equals("") ? 0 : Integer.parseInt(cuposGrati),
+						aporteEconomic.equals("") ? 0f : Float.parseFloat(aporteEconomic), nivel, institucionNombre,
+						edicionNombre, tipoRegistroNombre);
+				JOptionPane.showMessageDialog(this, "Registro exitoso", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
+				cargarEventos();
+				comboBoxEdicion.setModel(new DefaultComboBoxModel<>());
+				comboBoxRegistro.setModel(new DefaultComboBoxModel<>());
+				comboBoxAsistente.setModel(new DefaultComboBoxModel<>());
+				comboBoxNivel.setSelectedIndex(-1); 
+				textField.setText(null);
+				textFieldCodigo.setText(null);
+				comboBoxEdicion.setEnabled(false);
+				comboBoxRegistro.setEnabled(false);
+				comboBoxAsistente.setEnabled(false);
+				comboBoxNivel.setEnabled(false);
+				btnRegistrar.setEnabled(false);
+
+			} catch (Exception ex) {
+				textField.setText(null);
+				textFieldCodigo.setText(null);
+				JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+
+			}
+		});
+
+		btnCancelar.addActionListener(e -> this.dispose());
+	}
+
+	public void cargarEventos() {
+		List<Evento> eventos = ice.listarEventos();
+		if (eventos.isEmpty()) {
+
+			comboBoxEvento.addItem("Sin eventos");
+			comboBoxEvento.setEnabled(false);
+		} else {
+			comboBoxEvento.setEnabled(true);
+			List<String> nombres = new java.util.ArrayList<>();
+			for (Evento e : eventos) {
+				nombres.add(e.getNombre());
+			}
+
+			DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(nombres.toArray(new String[0]));
+			comboBoxEvento.setModel(model);
+		}
+
+	}
+
+	public void cargarEdiciones(String nombreEvento) {
+		Evento evento = ice.getEvento(nombreEvento);
+		if (evento != null) {
+			List<Edicion> ediciones = evento.getEdiciones();
+			if (ediciones.isEmpty()) {
+				comboBoxEdicion.removeAllItems();
+				comboBoxEdicion.addItem("Sin ediciones");
+				comboBoxEdicion.setEnabled(false);
+			} else {
+				List<String> nombresEdiciones = new java.util.ArrayList<>();
+				for (Edicion ed : ediciones) {
+					nombresEdiciones.add(ed.getNombre());
+				}
+
+				DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(
+						nombresEdiciones.toArray(new String[0]));
+				comboBoxEdicion.setModel(model);
+			}
+		}
+	}
+
+	public void cargarRegistros(String nombreEedicion) {
+		List<TipoRegistro> registros = ice.findEdicion(nombreEedicion).getTipoRegistros();
+		if (registros != null) {
+			comboBoxRegistro.setEnabled(true);
+			List<String> nombres = new java.util.ArrayList<>();
+			for (TipoRegistro r : registros) {
+				nombres.add(r.getNombre());
+			}
+
+			DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(nombres.toArray(new String[0]));
+			comboBoxRegistro.setModel(model);
+		} else {
+			comboBoxRegistro.removeAllItems();
+			comboBoxRegistro.addItem("Sin tipos de registros");
+			comboBoxRegistro.setEnabled(false);
+		}
+
+	}
+
+	public void cargarAsistentes() {
+		List<Asistente> asistentes = icu.getAsistentes();
+		if (asistentes != null) {
+			comboBoxAsistente.setEnabled(true);
+			List<String> nombres = new java.util.ArrayList<>();
+			for (Asistente a : asistentes) {
+				nombres.add(a.getNickname());
+			}
+
+			DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(nombres.toArray(new String[0]));
+			comboBoxAsistente.setModel(model);
+
+		} else {
+			comboBoxAsistente.removeAllItems();
+			comboBoxAsistente.addItem("Sin asistentes");
+			comboBoxAsistente.setEnabled(false);
+
+		}
+	}
+
+	public void cargarInstituciones() {
+		ManejadorInstitucion mIn = ManejadorInstitucion.getInstance();
+		List<Institucion> instituciones = mIn.listarInstituciones();
+		if (instituciones != null) {
+			comboBoxAsistente.setEnabled(true);
+			List<String> nombres = new java.util.ArrayList<>();
+			for (Institucion i : instituciones) {
+				nombres.add(i.getNombre());
+			}
+
+			DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(nombres.toArray(new String[0]));
+			comboBoxAsistente.setModel(model);
+
+		} else {
+			comboBoxAsistente.removeAllItems();
+			comboBoxAsistente.addItem("Sin asistentes");
+			comboBoxAsistente.setEnabled(false);
+		}
+	}
+
+}

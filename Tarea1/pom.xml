@@ -43,8 +43,8 @@
           <!-- Para compilar solo la lógica si te molestan clases Swing/tests -->
           <!--
           <includes>
-            <include>ServidorCentral/logica/**/*.java</include>
-            <include>ServidorCentral/excepciones/**/*.java</include>
+            <include>servidorcentral/logica/**/*.java</include>
+            <include>servidorcentral/excepciones/**/*.java</include>
           </includes>
           -->
         </configuration>

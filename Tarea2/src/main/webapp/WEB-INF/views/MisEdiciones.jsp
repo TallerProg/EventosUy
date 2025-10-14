@@ -3,11 +3,11 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.net.URLEncoder" %>
 <%@ page import="java.nio.charset.StandardCharsets" %>
-<%@ page import="ServidorCentral.logica.DTEdicion" %>
-<%@ page import="ServidorCentral.logica.Categoria" %>
-<%@ page import="ServidorCentral.logica.ManejadorEvento" %>
-<%@ page import="ServidorCentral.logica.Evento" %>
-<%@ page import="ServidorCentral.logica.Edicion" %>
+<%@ page import="servidorcentral.logica.DTEdicion" %>
+<%@ page import="servidorcentral.logica.Categoria" %>
+<%@ page import="servidorcentral.logica.ManejadorEvento" %>
+<%@ page import="servidorcentral.logica.Evento" %>
+<%@ page import="servidorcentral.logica.Edicion" %>
 
 <!DOCTYPE html>
 <html lang="es">

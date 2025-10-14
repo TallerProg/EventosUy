@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="ServidorCentral.logica.Asistente" %>
-<%@ page import="ServidorCentral.logica.Organizador" %>
+<%@ page import="servidorcentral.logica.Asistente" %>
+<%@ page import="servidorcentral.logica.Organizador" %>
 <%@ page import="java.util.List" %>
 
 <%

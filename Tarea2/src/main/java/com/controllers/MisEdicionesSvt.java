@@ -11,14 +11,14 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-import ServidorCentral.logica.Edicion;
-import ServidorCentral.logica.Organizador;
-import ServidorCentral.logica.IControllerEvento;
-import ServidorCentral.logica.IControllerUsuario;
-import ServidorCentral.logica.Factory;
-import ServidorCentral.logica.DTEdicion;
-import ServidorCentral.logica.ControllerUsuario.DTSesionUsuario;
-import ServidorCentral.logica.ControllerUsuario.RolUsuario;
+import servidorcentral.logica.Edicion;
+import servidorcentral.logica.Organizador;
+import servidorcentral.logica.IControllerEvento;
+import servidorcentral.logica.IControllerUsuario;
+import servidorcentral.logica.Factory;
+import servidorcentral.logica.DTEdicion;
+import servidorcentral.logica.ControllerUsuario.DTSesionUsuario;
+import servidorcentral.logica.ControllerUsuario.RolUsuario;
 
 @WebServlet("/MisEdiciones")
 public class MisEdicionesSvt extends HttpServlet {

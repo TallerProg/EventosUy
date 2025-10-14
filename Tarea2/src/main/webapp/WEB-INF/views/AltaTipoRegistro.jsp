@@ -60,7 +60,7 @@
                 Object lista = request.getAttribute("LISTA_EDICIONES");
                 if (lista instanceof java.util.List<?> l) {
                   for (Object o : l) {
-                    ServidorCentral.logica.Edicion e = (ServidorCentral.logica.Edicion) o;
+                    servidorcentral.logica.Edicion e = (servidorcentral.logica.Edicion) o;
                     String value = e.getNombre();
                     String label = e.getNombre();
                     boolean selected = (edSel != null && value.equals(String.valueOf(edSel)));

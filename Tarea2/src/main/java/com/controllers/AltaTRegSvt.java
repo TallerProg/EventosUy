@@ -7,13 +7,13 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 
-import ServidorCentral.logica.Factory;
-import ServidorCentral.logica.IControllerEvento;
-import ServidorCentral.logica.IControllerUsuario;
-import ServidorCentral.logica.Organizador;
-import ServidorCentral.logica.Edicion;
-import ServidorCentral.logica.ControllerUsuario.DTSesionUsuario;
-import ServidorCentral.logica.ControllerUsuario.RolUsuario;
+import servidorcentral.logica.Factory;
+import servidorcentral.logica.IControllerEvento;
+import servidorcentral.logica.IControllerUsuario;
+import servidorcentral.logica.Organizador;
+import servidorcentral.logica.Edicion;
+import servidorcentral.logica.ControllerUsuario.DTSesionUsuario;
+import servidorcentral.logica.ControllerUsuario.RolUsuario;
 
 @WebServlet(name = "AltaTipoRegistroSvt", urlPatterns = { "/organizador-tipos-registro-alta" })
 public class AltaTRegSvt extends HttpServlet {

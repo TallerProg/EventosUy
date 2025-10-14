@@ -7,8 +7,8 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
-import ServidorCentral.logica.Factory;
-import ServidorCentral.logica.IControllerEvento;
+import servidorcentral.logica.Factory;
+import servidorcentral.logica.IControllerEvento;
 
 @WebServlet(name = "EdicionEstadoSvt", urlPatterns = {"/ediciones-estado"})
 public class EdicionEstadoSvt extends HttpServlet {

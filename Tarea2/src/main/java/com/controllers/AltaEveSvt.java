@@ -13,9 +13,9 @@ import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 
-import ServidorCentral.logica.Categoria;
-import ServidorCentral.logica.IControllerEvento;
-import ServidorCentral.logica.Factory; 
+import servidorcentral.logica.Categoria;
+import servidorcentral.logica.IControllerEvento;
+import servidorcentral.logica.Factory; 
 
 @WebServlet("/alta-evento")
 @MultipartConfig(
