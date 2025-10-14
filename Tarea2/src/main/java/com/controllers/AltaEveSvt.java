@@ -15,7 +15,7 @@ import jakarta.servlet.http.*;
 
 import servidorcentral.logica.Categoria;
 import servidorcentral.logica.IControllerEvento;
-import servidorcentral.logica.Factory; 
+import servidorcentral.logica.Factory;
 
 @WebServlet("/alta-evento")
 @MultipartConfig(
@@ -27,16 +27,12 @@ public class AltaEveSvt extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
-
     private static final String FORM_JSP = "/WEB-INF/views/AltaEvento.jsp";
-
-
     private static final String EVENT_IMG_DIR = "/media/img/eventos";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-
         req.getRequestDispatcher(FORM_JSP).forward(req, resp);
     }
 
@@ -52,19 +48,38 @@ public class AltaEveSvt extends HttpServlet {
         String[] paramCats = request.getParameterValues("categorias");
 
         List<String> errores = new ArrayList<>();
+
         if (nombre.isEmpty()) errores.add("El nombre es obligatorio.");
         if (descripcion.isEmpty()) errores.add("La descripción es obligatoria.");
         if (sigla.isEmpty()) errores.add("La sigla es obligatoria.");
         if (paramCats == null || paramCats.length == 0) errores.add("Debe seleccionar al menos una categoría.");
 
-        
+        if (!nombre.isEmpty() && nombreOcupado(nombre)) {
+            errores.add("Ya existe un evento con ese nombre.");
+        }
+
+        List<Categoria> categorias = Collections.emptyList();
+        if (errores.isEmpty()) {
+            categorias = resolveCategorias(paramCats);
+            if (categorias.isEmpty()) {
+                errores.add("Las categorías seleccionadas no existen en el sistema.");
+            }
+        }
+
+        if (!errores.isEmpty()) {
+            mirrorBack(request, nombre, descripcion, sigla, paramCats, errores);
+            request.getRequestDispatcher(FORM_JSP).forward(request, response);
+            return;
+        }
+
+
         String imagenWebPath = null;
         try {
             Part imgPart = request.getPart("imagen");
             if (imgPart != null && imgPart.getSize() > 0) {
                 String original = submittedFileName(imgPart);
                 String ext = extensionOf(original);
-                String safeBase = slug(nombre.isEmpty() ? "evento" : nombre);
+                String safeBase = slug(nombre);
                 String stamp = DateTimeFormatter.ofPattern("yyyyMMddHHmmss").format(LocalDateTime.now());
                 String fileName = safeBase + "_" + stamp + (ext.isEmpty() ? "" : "." + ext);
 
@@ -93,18 +108,15 @@ public class AltaEveSvt extends HttpServlet {
         }
 
 
-        List<Categoria> categorias = resolveCategorias(paramCats);
-
-        if (categorias.isEmpty()) {
-            errores.add("Las categorías seleccionadas no existen en el sistema.");
-            mirrorBack(request, nombre, descripcion, sigla, paramCats, errores);
-            request.getRequestDispatcher(FORM_JSP).forward(request, response);
-            return;
-        }
-
         try {
-
-            getController().altaEvento(nombre, descripcion, LocalDate.now(), sigla, categorias,imagenWebPath);
+            getController().altaEvento(
+                nombre,
+                descripcion,
+                LocalDate.now(),
+                sigla,
+                categorias,
+                imagenWebPath
+            );
             response.sendRedirect(request.getContextPath() + "/alta-evento?ok=1");
         } catch (Exception e) {
             errores.add(e.getMessage() != null ? e.getMessage() : "Error al dar de alta el evento.");
@@ -113,10 +125,9 @@ public class AltaEveSvt extends HttpServlet {
         }
     }
 
-    //Funciones de ayuda
 
     private IControllerEvento getController() {
-    	Factory fabrica = Factory.getInstance();
+        Factory fabrica = Factory.getInstance();
         return fabrica.getIControllerEvento();
     }
 
@@ -133,6 +144,18 @@ public class AltaEveSvt extends HttpServlet {
         req.setAttribute("errores", errores);
     }
 
+ 
+    private boolean nombreOcupado(String nombre) {
+        try {
+        	Factory fabrica = Factory.getInstance();
+        	IControllerEvento ctrl = fabrica.getIControllerEvento();
+        	return ctrl.existeEvento(nombre);
+
+        } catch (Exception ex) {
+            return false;
+        }
+    }
+
     private List<Categoria> resolveCategorias(String[] seleccionadas) {
         List<Categoria> todas = getController().getCategorias();
         Map<String, Categoria> porNombre = new HashMap<>();
@@ -142,7 +165,6 @@ public class AltaEveSvt extends HttpServlet {
             }
         }
 
-
         Map<String, String> codigoANombre = defaultCodigoNombre();
 
         List<Categoria> res = new ArrayList<>();
@@ -150,13 +172,12 @@ public class AltaEveSvt extends HttpServlet {
             if (raw == null) continue;
             String v = raw.trim();
 
-
+            // Permitir que el JSP mande nombre o código
             Categoria byName = porNombre.get(normaliza(v));
             if (byName != null) {
                 res.add(byName);
                 continue;
             }
-
 
             String nombreCat = codigoANombre.get(v.toUpperCase(Locale.ROOT));
             if (nombreCat != null) {
@@ -191,6 +212,8 @@ public class AltaEveSvt extends HttpServlet {
         t = t.replace('á','a').replace('é','e').replace('í','i').replace('ó','o').replace('ú','u')
              .replace('ä','a').replace('ë','e').replace('ï','i').replace('ö','o').replace('ü','u')
              .replace('ñ','n');
+        // Colapsar espacios múltiples
+        t = t.replaceAll("\\s+", " ");
         return t;
     }
 
