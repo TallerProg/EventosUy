@@ -45,11 +45,7 @@ public class CargarDatos {
 			Ice.altaEvento("Conferencia de Tecnología", "Evento sobre innovación tecnológica", LocalDate.parse("10/01/2025", formatter), "CONFTEC", Arrays.asList(CA01, CA02), null);
 			Ice.altaEvento("Feria del Libro", "Encuentro anual de literatura", LocalDate.parse("01/02/2025", formatter), "FERLIB", Arrays.asList(CA03, CA04), "/media/img/eventos/Feria_del_Libro.jpeg");
 			Ice.altaEvento("Montevideo Rock", "Festival de rock con artistas nacionales e internacionales", LocalDate.parse("15/03/2023", formatter), "MONROCK", Arrays.asList(CA04, CA05), "/media/img/eventos/Montevideo_Rock.jpeg");
-<<<<<<< HEAD
 			Ice.altaEvento("Maratón de Montevideo", "Competencia deportiva anual en la capital", LocalDate.parse("01/01/2022", formatter), "MARATON", Arrays.asList(CA06, CA07), "/media/img/eventos/Maratón_de_Montevideo.png");
-=======
-			Ice.altaEvento("Maraton de Montevideo", "Competencia deportiva anual en la capital", LocalDate.parse("01/01/2022", formatter), "MARATON", Arrays.asList(CA06, CA07), "/media/img/eventos/Maraton_de_Montevideo.png");
->>>>>>> branch 'main' of https://gitlab.fing.edu.uy/tprog/tpgr27
 			Ice.altaEvento("Montevideo Comics", "Convención de historietas, cine y cultura geek", LocalDate.parse("10/04/2024", formatter), "COMICS", Arrays.asList(CA04, CA08), "/media/img/eventos/Montevideo_Comics.png");
 			Ice.altaEvento("Expointer Uruguay", "Exposición internacional agropecuaria y ganadera", LocalDate.parse("12/12/2024", formatter), "EXPOAGRO", Arrays.asList(CA09, CA10), "/media/img/eventos/Expointer_Uruguay.png");
 			Ice.altaEvento("Montevideo Fashion Week", "Pasarela de moda uruguaya e internacional", LocalDate.parse("20/07/2025", formatter), "MFASHION", Arrays.asList(CA04, CA11), null);
