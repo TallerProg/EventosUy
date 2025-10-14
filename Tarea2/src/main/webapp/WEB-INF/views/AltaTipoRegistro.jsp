@@ -10,6 +10,9 @@
     flash = request.getSession(false).getAttribute("flashOk");
     if (flash != null) request.getSession(false).removeAttribute("flashOk");
   }
+  
+  String edValor  = (String) request.getAttribute("form_edicion");     
+  String edNombre = (String) request.getAttribute("form_edicion_nombre");  
 %>
 <!DOCTYPE html>
 <html lang="es">
@@ -28,7 +31,7 @@
   <section class="container">
     <div class="mb-4 text-center">
       <h2 class="mb-1">Alta de Tipo de Registro</h2>
-      <p class="text-muted mb-0">Elegí la edición y completá los datos del nuevo tipo de registro.</p>
+      <p class="text-muted mb-0">Completá los datos del nuevo tipo de registro.</p>
     </div>
 
     <% if (flash != null) { %>
@@ -51,32 +54,13 @@
       <div class="card-body">
         <form action="<%= ctx %>/organizador-tipos-registro-alta" method="post" class="row g-3" novalidate>
 
-          <!-- Edición -->
-          <div class="col-md-6">
-            <label for="edicion" class="form-label">Edición de evento <span class="text-danger">*</span></label>
-            <select id="edicion" name="edicion" class="form-control" required>
-              <%
-                Object edSel = request.getAttribute("form_edicion");
-                Object lista = request.getAttribute("LISTA_EDICIONES");
-                if (lista instanceof java.util.List<?> l) {
-                  for (Object o : l) {
-                    ServidorCentral.logica.Edicion e = (ServidorCentral.logica.Edicion) o;
-                    String value = e.getNombre();
-                    String label = e.getNombre();
-                    boolean selected = (edSel != null && value.equals(String.valueOf(edSel)));
-              %>
-                    <option value="<%= value %>" <%= selected ? "selected" : "" %>><%= label %></option>
-              <%
-                  }
-                } else {
-              %>
-                  <option disabled selected>— No hay ediciones disponibles —</option>
-              <%
-                }
-              %>
-            </select>
-          </div>
-
+		  <!-- Edición -->
+            <div class="col-12">
+              <label class="form-label">Edición de evento</label>
+              <div class="form-control-plaintext"><%= (edNombre != null && !edNombre.isBlank()) ? edNombre : "—" %></div>
+              <input type="hidden" name="edicion" value="<%= edValor != null ? edValor : "" %>">
+            </div>
+            
           <!-- Nombre -->
           <div class="col-md-6">
             <label for="nombre" class="form-label">Nombre del tipo <span class="text-danger">*</span></label>

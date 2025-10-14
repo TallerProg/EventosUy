@@ -1,7 +1,6 @@
 package com.controllers;
 
 import java.io.IOException;
-import java.util.List;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -9,47 +8,25 @@ import jakarta.servlet.http.*;
 
 import ServidorCentral.logica.Factory;
 import ServidorCentral.logica.IControllerEvento;
-import ServidorCentral.logica.IControllerUsuario;
-import ServidorCentral.logica.Organizador;
 import ServidorCentral.logica.Edicion;
-import ServidorCentral.logica.ControllerUsuario.DTSesionUsuario;
-import ServidorCentral.logica.ControllerUsuario.RolUsuario;
 
 @WebServlet(name = "AltaTipoRegistroSvt", urlPatterns = { "/organizador-tipos-registro-alta" })
 public class AltaTRegSvt extends HttpServlet {
 
-  private IControllerUsuario cu() { return Factory.getInstance().getIControllerUsuario(); }
   private IControllerEvento  ce() { return Factory.getInstance().getIControllerEvento(); }
-
-  private Organizador getOrganizadorEnSesion(HttpServletRequest req) {
-    HttpSession ses = req.getSession(false);
-    if (ses == null) return null;
-    Object o = ses.getAttribute("usuario_logueado");
-    if (!(o instanceof DTSesionUsuario du)) return null;
-    if (du.getRol() != RolUsuario.ORGANIZADOR) return null;
-    try { return cu().getOrganizador(du.getNickname()); }
-    catch (Exception ignore) { return null; }
-  }
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
 
-    Organizador org = getOrganizadorEnSesion(req);
-    if (org == null) { // Por si de alguna forma no llega organizador
-      resp.sendRedirect(req.getContextPath() + "/login");
-      return;
-    }
+	// Mostramos el nombre de edición que viene por parámetro
+	    String edSel = req.getParameter("edicion");
 
-    try {
-      List<Edicion> ediciones = org.getEdiciones();
-      req.setAttribute("LISTA_EDICIONES", ediciones);
-    } catch (Exception e) {
-      req.setAttribute("msgError", "No se pudieron cargar tus ediciones: " + e.getMessage());
-      req.setAttribute("LISTA_EDICIONES", java.util.Collections.emptyList());
-    }
+	// Para el JSP: edición fija (mismo valor para técnico y visual)
+	    req.setAttribute("form_edicion", edSel != null ? edSel : "");
+	    req.setAttribute("form_edicion_nombre", edSel != null ? edSel : "—");
 
-    req.getRequestDispatcher("/WEB-INF/views/AltaTipoRegistro.jsp").forward(req, resp);
+	    req.getRequestDispatcher("/WEB-INF/views/AltaTipoRegistro.jsp").forward(req, resp);
   }
 
   @Override
@@ -66,21 +43,12 @@ public class AltaTRegSvt extends HttpServlet {
     String sCupo    = req.getParameter("cupo");
 
     // Para que se vuelva a ver ante error
-    req.setAttribute("form_edicion", edSel);
+    req.setAttribute("form_edicion", edSel != null ? edSel : "");
+    req.setAttribute("form_edicion_nombre", edSel != null ? edSel : "—");
     req.setAttribute("form_nombre", nombreTR);
     req.setAttribute("form_descripcion", descr);
     req.setAttribute("form_costo", sCosto);
     req.setAttribute("form_cupo", sCupo);
-
-    // Organizador en sesión 
-    Organizador org = getOrganizadorEnSesion(req);
-    if (org == null) {
-      resp.sendRedirect(req.getContextPath() + "/login");
-      return;
-    }
-
-    // Combo por si hay que re-renderizar
-    req.setAttribute("LISTA_EDICIONES", org.getEdiciones());
 
     // Chequeos
     if (isBlank(edSel) || isBlank(nombreTR) || isBlank(descr) || isBlank(sCosto) || isBlank(sCupo)) {
@@ -102,18 +70,13 @@ public class AltaTRegSvt extends HttpServlet {
     }
 
     try {
-      // Buscar edición elegida entre las del organizador
-      Edicion edicion = null;
-      for (Edicion e : org.getEdiciones()) {
-        if (e.getNombre() != null && e.getNombre().equals(edSel)) {
-          edicion = e; break;
+    	// Buscar la edición por nombre
+        Edicion edicion = ce().findEdicion(edSel);
+        if (edicion == null) {
+          req.setAttribute("msgError", "No se encontró la edición seleccionada.");
+          req.getRequestDispatcher("/WEB-INF/views/AltaTipoRegistro.jsp").forward(req, resp);
+          return;
         }
-      }
-      if (edicion == null) {
-        req.setAttribute("msgError", "No se encontró la edición seleccionada.");
-        req.getRequestDispatcher("/WEB-INF/views/AltaTipoRegistro.jsp").forward(req, resp);
-        return;
-      }
 
       // Si ya existe un tr con mismo nombre
       if (edicion.existeTR(nombreTR)) {
@@ -127,8 +90,8 @@ public class AltaTRegSvt extends HttpServlet {
 
       // Si hay exito
       req.getSession().setAttribute("flashOk",
-        "Tipo de registro \"" + nombreTR + "\" creado en la edición \"" + edSel + "\".");
-      resp.sendRedirect(req.getContextPath() + "/organizador-tipos-registro-alta");
+              "Tipo de registro \"" + nombreTR + "\" creado en la edición \"" + edSel + "\".");
+          resp.sendRedirect(req.getContextPath() + "/organizador-tipos-registro-alta?edicion=" + java.net.URLEncoder.encode(edSel, java.nio.charset.StandardCharsets.UTF_8));
 
     } catch (Exception e) {
       req.setAttribute("msgError", e.getMessage());
