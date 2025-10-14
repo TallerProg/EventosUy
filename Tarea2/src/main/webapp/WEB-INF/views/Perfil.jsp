@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="ServidorCentral.logica.ControllerUsuario.DTSesionUsuario" %>
-<%@ page import="ServidorCentral.logica.DTUsuarioListaConsulta" %>
-<%@ page import="ServidorCentral.logica.Institucion" %>
+<%@ page import="servidorcentral.logica.ControllerUsuario.DTSesionUsuario" %>
+<%@ page import="servidorcentral.logica.DTUsuarioListaConsulta" %>
+<%@ page import="servidorcentral.logica.Institucion" %>
 
 <%
   String ctx = request.getContextPath();

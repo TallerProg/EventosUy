@@ -15,13 +15,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
-
-import ServidorCentral.logica.Factory;
-import ServidorCentral.logica.IControllerEvento;
-import ServidorCentral.logica.Evento;
-import ServidorCentral.logica.Organizador;
-import ServidorCentral.logica.ControllerUsuario.DTSesionUsuario;
-import ServidorCentral.logica.ControllerUsuario.RolUsuario;
+import servidorcentral.logica.Evento;
+import servidorcentral.logica.Factory;
+import servidorcentral.logica.IControllerEvento;
+import servidorcentral.logica.Organizador;
+import servidorcentral.logica.ControllerUsuario.DTSesionUsuario;
+import servidorcentral.logica.ControllerUsuario.RolUsuario;
 
 @WebServlet(name = "AltaEdicionSvt", urlPatterns = {"/ediciones-alta"})
 @MultipartConfig(

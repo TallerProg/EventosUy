@@ -6,15 +6,15 @@ import jakarta.servlet.http.*;
 import java.io.IOException;
 import java.util.*;
 
-import ServidorCentral.logica.Factory;
-import ServidorCentral.logica.IControllerUsuario;
-import ServidorCentral.logica.Asistente;
-import ServidorCentral.logica.Organizador;
-import ServidorCentral.logica.ControllerUsuario.DTSesionUsuario;
-import ServidorCentral.logica.DTUsuarioListaConsulta;
+import servidorcentral.logica.Factory;
+import servidorcentral.logica.IControllerUsuario;
+import servidorcentral.logica.Asistente;
+import servidorcentral.logica.Organizador;
+import servidorcentral.logica.ControllerUsuario.DTSesionUsuario;
+import servidorcentral.logica.DTUsuarioListaConsulta;
 
-import ServidorCentral.logica.Edicion;
-import ServidorCentral.logica.Registro;
+import servidorcentral.logica.Edicion;
+import servidorcentral.logica.Registro;
 
 @WebServlet("/ConsultaUsuario")
 public class ConsultaUsuarioSvt extends HttpServlet {

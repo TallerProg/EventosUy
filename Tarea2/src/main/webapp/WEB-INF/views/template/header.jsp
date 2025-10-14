@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="ServidorCentral.logica.ControllerUsuario.DTSesionUsuario" %>
-<%@ page import="ServidorCentral.logica.ControllerUsuario.RolUsuario" %>
+<%@ page import="servidorcentral.logica.ControllerUsuario.DTSesionUsuario" %>
+<%@ page import="servidorcentral.logica.ControllerUsuario.RolUsuario" %>
 <%
   String ctx = request.getContextPath(); // "/tprog-webapp"
   DTSesionUsuario ses = (DTSesionUsuario) session.getAttribute("usuario_logueado");

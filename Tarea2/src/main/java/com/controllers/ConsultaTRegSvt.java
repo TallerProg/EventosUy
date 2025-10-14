@@ -8,11 +8,11 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import ServidorCentral.logica.Factory;
-import ServidorCentral.logica.IControllerEvento;
-import ServidorCentral.logica.Evento;
-import ServidorCentral.logica.DTEdicion;
-import ServidorCentral.logica.DTTipoRegistro;
+import servidorcentral.logica.Factory;
+import servidorcentral.logica.IControllerEvento;
+import servidorcentral.logica.Evento;
+import servidorcentral.logica.DTEdicion;
+import servidorcentral.logica.DTTipoRegistro;
 
 @WebServlet(name = "ConsultaTRegSvt", urlPatterns = {"/ConsultaTipoRegistro"})
 public class ConsultaTRegSvt extends HttpServlet {

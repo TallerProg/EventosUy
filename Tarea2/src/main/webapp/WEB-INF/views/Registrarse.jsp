@@ -11,7 +11,7 @@
   }
 %>
 <%@ page import="java.util.List" %>
-<%@ page import="ServidorCentral.logica.Institucion" %>
+<%@ page import="servidorcentral.logica.Institucion" %>
 <!doctype html>
 <html lang="es">
 <head>

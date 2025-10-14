@@ -5,14 +5,14 @@ import java.util.Arrays;
 
 import javax.swing.JOptionPane;
 
-import ServidorCentral.logica.Categoria;
-import ServidorCentral.logica.ETipoNivel;
-import ServidorCentral.logica.EstadoEdicion;
-import ServidorCentral.logica.IControllerEvento;
-import ServidorCentral.logica.IControllerUsuario;
-import ServidorCentral.logica.Institucion;
-import ServidorCentral.logica.ManejadorInstitucion;
-import ServidorCentral.logica.Patrocinio;
+import servidorcentral.logica.Categoria;
+import servidorcentral.logica.ETipoNivel;
+import servidorcentral.logica.EstadoEdicion;
+import servidorcentral.logica.IControllerEvento;
+import servidorcentral.logica.IControllerUsuario;
+import servidorcentral.logica.Institucion;
+import servidorcentral.logica.ManejadorInstitucion;
+import servidorcentral.logica.Patrocinio;
 
 public class CargarDatos {
 
@@ -60,20 +60,20 @@ public class CargarDatos {
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
-		ManejadorInstitucion mI = ManejadorInstitucion.getInstance();
+		ManejadorInstitucion mIns = ManejadorInstitucion.getInstance();
 		// ------------------
 		// Crear Instituciones
 		// ------------------
 		Institucion INS01 = new Institucion("Facultad de Ingeniería", "https://www.fing.edu.uy", "Facultad de Ingenería de la Universidad de la República", null);
-		mI.agregarInstitucion(INS01);
+		mIns.agregarInstitucion(INS01);
 		Institucion INS02 = new Institucion("ORT Uruguay", "https://ort.edu.uy", "Universidad privada enfocada en tecnología y gestión", null);
-		mI.agregarInstitucion(INS02);
+		mIns.agregarInstitucion(INS02);
 		Institucion INS03 = new Institucion("Universidad Católica del Uruguay", "https://ucu.edu.uy", "Institución de educación superior privada", null);
-		mI.agregarInstitucion(INS03);
+		mIns.agregarInstitucion(INS03);
 		Institucion INS04 = new Institucion("Antel", "https://antel.com.uy", "Empresa estatal de telecomunicaciones", null);
-		mI.agregarInstitucion(INS04);
+		mIns.agregarInstitucion(INS04);
 		Institucion INS05 = new Institucion("Agencia Nacional de Investigación e Innovación (ANII)", "https://anii.org.uy", "Fomenta la investigación y la innovación en Uruguay", null);
-		mI.agregarInstitucion(INS05);
+		mIns.agregarInstitucion(INS05);
 
 		// ------------------
 		// Crear Asistentes
@@ -97,11 +97,11 @@ public class CargarDatos {
 		// Crear Organizadores
 		// ------------------
 		try {
-			ICU.altaOrganizador("miseventos", "contacto@miseventos.com", "MisEventos", "Empresa de organización de eventos.", "https://miseventos.com", "22miseventos","/media/img/usuarios/miseventos.jpeg");
+			ICU.altaOrganizador("miseventos", "contacto@miseventos.com", "misEventos", "Empresa de organización de eventos.", "https://miseventos.com", "22miseventos","/media/img/usuarios/miseventos.jpeg");
 			ICU.altaOrganizador("techcorp", "info@techcorp.com", "Corporación Tecnológica", "Empresa líder en tecnologías de la información.", null, "tech25corp",null);
 			ICU.altaOrganizador("imm", "contacto@imm.gub.uy", "Intendencia de Montevideo", "Gobierno departamental de Montevideo.", "https://montevideo.gub.uy", "imm2025","/media/img/usuarios/imm.png");
 			ICU.altaOrganizador("udelar", "contacto@udelar.edu.uy", "Universidad de la República", "Universidad pública de Uruguay.", "https://udelar.edu.uy", "25udelar",null);
-			ICU.altaOrganizador("mec", "mec@mec.gub.uy", "Ministerio de Educación y Cultura", "Institución pública promotora de cultura.", "https://mec.gub.uy", "mec2025ok","/media/img/usuarios/mec.png");
+			ICU.altaOrganizador("mec", "mec@mec.gub.uy", "ministerio de Educación y Cultura", "Institución pública promotora de cultura.", "https://mec.gub.uy", "mec2025ok","/media/img/usuarios/mec.png");
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
@@ -130,12 +130,12 @@ public class CargarDatos {
 		            Ice.getEvento("Maratón de Montevideo"), ICU.getOrganizador("imm"), "/media/img/ediciones/Maratón_de_Montevideo_2022.jpeg");
 		    Ice.findEdicion("Maratón de Montevideo 2022").setEstado(EstadoEdicion.Rechazada);
 
-		    Ice.altaEdicionDeEvento("Montevideo Comics 2024", "COMICS24", "Montevideo", "Uruguay",
+		    Ice.altaEdicionDeEvento("Montevideo Comics 2024", "COmiCS24", "Montevideo", "Uruguay",
 		            LocalDate.parse("18/07/2024", formatter), LocalDate.parse("21/07/2024", formatter), LocalDate.parse("20/06/2024", formatter),
 		            Ice.getEvento("Montevideo Comics"), ICU.getOrganizador("miseventos"), "/media/img/ediciones/Montevideo_Comics_2024.jpeg");
 		    Ice.findEdicion("Montevideo Comics 2024").setEstado(EstadoEdicion.Aceptada);
 
-		    Ice.altaEdicionDeEvento("Montevideo Comics 2025", "COMICS25", "Montevideo", "Uruguay",
+		    Ice.altaEdicionDeEvento("Montevideo Comics 2025", "COmiCS25", "Montevideo", "Uruguay",
 		            LocalDate.parse("04/08/2025", formatter), LocalDate.parse("06/08/2025", formatter), LocalDate.parse("04/07/2025", formatter),
 		            Ice.getEvento("Montevideo Comics"), ICU.getOrganizador("miseventos"), "/media/img/ediciones/Montevideo_Comics_2025.jpeg");
 		    Ice.findEdicion("Montevideo Comics 2025").setEstado(EstadoEdicion.Aceptada);

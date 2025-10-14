@@ -8,7 +8,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 
-import ServidorCentral.logica.*;
+import servidorcentral.logica.*;
 
 @WebServlet(name = "AltaPatrocinioSvt", urlPatterns = {"/organizador-patrocinios-alta"})
 public class AltaPatrocinioSvt extends HttpServlet {

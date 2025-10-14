@@ -1,8 +1,8 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ page import="ServidorCentral.logica.Evento" %>
-<%@ page import="ServidorCentral.logica.Categoria" %>
-<%@ page import="ServidorCentral.logica.DTEdicion" %>
-<%@ page import="ServidorCentral.logica.Organizador" %>
+<%@ page import="servidorcentral.logica.Evento" %>
+<%@ page import="servidorcentral.logica.Categoria" %>
+<%@ page import="servidorcentral.logica.DTEdicion" %>
+<%@ page import="servidorcentral.logica.Organizador" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.net.URLEncoder, java.nio.charset.StandardCharsets" %>
 

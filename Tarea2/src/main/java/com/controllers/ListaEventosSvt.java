@@ -9,11 +9,11 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import ServidorCentral.logica.Evento;
-import ServidorCentral.logica.IControllerEvento;
-import ServidorCentral.logica.ControllerUsuario.DTSesionUsuario;
-import ServidorCentral.logica.ControllerUsuario.RolUsuario;
-import ServidorCentral.logica.Factory; 
+import servidorcentral.logica.Evento;
+import servidorcentral.logica.IControllerEvento;
+import servidorcentral.logica.ControllerUsuario.DTSesionUsuario;
+import servidorcentral.logica.ControllerUsuario.RolUsuario;
+import servidorcentral.logica.Factory; 
 
 @WebServlet("/Eventos")
 public class ListaEventosSvt extends HttpServlet {

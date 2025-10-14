@@ -5,8 +5,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.time.LocalDate;
 
-import ServidorCentral.logica.*;
-import ServidorCentral.logica.ControllerUsuario.DTSesionUsuario;
+import servidorcentral.logica.*;
+import servidorcentral.logica.ControllerUsuario.DTSesionUsuario;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;

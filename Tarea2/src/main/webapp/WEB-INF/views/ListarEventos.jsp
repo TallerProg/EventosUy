@@ -3,8 +3,8 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.net.URLEncoder" %>
 <%@ page import="java.nio.charset.StandardCharsets" %>
-<%@ page import="ServidorCentral.logica.Evento" %>
-<%@ page import="ServidorCentral.logica.Categoria" %>
+<%@ page import="servidorcentral.logica.Evento" %>
+<%@ page import="servidorcentral.logica.Categoria" %>
 
 <%!
   // Funciones de ayuda

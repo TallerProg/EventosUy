@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="ServidorCentral.logica.Usuario,ServidorCentral.logica.Asistente,ServidorCentral.logica.Institucion"%>
+<%@ page import="servidorcentral.logica.Usuario,servidorcentral.logica.Asistente,servidorcentral.logica.Institucion"%>
 <%
   String ctx = request.getContextPath();
   String img = (String) session.getAttribute("IMAGEN_LOGUEADO");

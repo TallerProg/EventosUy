@@ -1,5 +1,5 @@
 package com.model;
-import ServidorCentral.logica.*;
+import servidorcentral.logica.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;

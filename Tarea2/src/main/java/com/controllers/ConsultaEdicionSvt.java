@@ -11,17 +11,17 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 
-import ServidorCentral.logica.Factory;
-import ServidorCentral.logica.IControllerEvento;
-import ServidorCentral.logica.DTEdicion;
-import ServidorCentral.logica.DTTipoRegistro;
-import ServidorCentral.logica.DTRegistro;
-import ServidorCentral.logica.DTPatrocinio;
-import ServidorCentral.logica.DTOrganizador;
+import servidorcentral.logica.Factory;
+import servidorcentral.logica.IControllerEvento;
+import servidorcentral.logica.DTEdicion;
+import servidorcentral.logica.DTTipoRegistro;
+import servidorcentral.logica.DTRegistro;
+import servidorcentral.logica.DTPatrocinio;
+import servidorcentral.logica.DTOrganizador;
 
 // Session DTO
-import ServidorCentral.logica.ControllerUsuario.DTSesionUsuario;
-import ServidorCentral.logica.ControllerUsuario.RolUsuario;
+import servidorcentral.logica.ControllerUsuario.DTSesionUsuario;
+import servidorcentral.logica.ControllerUsuario.RolUsuario;
 
 @WebServlet(name = "ConsultaEdicionSvt", urlPatterns = {"/ediciones-consulta"})
 public class ConsultaEdicionSvt extends HttpServlet {
