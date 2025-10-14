@@ -44,6 +44,12 @@
       <div class="section-title">
         <h2>Modificar datos de usuario</h2>
       </div>
+<%
+  String msgError = (String) request.getAttribute("msgError");
+  if (msgError != null && !msgError.isBlank()) {
+%>
+  <div class="alert alert-danger"><%= msgError %></div>
+<% } %>
 
       <form action="<%=ctx%>/editarperfil" method="post" enctype="multipart/form-data" id="form-modificar">
         <input type="hidden" id="tipoUsuario" value="<%= tipo %>">
@@ -101,7 +107,8 @@
 
         <div class="mb-3">
           <label>Nueva contraseña</label>
-          <input type="password" name="password" class="form-control" placeholder="Dejar vacío si no cambia">
+          <input type="password" id="password" name="password" class="form-control" placeholder="Dejar vacío si no cambia">
+
         </div>
 		<div class="mb-3">
   <label>Confirmar nueva contraseña</label>

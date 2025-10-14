@@ -76,11 +76,32 @@ public class EditarPerfilSvt extends HttpServlet {
         Usuario user = icu.getUsuario(nickname);
         if (user == null) throw new ServletException("Usuario no encontrado.");
 
-        // Campos comunes 
+     // Campos comunes 
         String nombre = req.getParameter("nombre");
         String password = req.getParameter("password");
-        if (nombre != null && !nombre.isBlank()) user.setNombre(nombre);
-        if (password != null && !password.isBlank()) user.setContrasena(password);
+        String confirm  = req.getParameter("confirmPassword");
+
+        if (nombre != null && !nombre.isBlank()) {
+            user.setNombre(nombre);
+        }
+
+        // Validación server-side de contraseña
+        if (password != null && !password.isBlank()) {
+            if (confirm == null || !password.equals(confirm)) {
+                // Preparar datos para re-render del formulario con error
+                IControllerInstitucion ici = Factory.getInstance().getIControllerInstitucion();
+                req.setAttribute("LISTA_INSTITUCION", ici.getInstituciones().toArray(Institucion[]::new));
+                req.setAttribute("USUARIO", user);
+                req.setAttribute("TIPO_USUARIO", (user instanceof Organizador) ? "organizador" : "asistente");
+                req.setAttribute("msgError", "Las contraseñas no coinciden."); // mostrala en el JSP
+
+                req.getRequestDispatcher("/WEB-INF/views/ModificarUsuario.jsp").forward(req, resp);
+                return; // ¡importante!
+            }
+            // Coinciden -> aplicar cambio
+            user.setContrasena(password);
+        }
+
 
         // Es asistente 
         if (user instanceof Asistente a) {
