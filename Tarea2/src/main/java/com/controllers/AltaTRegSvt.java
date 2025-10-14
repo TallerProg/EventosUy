@@ -58,16 +58,20 @@ public class AltaTRegSvt extends HttpServlet {
     }
 
     Float costo; Integer cupo;
-    try {
+         cupo  = Integer.valueOf(sCupo);
+
       costo = Float.valueOf(sCosto);
-      if (costo < 0) throw new NumberFormatException("costo negativo");
-      cupo  = Integer.valueOf(sCupo);
-      if (cupo < 0) throw new NumberFormatException("cupo negativo");
-    } catch (NumberFormatException nfe) {
-      req.setAttribute("msgError", "Costo o cupo inválidos.");
-      req.getRequestDispatcher("/WEB-INF/views/AltaTipoRegistro.jsp").forward(req, resp);
-      return;
-    }
+      if (costo < 0) {
+      req.setAttribute("msgError", "Costo negativos.");
+	  req.getRequestDispatcher("/WEB-INF/views/AltaTipoRegistro.jsp").forward(req, resp);
+	  return;
+      }
+      if (cupo < 0) {
+    	  req.setAttribute("msgError", "Cupo negativo.");
+		  req.getRequestDispatcher("/WEB-INF/views/AltaTipoRegistro.jsp").forward(req, resp);
+		  return;
+      }
+
 
     try {
     	// Buscar la edición por nombre

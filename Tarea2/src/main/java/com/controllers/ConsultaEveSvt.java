@@ -17,7 +17,9 @@ import servidorcentral.logica.ControllerUsuario.DTSesionUsuario;
 import servidorcentral.logica.ControllerUsuario.RolUsuario;
 import servidorcentral.logica.ControllerUsuario;
 import servidorcentral.logica.DTEdicion;
+import servidorcentral.logica.Edicion;
 import servidorcentral.logica.Evento;
+import servidorcentral.logica.Organizador;
 
 @WebServlet(name = "ConsultaEveSvt", urlPatterns = {"/ConsultaEvento"})
 @MultipartConfig(
@@ -37,21 +39,34 @@ public class ConsultaEveSvt extends HttpServlet {
 	      req.getRequestDispatcher("/WEB-INF/views/ConsultaEvento.jsp").forward(req, resp);
 	      return;
 	    }
-
+		
     try {
       Factory fabrica = Factory.getInstance();
       IControllerEvento ctrl = fabrica.getIControllerEvento();
       Evento evento = ctrl.getEvento(nombreEvento); 
       req.setAttribute("EVENTO", evento);
       
-      List<String> ediciones = ctrl.listarEdicionesDeEvento(nombreEvento);
+      HttpSession session = req.getSession(false);
+		DTSesionUsuario sesUser = (session != null) ? (DTSesionUsuario) session.getAttribute("usuario_logueado") : null;
+		String nick = sesUser.getNickname();
+		boolean S = false;
+
+      List<Edicion> ediciones = evento.getEdiciones();
       List<DTEdicion> edicionesCompletas = new ArrayList<>();
-      for (String nombreEdicion : ediciones) {
-          DTEdicion edicion = ctrl.consultaEdicionDeEvento(nombreEvento, nombreEdicion); 
+      for (Edicion e : ediciones) {
+    	  
+  		for (Organizador o : e.getOrganizadores()){
+			if(sesUser.getNickname().equals(nick)) {
+				S = true;
+				break;
+			}
+  		}
+        // Mostrar ediciones aceptadas o si el usuario es el organizador del evento
+    	  if(e.getEstado().equals("Aceptada") || S) {
+          DTEdicion edicion = ctrl.consultaEdicionDeEvento(nombreEvento, e.getNombre()); 
           edicionesCompletas.add(edicion); 
         }
       req.setAttribute("LISTA_EDICIONES", edicionesCompletas);
-      HttpSession session = req.getSession(false); 
       if (session != null) {
           DTSesionUsuario usuario = (DTSesionUsuario) session.getAttribute("usuario_logueado");
           if (usuario != null) {
@@ -62,7 +77,7 @@ public class ConsultaEveSvt extends HttpServlet {
           }
       }
       
-    } catch (Exception e) {
+      }} catch (Exception e) {
       req.setAttribute("msgError", "No se pudo cargar la lista de ediciones: " + e.getMessage());
       req.setAttribute("LISTA_EDICIONES", null);
     }

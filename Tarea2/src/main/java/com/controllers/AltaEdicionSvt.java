@@ -13,6 +13,7 @@ import jakarta.servlet.http.*;
 import servidorcentral.logica.ControllerUsuario.DTSesionUsuario;
 import servidorcentral.logica.ControllerUsuario.RolUsuario;
 import servidorcentral.logica.Evento;
+import servidorcentral.logica.ManejadorEvento;
 import servidorcentral.logica.Factory;
 import servidorcentral.logica.IControllerEvento;
 import servidorcentral.logica.Organizador;
@@ -128,8 +129,7 @@ public class AltaEdicionSvt extends HttpServlet {
         return;
       }
 
-      if (edicionDuplicada(evento, nombre, sigla)) {
-        req.setAttribute("msgError", "Ya existe una edición con ese nombre o sigla para este evento.");
+      if (edicionDuplicada(evento, nombre, sigla,req)) {
         req.getRequestDispatcher("/WEB-INF/views/AltaEdicion.jsp").forward(req, resp);
         return;
       }
@@ -172,13 +172,21 @@ public class AltaEdicionSvt extends HttpServlet {
     req.getRequestDispatcher("/WEB-INF/views/AltaEdicion.jsp").forward(req, resp);
   }
 
-  private static boolean edicionDuplicada(Evento evento, String nombre, String sigla) {
-    try {
+  private static boolean edicionDuplicada(Evento evento, String nombre, String sigla, HttpServletRequest req) {
+      ManejadorEvento ctrl = ManejadorEvento.getInstancia();
+
+	  try {
       try {
-        if (evento.tieneEdicion(nombre)) return true;
+        if (ctrl.existeEdicion(nombre)) {
+        	req.setAttribute("msgError", "Ya existe una edición con ese nombre");
+        	return true;
+        }
       } catch (Throwable ignore) {}
       try {
-        if (evento.tieneEdicion(sigla)) return true;
+        if (ctrl.tieneEdicionSigla(sigla)) {
+        	req.setAttribute("msgError", "Ya existe una edición con ese sigla.");
+        	return true;
+        }
       } catch (Throwable ignore) {}
       try {
         java.util.List<?> eds = null;
