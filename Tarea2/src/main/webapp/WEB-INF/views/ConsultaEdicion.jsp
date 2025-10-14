@@ -47,7 +47,7 @@ String evNom  = VM != null ? (String) VM.get("eventoNombre") : null;
 Boolean finalizado = VM != null ? (Boolean) VM.get("finalizado") : Boolean.FALSE;
 
 if (imagen == null || imagen.isEmpty()) {
-  imagen = ctx + "/media/img/ediciones/default.jpg";
+  imagen = ctx + "/media/img/default.png";
 }
 
 @SuppressWarnings("unchecked")
