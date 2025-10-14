@@ -66,7 +66,7 @@ class AltaEdicionEventoTest {
     @Test
     void testAltaEdicionDuplicada() throws Exception {
         controller.altaEdicionDeEvento(
-            "Edicion2025", "ED2025",
+            "Edicion20205", "ED20025",
             "Montevideo", "Uruguay",
             LocalDate.of(2025, 5, 1),
             LocalDate.of(2025, 5, 10),

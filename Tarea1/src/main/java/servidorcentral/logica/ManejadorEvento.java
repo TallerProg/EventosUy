@@ -105,4 +105,13 @@ public class ManejadorEvento {
 	    ediciones.clear();
 	    categorias.clear();
 	}
+
+public boolean tieneEdicionSigla(String sigla) {
+		for (Edicion e: ediciones) {
+			if (e.getSigla().equalsIgnoreCase(sigla)) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

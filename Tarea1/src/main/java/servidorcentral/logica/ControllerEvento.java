@@ -12,14 +12,14 @@ public class ControllerEvento implements IControllerEvento {
             String imagenWebPath) throws Exception {
 
 		if (fFin.isBefore(fInicio)) throw new IllegalArgumentException("La fecha de fin no puede ser anterior a la fecha de inicio");
-		if (evento.tieneEdicion(nombre) || evento.tieneEdicionSigla(sigla)) throw new IllegalArgumentException("Ya existe una edición con ese nombre o sigla");
+		ManejadorEvento manejadorEvento = ManejadorEvento.getInstancia();
+		if (manejadorEvento.existeEdicion(nombre) || manejadorEvento.tieneEdicionSigla(sigla)) throw new IllegalArgumentException("Ya existe una edición con ese nombre o sigla");
 		
 		Edicion edicion = new Edicion(nombre, sigla, fInicio, fFin, fAlta, ciudad, pais, evento);
 		edicion.setImagenWebPath(imagenWebPath); 
 		
 		edicion.getOrganizadores().add(org);
 		evento.agregarEdicion(edicion);
-		ManejadorEvento manejadorEvento = ManejadorEvento.getInstancia();
 		manejadorEvento.agregarEdicion(edicion);
 		org.agregarEdicionOrg(edicion);
 		}

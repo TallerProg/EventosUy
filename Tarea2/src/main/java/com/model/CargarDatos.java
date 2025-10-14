@@ -42,10 +42,10 @@ public class CargarDatos {
 		// Crear eventos
 		// ------------------
 		try {
-			Ice.altaEvento("Conferencia de Tecnología", "Evento sobre innovación tecnológica", LocalDate.parse("10/01/2025", formatter), "CONFTEC", Arrays.asList(CA01, CA02), null);
+			Ice.altaEvento("Conferencia de Tecnologia", "Evento sobre innovación tecnológica", LocalDate.parse("10/01/2025", formatter), "CONFTEC", Arrays.asList(CA01, CA02), null);
 			Ice.altaEvento("Feria del Libro", "Encuentro anual de literatura", LocalDate.parse("01/02/2025", formatter), "FERLIB", Arrays.asList(CA03, CA04), "/media/img/eventos/Feria_del_Libro.jpeg");
 			Ice.altaEvento("Montevideo Rock", "Festival de rock con artistas nacionales e internacionales", LocalDate.parse("15/03/2023", formatter), "MONROCK", Arrays.asList(CA04, CA05), "/media/img/eventos/Montevideo_Rock.jpeg");
-			Ice.altaEvento("Maratón de Montevideo", "Competencia deportiva anual en la capital", LocalDate.parse("01/01/2022", formatter), "MARATON", Arrays.asList(CA06, CA07), "/media/img/eventos/Maratón_de_Montevideo.png");
+			Ice.altaEvento("Maraton de Montevideo", "Competencia deportiva anual en la capital", LocalDate.parse("01/01/2022", formatter), "MARATON", Arrays.asList(CA06, CA07), "/media/img/eventos/Maratón_de_Montevideo.png");
 			Ice.altaEvento("Montevideo Comics", "Convención de historietas, cine y cultura geek", LocalDate.parse("10/04/2024", formatter), "COMICS", Arrays.asList(CA04, CA08), "/media/img/eventos/Montevideo_Comics.png");
 			Ice.altaEvento("Expointer Uruguay", "Exposición internacional agropecuaria y ganadera", LocalDate.parse("12/12/2024", formatter), "EXPOAGRO", Arrays.asList(CA09, CA10), "/media/img/eventos/Expointer_Uruguay.png");
 			Ice.altaEvento("Montevideo Fashion Week", "Pasarela de moda uruguaya e internacional", LocalDate.parse("20/07/2025", formatter), "MFASHION", Arrays.asList(CA04, CA11), null);
@@ -56,15 +56,15 @@ public class CargarDatos {
 		// ------------------
 		// Crear Instituciones
 		// ------------------
-		Institucion INS01 = new Institucion("Facultad de Ingeniería", "https://www.fing.edu.uy", "Facultad de Ingenería de la Universidad de la República", null);
+		Institucion INS01 = new Institucion("Facultad de Ingenieria", "https://www.fing.edu.uy", "Facultad de Ingenería de la Universidad de la República", null);
 		mI.agregarInstitucion(INS01);
 		Institucion INS02 = new Institucion("ORT Uruguay", "https://ort.edu.uy", "Universidad privada enfocada en tecnología y gestión", null);
 		mI.agregarInstitucion(INS02);
-		Institucion INS03 = new Institucion("Universidad Católica del Uruguay", "https://ucu.edu.uy", "Institución de educación superior privada", null);
+		Institucion INS03 = new Institucion("Universidad Catolica del Uruguay", "https://ucu.edu.uy", "Institución de educación superior privada", null);
 		mI.agregarInstitucion(INS03);
 		Institucion INS04 = new Institucion("Antel", "https://antel.com.uy", "Empresa estatal de telecomunicaciones", null);
 		mI.agregarInstitucion(INS04);
-		Institucion INS05 = new Institucion("Agencia Nacional de Investigación e Innovación (ANII)", "https://anii.org.uy", "Fomenta la investigación y la innovación en Uruguay", null);
+		Institucion INS05 = new Institucion("Agencia Nacional de Investigacion e Innovacion (ANII)", "https://anii.org.uy", "Fomenta la investigación y la innovación en Uruguay", null);
 		mI.agregarInstitucion(INS05);
 
 		// ------------------
@@ -107,17 +107,17 @@ public class CargarDatos {
 		            Ice.getEvento("Montevideo Rock"), ICU.getOrganizador("imm"), "/media/img/ediciones/Montevideo_Rock_2025.jpeg");
 		    Ice.findEdicion("Montevideo Rock 2025").setEstado(EstadoEdicion.Aceptada);
 
-		    Ice.altaEdicionDeEvento("Maratón de Montevideo 2025", "MARATON25", "Montevideo", "Uruguay",
+		    Ice.altaEdicionDeEvento("Maraton de Montevideo 2025", "MARATON25", "Montevideo", "Uruguay",
 		            LocalDate.parse("14/09/2025", formatter), LocalDate.parse("14/09/2025", formatter), LocalDate.parse("05/02/2025", formatter),
 		            Ice.getEvento("Maratón de Montevideo"), ICU.getOrganizador("imm"), "/media/img/ediciones/Maratón_de_Montevideo_2025.png");
 		    Ice.findEdicion("Maratón de Montevideo 2025").setEstado(EstadoEdicion.Aceptada);
 
-		    Ice.altaEdicionDeEvento("Maratón de Montevideo 2024", "MARATON24", "Montevideo", "Uruguay",
+		    Ice.altaEdicionDeEvento("Maraton de Montevideo 2024", "MARATON24", "Montevideo", "Uruguay",
 		            LocalDate.parse("14/09/2024", formatter), LocalDate.parse("14/09/2024", formatter), LocalDate.parse("21/04/2024", formatter),
 		            Ice.getEvento("Maratón de Montevideo"), ICU.getOrganizador("imm"), "/media/img/ediciones/Maratón_de_Montevideo_2024.jpeg");
 		    Ice.findEdicion("Maratón de Montevideo 2024").setEstado(EstadoEdicion.Aceptada);
 
-		    Ice.altaEdicionDeEvento("Maratón de Montevideo 2022", "MARATON22", "Montevideo", "Uruguay",
+		    Ice.altaEdicionDeEvento("Maraton de Montevideo 2022", "MARATON22", "Montevideo", "Uruguay",
 		            LocalDate.parse("14/09/2022", formatter), LocalDate.parse("14/09/2022", formatter), LocalDate.parse("21/05/2022", formatter),
 		            Ice.getEvento("Maratón de Montevideo"), ICU.getOrganizador("imm"), "/media/img/ediciones/Maratón_de_Montevideo_2022.jpeg");
 		    Ice.findEdicion("Maratón de Montevideo 2022").setEstado(EstadoEdicion.Rechazada);

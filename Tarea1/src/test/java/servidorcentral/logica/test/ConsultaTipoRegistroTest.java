@@ -125,7 +125,7 @@ public class ConsultaTipoRegistroTest {
             controlerUSR.altaOrganizador(nickOrg, mailOrg, nombreOrg, descripcionOrg, webOrg, "1234", "org2.png");
             Organizador org = controlerUSR.getOrganizador(nickOrg);
 
-            String nombreEdicion = "Edición 2025";
+            String nombreEdicion = "Edición 02025";
             LocalDate fechaInicioEd = LocalDate.of(2025, 4, 6);
             LocalDate fechaFinEd   = LocalDate.of(2025, 4, 6);
             LocalDate fechaAlta    = LocalDate.of(2024, 4, 1);
@@ -133,7 +133,7 @@ public class ConsultaTipoRegistroTest {
             String ciudadEdicion   = "Montevideo";
 
             controllerE.altaEdicionDeEvento(
-                nombreEdicion, siglaEvento, ciudadEdicion, lugarEdicion,
+                nombreEdicion, "siglaEvento", ciudadEdicion, lugarEdicion,
                 fechaInicioEd, fechaFinEd, fechaAlta,
                 evento, org, "imagenEdicion"
             );
