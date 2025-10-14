@@ -56,15 +56,15 @@ public class CargarDatos {
 		// ------------------
 		// Crear Instituciones
 		// ------------------
-		Institucion INS01 = new Institucion("Facultad de Ingeniería", "https://www.fing.edu.uy", "Facultad de Ingenería de la Universidad de la República", null);
+		Institucion INS01 = new Institucion("Facultad de Ingeniería", "https://www.fing.edu.uy", "Facultad de Ingenería de la Universidad de la República","/media/img/instituciones/FING.png");
 		mI.agregarInstitucion(INS01);
-		Institucion INS02 = new Institucion("ORT Uruguay", "https://ort.edu.uy", "Universidad privada enfocada en Tecnologia y gestión", null);
+		Institucion INS02 = new Institucion("ORT Uruguay", "https://ort.edu.uy", "Universidad privada enfocada en Tecnologia y gestión", "/media/img/instituciones/ORT.png");
 		mI.agregarInstitucion(INS02);
-		Institucion INS03 = new Institucion("Universidad Católica del Uruguay", "https://ucu.edu.uy", "Institución de educación superior privada", null);
+		Institucion INS03 = new Institucion("Universidad Católica del Uruguay", "https://ucu.edu.uy", "Institución de educación superior privada", "/media/img/instituciones/UCU.png");
 		mI.agregarInstitucion(INS03);
-		Institucion INS04 = new Institucion("Antel", "https://antel.com.uy", "Empresa estatal de telecomunicaciones", null);
+		Institucion INS04 = new Institucion("Antel", "https://antel.com.uy", "Empresa estatal de telecomunicaciones", "/media/img/instituciones/ANTEL.png");
 		mI.agregarInstitucion(INS04);
-		Institucion INS05 = new Institucion("Agencia Nacional de Investigación e Innovación (ANII)", "https://anii.org.uy", "Fomenta la investigación y la innovación en Uruguay", null);
+		Institucion INS05 = new Institucion("Agencia Nacional de Investigación e Innovación (ANII)", "https://anii.org.uy", "Fomenta la investigación y la innovación en Uruguay", "/media/img/instituciones/ANII.png");
 		mI.agregarInstitucion(INS05);
 
 		// ------------------
