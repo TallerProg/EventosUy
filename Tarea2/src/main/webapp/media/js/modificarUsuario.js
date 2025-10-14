@@ -25,4 +25,20 @@ document.addEventListener("DOMContentLoaded", () => {
       img.onload = () => URL.revokeObjectURL(url);
     });
   }
+  // Validar contraseñas antes de enviar
+  const form = document.querySelector("#form-modificar");
+  const pass = document.querySelector("#password");
+  const confirm = document.querySelector("#confirmPassword");
+
+  if (form && pass && confirm) {
+    form.addEventListener("submit", (e) => {
+      const p1 = pass.value.trim();
+      const p2 = confirm.value.trim();
+      if ((p1 !== "" || p2 !== "") && p1 !== p2) {
+        e.preventDefault();
+        alert("Las contraseñas no coinciden.");
+      }
+    });
+  }
+
 });

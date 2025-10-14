@@ -103,7 +103,10 @@
           <label>Nueva contraseña</label>
           <input type="password" name="password" class="form-control" placeholder="Dejar vacío si no cambia">
         </div>
-
+		<div class="mb-3">
+  <label>Confirmar nueva contraseña</label>
+  <input type="password" name="confirmPassword" id="confirmPassword" class="form-control" placeholder="Repite la nueva contraseña">
+</div>
         <button type="submit" class="btn btn-primary">Aceptar</button>
         <a href="<%=ctx%>/perfil" class="btn btn-secondary">Cancelar</a>
       </form>
