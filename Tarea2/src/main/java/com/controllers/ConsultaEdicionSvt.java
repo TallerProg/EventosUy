@@ -132,6 +132,8 @@ public class ConsultaEdicionSvt extends HttpServlet {
         }
       }
       VM.put("registros", regsVM);
+      
+
 
       // Tipos de registro
       List<Map<String,String>> tiposVM = new ArrayList<>();
@@ -149,6 +151,8 @@ public class ConsultaEdicionSvt extends HttpServlet {
         }
       }
       VM.put("tipos", tiposVM);
+
+
 
    // Mi registro 
       Map<String,String> miRegVM = null;

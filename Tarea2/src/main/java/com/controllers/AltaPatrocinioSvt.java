@@ -19,7 +19,6 @@ public class AltaPatrocinioSvt extends HttpServlet {
 
     req.setCharacterEncoding("UTF-8");
 
-    // AJAX: cálculo sugerido (no es validación de negocio)
     if ("1".equals(req.getParameter("calc"))) {
       resp.setContentType("application/json;charset=UTF-8");
       String edicion      = req.getParameter("edicion");
@@ -59,7 +58,17 @@ public class AltaPatrocinioSvt extends HttpServlet {
       forward(req, resp);
       return;
     }
-
+    IControllerEvento ctrl = Factory.getInstance().getIControllerEvento();
+   
+   
+	  Edicion edi = ctrl.findEdicion(edicion);
+		if (edi != null && edi.getEvento() != null && evento.equals(edi.getEvento().getNombre())) {
+	    List<TipoRegistro> treg =edi.getTipoRegistros();
+	
+    String[] nombresTipos = (treg == null) ? new String[0]
+        : treg.stream().map(TipoRegistro::getNombre).toArray(String[]::new);
+    req.setAttribute("TIPOS_REGISTRO", nombresTipos);
+    }
     try {
       // Chequeo liviano para completar encabezados (no valida reglas)
       IControllerEvento cevt = Factory.getInstance().getIControllerEvento();

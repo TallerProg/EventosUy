@@ -275,7 +275,7 @@ String encEv = (evNom  != null) ? URLEncoder.encode(evNom,  StandardCharsets.UTF
         <div class="card-body">
           <div class="d-flex align-items-center gap-2 mb-2">
             <h5 class="card-title mb-0"><i class="bi bi-people"></i> Patrocinios</h5>
-            <% if (ES_ORGANIZADOR_ED && finalizado) { %>
+            <% if (ES_ORGANIZADOR_ED && !finalizado) { %>
               <a href="<%= ctx %>/organizador-patrocinios-alta?evento=<%= encEv %>&edicion=<%= encEd %>"
                  class="btn btn-sm btn-primary ms-auto d-inline-flex align-items-center justify-content-center"
                  style="width:32px; height:32px; border-radius:8px;"

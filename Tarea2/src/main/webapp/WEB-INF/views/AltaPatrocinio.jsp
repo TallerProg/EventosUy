@@ -1,4 +1,8 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="servidorcentral.logica.DTRegistro" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.Map" %>
+
 <%
   String ctx = request.getContextPath();
 
@@ -98,19 +102,31 @@
           </div>
 
           <div class="col-md-6">
-            <label class="form-label">Tipo de Registro Gratuito</label>
-            <input type="text" name="tipoRegistro" id="tipoRegistro" class="form-control"
-                   value="<%= (form_tipoReg!=null?form_tipoReg:"") %>" required>
-            <small class="text-muted">Escribí el nombre exacto del tipo de registro.</small>
-            <div class="form-text" id="costoTRinfo" style="min-height:1.2rem;"></div>
-          </div>
+  <label class="form-label">Tipo de Registro Gratuito</label>
+  <select name="tipoRegistro" id="tipoRegistro" class="form-select" required>
+    <option value="">-- Seleccione --</option>
+    <%
+      String[] tipos = (String[]) request.getAttribute("TIPOS_REGISTRO");
+      if (tipos != null) {
+        for (String t : tipos) {
+          boolean sel = (form_tipoReg != null && form_tipoReg.equals(t));
+    %>
+      <option value="<%= t %>" <%= sel ? "selected" : "" %>><%= t %></option>
+    <%
+        }
+      }
+    %>
+  </select>
+  <small class="text-muted">Elegí un tipo de registro existente en la edición.</small>
+  <div class="form-text" id="costoTRinfo" style="min-height:1.2rem;"></div>
+</div>	
+<div class="col-md-6">
+  <label class="form-label">Cantidad de Registros Gratuitos</label>
+  <input type="number" name="cantidadRegistros" id="cantidadRegistros" class="form-control"
+         value="<%= (form_cant!=null?form_cant:"") %>" min="1" required>
+  <small class="text-muted">Se sugiere con el 20% del aporte, pero podés ajustarla.</small>
+</div>
 
-          <div class="col-md-6">
-            <label class="form-label">Cantidad de Registros Gratuitos</label>
-            <input type="number" name="cantidadRegistros" id="cantidadRegistros" class="form-control"
-                   value="<%= (form_cant!=null?form_cant:"") %>">
-            <small class="text-muted">Se sugiere con el 20% del aporte, pero podés ajustarla.</small>
-          </div>
 
           <div class="col-md-6">
             <label class="form-label">Código de Patrocinio</label>
@@ -146,28 +162,28 @@
   const ctx = '<%=ctx%>';
   const edicion = document.getElementById('edicion')?.value || '';
   const aporteEl = document.getElementById('aporte');
-  const tipoEl   = document.getElementById('tipoRegistro');
+  const tipoEl   = document.getElementById('tipoRegistro'); // select
   const cantEl   = document.getElementById('cantidadRegistros');
   const costoInfo= document.getElementById('costoTRinfo');
+  const form     = document.getElementById('form-patro');
 
   async function recalcular(){
     const aporte = aporteEl?.value || '';
     const tipo   = tipoEl?.value || '';
-    if(!aporte || !tipo) { 
-      if (costoInfo) costoInfo.innerText='';
-      return; 
+    if (!aporte || !tipo) {
+      if (costoInfo) costoInfo.innerText = '';
+      return;
     }
     try {
       const params = new URLSearchParams({ calc:'1', edicion, tipoRegistro: tipo, aporte });
       const res = await fetch(`${ctx}/organizador-patrocinios-alta?`+params.toString(), {cache:'no-store'});
-      if(!res.ok) throw new Error('calc failed');
+      if (!res.ok) throw new Error('calc failed');
       const data = await res.json();
       if (data && data.costo != null && costoInfo) {
         costoInfo.innerText = `Costo del tipo: $${data.costo}`;
       } else if (costoInfo) {
         costoInfo.innerText = '';
       }
-      // Sugerimos, pero NO bloqueamos la edición manual
       if (data && typeof data.cantidad === 'number' && cantEl && !cantEl.dataset.userEdited) {
         cantEl.value = data.cantidad;
       }
@@ -176,11 +192,21 @@
     }
   }
 
-  aporteEl?.addEventListener('input', recalcular);
-  tipoEl?.addEventListener('input',  recalcular);
-  // Si el usuario edita cantidad, no la sobrescribimos más automáticamente
+  aporteEl?.addEventListener('input',  recalcular);
+  tipoEl?.addEventListener('change',   recalcular);
   cantEl?.addEventListener('input', () => { if (cantEl) cantEl.dataset.userEdited = '1'; });
+
+  // Validación: cantidad > 0
+  form?.addEventListener('submit', (ev) => {
+    const v = parseInt(cantEl?.value ?? '0', 10);
+    if (!Number.isFinite(v) || v < 1) {
+      ev.preventDefault();
+      alert('La cantidad de registros gratuitos debe ser mayor a 0.');
+      cantEl?.focus();
+    }
+  });
 })();
 </script>
+
 </body>
 </html>
