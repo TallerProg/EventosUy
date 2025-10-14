@@ -154,7 +154,7 @@ public class ControllerEvento implements IControllerEvento {
 		if (!pat.consultarRegistros()) {
 			throw new Exception("Ya no quedan cupos gratuitos para ese código");
 		}
-		if (pat.getTipoRegistro().getNombre() != nombreTR) {
+		if (!pat.getTipoRegistro().getNombre().equals(nombreTR)) {
 			throw new Exception("El código no es válido para ese tipo de registro");
 		}
 		if (edicion.habilitadoAsistente(nombreTR, asistente)) {
