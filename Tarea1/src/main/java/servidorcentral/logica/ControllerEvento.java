@@ -342,6 +342,16 @@ public class ControllerEvento implements IControllerEvento {
 			ManejadorEvento mev = ManejadorEvento.getInstancia();
 			ManejadorInstitucion min = ManejadorInstitucion.getInstance();
 			
+			
+			
+		        for (Edicion edi : mev.listarEdiciones()) {
+		            for (Patrocinio p : edi.getPatrocinios()) {
+		                if (p.getCodigo().equalsIgnoreCase(codigo)) {
+		                    throw new Exception("Ya existe un patrocinio con el código " + codigo + " en el sistema.");
+		                }
+		            }
+		        }
+		    
 			Edicion edicion = mev.findEdicion(nombreEdicion);
 			if (edicion == null) {
 			throw new Exception("La edición " + nombreEdicion + " no existe");
