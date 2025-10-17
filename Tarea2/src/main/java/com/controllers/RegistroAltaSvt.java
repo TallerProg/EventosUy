@@ -27,7 +27,6 @@ public class RegistroAltaSvt extends HttpServlet {
   protected void doGet(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
 
-    // Autenticacion rol: debe ser asistente 
     HttpSession session = req.getSession(false);
     DTSesionUsuario usuario = (session != null) ? (DTSesionUsuario) session.getAttribute("usuario_logueado") : null;
 
@@ -77,7 +76,7 @@ public class RegistroAltaSvt extends HttpServlet {
   protected void doPost(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
 
-    // Autenticacion rol: debe ser asistente
+
     HttpSession session = req.getSession(false);
     DTSesionUsuario usuario = (session != null) ? (DTSesionUsuario) session.getAttribute("usuario_logueado") : null;
 
@@ -91,10 +90,9 @@ public class RegistroAltaSvt extends HttpServlet {
     String nomEdicion = req.getParameter("edicion");
     String nomTipo    = req.getParameter("tipo");
 
-    String modalidad  = req.getParameter("modalidad"); // "general" | "patrocinio"
-    String codigoPat  = req.getParameter("codigo");    // puede ser null
+    String modalidad  = req.getParameter("modalidad"); 
+    String codigoPat  = req.getParameter("codigo");    
 
-    // Nick del asistente de sesión 
     String nickAsistente = extraerNickSeguro(usuario);
 
     if (isBlank(nomEvento) || isBlank(nomEdicion) || isBlank(nomTipo) || isBlank(nickAsistente)) {
@@ -116,7 +114,6 @@ public class RegistroAltaSvt extends HttpServlet {
         return;
       }
 
-      // Ya registrado
       boolean yaRegistrado = ed.getRegistros() != null && ed.getRegistros().stream()
           .anyMatch(r -> nickAsistente.equalsIgnoreCase(String.valueOf(r.getAsistenteNickname())));
       if (yaRegistrado) {
@@ -126,7 +123,6 @@ public class RegistroAltaSvt extends HttpServlet {
         return;
       }
 
-      // Cupo
       Integer cupoTipo = tr.getCupo(); 
       if (cupoTipo != null) {
         long usados = (ed.getRegistros() == null) ? 0 :
@@ -141,7 +137,6 @@ public class RegistroAltaSvt extends HttpServlet {
         }
       }
 
-      // Alta usando firmas existentes
       boolean conPatro = "patrocinio".equalsIgnoreCase(modalidad);
 
       if (!conPatro) {
@@ -157,7 +152,6 @@ public class RegistroAltaSvt extends HttpServlet {
         ctrl.altaRegistro(nomEdicion, nickAsistente, nomTipo, codigoPat);
       }
 
-      // Éxito
       req.setAttribute("success", true);
       req.setAttribute("EVENTO", evento);
       req.setAttribute("EDICION", ed);
@@ -188,7 +182,6 @@ public class RegistroAltaSvt extends HttpServlet {
     req.setAttribute("CUPO_TIPO",  tr.getCupo());
   }
 
-  // Igual que en otros servlets: saca el nick de DTSesionUsuario
   private static String extraerNickSeguro(DTSesionUsuario u) {
     if (u == null) return null;
     try {
