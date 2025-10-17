@@ -17,8 +17,8 @@ import servidorcentral.logica.IControllerEvento;
 import servidorcentral.logica.IControllerUsuario;
 import servidorcentral.logica.Factory;
 import servidorcentral.logica.DTEdicion;
-import servidorcentral.logica.ControllerUsuario.DTSesionUsuario;
-import servidorcentral.logica.ControllerUsuario.RolUsuario;
+import servidorcentral.logica.DTSesionUsuario;
+import servidorcentral.logica.RolUsuario;
 
 @WebServlet("/MisEdiciones")
 public class MisEdicionesSvt extends HttpServlet {

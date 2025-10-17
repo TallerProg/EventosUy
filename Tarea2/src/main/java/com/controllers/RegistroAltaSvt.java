@@ -15,8 +15,8 @@ import servidorcentral.logica.DTEdicion;
 import servidorcentral.logica.DTTipoRegistro;
 import servidorcentral.logica.DTevento;
 
-import servidorcentral.logica.ControllerUsuario.DTSesionUsuario;
-import servidorcentral.logica.ControllerUsuario.RolUsuario;
+import servidorcentral.logica.DTSesionUsuario;
+import servidorcentral.logica.RolUsuario;
 
 @WebServlet(name = "RegistroAltaSvt", urlPatterns = {"/RegistroAlta"})
 public class RegistroAltaSvt extends HttpServlet {

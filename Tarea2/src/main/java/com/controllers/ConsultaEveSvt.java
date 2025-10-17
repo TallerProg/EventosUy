@@ -13,14 +13,15 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import servidorcentral.logica.Factory;
 import servidorcentral.logica.IControllerEvento;
-import servidorcentral.logica.ControllerUsuario.DTSesionUsuario;
-import servidorcentral.logica.ControllerUsuario.RolUsuario;
+import servidorcentral.logica.DTSesionUsuario;
+import servidorcentral.logica.RolUsuario;
 import servidorcentral.logica.ControllerUsuario;
 import servidorcentral.logica.DTEdicion;
 import servidorcentral.logica.DTevento;
 import servidorcentral.logica.Edicion;
 import servidorcentral.logica.EstadoEdicion;
 import servidorcentral.logica.Evento;
+import servidorcentral.logica.RolUsuario;
 import servidorcentral.logica.Organizador;
 
 @WebServlet(name = "ConsultaEveSvt", urlPatterns = { "/ConsultaEvento" })
@@ -53,7 +54,7 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws Se
                 ? (DTSesionUsuario) session.getAttribute("usuario_logueado")
                 : null;
 
-        boolean esOrgGlobal = (sesUser != null && sesUser.getRol() == ControllerUsuario.RolUsuario.ORGANIZADOR);
+        boolean esOrgGlobal = (sesUser != null && sesUser.getRol() == RolUsuario.ORGANIZADOR);
         req.setAttribute("ES_ORG", esOrgGlobal);
 
         // lista de ediciones del evento (puede ser null)

@@ -3,7 +3,7 @@ package servidorcentral.logica;
 import servidorcentral.excepciones.CredencialesInvalidasException;
 import servidorcentral.excepciones.UsuarioNoExisteException;
 import servidorcentral.excepciones.UsuarioRepetidoException;
-import servidorcentral.logica.ControllerUsuario.DTSesionUsuario;
+import servidorcentral.logica.DTSesionUsuario;
 
 import java.time.LocalDate;
 import java.util.List;

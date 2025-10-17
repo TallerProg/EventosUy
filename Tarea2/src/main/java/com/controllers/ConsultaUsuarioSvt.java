@@ -11,7 +11,7 @@ import servidorcentral.logica.Factory;
 import servidorcentral.logica.IControllerUsuario;
 import servidorcentral.logica.Asistente;
 import servidorcentral.logica.Organizador;
-import servidorcentral.logica.ControllerUsuario.DTSesionUsuario;
+import servidorcentral.logica.DTSesionUsuario;
 import servidorcentral.logica.DTRegistro;
 import servidorcentral.logica.DTUsuarioListaConsulta;
 

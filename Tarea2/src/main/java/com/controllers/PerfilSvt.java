@@ -6,8 +6,8 @@ import servidorcentral.logica.Institucion;
 import servidorcentral.logica.Organizador;
 import servidorcentral.logica.Asistente;
 import servidorcentral.logica.ControllerUsuario;
-import servidorcentral.logica.ControllerUsuario.DTSesionUsuario;
-import servidorcentral.logica.ControllerUsuario.RolUsuario;
+import servidorcentral.logica.DTSesionUsuario;
+import servidorcentral.logica.RolUsuario;
 import servidorcentral.logica.DTUsuarioListaConsulta;
 
 import jakarta.servlet.ServletException;
@@ -60,8 +60,8 @@ public class PerfilSvt extends HttpServlet {
         req.setAttribute("USUARIOROL", usuario);
 
         RolUsuario rol = usuario.getRol();
-        boolean esOrg  = (rol == ControllerUsuario.RolUsuario.ORGANIZADOR);
-        boolean esAsis = (rol == ControllerUsuario.RolUsuario.ASISTENTE);
+        boolean esOrg  = (rol == RolUsuario.ORGANIZADOR);
+        boolean esAsis = (rol == RolUsuario.ASISTENTE);
         req.setAttribute("ES_ORG", esOrg);
         req.setAttribute("ES_ASIS", esAsis);
 

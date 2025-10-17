@@ -13,8 +13,8 @@ import jakarta.servlet.http.HttpSession;
 import servidorcentral.logica.Factory;
 import servidorcentral.logica.IControllerInstitucion;
 import servidorcentral.logica.Institucion;
-import servidorcentral.logica.ControllerUsuario.DTSesionUsuario;
-import servidorcentral.logica.ControllerUsuario.RolUsuario;
+import servidorcentral.logica.DTSesionUsuario;
+import servidorcentral.logica.RolUsuario;
 
 @WebServlet(name = "ListaInstitucionesSvt", urlPatterns = {"/Instituciones"})
 public class ListaInstitucionesSvt extends HttpServlet {

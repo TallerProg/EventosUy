@@ -6,7 +6,7 @@ import java.nio.file.Files;
 import java.time.LocalDate;
 
 import servidorcentral.logica.*;
-import servidorcentral.logica.ControllerUsuario.DTSesionUsuario;
+import servidorcentral.logica.DTSesionUsuario;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;

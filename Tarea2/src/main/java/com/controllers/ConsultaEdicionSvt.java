@@ -19,10 +19,8 @@ import servidorcentral.logica.DTRegistro;
 import servidorcentral.logica.DTPatrocinio;
 import servidorcentral.logica.DTOrganizador;
 
-// Session DTO
-import servidorcentral.logica.ControllerUsuario.DTSesionUsuario;
-import servidorcentral.logica.ControllerUsuario.RolUsuario;
-
+import servidorcentral.logica.DTSesionUsuario;
+import servidorcentral.logica.RolUsuario;
 @WebServlet(name = "ConsultaEdicionSvt", urlPatterns = {"/ediciones-consulta"})
 public class ConsultaEdicionSvt extends HttpServlet {
   private static final long serialVersionUID = 1L;

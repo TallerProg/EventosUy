@@ -3,7 +3,7 @@ package com.controllers;
 import servidorcentral.logica.Factory;
 import servidorcentral.logica.IControllerUsuario;
 import servidorcentral.logica.Usuario;
-import servidorcentral.logica.ControllerUsuario.DTSesionUsuario;
+import servidorcentral.logica.DTSesionUsuario;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;

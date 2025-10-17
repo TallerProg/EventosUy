@@ -11,8 +11,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import servidorcentral.logica.DTevento;
 import servidorcentral.logica.IControllerEvento;
-import servidorcentral.logica.ControllerUsuario.DTSesionUsuario;
-import servidorcentral.logica.ControllerUsuario.RolUsuario;
+import servidorcentral.logica.DTSesionUsuario;
+import servidorcentral.logica.RolUsuario;
 import servidorcentral.logica.Factory; 
 
 @WebServlet("/Eventos")
