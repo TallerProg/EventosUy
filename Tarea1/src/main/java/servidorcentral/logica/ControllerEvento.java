@@ -484,4 +484,17 @@ public void altaEdicionDeEventoDTO(String nombreEvento,
 	
 	 altaEdicionDeEvento(nombreEdicion, sigla, ciudad, pais, fInicio, fFin, fAlta, evento, org, imagenWebPath);
 	}
+public List<String> listarNombresTiposRegistroDTO(String nombreEdicion) {
+	 ManejadorEvento mev = ManejadorEvento.getInstancia();
+	 Edicion edi = mev.findEdicion(nombreEdicion);
+	 if (edi == null) return java.util.Collections.emptyList();
+	 List<TipoRegistro> trs = edi.getTipoRegistros();
+	 if (trs == null) return java.util.Collections.emptyList();
+	 List<String> res = new java.util.ArrayList<>();
+	 for (TipoRegistro tr : trs) {
+	     if (tr != null && tr.getNombre() != null) res.add(tr.getNombre());
+	 }
+	 return res;
+	}
+
 }

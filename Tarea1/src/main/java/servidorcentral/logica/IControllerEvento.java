@@ -70,6 +70,7 @@ public interface IControllerEvento {
 	        String imagenWebPath) throws Exception;
 	public boolean existeEdicionPorNombre(String nombreEvento, String nombreEdicion);
 	public boolean existeEdicionPorSiglaDTO(String sigla);
+	public List<String> listarNombresTiposRegistroDTO(String nombreEdicion);
 
 
 }
