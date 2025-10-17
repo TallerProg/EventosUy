@@ -18,10 +18,11 @@ public class DTEdicion {
 	private List<DTOrganizador> organizadores;
 	private List<DTRegistro> registros;
 	private List<DTPatrocinio> patrocinios;
+	private DTevento evento;
 
 	public DTEdicion(String nombre, String sigla, LocalDate fInicio, LocalDate fFin, LocalDate fAlta, String ciudad,
 			String pais, List<DTTipoRegistro> tipoRegistros, List<DTOrganizador> organizadores,
-			List<DTRegistro> registros, List<DTPatrocinio> patrocinios, String estado, String imagenWebPath ) {
+			List<DTRegistro> registros, List<DTPatrocinio> patrocinios, String estado, String imagenWebPath, DTevento evento) {
 		this.nombre = nombre;
 		this.sigla = sigla;
 		this.fInicio = fInicio;
@@ -35,6 +36,7 @@ public class DTEdicion {
 		this.patrocinios = patrocinios;
         this.estado = estado; 
         this.imagenWebPath=imagenWebPath;
+        this.evento = evento;
 	}
 
 	public String getNombre() {
@@ -79,6 +81,9 @@ public class DTEdicion {
 
 	public List<DTPatrocinio> getPatrocinios() {
 		return patrocinios;
+	}
+	public DTevento getEvento() {
+		return evento;
 	}
     
     public String getEstado() { 

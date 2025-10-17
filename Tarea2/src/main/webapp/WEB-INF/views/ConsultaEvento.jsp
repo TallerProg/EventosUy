@@ -1,7 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="servidorcentral.logica.DTCategoria" %>
 <%@ page import="servidorcentral.logica.DTEdicion" %>
-<%@ page import="servidorcentral.logica.Organizador" %>
 <%@ page import="servidorcentral.logica.DTevento"%>
 <%@ page import="java.util.List" %>
 <%@ page import="java.net.URLEncoder, java.nio.charset.StandardCharsets" %>

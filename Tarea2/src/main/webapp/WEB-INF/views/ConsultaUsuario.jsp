@@ -1,8 +1,7 @@
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="servidorcentral.logica.DTUsuarioListaConsulta"%>
-<%@ page import="servidorcentral.logica.Edicion"%>
-<%@ page import="servidorcentral.logica.Registro"%>
-<%@ page import="servidorcentral.logica.EstadoEdicion"%>
+<%@ page import="servidorcentral.logica.DTEdicion"%>
+<%@ page import="servidorcentral.logica.DTRegistro"%>
 <%@ page import="java.time.format.DateTimeFormatter"%>
 <%@ page import="java.util.List" %>
 <%@ page import="java.net.URLEncoder, java.nio.charset.StandardCharsets" %>
@@ -92,17 +91,17 @@
 
                 <%
                   @SuppressWarnings("unchecked")
-                  List<Edicion> ediciones = (List<Edicion>) request.getAttribute("Ediciones");
-                  java.util.List<Edicion> visibles = new java.util.ArrayList<>();
+                  List<DTEdicion> ediciones = (List<DTEdicion>) request.getAttribute("Ediciones");
+                  java.util.List<DTEdicion> visibles = new java.util.ArrayList<>();
                   if (ediciones != null) {
-                    for (Edicion e : ediciones) {
+                    for (DTEdicion e : ediciones) {
                       if (e == null) continue;
                       if (s) {
                         // Si es su propio perfil, ve todas
                         visibles.add(e);
                       } else {
                         // Si es público, solo Aceptadas (comparación por nombre para no depender del enum real)
-                        String estado = (e.getEstado() != null) ? e.getEstado().name() : null;
+                        String estado = (e.getEstado() != null) ? e.getEstado() : null;
                         if ("Aceptada".equals(String.valueOf(estado))) {
                           visibles.add(e);
                         }
@@ -114,7 +113,7 @@
                 <% if (visibles != null && !visibles.isEmpty()) { %>
                   <div class="row g-3">
                     <%
-                      for (Edicion e : visibles) {
+                      for (DTEdicion e : visibles) {
                         String nombre = e.getNombre();
                         String nombreEvento = (e.getEvento() != null) ? e.getEvento().getNombre() : "Evento no disponible";
                         String imagenEdicion = (e.getImagenWebPath() != null && !e.getImagenWebPath().isBlank())
@@ -149,7 +148,7 @@
           <% if ("A".equals(rol) && s) { %>
             <%
               @SuppressWarnings("unchecked")
-              List<Registro> registros = (List<Registro>) request.getAttribute("Registros");
+              List<DTRegistro> registros = (List<DTRegistro>) request.getAttribute("Registros");
             %>
             <div class="col-lg-6">
               <div class="card p-4 h-100">
@@ -158,9 +157,9 @@
                 <% if (registros != null && !registros.isEmpty()) { %>
                   <div class="row g-3">
                     <%
-                      for (Registro r : registros) {
+                      for (DTRegistro r : registros) {
                         if (r == null || r.getEdicion() == null) continue;
-                        Edicion e = r.getEdicion();
+                        DTEdicion e = r.getEdicion();
                         String nombreEd = e.getNombre();
                         String nombreEvento = (e.getEvento() != null) ? e.getEvento().getNombre() : "Evento no disponible";
                         String imagenEdicion = (e.getImagenWebPath() != null && !e.getImagenWebPath().isBlank())

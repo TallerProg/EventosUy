@@ -2,7 +2,6 @@
 <%@ page import="servidorcentral.logica.DTevento" %>
 <%@ page import="servidorcentral.logica.DTEdicion" %>
 <%@ page import="servidorcentral.logica.DTTipoRegistro" %>
-<%@ page import="servidorcentral.logica.Organizador" %>
 <%
   String ctx = request.getContextPath();
 

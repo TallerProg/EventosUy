@@ -5,12 +5,14 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import servidorcentral.logica.Factory;
 import servidorcentral.logica.IControllerUsuario;
 import servidorcentral.logica.Asistente;
 import servidorcentral.logica.Organizador;
 import servidorcentral.logica.ControllerUsuario.DTSesionUsuario;
+import servidorcentral.logica.DTRegistro;
 import servidorcentral.logica.DTUsuarioListaConsulta;
 
 import servidorcentral.logica.Edicion;
@@ -70,7 +72,15 @@ public class ConsultaUsuarioSvt extends HttpServlet {
 		// Datos extra para la vista, según rol
 		if ("A".equals(rol) && S) {
 			List<Registro> regis = asis.getRegistros();
-			req.setAttribute("Registros", regis);
+
+			// Convertir a lista de DTRegistro
+			List<DTRegistro> dtRegis = regis.stream()
+			    .map(Registro::getDTRegistro)
+			    .collect(Collectors.toList());
+
+			// Guardar en el request
+			req.setAttribute("Registros", dtRegis);
+
 
 		}
 		if ("O".equals(rol)) {

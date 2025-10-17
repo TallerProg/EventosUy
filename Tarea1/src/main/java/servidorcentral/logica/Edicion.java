@@ -101,6 +101,7 @@ public class Edicion {
         return sigla;
     }
 
+    
     public List<TipoRegistro> getTipoRegistros() {
         return tipoRegistros;
     }
@@ -210,13 +211,15 @@ public class Edicion {
         for (Patrocinio p : this.patrocinios) {
             pats.add(p.getDTPatrocinio());
         }
-
+        
+        DTevento eventoDT = evento.getDTevento();
+        
         String estadoStr = (estado == null) ? null : estado.name();
 
         return new DTEdicion(
             nombre, sigla, fInicio, fFin, fAlta, ciudad, pais,
             trs, orgs, regs, pats,
-            estadoStr, imagenWebPath
+            estadoStr, imagenWebPath, eventoDT
         );
     }
 
