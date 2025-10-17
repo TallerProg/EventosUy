@@ -72,8 +72,8 @@ public class Evento {
 	}
 
 	public boolean tieneEdicion(String nombreEdicion) {
-		for (Edicion e : ediciones) {
-			if (e.getNombre().equalsIgnoreCase(nombreEdicion)) {
+		for (Edicion edi : ediciones) {
+			if (edi.getNombre().equalsIgnoreCase(nombreEdicion)) {
 				return true;
 			}
 		}
@@ -81,9 +81,9 @@ public class Evento {
 	}
 
 	public Edicion findEdicion(String nombreEdicion) {
-		for (Edicion ed : ediciones) {
-			if (ed.getNombre().equalsIgnoreCase(nombreEdicion)) {
-				return ed;
+		for (Edicion edi : ediciones) {
+			if (edi.getNombre().equalsIgnoreCase(nombreEdicion)) {
+				return edi;
 			}
 		}
 		return null;
