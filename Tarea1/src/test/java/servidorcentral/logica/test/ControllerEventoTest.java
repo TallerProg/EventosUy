@@ -19,7 +19,6 @@ import servidorcentral.logica.Categoria;
 import servidorcentral.logica.Evento;
 import servidorcentral.logica.Factory;
 import servidorcentral.logica.IControllerEvento;
-import servidorcentral.logica.IControllerUsuario;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class ControllerEventoTest {

@@ -6,7 +6,9 @@ import java.nio.file.Files;
 import java.time.LocalDate;
 
 import servidorcentral.logica.*;
+
 import servidorcentral.logica.DTSesionUsuario;
+import servidorcentral.logica.RolUsuario;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
@@ -24,9 +26,19 @@ public class EditarPerfilSvt extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-
+    	
+    	boolean esAsis = false;
         HttpSession session = req.getSession(false);
-        if (session == null) {
+        if (session != null) {
+          Object a = session.getAttribute("usuario_logueado");
+          if (a instanceof DTSesionUsuario u && u.getRol() == RolUsuario.ASISTENTE) {
+            esAsis = true;
+          }
+        }
+        req.setAttribute("ES_ASIS", esAsis);
+
+        HttpSession session2 = req.getSession(false);
+        if (session2 == null) {
             resp.sendRedirect(req.getContextPath() + "/login");
             return;
         }
@@ -44,10 +56,11 @@ public class EditarPerfilSvt extends HttpServlet {
             resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Usuario no encontrado.");
             return;
         }
+        DTUsuarioListaConsulta usu = icu.consultaDeUsuario(nickUsuario);
 
         IControllerInstitucion ici = Factory.getInstance().getIControllerInstitucion();
-        req.setAttribute("LISTA_INSTITUCION", ici.getInstituciones().toArray(Institucion[]::new));
-        req.setAttribute("USUARIO", usuario);
+        req.setAttribute("LISTA_INSTITUCION", ici.getDTInstituciones().toArray(DTInstitucion[]::new));
+        req.setAttribute("USUARIO", usu);
         req.setAttribute("TIPO_USUARIO", (usuario instanceof Organizador) ? "organizador" : "asistente");
 
         req.getRequestDispatcher("/WEB-INF/views/ModificarUsuario.jsp").forward(req, resp);
@@ -59,13 +72,13 @@ public class EditarPerfilSvt extends HttpServlet {
 
         req.setCharacterEncoding("UTF-8");
 
-        HttpSession session = req.getSession(false);
-        if (session == null) {
+        HttpSession session2 = req.getSession(false);
+        if (session2 == null) {
             resp.sendRedirect(req.getContextPath() + "/login");
             return;
         }
 
-        DTSesionUsuario ses = (DTSesionUsuario) session.getAttribute("usuario_logueado");
+        DTSesionUsuario ses = (DTSesionUsuario) session2.getAttribute("usuario_logueado");
         if (ses == null || ses.getNickname() == null || ses.getNickname().isBlank()) {
             resp.sendRedirect(req.getContextPath() + "/login");
             return;
@@ -196,7 +209,7 @@ public class EditarPerfilSvt extends HttpServlet {
             }
 
             // Sesión para reflejo inmediato en el header
-            session.setAttribute("IMAGEN_LOGUEADO", "/media/img/usuarios/" + fileName);
+            session2.setAttribute("IMAGEN_LOGUEADO", "/media/img/usuarios/" + fileName);
         }
 
         // Guardar cambios en el repositorio/BD

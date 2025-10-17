@@ -12,7 +12,6 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -188,7 +187,7 @@ public class AltaEvento extends JInternalFrame {
 					}
 				}
 
-				controlEvento.altaEvento(nombre, descripcion, fechaAlta, sigla, listaCategorias,null);
+				controlEvento.altaEvento(nombre, descripcion, fechaAlta, sigla, listaCategorias, null);
 				textFieldNombre.setText("");
 				textFieldSigla.setText("");
 				textAreaDescripcion.setText("");

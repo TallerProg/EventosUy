@@ -14,8 +14,8 @@ import servidorcentral.logica.Organizador;
 import servidorcentral.logica.DTSesionUsuario;
 import servidorcentral.logica.DTRegistro;
 import servidorcentral.logica.DTUsuarioListaConsulta;
+import servidorcentral.logica.DTEdicion;
 
-import servidorcentral.logica.Edicion;
 import servidorcentral.logica.Registro;
 
 @WebServlet("/ConsultaUsuario")
@@ -84,7 +84,7 @@ public class ConsultaUsuarioSvt extends HttpServlet {
 
 		}
 		if ("O".equals(rol)) {
-			List<Edicion> edis = org.getEdiciones();
+			List<DTEdicion> edis = org.getDTEdiciones();
 			req.setAttribute("Ediciones", edis);
 		}
 

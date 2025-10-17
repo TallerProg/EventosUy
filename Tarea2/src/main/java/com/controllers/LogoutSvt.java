@@ -1,9 +1,13 @@
 package com.controllers;
 
+import java.io.IOException;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.*;
-import java.io.IOException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 @WebServlet(name = "LogoutSvt", urlPatterns = {"/logout"})
 public class LogoutSvt extends HttpServlet {
@@ -17,7 +21,6 @@ public class LogoutSvt extends HttpServlet {
   protected void doPost(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
 
-    // Evitar que el navegador “re-muestre” páginas cacheadas luego de logout
     resp.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
     resp.setHeader("Pragma", "no-cache");
     resp.setDateHeader("Expires", 0);

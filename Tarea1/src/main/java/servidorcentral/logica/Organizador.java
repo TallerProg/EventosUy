@@ -52,4 +52,11 @@ public class Organizador extends Usuario {
 		return new DTOrganizador(getNickname(), getCorreo(), getNombre(), descripcion, url);
 	}
 
+	public List<DTEdicion> getDTEdiciones() {
+		List<DTEdicion> dtEdiciones = new ArrayList<>();
+		for (Edicion edi : ediciones) {
+			dtEdiciones.add(edi.getDTEdicion());
+		}
+		return dtEdiciones;
+	}
 }

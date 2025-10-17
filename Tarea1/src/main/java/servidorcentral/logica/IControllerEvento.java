@@ -57,4 +57,20 @@ public interface IControllerEvento {
 	
 	public List<DTevento> listarDTEventos();
 	public List<DTCategoria> listarDTCategorias();
+
+	public void altaEdicionDeEventoDTO(String nombreEvento,
+	        String nickOrganizador,
+	        String nombreEdicion,
+	        String sigla,
+	        String ciudad,
+	        String pais,
+	        LocalDate fInicio,
+	        LocalDate fFin,
+	        LocalDate fAlta,
+	        String imagenWebPath) throws Exception;
+	public boolean existeEdicionPorNombre(String nombreEvento, String nombreEdicion);
+	public boolean existeEdicionPorSiglaDTO(String sigla);
+	public List<String> listarNombresTiposRegistroDTO(String nombreEdicion);
+
+
 }

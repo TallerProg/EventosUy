@@ -129,7 +129,7 @@ public class AltaInstitucion extends JInternalFrame {
 			}
 
 			try {
-				controllerInstitucion.altaInstitucion(nombre, descripcion, url,null);
+				controllerInstitucion.altaInstitucion(nombre, descripcion, url, null);
 				JOptionPane.showMessageDialog(this, "Institución creada correctamente");
 				txtNombre.setText("");
 				txtDescripcion.setText("");
