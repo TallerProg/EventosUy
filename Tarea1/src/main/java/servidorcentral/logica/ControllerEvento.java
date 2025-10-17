@@ -428,4 +428,60 @@ public class ControllerEvento implements IControllerEvento {
 	}
 
 
+
+public boolean existeEdicionPorNombre(String nombreEvento, String nombreEdicion) {
+	 if (nombreEvento == null || nombreEdicion == null) return false;
+	 ManejadorEvento mev = ManejadorEvento.getInstancia();
+	 Evento ev = mev.findEvento(nombreEvento);
+	 if (ev == null) return false;
+	 return ev.findEdicion(nombreEdicion) != null;
+}
+
+public boolean existeEdicionPorSiglaDTO(String sigla) {
+	 if (sigla == null) return false;
+	 ManejadorEvento mev = ManejadorEvento.getInstancia();
+	 try {
+	     return mev.tieneEdicionSigla(sigla);
+	 } catch (Throwable t) {
+	     for (Edicion e : mev.listarEdiciones()) {
+	         if (e != null && sigla.equals(e.getSigla())) return true;
+	     }
+	     return false;
+	 }
+}
+
+public void altaEdicionDeEventoDTO(String nombreEvento,
+                                String nickOrganizador,
+                                String nombreEdicion,
+                                String sigla,
+                                String ciudad,
+                                String pais,
+                                LocalDate fInicio,
+                                LocalDate fFin,
+                                LocalDate fAlta,
+                                String imagenWebPath) throws Exception {
+	 if (fFin.isBefore(fInicio)) {
+	     throw new IllegalArgumentException("La fecha de fin no puede ser anterior a la fecha de inicio");
+	 }
+	 ManejadorEvento manejadorEvento = ManejadorEvento.getInstancia();
+	 if (manejadorEvento.existeEdicion(nombreEdicion) || existeEdicionPorSiglaDTO(sigla)) {
+	     throw new IllegalArgumentException("Ya existe una edición con ese nombre o sigla");
+	 }
+	
+	 Evento evento = obtenerEventoPorNombre(nombreEvento);
+	 if (evento == null) {
+	     throw new Exception("El evento '" + nombreEvento + "' no existe");
+	 }
+	
+	 ManejadorUsuario mu = ManejadorUsuario.getInstance();
+	 Organizador org = mu.findOrganizador(nickOrganizador); 
+	 if (org == null) {
+	     org = obtenerOrganizadorPorNombre(nickOrganizador);
+	 }
+	 if (org == null) {
+	     throw new Exception("No se pudo resolver el organizador '" + nickOrganizador + "'");
+	 }
+	
+	 altaEdicionDeEvento(nombreEdicion, sigla, ciudad, pais, fInicio, fFin, fAlta, evento, org, imagenWebPath);
+	}
 }
