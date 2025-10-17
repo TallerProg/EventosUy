@@ -1,8 +1,8 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ page import="servidorcentral.logica.Evento" %>
-<%@ page import="servidorcentral.logica.Categoria" %>
+<%@ page import="servidorcentral.logica.DTCategoria" %>
 <%@ page import="servidorcentral.logica.DTEdicion" %>
 <%@ page import="servidorcentral.logica.Organizador" %>
+<%@ page import="servidorcentral.logica.DTevento"%>
 <%@ page import="java.util.List" %>
 <%@ page import="java.net.URLEncoder, java.nio.charset.StandardCharsets" %>
 
@@ -28,7 +28,7 @@
   <main class="main mt-5 pt-5">
 
     <%
-      Evento evento = (Evento) request.getAttribute("EVENTO");
+      DTevento evento = (DTevento) request.getAttribute("EVENTO");
       if (evento != null) {
     	  String img = (evento != null && evento.getImg() != null && !evento.getImg().isBlank()) ? (ctx + evento.getImg()): (ctx + "/media/img/default.png");
     %>
@@ -53,8 +53,8 @@
                 <h4>Categorías:</h4>
                 <ul>
                    <%
-                    List<Categoria> categorias = evento.getCategoria();
-                    for (Categoria categoria : categorias) {
+                    List<DTCategoria> categorias = evento.getDTCategorias();
+                    for (DTCategoria categoria : categorias) {
                   %>
                     <li><%= categoria.getNombre() %></li>
                   <% } %>

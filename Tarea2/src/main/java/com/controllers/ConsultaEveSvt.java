@@ -17,6 +17,7 @@ import servidorcentral.logica.ControllerUsuario.DTSesionUsuario;
 import servidorcentral.logica.ControllerUsuario.RolUsuario;
 import servidorcentral.logica.ControllerUsuario;
 import servidorcentral.logica.DTEdicion;
+import servidorcentral.logica.DTevento;
 import servidorcentral.logica.Edicion;
 import servidorcentral.logica.EstadoEdicion;
 import servidorcentral.logica.Evento;
@@ -39,7 +40,7 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws Se
 
     try {
         IControllerEvento ctrl = Factory.getInstance().getIControllerEvento();
-        Evento evento = ctrl.getEvento(nombreEvento);
+        DTevento evento = ctrl.consultaEvento(nombreEvento);
         if (evento == null) {
             req.setAttribute("msgError", "No se encontró el evento '" + nombreEvento + "'.");
             req.setAttribute("LISTA_EDICIONES", java.util.Collections.emptyList());
@@ -47,8 +48,6 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws Se
             return;
         }
         req.setAttribute("EVENTO", evento);
-
-        // sesión (puede ser null)
         HttpSession session = req.getSession(false);
         DTSesionUsuario sesUser = (session != null)
                 ? (DTSesionUsuario) session.getAttribute("usuario_logueado")
