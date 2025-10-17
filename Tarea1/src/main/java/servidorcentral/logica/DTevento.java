@@ -61,4 +61,12 @@ public class DTevento {
 	public String getImg() {
 		return img;
 	}
+
+	public List<DTEdicion> getDTEdiciones() {
+		List<DTEdicion> dtEdiciones = new ArrayList<>();
+		for (Edicion edi : ediciones) {
+			dtEdiciones.add(edi.getDTEdicion());
+		}
+		return dtEdiciones;
+	}
 }

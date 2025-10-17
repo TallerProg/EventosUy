@@ -4,10 +4,11 @@
 <%@ page import="java.net.URLEncoder" %>
 <%@ page import="java.nio.charset.StandardCharsets" %>
 <%@ page import="servidorcentral.logica.DTEdicion" %>
-<%@ page import="servidorcentral.logica.Categoria" %>
-<%@ page import="servidorcentral.logica.ManejadorEvento" %>
-<%@ page import="servidorcentral.logica.Evento" %>
-<%@ page import="servidorcentral.logica.Edicion" %>
+<%@ page import="servidorcentral.logica.DTCategoria" %>
+<%@ page import="servidorcentral.logica.IControllerEvento" %>
+<%@ page import="servidorcentral.logica.Factory" %>
+<%@ page import="servidorcentral.logica.DTevento" %>
+
 
 <!DOCTYPE html>
 <html lang="es">
@@ -32,9 +33,9 @@
                 for (DTEdicion edicion : ediciones) {
                 	String imge = (edicion != null && edicion.getImagenWebPath() != null && !edicion.getImagenWebPath().isBlank()) ? (ctx + edicion.getImagenWebPath()): (ctx + "/media/img/default.png");
                 	String nomEvento = "";
-                	ManejadorEvento manejador = ManejadorEvento.getInstancia();
-                    for (Evento evento : manejador.listarEventos()) {
-                        for (Edicion ed : evento.getEdiciones()) {
+                	Factory fabrica = Factory.getInstance();
+                    for (DTevento evento : fabrica.getIControllerEvento().listarDTEventos()) {
+                        for (DTEdicion ed : evento.getDTEdiciones()) {
                             if (ed.getNombre().equalsIgnoreCase(edicion.getNombre())) {
                                  nomEvento = evento.getNombre(); // devuelve el evento que contiene esa edición
                             }
