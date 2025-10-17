@@ -24,5 +24,10 @@ public class ControllerInstitucion implements IControllerInstitucion {
 		ManejadorInstitucion min = ManejadorInstitucion.getInstance();
 		return min.listarInstituciones();
 	}
+	
+	public List<DTInstitucion> getDTInstituciones() {
+		ManejadorInstitucion min = ManejadorInstitucion.getInstance();
+		return min.listarDTInstituciones();
+	}
 
 }

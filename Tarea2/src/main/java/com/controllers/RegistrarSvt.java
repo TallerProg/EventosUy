@@ -13,6 +13,8 @@ import servidorcentral.logica.ControllerUsuario;
 import servidorcentral.logica.Factory;
 import servidorcentral.logica.IControllerInstitucion;
 import servidorcentral.logica.Institucion;
+import servidorcentral.logica.DTInstitucion;
+
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -174,7 +176,7 @@ public class RegistrarSvt extends HttpServlet {
     }
 
     private void cargarInstitucionesYHoy(HttpServletRequest req) {
-        List<Institucion> instituciones = ci.getInstituciones(); 
+        List<DTInstitucion> instituciones = ci.getDTInstituciones();
         req.setAttribute("instituciones", instituciones);
         req.setAttribute("hoy", LocalDate.now().toString());
     }

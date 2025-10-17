@@ -40,4 +40,12 @@ public final class ManejadorInstitucion {
 	public List<Institucion> listarInstituciones() {
 		return new ArrayList<>(instituciones);
 	}
+	
+	public List<DTInstitucion> listarDTInstituciones() {
+		List<DTInstitucion> dtInstituciones = new ArrayList<>();
+		for (Institucion institucion : instituciones) {
+			dtInstituciones.add(institucion.getDTInstitucion());
+		}
+		return dtInstituciones;
+	}
 }

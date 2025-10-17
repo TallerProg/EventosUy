@@ -10,4 +10,6 @@ public interface IControllerInstitucion {
 	
 	public List<Institucion> getInstituciones();
 	
+	public List<DTInstitucion> getDTInstituciones();
+	
 }

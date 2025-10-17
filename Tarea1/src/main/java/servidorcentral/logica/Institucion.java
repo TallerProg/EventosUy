@@ -62,4 +62,8 @@ public class Institucion {
     public void addAsistente(Asistente asi) {
         this.asistentes.add(asi);
     }
+    
+    public DTInstitucion getDTInstitucion() {
+    	return new DTInstitucion(this.nombre, this.descripcion, this.url, this.img);
+    }
 }

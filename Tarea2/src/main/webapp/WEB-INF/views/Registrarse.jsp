@@ -11,7 +11,7 @@
   }
 %>
 <%@ page import="java.util.List" %>
-<%@ page import="servidorcentral.logica.Institucion" %>
+<%@ page import="servidorcentral.logica.DTInstitucion" %>
 <!doctype html>
 <html lang="es">
 <head>
@@ -125,13 +125,13 @@
                 <select class="form-select" id="institucion" name="institucion">
                   <%
                     // value y comparación por NOMBRE
-                    List<Institucion> instituciones = (List<Institucion>) request.getAttribute("instituciones");
+                    List<DTInstitucion> instituciones = (List<DTInstitucion>) request.getAttribute("instituciones");
                     String instSel = request.getParameter("institucion");
                   %>
                   <option value="" <%= (instSel==null || instSel.isEmpty()) ? "selected" : "" %> >Ninguna</option>
                   <%
                     if (instituciones != null) {
-                      for (Institucion inst : instituciones) {
+                      for (DTInstitucion inst : instituciones) {
                         String nombreInst = esc(inst.getNombre()); // ← usa el NOMBRE
                         String sel = (instSel != null && instSel.equals(inst.getNombre())) ? " selected" : "";
                   %>
