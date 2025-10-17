@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import servidorcentral.logica.Evento;
+import servidorcentral.logica.DTevento;
 import servidorcentral.logica.IControllerEvento;
 import servidorcentral.logica.ControllerUsuario.DTSesionUsuario;
 import servidorcentral.logica.ControllerUsuario.RolUsuario;
@@ -40,7 +40,7 @@ public class ListaEventosSvt extends HttpServlet {
         try {
             IControllerEvento icEvento = getController();
 
-            List<Evento> eventos = icEvento.listarEventos();
+            List<DTevento> eventos = icEvento.listarDTEventos();
 
             req.setAttribute("LISTA_EVENTOS", eventos);
 

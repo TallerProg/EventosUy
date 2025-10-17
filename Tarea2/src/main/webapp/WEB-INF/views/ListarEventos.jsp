@@ -3,8 +3,8 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.net.URLEncoder" %>
 <%@ page import="java.nio.charset.StandardCharsets" %>
-<%@ page import="servidorcentral.logica.Evento" %>
-<%@ page import="servidorcentral.logica.Categoria" %>
+<%@ page import="servidorcentral.logica.DTevento" %>
+<%@ page import="servidorcentral.logica.DTCategoria" %>
 
 <%!
   // Funciones de ayuda
@@ -38,7 +38,7 @@
 	boolean ES_ORG = Boolean.TRUE.equals(request.getAttribute("ES_ORG"));
 
   @SuppressWarnings("unchecked")
-  List<Evento> eventos = (List<Evento>) request.getAttribute("LISTA_EVENTOS");
+  List<DTevento> eventos = (List<DTevento>) request.getAttribute("LISTA_EVENTOS");
   if (eventos == null) eventos = new ArrayList<>();
 %>
 
@@ -72,14 +72,14 @@
         <% } else { %>
           <div class="row g-4 justify-content-center">
 
-            <% for (Evento ev : eventos) {
+            <% for (DTevento ev : eventos) {
                  String nombre  = (ev != null) ? orEmpty(ev.getNombre()) : "";
                  String desc    = (ev != null) ? orEmpty(ev.getDescripcion()) : "";
                  String encNombre = URLEncoder.encode(nombre, StandardCharsets.UTF_8.name());
                  String detalleHref = ctx + "/ConsultaEvento?evento=" + encNombre;
            	  	 String img = (ev != null && ev.getImg() != null && !ev.getImg().isBlank()) ? (ctx + ev.getImg()): (ctx + "/media/img/default.png");
 
-                 List<Categoria> cats = (ev != null) ? ev.getCategoria() : null;
+                 List<DTCategoria> cats = (ev != null) ? ev.getDTCategorias() : null;
             %>
 
             <!-- Columna flexible para igualar alturas -->
@@ -99,7 +99,7 @@
                   <div class="categories mb-3">
                     <% if (cats != null && !cats.isEmpty()) {
                          int shown = 0;
-                         for (Categoria c : cats) {
+                         for (DTCategoria c : cats) {
                            if (c == null) continue;
                            String cn = orEmpty(c.getNombre());
                            String icon = iconFor(cn);
