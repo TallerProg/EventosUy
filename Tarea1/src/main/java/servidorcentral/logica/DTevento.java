@@ -10,15 +10,17 @@ public class DTevento {
 	private String sigla;
 	private String descripcion;
 	private LocalDate fAlta;
+	private String img;
 	private List<Categoria> categorias = new ArrayList<>();
 	private List<Edicion> ediciones = new ArrayList<>();
 
 	public DTevento(String nombre, String sigla, String descripcion, LocalDate fAlta, List<Categoria> categorias,
-			List<Edicion> ediciones) {
+			List<Edicion> ediciones,String img) {
 		this.nombre = nombre;
 		this.sigla = sigla;
 		this.descripcion = descripcion;
 		this.fAlta = fAlta;
+		this.img = img;
 		if (categorias != null)
 			this.categorias = categorias;
 		if (ediciones != null)
@@ -44,8 +46,19 @@ public class DTevento {
 	public List<Categoria> getCategorias() {
 		return categorias;
 	}
+	
+	public List<DTCategoria> getDTCategorias() {
+		List<DTCategoria> dtCategorias = new ArrayList<>();
+		for (Categoria cat : categorias) {
+			dtCategorias.add(new DTCategoria(cat.getNombre()));
+		}
+		return dtCategorias;
+	}
 
 	public List<Edicion> getEdiciones() {
 		return ediciones;
+	}
+	public String getImg() {
+		return img;
 	}
 }

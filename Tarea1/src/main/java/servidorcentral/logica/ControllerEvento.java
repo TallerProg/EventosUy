@@ -408,4 +408,24 @@ public class ControllerEvento implements IControllerEvento {
             edi.setEstado(EstadoEdicion.Rechazada);
         }
 	}
+	
+	public List<DTevento> listarDTEventos(){
+		List<DTevento> dtEventos = new ArrayList<>();
+		ManejadorEvento mev = ManejadorEvento.getInstancia();
+		for (Evento e : mev.listarEventos()) {
+			dtEventos.add(e.getDTevento());
+		}
+		return dtEventos;
+	}
+	
+	public List<DTCategoria> listarDTCategorias(){
+		List<DTCategoria> dtCategorias = new ArrayList<>();
+		ManejadorEvento mev = ManejadorEvento.getInstancia();
+		for (Categoria c : mev.listarCategorias()) {
+			dtCategorias.add(c.getDTCategoria());
+		}
+		return dtCategorias;
+	}
+
+
 }

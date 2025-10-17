@@ -12,6 +12,8 @@ import servidorcentral.logica.Evento;
 import servidorcentral.logica.Factory;
 import servidorcentral.logica.IControllerEvento;
 import servidorcentral.logica.IControllerUsuario;
+import servidorcentral.logica.DTevento;
+import servidorcentral.logica.DTCategoria;
 
 @WebServlet(urlPatterns = "/home")
 public class HomeSvt extends HttpServlet {
@@ -27,10 +29,10 @@ public class HomeSvt extends HttpServlet {
 
         ensureSeedOnce(req.getServletContext(), icu, ice);
 
-        List<Evento> eventos = ice.listarEventos();
-        List<Categoria> categorias = ice.getCategorias();
-        req.setAttribute("LISTA_EVENTOS", eventos.toArray(Evento[]::new));
-        req.setAttribute("LISTA_CATEGORIAS", categorias.toArray(Categoria[]::new));
+        List<DTevento> eventos = ice.listarDTEventos();
+        List<DTCategoria> categorias = ice.listarDTCategorias();
+        req.setAttribute("LISTA_EVENTOS", eventos.toArray(DTevento[]::new));
+        req.setAttribute("LISTA_CATEGORIAS", categorias.toArray(DTCategoria[]::new));
 
         req.getRequestDispatcher("/WEB-INF/views/home/home.jsp").forward(req, resp);
     }

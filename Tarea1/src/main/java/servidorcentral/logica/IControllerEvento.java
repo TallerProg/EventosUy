@@ -54,4 +54,7 @@ public interface IControllerEvento {
 	public List<String> listarNombresEventos() ;
 
 	public void aceptarRechazarEdicion(String nombreEdicion, boolean Aceptar ) throws Exception;
+	
+	public List<DTevento> listarDTEventos();
+	public List<DTCategoria> listarDTCategorias();
 }
