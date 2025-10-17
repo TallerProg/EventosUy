@@ -13,7 +13,7 @@ import servidorcentral.logica.Factory;
 import servidorcentral.logica.IControllerEvento;
 import servidorcentral.logica.DTEdicion;
 import servidorcentral.logica.DTTipoRegistro;
-import servidorcentral.logica.Evento;
+import servidorcentral.logica.DTevento;
 
 import servidorcentral.logica.ControllerUsuario.DTSesionUsuario;
 import servidorcentral.logica.ControllerUsuario.RolUsuario;
@@ -50,7 +50,7 @@ public class RegistroAltaSvt extends HttpServlet {
     try {
       IControllerEvento ctrl = Factory.getInstance().getIControllerEvento();
 
-      Evento evento     = ctrl.getEvento(nomEvento);
+      DTevento evento     = ctrl.getEvento(nomEvento).getDTevento();
       DTEdicion ed      = ctrl.consultaEdicionDeEvento(nomEvento, nomEdicion);
       DTTipoRegistro tr = ctrl.consultaTipoRegistro(nomEdicion, nomTipo);
 
@@ -106,7 +106,7 @@ public class RegistroAltaSvt extends HttpServlet {
     try {
       IControllerEvento ctrl = Factory.getInstance().getIControllerEvento();
 
-      Evento evento     = ctrl.getEvento(nomEvento);
+      DTevento evento     = ctrl.getEvento(nomEvento).getDTevento();
       DTEdicion ed      = ctrl.consultaEdicionDeEvento(nomEvento, nomEdicion);
       DTTipoRegistro tr = ctrl.consultaTipoRegistro(nomEdicion, nomTipo);
 
@@ -180,7 +180,7 @@ public class RegistroAltaSvt extends HttpServlet {
     return s == null || s.trim().isEmpty();
   }
 
-  private static void rellenar(HttpServletRequest req, Evento evento, DTEdicion ed, DTTipoRegistro tr) {
+  private static void rellenar(HttpServletRequest req, DTevento evento, DTEdicion ed, DTTipoRegistro tr) {
     req.setAttribute("EVENTO", evento);
     req.setAttribute("EDICION", ed);
     req.setAttribute("TIPO_REGISTRO", tr);
