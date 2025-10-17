@@ -94,7 +94,7 @@ public class Evento {
 	}
 
 	public DTevento getDTevento() {
-		return new DTevento(nombre, sigla, descripcion, fAlta, categorias, ediciones,img);
+		return new DTevento(nombre, sigla, descripcion, fAlta, categorias, ediciones, img);
 	}
 	public String getImg() {
 		return img;

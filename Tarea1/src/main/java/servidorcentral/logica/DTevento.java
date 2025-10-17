@@ -15,7 +15,7 @@ public class DTevento {
 	private List<Edicion> ediciones = new ArrayList<>();
 
 	public DTevento(String nombre, String sigla, String descripcion, LocalDate fAlta, List<Categoria> categorias,
-			List<Edicion> ediciones,String img) {
+			List<Edicion> ediciones, String img) {
 		this.nombre = nombre;
 		this.sigla = sigla;
 		this.descripcion = descripcion;

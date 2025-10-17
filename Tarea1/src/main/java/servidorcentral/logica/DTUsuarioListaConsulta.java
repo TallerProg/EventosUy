@@ -32,7 +32,7 @@ public class DTUsuarioListaConsulta {
 	}
 
 	public DTUsuarioListaConsulta(String nick, String correo, String nombre, String apellido, LocalDate fNacimiento,
-			String descripcion, String url, List<Edicion> ediciones, List<Registro> registros,String img, DTInstitucion ins) {
+			String descripcion, String url, List<Edicion> ediciones, List<Registro> registros, String img, DTInstitucion ins) {
 		this.nickname = nick;
 		this.correo = correo;
 		this.nombre = nombre;

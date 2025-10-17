@@ -2,11 +2,9 @@ package servidorcentral.logica.test;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -18,11 +16,10 @@ import org.junit.jupiter.api.Test;
 import servidorcentral.logica.ControllerEvento;
 import servidorcentral.logica.DTCategoria;
 import servidorcentral.logica.DTInstitucion;
-import servidorcentral.logica.Edicion;
-import servidorcentral.logica.EstadoEdicion;
+
 import servidorcentral.logica.Evento;
 import servidorcentral.logica.IControllerEvento;
-import servidorcentral.logica.ManejadorEvento;
+
 import servidorcentral.logica.Organizador;
 
 
@@ -44,6 +41,7 @@ public class TestGeneralDTTest {
             new ArrayList<>(),
             "evento.png"
         );
+        Evento eve = eventoBase;
 
         // Organizador base
         organizador = new Organizador(
@@ -54,12 +52,13 @@ public class TestGeneralDTTest {
             "1234",
             "org.png"
         );
+        Organizador org = organizador;
     }
 
 
     @Test
     @DisplayName("DTInstitucion: constructor y getters")
-    void dtInstitucion_constructorYGetters() {
+    void dtInstitucionconstructorYGetters() {
         DTInstitucion dti = new DTInstitucion(
             "Fing-Udelar",
             "Facultad de Ingeniería",
@@ -75,7 +74,7 @@ public class TestGeneralDTTest {
 
     @Test
     @DisplayName("DTInstitucion: strings vacíos no rompen")
-    void dtInstitucion_cadenasVacias() {
+    void dtInstitucioncadenasVacias() {
         assertDoesNotThrow(() -> {
             DTInstitucion dti = new DTInstitucion("", "", "", "");
             assertEquals("", dti.getNombre());
@@ -87,7 +86,7 @@ public class TestGeneralDTTest {
 
     @Test
     @DisplayName("DTInstitucion: nulls aceptados (ajustar si tu diseño los prohíbe)")
-    void dtInstitucion_nullsPermitidos() {
+    void dtInstitucionnullsPermitidos() {
         DTInstitucion dti = new DTInstitucion(null, null, null, null);
         assertNull(dti.getNombre());
         assertNull(dti.getDescripcion());
@@ -99,21 +98,21 @@ public class TestGeneralDTTest {
 
     @Test
     @DisplayName("DTCategoria: constructor y getter")
-    void dtCategoria_constructorYGetter() {
+    void dtCategoriaconstructorYGetter() {
         DTCategoria dti = new DTCategoria("Tecnología");
         assertEquals("Tecnología", dti.getNombre());
     }
 
     @Test
     @DisplayName("DTCategoria: cadena vacía")
-    void dtCategoria_vacio() {
+    void dtCategoriavacio() {
         DTCategoria dti = new DTCategoria("");
         assertEquals("", dti.getNombre());
     }
 
     @Test
     @DisplayName("DTCategoria: null aceptado (ajustar si tu diseño lo prohíbe)")
-    void dtCategoria_nullPermitido() {
+    void dtCategorianullPermitido() {
         DTCategoria dti = new DTCategoria(null);
         assertNull(dti.getNombre());
     }
