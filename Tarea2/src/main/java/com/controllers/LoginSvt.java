@@ -2,12 +2,14 @@ package com.controllers;
 
 import servidorcentral.logica.Factory;
 import servidorcentral.logica.IControllerUsuario;
-import servidorcentral.logica.Usuario;
 import servidorcentral.logica.ControllerUsuario.DTSesionUsuario;
+import servidorcentral.logica.ControllerUsuario.RolUsuario;
+import servidorcentral.logica.DTUsuarioListaConsulta;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
+
 import servidorcentral.excepciones.CredencialesInvalidasException;
 import servidorcentral.excepciones.UsuarioNoExisteException;
 
@@ -42,20 +44,30 @@ public class LoginSvt extends HttpServlet {
         if (isEmpty(identifier) || isEmpty(password)) {
             req.setAttribute("error", "Completá usuario y contraseña.");
             req.setAttribute("identifier_prev", identifier);
-            req.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(req, resp);
+            req.getRequestDispatcher("/WEB-INF/views/InicioSesion.jsp").forward(req, resp);
             return;
         }
 
         try {
-            DTSesionUsuario usuario = ICU.iniciarSesion(identifier, password);
-            Factory fabrica = Factory.getInstance();
-            IControllerUsuario ctrl = fabrica.getIControllerUsuario();
-            Usuario usr=ctrl.getUsuario(usuario.getNickname());
-            HttpSession ses = req.getSession(true);
-            ses.setAttribute("usuario_logueado", usuario);
-            ses.setAttribute("IMAGEN_LOGUEADO", usr.getImg());
+            DTSesionUsuario sesion = ICU.iniciarSesion(identifier, password);
 
-            // Cambia "/home" si tu landing es otra (por ejemplo, "/IndexLoggeado.jsp")
+            DTUsuarioListaConsulta dtUser = ICU.consultaDeUsuario(sesion.getNickname());
+
+            HttpSession httpSes = req.getSession(true);
+            httpSes.setAttribute("usuario_logueado", sesion);
+
+            if (dtUser != null) {
+                httpSes.setAttribute("IMAGEN_LOGUEADO", dtUser.getImg());
+            } else {
+                httpSes.setAttribute("IMAGEN_LOGUEADO", null);
+            }
+
+            if (sesion.getRol() == RolUsuario.ORGANIZADOR) {
+                httpSes.setAttribute("usuarioOrganizador", sesion.getNickname());
+            } else if (sesion.getRol() == RolUsuario.ASISTENTE) {
+                httpSes.setAttribute("usuarioAsistente", sesion.getNickname());
+            }
+
             resp.sendRedirect(req.getContextPath() + "/home");
         } catch (UsuarioNoExisteException | CredencialesInvalidasException e) {
             req.setAttribute("error", e.getMessage());
@@ -71,3 +83,4 @@ public class LoginSvt extends HttpServlet {
     private String trim(String s) { return s == null ? null : s.trim(); }
     private boolean isEmpty(String s) { return s == null || s.isEmpty(); }
 }
+
