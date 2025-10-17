@@ -10,7 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import servidorcentral.logica.Factory;
 import servidorcentral.logica.IControllerEvento;
-import servidorcentral.logica.Evento;
+import servidorcentral.logica.DTevento;
 import servidorcentral.logica.DTEdicion;
 import servidorcentral.logica.DTTipoRegistro;
 
@@ -35,8 +35,8 @@ public class ConsultaTRegSvt extends HttpServlet {
     try {
       IControllerEvento ctrl = Factory.getInstance().getIControllerEvento();
 
-      // Evento 
-      Evento evento = ctrl.getEvento(nomEvento);
+      // Evento (DT)
+      DTevento evento = ctrl.consultaEvento(nomEvento);
       if (evento == null) {
         throw new IllegalArgumentException("El evento '" + nomEvento + "' no existe.");
       }

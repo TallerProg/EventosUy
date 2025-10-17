@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ page import="servidorcentral.logica.Evento" %>
+<%@ page import="servidorcentral.logica.DTevento" %>
 <%@ page import="servidorcentral.logica.DTEdicion" %>
 <%@ page import="servidorcentral.logica.DTTipoRegistro" %>
 <%@ page import="servidorcentral.logica.Organizador" %>
@@ -7,7 +7,7 @@
   String ctx = request.getContextPath();
 
   // Datos enviados por el servlet
-  Evento evento               = (Evento) request.getAttribute("EVENTO");
+  DTevento evento               = (DTevento) request.getAttribute("EVENTO");
   DTEdicion edicion           = (DTEdicion) request.getAttribute("EDICION");
   DTTipoRegistro tipoRegistro = (DTTipoRegistro) request.getAttribute("TIPO_REGISTRO");
 
