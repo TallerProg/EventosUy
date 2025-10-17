@@ -159,7 +159,7 @@
                     <%
                       for (DTRegistro r : registros) {
                         if (r == null || r.getEdicion() == null) continue;
-                        DTEdicion e = r.getEdicion();
+                        DTEdicion e = r.getEdicion().getDTEdicion();
                         String nombreEd = e.getNombre();
                         String nombreEvento = (e.getEvento() != null) ? e.getEvento().getNombre() : "Evento no disponible";
                         String imagenEdicion = (e.getImagenWebPath() != null && !e.getImagenWebPath().isBlank())
