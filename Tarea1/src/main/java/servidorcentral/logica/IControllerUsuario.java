@@ -29,7 +29,11 @@ public interface IControllerUsuario {
 
 	public List<Asistente> getAsistentes();
 	
+	public List<DTUsuarioListaConsulta> getDTAsistentes();
+	
 	public List<Organizador> getOrganizadores();
+	
+	public List<DTUsuarioListaConsulta> getDTOrganizadores();
 
 	public List<String> getAsistenteRegistro(String nickname);
 

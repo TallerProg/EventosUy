@@ -263,4 +263,40 @@ public class ControllerUsuario implements IControllerUsuario {
         ManejadorUsuario mus = ManejadorUsuario.getInstance();
         return mus.findUsuario(nickname);
     }
+    
+    public List<DTUsuarioListaConsulta> getDTAsistentes(){
+		ManejadorUsuario mus = ManejadorUsuario.getInstance();
+		List<DTUsuarioListaConsulta> listaDTAsistentes = new ArrayList<>();
+		for (Asistente asi : mus.listarAsistentes()) {
+			DTUsuarioListaConsulta dtu = new DTUsuarioListaConsulta();
+			dtu.setNickname(asi.getNickname());
+			dtu.setCorreo(asi.getCorreo());
+			dtu.setNombre(asi.getNombre());
+			dtu.setApellido(asi.getApellido());
+			dtu.setFNacimiento(asi.getfNacimiento());
+			dtu.setRegistros(asi.getRegistros());
+			List<Edicion> edicionesDeRegistros = asi.getRegistros().stream().map(r -> r.getEdicion()).toList();
+			dtu.setEdiciones(edicionesDeRegistros);
+			dtu.setImg(asi.getImg());
+			listaDTAsistentes.add(dtu);
+		}
+		return listaDTAsistentes;
+    }
+    
+    public List<DTUsuarioListaConsulta> getDTOrganizadores(){
+    	        ManejadorUsuario mus = ManejadorUsuario.getInstance();
+    	        List<DTUsuarioListaConsulta> listaDTOrganizadores = new ArrayList<>();
+				for (Organizador org : mus.listarOrganizadores()) {
+					DTUsuarioListaConsulta dtu = new DTUsuarioListaConsulta();
+					dtu.setNickname(org.getNickname());
+					dtu.setCorreo(org.getCorreo());
+					dtu.setNombre(org.getNombre());
+					dtu.setDescripcion(org.getDescripcion());
+					dtu.setUrl(org.getUrl());
+					dtu.setEdiciones(org.getEdiciones());
+					dtu.setImg(org.getImg());
+					listaDTOrganizadores.add(dtu);
+				}
+				return listaDTOrganizadores;
+    }
 }

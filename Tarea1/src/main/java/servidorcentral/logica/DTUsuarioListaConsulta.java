@@ -14,6 +14,7 @@ public class DTUsuarioListaConsulta {
 	private String url;
 	private List<Edicion> ediciones;
 	private List<Registro> registros;
+	private String img; 
 
 	public DTUsuarioListaConsulta() {
 		this.nickname = null;
@@ -23,12 +24,13 @@ public class DTUsuarioListaConsulta {
 		this.fNacimiento = null;
 		this.descripcion = null;
 		this.url = null;
+		this.img = null;
 		this.ediciones = new ArrayList<>();
 		this.registros = new ArrayList<>();
 	}
 
 	public DTUsuarioListaConsulta(String nick, String correo, String nombre, String apellido, LocalDate fNacimiento,
-			String descripcion, String url, List<Edicion> ediciones, List<Registro> registros) {
+			String descripcion, String url, List<Edicion> ediciones, List<Registro> registros,String img) {
 		this.nickname = nick;
 		this.correo = correo;
 		this.nombre = nombre;
@@ -38,6 +40,7 @@ public class DTUsuarioListaConsulta {
 		this.url = url;
 		this.ediciones = ediciones;
 		this.registros = registros;
+		this.img = img;
 	}
 
 	public String getNickname() {
@@ -110,5 +113,13 @@ public class DTUsuarioListaConsulta {
 
 	public void setRegistros(List<Registro> registros) {
 		this.registros = registros;
+	}
+	
+	public String getImg() {
+		return img;
+	}
+	
+	public void setImg(String img) {
+		this.img = img;
 	}
 }

@@ -10,8 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import servidorcentral.logica.Factory;
 import servidorcentral.logica.IControllerUsuario;
-import servidorcentral.logica.Organizador;
-import servidorcentral.logica.Asistente;
+import servidorcentral.logica.DTUsuarioListaConsulta;
 
 @WebServlet(name = "ListaUsuariosSvt", urlPatterns = {"/ListaUsuarios"})
 @MultipartConfig(
@@ -28,8 +27,8 @@ public class ListaUsuariosSvt extends HttpServlet {
     try {
       Factory fabrica = Factory.getInstance();
       IControllerUsuario ctrl = fabrica.getIControllerUsuario();
-      List<Asistente> Asistentes = ctrl.getAsistentes(); 
-      List<Organizador> Organizadores = ctrl.getOrganizadores(); 
+      List<DTUsuarioListaConsulta> Asistentes = ctrl.getDTAsistentes(); 
+      List<DTUsuarioListaConsulta> Organizadores = ctrl.getDTOrganizadores(); 
 
       req.setAttribute("LISTA_ASISTENTES", Asistentes);
       req.setAttribute("LISTA_ORGANIZADORES", Organizadores);
