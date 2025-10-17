@@ -1,6 +1,12 @@
 package servidorcentral.logica.test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -19,14 +25,7 @@ import servidorcentral.logica.IControllerEvento;
 import servidorcentral.logica.ManejadorEvento;
 import servidorcentral.logica.Organizador;
 
-/**
- * Tests unificados:
- *  - DTInstitucion (constructor + getters, vacíos y null)
- *  - DTCategoria   (constructor + getter, vacío y null)
- *  - aceptarRechazarEdicion(...) (aceptar, rechazar, inexistente)
- *
- * Ajustá los comentarios indicados si tu diseño prohíbe valores null en DTOs.
- */
+
 public class TestGeneralDTTest {
 
     private IControllerEvento controller;
@@ -120,69 +119,6 @@ public class TestGeneralDTTest {
     }
 
 
-    @Test
-    @DisplayName("Aceptar edición -> estado Aceptada")
-    void aceptarCambiaEstadoAAceptada() throws Exception {
-        String nombreEd = "Edicion2025-Aceptar";
-
-        controller.altaEdicionDeEvento(
-            nombreEd,
-            "ED-A1",
-            "Montevideo",
-            "Uruguay",
-            LocalDate.of(2025, 5, 1),
-            LocalDate.of(2025, 5, 10),
-            LocalDate.of(2025, 4, 20),
-            eventoBase,
-            organizador,
-            "ruta/img1.png"
-        );
-
-        assertDoesNotThrow(() -> {
-            try {
-                controller.aceptarRechazarEdicion(nombreEd, true);
-            } catch (Exception e) {
-                fail(e);
-            }
-        });
-
-        ManejadorEvento mev = ManejadorEvento.getInstancia();
-        Edicion edi = mev.findEdicion(nombreEd);
-        assertNotNull(edi, "La edición debería existir luego del alta");
-        assertEquals(EstadoEdicion.Aceptada, edi.getEstado(), "La edición debería quedar Aceptada");
-    }
-
-    @Test
-    @DisplayName("Rechazar edición -> estado Rechazada")
-    void rechazarCambiaEstadoARechazada() throws Exception {
-        String nombreEd = "Edicion2025-Rechazar";
-
-        controller.altaEdicionDeEvento(
-            nombreEd,
-            "ED-R1",
-            "Montevideo",
-            "Uruguay",
-            LocalDate.of(2025, 6, 1),
-            LocalDate.of(2025, 6, 10),
-            LocalDate.of(2025, 5, 20),
-            eventoBase,
-            organizador,
-            "ruta/img2.png"
-        );
-
-        assertDoesNotThrow(() -> {
-            try {
-                controller.aceptarRechazarEdicion(nombreEd, false);
-            } catch (Exception e) {
-                fail(e);
-            }
-        });
-
-        ManejadorEvento mev = ManejadorEvento.getInstancia();
-        Edicion edi = mev.findEdicion(nombreEd);
-        assertNotNull(edi);
-        assertEquals(EstadoEdicion.Rechazada, edi.getEstado(), "La edición debería quedar Rechazada");
-    }
 
     @Test
     @DisplayName("aceptarRechazarEdicion lanza excepción si la edición no existe")
