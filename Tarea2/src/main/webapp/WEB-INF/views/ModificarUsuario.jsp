@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="servidorcentral.logica.Usuario,servidorcentral.logica.Asistente,servidorcentral.logica.Institucion"%>
+<%@ page import="servidorcentral.logica.Usuario,servidorcentral.logica.Asistente,servidorcentral.logica.DTInstitucion"%>
+<%@ page import="servidorcentral.logica.DTUsuarioListaConsulta" %>
+
 <%
   String ctx = request.getContextPath();
   String img = (String) session.getAttribute("IMAGEN_LOGUEADO");
@@ -19,10 +21,10 @@
 </header>
 
 <%
-  Usuario us = (Usuario) request.getAttribute("USUARIO");
+  DTUsuarioListaConsulta us = (DTUsuarioListaConsulta) request.getAttribute("USUARIO");
   String tipo = (String) request.getAttribute("TIPO_USUARIO");
-  Institucion[] instituciones = (Institucion[]) request.getAttribute("LISTA_INSTITUCION");
-  boolean esAsistente = "asistente".equalsIgnoreCase(tipo) && us instanceof Asistente;
+  DTInstitucion[] instituciones = (DTInstitucion[]) request.getAttribute("LISTA_INSTITUCION");
+	boolean ES_ASIS = Boolean.TRUE.equals(request.getAttribute("ES_ASIS"));
 
   String nick = (us != null) ? us.getNickname() : "";
   String correo = (us != null) ? us.getCorreo() : "";
@@ -30,11 +32,11 @@
   String apellido = "";
   String fechaISO = "";
   String instUser = "";
-  if (esAsistente) {
-    Asistente a = (Asistente) us;
+  if (ES_ASIS) {
+	  DTUsuarioListaConsulta a = (DTUsuarioListaConsulta) us;
     apellido = (a.getApellido() != null) ? a.getApellido() : "";
-    fechaISO = (a.getfNacimiento() != null) ? a.getfNacimiento().toString() : "";
-    if (a.getInstitucion() != null) instUser = a.getInstitucion().getNombre();
+    fechaISO = (a.getFNacimiento() != null) ? a.getFNacimiento().toString() : "";
+    if (a.getIns() != null) instUser = a.getIns().getNombre();
   }
 %>
 
@@ -78,7 +80,7 @@
           <input type="text" name="nombre" class="form-control" value="<%= nombre %>">
         </div>
 
-        <% if (esAsistente) { %>
+        <% if (ES_ASIS) { %>
         <div id="asistente-fields">
           <div class="mb-3">
             <label>Apellido</label>
@@ -93,7 +95,7 @@
             <select name="institucion" class="form-control">
               <option value="">-- Seleccione institución --</option>
               <% if (instituciones != null) {
-                   for (Institucion i : instituciones) {
+                   for (DTInstitucion i : instituciones) {
                      String nombreInst = i.getNombre();
                      String sel = nombreInst.equals(instUser) ? "selected" : "";
               %>
