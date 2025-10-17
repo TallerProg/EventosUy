@@ -61,11 +61,11 @@ class ControllerInstitucionTest {
         String nombre = nuevoNombre();
 
         controller.altaInstitucion(nombre, "https://a.com", "desc", "a.png");
-        Exception ex = assertThrows(Exception.class, () ->
+        Exception exe = assertThrows(Exception.class, () ->
             controller.altaInstitucion(nombre, "https://b.com", "desc2", "b.png")
         );
-        // Mensaje esperado según tu implementación
-        assertTrue(ex.getMessage() != null && ex.getMessage().toLowerCase().contains("ya existe"),
+
+        assertTrue(exe.getMessage() != null && exe.getMessage().toLowerCase().contains("ya existe"),
                 "Debe indicar que la institución ya existe");
     }
 
@@ -99,10 +99,10 @@ class ControllerInstitucionTest {
                 .findFirst();
 
         assertTrue(match.isPresent(), "La lista debería incluir la institución recién creada");
-        Institucion i = match.get();
-        assertEquals(url, i.getUrl());
-        assertEquals(desc, i.getDescripcion());
-        assertEquals(img, i.getImg());
+        Institucion ins = match.get();
+        assertEquals(url, ins.getUrl());
+        assertEquals(desc, ins.getDescripcion());
+        assertEquals(img, ins.getImg());
     }
 
     @Test
@@ -124,9 +124,9 @@ class ControllerInstitucionTest {
                 .findFirst();
 
         assertTrue(match.isPresent(), "Debe existir un DTInstitucion con el nombre insertado");
-        DTInstitucion dt = match.get();
-        assertEquals(url, dt.getUrl());
-        assertEquals(desc, dt.getDescripcion());
-        assertEquals(img, dt.getImagen());
+        DTInstitucion dti = match.get();
+        assertEquals(url, dti.getUrl());
+        assertEquals(desc, dti.getDescripcion());
+        assertEquals(img, dti.getImagen());
     }
 }

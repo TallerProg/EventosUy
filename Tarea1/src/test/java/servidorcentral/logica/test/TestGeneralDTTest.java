@@ -61,39 +61,39 @@ public class TestGeneralDTTest {
     @Test
     @DisplayName("DTInstitucion: constructor y getters")
     void dtInstitucion_constructorYGetters() {
-        DTInstitucion dt = new DTInstitucion(
+        DTInstitucion dti = new DTInstitucion(
             "Fing-Udelar",
             "Facultad de Ingeniería",
             "https://fing.edu.uy",
             "fing.png"
         );
 
-        assertEquals("Fing-Udelar", dt.getNombre());
-        assertEquals("Facultad de Ingeniería", dt.getDescripcion());
-        assertEquals("https://fing.edu.uy", dt.getUrl());
-        assertEquals("fing.png", dt.getImagen());
+        assertEquals("Fing-Udelar", dti.getNombre());
+        assertEquals("Facultad de Ingeniería", dti.getDescripcion());
+        assertEquals("https://fing.edu.uy", dti.getUrl());
+        assertEquals("fing.png", dti.getImagen());
     }
 
     @Test
     @DisplayName("DTInstitucion: strings vacíos no rompen")
     void dtInstitucion_cadenasVacias() {
         assertDoesNotThrow(() -> {
-            DTInstitucion dt = new DTInstitucion("", "", "", "");
-            assertEquals("", dt.getNombre());
-            assertEquals("", dt.getDescripcion());
-            assertEquals("", dt.getUrl());
-            assertEquals("", dt.getImagen());
+            DTInstitucion dti = new DTInstitucion("", "", "", "");
+            assertEquals("", dti.getNombre());
+            assertEquals("", dti.getDescripcion());
+            assertEquals("", dti.getUrl());
+            assertEquals("", dti.getImagen());
         });
     }
 
     @Test
     @DisplayName("DTInstitucion: nulls aceptados (ajustar si tu diseño los prohíbe)")
     void dtInstitucion_nullsPermitidos() {
-        DTInstitucion dt = new DTInstitucion(null, null, null, null);
-        assertNull(dt.getNombre());
-        assertNull(dt.getDescripcion());
-        assertNull(dt.getUrl());
-        assertNull(dt.getImagen());
+        DTInstitucion dti = new DTInstitucion(null, null, null, null);
+        assertNull(dti.getNombre());
+        assertNull(dti.getDescripcion());
+        assertNull(dti.getUrl());
+        assertNull(dti.getImagen());
     }
 
     // ------------------------------ DTCategoria ------------------------------
@@ -101,22 +101,22 @@ public class TestGeneralDTTest {
     @Test
     @DisplayName("DTCategoria: constructor y getter")
     void dtCategoria_constructorYGetter() {
-        DTCategoria dt = new DTCategoria("Tecnología");
-        assertEquals("Tecnología", dt.getNombre());
+        DTCategoria dti = new DTCategoria("Tecnología");
+        assertEquals("Tecnología", dti.getNombre());
     }
 
     @Test
     @DisplayName("DTCategoria: cadena vacía")
     void dtCategoria_vacio() {
-        DTCategoria dt = new DTCategoria("");
-        assertEquals("", dt.getNombre());
+        DTCategoria dti = new DTCategoria("");
+        assertEquals("", dti.getNombre());
     }
 
     @Test
     @DisplayName("DTCategoria: null aceptado (ajustar si tu diseño lo prohíbe)")
     void dtCategoria_nullPermitido() {
-        DTCategoria dt = new DTCategoria(null);
-        assertNull(dt.getNombre());
+        DTCategoria dti = new DTCategoria(null);
+        assertNull(dti.getNombre());
     }
 
 
@@ -187,9 +187,9 @@ public class TestGeneralDTTest {
     @Test
     @DisplayName("aceptarRechazarEdicion lanza excepción si la edición no existe")
     void lanzarExcepcionSiEdicionNoExiste() {
-        Exception ex = assertThrows(Exception.class, () -> {
+        Exception exe = assertThrows(Exception.class, () -> {
             controller.aceptarRechazarEdicion("NO_EXISTE", true);
         });
-        assertTrue(ex.getMessage().toLowerCase().contains("no existe"));
+        assertTrue(exe.getMessage().toLowerCase().contains("no existe"));
     }
 }
