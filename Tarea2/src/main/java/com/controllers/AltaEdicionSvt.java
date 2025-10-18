@@ -10,12 +10,12 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
+
 import servidorcentral.logica.DTSesionUsuario;
 import servidorcentral.logica.RolUsuario;
 import servidorcentral.logica.Factory;
 import servidorcentral.logica.IControllerEvento;
-import servidorcentral.logica.ControllerEvento; 
-import servidorcentral.logica.ControllerUsuario;
+import servidorcentral.logica.IControllerUsuario;
 import servidorcentral.logica.DTUsuarioListaConsulta;
 
 @WebServlet(name = "AltaEdicionSvt", urlPatterns = {"/ediciones-alta"})
@@ -48,7 +48,7 @@ public class AltaEdicionSvt extends HttpServlet {
         }
 
         req.setAttribute("form_evento", nombreEvento);
-        req.setAttribute("form_fechaAlta", LocalDate.now().toString());
+        req.setAttribute("form_fechaAlta", LocalDate.now().toString()); // solo visual en la JSP
         req.getRequestDispatcher("/WEB-INF/views/AltaEdicion.jsp").forward(req, resp);
     }
 
@@ -66,6 +66,7 @@ public class AltaEdicionSvt extends HttpServlet {
             return;
         }
 
+        // ---- Params
         String nombreEvento = req.getParameter("evento");
         String nombre       = req.getParameter("nombre");
         String sigla        = req.getParameter("sigla");
@@ -75,6 +76,7 @@ public class AltaEdicionSvt extends HttpServlet {
         String sFin         = req.getParameter("fechaFin");
         LocalDate fAlta     = LocalDate.now();
 
+        // ---- Persistencia de form (para la JSP)
         req.setAttribute("form_evento", nombreEvento);
         req.setAttribute("form_nombre", nombre);
         req.setAttribute("form_sigla", sigla);
@@ -84,6 +86,7 @@ public class AltaEdicionSvt extends HttpServlet {
         req.setAttribute("form_fechaFin", sFin);
         req.setAttribute("form_fechaAlta", fAlta.toString());
 
+        // ---- Validaciones básicas
         if (isBlank(nombreEvento) || isBlank(nombre) || isBlank(sigla) || isBlank(ciudad)
                 || isBlank(pais) || isBlank(sIni) || isBlank(sFin)) {
             req.setAttribute("msgError", "Todos los campos son obligatorios (salvo la imagen).");
@@ -113,9 +116,9 @@ public class AltaEdicionSvt extends HttpServlet {
         }
 
         try {
-            IControllerEvento ice = Factory.getInstance().getIControllerEvento();
-            ControllerEvento   ce = (ControllerEvento) ice; 
-            ControllerUsuario  cu = new ControllerUsuario();
+            // Solo interfaces y DTOs
+            IControllerEvento  ce = Factory.getInstance().getIControllerEvento();
+            IControllerUsuario cu = Factory.getInstance().getIControllerUsuario();
 
             DTUsuarioListaConsulta dtoOrg = cu.consultaDeUsuario(u.getNickname());
             if (dtoOrg == null) {
@@ -125,6 +128,7 @@ public class AltaEdicionSvt extends HttpServlet {
             }
             String nickOrganizador = dtoOrg.getNickname();
 
+            // Chequeos de unicidad (expuestos por la interfaz)
             if (ce.existeEdicionPorNombre(nombreEvento, nombre)) {
                 req.setAttribute("msgError", "Ya existe una edición con ese nombre para este evento.");
                 req.getRequestDispatcher("/WEB-INF/views/AltaEdicion.jsp").forward(req, resp);
@@ -136,16 +140,25 @@ public class AltaEdicionSvt extends HttpServlet {
                 return;
             }
 
+            // ---- Imagen (opcional) con validación simple MIME/extensión
             String imagenWebPath = null;
             try {
                 Part imagenPart = req.getPart("imagen");
                 if (imagenPart != null && imagenPart.getSize() > 0) {
+                    String contentType = imagenPart.getContentType(); // ej: image/jpeg, image/png
+                    if (!isMimeImagenPermitido(contentType)) {
+                        throw new IllegalArgumentException("Formato de imagen no permitido (solo JPG/PNG).");
+                    }
                     String fileName = sanitizeFileName(getFileName(imagenPart));
                     if (!isBlank(fileName)) {
+                        // Normalizar .jpeg -> .jpg
+                        fileName = normalizarExt(fileName);
+
                         String relativeDir = "/img/ediciones";
                         String absoluteDir = getServletContext().getRealPath(relativeDir);
                         File dir = new File(absoluteDir);
                         if (!dir.exists()) dir.mkdirs();
+
                         String prefixed = System.currentTimeMillis() + "_" + fileName;
                         File destino = new File(dir, prefixed);
                         Files.copy(imagenPart.getInputStream(), destino.toPath());
@@ -158,6 +171,7 @@ public class AltaEdicionSvt extends HttpServlet {
                 return;
             }
 
+            // ---- Alta vía DTO (sin tocar entidades desde el servlet)
             ce.altaEdicionDeEventoDTO(
                 nombreEvento,
                 nickOrganizador,
@@ -178,11 +192,19 @@ public class AltaEdicionSvt extends HttpServlet {
             req.setAttribute("msgError", "No se pudo crear la edición: " + e.getMessage());
         }
 
+        // Misma vista que tu JSP
         req.getRequestDispatcher("/WEB-INF/views/AltaEdicion.jsp").forward(req, resp);
     }
 
+    // ----------------- helpers -----------------
 
     private static boolean isBlank(String s) { return s == null || s.trim().isEmpty(); }
+
+    private static boolean isMimeImagenPermitido(String mime) {
+        if (mime == null) return false;
+        String m = mime.toLowerCase();
+        return m.equals("image/jpeg") || m.equals("image/jpg") || m.equals("image/png");
+    }
 
     private static String getFileName(Part part) {
         String cd = part.getHeader("content-disposition");
@@ -201,6 +223,12 @@ public class AltaEdicionSvt extends HttpServlet {
         fileName = fileName.replace("\\", "/");
         fileName = fileName.substring(fileName.lastIndexOf('/') + 1);
         return fileName.replaceAll("[^a-zA-Z0-9._-]", "_");
+    }
+
+    private static String normalizarExt(String fileName) {
+        String lower = fileName.toLowerCase();
+        if (lower.endsWith(".jpeg")) return fileName.substring(0, fileName.length() - 5) + ".jpg";
+        return fileName;
     }
 
     private static void clearForm(HttpServletRequest req) {
