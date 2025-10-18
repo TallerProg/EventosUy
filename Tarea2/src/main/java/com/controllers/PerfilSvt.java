@@ -3,7 +3,6 @@ package com.controllers;
 import servidorcentral.logica.Factory;
 import servidorcentral.logica.IControllerUsuario;
 import servidorcentral.logica.DTSesionUsuario;
-import servidorcentral.logica.RolUsuario;
 import servidorcentral.logica.DTUsuarioListaConsulta;
 
 import jakarta.servlet.ServletException;
@@ -54,9 +53,9 @@ public class PerfilSvt extends HttpServlet {
         req.setAttribute("USUARIO", dtusuario);
         req.setAttribute("USUARIOROL", usuario);
 
-        RolUsuario rol = usuario.getRol();
-        boolean esOrg  = (rol == RolUsuario.ORGANIZADOR);
-        boolean esAsis = (rol == RolUsuario.ASISTENTE);
+        String rol = usuario.getRolString(); // enum
+        boolean esOrg  = rol.equals("ORGANIZADOR") ;
+        boolean esAsis = rol.equals("ASISTENTE");
         req.setAttribute("ES_ORG", esOrg);
         req.setAttribute("ES_ASIS", esAsis);
 
