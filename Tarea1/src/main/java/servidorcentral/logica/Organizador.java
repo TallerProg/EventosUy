@@ -59,4 +59,20 @@ public class Organizador extends Usuario {
 		}
 		return dtEdiciones;
 	}
+	public DTOrganizadorDetallado getDTOrganizadorDetallado() {
+	    List<DTEdicion> dtEdiciones = new ArrayList<>();
+	    for (Edicion e : this.getEdiciones()) {
+	        if (e != null) dtEdiciones.add(e.getDTEdicion());
+	    }
+	    return new DTOrganizadorDetallado(
+	        this.getNickname(),
+	        this.getCorreo(),
+	        this.getNombre(),
+	        this.getDescripcion(),
+	        this.getUrl(),
+	        this.getImg(),
+	        dtEdiciones
+	    );
+	}
+
 }

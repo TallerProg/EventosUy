@@ -8,13 +8,12 @@ import java.util.*;
 
 import servidorcentral.logica.Factory;
 import servidorcentral.logica.IControllerUsuario;
+import servidorcentral.logica.DTAsistente;
 import servidorcentral.logica.DTOrganizadorDetallado;
 import servidorcentral.logica.DTSesionUsuario;
-import servidorcentral.logica.DTRegistro;
 import servidorcentral.logica.DTUsuarioListaConsulta;
-import servidorcentral.logica.DTAsistente;
 import servidorcentral.logica.DTEdicion;
-
+import servidorcentral.logica.DTRegistro;
 
 @WebServlet("/ConsultaUsuario")
 public class ConsultaUsuarioSvt extends HttpServlet {
@@ -33,7 +32,7 @@ public class ConsultaUsuarioSvt extends HttpServlet {
 		
 		IControllerUsuario icu = Factory.getInstance().getIControllerUsuario();
 
-		//si existe y que rol tiene
+		// Primero detecto si existe y que rol tiene
 		DTAsistente asis = icu.getDTAsistente(nick);
 		DTOrganizadorDetallado org = (asis == null) ? icu.getDTOrganizadorDetallado(nick) : null;
 		String rol = (asis != null) ? "A" : (org != null) ? "O" : "v";
@@ -69,13 +68,8 @@ public class ConsultaUsuarioSvt extends HttpServlet {
 
 		// Datos extra para la vista, según rol
 		if ("A".equals(rol) && S) {
-			List<DTRegistro> dtRegis = asis.getRegistros();
-
-			
-
-			// Guardar en el request
-			req.setAttribute("Registros", dtRegis);
-
+			List<DTRegistro> regis = asis.getRegistros();
+			req.setAttribute("Registros", regis);
 
 		}
 		if ("O".equals(rol)) {
