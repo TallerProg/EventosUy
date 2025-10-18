@@ -432,7 +432,14 @@ public class ControllerEvento implements IControllerEvento {
 		}
 		return dtEventos;
 	}
-	
+	public List<DTEdicion> listarDTEdicion(){
+		List<DTEdicion> dtEdicion = new ArrayList<>();
+		ManejadorEvento mev = ManejadorEvento.getInstancia();
+		for (Edicion e : mev.listarEdiciones()) {
+			dtEdicion.add(e.getDTEdicion());
+		}
+		return dtEdicion;
+	}
 	public List<DTCategoria> listarDTCategorias(){
 		List<DTCategoria> dtCategorias = new ArrayList<>();
 		ManejadorEvento mev = ManejadorEvento.getInstancia();

@@ -60,7 +60,7 @@ public interface IControllerEvento {
 	
 	public List<DTevento> listarDTEventos();
 	public List<DTCategoria> listarDTCategorias();
-
+	public List<DTEdicion> listarDTEdicion();
 	public void altaEdicionDeEventoDTO(String nombreEvento,
 	        String nickOrganizador,
 	        String nombreEdicion,
