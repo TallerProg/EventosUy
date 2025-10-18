@@ -16,5 +16,7 @@ public class DTSesionUsuario{
         public String getNickname() { return nickname; }
         public String getCorreo() { return correo; }
         public RolUsuario getRol() { return rol; }
+        public String getRolString() { return rol.toString(); }
         public LocalDateTime getFechaHoraInicio() { return fechaHoraInicio; }
+        
     }
