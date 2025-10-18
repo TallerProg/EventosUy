@@ -24,8 +24,14 @@ public interface IControllerUsuario {
 	public Organizador getOrganizador(String nicknameOrg);
 
 	public DTUsuarioListaConsulta consultaDeUsuario(String nicknameUsu);
+	
+	public DTAsistente getDTAsistente(String nick);
+	public DTOrganizadorDetallado getDTOrganizadorDetallado(String nick);
 
 	public List<DTUsuarioLista> getUsuarios();
+	
+	public void setContrasena(String nickname, String contrasenaNueva)
+			throws UsuarioNoExisteException, CredencialesInvalidasException;
 
 	public List<Asistente> getAsistentes();
 	
@@ -40,9 +46,9 @@ public interface IControllerUsuario {
 	public DTRegistroDetallado getRegistroDetalle(String nregistro, String nickAsistente);
 
 	public List<Usuario> listarUsuarios();
-
+	public void modificarUsuarioDT(DTUsuarioListaConsulta dto);
 	public void modificarUsuario1(Usuario usu);
-
+	public void aneadirInstitucion(String nicknAsis, String nombreIns);
 	public Asistente getAsistente(String nicknameTest);
 	public Usuario getUsuario(String nicknameTest);
     public void cerrarSesion(DTSesionUsuario sesion);

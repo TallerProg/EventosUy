@@ -5,18 +5,15 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import servidorcentral.logica.Factory;
 import servidorcentral.logica.IControllerUsuario;
-import servidorcentral.logica.Asistente;
-import servidorcentral.logica.Organizador;
+import servidorcentral.logica.DTAsistente;
+import servidorcentral.logica.DTOrganizadorDetallado;
 import servidorcentral.logica.DTSesionUsuario;
-import servidorcentral.logica.DTRegistro;
 import servidorcentral.logica.DTUsuarioListaConsulta;
 import servidorcentral.logica.DTEdicion;
-
-import servidorcentral.logica.Registro;
+import servidorcentral.logica.DTRegistro;
 
 @WebServlet("/ConsultaUsuario")
 public class ConsultaUsuarioSvt extends HttpServlet {
@@ -36,8 +33,8 @@ public class ConsultaUsuarioSvt extends HttpServlet {
 		IControllerUsuario icu = Factory.getInstance().getIControllerUsuario();
 
 		// Primero detecto si existe y que rol tiene
-		Asistente asis = icu.getAsistente(nick);
-		Organizador org = (asis == null) ? icu.getOrganizador(nick) : null;
+		DTAsistente asis = icu.getDTAsistente(nick);
+		DTOrganizadorDetallado org = (asis == null) ? icu.getDTOrganizadorDetallado(nick) : null;
 		String rol = (asis != null) ? "A" : (org != null) ? "O" : "v";
 		if(asis!=null) {
 			String img=asis.getImg();
@@ -71,20 +68,12 @@ public class ConsultaUsuarioSvt extends HttpServlet {
 
 		// Datos extra para la vista, según rol
 		if ("A".equals(rol) && S) {
-			List<Registro> regis = asis.getRegistros();
-
-			// Convertir a lista de DTRegistro
-			List<DTRegistro> dtRegis = regis.stream()
-			    .map(Registro::getDTRegistro)
-			    .collect(Collectors.toList());
-
-			// Guardar en el request
-			req.setAttribute("Registros", dtRegis);
-
+			List<DTRegistro> regis = asis.getRegistros();
+			req.setAttribute("Registros", regis);
 
 		}
 		if ("O".equals(rol)) {
-			List<DTEdicion> edis = org.getDTEdiciones();
+			List<DTEdicion> edis = org.getEdiciones();
 			req.setAttribute("Ediciones", edis);
 		}
 

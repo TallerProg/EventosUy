@@ -15,14 +15,9 @@ import servidorcentral.logica.Factory;
 import servidorcentral.logica.IControllerEvento;
 import servidorcentral.logica.DTSesionUsuario;
 import servidorcentral.logica.RolUsuario;
-import servidorcentral.logica.ControllerUsuario;
 import servidorcentral.logica.DTEdicion;
 import servidorcentral.logica.DTevento;
-import servidorcentral.logica.Edicion;
-import servidorcentral.logica.EstadoEdicion;
-import servidorcentral.logica.Evento;
-import servidorcentral.logica.RolUsuario;
-import servidorcentral.logica.Organizador;
+
 
 @WebServlet(name = "ConsultaEveSvt", urlPatterns = { "/ConsultaEvento" })
 @MultipartConfig(fileSizeThreshold = 1 * 1024 * 1024, maxFileSize = 10 * 1024 * 1024, maxRequestSize = 15 * 1024 * 1024)
@@ -58,28 +53,26 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws Se
         req.setAttribute("ES_ORG", esOrgGlobal);
 
         // lista de ediciones del evento (puede ser null)
-        List<Edicion> ediciones = evento.getEdiciones();
+        List<DTEdicion> ediciones = ctrl.listarDTEdicion();
         if (ediciones == null) ediciones = java.util.Collections.emptyList();
 
         List<DTEdicion> edicionesCompletas = new ArrayList<>();
 
-        for (Edicion e : ediciones) {
-            if (e == null) continue;
+        for (DTEdicion dto : ediciones) {
+            if (dto == null) continue;
 
             boolean esOrgDeEsta = false;
-            if (sesUser != null && e.getOrganizadores() != null) {
+            if (sesUser != null && dto.getOrganizadores() != null) {
                 String nickSesion = sesUser.getNickname();
-                for (Organizador o : e.getOrganizadores()) {
-                    if (o != null && o.getNickname() != null && o.getNickname().equals(nickSesion)) {
-                        esOrgDeEsta = true;
-                    }
-                }
+                esOrgDeEsta = dto.getOrganizadores().stream()
+                        .filter(o -> o != null && o.getNickname() != null)
+                        .anyMatch(o -> o.getNickname().equals(nickSesion));
             }
 
-            boolean aceptada = (e.getEstado() == EstadoEdicion.Aceptada);
+            boolean aceptada = "Aceptada".equalsIgnoreCase(dto.getEstado());
             if (aceptada || esOrgDeEsta) {
-                DTEdicion dto = ctrl.consultaEdicionDeEvento(nombreEvento, e.getNombre());
-                if (dto != null) edicionesCompletas.add(dto);
+                DTEdicion dte = ctrl.consultaEdicionDeEvento(nombreEvento, dto.getNombre());
+                if (dte != null) edicionesCompletas.add(dte);
             }
         }
 

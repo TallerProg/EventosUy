@@ -11,14 +11,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-import servidorcentral.logica.Edicion;
-import servidorcentral.logica.Organizador;
-import servidorcentral.logica.IControllerEvento;
+import servidorcentral.logica.DTOrganizadorDetallado;
 import servidorcentral.logica.IControllerUsuario;
 import servidorcentral.logica.Factory;
 import servidorcentral.logica.DTEdicion;
 import servidorcentral.logica.DTSesionUsuario;
-import servidorcentral.logica.RolUsuario;
 
 @WebServlet("/MisEdiciones")
 public class MisEdicionesSvt extends HttpServlet {
@@ -37,7 +34,7 @@ public class MisEdicionesSvt extends HttpServlet {
         HttpSession session = req.getSession(false);
         if (session != null) {
             Object o = session.getAttribute("usuario_logueado");
-            if (o instanceof DTSesionUsuario u && u.getRol() == RolUsuario.ORGANIZADOR) {
+            if (o instanceof DTSesionUsuario u && u.getRolString().equals("ORGANIZADOR")) {
                 esOrg = true;
                 nickname = u.getNickname();
             }else {
@@ -51,19 +48,19 @@ public class MisEdicionesSvt extends HttpServlet {
         try {
             // Obtener controlador y organizador 
             IControllerUsuario icu = Factory.getInstance().getIControllerUsuario();
-            Organizador org = icu.getOrganizador(nickname);
+            DTOrganizadorDetallado org = icu.getDTOrganizadorDetallado(nickname);
 
             // Convertir las ediciones del organizador a DTEdiciones 
-            List<Edicion> ediciones = org.getEdiciones();
+            List<DTEdicion> ediciones = org.getEdiciones();
             if (ediciones == null) {
                 ediciones = new ArrayList<>();
             }
             List<DTEdicion> dtEdiciones = new ArrayList<>();
             
 
-            for (Edicion e : ediciones) {
+            for (DTEdicion e : ediciones) {
                 if (e != null) {
-                    DTEdicion dto = e.getDTEdicion();
+                    DTEdicion dto = e;
                     if (dto != null) {
                         dtEdiciones.add(dto);
                     }
@@ -83,7 +80,5 @@ public class MisEdicionesSvt extends HttpServlet {
         }
     }
 
-    private IControllerEvento getControllerEvento() {
-        return Factory.getInstance().getIControllerEvento();
-    }
+
 }

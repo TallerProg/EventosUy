@@ -3,12 +3,15 @@ package com.controllers;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.time.LocalDate;
 
-import servidorcentral.logica.*;
-
+import servidorcentral.logica.DTInstitucion;
 import servidorcentral.logica.DTSesionUsuario;
-import servidorcentral.logica.RolUsuario;
+import servidorcentral.logica.DTUsuarioListaConsulta;
+import servidorcentral.logica.IControllerInstitucion;
+import servidorcentral.logica.IControllerUsuario;
+import servidorcentral.logica.Factory;
+
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
@@ -31,7 +34,7 @@ public class EditarPerfilSvt extends HttpServlet {
         HttpSession session = req.getSession(false);
         if (session != null) {
           Object a = session.getAttribute("usuario_logueado");
-          if (a instanceof DTSesionUsuario u && u.getRol() == RolUsuario.ASISTENTE) {
+          if (a instanceof DTSesionUsuario u && u.getRolString().equals("ASISTENTE")) {
             esAsis = true;
           }
         }
@@ -51,7 +54,7 @@ public class EditarPerfilSvt extends HttpServlet {
 
         String nickUsuario = ses.getNickname();
         IControllerUsuario icu = Factory.getInstance().getIControllerUsuario();
-        Usuario usuario = icu.getUsuario(nickUsuario);
+        DTUsuarioListaConsulta usuario = icu.consultaDeUsuario(nickUsuario);
         if (usuario == null) {
             resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Usuario no encontrado.");
             return;
@@ -61,7 +64,7 @@ public class EditarPerfilSvt extends HttpServlet {
         IControllerInstitucion ici = Factory.getInstance().getIControllerInstitucion();
         req.setAttribute("LISTA_INSTITUCION", ici.getDTInstituciones().toArray(DTInstitucion[]::new));
         req.setAttribute("USUARIO", usu);
-        req.setAttribute("TIPO_USUARIO", (usuario instanceof Organizador) ? "organizador" : "asistente");
+        req.setAttribute("TIPO_USUARIO", (ses.getRolString().equals("ORGANIZADOR")) ? "organizador" : "asistente");
 
         req.getRequestDispatcher("/WEB-INF/views/ModificarUsuario.jsp").forward(req, resp);
     }
@@ -86,7 +89,7 @@ public class EditarPerfilSvt extends HttpServlet {
 
         String nickname = ses.getNickname();
         IControllerUsuario icu = Factory.getInstance().getIControllerUsuario();
-        Usuario user = icu.getUsuario(nickname);
+        DTUsuarioListaConsulta user = icu.consultaDeUsuario(nickname);
         if (user == null) throw new ServletException("Usuario no encontrado.");
 
      // Campos comunes 
@@ -103,34 +106,34 @@ public class EditarPerfilSvt extends HttpServlet {
             if (confirm == null || !password.equals(confirm)) {
                 // Preparar datos para re-render del formulario con error
                 IControllerInstitucion ici = Factory.getInstance().getIControllerInstitucion();
-                req.setAttribute("LISTA_INSTITUCION", ici.getInstituciones().toArray(Institucion[]::new));
+                req.setAttribute("LISTA_INSTITUCION", ici.getDTInstituciones().toArray(DTInstitucion[]::new));
                 req.setAttribute("USUARIO", user);
-                req.setAttribute("TIPO_USUARIO", (user instanceof Organizador) ? "organizador" : "asistente");
+                req.setAttribute("TIPO_USUARIO", (ses.getRolString().equals("ORGANIZADOR")) ? "organizador" : "asistente");
                 req.setAttribute("msgError", "Las contraseñas no coinciden."); // mostrala en el JSP
 
                 req.getRequestDispatcher("/WEB-INF/views/ModificarUsuario.jsp").forward(req, resp);
                 return; // ¡importante!
             }
             // Coinciden -> aplicar cambio
-            user.setContrasena(password);
+            try {
+            icu.setContrasena(user.getNickname(), password);
+            } catch (Exception e) {
+				throw new ServletException("Error al cambiar la contraseña.", e);
+			}
         }
 
 
         // Es asistente 
-        if (user instanceof Asistente a) {
-            String apellido = req.getParameter("apellido");
-            if (apellido != null) a.setApellido(apellido);
-
+        if (ses.getRolString().equals("ASISTENTE")) {
+            String apellido = req.getParameter("apellido");  
             String fechaStr = req.getParameter("fechaNacimiento");
-            if (fechaStr != null && !fechaStr.isBlank()) {
-                try { a.setfNacimiento(LocalDate.parse(fechaStr)); } catch (Exception ignore) {}
-            }
-
+            
+            try { icu.modificarUsuario(user.getNickname() , user.getNombre(), user.getApellido(), user.getFNacimiento(), null, null); 
+            } catch (Exception ignore) {}
+            
             String inst = req.getParameter("institucion");
             if (inst != null && !inst.isBlank()) {
-                IControllerInstitucion ici = Factory.getInstance().getIControllerInstitucion();
-                Institucion i = ici.findInstitucion(inst);
-                if (i != null) a.setInstitucion(i);
+                icu.aneadirInstitucion(user.getNickname(), inst);
             }
         }
 
@@ -213,7 +216,7 @@ public class EditarPerfilSvt extends HttpServlet {
         }
 
         // Guardar cambios en el repositorio/BD
-        icu.modificarUsuario1(user);
+        icu.modificarUsuarioDT(user);
 
         // Volver al perfil
         resp.sendRedirect(req.getContextPath() + "/perfil");

@@ -85,5 +85,29 @@ public class Asistente extends Usuario {
 	public void addRegistro(Registro regis) {
 		this.registros.add(regis);
 	}
+	
+	
+	public DTAsistente getDTAsistente() {
+	    DTInstitucion dtIns = null;
+	    if (this.getInstitucion() != null) {
+	        dtIns = this.getInstitucion().getDTInstitucion();
+	    }
+
+	    List<DTRegistro> dtRegs = this.getRegistros()
+	        .stream()
+	        .map(Registro::getDTRegistro)
+	        .collect(java.util.stream.Collectors.toList());
+
+	    return new DTAsistente(
+	        this.getNickname(),
+	        this.getCorreo(),
+	        this.getNombre(),
+	        this.getApellido(),
+	        this.getfNacimiento(),
+	        this.getImg(),
+	        dtIns,
+	        dtRegs
+	    );
+	}
 
 }

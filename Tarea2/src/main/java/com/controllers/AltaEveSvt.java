@@ -13,7 +13,7 @@ import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 
-import servidorcentral.logica.Categoria;
+import servidorcentral.logica.DTCategoria;
 import servidorcentral.logica.IControllerEvento;
 import servidorcentral.logica.Factory;
 
@@ -58,7 +58,7 @@ public class AltaEveSvt extends HttpServlet {
             errores.add("Ya existe un evento con ese nombre.");
         }
 
-        List<Categoria> categorias = Collections.emptyList();
+        List<DTCategoria> categorias = Collections.emptyList();
         if (errores.isEmpty()) {
             categorias = resolveCategorias(paramCats);
             if (categorias.isEmpty()) {
@@ -109,7 +109,7 @@ public class AltaEveSvt extends HttpServlet {
 
 
         try {
-            getController().altaEvento(
+            getController().altaEventoDT(
                 nombre,
                 descripcion,
                 LocalDate.now(),
@@ -156,10 +156,10 @@ public class AltaEveSvt extends HttpServlet {
         }
     }
 
-    private List<Categoria> resolveCategorias(String[] seleccionadas) {
-        List<Categoria> todas = getController().getCategorias();
-        Map<String, Categoria> porNombre = new HashMap<>();
-        for (Categoria c : todas) {
+    private List<DTCategoria> resolveCategorias(String[] seleccionadas) {
+        List<DTCategoria> todas = getController().listarDTCategorias();
+        Map<String, DTCategoria> porNombre = new HashMap<>();
+        for (DTCategoria c : todas) {
             if (c != null && c.getNombre() != null) {
                 porNombre.put(normaliza(c.getNombre()), c);
             }
@@ -167,13 +167,13 @@ public class AltaEveSvt extends HttpServlet {
 
         Map<String, String> codigoANombre = defaultCodigoNombre();
 
-        List<Categoria> res = new ArrayList<>();
+        List<DTCategoria> res = new ArrayList<>();
         for (String raw : seleccionadas) {
             if (raw == null) continue;
             String v = raw.trim();
 
             // Permitir que el JSP mande nombre o código
-            Categoria byName = porNombre.get(normaliza(v));
+            DTCategoria byName = porNombre.get(normaliza(v));
             if (byName != null) {
                 res.add(byName);
                 continue;
@@ -181,7 +181,7 @@ public class AltaEveSvt extends HttpServlet {
 
             String nombreCat = codigoANombre.get(v.toUpperCase(Locale.ROOT));
             if (nombreCat != null) {
-                Categoria byCode = porNombre.get(normaliza(nombreCat));
+                DTCategoria byCode = porNombre.get(normaliza(nombreCat));
                 if (byCode != null) res.add(byCode);
             }
         }

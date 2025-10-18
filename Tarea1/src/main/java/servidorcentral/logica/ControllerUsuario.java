@@ -58,7 +58,17 @@ public class ControllerUsuario implements IControllerUsuario {
         return Objects.equals(ingresada, almacenada);
     }
 
-
+    public void setContrasena(String nickname, String contrasenaNueva)
+			throws UsuarioNoExisteException, CredencialesInvalidasException {
+		ManejadorUsuario mus = ManejadorUsuario.getInstance();
+		Usuario usu = mus.findUsuario(nickname);
+		if (usu == null)
+			throw new UsuarioNoExisteException("No existe el usuario " + nickname);
+		if (isBlank(contrasenaNueva))
+			throw new CredencialesInvalidasException("La nueva contraseña no puede estar vacía.");
+		usu.setContrasena(contrasenaNueva);
+	}
+    
     public DTUsuarioListaConsulta consultaDeUsuario(String nicknameUsu) {
         ManejadorUsuario manejador = ManejadorUsuario.getInstance();
         Usuario usuario = manejador.findUsuario(nicknameUsu);
@@ -75,6 +85,13 @@ public class ControllerUsuario implements IControllerUsuario {
             dtu.setFNacimiento(asi.getfNacimiento());
             dtu.setRegistros(asi.getRegistros());
             List<Edicion> edicionesDeRegistros = asi.getRegistros().stream().map(r -> r.getEdicion()).toList();
+            Institucion inst=asi.getInstitucion();
+            DTInstitucion dti = null;
+            if (inst != null) {
+                ControllerInstitucion ctrlInst = new ControllerInstitucion();
+                dti = ctrlInst.getDTInstitucion(inst.getNombre());
+            }
+            dtu.setIns(dti);
             dtu.setEdiciones(edicionesDeRegistros);
             dtu.setDescripcion(null);
             dtu.setUrl(null);
@@ -213,15 +230,55 @@ public class ControllerUsuario implements IControllerUsuario {
         usu.setCorreo(usu.getCorreo());
         if (usu instanceof Asistente) {
             Asistente asi = (Asistente) usu;
-            asi.setApellido(apellido);
-            asi.setfNacimiento(fNac);
+            if(apellido != null) {
+				asi.setApellido(apellido);
+			}
+            if(fNac != null) {
+            	asi.setfNacimiento(fNac);
+            }
+            
+ 
         } else if (usu instanceof Organizador) {
             Organizador org = (Organizador) usu;
-            org.setDescripcion(descripcion);
-            org.setUrl(url);
+            if(descripcion != null) {
+            	org.setDescripcion(descripcion);
+            }
+            if(url != null) {
+				org.setUrl(url);
+			}
         }
     }
-
+    public DTAsistente getDTAsistente(String nick) {
+		ManejadorUsuario mus = ManejadorUsuario.getInstance();
+		 mus.findAsistente(nick);
+		 if(mus.findAsistente(nick)!=null) {
+			 return mus.findAsistente(nick).getDTAsistente();
+					 }else {
+						 			 return null;
+					 }
+		
+	}
+    
+    public DTOrganizadorDetallado getDTOrganizadorDetallado(String nick) {
+    			ManejadorUsuario mus = ManejadorUsuario.getInstance();
+    			
+    			 mus.findOrganizador(nick);
+    			 if(mus.findOrganizador(nick)!=null) {
+					 return mus.findOrganizador(nick).getDTOrganizadorDetallado();
+							 }else {
+								 			 return null;
+							 }
+    }
+    
+    public void aneadirInstitucion(String nicknAsis, String nombreIns) {
+		ManejadorUsuario mus = ManejadorUsuario.getInstance();
+		ManejadorInstitucion minst = ManejadorInstitucion.getInstance();
+		Asistente asi = mus.findAsistente(nicknAsis);
+		Institucion ins = minst.findInstitucion(nombreIns);
+		asi.setInstitucion(ins);
+		ins.addAsistente(asi);
+	}
+    
     public void modificarUsuario1(Usuario usu) {
         ManejadorUsuario mus = ManejadorUsuario.getInstance();
         Usuario existente = mus.findUsuario(usu.getNickname());
@@ -233,6 +290,16 @@ public class ControllerUsuario implements IControllerUsuario {
             aExistente.setApellido(aNuevo.getApellido());
             aExistente.setfNacimiento(aNuevo.getfNacimiento());
             aExistente.setInstitucion(aNuevo.getInstitucion());
+            
+            if ( aNuevo.getInstitucion() != null) {
+				ManejadorInstitucion minst = ManejadorInstitucion.getInstance();
+				Institucion nueva = minst.findInstitucion(aNuevo.getInstitucion().getNombre());
+				if (nueva != null) {
+					aExistente.setInstitucion(nueva);
+					nueva.addAsistente(aExistente);
+				}
+			}
+
         } else if (existente instanceof Organizador && usu instanceof Organizador) {
             Organizador oExistente = (Organizador) existente;
             Organizador oNuevo = (Organizador) usu;
@@ -240,6 +307,59 @@ public class ControllerUsuario implements IControllerUsuario {
             oExistente.setUrl(oNuevo.getUrl());
         }
     }
+    
+    public void modificarUsuarioDT(DTUsuarioListaConsulta dto) {
+        if (dto == null || dto.getNickname() == null) {
+            throw new IllegalArgumentException("DTO y nickname no pueden ser nulos.");
+        }
+
+        ManejadorUsuario mus = ManejadorUsuario.getInstance();
+        Usuario existente = mus.findUsuario(dto.getNickname());
+        
+
+        // Campos comunes (igual que modificarUsuario1)
+        if (dto.getNombre() != null) {
+            existente.setNombre(dto.getNombre());
+        }
+        if (dto.getCorreo() != null) {
+            existente.setCorreo(dto.getCorreo());
+        }
+
+        // Espejo de la rama Asistente en modificarUsuario1
+        if (existente instanceof Asistente) {
+            Asistente aExistente = (Asistente) existente;
+
+            if (dto.getApellido() != null) {
+                aExistente.setApellido(dto.getApellido());
+            }
+            if (dto.getFNacimiento() != null) {
+                aExistente.setfNacimiento(dto.getFNacimiento());
+            }
+
+            // Institución (si viene en el DTO, la resolvemos por nombre)
+            if (dto.getIns() != null && dto.getIns().getNombre() != null) {
+                ManejadorInstitucion minst = ManejadorInstitucion.getInstance();
+                Institucion nueva = minst.findInstitucion(dto.getIns().getNombre());
+                if (nueva != null) {
+                    aExistente.setInstitucion(nueva);
+                    // misma lógica que modificarUsuario1: asegurar relación en ambas direcciones
+                    nueva.addAsistente(aExistente);
+                }
+            }
+
+        // Espejo de la rama Organizador en modificarUsuario1
+        } else if (existente instanceof Organizador) {
+            Organizador oExistente = (Organizador) existente;
+
+            if (dto.getDescripcion() != null) {
+                oExistente.setDescripcion(dto.getDescripcion());
+            }
+            if (dto.getUrl() != null) {
+                oExistente.setUrl(dto.getUrl());
+            }
+        }
+    }
+    
 
     public Usuario getUsuario(String nickname) {
         ManejadorUsuario mus = ManejadorUsuario.getInstance();

@@ -16,9 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import servidorcentral.logica.ControllerInstitucion;
-import servidorcentral.logica.ControllerUsuario;
 import servidorcentral.logica.DTSesionUsuario;
-import servidorcentral.logica.RolUsuario;
 
 @WebServlet(name = "AltaInstitucionSvt", urlPatterns = {"/AltaInstitucion"})
 @MultipartConfig(
@@ -37,8 +35,8 @@ public class AltaInstitucionSvt extends HttpServlet {
         }else {
         	 DTSesionUsuario usuario = (DTSesionUsuario) session.getAttribute("usuario_logueado");
              if (usuario != null) {
-           	  	 RolUsuario rol = usuario.getRol(); // enum
-                 boolean esOrg  = rol == RolUsuario.ORGANIZADOR;
+           	  	 String rol = usuario.getRolString(); // enum
+                 boolean esOrg  = rol.equals("ORGANIZADOR") ;
                  if(!esOrg) {
                 	 response.sendRedirect(request.getContextPath() + "/login"); 
                      return;

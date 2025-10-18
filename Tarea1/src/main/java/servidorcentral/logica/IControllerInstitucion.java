@@ -11,5 +11,5 @@ public interface IControllerInstitucion {
 	public List<Institucion> getInstituciones();
 	
 	public List<DTInstitucion> getDTInstituciones();
-	
+	public DTInstitucion getDTInstitucion(String nombreInst);
 }
