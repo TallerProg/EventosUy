@@ -29,5 +29,20 @@ public class ControllerInstitucion implements IControllerInstitucion {
 		ManejadorInstitucion min = ManejadorInstitucion.getInstance();
 		return min.listarDTInstituciones();
 	}
+	
+	public DTInstitucion getDTInstitucion(String nombreInst) {
+	    ManejadorInstitucion manejador = ManejadorInstitucion.getInstance();
+	    Institucion inst = manejador.findInstitucion(nombreInst);
+	    if (inst == null)
+	        return null;
+
+	    DTInstitucion dti = new DTInstitucion(
+	            inst.getNombre(),
+	            inst.getDescripcion(),
+	            inst.getUrl(),
+	            inst.getImg()
+	        );
+	    return dti;
+	}
 
 }

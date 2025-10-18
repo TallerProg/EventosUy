@@ -2,10 +2,8 @@ package com.controllers;
 
 import servidorcentral.logica.Factory;
 import servidorcentral.logica.IControllerUsuario;
-import servidorcentral.logica.Institucion;
 import servidorcentral.logica.Organizador;
 import servidorcentral.logica.Asistente;
-import servidorcentral.logica.ControllerUsuario;
 import servidorcentral.logica.DTSesionUsuario;
 import servidorcentral.logica.RolUsuario;
 import servidorcentral.logica.DTUsuarioListaConsulta;
@@ -68,15 +66,14 @@ public class PerfilSvt extends HttpServlet {
         String imgDominio = null;
         try {
             if (esAsis) {
-                Asistente asist = ctrl.getAsistente(dtusuario.getNickname());
-                req.setAttribute("INSTITUCION", asist.getInstitucion());
-                try { imgDominio = asist.getImg(); } catch (Exception ignore) {
-                    try { imgDominio = asist.getImg(); } catch (Exception ignore2) {}
+            	
+                req.setAttribute("INSTITUCION", dtusuario.getIns().getNombre());
+                try { imgDominio = dtusuario.getImg(); } catch (Exception ignore) {
+                    try { imgDominio = dtusuario.getImg(); } catch (Exception ignore2) {}
                 }
             } else {
-                Organizador org = ctrl.getOrganizador(dtusuario.getNickname());
-                try { imgDominio = org.getImg(); } catch (Exception ignore) {
-                    try { imgDominio = org.getImg(); } catch (Exception ignore2) {}
+                try { imgDominio = dtusuario.getImg(); } catch (Exception ignore) {
+                    try { imgDominio = dtusuario.getImg(); } catch (Exception ignore2) {}
                 }
             }
         } catch (Exception e) {
