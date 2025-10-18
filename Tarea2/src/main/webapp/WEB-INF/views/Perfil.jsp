@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="servidorcentral.logica.ControllerUsuario.DTSesionUsuario" %>
+<%@ page import="servidorcentral.logica.DTSesionUsuario" %>
 <%@ page import="servidorcentral.logica.DTUsuarioListaConsulta" %>
 <%@ page import="servidorcentral.logica.Institucion" %>
 
@@ -55,11 +55,10 @@
                   <li><strong>Sitio Web:</strong> <%= dtusuario.getUrl() %></li>
                 <% } else if (ES_ASIS) { %>
                   <%
-                    Institucion ins = (Institucion) request.getAttribute("INSTITUCION");
+                  	String ins = (String) request.getAttribute("INSTITUCION");
                   %>
                   <li><strong>Fecha de Nacimiento:</strong> <%= dtusuario.getFNacimiento() %></li>
-                  <li><strong>Institución:</strong> <%= (ins != null) ? ins.getNombre() : "(sin institución)" %></li>
-                <% } %>
+ 				  <li><strong>Institución:</strong> <%= (ins != null) ? ins : "(sin institución)" %></li><% } %>
               </ul>
               <a href="<%= ctx %>/editarperfil" class="btn btn-primary mt-4">Editar Perfil</a>
             </div>

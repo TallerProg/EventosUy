@@ -74,6 +74,13 @@ public class ControllerUsuario implements IControllerUsuario {
             dtu.setFNacimiento(asi.getfNacimiento());
             dtu.setRegistros(asi.getRegistros());
             List<Edicion> edicionesDeRegistros = asi.getRegistros().stream().map(r -> r.getEdicion()).toList();
+            Institucion inst=asi.getInstitucion();
+            DTInstitucion dti = null;
+            if (inst != null) {
+                ControllerInstitucion ctrlInst = new ControllerInstitucion();
+                dti = ctrlInst.getDTInstitucion(inst.getNombre());
+            }
+            dtu.setIns(dti);
             dtu.setEdiciones(edicionesDeRegistros);
             dtu.setDescripcion(null);
             dtu.setUrl(null);
