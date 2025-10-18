@@ -137,17 +137,8 @@ public class RegistrarSvt extends HttpServlet {
                     return;
                 }
 
-                Institucion institucion = null;
-                if (!isBlank(institucionName)) {
-                    institucion = obtenerInstitucionPorNombre(institucionName); 
-                    if (institucion == null) {
-                        setErrorAndForward("La institución seleccionada no existe.", request, response);
-                        return;
-                    }
-                }
-
                 ctrl.altaAsistente(
-                        nickname, email, nombre, apellido, fechaNac, institucion, password,imagenWebPath
+                        nickname, email, nombre, apellido, fechaNac, ci.findInstitucion(institucionName), password,imagenWebPath
                 );
 
             } else if ("organizador".equalsIgnoreCase(tipo)) {
