@@ -129,6 +129,21 @@ public class ControllerEvento implements IControllerEvento {
 		}
 	}
 
+	
+	public void altaEventoDT(String nombre, String desc, LocalDate fAlta, String sigla, List<DTCategoria> categorias, String img)
+			throws Exception {
+		ManejadorEvento mev = ManejadorEvento.getInstancia();
+
+		if (mev.existeEvento(nombre)) {
+			throw new Exception("El evento" + nombre + "ya esta registrado");
+		} else {
+			
+			Evento Eve = new Evento(nombre, sigla, desc, fAlta,  Categoria.fromDtoList(categorias), img);
+			mev.agregarEvento(Eve);
+
+		}
+	}
+	
 	@Override
 	public void altaRegistro(String nombreEdicion, String nickAsistente, String nombreTR, String codigo)
 			throws Exception {
