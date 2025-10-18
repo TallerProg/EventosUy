@@ -12,7 +12,6 @@ import java.util.Locale;
 import servidorcentral.logica.ControllerUsuario;
 import servidorcentral.logica.Factory;
 import servidorcentral.logica.IControllerInstitucion;
-import servidorcentral.logica.Institucion;
 import servidorcentral.logica.DTInstitucion;
 
 
@@ -170,11 +169,6 @@ public class RegistrarSvt extends HttpServlet {
         List<DTInstitucion> instituciones = ci.getDTInstituciones();
         req.setAttribute("instituciones", instituciones);
         req.setAttribute("hoy", LocalDate.now().toString());
-    }
-
-    private Institucion obtenerInstitucionPorNombre(String nombre) {
-        try { return ci.findInstitucion(nombre); } catch (Throwable ignored) {}
-        return null;
     }
 
     private static String trim(String s) { return (s == null) ? "" : s.trim(); }

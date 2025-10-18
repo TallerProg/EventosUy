@@ -15,7 +15,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
-import servidorcentral.logica.ControllerInstitucion;
+import servidorcentral.logica.Factory;
+import servidorcentral.logica.IControllerInstitucion;
 import servidorcentral.logica.DTSesionUsuario;
 
 @WebServlet(name = "AltaInstitucionSvt", urlPatterns = {"/AltaInstitucion"})
@@ -25,7 +26,11 @@ import servidorcentral.logica.DTSesionUsuario;
     maxRequestSize = 15 * 1024 * 1024
 )
 public class AltaInstitucionSvt extends HttpServlet {
-    private static final String INST_IMG_DIR = "/media/img/institucion";
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private static final String INST_IMG_DIR = "/media/img/institucion";
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	HttpSession session = request.getSession(false); 
@@ -108,8 +113,8 @@ public class AltaInstitucionSvt extends HttpServlet {
         } catch (Exception ex) {
         	setErrorMessage("No se pudo guardar la imagen: " + ex.getMessage(),request);
         }
-
-        ControllerInstitucion ctrl = new ControllerInstitucion();
+        Factory fabrica = Factory.getInstance();
+        IControllerInstitucion ctrl = fabrica.getIControllerInstitucion();
 
         try {
             // Registrar la institución

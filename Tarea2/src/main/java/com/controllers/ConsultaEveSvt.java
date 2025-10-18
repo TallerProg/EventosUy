@@ -23,6 +23,12 @@ import servidorcentral.logica.DTevento;
 @MultipartConfig(fileSizeThreshold = 1 * 1024 * 1024, maxFileSize = 10 * 1024 * 1024, maxRequestSize = 15 * 1024 * 1024)
 public class ConsultaEveSvt extends HttpServlet {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+
 	@Override
 	
 protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

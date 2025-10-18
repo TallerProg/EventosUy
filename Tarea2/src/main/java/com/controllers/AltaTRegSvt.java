@@ -8,10 +8,14 @@ import jakarta.servlet.http.*;
 
 import servidorcentral.logica.Factory;
 import servidorcentral.logica.IControllerEvento;
-import servidorcentral.logica.Edicion;
 
 @WebServlet(name = "AltaTipoRegistroSvt", urlPatterns = { "/organizador-tipos-registro-alta" })
 public class AltaTRegSvt extends HttpServlet {
+
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
   private IControllerEvento  ce() { return Factory.getInstance().getIControllerEvento(); }
 

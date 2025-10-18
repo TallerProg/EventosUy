@@ -2,8 +2,6 @@ package com.controllers;
 
 import servidorcentral.logica.Factory;
 import servidorcentral.logica.IControllerUsuario;
-import servidorcentral.logica.Organizador;
-import servidorcentral.logica.Asistente;
 import servidorcentral.logica.DTSesionUsuario;
 import servidorcentral.logica.RolUsuario;
 import servidorcentral.logica.DTUsuarioListaConsulta;
@@ -20,7 +18,6 @@ public class PerfilSvt extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     private String buildVersionedUrl(HttpServletRequest req, String fileOrPath) {
-        // fileOrPath puede ser nombre ("nick.jpg") o ruta relativa ("/media/img/usuarios/nick.jpg")
         String rel = (fileOrPath == null || fileOrPath.isBlank())
             ? "/media/img/default.png"
             : (fileOrPath.startsWith("/") ? fileOrPath : "/media/img/usuarios/" + fileOrPath);

@@ -12,8 +12,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import servidorcentral.logica.DTSesionUsuario;
 import servidorcentral.logica.RolUsuario;
-import servidorcentral.logica.Evento;
-import servidorcentral.logica.ManejadorEvento;
 import servidorcentral.logica.Factory;
 import servidorcentral.logica.IControllerEvento;
 import servidorcentral.logica.ControllerEvento; 
