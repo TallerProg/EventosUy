@@ -68,6 +68,7 @@ public class ControllerUsuario implements IControllerUsuario {
         dtu.setNickname(usuario.getNickname());
         dtu.setCorreo(usuario.getCorreo());
         dtu.setNombre(usuario.getNombre());
+        dtu.setImg(usuario.getImg());
         if (usuario instanceof Asistente) {
             Asistente asi = (Asistente) usuario;
             dtu.setApellido(asi.getApellido());

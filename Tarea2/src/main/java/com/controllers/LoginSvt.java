@@ -2,7 +2,7 @@ package com.controllers;
 
 import servidorcentral.logica.Factory;
 import servidorcentral.logica.IControllerUsuario;
-import servidorcentral.logica.Usuario;
+import servidorcentral.logica.DTUsuarioListaConsulta;
 import servidorcentral.logica.DTSesionUsuario;
 
 import jakarta.servlet.ServletException;
@@ -50,7 +50,7 @@ public class LoginSvt extends HttpServlet {
             DTSesionUsuario usuario = ICU.iniciarSesion(identifier, password);
             Factory fabrica = Factory.getInstance();
             IControllerUsuario ctrl = fabrica.getIControllerUsuario();
-            Usuario usr=ctrl.getUsuario(usuario.getNickname());
+            DTUsuarioListaConsulta usr=ctrl.consultaDeUsuario(usuario.getNickname());
             HttpSession ses = req.getSession(true);
             ses.setAttribute("usuario_logueado", usuario);
             ses.setAttribute("IMAGEN_LOGUEADO", usr.getImg());
