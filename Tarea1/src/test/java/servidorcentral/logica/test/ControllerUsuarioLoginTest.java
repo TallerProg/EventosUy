@@ -19,6 +19,12 @@ import servidorcentral.logica.ControllerUsuario;
 import servidorcentral.logica.ManejadorUsuario;
 import servidorcentral.logica.RolUsuario;
 import servidorcentral.logica.DTSesionUsuario;
+import java.util.List;
+
+import servidorcentral.logica.Asistente;
+import servidorcentral.logica.TipoRegistro;
+import servidorcentral.logica.Registro;
+
 
 class ControllerUsuarioLoginTest {
 
@@ -108,5 +114,29 @@ class ControllerUsuarioLoginTest {
                 );
         assertDoesNotThrow(() -> controller.cerrarSesion(ses));
     }
+    @Test
+    void asistenteRegistrosFechas_OK() throws Exception {
+        Asistente a = controller.getAsistente("asist1");
+        assertNotNull(a, "Debe existir el asistente asist1");
+
+        TipoRegistro tipo = new TipoRegistro("General", "Acceso general", 100f, 50, null);
+
+        LocalDate f1 = LocalDate.now();
+        LocalDate f2 = LocalDate.now().plusDays(1);
+
+        // Ojo al orden del constructor: (costo, edicion, asistente, tipoRegistro, fInicio)
+        Registro r1 = new Registro(100f, null, a, tipo, f1);
+        Registro r2 = new Registro(200f, null, a, tipo, f2);
+
+        a.addRegistro(r1);
+        a.addRegistro(r2);
+
+        var fechas = a.registrosFechas();
+
+        assertEquals(2, fechas.size(), "Debe devolver 2 fechas");
+        assertEquals(f1.toString(), fechas.get(0), "Debe preservar el orden de inserción");
+        assertEquals(f2.toString(), fechas.get(1));
+    }
+
 }
 

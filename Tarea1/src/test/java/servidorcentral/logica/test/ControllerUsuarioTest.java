@@ -21,6 +21,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 import servidorcentral.excepciones.UsuarioRepetidoException;
 import servidorcentral.logica.Asistente;
 import servidorcentral.logica.DTUsuarioLista;
+import servidorcentral.logica.DTUsuarioListaConsulta;
 import servidorcentral.logica.Factory;
 import servidorcentral.logica.IControllerUsuario;
 import servidorcentral.logica.Institucion;
@@ -28,6 +29,14 @@ import servidorcentral.logica.ManejadorUsuario;
 import servidorcentral.logica.Organizador;
 import servidorcentral.logica.Registro;
 import servidorcentral.logica.TipoRegistro;
+import servidorcentral.logica.Usuario;
+import servidorcentral.logica.DTAsistente;
+import servidorcentral.logica.DTInstitucion;
+import servidorcentral.logica.DTOrganizadorDetallado;
+import servidorcentral.logica.ManejadorInstitucion;
+import servidorcentral.excepciones.UsuarioNoExisteException;
+import servidorcentral.excepciones.CredencialesInvalidasException;
+
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class ControllerUsuarioTest {
@@ -319,4 +328,242 @@ class ControllerUsuarioTest {
         assertTrue(fechas.stream().allMatch(f -> f.equals(hoy)),
                 "Todas las fechas deben ser iguales a la fecha de hoy: " + hoy);
     }
+    
+ // =================== Tests extra: DTOs y vinculación de institución ===================
+
+    @Test
+    @Order(11)
+    void testGetDTAsistente_OK_minimo() {
+        String nick = "asis_dt_ok_min";
+        LocalDate fnac = LocalDate.parse("05/06/2000", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        try {
+            controladorUsu.altaAsistente(
+                nick, "asis_dt_ok_min@test.com", "Ana", "Lopez",
+                fnac, null, "1234", "ana.png"
+            );
+        } catch (UsuarioRepetidoException e) {
+            fail(e.getMessage());
+        }
+
+        DTAsistente dto = controladorUsu.getDTAsistente(nick);
+        assertNotNull(dto, "Debe devolver un DTAsistente no nulo");
+        assertEquals(nick, dto.getNickname());
+        assertEquals("Ana", dto.getNombre());
+        assertEquals("Lopez", dto.getApellido());
+    }
+
+    @Test
+    @Order(12)
+    void testGetDTOrganizadorDetallado_OK_minimo() {
+        String nick = "org_dt_ok_min";
+        try {
+            controladorUsu.altaOrganizador(
+                nick, "org_dt_ok_min@test.com", "Carlos", "Org desc",
+                "https://url.org", "1234", "org.png"
+            );
+        } catch (UsuarioRepetidoException e) {
+            fail(e.getMessage());
+        }
+
+        DTOrganizadorDetallado dto = controladorUsu.getDTOrganizadorDetallado(nick);
+        assertNotNull(dto, "Debe devolver un DTOrganizadorDetallado no nulo");
+        assertEquals(nick, dto.getNickname());
+        assertEquals("Carlos", dto.getNombre());
+    }
+
+    @Test
+    @Order(13)
+    void testAneadirInstitucion_OK_minimo() {
+        // Crear asistente sin institución
+        String nick = "asis_vinc_ok_min";
+        LocalDate fnac = LocalDate.parse("10/10/1999", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        try {
+            controladorUsu.altaAsistente(
+                nick, "asis_vinc_ok_min@test.com", "Lucia", "Perez",
+                fnac, null, "1234", "lucia.png"
+            );
+        } catch (UsuarioRepetidoException e) {
+            fail(e.getMessage());
+        }
+
+        // Registrar institución en el manejador (ajustá el nombre del método si difiere)
+        String nombreIns = "FacultadIngenieria";
+        Institucion ins = new Institucion(nombreIns, "https://fi.edu.uy", "FI", "fi.png");
+        try {
+            // Si en tu proyecto se llama distinto (alta/registrar/add/addInstitucion), cambialo acá.
+            ManejadorInstitucion.getInstance().agregarInstitucion(ins);
+        } catch (Throwable t) {
+            fail("Registrá la institución usando el método real de ManejadorInstitucion (p. ej. agregar/alta/registrar).");
+        }
+
+        // Vincular
+        controladorUsu.aneadirInstitucion(nick, nombreIns);
+
+        // Verificar
+        Asistente a = controladorUsu.getAsistente(nick);
+        assertNotNull(a.getInstitucion(), "El asistente debe quedar con institución");
+        assertEquals(nombreIns, a.getInstitucion().getNombre(), "Nombre de institución esperado");
+    }
+    
+    @Test
+    @Order(14)
+    void testSetContrasena_minimo() {
+        String nick = "asis_pass_min";
+        LocalDate fnac = LocalDate.parse("05/06/2000", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        try {
+            controladorUsu.altaAsistente(
+                nick, "asis_pass_min@test.com", "Ana", "Lopez",
+                fnac, null, "1234", "ana.png"
+            );
+        } catch (UsuarioRepetidoException e) {
+            fail(e.getMessage());
+        }
+
+        try {
+            controladorUsu.setContrasena(nick, "NuevaSegura!123");
+        } catch (Exception e) {
+            fail("No debería lanzar excepción en el caso OK: " + e.getMessage());
+        }
+
+
+        // Caso inválido: contraseña vacía/blanca
+        assertThrows(CredencialesInvalidasException.class,
+            () -> controladorUsu.setContrasena(nick, "   ")
+        );
+
+        // Caso inexistente: usuario no existe
+        assertThrows(UsuarioNoExisteException.class,
+            () -> controladorUsu.setContrasena("no_existe_x", "otra123")
+        );
+    }
+
+    @Test
+    @Order(15)
+    void testListarUsuarios_minimo() {
+        // Prepara: 1 asistente + 1 organizador
+        String nickAsis = "asis_list_min";
+        String nickOrg  = "org_list_min";
+
+        LocalDate fnac = LocalDate.parse("01/01/2000", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+
+        try {
+            controladorUsu.altaAsistente(
+                nickAsis, "asis_list_min@test.com", "Ana", "Perez",
+                fnac, null, "1234", "ana.png"
+            );
+            controladorUsu.altaOrganizador(
+                nickOrg, "org_list_min@test.com", "Carlos", "Desc Org",
+                null, "1234", "carlos.png"
+            );
+        } catch (UsuarioRepetidoException e) {
+            fail(e.getMessage());
+        }
+
+        // Ejecuta
+        List<Usuario> usuarios = controladorUsu.listarUsuarios();
+
+        // Verifica: hay 2 y están los dos nicks
+        assertNotNull(usuarios, "La lista no debe ser nula");
+        assertEquals(2, usuarios.size(), "Debe listar exactamente 2 usuarios");
+
+        boolean tieneAsis = usuarios.stream().anyMatch(u -> u.getNickname().equals(nickAsis));
+        boolean tieneOrg  = usuarios.stream().anyMatch(u -> u.getNickname().equals(nickOrg));
+
+        assertTrue(tieneAsis, "Debe incluir al asistente creado");
+        assertTrue(tieneOrg,  "Debe incluir al organizador creado");
+    }
+
+    
+
+    @Test
+    @Order(18)
+    void testModificarUsuarioDT_Asistente_minimo() {
+        // Arrange: crear asistente sin institución
+        String nick = "asis_mod_dt_min";
+        LocalDate fnac = LocalDate.parse("01/01/2000", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        try {
+            controladorUsu.altaAsistente(
+                nick, "asis_mod_dt_min@test.com", "Ana", "Perez",
+                fnac, null, "1234", "ana.png"
+            );
+        } catch (UsuarioRepetidoException e) {
+            fail(e.getMessage());
+        }
+
+        // Registrar institución a asignar
+        String nombreIns = "FacultadIngenieria";
+        Institucion ins = new Institucion(nombreIns, "https://fi.edu.uy", "FI", "fi.png");
+        try {
+            // Cambiá "agregar" si tu ManejadorInstitucion usa otro nombre (alta/registrar/add/addInstitucion)
+            ManejadorInstitucion.getInstance().agregarInstitucion(ins);
+        } catch (Throwable t) {
+            fail("Registrá la institución usando el método real de ManejadorInstitucion.");
+        }
+
+        // DTO con cambios (nombre, correo, apellido, fecha nac) y nueva institución
+        DTUsuarioListaConsulta dto = new DTUsuarioListaConsulta();
+        // setters mínimos esperados; si tu DTO no tiene setters, adaptá a tu constructor/builder
+        dto.setNickname(nick);
+        dto.setNombre("AnaMod");
+        dto.setCorreo("ana.mod@test.com");
+        dto.setApellido("PerezMod");
+        dto.setFNacimiento(LocalDate.parse("02/02/2002", DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        dto.setIns(new DTInstitucion(nombreIns, "FI", "https://fi.edu.uy", "fi.png"));
+
+        // Act
+        controladorUsu.modificarUsuarioDT(dto);
+
+        // Assert
+        Asistente a = controladorUsu.getAsistente(nick);
+        assertNotNull(a, "El asistente debe existir");
+        assertEquals("AnaMod", a.getNombre());
+        assertEquals("ana.mod@test.com", a.getCorreo());
+        assertEquals("PerezMod", a.getApellido());
+        assertEquals(LocalDate.parse("02/02/2002", DateTimeFormatter.ofPattern("dd/MM/yyyy")), a.getfNacimiento());
+        assertNotNull(a.getInstitucion(), "Debe haberse asignado la institución");
+        assertEquals(nombreIns, a.getInstitucion().getNombre());
+
+        // Verifica relación bidireccional
+        Institucion insMgr = ManejadorInstitucion.getInstance().findInstitucion(nombreIns);
+        assertNotNull(insMgr);
+        assertTrue(insMgr.getAsistentes().stream().anyMatch(x -> x.getNickname().equals(nick)),
+            "La institución debe contener al asistente");
+    }
+
+    @Test
+    @Order(19)
+    void testModificarUsuarioDT_Organizador_minimo() {
+        // Arrange: crear organizador
+        String nick = "org_mod_dt_min";
+        try {
+            controladorUsu.altaOrganizador(
+                nick, "org_mod_dt_min@test.com", "Carlos", "Desc Org",
+                "https://org.old", "1234", "org.png"
+            );
+        } catch (UsuarioRepetidoException e) {
+            fail(e.getMessage());
+        }
+
+        // DTO con cambios para organizador (nombre, correo, descripcion, url)
+        DTUsuarioListaConsulta dto = new DTUsuarioListaConsulta();
+        dto.setNickname(nick);
+        dto.setNombre("CarlosMod");
+        dto.setCorreo("carlos.mod@test.com");
+        dto.setDescripcion("Desc Org Mod");
+        dto.setUrl("https://org.new");
+
+        // Act
+        controladorUsu.modificarUsuarioDT(dto);
+
+        // Assert
+        Organizador o = controladorUsu.getOrganizador(nick);
+        assertNotNull(o, "El organizador debe existir");
+        assertEquals("CarlosMod", o.getNombre());
+        assertEquals("carlos.mod@test.com", o.getCorreo());
+        assertEquals("Desc Org Mod", o.getDescripcion());
+        assertEquals("https://org.new", o.getUrl());
+    }
+
+    
+    
 }

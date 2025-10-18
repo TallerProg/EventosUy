@@ -289,7 +289,15 @@ public class ControllerUsuario implements IControllerUsuario {
             aExistente.setApellido(aNuevo.getApellido());
             aExistente.setfNacimiento(aNuevo.getfNacimiento());
             aExistente.setInstitucion(aNuevo.getInstitucion());
-            aNuevo.getInstitucion().addAsistente(aExistente);
+            
+            if ( aNuevo.getInstitucion() != null) {
+				ManejadorInstitucion minst = ManejadorInstitucion.getInstance();
+				Institucion nueva = minst.findInstitucion(aNuevo.getInstitucion().getNombre());
+				if (nueva != null) {
+					aExistente.setInstitucion(nueva);
+					nueva.addAsistente(aExistente);
+				}
+			}
 
         } else if (existente instanceof Organizador && usu instanceof Organizador) {
             Organizador oExistente = (Organizador) existente;
