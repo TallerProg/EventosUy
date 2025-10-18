@@ -17,6 +17,8 @@ import servidorcentral.excepciones.UsuarioNoExisteException;
 import servidorcentral.excepciones.UsuarioRepetidoException;
 import servidorcentral.logica.ControllerUsuario;
 import servidorcentral.logica.ManejadorUsuario;
+import servidorcentral.logica.RolUsuario;
+import servidorcentral.logica.DTSesionUsuario;
 
 class ControllerUsuarioLoginTest {
 
@@ -56,22 +58,22 @@ class ControllerUsuarioLoginTest {
 
     @Test
     void loginPorNicknameAsistenteOK() throws Exception {
-        ControllerUsuario.DTSesionUsuario ses = controller.iniciarSesion("asist1", "1234");
+       DTSesionUsuario ses = controller.iniciarSesion("asist1", "1234");
         assertNotNull(ses);
         assertEquals("asist1", ses.getNickname());
         assertEquals("asist1@mail.com", ses.getCorreo());
-        assertEquals(ControllerUsuario.RolUsuario.ASISTENTE, ses.getRol());
+        assertEquals(RolUsuario.ASISTENTE, ses.getRol());
         assertNotNull(ses.getFechaHoraInicio());
         assertTrue(ses.getFechaHoraInicio().isBefore(LocalDateTime.now().plusSeconds(2)));
     }
 
     @Test
     void loginPorCorreoOrganizadorOK() throws Exception {
-        ControllerUsuario.DTSesionUsuario ses = controller.iniciarSesion("org1@mail.com", "abcd");
+        DTSesionUsuario ses = controller.iniciarSesion("org1@mail.com", "abcd");
         assertNotNull(ses);
         assertEquals("org1", ses.getNickname());
         assertEquals("org1@mail.com", ses.getCorreo());
-        assertEquals(ControllerUsuario.RolUsuario.ORGANIZADOR, ses.getRol());
+        assertEquals(RolUsuario.ORGANIZADOR, ses.getRol());
     }
 
     @Test
@@ -98,10 +100,10 @@ class ControllerUsuarioLoginTest {
 
     @Test
     void cerrarSesionNoNPE() {
-        ControllerUsuario.DTSesionUsuario ses =
-                new ControllerUsuario.DTSesionUsuario(
+        DTSesionUsuario ses =
+                new DTSesionUsuario(
                         "asist1", "asist1@mail.com",
-                        ControllerUsuario.RolUsuario.ASISTENTE,
+                        RolUsuario.ASISTENTE,
                         LocalDateTime.now()
                 );
         assertDoesNotThrow(() -> controller.cerrarSesion(ses));
