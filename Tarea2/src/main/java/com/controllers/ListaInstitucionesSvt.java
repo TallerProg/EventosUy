@@ -12,7 +12,7 @@ import jakarta.servlet.http.HttpSession;
 
 import servidorcentral.logica.Factory;
 import servidorcentral.logica.IControllerInstitucion;
-import servidorcentral.logica.Institucion;
+import servidorcentral.logica.DTInstitucion;
 import servidorcentral.logica.DTSesionUsuario;
 import servidorcentral.logica.RolUsuario;
 
@@ -37,7 +37,7 @@ public class ListaInstitucionesSvt extends HttpServlet {
     // Carga de instituciones 
     try {
       IControllerInstitucion ctrl = Factory.getInstance().getIControllerInstitucion();
-      List<Institucion> instituciones = ctrl.getInstituciones();
+      List<DTInstitucion> instituciones = ctrl.getDTInstituciones();
       req.setAttribute("INSTITUCIONES", instituciones);
     } catch (Exception e) {
       req.setAttribute("INSTITUCIONES", java.util.Collections.emptyList());

@@ -1,13 +1,13 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.util.List" %>
-<%@ page import="servidorcentral.logica.Institucion" %>
+<%@ page import="servidorcentral.logica.DTInstitucion" %>
 <%
   String ctx = request.getContextPath(); 
   boolean ES_ORG = Boolean.TRUE.equals(request.getAttribute("ES_ORG"));
 
   @SuppressWarnings("unchecked")
-  java.util.List<servidorcentral.logica.Institucion> instituciones =
-      (java.util.List<servidorcentral.logica.Institucion>) request.getAttribute("INSTITUCIONES");
+  java.util.List<servidorcentral.logica.DTInstitucion> instituciones =
+      (java.util.List<servidorcentral.logica.DTInstitucion>) request.getAttribute("INSTITUCIONES");
 
   Object errMsg = request.getAttribute("msgError");
 %>
@@ -51,8 +51,8 @@
         <div class="alert alert-warning">No hay instituciones para mostrar.</div>
       <% } else { %>
         <div class="row g-4 justify-content-center">
-          <% for (Institucion i : instituciones) {
-        	  String img = (i != null && i.getImg() != null && !i.getImg().isBlank()) ? (ctx + i.getImg()): (ctx + "/media/img/default.png");
+          <% for (DTInstitucion i : instituciones) {
+        	  String img = (i != null && i.getImagen() != null && !i.getImagen().isBlank()) ? (ctx + i.getImagen()): (ctx + "/media/img/default.png");
                String nombre = (i != null && i.getNombre() != null) ? i.getNombre() : "";
                String desc   = (i != null && i.getDescripcion() != null) ? i.getDescripcion() : "";
                String web    = (i != null && i.getUrl() != null) ? i.getUrl() : "";
