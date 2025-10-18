@@ -81,23 +81,18 @@ public class AltaTRegSvt extends HttpServlet {
 
 
     try {
-    	// Buscar la edición por nombre
-        Edicion edicion = ce().findEdicion(edSel);
-        if (edicion == null) {
-          req.setAttribute("msgError", "No se encontró la edición seleccionada.");
-          req.getRequestDispatcher("/WEB-INF/views/AltaTipoRegistro.jsp").forward(req, resp);
-          return;
-        }
+
+
 
       // Si ya existe un tr con mismo nombre
-      if (edicion.existeTR(nombreTR)) {
+      if (ce().findEdicion(edSel).existeTR(nombreTR)) {
         req.setAttribute("msgError", "El nombre de tipo de registro \"" + nombreTR + "\" ya fue utilizado en esa edición.");
         req.getRequestDispatcher("/WEB-INF/views/AltaTipoRegistro.jsp").forward(req, resp);
         return;
       }
 
       // Alta
-      ce().altaTipoRegistro(nombreTR, descr, costo, cupo, edicion);
+      ce().altaTipoRegistro(nombreTR, descr, costo, cupo, ce().findEdicion(edSel));
 
       // Si hay exito
       req.getSession().setAttribute("flashOk",
