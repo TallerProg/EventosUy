@@ -54,4 +54,5 @@ public interface IControllerUsuario {
     public void cerrarSesion(DTSesionUsuario sesion);
     public DTSesionUsuario iniciarSesion(String login, String contrasena)
             throws UsuarioNoExisteException, CredencialesInvalidasException;
+    public void actualizarImagenUsuario(String nickname, String imgPath);
 }

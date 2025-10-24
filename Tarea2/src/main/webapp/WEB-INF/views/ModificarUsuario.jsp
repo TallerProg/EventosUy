@@ -1,12 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="servidorcentral.logica.Usuario,servidorcentral.logica.Asistente,servidorcentral.logica.DTInstitucion"%>
+<%@ page import="
+servidorcentral.logica.DTAsistente,
+servidorcentral.logica.DTInstitucion"%>
 <%@ page import="servidorcentral.logica.DTUsuarioListaConsulta" %>
 
 <%
   String ctx = request.getContextPath();
   String img = (String) session.getAttribute("IMAGEN_LOGUEADO");
   String imagen = (img != null && !img.isBlank()) ? (ctx + img) : (ctx + "/media/img/default.png"); 
-
 %>
 <!DOCTYPE html>
 <html lang="es">
@@ -24,24 +25,44 @@
   DTUsuarioListaConsulta us = (DTUsuarioListaConsulta) request.getAttribute("USUARIO");
   String tipo = (String) request.getAttribute("TIPO_USUARIO");
   DTInstitucion[] instituciones = (DTInstitucion[]) request.getAttribute("LISTA_INSTITUCION");
-	boolean ES_ASIS = Boolean.TRUE.equals(request.getAttribute("ES_ASIS"));
+  boolean ES_ASIS = Boolean.TRUE.equals(request.getAttribute("ES_ASIS"));
 
   String nick = (us != null) ? us.getNickname() : "";
   String correo = (us != null) ? us.getCorreo() : "";
   String nombre = (us != null) ? us.getNombre() : "";
+  String uRL = (us != null) ? us.getUrl() : "";
+  String descripcion = (us != null) ? us.getDescripcion() : "";
   String apellido = "";
   String fechaISO = "";
   String instUser = "";
   if (ES_ASIS) {
-	  DTUsuarioListaConsulta a = (DTUsuarioListaConsulta) us;
-    apellido = (a.getApellido() != null) ? a.getApellido() : "";
-    fechaISO = (a.getFNacimiento() != null) ? a.getFNacimiento().toString() : "";
-    if (a.getIns() != null) instUser = a.getIns().getNombre();
+    DTUsuarioListaConsulta a = (DTUsuarioListaConsulta) us;
+    apellido = (a != null && a.getApellido() != null) ? a.getApellido() : "";
+    fechaISO = (a != null && a.getFNacimiento() != null) ? a.getFNacimiento().toString() : "";
+    if (a != null && a.getIns() != null) instUser = a.getIns().getNombre();
+  }
+
+  // ------ Sticky values si hubo error de contraseña ------
+  String formNombre = (String) request.getAttribute("form_nombre");
+  String formApellido = (String) request.getAttribute("form_apellido");
+  String formFecha = (String) request.getAttribute("form_fechaNacimiento");
+  String formInst = (String) request.getAttribute("form_institucion");
+  String formURL = (String) request.getAttribute("form_url");
+  String formDesc = (String) request.getAttribute("form_descripcion");
+
+  if (formNombre != null) nombre = formNombre;
+  if (formURL != null)    uRL = formURL;
+  if (formDesc != null)   descripcion = formDesc;
+
+  if (ES_ASIS) {
+    if (formApellido != null) apellido = formApellido;
+    if (formFecha != null)    fechaISO = formFecha; // viene como yyyy-MM-dd
+    if (formInst != null)     instUser = formInst;
   }
 %>
 
 <main class="main">
-  <section id="modificar-usuario" class="section">	
+  <section id="modificar-usuario" class="section"> 
     <div class="container">
       <div class="section-title">
         <h2>Modificar datos de usuario</h2>
@@ -90,19 +111,18 @@
             <label>Fecha de nacimiento</label>
             <input type="date" name="fechaNacimiento" class="form-control" value="<%= fechaISO %>">
           </div>
+          
+        </div>
+        <% } %>
+        <% if (tipo != null && tipo.equals("organizador")) { %>
+        <div id="asistente-fields">
           <div class="mb-3">
-            <label>Institución</label>
-            <select name="institucion" class="form-control">
-              <option value="">-- Seleccione institución --</option>
-              <% if (instituciones != null) {
-                   for (DTInstitucion i : instituciones) {
-                     String nombreInst = i.getNombre();
-                     String sel = nombreInst.equals(instUser) ? "selected" : "";
-              %>
-                <option value="<%= nombreInst %>" <%= sel %>><%= nombreInst %></option>
-              <%   }
-                 } %>
-            </select>
+            <label> URL</label>
+            <input type="text" name="uRL" class="form-control" value="<%= uRL %>">
+          </div>
+          <div class="mb-3">
+            <label> descripcion</label>
+            <input type="text" name="descripcion" class="form-control" value="<%= descripcion %>">
           </div>
         </div>
         <% } %>
@@ -110,12 +130,12 @@
         <div class="mb-3">
           <label>Nueva contraseña</label>
           <input type="password" id="password" name="password" class="form-control" placeholder="Dejar vacío si no cambia">
-
         </div>
-		<div class="mb-3">
-  <label>Confirmar nueva contraseña</label>
-  <input type="password" name="confirmPassword" id="confirmPassword" class="form-control" placeholder="Repite la nueva contraseña">
-</div>
+        <div class="mb-3">
+          <label>Confirmar nueva contraseña</label>
+          <input type="password" name="confirmPassword" id="confirmPassword" class="form-control" placeholder="Repite la nueva contraseña">
+        </div>
+
         <button type="submit" class="btn btn-primary">Aceptar</button>
         <a href="<%=ctx%>/perfil" class="btn btn-secondary">Cancelar</a>
       </form>
@@ -134,5 +154,3 @@
 <script src="<%=ctx%>/media/js/ModificarUsuario.js"></script>
 </body>
 </html>
-
-

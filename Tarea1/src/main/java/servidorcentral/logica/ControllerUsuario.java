@@ -384,7 +384,13 @@ public class ControllerUsuario implements IControllerUsuario {
 		}
 		return listaDTAsistentes;
     }
-    
+public void actualizarImagenUsuario(String nickname, String imgPath) {
+		ManejadorUsuario mus = ManejadorUsuario.getInstance();
+		Usuario usu = mus.findUsuario(nickname);
+		if (usu != null) {
+			usu.setImg(imgPath);
+		}
+	}
     public List<DTUsuarioListaConsulta> getDTOrganizadores(){
     	        ManejadorUsuario mus = ManejadorUsuario.getInstance();
     	        List<DTUsuarioListaConsulta> listaDTOrganizadores = new ArrayList<>();

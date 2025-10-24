@@ -18,6 +18,8 @@
   <title>Login</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="media/img/logoeuy.png" rel="icon">
+  <link href="media/img/logoeuy.png" rel="apple-touch-icon">
 </head>
 <body class="bg-light d-flex justify-content-center align-items-center vh-100">
 

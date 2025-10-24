@@ -19,7 +19,6 @@ document.addEventListener("DOMContentLoaded", () => {
       const file = inputImg.files?.[0];
       if (!file) return;
 
-      // Más simple y rápido que FileReader
       const url = URL.createObjectURL(file);
       img.src = url;
       img.onload = () => URL.revokeObjectURL(url);
