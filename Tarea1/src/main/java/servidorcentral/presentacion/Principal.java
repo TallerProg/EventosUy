@@ -44,6 +44,15 @@ public class Principal {
     private AceptarRechazarEdicion aceptarRechazarEdicionFrame;
 
     public static void main(String[] args) {
+    	 publicar.WebServices ws = new publicar.WebServices();
+         try {
+             ws.publicar(); // publica en http://localhost:9128/webservices
+             System.out.println("WS publicado en http://localhost:9128/webservices?wsdl");
+         } catch (Exception ex) {
+             System.err.println("No se pudo publicar el WS: " + ex.getMessage());
+             ex.printStackTrace();
+             // si el puerto está ocupado, podés seguir con la UI igual o abortar aquí
+         }
         EventQueue.invokeLater(() -> {
             try {
                 Principal window = new Principal();

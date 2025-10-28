@@ -1,3 +1,4 @@
+
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -15,6 +16,46 @@
   <name>servidor-central</name>
 
   <dependencies>
+  
+  	<!-- JAX-WS API y anotaciones @WebService -->
+<dependency>
+  <groupId>jakarta.xml.ws</groupId>
+  <artifactId>jakarta.xml.ws-api</artifactId>
+  <version>4.0.0</version>
+</dependency>
+<dependency>
+  <groupId>jakarta.jws</groupId>
+  <artifactId>jakarta.jws-api</artifactId>
+  <version>3.0.0</version>
+</dependency>
+
+<!-- Implementación JAX-WS (Metro RI para Jakarta) -->
+<dependency>
+  <groupId>com.sun.xml.ws</groupId>
+  <artifactId>jaxws-rt</artifactId>
+  <version>4.0.2</version>
+</dependency>
+
+<!-- JAXB API + runtime (necesario desde Java 11+) -->
+<dependency>
+  <groupId>jakarta.xml.bind</groupId>
+  <artifactId>jakarta.xml.bind-api</artifactId>
+  <version>4.0.0</version>
+</dependency>
+<dependency>
+  <groupId>org.glassfish.jaxb</groupId>
+  <artifactId>jaxb-runtime</artifactId>
+  <version>4.0.5</version>
+</dependency>
+
+<!-- Importante en apps web: la API de Servlet la provee Tomcat -->
+<dependency>
+  <groupId>jakarta.servlet</groupId>
+  <artifactId>jakarta.servlet-api</artifactId>
+  <version>6.0.0</version>
+  <scope>provided</scope>
+</dependency>
+
     <!-- (si usás tests con JUnit 5) -->
     <dependency>
       <groupId>org.junit.jupiter</groupId>
