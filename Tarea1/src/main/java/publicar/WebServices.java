@@ -28,6 +28,7 @@ import servidorcentral.logica.IControllerEvento;
 import servidorcentral.logica.IControllerUsuario;
 import servidorcentral.logica.Institucion;
 import servidorcentral.excepciones.UsuarioRepetidoException;
+import servidorcentral.logica.DTevento;
 
 @WebService
 @SOAPBinding(style = Style.RPC, parameterStyle = ParameterStyle.WRAPPED)
@@ -68,12 +69,20 @@ public class WebServices {
 
     // === MÉTODO PUBLICADO ===
     @WebMethod
-    public DTCategoria[] listarCategorias() {
+    public DTCategoria[] listarDTCategorias() {
         List<DTCategoria> lista = getControllerEvento().listarDTCategorias();
         return (lista == null || lista.isEmpty())
                 ? new DTCategoria[0]
                 : lista.toArray(new DTCategoria[0]);
     }
+    
+    @WebMethod
+    public DTevento[] listarDTEventos() {
+		List<DTevento> lista = getControllerEvento().listarDTEventos();
+		return (lista == null || lista.isEmpty())
+				? new DTevento[0]
+				: lista.toArray(new DTevento[0]);
+	}
     
     @WebMethod
     public void altaAsistente(String nicknameUsu, String correo, String nombre, String apellido, LocalDate fNacimiento,

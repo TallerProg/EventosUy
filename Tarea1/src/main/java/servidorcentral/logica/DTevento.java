@@ -4,6 +4,11 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlTransient;
+
+@XmlAccessorType(XmlAccessType.FIELD)
 public class DTevento {
 
 	private String nombre;
@@ -11,8 +16,15 @@ public class DTevento {
 	private String descripcion;
 	private LocalDate fAlta;
 	private String img;
+	@XmlTransient
 	private List<Categoria> categorias = new ArrayList<>();
+	@XmlTransient
 	private List<Edicion> ediciones = new ArrayList<>();
+	private List<DTCategoria> dtCategorias = new ArrayList<>();
+	private List<DTEdicion> dtEdiciones = new ArrayList<>();
+
+	public DTevento() {
+	}
 
 	public DTevento(String nombre, String sigla, String descripcion, LocalDate fAlta, List<Categoria> categorias,
 			List<Edicion> ediciones, String img) {
@@ -21,10 +33,16 @@ public class DTevento {
 		this.descripcion = descripcion;
 		this.fAlta = fAlta;
 		this.img = img;
-		if (categorias != null)
+		if (categorias != null) {
 			this.categorias = categorias;
-		if (ediciones != null)
+			for (Categoria c : categorias)
+				this.dtCategorias.add(new DTCategoria(c.getNombre()));
+		}
+		if (ediciones != null) {
 			this.ediciones = ediciones;
+			for (Edicion e : ediciones)
+				this.dtEdiciones.add(e.getDTEdicion());
+		}
 	}
 
 	public String getNombre() {
@@ -46,27 +64,23 @@ public class DTevento {
 	public List<Categoria> getCategorias() {
 		return categorias;
 	}
+
 	
-	public List<DTCategoria> getDTCategorias() {
-		List<DTCategoria> dtCategorias = new ArrayList<>();
-		for (Categoria cat : categorias) {
-			dtCategorias.add(new DTCategoria(cat.getNombre()));
-		}
-		return dtCategorias;
-	}
 
 	public List<Edicion> getEdiciones() {
 		return ediciones;
 	}
+
 	public String getImg() {
 		return img;
 	}
 
-	public List<DTEdicion> getDTEdiciones() {
-		List<DTEdicion> dtEdiciones = new ArrayList<>();
-		for (Edicion edi : ediciones) {
-			dtEdiciones.add(edi.getDTEdicion());
-		}
-		return dtEdiciones;
-	}
+
+    public List<DTCategoria> getDtCategorias() {
+        return dtCategorias;
+    }
+
+    public List<DTEdicion> getDtEdiciones() {
+        return dtEdiciones;
+    }
 }

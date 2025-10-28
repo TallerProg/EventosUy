@@ -211,8 +211,15 @@ public class Edicion {
         for (Patrocinio p : this.patrocinios) {
             pats.add(p.getDTPatrocinio());
         }
-        
-        DTevento eventoDT = evento.getDTevento();
+        DTevento eventoDT = new DTevento(
+        	    evento.getNombre(),
+        	    evento.getSigla(),
+        	    evento.getDescripcion(),
+        	    evento.getFAlta(),
+        	    null,      // categorias (null ⇒ no se pobla dtCategorias)
+        	    null,      // ediciones (null ⇒ no se pobla dtEdiciones)
+        	    evento.getImg()
+        	);
         
         String estadoStr = (estado == null) ? null : estado.name();
 

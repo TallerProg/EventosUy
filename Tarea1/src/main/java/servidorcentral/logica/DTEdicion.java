@@ -1,7 +1,12 @@
-package servidorcentral.logica;
+	package servidorcentral.logica;
 
 import java.time.LocalDate;
 import java.util.List;
+
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlTransient;
+@XmlAccessorType(XmlAccessType.FIELD)
 
 public class DTEdicion {
 	private String nombre;
@@ -18,7 +23,10 @@ public class DTEdicion {
 	private List<DTOrganizador> organizadores;
 	private List<DTRegistro> registros;
 	private List<DTPatrocinio> patrocinios;
+	@XmlTransient
 	private DTevento evento;
+	
+	public DTEdicion() {}
 
 	public DTEdicion(String nombre, String sigla, LocalDate fInicio, LocalDate fFin, LocalDate fAlta, String ciudad,
 			String pais, List<DTTipoRegistro> tipoRegistros, List<DTOrganizador> organizadores,

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="servidorcentral.logica.DTevento"%>
-<%@ page import="servidorcentral.logica.DTCategoria"%>
+<%@ page import="cliente.ws.sc.DTevento"%>
+<%@ page import="cliente.ws.sc.DtCategoria"%>
 <%@ page import="java.util.List"%>
 <%@ page import="java.net.URLEncoder" %>
 <%@ page import="java.nio.charset.StandardCharsets" %>
@@ -8,7 +8,7 @@
 <%
   String ctx = request.getContextPath();
   DTevento[] eventos = (DTevento[]) request.getAttribute("LISTA_EVENTOS");
-  DTCategoria[] categorias = (DTCategoria[]) request.getAttribute("LISTA_CATEGORIAS");
+  DtCategoria[] categorias = (DtCategoria[]) request.getAttribute("LISTA_CATEGORIAS");
 %>
 
 <!DOCTYPE html>
@@ -109,7 +109,7 @@
               <div class="d-flex flex-wrap gap-2 justify-content-center">
               	<%
               		if (categorias != null && categorias.length > 0){
-              			for (DTCategoria c : categorias) {
+              			for (DtCategoria c : categorias) {
               				String nomCat = c.getNombre();
               				// normalizar igual que en data-categories de las cards
               				String normCat = nomCat.toLowerCase()
@@ -169,7 +169,7 @@
                 String encNombre = URLEncoder.encode(e.getNombre(), StandardCharsets.UTF_8.name());
                 String detalleHref = ctx + "/ConsultaEvento?evento=" + encNombre;
 
-                List<DTCategoria> categoriaseve = e.getDTCategorias();
+                List<DtCategoria> categoriaseve = e.getDtCategorias();
                 StringBuilder catBuilder = new StringBuilder();
                 for (int j = 0; j < categoriaseve.size(); j++) {
                   String nombre = categoriaseve.get(j).getNombre()
