@@ -12,6 +12,7 @@ package publicar;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 
 import jakarta.jws.WebMethod;
@@ -24,6 +25,9 @@ import jakarta.xml.ws.Endpoint;
 import servidorcentral.logica.DTCategoria;
 import servidorcentral.logica.Factory;
 import servidorcentral.logica.IControllerEvento;
+import servidorcentral.logica.IControllerUsuario;
+import servidorcentral.logica.Institucion;
+import servidorcentral.excepciones.UsuarioRepetidoException;
 
 @WebService
 @SOAPBinding(style = Style.RPC, parameterStyle = ParameterStyle.WRAPPED)
@@ -53,6 +57,11 @@ public class WebServices {
     private IControllerEvento getControllerEvento() {
         return Factory.getInstance().getIControllerEvento();
     }
+    
+    @WebMethod(exclude = true)
+	private IControllerUsuario getControllerUsuario() {
+		return Factory.getInstance().getIControllerUsuario();
+	}
 
     // === MÉTODO PUBLICADO ===
     @WebMethod
@@ -62,5 +71,19 @@ public class WebServices {
                 ? new DTCategoria[0]
                 : lista.toArray(new DTCategoria[0]);
     }
+    
+    @WebMethod
+    public void altaAsistente(String nicknameUsu, String correo, String nombre, String apellido, LocalDate fNacimiento,
+    		Institucion ins, String contrasena, String img) throws UsuarioRepetidoException {
+    	getControllerUsuario().altaAsistente(nicknameUsu, correo, nombre, apellido, fNacimiento, ins, contrasena, img);
+    }
+    
+    @WebMethod
+	public void altaOrganizador(String nicknameUsu, String correo, String nombre, String descripcion, String url,
+			String contrasena, String img) throws UsuarioRepetidoException {
+		getControllerUsuario().altaOrganizador(nicknameUsu, correo, nombre, descripcion, url, contrasena, img);
+	}
+
+    
 }
 
