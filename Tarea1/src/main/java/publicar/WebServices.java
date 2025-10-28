@@ -40,7 +40,10 @@ public class WebServices {
 
     @WebMethod(exclude = true)
     public void publicar(){
-         endpoint = Endpoint.publish("http://localhost:9128/webservices", this);
+    	if (!WSConfig.getBool("ws.publish.enabled", true)) return;
+        String url = WSConfig.get("ws.publish.url", "http://127.0.0.1:9128/noPropieties");
+        this.endpoint = jakarta.xml.ws.Endpoint.publish(url, this);
+        System.out.println("[WebServices] Publicado en: " + url + " (WSDL: " + url + "?wsdl)");
     }
 
     @WebMethod(exclude = true)
