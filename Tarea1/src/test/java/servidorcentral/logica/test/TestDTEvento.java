@@ -48,11 +48,11 @@ class DTEventoTest {
         assertNotNull(dto.getEdiciones());
         assertTrue(dto.getEdiciones().isEmpty());
 
-        assertNotNull(dto.getDTCategorias());
-        assertTrue(dto.getDTCategorias().isEmpty());
+        assertNotNull(dto.getDtCategorias());
+        assertTrue(dto.getDtCategorias().isEmpty());
 
-        assertNotNull(dto.getDTEdiciones());
-        assertTrue(dto.getDTEdiciones().isEmpty());
+        assertNotNull(dto.getDtEdiciones());
+        assertTrue(dto.getDtEdiciones().isEmpty());
     }
 
     @Test
@@ -75,7 +75,7 @@ class DTEventoTest {
         categorias.add(new Categoria("Salud"));
 
         DTevento dto = new DTevento("E", "S", "D", LocalDate.now(), categorias, null, "img.png");
-        List<DTCategoria> dts = dto.getDTCategorias();
+        List<DTCategoria> dts = dto.getDtCategorias();
 
         assertEquals(2, dts.size());
         assertEquals("Tecnología", dts.get(0).getNombre());
@@ -86,7 +86,7 @@ class DTEventoTest {
     @DisplayName("getDTEdiciones vacío cuando no hay ediciones")
     void testGetDTEdicionesVacio() {
         DTevento dto = new DTevento("E", "S", "D", LocalDate.now(), null, null, "img.png");
-        List<DTEdicion> dts = dto.getDTEdiciones();
+        List<DTEdicion> dts = dto.getDtEdiciones();
         assertNotNull(dts);
         assertTrue(dts.isEmpty());
     }
