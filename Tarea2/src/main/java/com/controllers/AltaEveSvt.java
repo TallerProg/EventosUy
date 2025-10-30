@@ -3,19 +3,19 @@ package com.controllers;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.net.URL;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 
-import servidorcentral.logica.DTCategoria;
-import servidorcentral.logica.IControllerEvento;
-import servidorcentral.logica.Factory;
+import cliente.ws.sc.WebServices;
+import cliente.ws.sc.WebServicesService;
+import cliente.ws.sc.DtCategoria;
+import cliente.ws.sc.DtCategoriaArray;
+import cliente.ws.sc.StringArray;
 
 @WebServlet("/alta-evento")
 @MultipartConfig(
@@ -28,7 +28,8 @@ public class AltaEveSvt extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     private static final String FORM_JSP = "/WEB-INF/views/AltaEvento.jsp";
-    private static final String EVENT_IMG_DIR = "/media/img/eventos";
+    private static final String EVENT_IMG_DIR = "/media/img/eventos"; // Sólo para fallback visual (no se usa directo)
+    private static final String WSDL_URL = "http://127.0.0.1:9128/webservices?wsdl";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -54,51 +55,53 @@ public class AltaEveSvt extends HttpServlet {
         if (sigla.isEmpty()) errores.add("La sigla es obligatoria.");
         if (paramCats == null || paramCats.length == 0) errores.add("Debe seleccionar al menos una categoría.");
 
-        if (!nombre.isEmpty() && nombreOcupado(nombre)) {
-            errores.add("Ya existe un evento con ese nombre.");
-        }
+        WebServices port = getPort();
 
-        List<DTCategoria> categorias = Collections.emptyList();
-        if (errores.isEmpty()) {
-            categorias = resolveCategorias(paramCats);
-            if (categorias.isEmpty()) {
-                errores.add("Las categorías seleccionadas no existen en el sistema.");
+        try {
+            if (!nombre.isEmpty() && port.existeEvento(nombre)) {
+                errores.add("Ya existe un evento con ese nombre.");
             }
+        } catch (Exception e) {
+            errores.add("No se pudo validar la existencia del evento: " + safeMsg(e));
         }
 
-        if (!errores.isEmpty()) {
-            mirrorBack(request, nombre, descripcion, sigla, paramCats, errores);
-            request.getRequestDispatcher(FORM_JSP).forward(request, response);
-            return;
+        DtCategoria[] categoriasWs = new DtCategoria[0];
+        if (errores.isEmpty()) {
+            try {
+            	StringArray paramCatsArray = new StringArray();
+            	for(String cat : paramCats) {
+            		paramCatsArray.getItem().add(cat);
+            	}
+                DtCategoriaArray catsArr = port.resolverCategoriasPorNombreOCodigo(paramCatsArray);
+				for (DtCategoria cat : catsArr.getItem()) {
+					if (cat != null) {
+						categoriasWs = Arrays.copyOf(categoriasWs, categoriasWs.length + 1);
+						categoriasWs[categoriasWs.length - 1] = cat;
+					}
+				}
+                if (categoriasWs == null || categoriasWs.length == 0) {
+                    errores.add("Las categorías seleccionadas no existen en el sistema.");
+                }
+            } catch (Exception e) {
+                errores.add("Error resolviendo categorías: " + safeMsg(e));
+            }
         }
 
 
         String imagenWebPath = null;
-        try {
-            Part imgPart = request.getPart("imagen");
-            if (imgPart != null && imgPart.getSize() > 0) {
-                String original = submittedFileName(imgPart);
-                String ext = extensionOf(original);
-                String safeBase = slug(nombre);
-                String stamp = DateTimeFormatter.ofPattern("yyyyMMddHHmmss").format(LocalDateTime.now());
-                String fileName = safeBase + "_" + stamp + (ext.isEmpty() ? "" : "." + ext);
-
-                String realDir = getServletContext().getRealPath(EVENT_IMG_DIR);
-                if (realDir == null) {
-                    realDir = System.getProperty("java.io.tmpdir") + File.separator + "eventuy-img";
+        if (errores.isEmpty()) {
+            try {
+                Part imgPart = request.getPart("imagen");
+                if (imgPart != null && imgPart.getSize() > 0) {
+                    byte[] bytes = imgPart.getInputStream().readAllBytes();
+                    String original = submittedFileName(imgPart);
+                    imagenWebPath = port.subirImagenEvento(nombre, original, bytes);
                 }
-                File dir = new File(realDir);
-                if (!dir.exists()) dir.mkdirs();
-
-                File destino = new File(dir, fileName);
-                imgPart.write(destino.getAbsolutePath());
-
-                imagenWebPath = EVENT_IMG_DIR + "/" + fileName;
+            } catch (IllegalStateException ise) {
+                errores.add("La imagen supera el tamaño permitido (5 MB por archivo, 10 MB por solicitud).");
+            } catch (Exception ex) {
+                errores.add("No se pudo guardar la imagen: " + safeMsg(ex));
             }
-        } catch (IllegalStateException ise) {
-            errores.add("La imagen supera el tamaño permitido (5 MB por archivo, 10 MB por solicitud).");
-        } catch (Exception ex) {
-            errores.add("No se pudo guardar la imagen: " + ex.getMessage());
         }
 
         if (!errores.isEmpty()) {
@@ -109,14 +112,18 @@ public class AltaEveSvt extends HttpServlet {
 
 
         try {
-            getController().altaEventoDT(
-                nombre,
-                descripcion,
-                LocalDate.now(),
-                sigla,
-                categorias,
-                imagenWebPath
-            );
+        	StringArray catsWrap = new StringArray();
+        	List<String> items = catsWrap.getItem();
+        	if (paramCats != null) {
+        	    Collections.addAll(items, paramCats);
+        	}
+        	
+        	
+            port.altaEvento(nombre, descripcion, sigla, catsWrap, 
+                                        (imagenWebPath == null ? new byte[0] : new byte[0]), 
+                                        (imagenWebPath == null ? "" : ""));                  
+
+
             response.sendRedirect(request.getContextPath() + "/alta-evento?ok=1");
         } catch (Exception e) {
             errores.add(e.getMessage() != null ? e.getMessage() : "Error al dar de alta el evento.");
@@ -125,10 +132,16 @@ public class AltaEveSvt extends HttpServlet {
         }
     }
 
+    // ===== Helpers =======================================================
 
-    private IControllerEvento getController() {
-        Factory fabrica = Factory.getInstance();
-        return fabrica.getIControllerEvento();
+    private WebServices getPort() throws IOException {
+        try {
+            URL wsdl = new URL(WSDL_URL);
+            WebServicesService svc = new WebServicesService(wsdl);
+            return svc.getWebServicesPort();
+        } catch (Exception e) {
+            throw new IOException("No se puede crear el cliente del WebService: " + safeMsg(e), e);
+        }
     }
 
     private static String trim(String s) { return (s == null) ? "" : s.trim(); }
@@ -142,79 +155,6 @@ public class AltaEveSvt extends HttpServlet {
         req.setAttribute("categoriasSeleccionadas",
                 (cats == null) ? Collections.emptySet() : new HashSet<>(Arrays.asList(cats)));
         req.setAttribute("errores", errores);
-    }
-
- 
-    private boolean nombreOcupado(String nombre) {
-        try {
-        	Factory fabrica = Factory.getInstance();
-        	IControllerEvento ctrl = fabrica.getIControllerEvento();
-        	return ctrl.existeEvento(nombre);
-
-        } catch (Exception ex) {
-            return false;
-        }
-    }
-
-    private List<DTCategoria> resolveCategorias(String[] seleccionadas) {
-        List<DTCategoria> todas = getController().listarDTCategorias();
-        Map<String, DTCategoria> porNombre = new HashMap<>();
-        for (DTCategoria c : todas) {
-            if (c != null && c.getNombre() != null) {
-                porNombre.put(normaliza(c.getNombre()), c);
-            }
-        }
-
-        Map<String, String> codigoANombre = defaultCodigoNombre();
-
-        List<DTCategoria> res = new ArrayList<>();
-        for (String raw : seleccionadas) {
-            if (raw == null) continue;
-            String v = raw.trim();
-
-            // Permitir que el JSP mande nombre o código
-            DTCategoria byName = porNombre.get(normaliza(v));
-            if (byName != null) {
-                res.add(byName);
-                continue;
-            }
-
-            String nombreCat = codigoANombre.get(v.toUpperCase(Locale.ROOT));
-            if (nombreCat != null) {
-                DTCategoria byCode = porNombre.get(normaliza(nombreCat));
-                if (byCode != null) res.add(byCode);
-            }
-        }
-        return res;
-    }
-
-    private static Map<String, String> defaultCodigoNombre() {
-        Map<String, String> m = new HashMap<>();
-        m.put("CA01", "Tecnología");
-        m.put("CA02", "Innovación");
-        m.put("CA03", "Literatura");
-        m.put("CA04", "Cultura");
-        m.put("CA05", "Música");
-        m.put("CA06", "Deporte");
-        m.put("CA07", "Salud");
-        m.put("CA08", "Entretenimiento");
-        m.put("CA09", "Agro");
-        m.put("CA10", "Negocios");
-        m.put("CA11", "Moda");
-        m.put("CA12", "Investigación");
-        return m;
-    }
-
-    private static String normaliza(String s) {
-        if (s == null) return "";
-        String t = s.toLowerCase(Locale.ROOT).trim();
-        // Quitar tildes básicas
-        t = t.replace('á','a').replace('é','e').replace('í','i').replace('ó','o').replace('ú','u')
-             .replace('ä','a').replace('ë','e').replace('ï','i').replace('ö','o').replace('ü','u')
-             .replace('ñ','n');
-        // Colapsar espacios múltiples
-        t = t.replaceAll("\\s+", " ");
-        return t;
     }
 
     private static String submittedFileName(Part part) {
@@ -232,18 +172,9 @@ public class AltaEveSvt extends HttpServlet {
         return "upload";
     }
 
-    private static String extensionOf(String filename) {
-        if (filename == null) return "";
-        int dot = filename.lastIndexOf('.');
-        if (dot < 0 || dot == filename.length() - 1) return "";
-        return filename.substring(dot + 1).toLowerCase(Locale.ROOT);
-    }
-
-    private static String slug(String s) {
-        String base = (s == null || s.isEmpty()) ? "evento" : s.toLowerCase(Locale.ROOT);
-        base = base.replaceAll("[^a-z0-9-_]+", "-");
-        base = base.replaceAll("-{2,}", "-");
-        return base.replaceAll("^-|-$", "");
+    private static String safeMsg(Throwable t) {
+        String m = (t == null ? null : t.getMessage());
+        return (m == null || m.isBlank()) ? t.getClass().getSimpleName() : m;
     }
 }
 
