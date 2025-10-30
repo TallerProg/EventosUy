@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="servidorcentral.logica.DTUsuarioListaConsulta" %>
+<%@ page import="cliente.ws.sc.DtUsuarioListaConsulta" %>
 <%@ page import="java.util.List" %>
 
 <%
     String ctx = request.getContextPath();
-    List<DTUsuarioListaConsulta> asistentes = (List<DTUsuarioListaConsulta>) request.getAttribute("LISTA_ASISTENTES");
-    List<DTUsuarioListaConsulta> organizadores = (List<DTUsuarioListaConsulta>) request.getAttribute("LISTA_ORGANIZADORES");
+    List<DtUsuarioListaConsulta> asistentes = (List<DtUsuarioListaConsulta>) request.getAttribute("LISTA_ASISTENTES");
+    List<DtUsuarioListaConsulta> organizadores = (List<DtUsuarioListaConsulta>) request.getAttribute("LISTA_ORGANIZADORES");
 %>
 
 <!DOCTYPE html>
@@ -32,7 +32,7 @@
 
         <%
           if (asistentes != null) {
-            for (DTUsuarioListaConsulta asistente : asistentes) {
+            for (DtUsuarioListaConsulta asistente : asistentes) {
               String raw = (asistente != null) ? asistente.getImg() : null; // puede ser "nick.jpg" o "/media/img/usuarios/nick.jpg"
               String rel = (raw != null && !raw.isBlank())
                          ? (raw.startsWith("/") ? raw : "/media/img/usuarios/" + raw)
@@ -79,7 +79,7 @@
 
         <%
           if (organizadores != null) {
-            for (DTUsuarioListaConsulta organizador : organizadores) {
+            for (DtUsuarioListaConsulta organizador : organizadores) {
               String raw = (organizador != null) ? organizador.getImg() : null;
               String rel = (raw != null && !raw.isBlank())
                          ? (raw.startsWith("/") ? raw : "/media/img/usuarios/" + raw)

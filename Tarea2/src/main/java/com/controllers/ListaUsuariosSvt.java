@@ -8,9 +8,9 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import servidorcentral.logica.Factory;
-import servidorcentral.logica.IControllerUsuario;
-import servidorcentral.logica.DTUsuarioListaConsulta;
+import cliente.ws.sc.DtUsuarioListaConsulta;
+import cliente.ws.sc.DtUsuarioListaConsultaArray;
+
 
 @WebServlet(name = "ListaUsuariosSvt", urlPatterns = {"/ListaUsuarios"})
 @MultipartConfig(
@@ -30,10 +30,14 @@ public class ListaUsuariosSvt extends HttpServlet {
       throws ServletException, IOException {
 	 
     try {
-      Factory fabrica = Factory.getInstance();
-      IControllerUsuario ctrl = fabrica.getIControllerUsuario();
-      List<DTUsuarioListaConsulta> Asistentes = ctrl.getDTAsistentes(); 
-      List<DTUsuarioListaConsulta> Organizadores = ctrl.getDTOrganizadores(); 
+
+      cliente.ws.sc.WebServicesService service = new cliente.ws.sc.WebServicesService();
+      cliente.ws.sc.WebServices port = service.getWebServicesPort();
+      DtUsuarioListaConsultaArray asisDTA= port.listarDTAsistentes();
+      DtUsuarioListaConsultaArray orgDTA= port.listarDTOrganizadores();
+
+      List<DtUsuarioListaConsulta> Asistentes=asisDTA.getItem();
+      List<DtUsuarioListaConsulta> Organizadores=orgDTA.getItem();
 
       req.setAttribute("LISTA_ASISTENTES", Asistentes);
       req.setAttribute("LISTA_ORGANIZADORES", Organizadores);
