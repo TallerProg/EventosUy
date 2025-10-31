@@ -220,7 +220,7 @@ public class WebServices {
     }
     @WebMethod
     public DTUsuarioListaConsulta consultarUsuarioPorNickname(String nicknameUsu) {
-        return getControllerUsuario().consultarUsuarioPorNickname(nicknameUsu);
+        return getControllerUsuario().consultaDeUsuario(nicknameUsu);
     }
 
     
