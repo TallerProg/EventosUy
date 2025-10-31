@@ -218,7 +218,10 @@ public class WebServices {
                 imagenWebPath
         );
     }
-
+    @WebMethod
+    public DTUsuarioListaConsulta consultarUsuarioPorNickname(String nicknameUsu) {
+        return getControllerUsuario().consultarUsuarioPorNickname(nicknameUsu);
+    }
 
     
     
