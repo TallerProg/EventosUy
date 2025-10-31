@@ -495,8 +495,8 @@ public void altaEdicionDeEventoDTO(String nombreEvento,
 	     throw new Exception("El evento '" + nombreEvento + "' no existe");
 	 }
 	
-	 ManejadorUsuario mu = ManejadorUsuario.getInstance();
-	 Organizador org = mu.findOrganizador(nickOrganizador); 
+	 ManejadorUsuario mus = ManejadorUsuario.getInstance();
+	 Organizador org = mus.findOrganizador(nickOrganizador); 
 	 if (org == null) {
 	     org = obtenerOrganizadorPorNombre(nickOrganizador);
 	 }
