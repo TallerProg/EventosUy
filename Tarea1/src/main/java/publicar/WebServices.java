@@ -37,6 +37,7 @@ import servidorcentral.logica.IControllerUsuario;
 import servidorcentral.logica.Institucion;
 import servidorcentral.excepciones.UsuarioRepetidoException;
 import servidorcentral.logica.DTevento;
+import servidorcentral.logica.DTUsuarioListaConsulta;
 
 @WebService
 @SOAPBinding(style = Style.RPC, parameterStyle = ParameterStyle.WRAPPED)
@@ -90,6 +91,22 @@ public class WebServices {
 		return (lista == null || lista.isEmpty())
 				? new DTevento[0]
 				: lista.toArray(new DTevento[0]);
+	}
+    
+    @WebMethod
+    public DTUsuarioListaConsulta[] listarDTAsistentes() {
+		List<DTUsuarioListaConsulta> lista = getControllerUsuario().getDTAsistentes();
+		return (lista == null || lista.isEmpty())
+				? new DTUsuarioListaConsulta[0]
+				: lista.toArray(new DTUsuarioListaConsulta[0]);
+	}
+    
+    @WebMethod
+    public DTUsuarioListaConsulta[] listarDTOrganizadores() {
+		List<DTUsuarioListaConsulta> lista = getControllerUsuario().getDTOrganizadores();
+		return (lista == null || lista.isEmpty())
+				? new DTUsuarioListaConsulta[0]
+				: lista.toArray(new DTUsuarioListaConsulta[0]);
 	}
     
     @WebMethod
@@ -201,7 +218,10 @@ public class WebServices {
                 imagenWebPath
         );
     }
-
+    @WebMethod
+    public DTUsuarioListaConsulta consultarUsuarioPorNickname(String nicknameUsu) {
+        return getControllerUsuario().consultaDeUsuario(nicknameUsu);
+    }
 
     
     

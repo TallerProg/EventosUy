@@ -1,11 +1,18 @@
 package servidorcentral.logica;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlTransient;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class DTInstitucion{
 	private String nombre;
 	private String descripcion;
 	private String url;
 	private String imagen;
 
+	public DTInstitucion() {
+		
+	}
 	public DTInstitucion(String nombre, String descripcion, String url, String imagen) {
 		this.nombre = nombre;
 		this.descripcion = descripcion;

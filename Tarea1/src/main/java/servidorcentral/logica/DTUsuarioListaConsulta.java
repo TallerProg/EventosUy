@@ -3,7 +3,11 @@ package servidorcentral.logica;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlTransient;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class DTUsuarioListaConsulta {
 	private String nickname;
 	private String correo;
@@ -12,11 +16,16 @@ public class DTUsuarioListaConsulta {
 	private LocalDate fNacimiento;
 	private String descripcion;
 	private String url;
+	@XmlTransient
 	private List<Edicion> ediciones;
+	@XmlTransient
 	private List<Registro> registros;
+	private List<DTEdicion> dtEdiciones;
+	private List<DTRegistro> dtRegistros;
 	private String img; 
 	private DTInstitucion ins;
 
+	
 	public DTUsuarioListaConsulta() {
 		this.nickname = null;
 		this.correo = null;
@@ -133,4 +142,12 @@ public class DTUsuarioListaConsulta {
 	public void setIns(DTInstitucion ins) {
 		this.ins = ins;
 	}
+	
+	 public  List<DTEdicion> getDtEdicion() {
+	        return dtEdiciones;
+	    }
+
+	 public  List<DTRegistro> getDtRegistro() {
+	        return dtRegistros;
+	 }
 }
