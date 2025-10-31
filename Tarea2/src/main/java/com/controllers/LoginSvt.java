@@ -1,33 +1,39 @@
 package com.controllers;
 
-import servidorcentral.logica.Factory;
-import servidorcentral.logica.IControllerUsuario;
-import servidorcentral.logica.DTUsuarioListaConsulta;
-import servidorcentral.logica.DTSesionUsuario;
-
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
-import servidorcentral.excepciones.CredencialesInvalidasException;
-import servidorcentral.excepciones.UsuarioNoExisteException;
-
 import java.io.IOException;
+import java.net.URL;
+
+import cliente.ws.sc.WebServices;
+import cliente.ws.sc.WebServicesService;
+import cliente.ws.sc.CredencialesInvalidasException_Exception;
+import cliente.ws.sc.DtSesionUsuario;
+import cliente.ws.sc.DtUsuarioListaConsulta;
+import cliente.ws.sc.UsuarioNoExisteException_Exception;
 
 @WebServlet("/login")
 public class LoginSvt extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private IControllerUsuario ICU;
 
-    @Override
-    public void init() {
-        Factory fabrica = Factory.getInstance();
-        this.ICU = fabrica.getIControllerUsuario();
+    private static final String VIEW = "/WEB-INF/views/InicioSesion.jsp";
+    private static final String WSDL_URL = "http://127.0.0.1:9128/webservices?wsdl";
+
+    private WebServices getPort() throws IOException {
+        try {
+            URL wsdl = new URL(WSDL_URL);
+            WebServicesService svc = new WebServicesService(wsdl);
+            return svc.getWebServicesPort();
+        } catch (Exception e) {
+            throw new IOException("No se pudo crear el cliente del WebService: " + e.getMessage(), e);
+        }
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        req.getRequestDispatcher("/WEB-INF/views/InicioSesion.jsp").forward(req, resp);
+        req.getRequestDispatcher(VIEW).forward(req, resp);
     }
 
     @Override
@@ -42,32 +48,42 @@ public class LoginSvt extends HttpServlet {
         if (isEmpty(identifier) || isEmpty(password)) {
             req.setAttribute("error", "Completá usuario y contraseña.");
             req.setAttribute("identifier_prev", identifier);
-            req.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(req, resp);
+            req.getRequestDispatcher(VIEW).forward(req, resp);
             return;
         }
 
         try {
-            DTSesionUsuario usuario = ICU.iniciarSesion(identifier, password);
-            Factory fabrica = Factory.getInstance();
-            IControllerUsuario ctrl = fabrica.getIControllerUsuario();
-            DTUsuarioListaConsulta usr=ctrl.consultaDeUsuario(usuario.getNickname());
-            HttpSession ses = req.getSession(true);
-            ses.setAttribute("usuario_logueado", usuario);
-            ses.setAttribute("IMAGEN_LOGUEADO", usr.getImg());
+            WebServices port = getPort();
 
-            // Cambia "/home" si tu landing es otra (por ejemplo, "/IndexLoggeado.jsp")
+ 
+            DtSesionUsuario sesion = port.iniciarSesion(identifier, password);
+
+            DtUsuarioListaConsulta usr = port.consultaDeUsuario(sesion.getNickname());
+
+            HttpSession httpSes = req.getSession(true);
+            httpSes.setAttribute("usuario_logueado", sesion);
+            httpSes.setAttribute("IMAGEN_LOGUEADO", usr.getImg());
+
             resp.sendRedirect(req.getContextPath() + "/home");
-        } catch (UsuarioNoExisteException | CredencialesInvalidasException e) {
+
+        } catch (UsuarioNoExisteException_Exception e) {
             req.setAttribute("error", e.getMessage());
             req.setAttribute("identifier_prev", identifier);
-            req.getRequestDispatcher("/WEB-INF/views/InicioSesion.jsp").forward(req, resp);
+            req.getRequestDispatcher(VIEW).forward(req, resp);
+
+        } catch (CredencialesInvalidasException_Exception e) {
+            req.setAttribute("error", e.getMessage());
+            req.setAttribute("identifier_prev", identifier);
+            req.getRequestDispatcher(VIEW).forward(req, resp);
+
         } catch (Exception e) {
             req.setAttribute("error", "Ocurrió un error al iniciar sesión.");
             req.setAttribute("identifier_prev", identifier);
-            req.getRequestDispatcher("/WEB-INF/views/InicioSesion.jsp").forward(req, resp);
+            req.getRequestDispatcher(VIEW).forward(req, resp);
         }
     }
 
     private String trim(String s) { return s == null ? null : s.trim(); }
     private boolean isEmpty(String s) { return s == null || s.isEmpty(); }
 }
+

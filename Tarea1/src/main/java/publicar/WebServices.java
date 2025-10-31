@@ -31,10 +31,14 @@ import jakarta.jws.soap.SOAPBinding.Style;
 import jakarta.xml.ws.Endpoint;
 import jakarta.xml.ws.soap.MTOM;
 import servidorcentral.logica.DTCategoria;
+import servidorcentral.logica.DTSesionUsuario;
+import servidorcentral.logica.DTUsuarioListaConsulta;
 import servidorcentral.logica.Factory;
 import servidorcentral.logica.IControllerEvento;
 import servidorcentral.logica.IControllerUsuario;
 import servidorcentral.logica.Institucion;
+import servidorcentral.excepciones.CredencialesInvalidasException;
+import servidorcentral.excepciones.UsuarioNoExisteException;
 import servidorcentral.excepciones.UsuarioRepetidoException;
 import servidorcentral.logica.DTevento;
 import servidorcentral.logica.DTUsuarioListaConsulta;
@@ -120,7 +124,7 @@ public class WebServices {
 			String contrasena, String img) throws UsuarioRepetidoException {
 		getControllerUsuario().altaOrganizador(nicknameUsu, correo, nombre, descripcion, url, contrasena, img);
 	}
-    
+    //altaEventoSvt
     @WebMethod
     public boolean existeEvento(String nombre) {
     	return getControllerEvento().existeEvento(nombre);
@@ -280,6 +284,23 @@ public class WebServices {
     }
  // ====== EDICIONES: MÉTODOS PUBLICADOS ======
 
+    
+    //loginSvt
+    @WebMethod
+    public DTSesionUsuario iniciarSesion(
+            @WebParam(name="identifier") String identifier,
+            @WebParam(name="password")   String password
+    ) throws UsuarioNoExisteException, CredencialesInvalidasException {
+        return getControllerUsuario().iniciarSesion(identifier, password);
+    }
+
+    @WebMethod
+    public DTUsuarioListaConsulta consultaDeUsuario(
+            @WebParam(name="nickname") String nickname
+    ) throws UsuarioNoExisteException {
+        return getControllerUsuario().consultaDeUsuario(nickname);
+    }
+
     @WebMethod
     public boolean existeEdicionPorNombre(
             @WebParam(name="evento") String evento,
@@ -291,12 +312,6 @@ public class WebServices {
     public boolean existeEdicionPorSigla(
             @WebParam(name="sigla") String sigla) {
         return getControllerEvento().existeEdicionPorSiglaDTO(sigla);
-    }
-
-    @WebMethod
-    public servidorcentral.logica.DTUsuarioListaConsulta consultaDeUsuario(
-            @WebParam(name="nickname") String nickname) {
-        return getControllerUsuario().consultaDeUsuario(nickname);
     }
 
     @MTOM(enabled = true)
