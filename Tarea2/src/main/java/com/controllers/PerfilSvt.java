@@ -1,10 +1,7 @@
 package com.controllers;
-
-import servidorcentral.logica.Factory;
-import servidorcentral.logica.IControllerUsuario;
 import servidorcentral.logica.DTSesionUsuario;
-import servidorcentral.logica.DTUsuarioListaConsulta;
 
+import cliente.ws.sc.DtUsuarioListaConsulta;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
@@ -45,11 +42,10 @@ public class PerfilSvt extends HttpServlet {
             resp.sendRedirect(req.getContextPath() + "/login");
             return;
         }
-
-        Factory fabrica = Factory.getInstance();
-        IControllerUsuario ctrl = fabrica.getIControllerUsuario();
-
-        DTUsuarioListaConsulta dtusuario = ctrl.consultaDeUsuario(usuario.getNickname());
+        cliente.ws.sc.WebServicesService service = new cliente.ws.sc.WebServicesService();
+        cliente.ws.sc.WebServices port = service.getWebServicesPort();
+        
+        DtUsuarioListaConsulta dtusuario = port.consultarUsuarioPorNickname(usuario.getNickname());
         req.setAttribute("USUARIO", dtusuario);
         req.setAttribute("USUARIOROL", usuario);
 

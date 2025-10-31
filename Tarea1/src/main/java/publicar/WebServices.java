@@ -41,6 +41,7 @@ import servidorcentral.excepciones.CredencialesInvalidasException;
 import servidorcentral.excepciones.UsuarioNoExisteException;
 import servidorcentral.excepciones.UsuarioRepetidoException;
 import servidorcentral.logica.DTevento;
+import servidorcentral.logica.DTUsuarioListaConsulta;
 
 @WebService
 @SOAPBinding(style = Style.RPC, parameterStyle = ParameterStyle.WRAPPED)
@@ -94,6 +95,22 @@ public class WebServices {
 		return (lista == null || lista.isEmpty())
 				? new DTevento[0]
 				: lista.toArray(new DTevento[0]);
+	}
+    
+    @WebMethod
+    public DTUsuarioListaConsulta[] listarDTAsistentes() {
+		List<DTUsuarioListaConsulta> lista = getControllerUsuario().getDTAsistentes();
+		return (lista == null || lista.isEmpty())
+				? new DTUsuarioListaConsulta[0]
+				: lista.toArray(new DTUsuarioListaConsulta[0]);
+	}
+    
+    @WebMethod
+    public DTUsuarioListaConsulta[] listarDTOrganizadores() {
+		List<DTUsuarioListaConsulta> lista = getControllerUsuario().getDTOrganizadores();
+		return (lista == null || lista.isEmpty())
+				? new DTUsuarioListaConsulta[0]
+				: lista.toArray(new DTUsuarioListaConsulta[0]);
 	}
     
     @WebMethod
@@ -205,7 +222,10 @@ public class WebServices {
                 imagenWebPath
         );
     }
-
+    @WebMethod
+    public DTUsuarioListaConsulta consultarUsuarioPorNickname(String nicknameUsu) {
+        return getControllerUsuario().consultaDeUsuario(nicknameUsu);
+    }
 
     
     
@@ -262,8 +282,8 @@ public class WebServices {
         // Quita guiones al principio/fin
         return base.replaceAll("^-|-$", "");
     }
+ // ====== EDICIONES: MÉTODOS PUBLICADOS ======
 
-    
     
     //loginSvt
     @WebMethod
@@ -281,6 +301,89 @@ public class WebServices {
         return getControllerUsuario().consultaDeUsuario(nickname);
     }
 
+    @WebMethod
+    public boolean existeEdicionPorNombre(
+            @WebParam(name="evento") String evento,
+            @WebParam(name="nombreEdicion") String nombreEdicion) {
+        return getControllerEvento().existeEdicionPorNombre(evento, nombreEdicion);
+    }
+
+    @WebMethod
+    public boolean existeEdicionPorSigla(
+            @WebParam(name="sigla") String sigla) {
+        return getControllerEvento().existeEdicionPorSiglaDTO(sigla);
+    }
+
+    @MTOM(enabled = true)
+    @WebMethod
+    public String subirImagenEdicion(
+            @WebParam(name = "evento") String evento,
+            @WebParam(name = "nombreEdicion") String nombreEdicion,
+            @WebParam(name = "originalFileName") String originalFileName,
+            @WebParam(name = "contenido") byte[] contenido) throws IOException {
+
+        if (contenido == null || contenido.length == 0) return null;
+
+        String ext = extensionOf(originalFileName);
+        String safeBase = slug(evento + "-" + nombreEdicion);
+        String stamp = java.time.format.DateTimeFormatter.ofPattern("yyyyMMddHHmmss")
+                .format(java.time.LocalDateTime.now());
+        String fileName = safeBase + "_" + stamp + (ext.isEmpty() ? "" : "." + ext);
+
+        String realDir = WSConfig.get("images.editions.real_dir",
+                System.getProperty("java.io.tmpdir") + java.io.File.separator + "eventuy-ediciones");
+        String webDir  = WSConfig.get("images.editions.web_dir", "/media/img/ediciones");
+
+        java.io.File dir = new java.io.File(realDir);
+        if (!dir.exists() && !dir.mkdirs()) {
+            throw new IOException("No se pudo crear el directorio de imágenes: " + realDir);
+        }
+
+        java.io.File destino = new java.io.File(dir, fileName);
+        try (java.io.FileOutputStream fos = new java.io.FileOutputStream(destino)) {
+            fos.write(contenido);
+        }
+        return (webDir.endsWith("/") ? webDir.substring(0, webDir.length()-1) : webDir) + "/" + fileName;
+    }
+
+    @WebMethod
+    public void altaEdicionDeEvento(
+            @WebParam(name="evento") String evento,
+            @WebParam(name="nickOrganizador") String nickOrganizador,
+            @WebParam(name="nombre") String nombre,
+            @WebParam(name="sigla") String sigla,
+            @WebParam(name="ciudad") String ciudad,
+            @WebParam(name="pais") String pais,
+            @WebParam(name="fechaIniIso") String fechaIniIso, // yyyy-MM-dd
+            @WebParam(name="fechaFinIso") String fechaFinIso, // yyyy-MM-dd
+            @WebParam(name="fechaAltaIso") String fechaAltaIso, // yyyy-MM-dd
+            @WebParam(name="imagenWebPath") String imagenWebPath
+    ) throws Exception {
+
+        java.util.List<String> errores = new java.util.ArrayList<>();
+        if (isBlank(evento)) errores.add("evento obligatorio");
+        if (isBlank(nickOrganizador)) errores.add("organizador obligatorio");
+        if (isBlank(nombre)) errores.add("nombre edición obligatorio");
+        if (isBlank(sigla)) errores.add("sigla obligatoria");
+        if (isBlank(ciudad)) errores.add("ciudad obligatoria");
+        if (isBlank(pais)) errores.add("pais obligatorio");
+        if (isBlank(fechaIniIso) || isBlank(fechaFinIso) || isBlank(fechaAltaIso))
+            errores.add("fechas obligatorias");
+
+        if (!errores.isEmpty()) throw new IllegalArgumentException(String.join(" | ", errores));
+
+        java.time.LocalDate fIni = java.time.LocalDate.parse(fechaIniIso);
+        java.time.LocalDate fFin = java.time.LocalDate.parse(fechaFinIso);
+        java.time.LocalDate fAlta = java.time.LocalDate.parse(fechaAltaIso);
+
+        if (getControllerEvento().existeEdicionPorNombre(evento, nombre))
+            throw new IllegalArgumentException("Ya existe una edición con ese nombre para el evento.");
+        if (getControllerEvento().existeEdicionPorSiglaDTO(sigla))
+            throw new IllegalArgumentException("Ya existe una edición con esa sigla.");
+
+        getControllerEvento().altaEdicionDeEventoDTO(
+                evento, nickOrganizador, nombre, sigla, ciudad, pais, fIni, fFin, fAlta, imagenWebPath);
+    }
 
     
 }
