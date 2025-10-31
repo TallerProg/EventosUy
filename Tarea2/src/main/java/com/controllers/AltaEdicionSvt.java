@@ -9,9 +9,10 @@ import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 
-import publicar.WebServices;
-import publicar.WebServicesService;
-import publicar.DTUsuarioListaConsulta; 
+import cliente.ws.sc.WebServices;
+import cliente.ws.sc.WebServicesService;
+//import cliente.ws.sc.DTUsuarioListaConsulta; 
+
 
 @WebServlet(name = "AltaEdicionSvt", urlPatterns = {"/ediciones-alta"})
 @MultipartConfig(
@@ -26,7 +27,6 @@ public class AltaEdicionSvt extends HttpServlet {
     private WebServices getPort() throws Exception {
         WebServicesService svc = new WebServicesService();
         WebServices port = svc.getWebServicesPort();
-        // Habilitar MTOM del lado cliente
         javax.xml.ws.Binding b = ((javax.xml.ws.BindingProvider) port).getBinding();
         if (b instanceof javax.xml.ws.soap.SOAPBinding) {
             ((javax.xml.ws.soap.SOAPBinding) b).setMTOMEnabled(true);
@@ -70,10 +70,8 @@ public class AltaEdicionSvt extends HttpServlet {
             return;
         }
 
-        // nickname en sesión (ajustá si guardás otro objeto)
         String nicknameSesion = (String) ses.getAttribute("nickname");
         if (isBlank(nicknameSesion)) {
-            // fallback si guardaste un DTO con getNickname()
             try {
                 Object dto = ses.getAttribute("usuario_logueado");
                 nicknameSesion = (String) dto.getClass().getMethod("getNickname").invoke(dto);
@@ -95,7 +93,6 @@ public class AltaEdicionSvt extends HttpServlet {
 
         LocalDate fAlta = LocalDate.now();
 
-        // Persistencia para la JSP
         req.setAttribute("form_evento", evento);
         req.setAttribute("form_nombre", nombre);
         req.setAttribute("form_sigla", sigla);
@@ -145,7 +142,6 @@ public class AltaEdicionSvt extends HttpServlet {
             }
             String nickOrganizador = dtOrg.getNickname();
 
-            // 2) Unicidad
             if (port.existeEdicionPorNombre(evento, nombre)) {
                 req.setAttribute("msgError", "Ya existe una edición con ese nombre para este evento.");
                 req.getRequestDispatcher("/WEB-INF/views/AltaEdicion.jsp").forward(req, resp);
@@ -202,7 +198,6 @@ public class AltaEdicionSvt extends HttpServlet {
         req.getRequestDispatcher("/WEB-INF/views/AltaEdicion.jsp").forward(req, resp);
     }
 
-    // ===== Helpers chicos =====
 
     private static boolean isBlank(String s) { return s == null || s.trim().isEmpty(); }
 
