@@ -1,25 +1,17 @@
 package com.controllers;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import jakarta.servlet.http.Part;
-import servidorcentral.logica.DTSesionUsuario;
-import servidorcentral.logica.DTUsuarioListaConsulta;
-import servidorcentral.logica.Factory;
-import servidorcentral.logica.IControllerEvento;
-import servidorcentral.logica.IControllerUsuario;
-import servidorcentral.logica.RolUsuario;
+import jakarta.servlet.http.*;
+
+import publicar.WebServices;
+import publicar.WebServicesService;
+import publicar.DTUsuarioListaConsulta; 
 
 @WebServlet(name = "AltaEdicionSvt", urlPatterns = {"/ediciones-alta"})
 @MultipartConfig(
@@ -31,27 +23,37 @@ public class AltaEdicionSvt extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
+    private WebServices getPort() throws Exception {
+        WebServicesService svc = new WebServicesService();
+        WebServices port = svc.getWebServicesPort();
+        // Habilitar MTOM del lado cliente
+        javax.xml.ws.Binding b = ((javax.xml.ws.BindingProvider) port).getBinding();
+        if (b instanceof javax.xml.ws.soap.SOAPBinding) {
+            ((javax.xml.ws.soap.SOAPBinding) b).setMTOMEnabled(true);
+        }
+        return port;
+    }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
         HttpSession ses = req.getSession(false);
-        DTSesionUsuario u = (ses == null) ? null : (DTSesionUsuario) ses.getAttribute("usuario_logueado");
-        if (u == null || u.getRol() != RolUsuario.ORGANIZADOR) {
+        if (ses == null || ses.getAttribute("usuario_logueado") == null) {
             req.setAttribute("msgError", "Debés iniciar sesión como Organizador para dar de alta una edición.");
             req.getRequestDispatcher("/WEB-INF/views/AltaEdicion.jsp").forward(req, resp);
             return;
         }
 
-        String nombreEvento = req.getParameter("evento");
-        if (isBlank(nombreEvento)) {
+        String evento = req.getParameter("evento");
+        if (isBlank(evento)) {
             req.setAttribute("msgError", "Falta el parámetro 'evento'. Volvé a la página del evento y elegí 'Dar de alta edición'.");
             req.getRequestDispatcher("/WEB-INF/views/AltaEdicion.jsp").forward(req, resp);
             return;
         }
 
-        req.setAttribute("form_evento", nombreEvento);
-        req.setAttribute("form_fechaAlta", LocalDate.now().toString()); // solo visual en la JSP
+        req.setAttribute("form_evento", evento);
+        req.setAttribute("form_fechaAlta", LocalDate.now().toString());
         req.getRequestDispatcher("/WEB-INF/views/AltaEdicion.jsp").forward(req, resp);
     }
 
@@ -62,25 +64,39 @@ public class AltaEdicionSvt extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
 
         HttpSession ses = req.getSession(false);
-        DTSesionUsuario u = (ses == null) ? null : (DTSesionUsuario) ses.getAttribute("usuario_logueado");
-        if (u == null || u.getRol() != RolUsuario.ORGANIZADOR) {
+        if (ses == null || ses.getAttribute("usuario_logueado") == null) {
             req.setAttribute("msgError", "Debés iniciar sesión como Organizador para dar de alta una edición.");
             req.getRequestDispatcher("/WEB-INF/views/AltaEdicion.jsp").forward(req, resp);
             return;
         }
 
-        // ---- Params
-        String nombreEvento = req.getParameter("evento");
-        String nombre       = req.getParameter("nombre");
-        String sigla        = req.getParameter("sigla");
-        String ciudad       = req.getParameter("ciudad");
-        String pais         = req.getParameter("pais");
-        String sIni         = req.getParameter("fechaIni");
-        String sFin         = req.getParameter("fechaFin");
-        LocalDate fAlta     = LocalDate.now();
+        // nickname en sesión (ajustá si guardás otro objeto)
+        String nicknameSesion = (String) ses.getAttribute("nickname");
+        if (isBlank(nicknameSesion)) {
+            // fallback si guardaste un DTO con getNickname()
+            try {
+                Object dto = ses.getAttribute("usuario_logueado");
+                nicknameSesion = (String) dto.getClass().getMethod("getNickname").invoke(dto);
+            } catch (Exception e) {
+                req.setAttribute("msgError", "No se pudo determinar el usuario en sesión.");
+                req.getRequestDispatcher("/WEB-INF/views/AltaEdicion.jsp").forward(req, resp);
+                return;
+            }
+        }
 
-        // ---- Persistencia de form (para la JSP)
-        req.setAttribute("form_evento", nombreEvento);
+        // Params
+        String evento = trim(req.getParameter("evento"));
+        String nombre = trim(req.getParameter("nombre"));
+        String sigla  = trim(req.getParameter("sigla"));
+        String ciudad = trim(req.getParameter("ciudad"));
+        String pais   = trim(req.getParameter("pais"));
+        String sIni   = trim(req.getParameter("fechaIni"));
+        String sFin   = trim(req.getParameter("fechaFin"));
+
+        LocalDate fAlta = LocalDate.now();
+
+        // Persistencia para la JSP
+        req.setAttribute("form_evento", evento);
         req.setAttribute("form_nombre", nombre);
         req.setAttribute("form_sigla", sigla);
         req.setAttribute("form_ciudad", ciudad);
@@ -89,8 +105,8 @@ public class AltaEdicionSvt extends HttpServlet {
         req.setAttribute("form_fechaFin", sFin);
         req.setAttribute("form_fechaAlta", fAlta.toString());
 
-        // ---- Validaciones básicas
-        if (isBlank(nombreEvento) || isBlank(nombre) || isBlank(sigla) || isBlank(ciudad)
+        // Validaciones
+        if (isBlank(evento) || isBlank(nombre) || isBlank(sigla) || isBlank(ciudad)
                 || isBlank(pais) || isBlank(sIni) || isBlank(sFin)) {
             req.setAttribute("msgError", "Todos los campos son obligatorios (salvo la imagen).");
             req.getRequestDispatcher("/WEB-INF/views/AltaEdicion.jsp").forward(req, resp);
@@ -119,87 +135,74 @@ public class AltaEdicionSvt extends HttpServlet {
         }
 
         try {
-            // Solo interfaces y DTOs
-            IControllerEvento  ce = Factory.getInstance().getIControllerEvento();
-            IControllerUsuario cu = Factory.getInstance().getIControllerUsuario();
+            WebServices port = getPort();
 
-            DTUsuarioListaConsulta dtoOrg = cu.consultaDeUsuario(u.getNickname());
-            if (dtoOrg == null) {
+            DTUsuarioListaConsulta dtOrg = port.consultaDeUsuario(nicknameSesion);
+            if (dtOrg == null || isBlank(dtOrg.getNickname())) {
                 req.setAttribute("msgError", "No se pudo resolver el Organizador a partir del usuario en sesión.");
                 req.getRequestDispatcher("/WEB-INF/views/AltaEdicion.jsp").forward(req, resp);
                 return;
             }
-            String nickOrganizador = dtoOrg.getNickname();
+            String nickOrganizador = dtOrg.getNickname();
 
-            // Chequeos de unicidad (expuestos por la interfaz)
-            if (ce.existeEdicionPorNombre(nombreEvento, nombre)) {
+            // 2) Unicidad
+            if (port.existeEdicionPorNombre(evento, nombre)) {
                 req.setAttribute("msgError", "Ya existe una edición con ese nombre para este evento.");
                 req.getRequestDispatcher("/WEB-INF/views/AltaEdicion.jsp").forward(req, resp);
                 return;
             }
-            if (ce.existeEdicionPorSiglaDTO(sigla)) {
+            if (port.existeEdicionPorSigla(sigla)) {
                 req.setAttribute("msgError", "Ya existe una edición con esa sigla.");
                 req.getRequestDispatcher("/WEB-INF/views/AltaEdicion.jsp").forward(req, resp);
                 return;
             }
 
-            // ---- Imagen (opcional) con validación simple MIME/extensión
             String imagenWebPath = null;
             try {
                 Part imagenPart = req.getPart("imagen");
                 if (imagenPart != null && imagenPart.getSize() > 0) {
-                    String contentType = imagenPart.getContentType(); // ej: image/jpeg, image/png
-                    if (!isMimeImagenPermitido(contentType)) {
+                    String ct = imagenPart.getContentType();
+                    if (!isMimeImagenPermitido(ct)) {
                         throw new IllegalArgumentException("Formato de imagen no permitido (solo JPG/PNG).");
                     }
                     String fileName = sanitizeFileName(getFileName(imagenPart));
-                    if (!isBlank(fileName)) {
-                        // Normalizar .jpeg -> .jpg
+                    if (fileName != null && !fileName.isBlank()) {
                         fileName = normalizarExt(fileName);
-
-                        String relativeDir = "/img/ediciones";
-                        String absoluteDir = getServletContext().getRealPath(relativeDir);
-                        File dir = new File(absoluteDir);
-                        if (!dir.exists()) dir.mkdirs();
-
-                        String prefixed = System.currentTimeMillis() + "_" + fileName;
-                        File destino = new File(dir, prefixed);
-                        Files.copy(imagenPart.getInputStream(), destino.toPath());
-                        imagenWebPath = relativeDir + "/" + prefixed;
+                        byte[] bytes = imagenPart.getInputStream().readAllBytes();
+                        imagenWebPath = port.subirImagenEdicion(evento, nombre, fileName, bytes);
                     }
                 }
             } catch (Exception e) {
-                req.setAttribute("msgError", "No se pudo guardar la imagen: " + e.getMessage());
+                req.setAttribute("msgError", "No se pudo subir la imagen: " + safeMsg(e));
                 req.getRequestDispatcher("/WEB-INF/views/AltaEdicion.jsp").forward(req, resp);
                 return;
             }
 
-            // ---- Alta vía DTO (sin tocar entidades desde el servlet)
-            ce.altaEdicionDeEventoDTO(
-                nombreEvento,
-                nickOrganizador,
-                nombre,
-                sigla,
-                ciudad,
-                pais,
-                fIni,
-                fFin,
-                fAlta,
-                imagenWebPath
+            // 4) Alta
+            port.altaEdicionDeEvento(
+                    evento,
+                    nickOrganizador,
+                    nombre,
+                    sigla,
+                    ciudad,
+                    pais,
+                    fIni.toString(),
+                    fFin.toString(),
+                    fAlta.toString(),
+                    (imagenWebPath == null ? "" : imagenWebPath)
             );
 
             req.setAttribute("msgOk", "Edición de evento creada exitosamente.");
             clearForm(req);
 
         } catch (Exception e) {
-            req.setAttribute("msgError", "No se pudo crear la edición: " + e.getMessage());
+            req.setAttribute("msgError", "No se pudo crear la edición: " + safeMsg(e));
         }
 
-        // Misma vista que tu JSP
         req.getRequestDispatcher("/WEB-INF/views/AltaEdicion.jsp").forward(req, resp);
     }
 
-    // ----------------- helpers -----------------
+    // ===== Helpers chicos =====
 
     private static boolean isBlank(String s) { return s == null || s.trim().isEmpty(); }
 
@@ -211,13 +214,16 @@ public class AltaEdicionSvt extends HttpServlet {
 
     private static String getFileName(Part part) {
         String cd = part.getHeader("content-disposition");
-        if (cd == null) return null;
-        for (String sub : cd.split(";")) {
-            String t = sub.trim();
-            if (t.startsWith("filename")) {
-                return t.substring(t.indexOf('=') + 1).trim().replace("\"", "");
+        if (cd != null) {
+            for (String token : cd.split(";")) {
+                String t = token.trim();
+                if (t.startsWith("filename")) {
+                    String fn = t.substring(t.indexOf('=') + 1).trim().replace("\"", "");
+                    return new java.io.File(fn).getName();
+                }
             }
         }
+        try { return part.getSubmittedFileName(); } catch (Throwable ignore) {}
         return null;
     }
 
@@ -229,6 +235,7 @@ public class AltaEdicionSvt extends HttpServlet {
     }
 
     private static String normalizarExt(String fileName) {
+        if (fileName == null) return null;
         String lower = fileName.toLowerCase();
         if (lower.endsWith(".jpeg")) return fileName.substring(0, fileName.length() - 5) + ".jpg";
         return fileName;
@@ -243,5 +250,13 @@ public class AltaEdicionSvt extends HttpServlet {
         req.setAttribute("form_fechaFin", null);
         req.setAttribute("form_fechaAlta", LocalDate.now().toString());
     }
-}
 
+    private static String trim(String s) { 
+        return (s == null) ? "" : s.trim(); 
+    }
+
+    private static String safeMsg(Throwable t) {
+        String m = (t == null ? null : t.getMessage());
+        return (m == null || m.isBlank()) ? t.getClass().getSimpleName() : m;
+    }
+}
