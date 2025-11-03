@@ -11,8 +11,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 
-import servidorcentral.logica.DTSesionUsuario; // solo para leer sesion
-import servidorcentral.logica.RolUsuario;       // idem
+import servidorcentral.logica.DTSesionUsuario; 
+import servidorcentral.logica.RolUsuario;      
 
 import cliente.ws.sc.WebServices;
 import cliente.ws.sc.WebServicesService;
@@ -22,10 +22,31 @@ import cliente.ws.sc.DTRegistro;
 import cliente.ws.sc.DTTipoRegistro;
 import cliente.ws.sc.DTPatrocinio;
 
+import jakarta.xml.ws.Binding;
+import jakarta.xml.ws.BindingProvider;
+import jakarta.xml.ws.soap.SOAPBinding;
+
 @WebServlet(name = "ConsultaEdicionSvt", urlPatterns = {"/ediciones-consulta"})
 public class ConsultaEdicionSvt extends HttpServlet {
   private static final long serialVersionUID = 1L;
   private static final DateTimeFormatter FMT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+  /** Obtiene el port y setea MTOM + WS_URL desde web.xml */
+  private WebServices getPort(HttpServletRequest req) {
+    WebServicesService svc = new WebServicesService();
+    WebServices port = svc.getWebServicesPort();
+
+    Binding b = ((BindingProvider) port).getBinding();
+    if (b instanceof SOAPBinding sb) sb.setMTOMEnabled(true);
+
+    String wsUrl = req.getServletContext().getInitParameter("WS_URL");
+    if (wsUrl != null && !wsUrl.isBlank()) {
+      ((BindingProvider) port).getRequestContext().put(
+          BindingProvider.ENDPOINT_ADDRESS_PROPERTY, wsUrl
+      );
+    }
+    return port;
+  }
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -80,11 +101,8 @@ public class ConsultaEdicionSvt extends HttpServlet {
     }
 
     try {
-      // Cliente WS
-      WebServicesService svc = new WebServicesService();
-      WebServices port = svc.getWebServicesPort();
+      WebServices port = getPort(req);
 
-      // Edicion completa por WS
       DTEdicion ed = port.consultaEdicionDeEvento(nombreEvento, nombreEdicion);
       if (ed == null) {
         req.setAttribute("msgError", "No se encontro la edicion solicitada.");
@@ -108,11 +126,9 @@ public class ConsultaEdicionSvt extends HttpServlet {
       String img = safe(ed.getImagenWebPath());
       VM.put("imagen", (img != null && !img.isBlank()) ? (req.getContextPath() + img) : null);
 
-      // Organizadores
       List<DTOrganizador> orgs = listOrEmpty(ed.getOrganizadores());
       VM.put("organizadorNombre", joinOrganizadores(orgs));
 
-      // Registros
       List<Map<String,String>> regsVM = new ArrayList<>();
       List<DTRegistro> regs = listOrEmpty(ed.getRegistros());
       for (DTRegistro r : regs) {
@@ -125,7 +141,6 @@ public class ConsultaEdicionSvt extends HttpServlet {
       }
       VM.put("registros", regsVM);
 
-      // Tipos de registro
       List<Map<String,String>> tiposVM = new ArrayList<>();
       List<DTTipoRegistro> tregs = listOrEmpty(ed.getTipoRegistros());
       for (DTTipoRegistro tr : tregs) {
@@ -138,7 +153,6 @@ public class ConsultaEdicionSvt extends HttpServlet {
       }
       VM.put("tipos", tiposVM);
 
-      // Mi registro (si es asistente)
       Map<String,String> miRegVM = null;
       boolean esAsistenteInscriptoEd = false;
       if (esAsistente && nickSesion != null) {
@@ -156,13 +170,9 @@ public class ConsultaEdicionSvt extends HttpServlet {
       }
       VM.put("miRegistro", miRegVM);
 
-      // Patrocinios: si tu DTEdicion NO los trae, descomenta y usa el WS opcional
       List<DTPatrocinio> pats = listOrEmpty(ed.getPatrocinios());
-      // List<DtPatrocinio> pats = Optional.ofNullable(port.listarPatrociniosDeEdicion(nombreEdicion))
-      //                                  .map(DtPatrocinioArray::getItem).orElse(List.of());
       req.setAttribute("patrocinios", pats);
 
-      // ¿Es organizador de esta edicion?
       boolean esOrganizadorDeEstaEdicion = false;
       if (esOrganizador && orgs != null && nickSesion != null) {
         String nickNorm = nickSesion.trim().toLowerCase();
@@ -205,7 +215,18 @@ public class ConsultaEdicionSvt extends HttpServlet {
   private static String formatSafe(LocalDate d) { try { return format(d); } catch (Throwable ignore) { return null; } }
   private static String toStr(Number n) { return (n == null) ? null : String.valueOf(n); }
   private static String prefer(String a, String b) { return !isBlank(a) ? a : b; }
-
   private static <T> List<T> listOrEmpty(List<T> xs) { return (xs == null) ? java.util.List.of() : xs; }
+
+  /** Une nombres de organizadores en una cadena amigable. */
+  private static String joinOrganizadores(List<DTOrganizador> orgs) {
+    if (orgs == null || orgs.isEmpty()) return null;
+    List<String> nombres = new ArrayList<>();
+    for (DTOrganizador o : orgs) {
+      if (o == null) continue;
+      String nom = prefer(safe(o.getNombre()), safe(o.getNickname()));
+      if (!isBlank(nom)) nombres.add(nom);
+    }
+    return nombres.isEmpty() ? null : String.join(", ", nombres);
+  }
 }
 

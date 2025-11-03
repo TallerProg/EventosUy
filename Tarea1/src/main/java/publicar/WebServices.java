@@ -52,10 +52,8 @@ public class WebServices {
 
 
     private Endpoint endpoint = null;
-    //Constructor
     public WebServices(){}
 
-    //Operaciones las cuales quiero publicar
 
     @WebMethod(exclude = true)
     public void publicar(){
@@ -81,7 +79,6 @@ public class WebServices {
 		return Factory.getInstance().getIControllerUsuario();
 	}
 
-    // === MÉTODO PUBLICADO ===
     @WebMethod
     public DTCategoria[] listarDTCategorias() {
         List<DTCategoria> lista = getControllerEvento().listarDTCategorias();
@@ -125,7 +122,6 @@ public class WebServices {
 			String contrasena, String img) throws UsuarioRepetidoException {
 		getControllerUsuario().altaOrganizador(nicknameUsu, correo, nombre, descripcion, url, contrasena, img);
 	}
-    //altaEventoSvt
     @WebMethod
     public boolean existeEvento(String nombre) {
     	return getControllerEvento().existeEvento(nombre);
@@ -276,14 +272,10 @@ public class WebServices {
     @WebMethod(exclude = true)
     private static String slug(String s) {
         String base = (s == null || s.isEmpty()) ? "evento" : s.toLowerCase(java.util.Locale.ROOT);
-        // Reemplaza caracteres no válidos por '-'
         base = base.replaceAll("[^a-z0-9-_]+", "-");
-        // Colapsa guiones múltiples
         base = base.replaceAll("-{2,}", "-");
-        // Quita guiones al principio/fin
         return base.replaceAll("^-|-$", "");
     }
- // ====== EDICIONES: MÉTODOS PUBLICADOS ======
 
     
     @WebMethod
