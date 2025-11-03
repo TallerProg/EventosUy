@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ page import="servidorcentral.logica.DTCategoria" %>
-<%@ page import="servidorcentral.logica.DTEdicion" %>
-<%@ page import="servidorcentral.logica.DTevento"%>
+<%@ page import="cliente.ws.sc.DtCategoria" %>
+<%@ page import="cliente.ws.sc.DtEdicion" %>
+<%@ page import="cliente.ws.sc.DTevento"%>
 <%@ page import="java.util.List" %>
 <%@ page import="java.net.URLEncoder, java.nio.charset.StandardCharsets" %>
 
@@ -52,8 +52,8 @@
                 <h4>Categorías:</h4>
                 <ul>
                    <%
-                    List<DTCategoria> categorias = evento.getDTCategorias();
-                    for (DTCategoria categoria : categorias) {
+                    List<DtCategoria> categorias = evento.getDtCategorias();
+                    for (DtCategoria categoria : categorias) {
                   %>
                     <li><%= categoria.getNombre() %></li>
                   <% } %>
@@ -70,7 +70,7 @@
               
                 
                 <%
-List<DTEdicion> ediciones = (List<DTEdicion>) request.getAttribute("LISTA_EDICIONES");
+List<DtEdicion> ediciones = (List<DtEdicion>) request.getAttribute("LISTA_EDICIONES");
 if (ediciones == null) { ediciones = java.util.Collections.emptyList(); }
 %>
 
@@ -78,7 +78,7 @@ if (ediciones == null) { ediciones = java.util.Collections.emptyList(); }
   <div class="alert alert-info text-center">Este evento no tiene ediciones visibles aún.</div>
 <% } %>
 
-<% for (DTEdicion edicion : ediciones) {
+<% for (DtEdicion edicion : ediciones) {
      String imge = (edicion != null && edicion.getImagenWebPath() != null && !edicion.getImagenWebPath().isBlank())
                    ? (ctx + edicion.getImagenWebPath())
                    : (ctx + "/media/img/default.png");
@@ -91,7 +91,7 @@ if (ediciones == null) { ediciones = java.util.Collections.emptyList(); }
                     <div class="card-body">
                       <h5 class="card-title"><%= edicion.getNombre() %></h5>
                       <p class="card-text">📍 <%= edicion.getCiudad() %>, <%= edicion.getPais() %></p>
-                      <p class="card-text"><small class="text-muted"><%= edicion.getfInicio() %></small></p>
+                      <p class="card-text"><small class="text-muted"><%= edicion.getFInicio() %></small></p>
 					  <a href="<%= ctx %>/ediciones-consulta?evento=<%= URLEncoder.encode(evento.getNombre(), StandardCharsets.UTF_8) %>&edicion=<%= URLEncoder.encode(edicion.getNombre(), StandardCharsets.UTF_8) %>"class="btn btn-primary">Ver detalles de la edición</a>
                     </div>
                   </div>

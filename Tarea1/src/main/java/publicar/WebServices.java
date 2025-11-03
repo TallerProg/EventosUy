@@ -98,6 +98,16 @@ public class WebServices {
 	}
     
     @WebMethod
+    public DTEdicion[] listarDTEdicion() {
+		List<DTEdicion> lista = getControllerEvento().listarDTEdicion();
+		return (lista == null || lista.isEmpty())
+				? new DTEdicion[0]
+				: lista.toArray(new DTEdicion[0]);
+	}
+    
+
+    
+    @WebMethod
     public DTUsuarioListaConsulta[] listarDTAsistentes() {
 		List<DTUsuarioListaConsulta> lista = getControllerUsuario().getDTAsistentes();
 		return (lista == null || lista.isEmpty())
@@ -157,6 +167,25 @@ public class WebServices {
         return res.toArray(new DTCategoria[0]);
     }
 
+
+    @WebMethod
+    public DTevento consultaEventoPorNombre(String nombreEv) {
+    	return getControllerEvento().consultaEvento(nombreEv);
+
+    }
+    
+    @WebMethod
+    public DTEdicion consultaEdicionDeEvento(String nombreEv,String nombreEd) {
+    	DTEdicion edicion=getControllerEvento().consultaEdicionDeEvento(nombreEv,nombreEd);
+    	if (edicion == null) {
+    	    DTEdicion vacia = new DTEdicion();
+    	    vacia.setEstado("NO_ENCONTRADA");
+    	    return vacia;
+    	}
+        return edicion;
+    }
+    
+    
     @MTOM(enabled = true)
     @WebMethod
     public String subirImagenEvento(
