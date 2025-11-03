@@ -11,6 +11,7 @@
   <modules>
     <module>Tarea1</module>
     <module>Tarea2</module>
+    <module>Movil</module>
   </modules>
 
   <properties>
