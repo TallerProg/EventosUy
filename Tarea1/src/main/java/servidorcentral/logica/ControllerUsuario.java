@@ -1,7 +1,6 @@
 package servidorcentral.logica;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;     
+import java.time.LocalDate;     
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -46,7 +45,7 @@ public class ControllerUsuario implements IControllerUsuario {
                         : (usu instanceof Organizador) ? RolUsuario.ORGANIZADOR
                         : RolUsuario.VISITANTE;
 
-        return new DTSesionUsuario(usu.getNickname(), usu.getCorreo(), rol, LocalDateTime.now());
+        return new DTSesionUsuario(usu.getNickname(), usu.getCorreo(), rol, LocalDate.now());
     }
     public void cerrarSesion(DTSesionUsuario sesion) {
         Objects.requireNonNull(sesion);

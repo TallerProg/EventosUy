@@ -1,13 +1,22 @@
 package servidorcentral.logica;
-import java.time.LocalDateTime;
 
+import java.time.LocalDate;
+
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+
+
+@XmlAccessorType(XmlAccessType.FIELD)
 public class DTSesionUsuario{
-        private final String nickname;
-        private final String correo;
-        private final RolUsuario rol;
-        private final LocalDateTime fechaHoraInicio; 
+        private String nickname;
+        private String correo;
+        private RolUsuario rol;
+        private LocalDate fechaHoraInicio; 
+        
+        public DTSesionUsuario() {
+        }
 
-        public DTSesionUsuario(String nickname, String correo, RolUsuario rol, LocalDateTime fechaHoraInicio) {
+        public DTSesionUsuario(String nickname, String correo, RolUsuario rol, LocalDate fechaHoraInicio) {
             this.nickname = nickname;
             this.correo = correo;
             this.rol = rol;
@@ -17,6 +26,20 @@ public class DTSesionUsuario{
         public String getCorreo() { return correo; }
         public RolUsuario getRol() { return rol; }
         public String getRolString() { return rol.toString(); }
-        public LocalDateTime getFechaHoraInicio() { return fechaHoraInicio; }
+        public LocalDate getFechaHoraInicio() { return fechaHoraInicio; }
+
+		public void setFechaHoraInicio(LocalDate fechaHoraInicio) {
+			this.fechaHoraInicio = fechaHoraInicio;
+			
+		}
+		public void setNickname(String nickname) {
+			this.nickname = nickname;
+		}
+		public void setCorreo(String correo) {
+			this.correo = correo;
+		}
+		public void setRol(RolUsuario rol) {
+			this.rol = rol;
+		}
         
     }

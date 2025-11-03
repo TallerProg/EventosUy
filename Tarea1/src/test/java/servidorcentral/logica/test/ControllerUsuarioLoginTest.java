@@ -70,7 +70,7 @@ class ControllerUsuarioLoginTest {
         assertEquals("asist1@mail.com", ses.getCorreo());
         assertEquals(RolUsuario.ASISTENTE, ses.getRol());
         assertNotNull(ses.getFechaHoraInicio());
-        assertTrue(ses.getFechaHoraInicio().isBefore(LocalDateTime.now().plusSeconds(2)));
+        assertTrue(ses.getFechaHoraInicio().isBefore(LocalDate.now()));
     }
 
     @Test
@@ -110,7 +110,7 @@ class ControllerUsuarioLoginTest {
                 new DTSesionUsuario(
                         "asist1", "asist1@mail.com",
                         RolUsuario.ASISTENTE,
-                        LocalDateTime.now()
+                        LocalDate.now()
                 );
         assertDoesNotThrow(() -> controller.cerrarSesion(ses));
     }
