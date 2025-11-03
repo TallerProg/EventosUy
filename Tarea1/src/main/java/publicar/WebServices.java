@@ -286,32 +286,26 @@ public class WebServices {
  // ====== EDICIONES: MÉTODOS PUBLICADOS ======
 
     
-    //loginSvt
     @WebMethod
-    public DTSesionUsuario iniciarSesion(
-            @WebParam(name="identifier") String identifier,
-            @WebParam(name="password")   String password
-    ) throws UsuarioNoExisteException, CredencialesInvalidasException {
+    public servidorcentral.logica.DTSesionUsuario iniciarSesion(String identifier, String password)
+            throws servidorcentral.excepciones.UsuarioNoExisteException,
+                   servidorcentral.excepciones.CredencialesInvalidasException {
         return getControllerUsuario().iniciarSesion(identifier, password);
     }
-
+    
     @WebMethod
-    public DTUsuarioListaConsulta consultaDeUsuario(
-            @WebParam(name="nickname") String nickname
-    ) throws UsuarioNoExisteException {
+    public servidorcentral.logica.DTUsuarioListaConsulta consultaDeUsuario(String nickname)
+            throws servidorcentral.excepciones.UsuarioNoExisteException {
         return getControllerUsuario().consultaDeUsuario(nickname);
     }
 
     @WebMethod
-    public boolean existeEdicionPorNombre(
-            @WebParam(name="evento") String evento,
-            @WebParam(name="nombreEdicion") String nombreEdicion) {
+    public boolean existeEdicionPorNombre(String evento, String nombreEdicion) {
         return getControllerEvento().existeEdicionPorNombre(evento, nombreEdicion);
     }
 
     @WebMethod
-    public boolean existeEdicionPorSigla(
-            @WebParam(name="sigla") String sigla) {
+    public boolean existeEdicionPorSigla(String sigla) {
         return getControllerEvento().existeEdicionPorSiglaDTO(sigla);
     }
 
@@ -348,43 +342,15 @@ public class WebServices {
     }
 
     @WebMethod
-    public void altaEdicionDeEvento(
-            @WebParam(name="evento") String evento,
-            @WebParam(name="nickOrganizador") String nickOrganizador,
-            @WebParam(name="nombre") String nombre,
-            @WebParam(name="sigla") String sigla,
-            @WebParam(name="ciudad") String ciudad,
-            @WebParam(name="pais") String pais,
-            @WebParam(name="fechaIniIso") String fechaIniIso, // yyyy-MM-dd
-            @WebParam(name="fechaFinIso") String fechaFinIso, // yyyy-MM-dd
-            @WebParam(name="fechaAltaIso") String fechaAltaIso, // yyyy-MM-dd
-            @WebParam(name="imagenWebPath") String imagenWebPath
-    ) throws Exception {
-
-        java.util.List<String> errores = new java.util.ArrayList<>();
-        if (isBlank(evento)) errores.add("evento obligatorio");
-        if (isBlank(nickOrganizador)) errores.add("organizador obligatorio");
-        if (isBlank(nombre)) errores.add("nombre edición obligatorio");
-        if (isBlank(sigla)) errores.add("sigla obligatoria");
-        if (isBlank(ciudad)) errores.add("ciudad obligatoria");
-        if (isBlank(pais)) errores.add("pais obligatorio");
-        if (isBlank(fechaIniIso) || isBlank(fechaFinIso) || isBlank(fechaAltaIso))
-            errores.add("fechas obligatorias");
-
-        if (!errores.isEmpty()) throw new IllegalArgumentException(String.join(" | ", errores));
-
-        java.time.LocalDate fIni = java.time.LocalDate.parse(fechaIniIso);
-        java.time.LocalDate fFin = java.time.LocalDate.parse(fechaFinIso);
-        java.time.LocalDate fAlta = java.time.LocalDate.parse(fechaAltaIso);
-
-        if (getControllerEvento().existeEdicionPorNombre(evento, nombre))
-            throw new IllegalArgumentException("Ya existe una edición con ese nombre para el evento.");
-        if (getControllerEvento().existeEdicionPorSiglaDTO(sigla))
-            throw new IllegalArgumentException("Ya existe una edición con esa sigla.");
-
+    public void altaEdicionDeEventoDTO(String nombreEvento, String nickOrganizador, String nombreEdicion,
+                                       String sigla, String ciudad, String pais,
+                                       java.time.LocalDate fInicio, java.time.LocalDate fFin,
+                                       java.time.LocalDate fAlta, String imagenWebPath) throws Exception {
         getControllerEvento().altaEdicionDeEventoDTO(
-                evento, nickOrganizador, nombre, sigla, ciudad, pais, fIni, fFin, fAlta, imagenWebPath);
+            nombreEvento, nickOrganizador, nombreEdicion, sigla, ciudad, pais, fInicio, fFin, fAlta, imagenWebPath
+        );
     }
+    
     @WebMethod
     public DTRegistro[] listarRegistrosDeAsistente(
             @jakarta.jws.WebParam(name = "nickname") String nickname) {

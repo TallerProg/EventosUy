@@ -9,10 +9,13 @@ import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 
-import cliente.ws.sc.WebServices;
-import cliente.ws.sc.WebServicesService;
-//import cliente.ws.sc.DTUsuarioListaConsulta; 
+import jakarta.xml.ws.Binding;
+import jakarta.xml.ws.BindingProvider;
+import jakarta.xml.ws.soap.SOAPBinding;
+import jakarta.xml.ws.soap.SOAPFaultException;
 
+import cliente.ws.sc.DtUsuarioListaConsulta;
+import cliente.ws.sc.WebServices;
 
 @WebServlet(name = "AltaEdicionSvt", urlPatterns = {"/ediciones-alta"})
 @MultipartConfig(
@@ -24,12 +27,18 @@ public class AltaEdicionSvt extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
-    private WebServices getPort() throws Exception {
-        WebServicesService svc = new WebServicesService();
+    private WebServices getPort(HttpServletRequest req) {
+        cliente.ws.sc.WebServicesService svc = new cliente.ws.sc.WebServicesService();
         WebServices port = svc.getWebServicesPort();
-        javax.xml.ws.Binding b = ((javax.xml.ws.BindingProvider) port).getBinding();
-        if (b instanceof javax.xml.ws.soap.SOAPBinding) {
-            ((javax.xml.ws.soap.SOAPBinding) b).setMTOMEnabled(true);
+
+        Binding b = ((BindingProvider) port).getBinding();
+        if (b instanceof SOAPBinding sb) sb.setMTOMEnabled(true);
+
+        String wsUrl = req.getServletContext().getInitParameter("WS_URL");
+        if (wsUrl != null && !wsUrl.isBlank()) {
+            ((BindingProvider) port).getRequestContext().put(
+                BindingProvider.ENDPOINT_ADDRESS_PROPERTY, wsUrl
+            );
         }
         return port;
     }
@@ -47,7 +56,7 @@ public class AltaEdicionSvt extends HttpServlet {
 
         String evento = req.getParameter("evento");
         if (isBlank(evento)) {
-            req.setAttribute("msgError", "Falta el parámetro 'evento'. Volvé a la página del evento y elegí 'Dar de alta edición'.");
+            req.setAttribute("msgError", "Falta el parámetro 'evento'.");
             req.getRequestDispatcher("/WEB-INF/views/AltaEdicion.jsp").forward(req, resp);
             return;
         }
@@ -70,19 +79,20 @@ public class AltaEdicionSvt extends HttpServlet {
             return;
         }
 
-        String nicknameSesion = (String) ses.getAttribute("nickname");
+       String nicknameSesion = (String) ses.getAttribute("nickname");
         if (isBlank(nicknameSesion)) {
             try {
-                Object dto = ses.getAttribute("usuario_logueado");
-                nicknameSesion = (String) dto.getClass().getMethod("getNickname").invoke(dto);
-            } catch (Exception e) {
-                req.setAttribute("msgError", "No se pudo determinar el usuario en sesión.");
-                req.getRequestDispatcher("/WEB-INF/views/AltaEdicion.jsp").forward(req, resp);
-                return;
-            }
+                servidorcentral.logica.DTSesionUsuario dto =
+                        (servidorcentral.logica.DTSesionUsuario) ses.getAttribute("usuario_logueado");
+                if (dto != null) nicknameSesion = dto.getNickname();
+            } catch (ClassCastException ignore) {}
+        }
+        if (isBlank(nicknameSesion)) {
+            req.setAttribute("msgError", "No se pudo determinar el usuario en sesión.");
+            req.getRequestDispatcher("/WEB-INF/views/AltaEdicion.jsp").forward(req, resp);
+            return;
         }
 
-        // Params
         String evento = trim(req.getParameter("evento"));
         String nombre = trim(req.getParameter("nombre"));
         String sigla  = trim(req.getParameter("sigla"));
@@ -90,7 +100,6 @@ public class AltaEdicionSvt extends HttpServlet {
         String pais   = trim(req.getParameter("pais"));
         String sIni   = trim(req.getParameter("fechaIni"));
         String sFin   = trim(req.getParameter("fechaFin"));
-
         LocalDate fAlta = LocalDate.now();
 
         req.setAttribute("form_evento", evento);
@@ -102,10 +111,9 @@ public class AltaEdicionSvt extends HttpServlet {
         req.setAttribute("form_fechaFin", sFin);
         req.setAttribute("form_fechaAlta", fAlta.toString());
 
-        // Validaciones
-        if (isBlank(evento) || isBlank(nombre) || isBlank(sigla) || isBlank(ciudad)
-                || isBlank(pais) || isBlank(sIni) || isBlank(sFin)) {
-            req.setAttribute("msgError", "Todos los campos son obligatorios (salvo la imagen).");
+        if (isBlank(evento) || isBlank(nombre) || isBlank(sigla) || isBlank(ciudad) ||
+            isBlank(pais) || isBlank(sIni) || isBlank(sFin)) {
+            req.setAttribute("msgError", "Todos los campos son obligatorios.");
             req.getRequestDispatcher("/WEB-INF/views/AltaEdicion.jsp").forward(req, resp);
             return;
         }
@@ -115,13 +123,7 @@ public class AltaEdicionSvt extends HttpServlet {
             fIni = LocalDate.parse(sIni);
             fFin = LocalDate.parse(sFin);
         } catch (DateTimeParseException ex) {
-            req.setAttribute("msgError", "Formato de fecha inválido. Usá el selector de fecha.");
-            req.getRequestDispatcher("/WEB-INF/views/AltaEdicion.jsp").forward(req, resp);
-            return;
-        }
-
-        if (fIni.isBefore(LocalDate.now())) {
-            req.setAttribute("msgError", "La fecha de inicio no puede ser anterior a hoy.");
+            req.setAttribute("msgError", "Formato de fecha inválido.");
             req.getRequestDispatcher("/WEB-INF/views/AltaEdicion.jsp").forward(req, resp);
             return;
         }
@@ -132,9 +134,9 @@ public class AltaEdicionSvt extends HttpServlet {
         }
 
         try {
-            WebServices port = getPort();
+            WebServices port = getPort(req);
 
-            DTUsuarioListaConsulta dtOrg = port.consultaDeUsuario(nicknameSesion);
+            DtUsuarioListaConsulta dtOrg = port.consultaDeUsuario(nicknameSesion);
             if (dtOrg == null || isBlank(dtOrg.getNickname())) {
                 req.setAttribute("msgError", "No se pudo resolver el Organizador a partir del usuario en sesión.");
                 req.getRequestDispatcher("/WEB-INF/views/AltaEdicion.jsp").forward(req, resp);
@@ -168,14 +170,18 @@ public class AltaEdicionSvt extends HttpServlet {
                         imagenWebPath = port.subirImagenEdicion(evento, nombre, fileName, bytes);
                     }
                 }
+            } catch (SOAPFaultException sfe) {
+                req.setAttribute("msgError", faultMsg(sfe));
+                req.getRequestDispatcher("/WEB-INF/views/AltaEdicion.jsp").forward(req, resp);
+                return;
             } catch (Exception e) {
-                req.setAttribute("msgError", "No se pudo subir la imagen: " + safeMsg(e));
+                req.setAttribute("msgError", rootMsg(e));
                 req.getRequestDispatcher("/WEB-INF/views/AltaEdicion.jsp").forward(req, resp);
                 return;
             }
 
-            // 4) Alta
-            port.altaEdicionDeEvento(
+            try {
+                port.altaEdicionDeEvento(
                     evento,
                     nickOrganizador,
                     nombre,
@@ -186,18 +192,26 @@ public class AltaEdicionSvt extends HttpServlet {
                     fFin.toString(),
                     fAlta.toString(),
                     (imagenWebPath == null ? "" : imagenWebPath)
-            );
+                );
+            } catch (SOAPFaultException sfe) {
+                req.setAttribute("msgError", faultMsg(sfe)); 
+                req.getRequestDispatcher("/WEB-INF/views/AltaEdicion.jsp").forward(req, resp);
+                return;
+            } catch (Exception e) {
+                req.setAttribute("msgError", rootMsg(e));    //
+                req.getRequestDispatcher("/WEB-INF/views/AltaEdicion.jsp").forward(req, resp);
+                return;
+            }
 
             req.setAttribute("msgOk", "Edición de evento creada exitosamente.");
             clearForm(req);
 
         } catch (Exception e) {
-            req.setAttribute("msgError", "No se pudo crear la edición: " + safeMsg(e));
+            req.setAttribute("msgError", rootMsg(e));
         }
 
         req.getRequestDispatcher("/WEB-INF/views/AltaEdicion.jsp").forward(req, resp);
     }
-
 
     private static boolean isBlank(String s) { return s == null || s.trim().isEmpty(); }
 
@@ -246,12 +260,23 @@ public class AltaEdicionSvt extends HttpServlet {
         req.setAttribute("form_fechaAlta", LocalDate.now().toString());
     }
 
-    private static String trim(String s) { 
-        return (s == null) ? "" : s.trim(); 
+    private static String trim(String s) { return (s == null) ? "" : s.trim(); }
+
+    private static String faultMsg(SOAPFaultException sfe) {
+        try {
+            String m = sfe.getFault() != null ? sfe.getFault().getFaultString() : sfe.getMessage();
+            return (m == null || m.isBlank()) ? "Error remoto" : m;
+        } catch (Throwable t) {
+            return rootMsg(sfe);
+        }
     }
 
-    private static String safeMsg(Throwable t) {
-        String m = (t == null ? null : t.getMessage());
-        return (m == null || m.isBlank()) ? t.getClass().getSimpleName() : m;
+    private static String rootMsg(Throwable t) {
+        if (t == null) return "Error";
+        String m = t.getMessage();
+        if (m != null && !m.isBlank()) return m;
+        Throwable c = t.getCause();
+        return (c != null && c != t) ? rootMsg(c) : t.getClass().getSimpleName();
     }
 }
+
