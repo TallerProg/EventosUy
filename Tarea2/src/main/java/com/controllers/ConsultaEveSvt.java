@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import cliente.ws.sc.DtSesionUsuario;
+import cliente.ws.sc.RolUsuario;
 import cliente.ws.sc.DTevento;
 import cliente.ws.sc.DtEdicionArray;
 import cliente.ws.sc.DtEdicion;
@@ -14,8 +16,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import servidorcentral.logica.DTSesionUsuario;
-import servidorcentral.logica.RolUsuario;
+
 
 @WebServlet(name = "ConsultaEveSvt", urlPatterns = { "/ConsultaEvento" })
 @MultipartConfig(fileSizeThreshold = 1 * 1024 * 1024, maxFileSize = 10 * 1024 * 1024, maxRequestSize = 15 * 1024 * 1024)
@@ -47,8 +48,8 @@ public class ConsultaEveSvt extends HttpServlet {
             req.setAttribute("EVENTO", evento);
 
             HttpSession session = req.getSession(false);
-            DTSesionUsuario sesUser = (session != null)
-                    ? (DTSesionUsuario) session.getAttribute("usuario_logueado")
+            DtSesionUsuario sesUser = (session != null)
+                    ? (DtSesionUsuario) session.getAttribute("usuario_logueado")
                     : null;
 
             boolean esOrgGlobal = (sesUser != null && sesUser.getRol() == RolUsuario.ORGANIZADOR);

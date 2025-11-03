@@ -5,8 +5,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.IOException;
 
-import servidorcentral.logica.DTSesionUsuario;
 
+import cliente.ws.sc.DtSesionUsuario;
 import cliente.ws.sc.WebServices;
 import cliente.ws.sc.WebServicesService;
 import cliente.ws.sc.DtUsuarioListaConsulta;
@@ -89,7 +89,7 @@ public class ConsultaUsuarioSvt extends HttpServlet {
       }
 
       HttpSession session = req.getSession(false);
-      DTSesionUsuario sesUser = (session != null) ? (DTSesionUsuario) session.getAttribute("usuario_logueado") : null;
+      DtSesionUsuario sesUser = (session != null) ? (DtSesionUsuario) session.getAttribute("usuario_logueado") : null;
       boolean esSuPerfil = (sesUser != null) && nick.equalsIgnoreCase(sesUser.getNickname());
 
       try {
