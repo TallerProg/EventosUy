@@ -4,83 +4,105 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.IOException;
-import java.util.*;
 
-import servidorcentral.logica.Factory;
-import servidorcentral.logica.IControllerUsuario;
-import servidorcentral.logica.DTAsistente;
-import servidorcentral.logica.DTOrganizadorDetallado;
-import servidorcentral.logica.DTSesionUsuario;
-import servidorcentral.logica.DTUsuarioListaConsulta;
-import servidorcentral.logica.DTEdicion;
-import servidorcentral.logica.DTRegistro;
+import servidorcentral.logica.DTSesionUsuario; 
+
+import cliente.ws.sc.WebServices;
+import cliente.ws.sc.WebServicesService;
+import cliente.ws.sc.DtUsuarioListaConsulta;
+import cliente.ws.sc.DtUsuarioListaConsultaArray;
+import cliente.ws.sc.DtRegistroArray;
+import cliente.ws.sc.DtEdicionArray;
 
 @WebServlet("/ConsultaUsuario")
 public class ConsultaUsuarioSvt extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-	@Override
+  @Override
+  protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+      throws ServletException, IOException {
 
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    String nick = req.getParameter("nick");
+    if (nick == null || nick.isBlank()) {
+      resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Falta parametro 'nick'.");
+      return;
+    }
+    nick = nick.trim();
 
-		String nick = req.getParameter("nick");
-		if (nick == null || nick.isEmpty()) {
-			resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Falta parámetro 'nick'.");
-			return;
-		}
-		nick = nick.trim(); // Evita espacios que rompan la busqueda
-		
-		IControllerUsuario icu = Factory.getInstance().getIControllerUsuario();
+    try {
+      WebServicesService svc = new WebServicesService();
+      WebServices port = svc.getWebServicesPort();
 
-		// Primero detecto si existe y que rol tiene
-		DTAsistente asis = icu.getDTAsistente(nick);
-		DTOrganizadorDetallado org = (asis == null) ? icu.getDTOrganizadorDetallado(nick) : null;
-		String rol = (asis != null) ? "A" : (org != null) ? "O" : "v";
-		if(asis!=null) {
-			String img=asis.getImg();
-            req.setAttribute("IMAGEN", img);
-		}else if(org!=null){
-			String img=org.getImg();
-            req.setAttribute("IMAGEN", img);
-		}
-		if ("v".equals(rol)) {
-			// No existe ni como Asistente ni como Organizador 404
-			resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Usuario no encontrado.");
-			return;
-		}
-		DTUsuarioListaConsulta u = icu.consultaDeUsuario(nick);
-		if (u == null) {
-			if (asis != null) {
-				u = icu.consultaDeUsuario(asis.getNickname());
-			} else if (org != null) {
-				u = icu.consultaDeUsuario(org.getNickname());
-			}
+      String rol = "v";
+      boolean esAsistente = false;
+      boolean esOrganizador = false;
 
-			if (u == null) {
-				resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Usuario no encontrado.");
-				return;
-			}
-		}
+      try {
+        DtUsuarioListaConsultaArray asisArr = port.listarDTAsistentes();
+        if (asisArr != null && asisArr.getItem() != null) {
+          esAsistente = asisArr.getItem().stream()
+              .anyMatch(u -> u != null && nick.equalsIgnoreCase(safe(u.getNickname())));
+        }
+      } catch (Exception ignore) {}
 
-		HttpSession session = req.getSession(false);
-		DTSesionUsuario sesUser = (session != null) ? (DTSesionUsuario) session.getAttribute("usuario_logueado") : null;
-		boolean S = (sesUser != null) && sesUser.getNickname().equals(nick);
+      if (!esAsistente) {
+        try {
+          DtUsuarioListaConsultaArray orgArr = port.listarDTOrganizadores();
+          if (orgArr != null && orgArr.getItem() != null) {
+            esOrganizador = orgArr.getItem().stream()
+                .anyMatch(u -> u != null && nick.equalsIgnoreCase(safe(u.getNickname())));
+          }
+        } catch (Exception ignore) {}
+      }
 
-		// Datos extra para la vista, según rol
-		if ("A".equals(rol) && S) {
-			List<DTRegistro> regis = asis.getRegistros();
-			req.setAttribute("Registros", regis);
+      if (esAsistente) rol = "A";
+      else if (esOrganizador) rol = "O";
 
-		}
-		if ("O".equals(rol)) {
-			List<DTEdicion> edis = org.getEdiciones();
-			req.setAttribute("Ediciones", edis);
-		}
+      if ("v".equals(rol)) {
+        resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Usuario no encontrado.");
+        return;
+      }
 
-		req.setAttribute("esSuPerfil", S);
-		req.setAttribute("rol", rol);
-		req.setAttribute("usuario", u);
-		req.getRequestDispatcher("/WEB-INF/views/ConsultaUsuario.jsp").forward(req, resp);
-	}
+      DtUsuarioListaConsulta usuario = port.consultaDeUsuario(nick);
+      if (usuario == null) {
+        resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Usuario no encontrado.");
+        return;
+      }
 
+      HttpSession session = req.getSession(false);
+      DTSesionUsuario sesUser = (session != null) ? (DTSesionUsuario) session.getAttribute("usuario_logueado") : null;
+      boolean esSuPerfil = (sesUser != null) && nick.equalsIgnoreCase(sesUser.getNickname());
+
+      try {
+        String img = usuario.getImg();
+        if (img != null && !img.isBlank()) req.setAttribute("IMAGEN", img);
+      } catch (Exception ignore) {}
+
+      if ("A".equals(rol) && esSuPerfil) {
+        try {
+          DtRegistroArray ra = port.listarRegistrosDeAsistente(nick);
+          var lista = (ra != null && ra.getItem() != null) ? ra.getItem() : java.util.List.of();
+          req.setAttribute("Registros", lista); 
+        } catch (Exception ignore) {}
+      }
+      if ("O".equals(rol)) {
+        try {
+          DtEdicionArray ea = port.listarEdicionesDeOrganizador(nick);
+          var lista = (ea != null && ea.getItem() != null) ? ea.getItem() : java.util.List.of();
+          req.setAttribute("Ediciones", lista); 
+        } catch (Exception ignore) {}
+      }
+
+      req.setAttribute("esSuPerfil", esSuPerfil);
+      req.setAttribute("rol",   rol);
+      req.setAttribute("usuario", usuario);
+
+      req.getRequestDispatcher("/WEB-INF/views/ConsultaUsuario.jsp").forward(req, resp);
+
+    } catch (Exception e) {
+      resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error consultando usuario: " + safe(e.getMessage()));
+    }
+  }
+
+  private static String safe(String s) { return (s == null) ? "" : s; }
 }

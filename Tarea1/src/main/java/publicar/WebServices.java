@@ -15,12 +15,12 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.HashMap;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 import jakarta.jws.WebMethod;
 import jakarta.jws.WebParam;
@@ -30,18 +30,19 @@ import jakarta.jws.soap.SOAPBinding.ParameterStyle;
 import jakarta.jws.soap.SOAPBinding.Style;
 import jakarta.xml.ws.Endpoint;
 import jakarta.xml.ws.soap.MTOM;
+import servidorcentral.excepciones.CredencialesInvalidasException;
+import servidorcentral.excepciones.UsuarioNoExisteException;
+import servidorcentral.excepciones.UsuarioRepetidoException;
 import servidorcentral.logica.DTCategoria;
 import servidorcentral.logica.DTSesionUsuario;
 import servidorcentral.logica.DTUsuarioListaConsulta;
+import servidorcentral.logica.DTevento;
+import servidorcentral.logica.DTRegistro;
+import servidorcentral.logica.DTEdicion;
 import servidorcentral.logica.Factory;
 import servidorcentral.logica.IControllerEvento;
 import servidorcentral.logica.IControllerUsuario;
 import servidorcentral.logica.Institucion;
-import servidorcentral.excepciones.CredencialesInvalidasException;
-import servidorcentral.excepciones.UsuarioNoExisteException;
-import servidorcentral.excepciones.UsuarioRepetidoException;
-import servidorcentral.logica.DTevento;
-import servidorcentral.logica.DTUsuarioListaConsulta;
 
 @WebService
 @SOAPBinding(style = Style.RPC, parameterStyle = ParameterStyle.WRAPPED)
@@ -383,6 +384,33 @@ public class WebServices {
 
         getControllerEvento().altaEdicionDeEventoDTO(
                 evento, nickOrganizador, nombre, sigla, ciudad, pais, fIni, fFin, fAlta, imagenWebPath);
+    }
+    @WebMethod
+    public DTRegistro[] listarRegistrosDeAsistente(
+            @jakarta.jws.WebParam(name = "nickname") String nickname) {
+
+        if (nickname == null || nickname.isBlank()) return new DTRegistro[0];
+
+        var asis = getControllerUsuario().getDTAsistente(nickname);
+        if (asis == null || asis.getRegistros() == null || asis.getRegistros().isEmpty())
+            return new DTRegistro[0];
+
+        java.util.List<DTRegistro> regs = asis.getRegistros();
+        return regs.toArray(new DTRegistro[0]);
+    }
+
+    @WebMethod
+    public DTEdicion[] listarEdicionesDeOrganizador(
+            @jakarta.jws.WebParam(name = "nickname") String nickname) {
+
+        if (nickname == null || nickname.isBlank()) return new DTEdicion[0];
+
+        var org = getControllerUsuario().getDTOrganizadorDetallado(nickname);
+        if (org == null || org.getEdiciones() == null || org.getEdiciones().isEmpty())
+            return new DTEdicion[0];
+
+        java.util.List<DTEdicion> eds = org.getEdiciones();
+        return eds.toArray(new DTEdicion[0]);
     }
 
     

@@ -5,27 +5,22 @@ import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import servidorcentral.logica.DTSesionUsuario;
-import servidorcentral.logica.RolUsuario;
-import servidorcentral.logica.DTEdicion;
-import servidorcentral.logica.DTOrganizador;
-import servidorcentral.logica.DTPatrocinio;
-import servidorcentral.logica.DTRegistro;
-import servidorcentral.logica.DTTipoRegistro;
-import servidorcentral.logica.Factory;
-import servidorcentral.logica.IControllerEvento;
+import jakarta.servlet.http.*;
+
+import servidorcentral.logica.DTSesionUsuario; // solo para leer sesion
+import servidorcentral.logica.RolUsuario;       // idem
+
+import cliente.ws.sc.WebServices;
+import cliente.ws.sc.WebServicesService;
+import cliente.ws.sc.DTEdicion;
+import cliente.ws.sc.DTOrganizador;
+import cliente.ws.sc.DTRegistro;
+import cliente.ws.sc.DTTipoRegistro;
+import cliente.ws.sc.DTPatrocinio;
 
 @WebServlet(name = "ConsultaEdicionSvt", urlPatterns = {"/ediciones-consulta"})
 public class ConsultaEdicionSvt extends HttpServlet {
@@ -40,7 +35,7 @@ public class ConsultaEdicionSvt extends HttpServlet {
     String nombreEdicion = decode(req.getParameter("edicion"));
 
     if (isBlank(nombreEvento) || isBlank(nombreEdicion)) {
-      req.setAttribute("msgError", "Faltan parámetros: evento y/o edición.");
+      req.setAttribute("msgError", "Faltan parametros: evento y/o edicion.");
       forward(req, resp);
       return;
     }
@@ -59,22 +54,21 @@ public class ConsultaEdicionSvt extends HttpServlet {
 
     if (session != null) {
       Object dto = session.getAttribute("usuario_logueado");
-      if (dto instanceof DTSesionUsuario) {
-        DTSesionUsuario u = (DTSesionUsuario) dto;
+      if (dto instanceof DTSesionUsuario u) {
         if (u.getRol() != null) {
           esOrganizador = (u.getRol() == RolUsuario.ORGANIZADOR);
           esAsistente   = (u.getRol() == RolUsuario.ASISTENTE);
         }
         nickSesion = safe(u.getNickname());
-        if (isBlank(nickSesion)) nickSesion = safe(u.getCorreo()); 
+        if (isBlank(nickSesion)) nickSesion = safe(u.getCorreo());
       }
       if (isBlank(nickSesion)) {
         Object asis = session.getAttribute("usuarioAsistente");
-        if (asis instanceof String) { esAsistente = true; nickSesion = (String) asis; }
+        if (asis instanceof String s) { esAsistente = true; nickSesion = s; }
       }
       if (isBlank(nickSesion)) {
         Object org = session.getAttribute("usuarioOrganizador");
-        if (org instanceof String) { esOrganizador = true; nickSesion = (String) org; }
+        if (org instanceof String s) { esOrganizador = true; nickSesion = s; }
       }
       if (isBlank(nickSesion)) {
         Object nickAttr = session.getAttribute("NICKNAME");
@@ -86,11 +80,14 @@ public class ConsultaEdicionSvt extends HttpServlet {
     }
 
     try {
-      IControllerEvento ctrl = Factory.getInstance().getIControllerEvento();
+      // Cliente WS
+      WebServicesService svc = new WebServicesService();
+      WebServices port = svc.getWebServicesPort();
 
-      DTEdicion ed = ctrl.consultaEdicionDeEvento(nombreEvento, nombreEdicion);
+      // Edicion completa por WS
+      DTEdicion ed = port.consultaEdicionDeEvento(nombreEvento, nombreEdicion);
       if (ed == null) {
-        req.setAttribute("msgError", "No se encontró la edición solicitada.");
+        req.setAttribute("msgError", "No se encontro la edicion solicitada.");
         forward(req, resp);
         return;
       }
@@ -99,58 +96,59 @@ public class ConsultaEdicionSvt extends HttpServlet {
       VM.put("eventoNombre", nombreEvento);
       VM.put("nombre",   safe(ed.getNombre()));
       VM.put("sigla",    safe(ed.getSigla()));
-      VM.put("fechaIni", format(ed.getfInicio()));
-      VM.put("fechaFin", format(ed.getfFin()));
+      VM.put("fechaIni", format(ed.getFInicio()));
+      VM.put("fechaFin", format(ed.getFFin()));
       VM.put("ciudad",   safe(ed.getCiudad()));
       VM.put("pais",     safe(ed.getPais()));
       VM.put("estado",   safe(ed.getEstado()));
 
-      boolean finalizado = (ed.getfFin() != null) && LocalDate.now().isAfter(ed.getfFin());
+      boolean finalizado = (ed.getFFin() != null) && LocalDate.now().isAfter(ed.getFFin());
       VM.put("finalizado", finalizado);
 
       String img = safe(ed.getImagenWebPath());
       VM.put("imagen", (img != null && !img.isBlank()) ? (req.getContextPath() + img) : null);
 
-      VM.put("organizadorNombre", joinOrganizadores(ed.getOrganizadores()));
+      // Organizadores
+      List<DTOrganizador> orgs = listOrEmpty(ed.getOrganizadores());
+      VM.put("organizadorNombre", joinOrganizadores(orgs));
 
+      // Registros
       List<Map<String,String>> regsVM = new ArrayList<>();
-      List<DTRegistro> regs = ed.getRegistros();
-      if (regs != null) {
-        for (DTRegistro r : regs) {
-          Map<String,String> row = new LinkedHashMap<>();
-          row.put("asistente", safe(r.getAsistenteNickname()));
-          row.put("tipo",      safe(r.getTipoRegistroNombre()));
-          row.put("fecha",     formatSafe(r.getfInicio())); 
-          row.put("estado",    ""); 
-          regsVM.add(row);
-        }
+      List<DTRegistro> regs = listOrEmpty(ed.getRegistros());
+      for (DTRegistro r : regs) {
+        Map<String,String> row = new LinkedHashMap<>();
+        row.put("asistente", safe(r.getAsistenteNickname()));
+        row.put("tipo",      safe(r.getTipoRegistroNombre()));
+        row.put("fecha",     formatSafe(r.getFInicio()));
+        row.put("estado",    "");
+        regsVM.add(row);
       }
       VM.put("registros", regsVM);
 
+      // Tipos de registro
       List<Map<String,String>> tiposVM = new ArrayList<>();
-      List<DTTipoRegistro> tregs = ed.getTipoRegistros();
-      if (tregs != null) {
-        for (DTTipoRegistro tr : tregs) {
-          Map<String,String> row = new LinkedHashMap<>();
-          row.put("nombre", safe(tr.getNombre()));
-          row.put("costo",  toStr(tr.getCosto()));
-          row.put("cupos",  toStr(tr.getCupo()));
-          row.put("cupoTotal", row.get("cupos"));
-          tiposVM.add(row);
-        }
+      List<DTTipoRegistro> tregs = listOrEmpty(ed.getTipoRegistros());
+      for (DTTipoRegistro tr : tregs) {
+        Map<String,String> row = new LinkedHashMap<>();
+        row.put("nombre", safe(tr.getNombre()));
+        row.put("costo",  toStr(tr.getCosto()));
+        row.put("cupos",  toStr(tr.getCupo()));
+        row.put("cupoTotal", row.get("cupos"));
+        tiposVM.add(row);
       }
       VM.put("tipos", tiposVM);
 
+      // Mi registro (si es asistente)
       Map<String,String> miRegVM = null;
       boolean esAsistenteInscriptoEd = false;
-      if (esAsistente && nickSesion != null && regs != null) {
+      if (esAsistente && nickSesion != null) {
         for (DTRegistro r : regs) {
           String nickReg = safe(r.getAsistenteNickname());
           if (!isBlank(nickReg) && nickSesion.equalsIgnoreCase(nickReg)) {
             esAsistenteInscriptoEd = true;
             miRegVM = new LinkedHashMap<>();
             miRegVM.put("tipo",  safe(r.getTipoRegistroNombre()));
-            miRegVM.put("fecha", formatSafe(r.getfInicio()));
+            miRegVM.put("fecha", formatSafe(r.getFInicio()));
             miRegVM.put("estado", "");
             break;
           }
@@ -158,14 +156,18 @@ public class ConsultaEdicionSvt extends HttpServlet {
       }
       VM.put("miRegistro", miRegVM);
 
-      List<DTPatrocinio> pats = ed.getPatrocinios();
+      // Patrocinios: si tu DTEdicion NO los trae, descomenta y usa el WS opcional
+      List<DTPatrocinio> pats = listOrEmpty(ed.getPatrocinios());
+      // List<DtPatrocinio> pats = Optional.ofNullable(port.listarPatrociniosDeEdicion(nombreEdicion))
+      //                                  .map(DtPatrocinioArray::getItem).orElse(List.of());
       req.setAttribute("patrocinios", pats);
 
+      // ¿Es organizador de esta edicion?
       boolean esOrganizadorDeEstaEdicion = false;
-      if (esOrganizador && ed.getOrganizadores() != null && nickSesion != null) {
+      if (esOrganizador && orgs != null && nickSesion != null) {
         String nickNorm = nickSesion.trim().toLowerCase();
-        for (DTOrganizador o : ed.getOrganizadores()) {
-          String id = prefer(o.getNickname(), o.getNombre());
+        for (DTOrganizador o : orgs) {
+          String id = prefer(safe(o.getNickname()), safe(o.getNombre()));
           if (!isBlank(id) && id.trim().toLowerCase().equals(nickNorm)) {
             esOrganizadorDeEstaEdicion = true;
             break;
@@ -186,54 +188,24 @@ public class ConsultaEdicionSvt extends HttpServlet {
       forward(req, resp);
 
     } catch (Exception e) {
-      req.setAttribute("msgError", "Error al consultar la edición: " + e.getMessage());
+      req.setAttribute("msgError", "Error al consultar la edicion: " + e.getMessage());
       forward(req, resp);
     }
   }
-
 
   private static void forward(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
     req.getRequestDispatcher("/WEB-INF/views/ConsultaEdicion.jsp").forward(req, resp);
   }
 
-  private static String decode(String s) {
-    return (s == null) ? null : URLDecoder.decode(s, StandardCharsets.UTF_8);
-  }
+  private static String decode(String s) { return (s == null) ? null : URLDecoder.decode(s, StandardCharsets.UTF_8); }
+  private static boolean isBlank(String s) { return s == null || s.trim().isEmpty(); }
+  private static String safe(Object o) { return (o == null) ? null : String.valueOf(o); }
+  private static String format(LocalDate d) { return (d == null) ? null : d.format(FMT); }
+  private static String formatSafe(LocalDate d) { try { return format(d); } catch (Throwable ignore) { return null; } }
+  private static String toStr(Number n) { return (n == null) ? null : String.valueOf(n); }
+  private static String prefer(String a, String b) { return !isBlank(a) ? a : b; }
 
-  private static boolean isBlank(String s) {
-    return s == null || s.trim().isEmpty();
-  }
-
-  private static String safe(Object o) {
-    return (o == null) ? null : String.valueOf(o);
-  }
-
-  private static String format(LocalDate d) {
-    return (d == null) ? null : d.format(FMT);
-  }
-
-  private static String formatSafe(LocalDate d) {
-    try { return format(d); } catch (Throwable ignore) { return null; }
-  }
-
-  private static String toStr(Number n) {
-    return (n == null) ? null : String.valueOf(n);
-  }
-
-  private static String prefer(String a, String b) {
-    return !isBlank(a) ? a : b;
-  }
-
-  private static String joinOrganizadores(List<DTOrganizador> orgs) {
-    if (orgs == null || orgs.isEmpty()) return null;
-    List<String> nombres = new ArrayList<>();
-    for (DTOrganizador o : orgs) {
-      if (o == null) continue;
-      String nom = prefer(o.getNombre(), o.getNickname());
-      if (!isBlank(nom)) nombres.add(nom);
-    }
-    return nombres.isEmpty() ? null : String.join(", ", nombres);
-  }
+  private static <T> List<T> listOrEmpty(List<T> xs) { return (xs == null) ? java.util.List.of() : xs; }
 }
 
