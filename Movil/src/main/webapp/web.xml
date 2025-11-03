@@ -5,13 +5,11 @@
     xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
     version="6.0">
 
-  <!-- URL del WS del Servidor Central (sin hardcodear en código) -->
   <context-param>
     <param-name>WS_URL</param-name>
     <param-value>http://127.0.0.1:9128/webservices</param-value>
   </context-param>
 
-  <!-- Filtro de autenticación del móvil -->
   <filter>
     <filter-name>AuthMovil</filter-name>
     <filter-class>com.movil.filters.AuthMovilFilter</filter-class>
