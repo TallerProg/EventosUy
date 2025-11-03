@@ -33,6 +33,8 @@ import jakarta.xml.ws.soap.MTOM;
 import servidorcentral.excepciones.CredencialesInvalidasException;
 import servidorcentral.excepciones.UsuarioNoExisteException;
 import servidorcentral.excepciones.UsuarioRepetidoException;
+import servidorcentral.excepciones.NombreTRUsadoException;
+import servidorcentral.logica.Edicion;
 import servidorcentral.logica.DTCategoria;
 import servidorcentral.logica.DTSesionUsuario;
 import servidorcentral.logica.DTUsuarioListaConsulta;
@@ -369,6 +371,23 @@ public class WebServices {
 
         java.util.List<DTEdicion> eds = org.getEdiciones();
         return eds.toArray(new DTEdicion[0]);
+    }
+
+//AltaTipoRegistro
+    
+    @WebMethod
+    public void altaTipoRegistro(String nombreTR, String descripcion, Float costo, Integer cupo, Edicion edicion) throws NombreTRUsadoException{
+    	getControllerEvento().altaTipoRegistro(nombreTR, descripcion, costo, cupo, edicion);
+    }
+    
+    @WebMethod
+    public Edicion findEdicion(String nombre) {
+    	return getControllerEvento().findEdicion(nombre);
+    }
+  
+    @WebMethod
+    public boolean existeTR(Edicion edicion, String nombre) {
+    	return getControllerEvento().existeTR(edicion, nombre);
     }
 
     

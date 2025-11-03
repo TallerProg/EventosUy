@@ -1,5 +1,7 @@
 package servidorcentral.logica;
 
+import servidorcentral.excepciones.NombreTRUsadoException;
+
 import java.time.LocalDate;
 import java.util.List;
 
@@ -15,6 +17,7 @@ public interface IControllerEvento {
 	public List<Evento> listarEventos();
     public List<Categoria> getCategorias();	
     public Edicion findEdicion(String nombre);
+    public boolean existeTR(Edicion edicion, String nombreTR);
     public boolean existeEvento(String nombre);
     public Evento getEvento(String nombreEvento);
     public void altaRegistro(String nombreEdicion, String nickAsistente, String nombreTR, String codigo) throws Exception;
@@ -31,7 +34,7 @@ public interface IControllerEvento {
 	public DTevento consultaEvento(String nombreEvento);
 
 	public void altaTipoRegistro(String nombreTR, String descripcion, Float costo, Integer cupo, Edicion edicion)
-			throws Exception;
+			throws NombreTRUsadoException;
 	
 
 	public void altaEvento(String nombre, String descripcion, LocalDate fecha, String sigla, List<Categoria> categorias, String img)

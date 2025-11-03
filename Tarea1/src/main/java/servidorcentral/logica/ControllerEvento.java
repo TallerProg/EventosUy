@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import servidorcentral.excepciones.NombreTRUsadoException;
+
 public class ControllerEvento implements IControllerEvento {
 
 	public void altaEdicionDeEvento(String nombre, String sigla, String ciudad, String pais,
@@ -26,10 +28,10 @@ public class ControllerEvento implements IControllerEvento {
 	
 
 	public void altaTipoRegistro(String nombreTR, String descripcion, Float costo, Integer cupo, Edicion edicion)
-			throws Exception { 
+			throws NombreTRUsadoException { 
 		boolean existeEdi = edicion.existeTR(nombreTR);
 		if (existeEdi)
-			throw new Exception("El nombre de tipo de registro \"" + nombreTR + "\" ya fue utilizado");
+			throw new NombreTRUsadoException("El nombre de tipo de registro \"" + nombreTR + "\" ya fue utilizado");
 		TipoRegistro NuevoTR = new TipoRegistro(nombreTR, descripcion, costo, cupo, edicion);
 		edicion.agregarTipoRegistro(NuevoTR);
 	}
@@ -81,7 +83,16 @@ public class ControllerEvento implements IControllerEvento {
 		return mev.findEdicion(nombre);
 	}
 
+    public boolean existeTR(Edicion edicion, String nombreTR) {
+        for (TipoRegistro tr : edicion.getTipoRegistros()) {
+            if (tr.getNombre().equalsIgnoreCase(nombreTR)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
+	
 	public List<Categoria> getCategorias() {
 		ManejadorEvento mev = ManejadorEvento.getInstancia();
 
