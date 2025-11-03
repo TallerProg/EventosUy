@@ -5,7 +5,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.IOException;
 
-import servidorcentral.logica.DTSesionUsuario; 
+import servidorcentral.logica.DTSesionUsuario;
 
 import cliente.ws.sc.WebServices;
 import cliente.ws.sc.WebServicesService;
@@ -14,9 +14,29 @@ import cliente.ws.sc.DtUsuarioListaConsultaArray;
 import cliente.ws.sc.DtRegistroArray;
 import cliente.ws.sc.DtEdicionArray;
 
+import jakarta.xml.ws.Binding;
+import jakarta.xml.ws.BindingProvider;
+import jakarta.xml.ws.soap.SOAPBinding;
+
 @WebServlet("/ConsultaUsuario")
 public class ConsultaUsuarioSvt extends HttpServlet {
   private static final long serialVersionUID = 1L;
+
+  private WebServices getPort(HttpServletRequest req) {
+    WebServicesService svc = new WebServicesService();
+    WebServices port = svc.getWebServicesPort();
+
+    Binding b = ((BindingProvider) port).getBinding();
+    if (b instanceof SOAPBinding sb) sb.setMTOMEnabled(true);
+
+    String wsUrl = req.getServletContext().getInitParameter("WS_URL");
+    if (wsUrl != null && !wsUrl.isBlank()) {
+      ((BindingProvider) port).getRequestContext().put(
+          BindingProvider.ENDPOINT_ADDRESS_PROPERTY, wsUrl
+      );
+    }
+    return port;
+  }
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -30,8 +50,7 @@ public class ConsultaUsuarioSvt extends HttpServlet {
     nick = nick.trim();
 
     try {
-      WebServicesService svc = new WebServicesService();
-      WebServices port = svc.getWebServicesPort();
+      WebServices port = getPort(req);
 
       String rol = "v";
       boolean esAsistente = false;
@@ -82,14 +101,15 @@ public class ConsultaUsuarioSvt extends HttpServlet {
         try {
           DtRegistroArray ra = port.listarRegistrosDeAsistente(nick);
           var lista = (ra != null && ra.getItem() != null) ? ra.getItem() : java.util.List.of();
-          req.setAttribute("Registros", lista); 
+          req.setAttribute("Registros", lista);
         } catch (Exception ignore) {}
       }
+
       if ("O".equals(rol)) {
         try {
           DtEdicionArray ea = port.listarEdicionesDeOrganizador(nick);
           var lista = (ea != null && ea.getItem() != null) ? ea.getItem() : java.util.List.of();
-          req.setAttribute("Ediciones", lista); 
+          req.setAttribute("Ediciones", lista);
         } catch (Exception ignore) {}
       }
 
