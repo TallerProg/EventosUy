@@ -3,26 +3,25 @@ package com.controllers;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import java.util.List;
 import java.util.Locale;
-
-import servidorcentral.logica.ControllerUsuario;
-import servidorcentral.logica.Factory;
-import servidorcentral.logica.IControllerInstitucion;
-import servidorcentral.logica.DTInstitucion;
-
+import java.util.List;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.Part;
-import servidorcentral.excepciones.UsuarioRepetidoException;
+import jakarta.servlet.http.*;
+
+import cliente.ws.sc.WebServices;
+import cliente.ws.sc.WebServicesService;
+import cliente.ws.sc.DtInstitucion;
+import cliente.ws.sc.DtInstitucionArray;
+import cliente.ws.sc.UsuarioRepetidoException_Exception;
+import jakarta.xml.ws.Binding;
+import jakarta.xml.ws.BindingProvider;
+import jakarta.xml.ws.soap.SOAPBinding;
 
 @WebServlet("/Registrarse")
 @MultipartConfig(
@@ -32,22 +31,32 @@ import servidorcentral.excepciones.UsuarioRepetidoException;
 )
 public class RegistrarSvt extends HttpServlet {
     private static final long serialVersionUID = 1L;
+
     private static final String USR_IMG_DIR = "/media/img/usuarios";
-    private static final String EMAIL_REGEX = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+    private static final String EMAIL_REGEX =
+            "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
 
+    /** Crea el port con MTOM y WS_URL del web.xml */
+    private WebServices getPort(HttpServletRequest req) {
+        WebServicesService svc = new WebServicesService();
+        WebServices port = svc.getWebServicesPort();
 
-    private IControllerInstitucion ci;
+        Binding b = ((BindingProvider) port).getBinding();
+        if (b instanceof SOAPBinding sb) sb.setMTOMEnabled(true);
 
-    @Override
-    public void init() {
-        Factory f = Factory.getInstance();
-        this.ci = f.getIControllerInstitucion();
+        String wsUrl = req.getServletContext().getInitParameter("WS_URL");
+        if (wsUrl != null && !wsUrl.isBlank()) {
+            ((BindingProvider) port).getRequestContext().put(
+                BindingProvider.ENDPOINT_ADDRESS_PROPERTY, wsUrl
+            );
+        }
+        return port;
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        cargarInstitucionesYHoy(req);
+        cargarInstitucionesYHoyWS(req); // ahora via WS
         req.getRequestDispatcher("/WEB-INF/views/Registrarse.jsp").forward(req, resp);
     }
 
@@ -69,17 +78,17 @@ public class RegistrarSvt extends HttpServlet {
         String sitioWeb    = trim(request.getParameter("sitioWeb"));
 
         String fechaNacStr     = trim(request.getParameter("fechaNacimiento"));
-        String institucionName = trim(request.getParameter("institucion")); 
-        Part imgPart = request.getPart("imagen");
+        String institucionName = trim(request.getParameter("institucion"));
+        Part imgPart           = request.getPart("imagen");
 
         String imagenWebPath = null;
 
-        // Verificar si hay un archivo
+        // Guardado local de imagen (igual que antes)
         try {
-        if (imgPart != null && imgPart.getSize() > 0) {
-            	String original = submittedFileName(imgPart);
+            if (imgPart != null && imgPart.getSize() > 0) {
+                String original = submittedFileName(imgPart);
                 String ext = extensionOf(original);
-                String safeBase = slug(nombre.isEmpty() ? "evento" : nombre);
+                String safeBase = slug(nombre.isEmpty() ? "usuario" : nombre);
                 String stamp = DateTimeFormatter.ofPattern("yyyyMMddHHmmss").format(LocalDateTime.now());
                 String fileName = safeBase + "_" + stamp + (ext.isEmpty() ? "" : "." + ext);
 
@@ -94,13 +103,14 @@ public class RegistrarSvt extends HttpServlet {
                 imgPart.write(destino.getAbsolutePath());
 
                 imagenWebPath = USR_IMG_DIR + "/" + fileName;
-        }
+            }
         } catch (IllegalStateException ise) {
-        	setErrorMessage("La imagen supera el tamaño permitido (5 MB por archivo, 10 MB por solicitud).",request);
+            setErrorMessage("La imagen supera el tamaño permitido (5 MB por archivo, 10 MB por solicitud).", request);
         } catch (Exception ex) {
-        	setErrorMessage("No se pudo guardar la imagen: " + ex.getMessage(),request);
+            setErrorMessage("No se pudo guardar la imagen: " + ex.getMessage(), request);
         }
 
+        // Validaciones equivalentes a las que ya tenías
         if (isBlank(tipo))       { setErrorAndForward("Seleccioná un tipo de usuario.", request, response); return; }
         if (isBlank(nickname))   { setErrorAndForward("El nickname es obligatorio.", request, response);     return; }
         if (isBlank(email))      { setErrorAndForward("El correo electrónico es obligatorio.", request, response); return; }
@@ -118,9 +128,9 @@ public class RegistrarSvt extends HttpServlet {
             return;
         }
 
-        ControllerUsuario ctrl = new ControllerUsuario();
-
         try {
+            WebServices port = getPort(request);
+
             if ("asistente".equalsIgnoreCase(tipo)) {
                 if (isBlank(apellido)) {
                     setErrorAndForward("El apellido es obligatorio para asistentes.", request, response);
@@ -135,9 +145,13 @@ public class RegistrarSvt extends HttpServlet {
                     setErrorAndForward("La fecha de nacimiento no puede ser futura.", request, response);
                     return;
                 }
+                if (isBlank(institucionName)) {
+                    setErrorAndForward("Debés seleccionar una institución.", request, response);
+                    return;
+                }
 
-                ctrl.altaAsistente(
-                        nickname, email, nombre, apellido, fechaNac, ci.findInstitucion(institucionName), password,imagenWebPath
+                port.altaAsistente(
+                    nickname, email, nombre, apellido, fechaNacStr, institucionName, password, imagenWebPath
                 );
 
             } else if ("organizador".equalsIgnoreCase(tipo)) {
@@ -146,8 +160,9 @@ public class RegistrarSvt extends HttpServlet {
                     return;
                 }
 
-                ctrl.altaOrganizador(
-                        nickname, email, nombre, descripcion, sitioWeb, password,imagenWebPath
+                // *** WS directo ***
+                port.altaOrganizador(
+                    nickname, email, nombre, descripcion, sitioWeb, password, imagenWebPath
                 );
 
             } else {
@@ -158,21 +173,31 @@ public class RegistrarSvt extends HttpServlet {
             request.getSession(true).setAttribute("flash_ok", "Usuario registrado con éxito. Iniciá sesión.");
             response.sendRedirect(request.getContextPath() + "/login");
 
-        } catch (UsuarioRepetidoException e) {
+        } catch (UsuarioRepetidoException_Exception e) {
             setErrorAndForward("Ya existe un usuario con ese nickname o correo.", request, response);
         } catch (Exception e) {
             setErrorAndForward("No se pudo completar el registro: " + e.getMessage(), request, response);
         }
     }
 
-    private void cargarInstitucionesYHoy(HttpServletRequest req) {
-        List<DTInstitucion> instituciones = ci.getDTInstituciones();
-        req.setAttribute("instituciones", instituciones);
+    // ===== Helpers =====
+
+    private void cargarInstitucionesYHoyWS(HttpServletRequest req) {
+        try {
+            WebServices port = getPort(req);
+            DtInstitucionArray arr = port.listarDTInstituciones();
+            List<DtInstitucion> instituciones = (arr != null && arr.getItem() != null) ? arr.getItem() : java.util.List.of();
+            req.setAttribute("instituciones", instituciones);
+        } catch (Exception e) {
+            // Si falla el WS, dejamos la lista vacía y mostramos hoy
+            req.setAttribute("instituciones", java.util.List.of());
+        }
         req.setAttribute("hoy", LocalDate.now().toString());
     }
 
     private static String trim(String s) { return (s == null) ? "" : s.trim(); }
     private static boolean isBlank(String s) { return s == null || s.trim().isEmpty(); }
+
     private static LocalDate parseFecha(String iso) {
         if (isBlank(iso)) return null;
         try { return LocalDate.parse(iso); } catch (DateTimeParseException e) { return null; }
@@ -181,9 +206,10 @@ public class RegistrarSvt extends HttpServlet {
     private void setErrorAndForward(String msg, HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         req.setAttribute("error", msg);
-        cargarInstitucionesYHoy(req);
+        cargarInstitucionesYHoyWS(req);
         req.getRequestDispatcher("/WEB-INF/views/Registrarse.jsp").forward(req, resp);
     }
+
     private static String submittedFileName(Part part) {
         String cd = part.getHeader("content-disposition");
         if (cd != null) {
@@ -198,23 +224,23 @@ public class RegistrarSvt extends HttpServlet {
         try { return part.getSubmittedFileName(); } catch (Throwable ignore) {}
         return "upload";
     }
-    
+
     private static String extensionOf(String filename) {
         if (filename == null) return "";
         int dot = filename.lastIndexOf('.');
         if (dot < 0 || dot == filename.length() - 1) return "";
         return filename.substring(dot + 1).toLowerCase(Locale.ROOT);
     }
-    
+
     private static String slug(String s) {
-        String base = (s == null || s.isEmpty()) ? "evento" : s.toLowerCase(Locale.ROOT);
-        base = base.replaceAll("[^a-z0-9-_]+", "-");
-        base = base.replaceAll("-{2,}", "-");
+        String base = (s == null || s.isEmpty()) ? "usuario" : s.toLowerCase(Locale.ROOT);
+        base = base.replaceAll("[^a-z0-9-_]+", "-").replaceAll("-{2,}", "-");
         return base.replaceAll("^-|-$", "");
     }
+
     private void setErrorMessage(String message, HttpServletRequest request) {
-        // Guardamos el mensaje de error en la sesión
         request.getSession().setAttribute("error_message", message);
     }
 }
+
 
