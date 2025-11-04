@@ -1,12 +1,18 @@
 package servidorcentral.logica;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
 
+
+@XmlAccessorType(XmlAccessType.FIELD)
 public class DTTipoRegistro {
 
 	private String nombre;
 	private String descripcion;
 	private float costo;
 	private int cupo;
-
+	
+	public DTTipoRegistro() {
+    }
 	public DTTipoRegistro(String nomb, String descr, float costo, int cupo) {
 		this.nombre = nomb;
 		this.descripcion = descr;
