@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -11,8 +12,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 
-import servidorcentral.logica.DTSesionUsuario; 
-import servidorcentral.logica.RolUsuario;      
+import cliente.ws.sc.DtSesionUsuario;    
+import cliente.ws.sc.RolUsuario;        
 
 import cliente.ws.sc.WebServices;
 import cliente.ws.sc.WebServicesService;
@@ -26,19 +27,18 @@ import jakarta.xml.ws.Binding;
 import jakarta.xml.ws.BindingProvider;
 import jakarta.xml.ws.soap.SOAPBinding;
 
+import javax.xml.datatype.XMLGregorianCalendar;
+
 @WebServlet(name = "ConsultaEdicionSvt", urlPatterns = {"/ediciones-consulta"})
 public class ConsultaEdicionSvt extends HttpServlet {
   private static final long serialVersionUID = 1L;
   private static final DateTimeFormatter FMT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-  /** Obtiene el port y setea MTOM + WS_URL desde web.xml */
   private WebServices getPort(HttpServletRequest req) {
     WebServicesService svc = new WebServicesService();
     WebServices port = svc.getWebServicesPort();
-
     Binding b = ((BindingProvider) port).getBinding();
     if (b instanceof SOAPBinding sb) sb.setMTOMEnabled(true);
-
     String wsUrl = req.getServletContext().getInitParameter("WS_URL");
     if (wsUrl != null && !wsUrl.isBlank()) {
       ((BindingProvider) port).getRequestContext().put(
@@ -52,11 +52,11 @@ public class ConsultaEdicionSvt extends HttpServlet {
   protected void doGet(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
 
-    String nombreEvento  = decode(req.getParameter("evento"));
-    String nombreEdicion = decode(req.getParameter("edicion"));
+    final String nombreEvento  = decode(req.getParameter("evento"));
+    final String nombreEdicion = decode(req.getParameter("edicion"));
 
     if (isBlank(nombreEvento) || isBlank(nombreEdicion)) {
-      req.setAttribute("msgError", "Faltan parametros: evento y/o edicion.");
+      req.setAttribute("msgError", "Faltan parámetros: evento y/o edicion.");
       forward(req, resp);
       return;
     }
@@ -75,13 +75,13 @@ public class ConsultaEdicionSvt extends HttpServlet {
 
     if (session != null) {
       Object dto = session.getAttribute("usuario_logueado");
-      if (dto instanceof DTSesionUsuario u) {
+      if (dto instanceof DtSesionUsuario u) { // <-- cliente.ws.sc
         if (u.getRol() != null) {
           esOrganizador = (u.getRol() == RolUsuario.ORGANIZADOR);
           esAsistente   = (u.getRol() == RolUsuario.ASISTENTE);
         }
-        nickSesion = safe(u.getNickname());
-        if (isBlank(nickSesion)) nickSesion = safe(u.getCorreo());
+        nickSesion = nz(u.getNickname());
+        if (isBlank(nickSesion)) nickSesion = nz(u.getCorreo());
       }
       if (isBlank(nickSesion)) {
         Object asis = session.getAttribute("usuarioAsistente");
@@ -104,27 +104,30 @@ public class ConsultaEdicionSvt extends HttpServlet {
       WebServices port = getPort(req);
 
       DtEdicion ed = port.consultaEdicionDeEvento(nombreEvento, nombreEdicion);
-      if (ed == null) {
-        req.setAttribute("msgError", "No se encontro la edicion solicitada.");
+      if (ed == null || "NO_ENCONTRADA".equalsIgnoreCase(nz(ed.getEstado()))) {
+        req.setAttribute("msgError", "No se encontró la edición solicitada.");
         forward(req, resp);
         return;
       }
 
       Map<String, Object> VM = new HashMap<>();
       VM.put("eventoNombre", nombreEvento);
-      VM.put("nombre",   safe(ed.getNombre()));
-      VM.put("sigla",    safe(ed.getSigla()));
-      VM.put("fechaIni", format(ed.getFInicio()));
-      VM.put("fechaFin", format(ed.getFFin()));
-      VM.put("ciudad",   safe(ed.getCiudad()));
-      VM.put("pais",     safe(ed.getPais()));
-      VM.put("estado",   safe(ed.getEstado()));
+      VM.put("nombre", nz(ed.getNombre()));
+      VM.put("sigla",  nz(ed.getSigla()));
 
-      boolean finalizado = (ed.getFFin() != null) && LocalDate.now().isAfter(ed.getFFin());
+      LocalDate fIni = toLocalDate(ed.getFInicio());
+      LocalDate fFin = toLocalDate(ed.getFFin());
+      VM.put("fechaIni", format(fIni));
+      VM.put("fechaFin", format(fFin));
+      VM.put("ciudad",   nz(ed.getCiudad()));
+      VM.put("pais",     nz(ed.getPais()));
+      VM.put("estado",   nz(ed.getEstado()));
+
+      boolean finalizado = (fFin != null) && LocalDate.now().isAfter(fFin);
       VM.put("finalizado", finalizado);
 
-      String img = safe(ed.getImagenWebPath());
-      VM.put("imagen", (img != null && !img.isBlank()) ? (req.getContextPath() + img) : null);
+      String img = nz(ed.getImagenWebPath());
+      VM.put("imagen", !img.isBlank() ? (req.getContextPath() + img) : null);
 
       List<DtOrganizador> orgs = listOrEmpty(ed.getOrganizadores());
       VM.put("organizadorNombre", joinOrganizadores(orgs));
@@ -133,10 +136,9 @@ public class ConsultaEdicionSvt extends HttpServlet {
       List<DtRegistro> regs = listOrEmpty(ed.getRegistros());
       for (DtRegistro r : regs) {
         Map<String,String> row = new LinkedHashMap<>();
-        row.put("asistente", safe(r.getAsistenteNickname()));
-        row.put("tipo",      safe(r.getTipoRegistroNombre()));
-        row.put("fecha",     formatSafe(r.getFInicio()));
-        row.put("estado",    "");
+        row.put("asistente", nz(r.getAsistenteNickname()));
+        row.put("tipo",      nz(r.getTipoRegistroNombre()));
+        row.put("fecha",     format(toLocalDate(r.getFInicio())));
         regsVM.add(row);
       }
       VM.put("registros", regsVM);
@@ -145,10 +147,10 @@ public class ConsultaEdicionSvt extends HttpServlet {
       List<DtTipoRegistro> tregs = listOrEmpty(ed.getTipoRegistros());
       for (DtTipoRegistro tr : tregs) {
         Map<String,String> row = new LinkedHashMap<>();
-        row.put("nombre", safe(tr.getNombre()));
+        row.put("nombre", nz(tr.getNombre()));
         row.put("costo",  toStr(tr.getCosto()));
         row.put("cupos",  toStr(tr.getCupo()));
-        row.put("cupoTotal", row.get("cupos"));
+        row.put("cupoTotal", row.get("cupos")); 
         tiposVM.add(row);
       }
       VM.put("tipos", tiposVM);
@@ -156,13 +158,14 @@ public class ConsultaEdicionSvt extends HttpServlet {
       Map<String,String> miRegVM = null;
       boolean esAsistenteInscriptoEd = false;
       if (esAsistente && nickSesion != null) {
+        String nickNorm = nickSesion.trim().toLowerCase();
         for (DtRegistro r : regs) {
-          String nickReg = safe(r.getAsistenteNickname());
-          if (!isBlank(nickReg) && nickSesion.equalsIgnoreCase(nickReg)) {
+          String nickReg = nz(r.getAsistenteNickname());
+          if (!nickReg.isBlank() && nickReg.trim().toLowerCase().equals(nickNorm)) {
             esAsistenteInscriptoEd = true;
             miRegVM = new LinkedHashMap<>();
-            miRegVM.put("tipo",  safe(r.getTipoRegistroNombre()));
-            miRegVM.put("fecha", formatSafe(r.getFInicio()));
+            miRegVM.put("tipo",  nz(r.getTipoRegistroNombre()));
+            miRegVM.put("fecha", format(toLocalDate(r.getFInicio())));
             miRegVM.put("estado", "");
             break;
           }
@@ -170,21 +173,23 @@ public class ConsultaEdicionSvt extends HttpServlet {
       }
       VM.put("miRegistro", miRegVM);
 
+      // Patrocinios directos al JSP si querés
       List<DtPatrocinio> pats = listOrEmpty(ed.getPatrocinios());
       req.setAttribute("patrocinios", pats);
 
+      // ¿Es organizador de esta edición?
       boolean esOrganizadorDeEstaEdicion = false;
       if (esOrganizador && orgs != null && nickSesion != null) {
         String nickNorm = nickSesion.trim().toLowerCase();
         for (DtOrganizador o : orgs) {
-          String id = prefer(safe(o.getNickname()), safe(o.getNombre()));
-          if (!isBlank(id) && id.trim().toLowerCase().equals(nickNorm)) {
-            esOrganizadorDeEstaEdicion = true;
-            break;
+          String id = prefer(nz(o.getNickname()), nz(o.getNombre()));
+          if (!id.isBlank() && id.trim().toLowerCase().equals(nickNorm)) {
+            esOrganizadorDeEstaEdicion = true; break;
           }
         }
       }
 
+      // Atributos que el JSP puede leer
       req.setAttribute("ES_ORGANIZADOR", esOrganizador);
       req.setAttribute("ES_ASISTENTE",   esAsistente);
       req.setAttribute("ES_ORG",         esOrganizador);
@@ -198,7 +203,7 @@ public class ConsultaEdicionSvt extends HttpServlet {
       forward(req, resp);
 
     } catch (Exception e) {
-      req.setAttribute("msgError", "Error al consultar la edicion: " + e.getMessage());
+      req.setAttribute("msgError", "Error al consultar la edición: " + e.getMessage());
       forward(req, resp);
     }
   }
@@ -210,23 +215,35 @@ public class ConsultaEdicionSvt extends HttpServlet {
 
   private static String decode(String s) { return (s == null) ? null : URLDecoder.decode(s, StandardCharsets.UTF_8); }
   private static boolean isBlank(String s) { return s == null || s.trim().isEmpty(); }
-  private static String safe(Object o) { return (o == null) ? null : String.valueOf(o); }
+  private static String nz(String s) { return (s == null) ? "" : s; }
   private static String format(LocalDate d) { return (d == null) ? null : d.format(FMT); }
-  private static String formatSafe(LocalDate d) { try { return format(d); } catch (Throwable ignore) { return null; } }
   private static String toStr(Number n) { return (n == null) ? null : String.valueOf(n); }
-  private static String prefer(String a, String b) { return !isBlank(a) ? a : b; }
+  private static String prefer(String a, String b) { return !isBlank(a) ? a : nz(b); }
   private static <T> List<T> listOrEmpty(List<T> xs) { return (xs == null) ? java.util.List.of() : xs; }
 
-  /** Une nombres de organizadores en una cadena amigable. */
+  private static LocalDate toLocalDate(Object d) {
+    if (d == null) return null;
+    if (d instanceof LocalDate ld) return ld;
+    if (d instanceof XMLGregorianCalendar xc) {
+      return xc.toGregorianCalendar().toZonedDateTime().withZoneSameInstant(ZoneId.systemDefault()).toLocalDate();
+    }
+    return null;
+  }
+
   private static String joinOrganizadores(List<DtOrganizador> orgs) {
     if (orgs == null || orgs.isEmpty()) return null;
+
     List<String> nombres = new ArrayList<>();
     for (DtOrganizador o : orgs) {
       if (o == null) continue;
-      String nom = prefer(safe(o.getNombre()), safe(o.getNickname()));
+
+      String nom = prefer(nz(o.getNombre()), nz(o.getNickname()));
       if (!isBlank(nom)) nombres.add(nom);
     }
+
     return nombres.isEmpty() ? null : String.join(", ", nombres);
   }
+
 }
+
 
