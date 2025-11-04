@@ -405,7 +405,7 @@ public class WebServices {
         return eds.toArray(new DTEdicion[0]);
     }
 
-//AltaTipoRegistro
+  //AltaTipoRegistro
     
     @WebMethod
     public void altaTipoRegistroDT(String nombreTR, String descripcion, Float costo, Integer cupo, String edicion) throws NombreTRUsadoException{
@@ -424,6 +424,11 @@ public class WebServices {
         List<DTInstitucion> l = getControllerInstitucion().getDTInstituciones();
         return (l == null || l.isEmpty()) ? new DTInstitucion[0] : l.toArray(new DTInstitucion[0]);
     }
+
+    //AltaInstitucion
+	public void altaInstitucion(String nombreIns, String url, String descripcion, String img)throws Exception{
+		getControllerInstitucion().altaInstitucion(nombreIns, url, descripcion, img);
+	}
 
     
 }

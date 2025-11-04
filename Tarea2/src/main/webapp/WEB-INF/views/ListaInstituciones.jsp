@@ -1,13 +1,14 @@
+<%@page import="cliente.ws.sc.DtInstitucionArray"%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.util.List" %>
-<%@ page import="servidorcentral.logica.DTInstitucion" %>
+<%@ page import="cliente.ws.sc.DtInstitucion" %>
 <%
   String ctx = request.getContextPath(); 
   boolean ES_ORG = Boolean.TRUE.equals(request.getAttribute("ES_ORG"));
 
   @SuppressWarnings("unchecked")
-  java.util.List<servidorcentral.logica.DTInstitucion> instituciones =
-      (java.util.List<servidorcentral.logica.DTInstitucion>) request.getAttribute("INSTITUCIONES");
+  java.util.List<DtInstitucion> instituciones =
+      (java.util.List<DtInstitucion>) request.getAttribute("INSTITUCIONES");
 
   Object errMsg = request.getAttribute("msgError");
 %>
@@ -51,7 +52,7 @@
         <div class="alert alert-warning">No hay instituciones para mostrar.</div>
       <% } else { %>
         <div class="row g-4 justify-content-center">
-          <% for (DTInstitucion i : instituciones) {
+          <% for (DtInstitucion i : instituciones) {
         	  String img = (i != null && i.getImagen() != null && !i.getImagen().isBlank()) ? (ctx + i.getImagen()): (ctx + "/media/img/default.png");
                String nombre = (i != null && i.getNombre() != null) ? i.getNombre() : "";
                String desc   = (i != null && i.getDescripcion() != null) ? i.getDescripcion() : "";
