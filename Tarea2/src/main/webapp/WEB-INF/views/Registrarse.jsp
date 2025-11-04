@@ -11,12 +11,12 @@
   }
 %>
 <%@ page import="java.util.List" %>
-<%@ page import="servidorcentral.logica.DTInstitucion" %>
+<%@ page import="cliente.ws.sc.DtInstitucion" %>
 <!doctype html>
 <html lang="es">
 <head>
   <jsp:include page="template/head.jsp" />
-  <title>Registro</title>
+  <title>Registrarse</title>
 </head>
 <body class="bg-light">
   <header id="header" class="header d-flex align-items-center fixed-top">
@@ -124,15 +124,15 @@
                 <label for="institucion" class="form-label">Institución (opcional)</label>
                 <select class="form-select" id="institucion" name="institucion">
                   <%
-                    // value y comparación por NOMBRE
-                    List<DTInstitucion> instituciones = (List<DTInstitucion>) request.getAttribute("instituciones");
+                    @SuppressWarnings("unchecked")
+                    List<DtInstitucion> instituciones = (List<DtInstitucion>) request.getAttribute("instituciones");
                     String instSel = request.getParameter("institucion");
                   %>
                   <option value="" <%= (instSel==null || instSel.isEmpty()) ? "selected" : "" %> >Ninguna</option>
                   <%
                     if (instituciones != null) {
-                      for (DTInstitucion inst : instituciones) {
-                        String nombreInst = esc(inst.getNombre()); // ← usa el NOMBRE
+                      for (DtInstitucion inst : instituciones) {
+                        String nombreInst = esc(inst.getNombre()); // usar NOMBRE del WS
                         String sel = (instSel != null && instSel.equals(inst.getNombre())) ? " selected" : "";
                   %>
                         <option value="<%= nombreInst %>" <%= sel %>><%= nombreInst %></option>

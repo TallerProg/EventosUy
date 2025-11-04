@@ -3,15 +3,25 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.net.URLEncoder" %>
 <%@ page import="java.nio.charset.StandardCharsets" %>
-<%@ page import="servidorcentral.logica.DTevento" %>
-<%@ page import="servidorcentral.logica.DTCategoria" %>
+<%@ page import="cliente.ws.sc.DTevento" %>
+<%@ page import="cliente.ws.sc.DtCategoria" %>
 
 <%!
-  // Funciones de ayuda
-  private String orEmpty(String s) { return (s == null) ? "" : s; }
+  // Sanitiza para HTML
+  private static String esc(Object o) {
+    if (o == null) return "";
+    String s = String.valueOf(o);
+    return s.replace("&","&amp;")
+            .replace("<","&lt;")
+            .replace(">","&gt;")
+            .replace("\"","&quot;")
+            .replace("'","&#x27;");
+  }
 
-  // Mapea nombre de categoría a un ícono de Bootstrap Icons
-  private String iconFor(String catNombre) {
+  private static String orEmpty(String s) { return (s == null) ? "" : s; }
+
+  // Ícono aproximado por nombre de categoría
+  private static String iconFor(String catNombre) {
     if (catNombre == null) return "bi-bookmark";
     String n = catNombre.toLowerCase();
     if (n.contains("tecno")) return "bi-cpu";
@@ -28,14 +38,11 @@
     if (n.contains("literat") || n.contains("libro")) return "bi-book";
     return "bi-bookmark";
   }
-  
-
 %>
 
 <%
   final String ctx = request.getContextPath();
-
-	boolean ES_ORG = Boolean.TRUE.equals(request.getAttribute("ES_ORG"));
+  boolean ES_ORG = Boolean.TRUE.equals(request.getAttribute("ES_ORG"));
 
   @SuppressWarnings("unchecked")
   List<DTevento> eventos = (List<DTevento>) request.getAttribute("LISTA_EVENTOS");
@@ -51,19 +58,19 @@
 <body class="index-page">
 
   <header id="header" class="header d-flex align-items-center fixed-top">
-    <jsp:include page="./template/header.jsp" />
+    <!-- incluye el header común -->
+    <jsp:include page="/WEB-INF/views/template/header.jsp" />
   </header>
 
   <main class="main mt-5 pt-5">
     <section id="eventos" class="speakers section">
       <div class="container section-title d-flex justify-content-between align-items-center">
         <h2>Eventos</h2>
-        
-	      <% if (ES_ORG) { %>
-	    	<a href="<%= ctx %>/alta-evento" class="btn btn-primary" title="Alta de Evento" aria-label="Alta de Evento">
-	      	<i class="bi bi-plus-circle me-1"></i> Alta de Evento
-	    	</a>
-	      <% } %>
+        <% if (ES_ORG) { %>
+          <a href="<%= ctx %>/alta-evento" class="btn btn-primary" title="Alta de Evento" aria-label="Alta de Evento">
+            <i class="bi bi-plus-circle me-1"></i> Alta de Evento
+          </a>
+        <% } %>
       </div>
 
       <div class="container">
@@ -71,48 +78,51 @@
           <div class="alert alert-info text-center">No hay eventos disponibles por el momento.</div>
         <% } else { %>
           <div class="row g-4 justify-content-center">
-
             <% for (DTevento ev : eventos) {
-                 String nombre  = (ev != null) ? orEmpty(ev.getNombre()) : "";
-                 String desc    = (ev != null) ? orEmpty(ev.getDescripcion()) : "";
+                 if (ev == null) continue;
+                 String nombre = orEmpty(ev.getNombre());
+                 String desc   = orEmpty(ev.getDescripcion());
                  String encNombre = URLEncoder.encode(nombre, StandardCharsets.UTF_8.name());
                  String detalleHref = ctx + "/ConsultaEvento?evento=" + encNombre;
-           	  	 String img = (ev != null && ev.getImg() != null && !ev.getImg().isBlank()) ? (ctx + ev.getImg()): (ctx + "/media/img/default.png");
 
-                 List<DTCategoria> cats = (ev != null) ? ev.getDTCategorias() : null;
+                 String rawImg = ev.getImg();
+                 String img = (rawImg != null && !rawImg.isBlank())
+                              ? (ctx + rawImg)
+                              : (ctx + "/media/img/default.png");
+
+                 List<DtCategoria> cats = ev.getDtCategorias();
             %>
+              <!-- Columna flexible para igualar alturas -->
+              <div class="col-lg-3 col-md-6 d-flex">
+                <!-- Toda la card es el enlace -->
+                <a href="<%= detalleHref %>"
+                   class="speaker-card text-center h-100 d-flex flex-column position-relative w-100 text-reset text-decoration-none">
 
-            <!-- Columna flexible para igualar alturas -->
-            <div class="col-lg-3 col-md-6 d-flex">
-              <!-- Toda la card es el enlace -->
-              <a href="<%= detalleHref %>"
-                 class="speaker-card text-center h-100 d-flex flex-column position-relative w-100 text-reset text-decoration-none">
-
-                <div class="speaker-image">
-                  <img src="<%= img %>"  alt="<%= nombre %>" class="img-fluid">
-                </div>
-
-                <div class="speaker-content d-flex flex-column">
-                  <p class="speaker-title mb-1"><%= nombre %></p>
-                  <p class="speaker-company mb-2 flex-grow-1"><%= desc %></p>
-
-                  <div class="categories mb-3">
-                    <% if (cats != null && !cats.isEmpty()) {
-                         int shown = 0;
-                         for (DTCategoria c : cats) {
-                           if (c == null) continue;
-                           String cn = orEmpty(c.getNombre());
-                           String icon = iconFor(cn);
-                    %>
-                      <span class="me-1" title="<%= cn %>"><i class="bi <%= icon %>"></i></span>
-                    <%   if (++shown >= 3) break;
-                         }
-                       } %>
+                  <div class="speaker-image">
+                    <img src="<%= esc(img) %>" alt="<%= esc(nombre) %>" class="img-fluid">
                   </div>
-                </div>
-              </a>
-            </div>
 
+                  <div class="speaker-content d-flex flex-column">
+                    <p class="speaker-title mb-1"><%= esc(nombre) %></p>
+                    <p class="speaker-company mb-2 flex-grow-1"><%= esc(desc) %></p>
+
+                    <div class="categories mb-3">
+                      <% if (cats != null && !cats.isEmpty()) {
+                           int shown = 0;
+                           for (DtCategoria c : cats) {
+                             if (c == null) continue;
+                             String cn = orEmpty(c.getNombre());
+                             if (cn.isEmpty()) continue;
+                             String icon = iconFor(cn);
+                      %>
+                        <span class="me-1" title="<%= esc(cn) %>"><i class="bi <%= icon %>"></i></span>
+                      <%   if (++shown >= 3) break;
+                           }
+                         } %>
+                    </div>
+                  </div>
+                </a>
+              </div>
             <% } %>
           </div>
         <% } %>
@@ -120,8 +130,9 @@
     </section>
   </main>
 
-<hr class="mt-5 mb-4" style="border: 0; height: 3px; background: #bbb; border-radius: 2px;">
-<footer id="footer" class="footer position-relative light-background">
-  <jsp:include page="/WEB-INF/views/template/footer.jsp" />
-</footer></body>
+  <hr class="mt-5 mb-4" style="border: 0; height: 3px; background: #bbb; border-radius: 2px;">
+  <footer id="footer" class="footer position-relative light-background">
+    <jsp:include page="/WEB-INF/views/template/footer.jsp" />
+  </footer>
+</body>
 </html>

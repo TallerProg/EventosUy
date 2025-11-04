@@ -83,7 +83,7 @@ public class RegistrarSvt extends HttpServlet {
 
         String imagenWebPath = null;
 
-        // Guardado local de imagen (igual que antes)
+
         try {
             if (imgPart != null && imgPart.getSize() > 0) {
                 String original = submittedFileName(imgPart);
@@ -110,7 +110,7 @@ public class RegistrarSvt extends HttpServlet {
             setErrorMessage("No se pudo guardar la imagen: " + ex.getMessage(), request);
         }
 
-        // Validaciones equivalentes a las que ya tenías
+
         if (isBlank(tipo))       { setErrorAndForward("Seleccioná un tipo de usuario.", request, response); return; }
         if (isBlank(nickname))   { setErrorAndForward("El nickname es obligatorio.", request, response);     return; }
         if (isBlank(email))      { setErrorAndForward("El correo electrónico es obligatorio.", request, response); return; }
@@ -145,9 +145,11 @@ public class RegistrarSvt extends HttpServlet {
                     setErrorAndForward("La fecha de nacimiento no puede ser futura.", request, response);
                     return;
                 }
-                if (isBlank(institucionName)) {
-                    setErrorAndForward("Debés seleccionar una institución.", request, response);
-                    return;
+                if(imagenWebPath == null) {
+                	imagenWebPath = "";
+                }
+                if(institucionName == null) {
+                	institucionName = "";
                 }
 
                 port.altaAsistente(
@@ -160,7 +162,6 @@ public class RegistrarSvt extends HttpServlet {
                     return;
                 }
 
-                // *** WS directo ***
                 port.altaOrganizador(
                     nickname, email, nombre, descripcion, sitioWeb, password, imagenWebPath
                 );
