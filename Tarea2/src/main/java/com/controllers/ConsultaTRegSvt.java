@@ -2,24 +2,18 @@ package com.controllers;
 
 import java.io.IOException;
 
+import cliente.ws.sc.DTevento;
+import cliente.ws.sc.DtEdicion;
+import cliente.ws.sc.DtTipoRegistro;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import servidorcentral.logica.Factory;
-import servidorcentral.logica.IControllerEvento;
-import servidorcentral.logica.DTevento;
-import servidorcentral.logica.DTEdicion;
-import servidorcentral.logica.DTTipoRegistro;
-
-@WebServlet(name = "ConsultaTRegSvt", urlPatterns = {"/ConsultaTipoRegistro"})
+@WebServlet("/ConsultaTipoRegistro")
 public class ConsultaTRegSvt extends HttpServlet {
 
-  /**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
   @Override
@@ -38,22 +32,23 @@ public class ConsultaTRegSvt extends HttpServlet {
     }
 
     try {
-      IControllerEvento ctrl = Factory.getInstance().getIControllerEvento();
-
+      cliente.ws.sc.WebServicesService service = new cliente.ws.sc.WebServicesService();
+      cliente.ws.sc.WebServices port = service.getWebServicesPort();
+    	
       // Evento (DT)
-      DTevento evento = ctrl.consultaEvento(nomEvento);
+      DTevento evento = port.consultaEventoPorNombre(nomEvento);
       if (evento == null) {
         throw new IllegalArgumentException("El evento '" + nomEvento + "' no existe.");
       }
 
       // Edición (DT)
-      DTEdicion ed = ctrl.consultaEdicionDeEvento(nomEvento, nomEdicion);
+      DtEdicion ed = port.consultaEdicionDeEvento(nomEvento, nomEdicion);
       if (ed == null) {
         throw new IllegalArgumentException("La edición '" + nomEdicion + "' no existe para el evento '" + nomEvento + "'.");
       }
 
       // Tipo de registro (DT)
-      DTTipoRegistro tr = ctrl.consultaTipoRegistro(nomEdicion, nomTipo);
+      DtTipoRegistro tr = port.consultaTipoRegistro(nomEdicion, nomTipo);
       if (tr == null) {
         throw new IllegalArgumentException("El tipo de registro '" + nomTipo + "' no existe en la edición '" + nomEdicion + "'.");
       }
