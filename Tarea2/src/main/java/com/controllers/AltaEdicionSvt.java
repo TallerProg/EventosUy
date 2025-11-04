@@ -181,7 +181,7 @@ public class AltaEdicionSvt extends HttpServlet {
             }
 
             try {
-                port.altaEdicionDeEvento(
+                port.altaEdicionDeEventoDTO(
                     evento,
                     nickOrganizador,
                     nombre,

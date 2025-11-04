@@ -1,7 +1,6 @@
 package com.controllers;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.List;
 
 import jakarta.servlet.ServletException;
@@ -9,14 +8,12 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import servidorcentral.logica.ControllerEvento;
-import servidorcentral.logica.DTEdicion;
-import servidorcentral.logica.DTInstitucion;
-import servidorcentral.logica.DTTipoRegistro;
-import servidorcentral.logica.ETipoNivel;
-import servidorcentral.logica.Factory;
-import servidorcentral.logica.IControllerEvento;
-import servidorcentral.logica.IControllerInstitucion;
+import cliente.ws.sc.DtEdicion;
+import cliente.ws.sc.DtInstitucion;
+import cliente.ws.sc.DtInstitucionArray;
+import cliente.ws.sc.DtTipoRegistro;
+import cliente.ws.sc.ETipoNivel;
+
 
 @WebServlet(name = "AltaPatrocinioSvt", urlPatterns = {"/organizador-patrocinios-alta"})
 public class AltaPatrocinioSvt extends HttpServlet {
@@ -28,10 +25,12 @@ public class AltaPatrocinioSvt extends HttpServlet {
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+  
       throws ServletException, IOException {
 
     req.setCharacterEncoding("UTF-8");
-
+	cliente.ws.sc.WebServicesService service = new cliente.ws.sc.WebServicesService();
+    cliente.ws.sc.WebServices port = service.getWebServicesPort();
     if ("1".equals(req.getParameter("calc"))) {
       resp.setContentType("application/json;charset=UTF-8");
       String edicion      = req.getParameter("edicion");
@@ -45,8 +44,7 @@ public class AltaPatrocinioSvt extends HttpServlet {
         if (edicion != null && tipoRegistro != null && aporteStr != null && !aporteStr.isBlank()) {
           float aporte = Float.parseFloat(aporteStr);
           if (aporte > 0f) {
-            IControllerEvento ctrl = Factory.getInstance().getIControllerEvento();
-            DTTipoRegistro tr = ctrl.consultaTipoRegistro(edicion, tipoRegistro);
+            DtTipoRegistro tr = port.consultaTipoRegistro(edicion, tipoRegistro);
             if (tr != null && tr.getCosto() > 0f) {
               costo = tr.getCosto();
               float maxUYU = aporte * 0.20f;
@@ -71,9 +69,8 @@ public class AltaPatrocinioSvt extends HttpServlet {
     }
 
     try {
-      IControllerEvento cevt = Factory.getInstance().getIControllerEvento();
 
-      DTEdicion dto = cevt.consultaEdicionDeEvento(evento, edicion);
+      DtEdicion dto = port.consultaEdicionDeEvento(evento, edicion);
       if (dto == null) {
         throw new IllegalArgumentException("No se encontró la edición '" + edicion + "' del evento '" + evento + "'.");
       }
@@ -81,7 +78,7 @@ public class AltaPatrocinioSvt extends HttpServlet {
       req.setAttribute("EVENTO_SEL", evento);
       req.setAttribute("EDICION_SEL", edicion);
 
-      List<String> nombresTR = ((ControllerEvento)cevt).listarNombresTiposRegistroDTO(edicion);
+      List<String> nombresTR = (List<String>) port.listarNombresTiposRegistroDTO(edicion);
       req.setAttribute("TIPOS_REGISTRO",
           (nombresTR == null) ? new String[0] : nombresTR.toArray(new String[0]));
 
@@ -114,11 +111,13 @@ public class AltaPatrocinioSvt extends HttpServlet {
       Integer cantidad = (cantidadStr == null || cantidadStr.isBlank()) ? null : Integer.valueOf(cantidadStr);
       ETipoNivel nivel = parseNivel(nivelStr);
 
-      IControllerEvento ctrl = Factory.getInstance().getIControllerEvento();
-
-      ctrl.altaPatrocinio(
+  		cliente.ws.sc.WebServicesService service = new cliente.ws.sc.WebServicesService();
+  		cliente.ws.sc.WebServices port = service.getWebServicesPort();
+  		java.time.LocalDate javaLocalDate = java.time.LocalDate.now();
+  		String fechaString = javaLocalDate.toString();
+      port.altaPatrocinio(
           codigo,
-          LocalDate.now(),
+          fechaString,
           (cantidad == null ? 0 : cantidad),
           (aporte == null ? 0f : aporte),
           nivel,
@@ -146,8 +145,9 @@ public class AltaPatrocinioSvt extends HttpServlet {
       req.setAttribute("form_codigo", codigo);
 
       try {
-        IControllerEvento cevt = Factory.getInstance().getIControllerEvento();
-        List<String> nombresTR = ((ControllerEvento)cevt).listarNombresTiposRegistroDTO(edicion);
+    	cliente.ws.sc.WebServicesService service = new cliente.ws.sc.WebServicesService();
+      	cliente.ws.sc.WebServices port = service.getWebServicesPort();
+        List<String> nombresTR = (List<String>) port.listarNombresTiposRegistroDTO(edicion);
         req.setAttribute("TIPOS_REGISTRO",
             (nombresTR == null) ? new String[0] : nombresTR.toArray(new String[0]));
       } catch (Exception ignore) {
@@ -168,23 +168,26 @@ public class AltaPatrocinioSvt extends HttpServlet {
   private static boolean isBlank(String s){ return s == null || s.trim().isEmpty(); }
 
   private static ETipoNivel parseNivel(String s){
-    if (s == null) return ETipoNivel.Platino;
+    if (s == null) return ETipoNivel.PLATINO;
     switch (s) {
-      case "Platino": return ETipoNivel.Platino;
-      case "Oro":     return ETipoNivel.Oro;
-      case "Plata":   return ETipoNivel.Plata;
-      case "Bronce":  return ETipoNivel.Bronce;
-      default:        return ETipoNivel.Platino;
+      case "Platino": return ETipoNivel.PLATINO;
+      case "Oro":     return ETipoNivel.ORO;
+      case "Plata":   return ETipoNivel.PLATA;
+      case "Bronce":  return ETipoNivel.BRONCE;
+      default:        return ETipoNivel.PLATINO;
     }
   }
 
   // SOLO DTOs
   private static void cargarInstitucionesDTO(HttpServletRequest req) {
     try {
-      IControllerInstitucion cIns = Factory.getInstance().getIControllerInstitucion();
-      List<DTInstitucion> dts = cIns.getDTInstituciones(); 
+      cliente.ws.sc.WebServicesService service = new cliente.ws.sc.WebServicesService();
+      cliente.ws.sc.WebServices port = service.getWebServicesPort();
+      DtInstitucionArray instDTA= port.listarDTInstituciones();
+      List<DtInstitucion> dts=instDTA.getItem();
+
       String[] nombresIns = (dts == null) ? new String[0]
-          : dts.stream().map(DTInstitucion::getNombre).toArray(String[]::new);
+          : dts.stream().map(DtInstitucion::getNombre).toArray(String[]::new);
       req.setAttribute("INSTITUCIONES", nombresIns);
     } catch (Exception e) {
       req.setAttribute("INSTITUCIONES", new String[0]);
