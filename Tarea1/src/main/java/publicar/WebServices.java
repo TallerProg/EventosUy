@@ -429,6 +429,16 @@ public class WebServices {
         List<DTInstitucion> l = getControllerInstitucion().getDTInstituciones();
         return (l == null || l.isEmpty()) ? new DTInstitucion[0] : l.toArray(new DTInstitucion[0]);
     }
+    
+    @WebMethod
+    public void finalizarEvento(String nombreEvento) {
+    	try {
+        	getControllerEvento().finalizarEvento(nombreEvento);
+
+		} catch (Exception e) {
+			System.out.println("Error al finalizar evento: " + e.getMessage());
+		}
+    }
 
     
 }

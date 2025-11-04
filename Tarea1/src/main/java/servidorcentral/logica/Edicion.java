@@ -218,7 +218,8 @@ public class Edicion {
         	    evento.getFAlta(),
         	    null,      // categorias (null ⇒ no se pobla dtCategorias)
         	    null,      // ediciones (null ⇒ no se pobla dtEdiciones)
-        	    evento.getImg()
+        	    evento.getImg(),
+        	    evento.isFinalizado()
         	);
         
         String estadoStr = (estado == null) ? null : estado.name();

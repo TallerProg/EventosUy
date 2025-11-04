@@ -113,13 +113,24 @@ if (ediciones == null) { ediciones = java.util.Collections.emptyList(); }
       } 
     %>
 
-    <% if (ES_ORG) { %>
-    <div class="text-center mt-4">
-      <a href="<%=ctx%>/ediciones-alta?evento=<%= URLEncoder.encode(evento.getNombre(), StandardCharsets.UTF_8) %>" class="btn btn-primary ">
-         <i class="bi bi-plus-circle me-1"></i> Nueva Edicion
-      </a>
-    </div>
-    <% } %>
+   <% if (ES_ORG) { %>
+  <div class="text-center mt-4 d-flex gap-2 justify-content-center">
+    <a href="<%=ctx%>/ediciones-alta?evento=<%= URLEncoder.encode(evento.getNombre(), StandardCharsets.UTF_8) %>" 
+       class="btn btn-primary">
+       <i class="bi bi-plus-circle me-1"></i> Nueva Edición
+    </a>
+
+    <form id="finalizarEventoForm" action="<%= ctx %>/ConsultaEvento" method="post" class="d-inline">
+      <input type="hidden" name="accion" value="finalizar">
+      <input type="hidden" name="evento" value="<%= evento.getNombre() %>">
+      <button type="submit" class="btn btn-danger">
+        <i class="bi bi-exclamation-octagon me-1"></i> Finalizar evento
+      </button>
+    </form>
+  </div>
+<% } %>
+
+
 
   </main>
 
