@@ -287,7 +287,7 @@ public class AltaUsuario extends JInternalFrame {
                         inst = controlIns.findInstitucion(nombreInstitucion);
                     }
 
-                    // Agrego password como último parámetro
+                    controlUsr.altaAsistente(nick, correo, nombre, apellido, fecha, inst,password, null);
 
                     textFieldNickName.setText("");
                     textFieldCorreo.setText("");

@@ -16,11 +16,11 @@ import servidorcentral.logica.RolUsuario;
 
 import cliente.ws.sc.WebServices;
 import cliente.ws.sc.WebServicesService;
-import cliente.ws.sc.DTEdicion;
-import cliente.ws.sc.DTOrganizador;
-import cliente.ws.sc.DTRegistro;
-import cliente.ws.sc.DTTipoRegistro;
-import cliente.ws.sc.DTPatrocinio;
+import cliente.ws.sc.DtEdicion;
+import cliente.ws.sc.DtOrganizador;
+import cliente.ws.sc.DtRegistro;
+import cliente.ws.sc.DtTipoRegistro;
+import cliente.ws.sc.DtPatrocinio;
 
 import jakarta.xml.ws.Binding;
 import jakarta.xml.ws.BindingProvider;
@@ -103,7 +103,7 @@ public class ConsultaEdicionSvt extends HttpServlet {
     try {
       WebServices port = getPort(req);
 
-      DTEdicion ed = port.consultaEdicionDeEvento(nombreEvento, nombreEdicion);
+      DtEdicion ed = port.consultaEdicionDeEvento(nombreEvento, nombreEdicion);
       if (ed == null) {
         req.setAttribute("msgError", "No se encontro la edicion solicitada.");
         forward(req, resp);
@@ -126,12 +126,12 @@ public class ConsultaEdicionSvt extends HttpServlet {
       String img = safe(ed.getImagenWebPath());
       VM.put("imagen", (img != null && !img.isBlank()) ? (req.getContextPath() + img) : null);
 
-      List<DTOrganizador> orgs = listOrEmpty(ed.getOrganizadores());
+      List<DtOrganizador> orgs = listOrEmpty(ed.getOrganizadores());
       VM.put("organizadorNombre", joinOrganizadores(orgs));
 
       List<Map<String,String>> regsVM = new ArrayList<>();
-      List<DTRegistro> regs = listOrEmpty(ed.getRegistros());
-      for (DTRegistro r : regs) {
+      List<DtRegistro> regs = listOrEmpty(ed.getRegistros());
+      for (DtRegistro r : regs) {
         Map<String,String> row = new LinkedHashMap<>();
         row.put("asistente", safe(r.getAsistenteNickname()));
         row.put("tipo",      safe(r.getTipoRegistroNombre()));
@@ -142,8 +142,8 @@ public class ConsultaEdicionSvt extends HttpServlet {
       VM.put("registros", regsVM);
 
       List<Map<String,String>> tiposVM = new ArrayList<>();
-      List<DTTipoRegistro> tregs = listOrEmpty(ed.getTipoRegistros());
-      for (DTTipoRegistro tr : tregs) {
+      List<DtTipoRegistro> tregs = listOrEmpty(ed.getTipoRegistros());
+      for (DtTipoRegistro tr : tregs) {
         Map<String,String> row = new LinkedHashMap<>();
         row.put("nombre", safe(tr.getNombre()));
         row.put("costo",  toStr(tr.getCosto()));
@@ -156,7 +156,7 @@ public class ConsultaEdicionSvt extends HttpServlet {
       Map<String,String> miRegVM = null;
       boolean esAsistenteInscriptoEd = false;
       if (esAsistente && nickSesion != null) {
-        for (DTRegistro r : regs) {
+        for (DtRegistro r : regs) {
           String nickReg = safe(r.getAsistenteNickname());
           if (!isBlank(nickReg) && nickSesion.equalsIgnoreCase(nickReg)) {
             esAsistenteInscriptoEd = true;
@@ -170,13 +170,13 @@ public class ConsultaEdicionSvt extends HttpServlet {
       }
       VM.put("miRegistro", miRegVM);
 
-      List<DTPatrocinio> pats = listOrEmpty(ed.getPatrocinios());
+      List<DtPatrocinio> pats = listOrEmpty(ed.getPatrocinios());
       req.setAttribute("patrocinios", pats);
 
       boolean esOrganizadorDeEstaEdicion = false;
       if (esOrganizador && orgs != null && nickSesion != null) {
         String nickNorm = nickSesion.trim().toLowerCase();
-        for (DTOrganizador o : orgs) {
+        for (DtOrganizador o : orgs) {
           String id = prefer(safe(o.getNickname()), safe(o.getNombre()));
           if (!isBlank(id) && id.trim().toLowerCase().equals(nickNorm)) {
             esOrganizadorDeEstaEdicion = true;
@@ -218,10 +218,10 @@ public class ConsultaEdicionSvt extends HttpServlet {
   private static <T> List<T> listOrEmpty(List<T> xs) { return (xs == null) ? java.util.List.of() : xs; }
 
   /** Une nombres de organizadores en una cadena amigable. */
-  private static String joinOrganizadores(List<DTOrganizador> orgs) {
+  private static String joinOrganizadores(List<DtOrganizador> orgs) {
     if (orgs == null || orgs.isEmpty()) return null;
     List<String> nombres = new ArrayList<>();
-    for (DTOrganizador o : orgs) {
+    for (DtOrganizador o : orgs) {
       if (o == null) continue;
       String nom = prefer(safe(o.getNombre()), safe(o.getNickname()));
       if (!isBlank(nom)) nombres.add(nom);

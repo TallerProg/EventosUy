@@ -30,21 +30,19 @@ import jakarta.jws.soap.SOAPBinding.ParameterStyle;
 import jakarta.jws.soap.SOAPBinding.Style;
 import jakarta.xml.ws.Endpoint;
 import jakarta.xml.ws.soap.MTOM;
-import servidorcentral.excepciones.CredencialesInvalidasException;
-import servidorcentral.excepciones.UsuarioNoExisteException;
 import servidorcentral.excepciones.UsuarioRepetidoException;
 import servidorcentral.excepciones.NombreTRUsadoException;
 import servidorcentral.logica.Edicion;
 import servidorcentral.logica.DTCategoria;
-import servidorcentral.logica.DTSesionUsuario;
 import servidorcentral.logica.DTUsuarioListaConsulta;
 import servidorcentral.logica.DTevento;
 import servidorcentral.logica.DTRegistro;
 import servidorcentral.logica.DTEdicion;
+import servidorcentral.logica.DTInstitucion;
 import servidorcentral.logica.Factory;
 import servidorcentral.logica.IControllerEvento;
 import servidorcentral.logica.IControllerUsuario;
-import servidorcentral.logica.Institucion;
+import servidorcentral.logica.IControllerInstitucion;
 
 @WebService
 @SOAPBinding(style = Style.RPC, parameterStyle = ParameterStyle.WRAPPED)
@@ -80,6 +78,10 @@ public class WebServices {
 	private IControllerUsuario getControllerUsuario() {
 		return Factory.getInstance().getIControllerUsuario();
 	}
+    @WebMethod(exclude = true)
+	private IControllerInstitucion getControllerInstitucion() {
+		return Factory.getInstance().getIControllerInstitucion();
+	}
 
     @WebMethod
     public DTCategoria[] listarDTCategorias() {
@@ -98,6 +100,16 @@ public class WebServices {
 	}
     
     @WebMethod
+    public DTEdicion[] listarDTEdicion() {
+		List<DTEdicion> lista = getControllerEvento().listarDTEdicion();
+		return (lista == null || lista.isEmpty())
+				? new DTEdicion[0]
+				: lista.toArray(new DTEdicion[0]);
+	}
+    
+
+    
+    @WebMethod
     public DTUsuarioListaConsulta[] listarDTAsistentes() {
 		List<DTUsuarioListaConsulta> lista = getControllerUsuario().getDTAsistentes();
 		return (lista == null || lista.isEmpty())
@@ -114,9 +126,10 @@ public class WebServices {
 	}
     
     @WebMethod
-    public void altaAsistente(String nicknameUsu, String correo, String nombre, String apellido, LocalDate fNacimiento,
-    		Institucion ins, String contrasena, String img) throws UsuarioRepetidoException {
-    	getControllerUsuario().altaAsistente(nicknameUsu, correo, nombre, apellido, fNacimiento, ins, contrasena, img);
+    public void altaAsistente(String nicknameUsu, String correo, String nombre, String apellido, String fNacimiento,
+    		String ins, String contrasena, String img) throws UsuarioRepetidoException {
+    	LocalDate FNAC = LocalDate.parse(fNacimiento);
+    	getControllerUsuario().altaAsistente(nicknameUsu, correo, nombre, apellido, FNAC, getControllerInstitucion().findInstitucion(ins), contrasena, img);
     }
     
     @WebMethod
@@ -157,6 +170,25 @@ public class WebServices {
         return res.toArray(new DTCategoria[0]);
     }
 
+
+    @WebMethod
+    public DTevento consultaEventoPorNombre(String nombreEv) {
+    	return getControllerEvento().consultaEvento(nombreEv);
+
+    }
+    
+    @WebMethod
+    public DTEdicion consultaEdicionDeEvento(String nombreEv, String nombreEd) {
+    	DTEdicion edicion=getControllerEvento().consultaEdicionDeEvento(nombreEv, nombreEd);
+    	if (edicion == null) {
+    	    DTEdicion vacia = new DTEdicion();
+    	    vacia.setEstado("NO_ENCONTRADA");
+    	    return vacia;
+    	}
+        return edicion;
+    }
+    
+    
     @MTOM(enabled = true)
     @WebMethod
     public String subirImagenEvento(
@@ -315,8 +347,8 @@ public class WebServices {
 
         String ext = extensionOf(originalFileName);
         String safeBase = slug(evento + "-" + nombreEdicion);
-        String stamp = java.time.format.DateTimeFormatter.ofPattern("yyyyMMddHHmmss")
-                .format(java.time.LocalDateTime.now());
+        String stamp = DateTimeFormatter.ofPattern("yyyyMMddHHmmss")
+                .format(LocalDateTime.now());
         String fileName = safeBase + "_" + stamp + (ext.isEmpty() ? "" : "." + ext);
 
         String realDir = WSConfig.get("images.editions.real_dir",
@@ -338,8 +370,8 @@ public class WebServices {
     @WebMethod
     public void altaEdicionDeEventoDTO(String nombreEvento, String nickOrganizador, String nombreEdicion,
                                        String sigla, String ciudad, String pais,
-                                       java.time.LocalDate fInicio, java.time.LocalDate fFin,
-                                       java.time.LocalDate fAlta, String imagenWebPath) throws Exception {
+                                       LocalDate fInicio, LocalDate fFin,
+                                       LocalDate fAlta, String imagenWebPath) throws Exception {
         getControllerEvento().altaEdicionDeEventoDTO(
             nombreEvento, nickOrganizador, nombreEdicion, sigla, ciudad, pais, fInicio, fFin, fAlta, imagenWebPath
         );
@@ -355,7 +387,7 @@ public class WebServices {
         if (asis == null || asis.getRegistros() == null || asis.getRegistros().isEmpty())
             return new DTRegistro[0];
 
-        java.util.List<DTRegistro> regs = asis.getRegistros();
+        List<DTRegistro> regs = asis.getRegistros();
         return regs.toArray(new DTRegistro[0]);
     }
 
@@ -369,7 +401,7 @@ public class WebServices {
         if (org == null || org.getEdiciones() == null || org.getEdiciones().isEmpty())
             return new DTEdicion[0];
 
-        java.util.List<DTEdicion> eds = org.getEdiciones();
+        List<DTEdicion> eds = org.getEdiciones();
         return eds.toArray(new DTEdicion[0]);
     }
 
@@ -383,6 +415,14 @@ public class WebServices {
     @WebMethod
     public boolean existeTRNombre(String edicion, String nombre) {
     	return getControllerEvento().existeTRNombre(edicion, nombre);
+    }
+    
+ //Registrarse a edicion
+    
+    @WebMethod
+    public DTInstitucion[] listarDTInstituciones() {
+        List<DTInstitucion> l = getControllerInstitucion().getDTInstituciones();
+        return (l == null || l.isEmpty()) ? new DTInstitucion[0] : l.toArray(new DTInstitucion[0]);
     }
 
     

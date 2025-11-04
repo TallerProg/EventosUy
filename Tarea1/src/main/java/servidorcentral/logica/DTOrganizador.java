@@ -1,5 +1,8 @@
 package servidorcentral.logica;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class DTOrganizador {
 	private String nickname;
 	private String correo;
@@ -14,7 +17,8 @@ public class DTOrganizador {
 		this.descripcion = descripcion;
 		this.url = url;
 	}
-
+	public DTOrganizador() {
+	}
 	public String getNickname() {
 		return nickname;
 	}
