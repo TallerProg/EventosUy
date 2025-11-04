@@ -84,7 +84,7 @@ public class AltaTRegSvt extends HttpServlet {
         cliente.ws.sc.WebServices port = service.getWebServicesPort();
         
         try {         
-            boolean yaExiste = port.existeTR(port.findEdicion(edSel), nombreTR);
+            boolean yaExiste = port.existeTRNombre(edSel, nombreTR);
             if (yaExiste) {
                 req.setAttribute("msgError", "El nombre de tipo de registro \"" + nombreTR + "\" ya fue utilizado en esa edición.");
                 req.getRequestDispatcher("/WEB-INF/views/AltaTipoRegistro.jsp").forward(req, resp);
@@ -92,7 +92,7 @@ public class AltaTRegSvt extends HttpServlet {
             }
 
             // 2) Alta remota
-            port.altaTipoRegistro(nombreTR, descr, costo, cupo, port.findEdicion(edSel));
+            port.altaTipoRegistroDT(nombreTR, descr, costo, cupo, edSel);
 
             // PRG + flash
             req.getSession().setAttribute("flashOk",

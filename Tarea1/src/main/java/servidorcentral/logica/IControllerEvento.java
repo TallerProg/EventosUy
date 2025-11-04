@@ -18,6 +18,7 @@ public interface IControllerEvento {
     public List<Categoria> getCategorias();	
     public Edicion findEdicion(String nombre);
     public boolean existeTR(Edicion edicion, String nombreTR);
+    public boolean existeTRNombre(String nombreEd, String nombreTR);
     public boolean existeEvento(String nombre);
     public Evento getEvento(String nombreEvento);
     public void altaRegistro(String nombreEdicion, String nickAsistente, String nombreTR, String codigo) throws Exception;
@@ -35,7 +36,8 @@ public interface IControllerEvento {
 
 	public void altaTipoRegistro(String nombreTR, String descripcion, Float costo, Integer cupo, Edicion edicion)
 			throws NombreTRUsadoException;
-	
+	public void altaTipoRegistroDT(String nombreTR, String descripcion, Float costo, Integer cupo, String edicion)
+			throws NombreTRUsadoException;
 
 	public void altaEvento(String nombre, String descripcion, LocalDate fecha, String sigla, List<Categoria> categorias, String img)
 			throws Exception;

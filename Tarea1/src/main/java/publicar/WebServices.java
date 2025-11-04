@@ -376,18 +376,13 @@ public class WebServices {
 //AltaTipoRegistro
     
     @WebMethod
-    public void altaTipoRegistro(String nombreTR, String descripcion, Float costo, Integer cupo, Edicion edicion) throws NombreTRUsadoException{
-    	getControllerEvento().altaTipoRegistro(nombreTR, descripcion, costo, cupo, edicion);
-    }
-    
-    @WebMethod
-    public Edicion findEdicion(String nombre) {
-    	return getControllerEvento().findEdicion(nombre);
+    public void altaTipoRegistroDT(String nombreTR, String descripcion, Float costo, Integer cupo, String edicion) throws NombreTRUsadoException{
+    	getControllerEvento().altaTipoRegistroDT(nombreTR, descripcion, costo, cupo, edicion);
     }
   
     @WebMethod
-    public boolean existeTR(Edicion edicion, String nombre) {
-    	return getControllerEvento().existeTR(edicion, nombre);
+    public boolean existeTRNombre(String edicion, String nombre) {
+    	return getControllerEvento().existeTRNombre(edicion, nombre);
     }
 
     
