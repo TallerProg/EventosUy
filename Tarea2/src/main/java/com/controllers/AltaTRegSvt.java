@@ -8,7 +8,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import servidorcentral.excepciones.NombreTRUsadoException;
-import servidorcentral.logica.Edicion;
 import cliente.ws.sc.WebServices;
 import cliente.ws.sc.WebServicesService;
 
