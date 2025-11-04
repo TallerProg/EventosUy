@@ -1,7 +1,8 @@
 package com.controllers;
-import servidorcentral.logica.DTSesionUsuario;
+import cliente.ws.sc.DtSesionUsuario;
 
 import cliente.ws.sc.DtUsuarioListaConsulta;
+import cliente.ws.sc.RolUsuario;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
@@ -37,7 +38,7 @@ public class PerfilSvt extends HttpServlet {
             return;
         }
 
-        DTSesionUsuario usuario = (DTSesionUsuario) session.getAttribute("usuario_logueado");
+        DtSesionUsuario usuario = (DtSesionUsuario) session.getAttribute("usuario_logueado");
         if (usuario == null) {
             resp.sendRedirect(req.getContextPath() + "/login");
             return;
@@ -49,9 +50,9 @@ public class PerfilSvt extends HttpServlet {
         req.setAttribute("USUARIO", dtusuario);
         req.setAttribute("USUARIOROL", usuario);
 
-        String rol = usuario.getRolString(); // enum
-        boolean esOrg  = rol.equals("ORGANIZADOR") ;
-        boolean esAsis = rol.equals("ASISTENTE");
+        RolUsuario rol = usuario.getRol(); // enum
+        boolean esOrg  = rol==RolUsuario.ORGANIZADOR;
+        boolean esAsis = rol==RolUsuario.ASISTENTE;
         req.setAttribute("ES_ORG", esOrg);
         req.setAttribute("ES_ASIS", esAsis);
 
