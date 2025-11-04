@@ -220,28 +220,8 @@ public class WebServices {
     }
 
     @WebMethod
-    public void altaEvento(
-            @WebParam(name="nombre") String nombre,
-            @WebParam(name="descripcion") String descripcion,
-            @WebParam(name="sigla") String sigla,
-            @WebParam(name="categoriasNombreOCodigo") String[] categoriasNombreOCodigo,
-            @WebParam(name="imagenBytes") byte[] imagenBytes,           
-            @WebParam(name="imagenFileName") String imagenFileName      
-    ) throws Exception {
-
-        List<String> errores = new ArrayList<>();
-        if (isBlank(nombre)) errores.add("El nombre es obligatorio.");
-        if (isBlank(descripcion)) errores.add("La descripción es obligatoria.");
-        if (isBlank(sigla)) errores.add("La sigla es obligatoria.");
-        if (categoriasNombreOCodigo == null || categoriasNombreOCodigo.length == 0)
-            errores.add("Debe seleccionar al menos una categoría.");
-        if (!isBlank(nombre) && getControllerEvento().existeEvento(nombre))
-            errores.add("Ya existe un evento con ese nombre.");
-        if (!errores.isEmpty()) throw new IllegalArgumentException(String.join(" | ", errores));
-
+    public void altaEvento(String nombre, String descripcion, String sigla, String[] categoriasNombreOCodigo, byte[] imagenBytes, String imagenFileName) throws Exception {
         DTCategoria[] dtCats = resolverCategoriasPorNombreOCodigo(categoriasNombreOCodigo);
-        if (dtCats.length == 0) throw new IllegalArgumentException("Las categorías seleccionadas no existen en el sistema.");
-
         String imagenWebPath = null;
         if (imagenBytes != null && imagenBytes.length > 0) {
             imagenWebPath = subirImagenEvento(nombre, imagenFileName, imagenBytes);
