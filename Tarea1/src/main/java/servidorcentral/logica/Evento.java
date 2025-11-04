@@ -11,6 +11,7 @@ public class Evento {
 	private String descripcion;
 	private LocalDate fAlta;
 	private String img;
+	private boolean finalizado; 
 
 	private List<Categoria> categorias = new ArrayList<>();
 	private List<Edicion> ediciones = new ArrayList<>();
@@ -22,6 +23,7 @@ public class Evento {
 		this.fAlta = fAlta;
 		this.categorias = categorias;
 		this.img = img;
+		this.finalizado = false;
 	}
 
 	public String getNombre() {
@@ -94,12 +96,19 @@ public class Evento {
 	}
 
 	public DTevento getDTevento() {
-		return new DTevento(nombre, sigla, descripcion, fAlta, categorias, ediciones, img);
+		return new DTevento(nombre, sigla, descripcion, fAlta, categorias, ediciones, img, finalizado);
 	}
 	public String getImg() {
 		return img;
 	}
 	public void setImg(String img) {
 		this.img = img;
+	}
+	
+	public boolean isFinalizado() {
+        return finalizado;
+    }
+	public void finalizarEvento() {
+		this.finalizado = true;
 	}
 }

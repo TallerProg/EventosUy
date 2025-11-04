@@ -2,6 +2,7 @@
 <%@ page import="cliente.ws.sc.DTevento"%>
 <%@ page import="cliente.ws.sc.DtCategoria"%>
 <%@ page import="java.util.List"%>
+<%@ page import="java.util.ArrayList"%>
 <%@ page import="java.net.URLEncoder" %>
 <%@ page import="java.nio.charset.StandardCharsets" %>
 
@@ -9,6 +10,16 @@
   String ctx = request.getContextPath();
   DTevento[] eventos = (DTevento[]) request.getAttribute("LISTA_EVENTOS");
   DtCategoria[] categorias = (DtCategoria[]) request.getAttribute("LISTA_CATEGORIAS");
+
+  // Filtrar: solo eventos NO finalizados
+  List<DTevento> eventosActivos = new ArrayList<>();
+  if (eventos != null) {
+    for (DTevento ev : eventos) {
+      if (ev != null && !ev.isFinalizado()) {
+        eventosActivos.add(ev);
+      }
+    }
+  }
 %>
 
 <!DOCTYPE html>
@@ -37,13 +48,13 @@
     <section id="hero-carousel" class="section mt-5 pt-4">
       <div class="container">
         <%
-          if (eventos != null && eventos.length > 0) {
+          if (!eventosActivos.isEmpty()) {
         %>
         <div id="eventCarousel" class="carousel slide" data-bs-ride="carousel">
           <!-- Indicadores -->
           <div class="carousel-indicators">
             <%
-              for (int i = 0; i < eventos.length; i++) {
+              for (int i = 0; i < eventosActivos.size(); i++) {
             %>
               <button type="button"
                       data-bs-target="#eventCarousel"
@@ -57,8 +68,8 @@
           <!-- Slides -->
           <div class="carousel-inner">
             <%
-              for (int i = 0; i < eventos.length; i++) {
-                DTevento e = eventos[i];
+              for (int i = 0; i < eventosActivos.size(); i++) {
+                DTevento e = eventosActivos.get(i);
                 String encNombre = URLEncoder.encode(e.getNombre(), StandardCharsets.UTF_8.name());
                 String detalleHref = ctx + "/ConsultaEvento?evento=" + encNombre; // igual que ListarEventos
             %>
@@ -161,10 +172,10 @@
       <div class="container">
         <div class="row g-4 justify-content-center">
           <%
-            if (eventos != null && eventos.length > 0) {
-              int max = Math.min(10000, eventos.length);
+            if (!eventosActivos.isEmpty()) {
+              int max = Math.min(10000, eventosActivos.size());
               for (int i = 0; i < max; i++) {
-                DTevento e = eventos[i];
+                DTevento e = eventosActivos.get(i);
 
                 String encNombre = URLEncoder.encode(e.getNombre(), StandardCharsets.UTF_8.name());
                 String detalleHref = ctx + "/ConsultaEvento?evento=" + encNombre;
@@ -255,7 +266,6 @@
   <script>
     (function() {
       const buttons = document.querySelectorAll('.category-btn');
-      // cada card vive dentro de una col; nos conviene ocultar la col
       const cols = document.querySelectorAll('#speakers .row > [class*="col-"]');
       const cards = document.querySelectorAll('#speakers [data-categories]');
       const noRes = document.getElementById('no-results-msg');
@@ -296,3 +306,4 @@
   </script>
 </body>
 </html>
+

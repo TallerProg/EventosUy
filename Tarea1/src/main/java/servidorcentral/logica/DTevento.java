@@ -16,6 +16,7 @@ public class DTevento {
 	private String descripcion;
 	private LocalDate fAlta;
 	private String img;
+	private Boolean finalizado;
 	@XmlTransient
 	private List<Categoria> categorias = new ArrayList<>();
 	@XmlTransient
@@ -27,12 +28,13 @@ public class DTevento {
 	}
 
 	public DTevento(String nombre, String sigla, String descripcion, LocalDate fAlta, List<Categoria> categorias,
-			List<Edicion> ediciones, String img) {
+			List<Edicion> ediciones, String img, Boolean finalizado) {
 		this.nombre = nombre;
 		this.sigla = sigla;
 		this.descripcion = descripcion;
 		this.fAlta = fAlta;
 		this.img = img;
+		this.finalizado = finalizado;
 		if (categorias != null) {
 			this.categorias = categorias;
 			for (Categoria c : categorias)
@@ -83,4 +85,8 @@ public class DTevento {
     public List<DTEdicion> getDtEdiciones() {
         return dtEdiciones;
     }
+
+	public Boolean getFinalizado() {
+		return finalizado;
+	}
 }

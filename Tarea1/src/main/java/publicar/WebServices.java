@@ -36,7 +36,9 @@ import servidorcentral.logica.Edicion;
 import servidorcentral.logica.DTCategoria;
 import servidorcentral.logica.DTUsuarioListaConsulta;
 import servidorcentral.logica.DTevento;
+import servidorcentral.logica.ETipoNivel;
 import servidorcentral.logica.DTRegistro;
+import servidorcentral.logica.DTTipoRegistro;
 import servidorcentral.logica.DTEdicion;
 import servidorcentral.logica.DTInstitucion;
 import servidorcentral.logica.Factory;
@@ -424,6 +426,33 @@ public class WebServices {
         List<DTInstitucion> l = getControllerInstitucion().getDTInstituciones();
         return (l == null || l.isEmpty()) ? new DTInstitucion[0] : l.toArray(new DTInstitucion[0]);
     }
+    
+    @WebMethod
+    public void finalizarEvento(String nombreEvento) {
+    	try {
+        	getControllerEvento().finalizarEvento(nombreEvento);
+
+		} catch (Exception e) {
+			System.out.println("Error al finalizar evento: " + e.getMessage());
+		}
+    }
+
+    @WebMethod
+    public DTTipoRegistro consultaTipoRegistro(String edicionN,String tipoR) {
+        return getControllerEvento().consultaTipoRegistro(edicionN,tipoR);
+    }
+    @WebMethod
+    public ArrayList<String> listarNombresTiposRegistroDTO(String edicion) {
+        return new ArrayList<>(getControllerEvento().listarNombresTiposRegistroDTO(edicion));
+    }
+
+    @WebMethod
+    public void altaPatrocinio(String codigo, String fInicio, int registrosGratuitos, Float monto, 
+            ETipoNivel nivel, String nombreInstitucion, String nombreEdicion, String nombreTipoRegistro)throws Exception{
+    	LocalDate FNAC = LocalDate.parse(fInicio);
+    	getControllerEvento().altaPatrocinio(codigo, FNAC, registrosGratuitos, monto, nivel, nombreInstitucion, nombreEdicion, nombreTipoRegistro);
+    }
+
 
     //AltaInstitucion
 	public void altaInstitucion(String nombreIns, String url, String descripcion, String img)throws Exception{

@@ -550,4 +550,13 @@ public List<String> listarNombresTiposRegistroDTO(String nombreEdicion) {
 	 return res;
 	}
 
+public void finalizarEvento(String nombreEvento) throws Exception {
+    ManejadorEvento mev = ManejadorEvento.getInstancia();
+    Evento evento = mev.findEvento(nombreEvento);
+    if (evento == null) {
+        throw new Exception("El evento '" + nombreEvento + "' no existe");
+    }
+    evento.finalizarEvento();
+}
+
 }
