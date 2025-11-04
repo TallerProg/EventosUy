@@ -1,10 +1,10 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="servidorcentral.logica.DTSesionUsuario" %>
+<%@ page import="cliente.ws.sc.DtSesionUsuario" %>
 <%@ page import="cliente.ws.sc.DtUsuarioListaConsulta" %>
 
 <%
   String ctx = request.getContextPath();
-  DTSesionUsuario dtrol = (DTSesionUsuario) request.getAttribute("USUARIOROL");
+  DtSesionUsuario dtrol = (DtSesionUsuario) request.getAttribute("USUARIOROL");
   DtUsuarioListaConsulta dtusuario = (DtUsuarioListaConsulta) request.getAttribute("USUARIO");
   String urlImg = (String) request.getAttribute("IMAGEN");
 

@@ -36,6 +36,16 @@ public class ControllerEvento implements IControllerEvento {
 		edicion.agregarTipoRegistro(NuevoTR);
 	}
 
+	public void altaTipoRegistroDT(String nombreTR, String descripcion, Float costo, Integer cupo, String edicion)
+			throws NombreTRUsadoException { 
+		ManejadorEvento mev = ManejadorEvento.getInstancia();
+		boolean existeEdi = mev.findEdicion(edicion).existeTR(nombreTR);
+		if (existeEdi)
+			throw new NombreTRUsadoException("El nombre de tipo de registro \"" + nombreTR + "\" ya fue utilizado");
+		TipoRegistro NuevoTR = new TipoRegistro(nombreTR, descripcion, costo, cupo, mev.findEdicion(edicion));
+		mev.findEdicion(edicion).agregarTipoRegistro(NuevoTR);
+	}
+
 	public Evento getEvento(String nombreEvento) {
 		ManejadorEvento mEve = ManejadorEvento.getInstancia();
 		return mEve.findEvento(nombreEvento);
@@ -85,6 +95,16 @@ public class ControllerEvento implements IControllerEvento {
 
     public boolean existeTR(Edicion edicion, String nombreTR) {
         for (TipoRegistro tr : edicion.getTipoRegistros()) {
+            if (tr.getNombre().equalsIgnoreCase(nombreTR)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean existeTRNombre(String nombreEd, String nombreTR) {
+		ManejadorEvento mev = ManejadorEvento.getInstancia();
+        for (TipoRegistro tr : mev.findEdicion(nombreEd).getTipoRegistros()) {
             if (tr.getNombre().equalsIgnoreCase(nombreTR)) {
                 return true;
             }
