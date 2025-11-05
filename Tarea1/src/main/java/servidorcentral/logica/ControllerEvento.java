@@ -2,7 +2,9 @@ package servidorcentral.logica;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import servidorcentral.excepciones.NombreTRUsadoException;
 
@@ -557,6 +559,31 @@ public void finalizarEvento(String nombreEvento) throws Exception {
         throw new Exception("El evento '" + nombreEvento + "' no existe");
     }
     evento.finalizarEvento();
+}
+public List<DTeventoOedicion> listarEventosYEdicionesBusqueda(String busqueda) {
+    ManejadorEvento manejadorEvento = ManejadorEvento.getInstancia();
+    List<DTevento> eventos = listarDTEventos();
+    List<DTEdicion> ediciones = listarDTEdicion();
+    if (busqueda != null && !busqueda.trim().isEmpty()) {
+        eventos = eventos.stream()
+                         .filter(ev -> ev.getNombre().toLowerCase().contains(busqueda.toLowerCase()) ||
+                                       ev.getDescripcion().toLowerCase().contains(busqueda.toLowerCase()))
+                         .collect(Collectors.toList());
+
+        ediciones = ediciones.stream()
+                             .filter(ed -> ed.getNombre().toLowerCase().contains(busqueda.toLowerCase()))
+                             .collect(Collectors.toList());
+    }
+    List<DTeventoOedicion> resultado = new ArrayList<>();
+    for (DTevento evento : eventos) {
+        resultado.add(new DTeventoOedicion(evento));
+    }
+    for (DTEdicion edicion : ediciones) {
+        resultado.add(new DTeventoOedicion(edicion));
+    }
+    resultado.sort(Comparator.comparing(DTeventoOedicion::getFechaAlta).reversed());
+
+    return resultado;
 }
 
 }

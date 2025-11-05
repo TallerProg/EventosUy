@@ -33,6 +33,7 @@ import jakarta.xml.ws.soap.MTOM;
 import servidorcentral.excepciones.UsuarioRepetidoException;
 import servidorcentral.excepciones.NombreTRUsadoException;
 import servidorcentral.logica.Edicion;
+import servidorcentral.logica.DTeventoOedicion;
 import servidorcentral.logica.DTCategoria;
 import servidorcentral.logica.DTUsuarioListaConsulta;
 import servidorcentral.logica.DTevento;
@@ -439,6 +440,13 @@ public class WebServices {
 		getControllerInstitucion().altaInstitucion(nombreIns, url, descripcion, img);
 	}
 
+@WebMethod
+    public DTeventoOedicion[] listarEventosYEdicionesBusqueda(String busqueda) {
+		List<DTeventoOedicion> lista = getControllerEvento().listarEventosYEdicionesBusqueda(busqueda);
+		return (lista == null || lista.isEmpty())
+				? new DTeventoOedicion[0]
+				: lista.toArray(new DTeventoOedicion[0]);
+	}
     
 }
 
