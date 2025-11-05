@@ -423,8 +423,10 @@ public class WebServices {
         return getControllerEvento().consultaTipoRegistro(edicionN,tipoR);
     }
     @WebMethod
-    public ArrayList<String> listarNombresTiposRegistroDTO(String edicion) {
-        return new ArrayList<>(getControllerEvento().listarNombresTiposRegistroDTO(edicion));
+    public String[] listarNombresTiposRegistroDTO(String edicion) {
+        List<String> nombresTiposRegistro = getControllerEvento().listarNombresTiposRegistroDTO(edicion);
+
+        return nombresTiposRegistro.toArray(new String[0]);
     }
 
     @WebMethod

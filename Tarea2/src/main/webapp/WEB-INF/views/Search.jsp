@@ -96,52 +96,44 @@
     <jsp:include page="/WEB-INF/views/template/footer.jsp" />
   </footer>
 <script>
-  let eventosOriginales = [];  // Guardamos las tarjetas originales por fecha
+  let eventosOriginales = [];  
 
   function ordenarEventos(criterio) {
     const cards = document.querySelectorAll('.col-lg-3.col-md-6.d-flex');
     const container = document.querySelector('.row.g-4.justify-content-center');
-    const cardsArray = Array.from(cards); // Convertir NodeList a array
+    const cardsArray = Array.from(cards); 
 
-    // Si es la primera vez que se carga, guardamos el orden original
     if (eventosOriginales.length === 0) {
-      eventosOriginales = cardsArray.slice();  // Guardamos el orden original de las tarjetas
+      eventosOriginales = cardsArray.slice();  
     }
 
-    // Si el criterio es 'default', se restauran los eventos al orden por fecha
     if (criterio === 'default') {
-      // Como ya tienes la lista ordenada por fecha, simplemente restauramos el orden original
-      cardsArray.length = 0;  // Limpiamos el array temporal
-      eventosOriginales.forEach(card => cardsArray.push(card));  // Restauramos el orden original
+      cardsArray.length = 0;  
+      eventosOriginales.forEach(card => cardsArray.push(card));  
     } else {
-      // Si el criterio es alfabético, se ordenan alfabéticamente
       cardsArray.sort((a, b) => {
         const nombreA = a.querySelector('.speaker-title').textContent.trim().toLowerCase();
         const nombreB = b.querySelector('.speaker-title').textContent.trim().toLowerCase();
 
         if (criterio === 'alphabetical-asc') {
-          return nombreA.localeCompare(nombreB); // Orden alfabético ascendente
+          return nombreA.localeCompare(nombreB); 
         } else if (criterio === 'alphabetical-desc') {
-          return nombreB.localeCompare(nombreA); // Orden alfabético descendente
+          return nombreB.localeCompare(nombreA); 
         }
         return 0;
       });
     }
 
-    // Limpiar el contenedor de eventos
     container.innerHTML = '';
 
-    // Insertamos las tarjetas ordenadas en el contenedor
     cardsArray.forEach(card => {
       container.appendChild(card);
     });
   }
 
-  // Cuando la página se carga, agregamos el filtro de orden
   document.addEventListener('DOMContentLoaded', function() {
     const container = document.querySelector('.container');
 
-    // Crear el filtro de orden
     const orderByHtml = `
       <div class="container mb-4">
         <label for="orderBy" class="form-label">Ordenar por:</label>
@@ -155,7 +147,6 @@
     
     container.insertAdjacentHTML('afterbegin', orderByHtml);
 
-    // Inicialmente ordenamos por defecto (fecha)
     ordenarEventos('default');
   });
 </script>
