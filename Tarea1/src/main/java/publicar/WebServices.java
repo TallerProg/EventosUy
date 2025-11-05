@@ -459,6 +459,14 @@ public class WebServices {
 		getControllerInstitucion().altaInstitucion(nombreIns, url, descripcion, img);
 	}
 
+	//Seguidores
+    public void seguirPersona(String principal, String seguido){
+    	getControllerUsuario().seguirPersona(principal, seguido);
+    }
     
+    public void sacarSeguirPersona(String principal, String seguido){
+    	getControllerUsuario().sacarSeguirPersona(principal, seguido);
+    }
+       
 }
 

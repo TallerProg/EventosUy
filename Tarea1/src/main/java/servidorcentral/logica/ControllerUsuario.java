@@ -74,6 +74,8 @@ public class ControllerUsuario implements IControllerUsuario {
         if (usuario == null)
             return null;
         DTUsuarioListaConsulta dtu = new DTUsuarioListaConsulta();
+        dtu.setSeguidores(usuario.getSeguidores());
+        dtu.setSeguidos(usuario.getSeguidos());
         dtu.setNickname(usuario.getNickname());
         dtu.setCorreo(usuario.getCorreo());
         dtu.setNombre(usuario.getNombre());
@@ -105,6 +107,23 @@ public class ControllerUsuario implements IControllerUsuario {
         }
         return dtu;
     }
+    
+    public void seguirPersona(String principal, String seguido) {
+        ManejadorUsuario mus = ManejadorUsuario.getInstance();
+        Usuario usu = mus.findUsuario(principal);
+        Usuario usuSeguido = mus.findUsuario(seguido);
+        usu.agregarSeguido(seguido);
+        usuSeguido.agregarSeguidor(principal);
+    }
+    
+    public void sacarSeguirPersona(String principal, String seguido) {
+        ManejadorUsuario mus = ManejadorUsuario.getInstance();
+        Usuario usu = mus.findUsuario(principal);
+        Usuario usuSeguido = mus.findUsuario(seguido);
+        usu.sacarSeguido(seguido);
+        usuSeguido.sacarSeguidor(principal);
+    }
+
 
     public void altaAsistente(String nicknameUsu, String correo, String nombre, String apellido,
                               LocalDate fNacimiento, Institucion ins, String contrasena, String img)

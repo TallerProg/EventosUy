@@ -22,6 +22,8 @@ public class DTUsuarioListaConsulta {
 	private List<Registro> registros;
 	private List<DTEdicion> dtEdiciones;
 	private List<DTRegistro> dtRegistros;
+	private List<String> seguidores;
+	private List<String> seguidos;
 	private String img; 
 	private DTInstitucion ins;
 
@@ -38,6 +40,8 @@ public class DTUsuarioListaConsulta {
 		this.ins = null;
 		this.ediciones = new ArrayList<>();
 		this.registros = new ArrayList<>();
+		this.seguidores = new ArrayList<>();
+		this.seguidos = new ArrayList<>();
 	}
 
 	public DTUsuarioListaConsulta(String nick, String correo, String nombre, String apellido, LocalDate fNacimiento,
@@ -150,4 +154,13 @@ public class DTUsuarioListaConsulta {
 	 public  List<DTRegistro> getDtRegistro() {
 	        return dtRegistros;
 	 }
+	 
+	public void setSeguidores(List<String> seguidores) {
+		this.seguidores = seguidores;
+	}
+
+	public void setSeguidos(List<String> seguidos) {
+		this.seguidos = seguidos;
+	}
+
 }

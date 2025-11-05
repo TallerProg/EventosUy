@@ -1,11 +1,17 @@
 package servidorcentral.logica;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Usuario {
 	private String nickname;
 	private String correo;
 	private String nombre;
 	private String contrasena;
 	private String img;
+	
+	private final List<String> seguidores;
+    private final List<String> seguidos;
 
 	public Usuario(String nick, String correo, String nom, String contrasena, String img) {
 		this.nickname = nick;
@@ -13,6 +19,9 @@ public class Usuario {
 		this.nombre = nom;
 		this.contrasena = contrasena;
 		this.img=img;
+		
+		this.seguidores = new ArrayList<>();
+        this.seguidos = new ArrayList<>();
 	}
 
 	public String getNickname() {
@@ -45,8 +54,40 @@ public class Usuario {
 	public void setContrasena(String contrasena) {
 		this.contrasena = contrasena;
 	}
+	
 	public void setImg(String img) {
 		this.img = img;
 	}
+	
+	public List<String> getSeguidores() {
+        return seguidores;
+    }
 
+    public List<String> getSeguidos() {
+        return seguidos;
+    }
+
+    public void agregarSeguidor(String seguidor) {
+        if (seguidor != null) {
+            seguidores.add(seguidor);
+        }
+    }
+    
+    public void agregarSeguido(String seguido) {
+        if (seguido != null) {
+            seguidos.add(seguido);
+        }
+    }  
+    
+    public void sacarSeguidor(String seguidor) {
+        if (seguidor != null) {
+            seguidores.remove(seguidor);
+        }
+    }
+    
+    public void sacarSeguido(String seguido) {
+        if (seguido != null) {
+            seguidos.remove(seguido);
+        }
+    }
 }
