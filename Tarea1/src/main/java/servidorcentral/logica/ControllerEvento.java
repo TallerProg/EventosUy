@@ -579,7 +579,7 @@ public List<DTeventoOedicion> listarEventosYEdicionesBusqueda(String busqueda) {
         resultado.add(new DTeventoOedicion(evento));
     }
     for (DTEdicion edicion : ediciones) {
-    	if (!"rechazada".equalsIgnoreCase(edicion.getEstado())) {
+    	if ((!"rechazada".equalsIgnoreCase(edicion.getEstado())) && (!"ingresada".equalsIgnoreCase(edicion.getEstado()))) {
         resultado.add(new DTeventoOedicion(edicion));
     	}
     }
