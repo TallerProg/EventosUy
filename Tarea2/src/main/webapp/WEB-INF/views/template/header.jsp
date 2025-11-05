@@ -35,13 +35,12 @@
       <li><a href="<%= ctx %>/ListaUsuarios">Usuarios</a></li>
       <li><a href="<%= ctx %>/Eventos">Eventos</a></li>
       <li><a href="<%= ctx %>/Instituciones">Instituciones</a></li>
-      <%-- Mostrar “Mis Ediciones” si el rol es ORGANIZADOR (sin depender de clase) --%>
       <% if (sesRol != null && sesRol.trim().equalsIgnoreCase("ORGANIZADOR")) { %>
         <li><a href="<%= ctx %>/MisEdiciones">Mis Ediciones</a></li>
       <% } %>
 
       <li class="nav-item search-item ms-auto">
-        <form class="search-form" action="<%= ctx %>/Search" method="get">
+        <form class="search-form" action="<%= ctx %>/search" method="get">
           <input type="text" name="q" class="search-input" placeholder="Buscar eventos...">
           <button type="submit" class="search-btn"><i class="bi bi-search"></i></button>
         </form>
@@ -49,7 +48,7 @@
 
       <% if (sesNick == null || sesNick.isBlank()) { %>
         <li class="ms-auto d-flex gap-2">
-          <a href="<%= ctx %>/login" class="btn btn-primary btn-sm text-white">Iniciar Sesión</a>
+          <a href="<%= ctx %>/login" class="btn btn-primary btn-sm text-white">Iniciar Sesion</a>
           <a href="<%= ctx %>/Registrarse" class="btn btn-outline-primary btn-sm">Registrarse</a>
         </li>
       <% } else { %>
@@ -59,7 +58,7 @@
             <span class="fw-semibold"><%= sesNick %></span>
           </a>
           <a href="<%= ctx %>/logout" class="btn p-0 border-0 bg-transparent">
-            <i class="login-icon bi bi-box-arrow-in-right fs-3" title="Cerrar Sesión"></i>
+            <i class="login-icon bi bi-box-arrow-in-right fs-3" title="Cerrar Sesi├│n"></i>
           </a>
         </li>
       <% } %>
