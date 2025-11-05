@@ -14,6 +14,8 @@ import jakarta.xml.ws.BindingProvider;
 import jakarta.xml.ws.soap.SOAPBinding;
 import jakarta.xml.ws.soap.SOAPFaultException;
 
+import cliente.ws.sc.DtSesionUsuario;    
+
 import cliente.ws.sc.DtUsuarioListaConsulta;
 import cliente.ws.sc.WebServices;
 
@@ -82,8 +84,8 @@ public class AltaEdicionSvt extends HttpServlet {
        String nicknameSesion = (String) ses.getAttribute("nickname");
         if (isBlank(nicknameSesion)) {
             try {
-                servidorcentral.logica.DTSesionUsuario dto =
-                        (servidorcentral.logica.DTSesionUsuario) ses.getAttribute("usuario_logueado");
+            	cliente.ws.sc.DtSesionUsuario dto =
+                        (cliente.ws.sc.DtSesionUsuario) ses.getAttribute("usuario_logueado");
                 if (dto != null) nicknameSesion = dto.getNickname();
             } catch (ClassCastException ignore) {}
         }
@@ -279,4 +281,5 @@ public class AltaEdicionSvt extends HttpServlet {
         return (c != null && c != t) ? rootMsg(c) : t.getClass().getSimpleName();
     }
 }
+
 
