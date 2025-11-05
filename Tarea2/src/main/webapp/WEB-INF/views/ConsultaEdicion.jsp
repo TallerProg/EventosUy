@@ -7,7 +7,6 @@ String ctx = request.getContextPath();
 @SuppressWarnings("unchecked")
 java.util.Map<String, Object> VM = (java.util.Map<String, Object>) request.getAttribute("VM");
 
-// Flags (acepta de sesión o de request)
 boolean ES_ORGANIZADOR = (session != null && session.getAttribute("usuarioOrganizador") != null);
 boolean ES_ASISTENTE   = (session != null && session.getAttribute("usuarioAsistente")   != null);
 if (!ES_ORGANIZADOR) {
@@ -43,7 +42,6 @@ String pais   = VM != null ? (String) VM.get("pais")   : null;
 String estado = VM != null ? (String) VM.get("estado") : null;
 String imagen = VM != null ? (String) VM.get("imagen") : null;
 String evNom  = VM != null ? (String) VM.get("eventoNombre") : null;
-//finalizada es false si la fecha actual es mayor a la fecha de fin de la edicion 
 Boolean finalizado = VM != null ? (Boolean) VM.get("finalizado") : Boolean.FALSE;
 
 if (imagen == null || imagen.isEmpty()) {
@@ -65,7 +63,6 @@ java.util.Map<String,String> miReg =
 @SuppressWarnings("unchecked")
 java.util.List<DTPatrocinio> pats = (List<DTPatrocinio>) request.getAttribute("patrocinios");
 
-// Ayuda encoding
 String encEd = (nombre != null) ? URLEncoder.encode(nombre, StandardCharsets.UTF_8.name()) : "";
 String encEv = (evNom  != null) ? URLEncoder.encode(evNom,  StandardCharsets.UTF_8.name()) : "";
 %>
@@ -97,7 +94,6 @@ String encEv = (evNom  != null) ? URLEncoder.encode(evNom,  StandardCharsets.UTF
 
       <div class="section-title"><h2><%= nombre %></h2></div>
 
-      <!-- Cabecera -->
       <div class="row g-4">
         <div class="col-lg-6">
           <img src="<%= imagen %>" alt="<%= nombre %>"
@@ -132,7 +128,6 @@ String encEv = (evNom  != null) ? URLEncoder.encode(evNom,  StandardCharsets.UTF
               <% } %>
             </div>
 
-            <%-- Botón Inscribirme (global) --%>
             <%
               boolean sinRegistro = (miReg == null) || miReg.isEmpty() || miReg.get("tipo") == null
                                     || String.valueOf(miReg.get("tipo")).isBlank();
@@ -233,7 +228,6 @@ String encEv = (evNom  != null) ? URLEncoder.encode(evNom,  StandardCharsets.UTF
 
       <hr class="my-4">
 
-      <!-- Mi registro (solo si asistente inscripto en esta edición) -->
 <% if (ES_ASISTENTE && miReg != null) { %>
       <div class="card shadow-sm mb-4">
         <div class="card-body">
@@ -246,7 +240,6 @@ String encEv = (evNom  != null) ? URLEncoder.encode(evNom,  StandardCharsets.UTF
       </div>
       <% } %>
 
-      <!-- Registros (solo si organiza esta edición) -->
       <% if (ES_ORGANIZADOR_ED ) { %>
       <div class="card shadow-sm mb-4">
         <div class="card-body">
@@ -274,7 +267,6 @@ String encEv = (evNom  != null) ? URLEncoder.encode(evNom,  StandardCharsets.UTF
       </div>
       <% } %>
 
-      <!-- Patrocinios -->
       <div class="card shadow-sm">
         <div class="card-body">
           <div class="d-flex align-items-center gap-2 mb-2">
