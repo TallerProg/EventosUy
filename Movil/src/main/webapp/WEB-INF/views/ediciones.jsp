@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ page import="java.util.*, java.net.URLEncoder, java.nio.charset.StandardCharsets, servidorcentral.logica.DTPatrocinio" %>
+<%@ page import="java.util.*, java.net.URLEncoder, java.nio.charset.StandardCharsets, cliente.ws.sc.DtPatrocinio" %>
 
 <%
 String ctx = request.getContextPath();
@@ -66,7 +66,7 @@ Map<String,String> miReg =
   VM != null ? (Map<String,String>) VM.get("miRegistro") : null;
 
 @SuppressWarnings("unchecked")
-List<DTPatrocinio> pats = (List<DTPatrocinio>) request.getAttribute("patrocinios");
+List<DtPatrocinio> pats = (List<DtPatrocinio>) request.getAttribute("patrocinios");
 
 String encEd = (nombreEd != null) ? URLEncoder.encode(nombreEd, StandardCharsets.UTF_8.name()) : "";
 String encEv = (evNom    != null) ? URLEncoder.encode(evNom,    StandardCharsets.UTF_8.name()) : "";
