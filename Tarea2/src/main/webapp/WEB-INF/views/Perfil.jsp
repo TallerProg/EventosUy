@@ -56,7 +56,7 @@
                   <%
                   	String ins = (String) request.getAttribute("INSTITUCION");
                   %>
-                  <li><strong>Fecha de Nacimiento:</strong> <%= dtusuario.getFNacimiento() %></li>
+                  <li><strong>Fecha de Nacimiento:</strong> <%= dtusuario.getFNacimientoS() %></li>
  				  <li><strong>Institución:</strong> <%= (ins != null) ? ins : "(sin institución)" %></li><% } %>
               </ul>
               <a href="<%= ctx %>/editarperfil" class="btn btn-primary mt-4">Editar Perfil</a>
