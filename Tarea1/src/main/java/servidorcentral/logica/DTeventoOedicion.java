@@ -1,5 +1,6 @@
 package servidorcentral.logica;
 import java.time.LocalDate;
+import java.util.List;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
@@ -14,6 +15,9 @@ public class DTeventoOedicion {
     private LocalDate fechaAlta;  
     private Boolean finalizado;
     private String img;
+    private String estado;
+	private List<DTOrganizador> organizadores;
+
 
     public DTeventoOedicion() {
 	}
@@ -26,6 +30,8 @@ public class DTeventoOedicion {
         this.fechaAlta = evento.getFAlta();
         this.finalizado=evento.getFinalizado();
         this.img=evento.getImg();
+        this.organizadores=null;
+        this.estado="evento";
     }
 
     // Constructor para edición
@@ -37,6 +43,8 @@ public class DTeventoOedicion {
         this.fechaAlta = edicion.getfAlta();
         this.finalizado=null;
         this.img=edicion.getImagenWebPath();
+        this.organizadores=edicion.getOrganizadores();
+        this.estado=edicion.getEstado();
     }
 
     // Getters
@@ -66,5 +74,14 @@ public class DTeventoOedicion {
     public String getImg() {
         return img;
     }
+
+    public List<DTOrganizador> getOrganizadores() {
+        return organizadores;
+    }
+    
+    public String getEstado() {
+        return estado;
+    }
+
 
 }
