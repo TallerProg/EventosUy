@@ -1,4 +1,4 @@
-package com.movil.controllers;
+package com.controllers;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;

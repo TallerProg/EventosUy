@@ -1,4 +1,4 @@
-package com.movil.controllers;
+package com.controllers;
 
 import com.movil.ws.WsClient;
 import cliente.ws.sc.WebServices;

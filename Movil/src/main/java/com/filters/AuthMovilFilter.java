@@ -1,4 +1,4 @@
-package com.movil.filters;
+package com.filters;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
@@ -16,7 +16,6 @@ public class AuthMovilFilter implements Filter {
     boolean logged = (ses != null) && (ses.getAttribute("MOVIL_SESION") != null);
 
     if (!logged) {
-      // Guardar “continuar a” si venían a una URL específica
       String target = req.getRequestURI();
       String qs = req.getQueryString();
       if (qs != null && !qs.isBlank()) target += "?" + qs;
