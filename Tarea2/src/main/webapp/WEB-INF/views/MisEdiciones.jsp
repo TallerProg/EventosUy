@@ -5,7 +5,7 @@
 <%@ page import="java.nio.charset.StandardCharsets" %>
 <%@ page import="cliente.ws.sc.DtEdicion" %>
 <%@ page import="cliente.ws.sc.DtCategoria" %>
-<%@ page import="cliente.ws.sc.DtEvento" %>
+<%@ page import="cliente.ws.sc.DTevento" %>
 <%@ page import="java.util.Map" %>
 <%@ page import="java.util.HashMap" %>
 
@@ -38,11 +38,11 @@
                 %>
                 <div class="col-lg-4 col-md-6">
                   <div class="edition-card card shadow-sm h-100">
-                    <img src="<%=imge%>" class="card-img-top" alt="Tecnología Punta del Este 2026" height="250px">
+                    <img src="<%=imge%>" class="card-img-top" alt="<%= edicion.getNombre() %>" height="250px">
                     <div class="card-body">
                       <h5 class="card-title"><%= edicion.getNombre() %></h5>
                       <p class="card-text">📍 <%= edicion.getCiudad() %>, <%= edicion.getPais() %></p>
-                      <p class="card-text"><small class="text-muted"><%= edicion.getfInicio() %></small></p>
+                      <p class="card-text"><small class="text-muted"><%= edicion.getFInicio() %></small></p>
 					  <a href="<%= ctx %>/ediciones-consulta?evento=<%= URLEncoder.encode( nomEvento, StandardCharsets.UTF_8) %>&edicion=<%= URLEncoder.encode(edicion.getNombre(), StandardCharsets.UTF_8) %>"class="btn btn-primary">Ver detalles de la edición</a>
                     </div>
                   </div>
