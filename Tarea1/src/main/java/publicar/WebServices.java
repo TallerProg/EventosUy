@@ -8,7 +8,6 @@ package publicar;
  *
  */
 
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -47,389 +46,424 @@ import servidorcentral.logica.IControllerInstitucion;
 @WebService
 @SOAPBinding(style = Style.RPC, parameterStyle = ParameterStyle.WRAPPED)
 public class WebServices {
-	
 
+	private Endpoint endpoint = null;
 
+	public WebServices() {
+	}
 
-    private Endpoint endpoint = null;
-    public WebServices(){}
+	@WebMethod(exclude = true)
+	public void publicar() {
+		if (!WSConfig.getBool("ws.publish.enabled", true))
+			return;
+		String url = WSConfig.get("ws.publish.url", "http://127.0.0.1:9128/noPropieties");
+		this.endpoint = jakarta.xml.ws.Endpoint.publish(url, this);
+		System.out.println("[WebServices] Publicado en: " + url + " (WSDL: " + url + "?wsdl)");
+	}
 
+	@WebMethod(exclude = true)
+	public Endpoint getEndpoint() {
+		return endpoint;
+	}
 
-    @WebMethod(exclude = true)
-    public void publicar(){
-    	if (!WSConfig.getBool("ws.publish.enabled", true)) return;
-        String url = WSConfig.get("ws.publish.url", "http://127.0.0.1:9128/noPropieties");
-        this.endpoint = jakarta.xml.ws.Endpoint.publish(url, this);
-        System.out.println("[WebServices] Publicado en: " + url + " (WSDL: " + url + "?wsdl)");
-    }
+	@WebMethod(exclude = true)
+	private IControllerEvento getControllerEvento() {
+		return Factory.getInstance().getIControllerEvento();
+	}
 
-    @WebMethod(exclude = true)
-    public Endpoint getEndpoint() {
-            return endpoint;
-    }
-
-
-    @WebMethod(exclude = true)
-    private IControllerEvento getControllerEvento() {
-        return Factory.getInstance().getIControllerEvento();
-    }
-    
-    @WebMethod(exclude = true)
+	@WebMethod(exclude = true)
 	private IControllerUsuario getControllerUsuario() {
 		return Factory.getInstance().getIControllerUsuario();
 	}
-    @WebMethod(exclude = true)
+
+	@WebMethod(exclude = true)
 	private IControllerInstitucion getControllerInstitucion() {
 		return Factory.getInstance().getIControllerInstitucion();
 	}
 
-    @WebMethod
-    public DTCategoria[] listarDTCategorias() {
-        List<DTCategoria> lista = getControllerEvento().listarDTCategorias();
-        return (lista == null || lista.isEmpty())
-                ? new DTCategoria[0]
-                : lista.toArray(new DTCategoria[0]);
-    }
-    
-    @WebMethod
-    public DTevento[] listarDTEventos() {
-		List<DTevento> lista = getControllerEvento().listarDTEventos();
-		return (lista == null || lista.isEmpty())
-				? new DTevento[0]
-				: lista.toArray(new DTevento[0]);
+	@WebMethod
+	public DTCategoria[] listarDTCategorias() {
+		List<DTCategoria> lista = getControllerEvento().listarDTCategorias();
+		return (lista == null || lista.isEmpty()) ? new DTCategoria[0] : lista.toArray(new DTCategoria[0]);
 	}
-    
-    @WebMethod
-    public DTEdicion[] listarDTEdicion() {
-		List<DTEdicion> lista = getControllerEvento().listarDTEdicion();
-		return (lista == null || lista.isEmpty())
-				? new DTEdicion[0]
-				: lista.toArray(new DTEdicion[0]);
-	}
-    
 
-    
-    @WebMethod
-    public DTUsuarioListaConsulta[] listarDTAsistentes() {
+	@WebMethod
+	public DTevento[] listarDTEventos() {
+		List<DTevento> lista = getControllerEvento().listarDTEventos();
+		return (lista == null || lista.isEmpty()) ? new DTevento[0] : lista.toArray(new DTevento[0]);
+	}
+
+	@WebMethod
+	public DTEdicion[] listarDTEdicion() {
+		List<DTEdicion> lista = getControllerEvento().listarDTEdicion();
+		return (lista == null || lista.isEmpty()) ? new DTEdicion[0] : lista.toArray(new DTEdicion[0]);
+	}
+
+	@WebMethod
+	public DTUsuarioListaConsulta[] listarDTAsistentes() {
 		List<DTUsuarioListaConsulta> lista = getControllerUsuario().getDTAsistentes();
-		return (lista == null || lista.isEmpty())
-				? new DTUsuarioListaConsulta[0]
+		return (lista == null || lista.isEmpty()) ? new DTUsuarioListaConsulta[0]
 				: lista.toArray(new DTUsuarioListaConsulta[0]);
 	}
-    
-    @WebMethod
-    public DTUsuarioListaConsulta[] listarDTOrganizadores() {
+
+	@WebMethod
+	public DTUsuarioListaConsulta[] listarDTOrganizadores() {
 		List<DTUsuarioListaConsulta> lista = getControllerUsuario().getDTOrganizadores();
-		return (lista == null || lista.isEmpty())
-				? new DTUsuarioListaConsulta[0]
+		return (lista == null || lista.isEmpty()) ? new DTUsuarioListaConsulta[0]
 				: lista.toArray(new DTUsuarioListaConsulta[0]);
 	}
-    
-    @WebMethod
-    public void altaAsistente(String nicknameUsu, String correo, String nombre, String apellido, String fNacimiento,
-    		String ins, String contrasena, String img) throws UsuarioRepetidoException {
-    	LocalDate FNAC = LocalDate.parse(fNacimiento);
-    	getControllerUsuario().altaAsistente(nicknameUsu, correo, nombre, apellido, FNAC, getControllerInstitucion().findInstitucion(ins), contrasena, img);
-    }
-    
-    @WebMethod
+
+	@WebMethod
+	public void altaAsistente(String nicknameUsu, String correo, String nombre, String apellido, String fNacimiento,
+			String ins, String contrasena, String img) throws UsuarioRepetidoException {
+		LocalDate FNAC = LocalDate.parse(fNacimiento);
+		getControllerUsuario().altaAsistente(nicknameUsu, correo, nombre, apellido, FNAC,
+				getControllerInstitucion().findInstitucion(ins), contrasena, img);
+	}
+
+	@WebMethod
 	public void altaOrganizador(String nicknameUsu, String correo, String nombre, String descripcion, String url,
 			String contrasena, String img) throws UsuarioRepetidoException {
 		getControllerUsuario().altaOrganizador(nicknameUsu, correo, nombre, descripcion, url, contrasena, img);
 	}
-    @WebMethod
-    public boolean existeEvento(String nombre) {
-    	return getControllerEvento().existeEvento(nombre);
-    }
-    
-    @WebMethod
-    public DTCategoria[] resolverCategoriasPorNombreOCodigo(String[] seleccionadas) {
-        if (seleccionadas == null || seleccionadas.length == 0) return new DTCategoria[0];
 
-        List<DTCategoria> todas = getControllerEvento().listarDTCategorias();
-        Map<String, DTCategoria> porNombreNorm = new HashMap<>();
-        for (DTCategoria c : todas) {
-            if (c != null && c.getNombre() != null) {
-                porNombreNorm.put(normaliza(c.getNombre()), c);
-            }
-        }
-        Map<String, String> codigoANombre = defaultCodigoNombre();
+	@WebMethod
+	public boolean existeEvento(String nombre) {
+		return getControllerEvento().existeEvento(nombre);
+	}
 
-        List<DTCategoria> res = new ArrayList<>();
-        for (String raw : seleccionadas) {
-            if (raw == null) continue;
-            String v = raw.trim();
-            DTCategoria byName = porNombreNorm.get(normaliza(v));
-            if (byName != null) { res.add(byName); continue; }
-            String nombreCat = codigoANombre.get(v.toUpperCase(Locale.ROOT));
-            if (nombreCat != null) {
-                DTCategoria byCode = porNombreNorm.get(normaliza(nombreCat));
-                if (byCode != null) res.add(byCode);
-            }
-        }
-        return res.toArray(new DTCategoria[0]);
-    }
+	@WebMethod
+	public DTCategoria[] resolverCategoriasPorNombreOCodigo(String[] seleccionadas) {
+		if (seleccionadas == null || seleccionadas.length == 0)
+			return new DTCategoria[0];
 
+		List<DTCategoria> todas = getControllerEvento().listarDTCategorias();
+		Map<String, DTCategoria> porNombreNorm = new HashMap<>();
+		for (DTCategoria c : todas) {
+			if (c != null && c.getNombre() != null) {
+				porNombreNorm.put(normaliza(c.getNombre()), c);
+			}
+		}
+		Map<String, String> codigoANombre = defaultCodigoNombre();
 
-    @WebMethod
-    public DTevento consultaEventoPorNombre(String nombreEv) {
-    	return getControllerEvento().consultaEvento(nombreEv);
+		List<DTCategoria> res = new ArrayList<>();
+		for (String raw : seleccionadas) {
+			if (raw == null)
+				continue;
+			String v = raw.trim();
+			DTCategoria byName = porNombreNorm.get(normaliza(v));
+			if (byName != null) {
+				res.add(byName);
+				continue;
+			}
+			String nombreCat = codigoANombre.get(v.toUpperCase(Locale.ROOT));
+			if (nombreCat != null) {
+				DTCategoria byCode = porNombreNorm.get(normaliza(nombreCat));
+				if (byCode != null)
+					res.add(byCode);
+			}
+		}
+		return res.toArray(new DTCategoria[0]);
+	}
 
-    }
-    
-    @WebMethod
-    public DTEdicion consultaEdicionDeEvento(String nombreEv, String nombreEd) {
-    	DTEdicion edicion=getControllerEvento().consultaEdicionDeEvento(nombreEv, nombreEd);
-    	if (edicion == null) {
-    	    DTEdicion vacia = new DTEdicion();
-    	    vacia.setEstado("NO_ENCONTRADA");
-    	    return vacia;
-    	}
-        return edicion;
-    }
-    
-    
-    @MTOM(enabled = true)
-    @WebMethod
-    public String subirImagenEvento(
-            @WebParam(name = "nombreSugerido") String nombreSugerido,
-            @WebParam(name = "originalFileName") String originalFileName,
-            @WebParam(name = "contenido") byte[] contenido) throws IOException {
+	@WebMethod
+	public DTevento consultaEventoPorNombre(String nombreEv) {
+		return getControllerEvento().consultaEvento(nombreEv);
 
-        if (contenido == null || contenido.length == 0) return null;
+	}
 
-        String ext = extensionOf(originalFileName);
-        String safeBase = slug(nombreSugerido);
-        String stamp = DateTimeFormatter.ofPattern("yyyyMMddHHmmss").format(LocalDateTime.now());
-        String fileName = safeBase + "_" + stamp + (ext.isEmpty() ? "" : "." + ext);
+	@WebMethod
+	public DTEdicion consultaEdicionDeEvento(String nombreEv, String nombreEd) {
+		DTEdicion edicion = getControllerEvento().consultaEdicionDeEvento(nombreEv, nombreEd);
+		if (edicion == null) {
+			DTEdicion vacia = new DTEdicion();
+			vacia.setEstado("NO_ENCONTRADA");
+			return vacia;
+		}
+		return edicion;
+	}
 
-        String realDir = WSConfig.get("images.events.real_dir",
-                System.getProperty("java.io.tmpdir") + File.separator + "eventuy-img");
-        String webDir  = WSConfig.get("images.events.web_dir", "/media/img/eventos");
+	@MTOM(enabled = true)
+	@WebMethod
+	public String subirImagenEvento(@WebParam(name = "nombreSugerido") String nombreSugerido,
+			@WebParam(name = "originalFileName") String originalFileName,
+			@WebParam(name = "contenido") byte[] contenido) throws IOException {
 
-        File dir = new File(realDir);
-        if (!dir.exists() && !dir.mkdirs()) {
-            throw new IOException("No se pudo crear el directorio de imágenes: " + realDir);
-        }
+		if (contenido == null || contenido.length == 0)
+			return null;
 
-        File destino = new File(dir, fileName);
-        try (FileOutputStream fos = new FileOutputStream(destino)) {
-            fos.write(contenido);
-        }
-        return (webDir.endsWith("/") ? webDir.substring(0, webDir.length()-1) : webDir) + "/" + fileName;
-    }
+		String ext = extensionOf(originalFileName);
+		String safeBase = slug(nombreSugerido);
+		String stamp = DateTimeFormatter.ofPattern("yyyyMMddHHmmss").format(LocalDateTime.now());
+		String fileName = safeBase + "_" + stamp + (ext.isEmpty() ? "" : "." + ext);
 
-    @WebMethod
-    public void altaEvento(
-            @WebParam(name="nombre") String nombre,
-            @WebParam(name="descripcion") String descripcion,
-            @WebParam(name="sigla") String sigla,
-            @WebParam(name="categoriasNombreOCodigo") String[] categoriasNombreOCodigo,
-            @WebParam(name="imagenBytes") byte[] imagenBytes,           
-            @WebParam(name="imagenFileName") String imagenFileName      
-    ) throws Exception {
+		String realDir = WSConfig.get("images.events.real_dir",
+				System.getProperty("java.io.tmpdir") + File.separator + "eventuy-img");
+		String webDir = WSConfig.get("images.events.web_dir", "/media/img/eventos");
 
-        List<String> errores = new ArrayList<>();
-        if (isBlank(nombre)) errores.add("El nombre es obligatorio.");
-        if (isBlank(descripcion)) errores.add("La descripción es obligatoria.");
-        if (isBlank(sigla)) errores.add("La sigla es obligatoria.");
-        if (categoriasNombreOCodigo == null || categoriasNombreOCodigo.length == 0)
-            errores.add("Debe seleccionar al menos una categoría.");
-        if (!isBlank(nombre) && getControllerEvento().existeEvento(nombre))
-            errores.add("Ya existe un evento con ese nombre.");
-        if (!errores.isEmpty()) throw new IllegalArgumentException(String.join(" | ", errores));
+		File dir = new File(realDir);
+		if (!dir.exists() && !dir.mkdirs()) {
+			throw new IOException("No se pudo crear el directorio de imágenes: " + realDir);
+		}
 
-        DTCategoria[] dtCats = resolverCategoriasPorNombreOCodigo(categoriasNombreOCodigo);
-        if (dtCats.length == 0) throw new IllegalArgumentException("Las categorías seleccionadas no existen en el sistema.");
+		File destino = new File(dir, fileName);
+		try (FileOutputStream fos = new FileOutputStream(destino)) {
+			fos.write(contenido);
+		}
+		return (webDir.endsWith("/") ? webDir.substring(0, webDir.length() - 1) : webDir) + "/" + fileName;
+	}
 
-        String imagenWebPath = null;
-        if (imagenBytes != null && imagenBytes.length > 0) {
-            imagenWebPath = subirImagenEvento(nombre, imagenFileName, imagenBytes);
-        }
+	@WebMethod
+	public void altaEvento(@WebParam(name = "nombre") String nombre, @WebParam(name = "descripcion") String descripcion,
+			@WebParam(name = "sigla") String sigla,
+			@WebParam(name = "categoriasNombreOCodigo") String[] categoriasNombreOCodigo,
+			@WebParam(name = "imagenBytes") byte[] imagenBytes,
+			@WebParam(name = "imagenFileName") String imagenFileName) throws Exception {
 
-        getControllerEvento().altaEventoDT(
-                nombre, descripcion, java.time.LocalDate.now(), sigla,
-                Arrays.asList(dtCats),
-                imagenWebPath
-        );
-    }
-    @WebMethod
-    public DTUsuarioListaConsulta consultarUsuarioPorNickname(String nicknameUsu) {
-        return getControllerUsuario().consultaDeUsuario(nicknameUsu);
-    }
+		List<String> errores = new ArrayList<>();
+		if (isBlank(nombre))
+			errores.add("El nombre es obligatorio.");
+		if (isBlank(descripcion))
+			errores.add("La descripción es obligatoria.");
+		if (isBlank(sigla))
+			errores.add("La sigla es obligatoria.");
+		if (categoriasNombreOCodigo == null || categoriasNombreOCodigo.length == 0)
+			errores.add("Debe seleccionar al menos una categoría.");
+		if (!isBlank(nombre) && getControllerEvento().existeEvento(nombre))
+			errores.add("Ya existe un evento con ese nombre.");
+		if (!errores.isEmpty())
+			throw new IllegalArgumentException(String.join(" | ", errores));
 
-    
-    
- // ===== Helpers=====
-    @WebMethod(exclude = true)
-    private static String normaliza(String s) {
-        if (s == null) return "";
-        String t = s.toLowerCase(java.util.Locale.ROOT).trim();
+		DTCategoria[] dtCats = resolverCategoriasPorNombreOCodigo(categoriasNombreOCodigo);
+		if (dtCats.length == 0)
+			throw new IllegalArgumentException("Las categorías seleccionadas no existen en el sistema.");
 
-        t = t.replace('á', 'a').replace('é', 'e').replace('í', 'i').replace('ó', 'o').replace('ú', 'u')
-             .replace('ä', 'a').replace('ë', 'e').replace('ï', 'i').replace('ö', 'o').replace('ü', 'u')
-             .replace('ñ', 'n');
+		String imagenWebPath = null;
+		if (imagenBytes != null && imagenBytes.length > 0) {
+			imagenWebPath = subirImagenEvento(nombre, imagenFileName, imagenBytes);
+		}
 
-        return t.replaceAll("\\s+", " ");
-    }
+		getControllerEvento().altaEventoDT(nombre, descripcion, java.time.LocalDate.now(), sigla, Arrays.asList(dtCats),
+				imagenWebPath);
+	}
 
-    @jakarta.jws.WebMethod(exclude = true)
-    private static java.util.Map<String, String> defaultCodigoNombre() {
-        java.util.Map<String, String> m = new java.util.HashMap<>();
-        m.put("CA01", "Tecnología");
-        m.put("CA02", "Innovación");
-        m.put("CA03", "Literatura");
-        m.put("CA04", "Cultura");
-        m.put("CA05", "Música");
-        m.put("CA06", "Deporte");
-        m.put("CA07", "Salud");
-        m.put("CA08", "Entretenimiento");
-        m.put("CA09", "Agro");
-        m.put("CA10", "Negocios");
-        m.put("CA11", "Moda");
-        m.put("CA12", "Investigación");
-        return m;
-    }
-    @WebMethod(exclude = true)
-    private static boolean isBlank(String s) {
-        return s == null || s.trim().isEmpty();
-    }
+	@WebMethod
+	public DTUsuarioListaConsulta consultarUsuarioPorNickname(String nicknameUsu) {
+		return getControllerUsuario().consultaDeUsuario(nicknameUsu);
+	}
 
-    @WebMethod(exclude = true)
-    private static String extensionOf(String filename) {
-        if (filename == null) return "";
-        int dot = filename.lastIndexOf('.');
-        if (dot < 0 || dot == filename.length() - 1) return "";
-        return filename.substring(dot + 1).toLowerCase(java.util.Locale.ROOT);
-    }
+	// ===== Helpers=====
+	@WebMethod(exclude = true)
+	private static String normaliza(String s) {
+		if (s == null)
+			return "";
+		String t = s.toLowerCase(java.util.Locale.ROOT).trim();
 
-    @WebMethod(exclude = true)
-    private static String slug(String s) {
-        String base = (s == null || s.isEmpty()) ? "evento" : s.toLowerCase(java.util.Locale.ROOT);
-        base = base.replaceAll("[^a-z0-9-_]+", "-");
-        base = base.replaceAll("-{2,}", "-");
-        return base.replaceAll("^-|-$", "");
-    }
+		t = t.replace('á', 'a').replace('é', 'e').replace('í', 'i').replace('ó', 'o').replace('ú', 'u')
+				.replace('ä', 'a').replace('ë', 'e').replace('ï', 'i').replace('ö', 'o').replace('ü', 'u')
+				.replace('ñ', 'n');
 
-    
-    @WebMethod
-    public servidorcentral.logica.DTSesionUsuario iniciarSesion(String identifier, String password)
-            throws servidorcentral.excepciones.UsuarioNoExisteException,
-                   servidorcentral.excepciones.CredencialesInvalidasException {
-        return getControllerUsuario().iniciarSesion(identifier, password);
-    }
-    
-    @WebMethod
-    public servidorcentral.logica.DTUsuarioListaConsulta consultaDeUsuario(String nickname)
-            throws servidorcentral.excepciones.UsuarioNoExisteException {
-        return getControllerUsuario().consultaDeUsuario(nickname);
-    }
+		return t.replaceAll("\\s+", " ");
+	}
 
-    @WebMethod
-    public boolean existeEdicionPorNombre(String evento, String nombreEdicion) {
-        return getControllerEvento().existeEdicionPorNombre(evento, nombreEdicion);
-    }
+	@jakarta.jws.WebMethod(exclude = true)
+	private static java.util.Map<String, String> defaultCodigoNombre() {
+		java.util.Map<String, String> m = new java.util.HashMap<>();
+		m.put("CA01", "Tecnología");
+		m.put("CA02", "Innovación");
+		m.put("CA03", "Literatura");
+		m.put("CA04", "Cultura");
+		m.put("CA05", "Música");
+		m.put("CA06", "Deporte");
+		m.put("CA07", "Salud");
+		m.put("CA08", "Entretenimiento");
+		m.put("CA09", "Agro");
+		m.put("CA10", "Negocios");
+		m.put("CA11", "Moda");
+		m.put("CA12", "Investigación");
+		return m;
+	}
 
-    @WebMethod
-    public boolean existeEdicionPorSigla(String sigla) {
-        return getControllerEvento().existeEdicionPorSiglaDTO(sigla);
-    }
+	@WebMethod(exclude = true)
+	private static boolean isBlank(String s) {
+		return s == null || s.trim().isEmpty();
+	}
 
-    @MTOM(enabled = true)
-    @WebMethod
-    public String subirImagenEdicion(
-            @WebParam(name = "evento") String evento,
-            @WebParam(name = "nombreEdicion") String nombreEdicion,
-            @WebParam(name = "originalFileName") String originalFileName,
-            @WebParam(name = "contenido") byte[] contenido) throws IOException {
+	@WebMethod(exclude = true)
+	private static String extensionOf(String filename) {
+		if (filename == null)
+			return "";
+		int dot = filename.lastIndexOf('.');
+		if (dot < 0 || dot == filename.length() - 1)
+			return "";
+		return filename.substring(dot + 1).toLowerCase(java.util.Locale.ROOT);
+	}
 
-        if (contenido == null || contenido.length == 0) return null;
+	@WebMethod(exclude = true)
+	private static String slug(String s) {
+		String base = (s == null || s.isEmpty()) ? "evento" : s.toLowerCase(java.util.Locale.ROOT);
+		base = base.replaceAll("[^a-z0-9-_]+", "-");
+		base = base.replaceAll("-{2,}", "-");
+		return base.replaceAll("^-|-$", "");
+	}
 
-        String ext = extensionOf(originalFileName);
-        String safeBase = slug(evento + "-" + nombreEdicion);
-        String stamp = DateTimeFormatter.ofPattern("yyyyMMddHHmmss")
-                .format(LocalDateTime.now());
-        String fileName = safeBase + "_" + stamp + (ext.isEmpty() ? "" : "." + ext);
+	@WebMethod
+	public servidorcentral.logica.DTSesionUsuario iniciarSesion(String identifier, String password)
+			throws servidorcentral.excepciones.UsuarioNoExisteException,
+			servidorcentral.excepciones.CredencialesInvalidasException {
+		return getControllerUsuario().iniciarSesion(identifier, password);
+	}
 
-        String realDir = WSConfig.get("images.editions.real_dir",
-                System.getProperty("java.io.tmpdir") + java.io.File.separator + "eventuy-ediciones");
-        String webDir  = WSConfig.get("images.editions.web_dir", "/media/img/ediciones");
+	@WebMethod
+	public servidorcentral.logica.DTUsuarioListaConsulta consultaDeUsuario(String nickname)
+			throws servidorcentral.excepciones.UsuarioNoExisteException {
+		return getControllerUsuario().consultaDeUsuario(nickname);
+	}
 
-        java.io.File dir = new java.io.File(realDir);
-        if (!dir.exists() && !dir.mkdirs()) {
-            throw new IOException("No se pudo crear el directorio de imágenes: " + realDir);
-        }
+	@WebMethod
+	public boolean existeEdicionPorNombre(String evento, String nombreEdicion) {
+		return getControllerEvento().existeEdicionPorNombre(evento, nombreEdicion);
+	}
 
-        java.io.File destino = new java.io.File(dir, fileName);
-        try (java.io.FileOutputStream fos = new java.io.FileOutputStream(destino)) {
-            fos.write(contenido);
-        }
-        return (webDir.endsWith("/") ? webDir.substring(0, webDir.length()-1) : webDir) + "/" + fileName;
-    }
+	@WebMethod
+	public boolean existeEdicionPorSigla(String sigla) {
+		return getControllerEvento().existeEdicionPorSiglaDTO(sigla);
+	}
 
-    @WebMethod
-    public void altaEdicionDeEventoDTO(String nombreEvento, String nickOrganizador, String nombreEdicion,
-                                       String sigla, String ciudad, String pais,
-                                       LocalDate fInicio, LocalDate fFin,
-                                       LocalDate fAlta, String imagenWebPath) throws Exception {
-        getControllerEvento().altaEdicionDeEventoDTO(
-            nombreEvento, nickOrganizador, nombreEdicion, sigla, ciudad, pais, fInicio, fFin, fAlta, imagenWebPath
-        );
-    }
-    
-    @WebMethod
-    public DTRegistro[] listarRegistrosDeAsistente(
-            @jakarta.jws.WebParam(name = "nickname") String nickname) {
+	@MTOM(enabled = true)
+	@WebMethod
+	public String subirImagenEdicion(@WebParam(name = "evento") String evento,
+			@WebParam(name = "nombreEdicion") String nombreEdicion,
+			@WebParam(name = "originalFileName") String originalFileName,
+			@WebParam(name = "contenido") byte[] contenido) throws IOException {
 
-        if (nickname == null || nickname.isBlank()) return new DTRegistro[0];
+		if (contenido == null || contenido.length == 0)
+			return null;
 
-        var asis = getControllerUsuario().getDTAsistente(nickname);
-        if (asis == null || asis.getRegistros() == null || asis.getRegistros().isEmpty())
-            return new DTRegistro[0];
+		String ext = extensionOf(originalFileName);
+		String safeBase = slug(evento + "-" + nombreEdicion);
+		String stamp = DateTimeFormatter.ofPattern("yyyyMMddHHmmss").format(LocalDateTime.now());
+		String fileName = safeBase + "_" + stamp + (ext.isEmpty() ? "" : "." + ext);
 
-        List<DTRegistro> regs = asis.getRegistros();
-        return regs.toArray(new DTRegistro[0]);
-    }
+		String realDir = WSConfig.get("images.editions.real_dir",
+				System.getProperty("java.io.tmpdir") + java.io.File.separator + "eventuy-ediciones");
+		String webDir = WSConfig.get("images.editions.web_dir", "/media/img/ediciones");
 
-    @WebMethod
-    public DTEdicion[] listarEdicionesDeOrganizador(
-            @jakarta.jws.WebParam(name = "nickname") String nickname) {
+		java.io.File dir = new java.io.File(realDir);
+		if (!dir.exists() && !dir.mkdirs()) {
+			throw new IOException("No se pudo crear el directorio de imágenes: " + realDir);
+		}
 
-        if (nickname == null || nickname.isBlank()) return new DTEdicion[0];
+		java.io.File destino = new java.io.File(dir, fileName);
+		try (java.io.FileOutputStream fos = new java.io.FileOutputStream(destino)) {
+			fos.write(contenido);
+		}
+		return (webDir.endsWith("/") ? webDir.substring(0, webDir.length() - 1) : webDir) + "/" + fileName;
+	}
 
-        var org = getControllerUsuario().getDTOrganizadorDetallado(nickname);
-        if (org == null || org.getEdiciones() == null || org.getEdiciones().isEmpty())
-            return new DTEdicion[0];
+	@WebMethod
+	public void altaEdicionDeEventoDTO(String nombreEvento, String nickOrganizador, String nombreEdicion, String sigla,
+			String ciudad, String pais, LocalDate fInicio, LocalDate fFin, LocalDate fAlta, String imagenWebPath)
+			throws Exception {
+		getControllerEvento().altaEdicionDeEventoDTO(nombreEvento, nickOrganizador, nombreEdicion, sigla, ciudad, pais,
+				fInicio, fFin, fAlta, imagenWebPath);
+	}
 
-        List<DTEdicion> eds = org.getEdiciones();
-        return eds.toArray(new DTEdicion[0]);
-    }
+	@WebMethod
+	public DTRegistro[] listarRegistrosDeAsistente(@jakarta.jws.WebParam(name = "nickname") String nickname) {
+
+		if (nickname == null || nickname.isBlank())
+			return new DTRegistro[0];
+
+		var asis = getControllerUsuario().getDTAsistente(nickname);
+		if (asis == null || asis.getRegistros() == null || asis.getRegistros().isEmpty())
+			return new DTRegistro[0];
+
+		List<DTRegistro> regs = asis.getRegistros();
+		return regs.toArray(new DTRegistro[0]);
+	}
+
+	@WebMethod
+	public DTEdicion[] listarEdicionesDeOrganizador(@jakarta.jws.WebParam(name = "nickname") String nickname) {
+
+		if (nickname == null || nickname.isBlank())
+			return new DTEdicion[0];
+
+		var org = getControllerUsuario().getDTOrganizadorDetallado(nickname);
+		if (org == null || org.getEdiciones() == null || org.getEdiciones().isEmpty())
+			return new DTEdicion[0];
+
+		List<DTEdicion> eds = org.getEdiciones();
+		return eds.toArray(new DTEdicion[0]);
+	}
 
 //AltaTipoRegistro
-    
-    @WebMethod
-    public void altaTipoRegistro(String nombreTR, String descripcion, Float costo, Integer cupo, Edicion edicion) throws NombreTRUsadoException{
-    	getControllerEvento().altaTipoRegistro(nombreTR, descripcion, costo, cupo, edicion);
-    }
-    
-    @WebMethod
-    public Edicion findEdicion(String nombre) {
-    	return getControllerEvento().findEdicion(nombre);
-    }
-  
-    @WebMethod
-    public boolean existeTR(Edicion edicion, String nombre) {
-    	return getControllerEvento().existeTR(edicion, nombre);
-    }
-    
- //Registrarse a edicion
-    
-    @WebMethod
-    public DTInstitucion[] listarDTInstituciones() {
-        List<DTInstitucion> l = getControllerInstitucion().getDTInstituciones();
-        return (l == null || l.isEmpty()) ? new DTInstitucion[0] : l.toArray(new DTInstitucion[0]);
-    }
 
-    
+	@WebMethod
+	public void altaTipoRegistro(String nombreTR, String descripcion, Float costo, Integer cupo, Edicion edicion)
+			throws NombreTRUsadoException {
+		getControllerEvento().altaTipoRegistro(nombreTR, descripcion, costo, cupo, edicion);
+	}
+
+	@WebMethod
+	public Edicion findEdicion(String nombre) {
+		return getControllerEvento().findEdicion(nombre);
+	}
+
+	@WebMethod
+	public boolean existeTR(Edicion edicion, String nombre) {
+		return getControllerEvento().existeTR(edicion, nombre);
+	}
+
+	// Registrarse a edicion
+
+	@WebMethod
+	public DTInstitucion[] listarDTInstituciones() {
+		List<DTInstitucion> l = getControllerInstitucion().getDTInstituciones();
+		return (l == null || l.isEmpty()) ? new DTInstitucion[0] : l.toArray(new DTInstitucion[0]);
+	}
+
+	@WebMethod
+	public void modificarUsuario(String nickname, String nombre, String apellido, String fNac,
+	                             String descripcion, String url) {
+	    try {
+	        System.out.printf("[WS.modificarUsuario] IN  nick=%s | nom=%s | ape=%s | fNac=%s | desc=%s | url=%s%n",
+	                nickname, nombre, apellido, fNac, descripcion, url);
+
+	        LocalDate fecha = null;
+	        if (fNac != null && !fNac.isBlank()) {
+	            fecha = LocalDate.parse(fNac); // yyyy-MM-dd
+	        }
+
+	        Factory.getInstance().getIControllerUsuario()
+	               .modificarUsuario(nickname, nombre, apellido, fecha, descripcion, url);
+
+	        System.out.println("[WS.modificarUsuario] OK");
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        // opcional: lanzar fault si querés
+	    }
+	}
+//COSAS
+	@WebMethod
+	public void aneadirInstitucion(String nicknAsis, String nombreIns) {
+		Factory.getInstance().getIControllerUsuario().aneadirInstitucion(nicknAsis, nombreIns);
+	}
+	@WebMethod
+	public void setContrasena(String nickname, String contrasenaNueva) {
+		try {
+			Factory.getInstance().getIControllerUsuario().setContrasena(nickname, contrasenaNueva);
+		} catch (Exception e) {
+
+		}
+	}
+	@WebMethod
+	public void actualizarImagenUsuario(String nickname, String imgPath) {
+		Factory.getInstance().getIControllerUsuario().actualizarImagenUsuario(nickname, imgPath);
+	}
+	@WebMethod
+	public DTInstitucion[] getDTInstituciones() {
+	    List<DTInstitucion> l = Factory.getInstance().getIControllerInstitucion().getDTInstituciones();
+	    return (l == null || l.isEmpty()) ? new DTInstitucion[0] : l.toArray(new DTInstitucion[0]);
+	}
 }
-
