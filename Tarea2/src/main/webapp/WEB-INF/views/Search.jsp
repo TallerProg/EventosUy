@@ -96,50 +96,68 @@
     <jsp:include page="/WEB-INF/views/template/footer.jsp" />
   </footer>
 <script>
-    function ordenarEventos(criterio) {
-      const cards = document.querySelectorAll('.col-lg-3.col-md-6.d-flex');
-      const container = document.querySelector('.row.g-4.justify-content-center');
-      
-      const cardsArray = Array.from(cards);
-      
+  let eventosOriginales = [];  // Guardamos las tarjetas originales por fecha
+
+  function ordenarEventos(criterio) {
+    const cards = document.querySelectorAll('.col-lg-3.col-md-6.d-flex');
+    const container = document.querySelector('.row.g-4.justify-content-center');
+    const cardsArray = Array.from(cards); // Convertir NodeList a array
+
+    // Si es la primera vez que se carga, guardamos el orden original
+    if (eventosOriginales.length === 0) {
+      eventosOriginales = cardsArray.slice();  // Guardamos el orden original de las tarjetas
+    }
+
+    // Si el criterio es 'default', se restauran los eventos al orden por fecha
+    if (criterio === 'default') {
+      // Como ya tienes la lista ordenada por fecha, simplemente restauramos el orden original
+      cardsArray.length = 0;  // Limpiamos el array temporal
+      eventosOriginales.forEach(card => cardsArray.push(card));  // Restauramos el orden original
+    } else {
+      // Si el criterio es alfabético, se ordenan alfabéticamente
       cardsArray.sort((a, b) => {
         const nombreA = a.querySelector('.speaker-title').textContent.trim().toLowerCase();
         const nombreB = b.querySelector('.speaker-title').textContent.trim().toLowerCase();
-        
-        switch(criterio) {
-          case 'alphabetical-asc':
-            return nombreA.localeCompare(nombreB);
-          case 'alphabetical-desc':
-            return nombreB.localeCompare(nombreA);
-          default:
-            return 0;
+
+        if (criterio === 'alphabetical-asc') {
+          return nombreA.localeCompare(nombreB); // Orden alfabético ascendente
+        } else if (criterio === 'alphabetical-desc') {
+          return nombreB.localeCompare(nombreA); // Orden alfabético descendente
         }
-      });
-      
-      container.innerHTML = '';
-      
-      cardsArray.forEach(card => {
-        container.appendChild(card);
+        return 0;
       });
     }
-    
-    document.addEventListener('DOMContentLoaded', function() {
-      const section = document.getElementById('eventos');
-      const container = document.querySelector('.container');
-      
-      const orderByHtml = `
-        <div class="container mb-4">
-          <label for="orderBy" class="form-label">Ordenar por:</label>
-          <select id="orderBy" class="form-select" aria-label="Ordenar por" onchange="ordenarEventos(this.value)">
-            <option value="default">Por defecto (Fecha)</option>
-            <option value="alphabetical-asc">Alfabéticamente (A-Z)</option>
-            <option value="alphabetical-desc">Alfabéticamente (Z-A)</option>
-          </select>
-        </div>
-      `;
-      
-      container.insertAdjacentHTML('afterbegin', orderByHtml);
+
+    // Limpiar el contenedor de eventos
+    container.innerHTML = '';
+
+    // Insertamos las tarjetas ordenadas en el contenedor
+    cardsArray.forEach(card => {
+      container.appendChild(card);
     });
-  </script>
+  }
+
+  // Cuando la página se carga, agregamos el filtro de orden
+  document.addEventListener('DOMContentLoaded', function() {
+    const container = document.querySelector('.container');
+
+    // Crear el filtro de orden
+    const orderByHtml = `
+      <div class="container mb-4">
+        <label for="orderBy" class="form-label">Ordenar por:</label>
+        <select id="orderBy" class="form-select" aria-label="Ordenar por" onchange="ordenarEventos(this.value)">
+          <option value="default">Por defecto (Fecha)</option>
+          <option value="alphabetical-asc">Alfabéticamente (A-Z)</option>
+          <option value="alphabetical-desc">Alfabéticamente (Z-A)</option>
+        </select>
+      </div>
+    `;
+    
+    container.insertAdjacentHTML('afterbegin', orderByHtml);
+
+    // Inicialmente ordenamos por defecto (fecha)
+    ordenarEventos('default');
+  });
+</script>
 </body>
 </html>
