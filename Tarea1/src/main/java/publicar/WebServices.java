@@ -345,14 +345,38 @@ public class WebServices {
 		}
 		return (webDir.endsWith("/") ? webDir.substring(0, webDir.length() - 1) : webDir) + "/" + fileName;
 	}
-
+	
 	@WebMethod
-	public void altaEdicionDeEventoDTO(String nombreEvento, String nickOrganizador, String nombreEdicion, String sigla,
-			String ciudad, String pais, LocalDate fInicio, LocalDate fFin, LocalDate fAlta, String imagenWebPath)
-			throws Exception {
-		getControllerEvento().altaEdicionDeEventoDTO(nombreEvento, nickOrganizador, nombreEdicion, sigla, ciudad, pais,
-				fInicio, fFin, fAlta, imagenWebPath);
+	public void altaEdicionDeEventoDTO(
+	        @WebParam(name = "nombreEvento")   String nombreEvento,
+	        @WebParam(name = "nickOrganizador") String nickOrganizador,
+	        @WebParam(name = "nombreEdicion")  String nombreEdicion,
+	        @WebParam(name = "sigla")          String sigla,
+	        @WebParam(name = "ciudad")         String ciudad,
+	        @WebParam(name = "pais")           String pais,
+	        @WebParam(name = "fInicio")        String fInicioIso,  // yyyy-MM-dd
+	        @WebParam(name = "fFin")           String fFinIso,     // yyyy-MM-dd
+	        @WebParam(name = "fAlta")          String fAltaIso,    // yyyy-MM-dd
+	        @WebParam(name = "imagenWebPath")  String imagenWebPath
+	) throws Exception {
+	    // Parseo ISO 8601 (yyyy-MM-dd). Si vienen nulos/vacíos, falla con IllegalArgumentException.
+	    java.time.LocalDate fInicio = java.time.LocalDate.parse(fInicioIso);
+	    java.time.LocalDate fFin    = java.time.LocalDate.parse(fFinIso);
+	    java.time.LocalDate fAlta   = java.time.LocalDate.parse(fAltaIso);
+
+	    if (fFin.isBefore(fInicio)) {
+	        throw new IllegalArgumentException("La fecha de fin no puede ser anterior a la fecha de inicio.");
+	    }
+
+	    // Normalizá imagen opcional a null si viene vacía
+	    String img = (imagenWebPath != null && !imagenWebPath.isBlank()) ? imagenWebPath : null;
+
+	    Factory.getInstance().getIControllerEvento().altaEdicionDeEventoDTO(
+	            nombreEvento, nickOrganizador, nombreEdicion, sigla, ciudad, pais,
+	            fInicio, fFin, fAlta, img
+	    );
 	}
+
 
 	@WebMethod
 	public DTRegistro[] listarRegistrosDeAsistente(@jakarta.jws.WebParam(name = "nickname") String nickname) {

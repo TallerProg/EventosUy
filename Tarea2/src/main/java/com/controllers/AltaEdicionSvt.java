@@ -171,33 +171,29 @@ public class AltaEdicionSvt extends HttpServlet {
         return;
       }
 
-      // *** CONVERSIÓN A cliente.ws.sc.LocalDate ***
-      cliente.ws.sc.LocalDate fIniWs  = toWsLocalDate(fIni);
-      cliente.ws.sc.LocalDate fFinWs  = toWsLocalDate(fFin);
-      cliente.ws.sc.LocalDate fAltaWs = toWsLocalDate(fAlta);
-
       try {
-        port.altaEdicionDeEventoDTO(
-            evento,
-            nickOrganizador,
-            nombre,
-            sigla,
-            ciudad,
-            pais,
-            fIniWs,      // <-- tipo del stub
-            fFinWs,      // <-- tipo del stub
-            fAltaWs,     // <-- tipo del stub
-            (imagenWebPath == null ? "" : imagenWebPath) // no null en RPC/literal
-        );
-      } catch (SOAPFaultException sfe) {
-        req.setAttribute("msgError", faultMsg(sfe));
-        req.getRequestDispatcher("/WEB-INF/views/AltaEdicion.jsp").forward(req, resp);
-        return;
-      } catch (Exception e) {
-        req.setAttribute("msgError", rootMsg(e));
-        req.getRequestDispatcher("/WEB-INF/views/AltaEdicion.jsp").forward(req, resp);
-        return;
-      }
+    	    port.altaEdicionDeEventoDTO(
+    	        evento,
+    	        nickOrganizador,
+    	        nombre,
+    	        sigla,
+    	        ciudad,
+    	        pais,
+    	        fIni.toString(),           // "yyyy-MM-dd"
+    	        fFin.toString(),           // "yyyy-MM-dd"
+    	        fAlta.toString(),          // "yyyy-MM-dd"
+    	        (imagenWebPath == null ? "" : imagenWebPath) // opcional: "" -> servidor lo convierte a null
+    	    );
+    	} catch (SOAPFaultException sfe) {
+    	    req.setAttribute("msgError", faultMsg(sfe));
+    	    req.getRequestDispatcher("/WEB-INF/views/AltaEdicion.jsp").forward(req, resp);
+    	    return;
+    	} catch (Exception e) {
+    	    req.setAttribute("msgError", rootMsg(e));
+    	    req.getRequestDispatcher("/WEB-INF/views/AltaEdicion.jsp").forward(req, resp);
+    	    return;
+    	}
+
 
       req.setAttribute("msgOk", "Edición de evento creada exitosamente.");
       clearForm(req);
@@ -275,13 +271,6 @@ public class AltaEdicionSvt extends HttpServlet {
     return (c != null && c != t) ? rootMsg(c) : t.getClass().getSimpleName();
   }
 
-  // convierte java.time.LocalDate -> cliente.ws.sc.LocalDate (stub)
-  private static cliente.ws.sc.LocalDate toWsLocalDate(LocalDate d) {
-    cliente.ws.sc.LocalDate x = new cliente.ws.sc.LocalDate();
-    x.setYear(d.getYear());
-    x.setMonth(d.getMonthValue());
-    x.setDay(d.getDayOfMonth());
-    return x;
-  }
+
 }
 
