@@ -28,7 +28,7 @@ class DTEventoTest {
         LocalDate alta = LocalDate.of(2024, 7, 1);
         String img = "evento.png";
 
-        DTevento dto = new DTevento(nombre, sigla, desc, alta, null, null, img);
+        DTevento dto = new DTevento(nombre, sigla, desc, alta, null, null, img, false);
 
         assertEquals(nombre, dto.getNombre());
         assertEquals(sigla, dto.getSigla());
@@ -40,7 +40,7 @@ class DTEventoTest {
     @Test
     @DisplayName("Listas null -> vacías")
     void testListasNullVacias() {
-        DTevento dto = new DTevento("E", "S", "D", LocalDate.now(), null, null, "img.png");
+        DTevento dto = new DTevento("E", "S", "D", LocalDate.now(), null, null, "img.png", false);
 
         assertNotNull(dto.getCategorias());
         assertTrue(dto.getCategorias().isEmpty());
@@ -61,7 +61,7 @@ class DTEventoTest {
         List<Categoria> categorias = new ArrayList<>();
         List<servidorcentral.logica.Edicion> ediciones = new ArrayList<>();
 
-        DTevento dto = new DTevento("E", "S", "D", LocalDate.now(), categorias, ediciones, "img.png");
+        DTevento dto = new DTevento("E", "S", "D", LocalDate.now(), categorias, ediciones, "img.png", false);
 
         assertSame(categorias, dto.getCategorias());
         assertSame(ediciones, dto.getEdiciones());
@@ -74,7 +74,7 @@ class DTEventoTest {
         categorias.add(new Categoria("Tecnología"));
         categorias.add(new Categoria("Salud"));
 
-        DTevento dto = new DTevento("E", "S", "D", LocalDate.now(), categorias, null, "img.png");
+        DTevento dto = new DTevento("E", "S", "D", LocalDate.now(), categorias, null, "img.png", false);
         List<DTCategoria> dts = dto.getDtCategorias();
 
         assertEquals(2, dts.size());
@@ -85,7 +85,7 @@ class DTEventoTest {
     @Test
     @DisplayName("getDTEdiciones vacío cuando no hay ediciones")
     void testGetDTEdicionesVacio() {
-        DTevento dto = new DTevento("E", "S", "D", LocalDate.now(), null, null, "img.png");
+        DTevento dto = new DTevento("E", "S", "D", LocalDate.now(), null, null, "img.png", false);
         List<DTEdicion> dts = dto.getDtEdiciones();
         assertNotNull(dts);
         assertTrue(dts.isEmpty());

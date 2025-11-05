@@ -2,7 +2,9 @@ package servidorcentral.logica;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import servidorcentral.excepciones.NombreTRUsadoException;
 
@@ -34,6 +36,16 @@ public class ControllerEvento implements IControllerEvento {
 			throw new NombreTRUsadoException("El nombre de tipo de registro \"" + nombreTR + "\" ya fue utilizado");
 		TipoRegistro NuevoTR = new TipoRegistro(nombreTR, descripcion, costo, cupo, edicion);
 		edicion.agregarTipoRegistro(NuevoTR);
+	}
+
+	public void altaTipoRegistroDT(String nombreTR, String descripcion, Float costo, Integer cupo, String edicion)
+			throws NombreTRUsadoException { 
+		ManejadorEvento mev = ManejadorEvento.getInstancia();
+		boolean existeEdi = mev.findEdicion(edicion).existeTR(nombreTR);
+		if (existeEdi)
+			throw new NombreTRUsadoException("El nombre de tipo de registro \"" + nombreTR + "\" ya fue utilizado");
+		TipoRegistro NuevoTR = new TipoRegistro(nombreTR, descripcion, costo, cupo, mev.findEdicion(edicion));
+		mev.findEdicion(edicion).agregarTipoRegistro(NuevoTR);
 	}
 
 	public Evento getEvento(String nombreEvento) {
@@ -85,6 +97,16 @@ public class ControllerEvento implements IControllerEvento {
 
     public boolean existeTR(Edicion edicion, String nombreTR) {
         for (TipoRegistro tr : edicion.getTipoRegistros()) {
+            if (tr.getNombre().equalsIgnoreCase(nombreTR)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean existeTRNombre(String nombreEd, String nombreTR) {
+		ManejadorEvento mev = ManejadorEvento.getInstancia();
+        for (TipoRegistro tr : mev.findEdicion(nombreEd).getTipoRegistros()) {
             if (tr.getNombre().equalsIgnoreCase(nombreTR)) {
                 return true;
             }
@@ -529,5 +551,41 @@ public List<String> listarNombresTiposRegistroDTO(String nombreEdicion) {
 	 }
 	 return res;
 	}
+
+public void finalizarEvento(String nombreEvento) throws Exception {
+    ManejadorEvento mev = ManejadorEvento.getInstancia();
+    Evento evento = mev.findEvento(nombreEvento);
+    if (evento == null) {
+        throw new Exception("El evento '" + nombreEvento + "' no existe");
+    }
+    evento.finalizarEvento();
+}
+public List<DTeventoOedicion> listarEventosYEdicionesBusqueda(String busqueda) {
+    ManejadorEvento manejadorEvento = ManejadorEvento.getInstancia();
+    List<DTevento> eventos = listarDTEventos();
+    List<DTEdicion> ediciones = listarDTEdicion();
+    if (busqueda != null && !busqueda.trim().isEmpty()) {
+        eventos = eventos.stream()
+                         .filter(ev -> ev.getNombre().toLowerCase().contains(busqueda.toLowerCase()) ||
+                                       ev.getDescripcion().toLowerCase().contains(busqueda.toLowerCase()))
+                         .collect(Collectors.toList());
+
+        ediciones = ediciones.stream()
+                             .filter(ed -> ed.getNombre().toLowerCase().contains(busqueda.toLowerCase()))
+                             .collect(Collectors.toList());
+    }
+    List<DTeventoOedicion> resultado = new ArrayList<>();
+    for (DTevento evento : eventos) {
+        resultado.add(new DTeventoOedicion(evento));
+    }
+    for (DTEdicion edicion : ediciones) {
+    	if ((!"rechazada".equalsIgnoreCase(edicion.getEstado())) && (!"ingresada".equalsIgnoreCase(edicion.getEstado()))) {
+        resultado.add(new DTeventoOedicion(edicion));
+    	}
+    }
+    resultado.sort(Comparator.comparing(DTeventoOedicion::getFechaAlta).reversed());
+
+    return resultado;
+}
 
 }

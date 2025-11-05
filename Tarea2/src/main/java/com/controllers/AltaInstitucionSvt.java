@@ -15,20 +15,17 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
-import servidorcentral.logica.Factory;
-import servidorcentral.logica.IControllerInstitucion;
-import servidorcentral.logica.DTSesionUsuario;
+import cliente.ws.sc.DtSesionUsuario;
+import cliente.ws.sc.RolUsuario;
 
-@WebServlet(name = "AltaInstitucionSvt", urlPatterns = {"/AltaInstitucion"})
+@WebServlet("/AltaInstitucion")
 @MultipartConfig(
     fileSizeThreshold = 1 * 1024 * 1024,
     maxFileSize = 10 * 1024 * 1024, 
     maxRequestSize = 15 * 1024 * 1024
 )
 public class AltaInstitucionSvt extends HttpServlet {
-    /**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 	private static final String INST_IMG_DIR = "/media/img/institucion";
 
@@ -38,10 +35,10 @@ public class AltaInstitucionSvt extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/login"); 
             return;
         }else {
-        	 DTSesionUsuario usuario = (DTSesionUsuario) session.getAttribute("usuario_logueado");
+        	 DtSesionUsuario usuario = (DtSesionUsuario) session.getAttribute("usuario_logueado");
              if (usuario != null) {
-           	  	 String rol = usuario.getRolString(); // enum
-                 boolean esOrg  = rol.equals("ORGANIZADOR") ;
+           	  	 RolUsuario rol = usuario.getRol(); // enum
+                 boolean esOrg  = rol==RolUsuario.ORGANIZADOR;
                  if(!esOrg) {
                 	 response.sendRedirect(request.getContextPath() + "/login"); 
                      return;
@@ -113,12 +110,16 @@ public class AltaInstitucionSvt extends HttpServlet {
         } catch (Exception ex) {
         	setErrorMessage("No se pudo guardar la imagen: " + ex.getMessage(),request);
         }
-        Factory fabrica = Factory.getInstance();
-        IControllerInstitucion ctrl = fabrica.getIControllerInstitucion();
+
+        cliente.ws.sc.WebServicesService service = new cliente.ws.sc.WebServicesService();
+        cliente.ws.sc.WebServices port = service.getWebServicesPort();
 
         try {
             // Registrar la institución
-            ctrl.altaInstitucion(nombre, url, descripcion,imagenWebPath);
+        	if(imagenWebPath == null) {
+        		imagenWebPath = " ";
+        	}
+            port.altaInstitucion(nombre, url, descripcion,imagenWebPath);
 
             setSuccessMessage("Institución registrada con éxito.", request);
             response.sendRedirect(request.getContextPath() + "/Instituciones"); // Redirige a la página de la lista de instituciones

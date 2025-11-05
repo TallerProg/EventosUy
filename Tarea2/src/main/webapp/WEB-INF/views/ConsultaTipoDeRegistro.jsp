@@ -1,14 +1,14 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ page import="servidorcentral.logica.DTevento" %>
-<%@ page import="servidorcentral.logica.DTEdicion" %>
-<%@ page import="servidorcentral.logica.DTTipoRegistro" %>
+<%@ page import="cliente.ws.sc.DTevento" %>
+<%@ page import="cliente.ws.sc.DtEdicion" %>
+<%@ page import="cliente.ws.sc.DtTipoRegistro" %>
 <%
   String ctx = request.getContextPath();
 
   // Datos enviados por el servlet
   DTevento evento               = (DTevento) request.getAttribute("EVENTO");
-  DTEdicion edicion           = (DTEdicion) request.getAttribute("EDICION");
-  DTTipoRegistro tipoRegistro = (DTTipoRegistro) request.getAttribute("TIPO_REGISTRO");
+  DtEdicion edicion           = (DtEdicion) request.getAttribute("EDICION");
+  DtTipoRegistro tipoRegistro = (DtTipoRegistro) request.getAttribute("TIPO_REGISTRO");
 
   Object errMsg = request.getAttribute("msgError");
   String img = (edicion != null && edicion.getImagenWebPath() != null && !edicion.getImagenWebPath().isBlank()) ? (ctx + edicion.getImagenWebPath()): (ctx + "/media/img/default.png");
@@ -64,7 +64,7 @@
             <p class="mb-3">
               <strong><%= edicion.getNombre() %></strong>
               — <%= edicion.getCiudad() %>, <%= edicion.getPais() %>
-              · <small><%= edicion.getfInicio() %></small>
+              · <small><%= edicion.getFInicio() %></small>
             </p>
 
             <h5 class="mb-3"><i class="bi bi-ticket-perforated"></i> Tipo de Registro</h5>

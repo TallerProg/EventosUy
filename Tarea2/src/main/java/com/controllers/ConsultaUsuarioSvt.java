@@ -5,7 +5,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.IOException;
 
-
 import cliente.ws.sc.DtSesionUsuario;
 import cliente.ws.sc.WebServices;
 import cliente.ws.sc.WebServicesService;
@@ -42,12 +41,12 @@ public class ConsultaUsuarioSvt extends HttpServlet {
   protected void doGet(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
 
-    String nick = req.getParameter("nick");
-    if (nick == null || nick.isBlank()) {
+    String nickParam = req.getParameter("nick");
+    if (nickParam == null || nickParam.isBlank()) {
       resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Falta parametro 'nick'.");
       return;
     }
-    nick = nick.trim();
+    final String nick = nickParam.trim(); // <- ahora es efectivamente final
 
     try {
       WebServices port = getPort(req);

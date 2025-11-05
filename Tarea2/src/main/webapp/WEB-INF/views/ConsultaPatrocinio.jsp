@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.*" %>
 <%@ page import="java.time.format.DateTimeFormatter" %>
-<%@ page import="servidorcentral.logica.DTPatrocinio" %>
+<%@ page import="cliente.ws.sc.DtPatrocinio" %>
 
 <%
   @SuppressWarnings("unchecked")
-  List<DTPatrocinio> pats = (List<DTPatrocinio>) request.getAttribute("patrocinios");
+  List<DtPatrocinio> pats = (List<DtPatrocinio>) request.getAttribute("patrocinios");
   boolean hayPats = (pats != null && !pats.isEmpty());
   DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
   String ctx = request.getContextPath();
@@ -33,7 +33,7 @@
           <div class="alert alert-info">Aún no hay patrocinios para esta edición.</div>
         <% } else {
              for (int i = 0; i < pats.size(); i++) {
-               DTPatrocinio p = pats.get(i);
+               DtPatrocinio p = pats.get(i);
                String active = (i == 0) ? " active" : "";
         %>
 
@@ -64,9 +64,10 @@
                   </div>
 
                   <div class="detail-item">
-                    <i class="bi bi-calendar-event"></i>
-                    <%= (p.getFInicio()!=null? p.getFInicio().format(fmt) : "Sin fecha") %>
-                  </div>
+					  <i class="bi bi-calendar-event"></i>
+					  <%= f(p.getFInicio(), fmt) %>
+					</div>
+
 
                   <div class="detail-item">
                     <i class="bi bi-123"></i> Cantidad:
@@ -110,6 +111,34 @@
         <span class="bi bi-chevron-right fs-1 text-dark"></span>
       </button>
       <% } %>
+<%!
+  private static String f(Object o, java.time.format.DateTimeFormatter fmt){
+    if(o==null) return "Sin fecha";
+    try{
+      // Caso 1: java.time.LocalDate
+      if (o instanceof java.time.LocalDate ld) return ld.format(fmt);
+
+      // Caso 2: XMLGregorianCalendar
+      if (o instanceof javax.xml.datatype.XMLGregorianCalendar xc) {
+        return xc.toGregorianCalendar().toZonedDateTime().toLocalDate().format(fmt);
+      }
+
+      // Caso 3: cliente.ws.sc.LocalDate (wsimport raro con year/month/day)
+      Class<?> c = o.getClass();
+      if (c.getName().endsWith(".LocalDate")) {
+        int y = (Integer) c.getMethod("getYear").invoke(o);
+        int m = (Integer) c.getMethod("getMonth").invoke(o);
+        int d = (Integer) c.getMethod("getDay").invoke(o);
+        return java.time.LocalDate.of(y, m, d).format(fmt);
+      }
+
+      // Fallback: toString()
+      return String.valueOf(o);
+    } catch (Exception e) {
+      return String.valueOf(o);
+    }
+  }
+%>
 
     </div>
   </main>

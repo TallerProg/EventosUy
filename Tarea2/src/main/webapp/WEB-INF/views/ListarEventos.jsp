@@ -80,6 +80,8 @@
           <div class="row g-4 justify-content-center">
             <% for (DTevento ev : eventos) {
                  if (ev == null) continue;
+                 if (ev.isFinalizado()) continue;
+
                  String nombre = orEmpty(ev.getNombre());
                  String desc   = orEmpty(ev.getDescripcion());
                  String encNombre = URLEncoder.encode(nombre, StandardCharsets.UTF_8.name());
@@ -136,3 +138,4 @@
   </footer>
 </body>
 </html>
+

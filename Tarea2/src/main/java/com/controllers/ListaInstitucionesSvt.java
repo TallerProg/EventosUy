@@ -10,18 +10,14 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-import servidorcentral.logica.Factory;
-import servidorcentral.logica.IControllerInstitucion;
-import servidorcentral.logica.DTInstitucion;
-import servidorcentral.logica.DTSesionUsuario;
-import servidorcentral.logica.RolUsuario;
+import cliente.ws.sc.DtSesionUsuario;
+import cliente.ws.sc.RolUsuario;
+import cliente.ws.sc.DtInstitucion;
+import cliente.ws.sc.DtInstitucionArray;
 
-@WebServlet(name = "ListaInstitucionesSvt", urlPatterns = {"/Instituciones"})
+@WebServlet("/Instituciones")
 public class ListaInstitucionesSvt extends HttpServlet {
 
-  /**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
   @Override
@@ -33,16 +29,19 @@ public class ListaInstitucionesSvt extends HttpServlet {
     HttpSession session = req.getSession(false);
     if (session != null) {
       Object o = session.getAttribute("usuario_logueado");
-      if (o instanceof DTSesionUsuario u && u.getRol() == RolUsuario.ORGANIZADOR) {
+      if (o instanceof DtSesionUsuario u && u.getRol() == RolUsuario.ORGANIZADOR) {
         esOrg = true;
       }
     }
     req.setAttribute("ES_ORG", esOrg);
 
+    cliente.ws.sc.WebServicesService service = new cliente.ws.sc.WebServicesService();
+    cliente.ws.sc.WebServices port = service.getWebServicesPort();
+    
     // Carga de instituciones 
     try {
-      IControllerInstitucion ctrl = Factory.getInstance().getIControllerInstitucion();
-      List<DTInstitucion> instituciones = ctrl.getDTInstituciones();
+      DtInstitucionArray institucionesArray = port.listarDTInstituciones();
+      List<DtInstitucion> instituciones = institucionesArray.getItem();
       req.setAttribute("INSTITUCIONES", instituciones);
     } catch (Exception e) {
       req.setAttribute("INSTITUCIONES", java.util.Collections.emptyList());

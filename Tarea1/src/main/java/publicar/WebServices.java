@@ -32,10 +32,13 @@ import jakarta.xml.ws.soap.MTOM;
 import servidorcentral.excepciones.UsuarioRepetidoException;
 import servidorcentral.excepciones.NombreTRUsadoException;
 import servidorcentral.logica.Edicion;
+import servidorcentral.logica.DTeventoOedicion;
 import servidorcentral.logica.DTCategoria;
 import servidorcentral.logica.DTUsuarioListaConsulta;
 import servidorcentral.logica.DTevento;
+import servidorcentral.logica.ETipoNivel;
 import servidorcentral.logica.DTRegistro;
+import servidorcentral.logica.DTTipoRegistro;
 import servidorcentral.logica.DTEdicion;
 import servidorcentral.logica.DTInstitucion;
 import servidorcentral.logica.Factory;
@@ -213,39 +216,21 @@ public class WebServices {
 		return (webDir.endsWith("/") ? webDir.substring(0, webDir.length() - 1) : webDir) + "/" + fileName;
 	}
 
-	@WebMethod
-	public void altaEvento(@WebParam(name = "nombre") String nombre, @WebParam(name = "descripcion") String descripcion,
-			@WebParam(name = "sigla") String sigla,
-			@WebParam(name = "categoriasNombreOCodigo") String[] categoriasNombreOCodigo,
-			@WebParam(name = "imagenBytes") byte[] imagenBytes,
-			@WebParam(name = "imagenFileName") String imagenFileName) throws Exception {
 
-		List<String> errores = new ArrayList<>();
-		if (isBlank(nombre))
-			errores.add("El nombre es obligatorio.");
-		if (isBlank(descripcion))
-			errores.add("La descripción es obligatoria.");
-		if (isBlank(sigla))
-			errores.add("La sigla es obligatoria.");
-		if (categoriasNombreOCodigo == null || categoriasNombreOCodigo.length == 0)
-			errores.add("Debe seleccionar al menos una categoría.");
-		if (!isBlank(nombre) && getControllerEvento().existeEvento(nombre))
-			errores.add("Ya existe un evento con ese nombre.");
-		if (!errores.isEmpty())
-			throw new IllegalArgumentException(String.join(" | ", errores));
+      @WebMethod
+    public void altaEvento(String nombre, String descripcion, String sigla, String[] categoriasNombreOCodigo, byte[] imagenBytes, String imagenFileName) throws Exception {
+        DTCategoria[] dtCats = resolverCategoriasPorNombreOCodigo(categoriasNombreOCodigo);
+        String imagenWebPath = null;
+        if (imagenBytes != null && imagenBytes.length > 0) {
+            imagenWebPath = subirImagenEvento(nombre, imagenFileName, imagenBytes);
+        }
 
-		DTCategoria[] dtCats = resolverCategoriasPorNombreOCodigo(categoriasNombreOCodigo);
-		if (dtCats.length == 0)
-			throw new IllegalArgumentException("Las categorías seleccionadas no existen en el sistema.");
-
-		String imagenWebPath = null;
-		if (imagenBytes != null && imagenBytes.length > 0) {
-			imagenWebPath = subirImagenEvento(nombre, imagenFileName, imagenBytes);
-		}
-
-		getControllerEvento().altaEventoDT(nombre, descripcion, java.time.LocalDate.now(), sigla, Arrays.asList(dtCats),
-				imagenWebPath);
-	}
+        getControllerEvento().altaEventoDT(
+                nombre, descripcion, java.time.LocalDate.now(), sigla,
+                Arrays.asList(dtCats),
+                imagenWebPath
+        );
+    }
 
 	@WebMethod
 	public DTUsuarioListaConsulta consultarUsuarioPorNickname(String nicknameUsu) {
@@ -397,8 +382,30 @@ public class WebServices {
 		return eds.toArray(new DTEdicion[0]);
 	}
 
-//AltaTipoRegistro
 
+  //AltaTipoRegistro
+    
+    @WebMethod
+    public void altaTipoRegistroDT(String nombreTR, String descripcion, Float costo, Integer cupo, String edicion) throws NombreTRUsadoException{
+    	getControllerEvento().altaTipoRegistroDT(nombreTR, descripcion, costo, cupo, edicion);
+    }
+  
+    @WebMethod
+    public boolean existeTRNombre(String edicion, String nombre) {
+    	return getControllerEvento().existeTRNombre(edicion, nombre);
+    }
+    
+ //Registrarse a edicion
+  
+    @WebMethod
+    public void finalizarEvento(String nombreEvento) {
+    	try {
+        	getControllerEvento().finalizarEvento(nombreEvento);
+    	} catch (Exception e) {
+			System.out.println("Error al finalizar evento: " + e.getMessage());
+		}
+    }
+        	
 	@WebMethod
 	public void altaTipoRegistro(String nombreTR, String descripcion, Float costo, Integer cupo, Edicion edicion)
 			throws NombreTRUsadoException {
@@ -466,4 +473,38 @@ public class WebServices {
 	    List<DTInstitucion> l = Factory.getInstance().getIControllerInstitucion().getDTInstituciones();
 	    return (l == null || l.isEmpty()) ? new DTInstitucion[0] : l.toArray(new DTInstitucion[0]);
 	}
+
+
+    @WebMethod
+    public DTTipoRegistro consultaTipoRegistro(String edicionN,String tipoR) {
+        return getControllerEvento().consultaTipoRegistro(edicionN,tipoR);
+    }
+    @WebMethod
+    public String[] listarNombresTiposRegistroDTO(String edicion) {
+        List<String> nombresTiposRegistro = getControllerEvento().listarNombresTiposRegistroDTO(edicion);
+
+        return nombresTiposRegistro.toArray(new String[0]);
+    }
+
+    @WebMethod
+    public void altaPatrocinio(String codigo, String fInicio, int registrosGratuitos, Float monto, 
+            ETipoNivel nivel, String nombreInstitucion, String nombreEdicion, String nombreTipoRegistro)throws Exception{
+    	LocalDate FNAC = LocalDate.parse(fInicio);
+    	getControllerEvento().altaPatrocinio(codigo, FNAC, registrosGratuitos, monto, nivel, nombreInstitucion, nombreEdicion, nombreTipoRegistro);
+    }
+
+
+    //AltaInstitucion
+	public void altaInstitucion(String nombreIns, String url, String descripcion, String img)throws Exception{
+		getControllerInstitucion().altaInstitucion(nombreIns, url, descripcion, img);
+	}
+
+@WebMethod
+    public DTeventoOedicion[] listarEventosYEdicionesBusqueda(String busqueda) {
+		List<DTeventoOedicion> lista = getControllerEvento().listarEventosYEdicionesBusqueda(busqueda);
+		return (lista == null || lista.isEmpty())
+				? new DTeventoOedicion[0]
+				: lista.toArray(new DTeventoOedicion[0]);
+	}
+    
 }
