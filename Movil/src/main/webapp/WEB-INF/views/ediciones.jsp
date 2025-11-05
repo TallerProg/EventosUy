@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ page import="java.util.*, java.net.URLEncoder, java.nio.charset.StandardCharsets, cliente.ws.sc.DtPatrocinio" %>
+<%@ page import="java.util.*, java.net.URLEncoder, java.nio.charset.StandardCharsets, cliente.ws.sc.DtPatrocinio;" %>
 
 <%
 String ctx = request.getContextPath();
