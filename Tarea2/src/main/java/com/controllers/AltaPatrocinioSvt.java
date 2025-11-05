@@ -13,6 +13,7 @@ import cliente.ws.sc.DtInstitucion;
 import cliente.ws.sc.DtInstitucionArray;
 import cliente.ws.sc.DtTipoRegistro;
 import cliente.ws.sc.ETipoNivel;
+import cliente.ws.sc.StringArray;
 
 
 @WebServlet(name = "AltaPatrocinioSvt", urlPatterns = {"/organizador-patrocinios-alta"})
@@ -78,7 +79,8 @@ public class AltaPatrocinioSvt extends HttpServlet {
       req.setAttribute("EVENTO_SEL", evento);
       req.setAttribute("EDICION_SEL", edicion);
 
-      List<String> nombresTR = (List<String>) port.listarNombresTiposRegistroDTO(edicion);
+    	StringArray  stringArray  =  port.listarNombresTiposRegistroDTO(edicion);
+    	List<String> nombresTR = stringArray.getItem(); 
       req.setAttribute("TIPOS_REGISTRO",
           (nombresTR == null) ? new String[0] : nombresTR.toArray(new String[0]));
 
@@ -147,7 +149,8 @@ public class AltaPatrocinioSvt extends HttpServlet {
       try {
     	cliente.ws.sc.WebServicesService service = new cliente.ws.sc.WebServicesService();
       	cliente.ws.sc.WebServices port = service.getWebServicesPort();
-        List<String> nombresTR = (List<String>) port.listarNombresTiposRegistroDTO(edicion);
+      	StringArray  stringArray  =  port.listarNombresTiposRegistroDTO(edicion);
+      	List<String> nombresTR = stringArray.getItem(); 
         req.setAttribute("TIPOS_REGISTRO",
             (nombresTR == null) ? new String[0] : nombresTR.toArray(new String[0]));
       } catch (Exception ignore) {

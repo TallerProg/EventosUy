@@ -80,6 +80,6 @@ public interface IControllerEvento {
 	public boolean existeEdicionPorSiglaDTO(String sigla);
 	public List<String> listarNombresTiposRegistroDTO(String nombreEdicion);
 	public void finalizarEvento(String nombreEvento) throws Exception;
-
+	public List<DTeventoOedicion> listarEventosYEdicionesBusqueda(String busqueda);
 
 }

@@ -14,6 +14,7 @@ public class DTUsuarioListaConsulta {
 	private String nombre;
 	private String apellido;
 	private LocalDate fNacimiento;
+	private String fNacimientoS;
 	private String descripcion;
 	private String url;
 	@XmlTransient
@@ -22,6 +23,8 @@ public class DTUsuarioListaConsulta {
 	private List<Registro> registros;
 	private List<DTEdicion> dtEdiciones;
 	private List<DTRegistro> dtRegistros;
+	private List<String> seguidores;
+	private List<String> seguidos;
 	private String img; 
 	private DTInstitucion ins;
 
@@ -32,12 +35,15 @@ public class DTUsuarioListaConsulta {
 		this.nombre = null;
 		this.apellido = null;
 		this.fNacimiento = null;
+		this.fNacimientoS = null;
 		this.descripcion = null;
 		this.url = null;
 		this.img = null;
 		this.ins = null;
 		this.ediciones = new ArrayList<>();
 		this.registros = new ArrayList<>();
+		this.seguidores = new ArrayList<>();
+		this.seguidos = new ArrayList<>();
 	}
 
 	public DTUsuarioListaConsulta(String nick, String correo, String nombre, String apellido, LocalDate fNacimiento,
@@ -47,6 +53,7 @@ public class DTUsuarioListaConsulta {
 		this.nombre = nombre;
 		this.apellido = apellido;
 		this.fNacimiento = fNacimiento;
+		this.fNacimientoS = (fNacimiento != null) ? fNacimiento.toString() : null;
 		this.descripcion = descripcion;
 		this.url = url;
 		this.ediciones = ediciones;
@@ -59,6 +66,7 @@ public class DTUsuarioListaConsulta {
 		return nickname;
 	}
 
+	
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
 	}
@@ -90,9 +98,19 @@ public class DTUsuarioListaConsulta {
 	public LocalDate getFNacimiento() {
 		return fNacimiento;
 	}
+	
+	public String getFNacimientoS() {
+		return fNacimientoS;
+	}
 
 	public void setFNacimiento(LocalDate fNacimiento) {
 		this.fNacimiento = fNacimiento;
+		this.fNacimientoS = (fNacimiento == null) ? null : fNacimiento.toString();
+	}
+	public void setFNacimientoS(String fNacimientoS) {
+		this.fNacimientoS = fNacimientoS;
+		this.fNacimiento = (fNacimientoS == null || fNacimientoS.isBlank())
+				? null : LocalDate.parse(fNacimientoS);
 	}
 
 	public String getDescripcion() {
@@ -150,4 +168,13 @@ public class DTUsuarioListaConsulta {
 	 public  List<DTRegistro> getDtRegistro() {
 	        return dtRegistros;
 	 }
+	 
+	public void setSeguidores(List<String> seguidores) {
+		this.seguidores = seguidores;
+	}
+
+	public void setSeguidos(List<String> seguidos) {
+		this.seguidos = seguidos;
+	}
+
 }

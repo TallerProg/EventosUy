@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="
-servidorcentral.logica.DTAsistente,
-servidorcentral.logica.DTInstitucion"%>
-<%@ page import="servidorcentral.logica.DTUsuarioListaConsulta" %>
+<%@ page import="cliente.ws.sc.DtInstitucion"%>
+<% %>
+<%@ page import="cliente.ws.sc.DtInstitucionArray"%>
+<%@ page import="cliente.ws.sc.DtUsuarioListaConsulta" %>
 
 <%
   String ctx = request.getContextPath();
@@ -22,9 +22,10 @@ servidorcentral.logica.DTInstitucion"%>
 </header>
 
 <%
-  DTUsuarioListaConsulta us = (DTUsuarioListaConsulta) request.getAttribute("USUARIO");
+  DtUsuarioListaConsulta us = (DtUsuarioListaConsulta) request.getAttribute("USUARIO");
   String tipo = (String) request.getAttribute("TIPO_USUARIO");
-  DTInstitucion[] instituciones = (DTInstitucion[]) request.getAttribute("LISTA_INSTITUCION");
+
+  
   boolean ES_ASIS = Boolean.TRUE.equals(request.getAttribute("ES_ASIS"));
 
   String nick = (us != null) ? us.getNickname() : "";
@@ -36,9 +37,9 @@ servidorcentral.logica.DTInstitucion"%>
   String fechaISO = "";
   String instUser = "";
   if (ES_ASIS) {
-    DTUsuarioListaConsulta a = (DTUsuarioListaConsulta) us;
+    DtUsuarioListaConsulta a = (DtUsuarioListaConsulta) us;
     apellido = (a != null && a.getApellido() != null) ? a.getApellido() : "";
-    fechaISO = (a != null && a.getFNacimiento() != null) ? a.getFNacimiento().toString() : "";
+    fechaISO = (a != null && a.getFNacimientoS() != null) ? a.getFNacimientoS(): "";
     if (a != null && a.getIns() != null) instUser = a.getIns().getNombre();
   }
 
@@ -75,7 +76,7 @@ servidorcentral.logica.DTInstitucion"%>
 <% } %>
 
       <form action="<%=ctx%>/editarperfil" method="post" enctype="multipart/form-data" id="form-modificar">
-        <input type="hidden" id="tipoUsuario" value="<%= tipo %>">
+<input type="hidden" id="tipoUsuario" name="tipoUsuario" value="<%= tipo %>">
         <div class="profile-image text-center mb-4">
           <img id="preview" src="<%=imagen%>"
                alt="Foto de perfil" class="rounded-circle" width="120">
