@@ -14,6 +14,7 @@ public class DTUsuarioListaConsulta {
 	private String nombre;
 	private String apellido;
 	private LocalDate fNacimiento;
+	private String fNacimientoS;
 	private String descripcion;
 	private String url;
 	@XmlTransient
@@ -34,6 +35,7 @@ public class DTUsuarioListaConsulta {
 		this.nombre = null;
 		this.apellido = null;
 		this.fNacimiento = null;
+		this.fNacimientoS = null;
 		this.descripcion = null;
 		this.url = null;
 		this.img = null;
@@ -51,6 +53,7 @@ public class DTUsuarioListaConsulta {
 		this.nombre = nombre;
 		this.apellido = apellido;
 		this.fNacimiento = fNacimiento;
+		this.fNacimientoS = (fNacimiento != null) ? fNacimiento.toString() : null;
 		this.descripcion = descripcion;
 		this.url = url;
 		this.ediciones = ediciones;
@@ -63,6 +66,7 @@ public class DTUsuarioListaConsulta {
 		return nickname;
 	}
 
+	
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
 	}
@@ -94,9 +98,19 @@ public class DTUsuarioListaConsulta {
 	public LocalDate getFNacimiento() {
 		return fNacimiento;
 	}
+	
+	public String getFNacimientoS() {
+		return fNacimientoS;
+	}
 
 	public void setFNacimiento(LocalDate fNacimiento) {
 		this.fNacimiento = fNacimiento;
+		this.fNacimientoS = (fNacimiento == null) ? null : fNacimiento.toString();
+	}
+	public void setFNacimientoS(String fNacimientoS) {
+		this.fNacimientoS = fNacimientoS;
+		this.fNacimiento = (fNacimientoS == null || fNacimientoS.isBlank())
+				? null : LocalDate.parse(fNacimientoS);
 	}
 
 	public String getDescripcion() {

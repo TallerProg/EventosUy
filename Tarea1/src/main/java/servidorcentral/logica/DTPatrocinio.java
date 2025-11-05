@@ -1,7 +1,10 @@
 package servidorcentral.logica;
 
 import java.time.LocalDate;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class DTPatrocinio {
 
 	private String codigo;

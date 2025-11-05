@@ -17,12 +17,7 @@ public final class WSConfig {
             System.err.println("[WSConfig] Error cargando ws.properties: " + e.getMessage());
         }
 
-        System.getProperties().forEach((k, v) -> {
-            String key = String.valueOf(k);
-            if (key.startsWith("ws.")) {
-                P.setProperty(key, String.valueOf(v));
-            }
-        });
+        
     }
 
     public static String get(String key, String defaultValue) {

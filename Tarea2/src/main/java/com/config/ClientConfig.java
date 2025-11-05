@@ -11,7 +11,6 @@ public final class ClientConfig {
       else System.err.println("[ClientConfig] No se encontró /wsclient.properties");
     } catch (Exception ignored) {}
 
-    // Overrides opcionales por -D (útil en deploy)
     System.getProperties().forEach((k,v)->{
       var key = String.valueOf(k);
       if (key.startsWith("sc.") || key.startsWith("timeout.")) {

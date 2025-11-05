@@ -109,7 +109,11 @@ String encEv = (evNom  != null) ? URLEncoder.encode(evNom,  StandardCharsets.UTF
           <div class="card shadow-sm p-3 h-100">
             <p class="mb-1"><strong>Sigla:</strong> <%= nv(sigla) %></p>
             <p class="mb-1"><strong>Organizador:</strong> <%= nv(orgNom) %></p>
-            <p class="mb-1"><strong>Fechas:</strong> <%= nv(fIni) %> a <%= nv(fFin) %></p>
+			<p class="mb-1"><strong>Fechas:</strong>
+			  <%= (VM.get("fechaIni")!=null ? VM.get("fechaIni") : "—") %>
+			  a
+			  <%= (VM.get("fechaFin")!=null ? VM.get("fechaFin") : "—") %>
+			</p>
             <p class="mb-1"><strong>Ciudad:</strong> <%= nv(ciudad) %></p>
             <p class="mb-3"><strong>País:</strong> <%= nv(pais) %></p>
             <% if (estado != null) { %>
