@@ -2,7 +2,9 @@ package com.controllers;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -11,11 +13,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-import servidorcentral.logica.DTOrganizadorDetallado;
-import servidorcentral.logica.IControllerUsuario;
-import servidorcentral.logica.Factory;
-import servidorcentral.logica.DTEdicion;
-import servidorcentral.logica.DTSesionUsuario;
+import cliente.ws.sc.DtOrganizadorDetallado;
+import cliente.ws.sc.DtEdicion;
+import cliente.ws.sc.DtSesionUsuario;
+import cliente.ws.sc.RolUsuario;
 
 @WebServlet("/MisEdiciones")
 public class MisEdicionesSvt extends HttpServlet {
@@ -34,7 +35,7 @@ public class MisEdicionesSvt extends HttpServlet {
         HttpSession session = req.getSession(false);
         if (session != null) {
             Object o = session.getAttribute("usuario_logueado");
-            if (o instanceof DTSesionUsuario u && u.getRolString().equals("ORGANIZADOR")) {
+            if (o instanceof DtSesionUsuario u && u.getRol() == RolUsuario.ORGANIZADOR) {
                 esOrg = true;
                 nickname = u.getNickname();
             }else {
@@ -46,28 +47,31 @@ public class MisEdicionesSvt extends HttpServlet {
         req.setAttribute("ES_ORG", esOrg);
 
         try {
-            // Obtener controlador y organizador 
-            IControllerUsuario icu = Factory.getInstance().getIControllerUsuario();
-            DTOrganizadorDetallado org = icu.getDTOrganizadorDetallado(nickname);
+        	cliente.ws.sc.WebServicesService service = new cliente.ws.sc.WebServicesService();
+            cliente.ws.sc.WebServices port = service.getWebServicesPort();
+            DtOrganizadorDetallado org = port.getDTOrganizadorDetallado(nickname);
 
             // Convertir las ediciones del organizador a DTEdiciones 
-            List<DTEdicion> ediciones = org.getEdiciones();
+            List<DtEdicion> ediciones = org.getEdiciones();
             if (ediciones == null) {
                 ediciones = new ArrayList<>();
             }
-            List<DTEdicion> dtEdiciones = new ArrayList<>();
+            List<DtEdicion> dtEdiciones = new ArrayList<>();
             
-
-            for (DTEdicion e : ediciones) {
+            Map<String,String> eventoNombreMap = new HashMap<>();
+            for (DtEdicion e : ediciones) {
                 if (e != null) {
-                    DTEdicion dto = e;
+                    DtEdicion dto = e;
                     if (dto != null) {
                         dtEdiciones.add(dto);
+
+                        eventoNombreMap.put(dto.getNombre(), port.nombreEventoDeEdicion(dto.getNombre()));
                     }
                 }
             }
 
             // Pasar la lista al JSP 
+            req.setAttribute("EDICION_EVENTO", eventoNombreMap);
             req.setAttribute("LISTA_EDICIONES", dtEdiciones);
 
            

@@ -41,6 +41,7 @@ import servidorcentral.logica.DTRegistro;
 import servidorcentral.logica.DTTipoRegistro;
 import servidorcentral.logica.DTEdicion;
 import servidorcentral.logica.DTInstitucion;
+import servidorcentral.logica.DTOrganizadorDetallado;
 import servidorcentral.logica.Factory;
 import servidorcentral.logica.IControllerEvento;
 import servidorcentral.logica.IControllerUsuario;
@@ -506,5 +507,14 @@ public class WebServices {
 				? new DTeventoOedicion[0]
 				: lista.toArray(new DTeventoOedicion[0]);
 	}
+@WebMethod
+	public DTOrganizadorDetallado getDTOrganizadorDetallado(String nicknameOrg) {
+		return getControllerUsuario().getDTOrganizadorDetallado(nicknameOrg);
+	}
+@WebMethod
+	public String nombreEventoDeEdicion(String nombreEdicion) {
+		return getControllerEvento().nombreEventoDeEdicion(nombreEdicion);
+	}
+
     
 }

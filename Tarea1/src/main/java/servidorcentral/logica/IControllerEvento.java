@@ -81,5 +81,6 @@ public interface IControllerEvento {
 	public List<String> listarNombresTiposRegistroDTO(String nombreEdicion);
 	public void finalizarEvento(String nombreEvento) throws Exception;
 	public List<DTeventoOedicion> listarEventosYEdicionesBusqueda(String busqueda);
+	public String nombreEventoDeEdicion(String nombreEdicion);
 
 }

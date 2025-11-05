@@ -588,4 +588,16 @@ public List<DTeventoOedicion> listarEventosYEdicionesBusqueda(String busqueda) {
     return resultado;
 }
 
+public String nombreEventoDeEdicion (String nombreEdicion) {
+	Factory fabrica = Factory.getInstance();
+    for (Evento evento : fabrica.getIControllerEvento().listarEventos()) {
+        for (Edicion ed : evento.getEdiciones()) {
+            if (ed.getNombre().equalsIgnoreCase(nombreEdicion)) {
+                 return evento.getNombre(); // devuelve el evento que contiene esa edición
+            }
+        }
+    }
+    return null; // no se encontró ninguna edición con ese nombre
+}
+
 }

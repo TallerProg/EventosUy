@@ -3,11 +3,11 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.net.URLEncoder" %>
 <%@ page import="java.nio.charset.StandardCharsets" %>
-<%@ page import="servidorcentral.logica.DTEdicion" %>
-<%@ page import="servidorcentral.logica.DTCategoria" %>
-<%@ page import="servidorcentral.logica.IControllerEvento" %>
-<%@ page import="servidorcentral.logica.Factory" %>
-<%@ page import="servidorcentral.logica.DTevento" %>
+<%@ page import="cliente.ws.sc.DtEdicion" %>
+<%@ page import="cliente.ws.sc.DtCategoria" %>
+<%@ page import="cliente.ws.sc.DtEvento" %>
+<%@ page import="java.util.Map" %>
+<%@ page import="java.util.HashMap" %>
 
 
 <!DOCTYPE html>
@@ -29,18 +29,12 @@
 
                 <%
                 String ctx = request.getContextPath(); 	
-                List<DTEdicion> ediciones = (List<DTEdicion>) request.getAttribute("LISTA_EDICIONES");
-                for (DTEdicion edicion : ediciones) {
+                List<DtEdicion> ediciones = (List<DtEdicion>) request.getAttribute("LISTA_EDICIONES");
+                Map<String, String> edicionEvento = (Map<String, String>) request.getAttribute("EDICION_EVENTO");
+                for (DtEdicion edicion : ediciones) {
                 	String imge = (edicion != null && edicion.getImagenWebPath() != null && !edicion.getImagenWebPath().isBlank()) ? (ctx + edicion.getImagenWebPath()): (ctx + "/media/img/default.png");
-                	String nomEvento = "";
-                	Factory fabrica = Factory.getInstance();
-                    for (DTevento evento : fabrica.getIControllerEvento().listarDTEventos()) {
-                        for (DTEdicion ed : evento.getDTEdiciones()) {
-                            if (ed.getNombre().equalsIgnoreCase(edicion.getNombre())) {
-                                 nomEvento = evento.getNombre(); // devuelve el evento que contiene esa edición
-                            }
-                        }
-                    }
+                	String nomEvento = edicionEvento.get(edicion.getNombre());
+                 
                 %>
                 <div class="col-lg-4 col-md-6">
                   <div class="edition-card card shadow-sm h-100">
