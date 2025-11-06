@@ -4,6 +4,9 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import cliente.ws.sc.DtSesionUsuario;
 import cliente.ws.sc.WebServices;
@@ -46,12 +49,12 @@ public class ConsultaUsuarioSvt extends HttpServlet {
       resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Falta parametro 'nick'.");
       return;
     }
-    final String nick = nickParam.trim(); // <- ahora es efectivamente final
+    final String nick = nickParam.trim();
 
     try {
       WebServices port = getPort(req);
 
-      String rol = "v";
+      String rol = "v"; 
       boolean esAsistente = false;
       boolean esOrganizador = false;
 
@@ -96,22 +99,47 @@ public class ConsultaUsuarioSvt extends HttpServlet {
         if (img != null && !img.isBlank()) req.setAttribute("IMAGEN", img);
       } catch (Exception ignore) {}
 
+      Map<String,String> eventoPorEdicion = new HashMap<>();
+
       if ("A".equals(rol) && esSuPerfil) {
         try {
           DtRegistroArray ra = port.listarRegistrosDeAsistente(nick);
-          var lista = (ra != null && ra.getItem() != null) ? ra.getItem() : java.util.List.of();
+          List<cliente.ws.sc.DtRegistro> lista =
+              (ra != null && ra.getItem() != null) ? ra.getItem() : java.util.List.of();
           req.setAttribute("Registros", lista);
+
+          for (cliente.ws.sc.DtRegistro r : lista) {
+            if (r == null || r.getEdicion() == null) continue;
+
+            Object e = r.getEdicion();
+            String ed = safe(getNombreEdicion(e));
+            if (!ed.isBlank() && !eventoPorEdicion.containsKey(ed)) {
+              String ev = obtenerNombreEventoDesdeEdicion(e);
+              eventoPorEdicion.put(ed, ev);
+            }
+          }
         } catch (Exception ignore) {}
       }
 
       if ("O".equals(rol)) {
         try {
           DtEdicionArray ea = port.listarEdicionesDeOrganizador(nick);
-          var lista = (ea != null && ea.getItem() != null) ? ea.getItem() : java.util.List.of();
+          List<cliente.ws.sc.DtEdicion> lista =
+              (ea != null && ea.getItem() != null) ? ea.getItem() : java.util.List.of();
           req.setAttribute("Ediciones", lista);
+
+          for (cliente.ws.sc.DtEdicion e : lista) {
+            if (e == null) continue;
+            String ed = safe(e.getNombre());
+            if (!ed.isBlank() && !eventoPorEdicion.containsKey(ed)) {
+              String ev = obtenerNombreEventoDesdeEdicion(e);
+              eventoPorEdicion.put(ed, ev);
+            }
+          }
         } catch (Exception ignore) {}
       }
 
+      req.setAttribute("EDICION_EVENTO", eventoPorEdicion);
       req.setAttribute("esSuPerfil", esSuPerfil);
       req.setAttribute("rol",   rol);
       req.setAttribute("usuario", usuario);
@@ -119,8 +147,59 @@ public class ConsultaUsuarioSvt extends HttpServlet {
       req.getRequestDispatcher("/WEB-INF/views/ConsultaUsuario.jsp").forward(req, resp);
 
     } catch (Exception e) {
-      resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error consultando usuario: " + safe(e.getMessage()));
+      resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+          "Error consultando usuario: " + safe(e.getMessage()));
     }
+  }
+
+  private static String getNombreEdicion(Object e) {
+    if (e == null) return "";
+    try {
+      if (e instanceof cliente.ws.sc.DtEdicion de) {
+        String s = de.getNombre();
+        return (s == null) ? "" : s;
+      }
+    } catch (Throwable ignore) {}
+
+    try {
+      Object v = e.getClass().getMethod("getNombre").invoke(e);
+      if (v instanceof String s && !s.isBlank()) return s;
+    } catch (Throwable ignore) {}
+
+    try {
+      Object v = e.getClass().getMethod("getName").invoke(e);
+      if (v instanceof String s && !s.isBlank()) return s;
+    } catch (Throwable ignore) {}
+
+    try {
+      Object v = e.getClass().getMethod("getTitulo").invoke(e);
+      if (v instanceof String s && !s.isBlank()) return s;
+    } catch (Throwable ignore) {}
+
+    return "";
+  }
+
+  private static String obtenerNombreEventoDesdeEdicion(Object e) {
+    if (e == null) return "Evento no disponible";
+    try {
+      var m = e.getClass().getMethod("getEventoNombre");
+      Object v = m.invoke(e);
+      if (v instanceof String s && !s.isBlank()) return s;
+    } catch (Throwable ignore) {}
+
+    try {
+      var m = e.getClass().getMethod("getNombreEvento");
+      Object v = m.invoke(e);
+      if (v instanceof String s && !s.isBlank()) return s;
+    } catch (Throwable ignore) {}
+
+    try {
+      var m = e.getClass().getMethod("getEventoSigla");
+      Object v = m.invoke(e);
+      if (v instanceof String s && !s.isBlank()) return s;
+    } catch (Throwable ignore) {}
+
+    return "Evento no disponible";
   }
 
   private static String safe(String s) { return (s == null) ? "" : s; }
