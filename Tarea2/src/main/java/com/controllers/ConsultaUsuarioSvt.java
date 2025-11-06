@@ -5,14 +5,17 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import cliente.ws.sc.DtSesionUsuario;
 import cliente.ws.sc.WebServices;
 import cliente.ws.sc.WebServicesService;
 import cliente.ws.sc.DtUsuarioListaConsulta;
 import cliente.ws.sc.DtUsuarioListaConsultaArray;
+import cliente.ws.sc.RolUsuario;
 import cliente.ws.sc.DtRegistroArray;
 import cliente.ws.sc.DtEdicionArray;
 
@@ -43,6 +46,21 @@ public class ConsultaUsuarioSvt extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
+	  
+	// Flag de rol para el JSP 
+		  boolean esVis = false;
+		    HttpSession sessionCampana = req.getSession(false);
+		    DtSesionUsuario sesUserCampana = null;
+		    if (sessionCampana != null) {
+		      Object o = sessionCampana.getAttribute("usuario_logueado");
+		      if (o instanceof DtSesionUsuario u) {
+		        sesUserCampana = u;
+		        if (u.getRol() == RolUsuario.VISITANTE) {
+		          esVis = true;
+		        }
+		      }
+		    }
+		    req.setAttribute("ES_VIS", esVis);
 
     String nickParam = req.getParameter("nick");
     if (nickParam == null || nickParam.isBlank()) {
@@ -145,10 +163,23 @@ public class ConsultaUsuarioSvt extends HttpServlet {
       req.setAttribute("usuario", usuario);
 
       req.getRequestDispatcher("/WEB-INF/views/ConsultaUsuario.jsp").forward(req, resp);
+      
+      Set<String> seguidosSet = null;
+      if (!esVis && sesUserCampana != null && sesUserCampana.getNickname() != null && !sesUserCampana.getNickname().isBlank()) {
+        try {
+          DtUsuarioListaConsulta yo = port.consultaDeUsuario(sesUserCampana.getNickname());
+          List<String> seguidos = (yo != null) ? yo.getSeguidos() : null;
+          if (seguidos != null) seguidosSet = new HashSet<>(seguidos);
+        } catch (Exception ignore) {
+          // fallback en JSP usando getSeguidores() del usuario tarjeta
+        }
+      }
+      req.setAttribute("SEGUIDOS_SET", seguidosSet);
 
     } catch (Exception e) {
       resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
           "Error consultando usuario: " + safe(e.getMessage()));
+      req.setAttribute("SEGUIDOS_SET", null);
     }
   }
 
@@ -203,4 +234,51 @@ public class ConsultaUsuarioSvt extends HttpServlet {
   }
 
   private static String safe(String s) { return (s == null) ? "" : s; }
+  
+  @Override
+  protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+      throws ServletException, IOException {
+
+    String accion = req.getParameter("accion");   // "seguir" | "dejar"
+    String objetivoNick = req.getParameter("nick");
+
+    String returnUrl = req.getContextPath() + "/ConsultaUsuario";
+    if (objetivoNick != null && !objetivoNick.isBlank()) {
+      returnUrl += "?nick=" + java.net.URLEncoder.encode(objetivoNick, java.nio.charset.StandardCharsets.UTF_8);
+    }
+
+    jakarta.servlet.http.HttpSession sesCampana = req.getSession(false);
+    if (sesCampana == null) {
+      resp.sendRedirect(returnUrl);
+      return;
+    }
+
+    Object o = sesCampana.getAttribute("usuario_logueado");
+    if (!(o instanceof cliente.ws.sc.DtSesionUsuario u)) {
+      resp.sendRedirect(returnUrl);
+      return;
+    }
+
+    String principal = u.getNickname(); 
+    if (principal == null || principal.isBlank()
+        || objetivoNick == null || objetivoNick.isBlank()
+        || principal.equals(objetivoNick)) {
+      resp.sendRedirect(returnUrl);
+      return;
+    }
+
+    try {
+      cliente.ws.sc.WebServicesService service = new cliente.ws.sc.WebServicesService();
+      cliente.ws.sc.WebServices port = service.getWebServicesPort();
+
+      if ("seguir".equalsIgnoreCase(accion)) {
+        port.seguirPersona(principal, objetivoNick);
+      } else if ("dejar".equalsIgnoreCase(accion)) {
+        port.sacarSeguirPersona(principal, objetivoNick);
+      }
+    } catch (Exception ignore) {
+    }
+
+    resp.sendRedirect(returnUrl);
+  }
 }

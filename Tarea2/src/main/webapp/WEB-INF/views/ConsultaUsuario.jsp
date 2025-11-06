@@ -26,12 +26,45 @@
     if (f.exists()) ver = f.lastModified();
   }
   String imagenPerfil = ctx + rel + (ver > 0 ? "?v=" + ver : "");
+  
+  boolean ES_VIS = Boolean.TRUE.equals(request.getAttribute("ES_VIS"));
+  @SuppressWarnings("unchecked")
+  java.util.Set<String> SEGUIDOS_SET =
+      (java.util.Set<String>) request.getAttribute("SEGUIDOS_SET");
+
+  // nick del logueado
+  jakarta.servlet.http.HttpSession ses2 = request.getSession(false);
+  String LOG_NICK = null;
+  if (ses2 != null) {
+    Object o2 = ses2.getAttribute("usuario_logueado");
+    if (o2 instanceof cliente.ws.sc.DtSesionUsuario su) {
+      LOG_NICK = su.getNickname();
+    }
+  }
+
+  // dueño del perfil
+  String TARGET_NICK = (u != null) ? u.getNickname() : null;
+
+  // Mostrar botón: no visitante, no es su propio perfil, nicks válidos
+  boolean mostrarToggle = !ES_VIS && !s && TARGET_NICK != null && LOG_NICK != null && !TARGET_NICK.equals(LOG_NICK);
+
+  boolean yaSigo = (SEGUIDOS_SET != null)
+                     ? SEGUIDOS_SET.contains(TARGET_NICK)
+                     : (u != null && u.getSeguidores() != null && u.getSeguidores().contains(LOG_NICK));
 %>
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <jsp:include page="/WEB-INF/views/template/head.jsp" />
   <title>Consulta Usuario</title>
+  <style>
+    .user-card { position: relative; }
+    .follow-toggle { position: absolute; top: .5rem; right: .5rem; z-index: 2; }
+    .follow-toggle .btn { padding: .25rem .5rem; line-height: 1; border-radius: .375rem; }
+    .icon-bell { font-size: 1.1rem; vertical-align: -1px; }
+    .icon-following { color: #0d6efd; }      /* azul: siguiendo */
+    .icon-not-following { color: #6c757d; }  /* gris: no siguiendo */
+  </style>  
 </head>
 <body class="index-page">
 
@@ -50,7 +83,22 @@
         <div class="row g-4">
           <!-- Columna izquierda: Datos -->
           <div class="col-lg-6">
-            <div class="card p-4 h-100">
+            <div class="card p-4 h-100 user-card">
+            	<% if (mostrarToggle) { %>
+	                <div class="follow-toggle">
+	                  <form method="post" action="<%= ctx %>/ConsultaUsuario">
+	                    <input type="hidden" name="accion" value="<%= yaSigo ? "dejar" : "seguir" %>"/>
+	                    <input type="hidden" name="nick" value="<%= TARGET_NICK %>"/>
+	                    <button type="submit"
+	                            class="btn btn-sm btn-outline-secondary"
+	                            title="<%= yaSigo ? "Dejar de seguir" : "Seguir" %>"
+	                            aria-label="<%= yaSigo ? "Dejar de seguir a " + TARGET_NICK : "Seguir a " + TARGET_NICK %>">
+	                      <i class="bi bi-bell-fill icon-bell <%= yaSigo ? "icon-following" : "icon-not-following" %>"></i>
+	                    </button>
+	                  </form>
+	                </div>
+                <% } %>
+           	
               <div class="d-flex">
                 <div class="me-3">
                   <img src="<%= imagenPerfil %>" alt="<%= (u!=null?u.getNickname():"") %>" class="img-fluid"

@@ -44,6 +44,9 @@
     .speaker-card { position: relative; }
     .follow-toggle { position: absolute; top: .5rem; right: .5rem; z-index: 2; }
     .follow-toggle .btn { padding: .25rem .5rem; line-height: 1; border-radius: .375rem; }
+    .icon-bell { font-size: 1.1rem; vertical-align: -1px; }
+    .icon-following { color: #0d6efd; } /*azul*/
+    .icon-not-following { color: #6c757d; } /*gris*/
   </style>
 </head>
 
@@ -65,7 +68,7 @@
         <%
           if (asistentes != null) {
             for (DtUsuarioListaConsulta asistente : asistentes) {
-              String raw = (asistente != null) ? asistente.getImg() : null; // "nick.jpg" o "/media/img/usuarios/nick.jpg"
+              String raw = (asistente != null) ? asistente.getImg() : null; 
               String rel = (raw != null && !raw.isBlank())
                          ? (raw.startsWith("/") ? raw : "/media/img/usuarios/" + raw)
                          : "/media/img/default.png";
@@ -94,11 +97,11 @@
                     <input type="hidden" name="accion" value="<%= yaSigo ? "dejar" : "seguir" %>"/>
                     <input type="hidden" name="nick" value="<%= cardNick %>"/>
                     <button type="submit"
-                            class="btn btn-sm <%= yaSigo ? "btn-outline-danger" : "btn-outline-primary" %>"
-                            title="<%= yaSigo ? "Dejar de seguir" : "Seguir" %>"
-                            aria-label="<%= yaSigo ? "Dejar de seguir a " + cardNick : "Seguir a " + cardNick %>">
-                      <i class="bi <%= yaSigo ? "bi-bell-slash-fill" : "bi-bell-fill" %>"></i>
-                    </button>
+					        class="btn btn-sm btn-outline-secondary"
+					        title="<%= yaSigo ? "Dejar de seguir" : "Seguir" %>"
+					        aria-label="<%= yaSigo ? "Dejar de seguir a " + cardNick : "Seguir a " + cardNick %>">
+					  <i class="bi bi-bell-fill icon-bell <%= yaSigo ? "icon-following" : "icon-not-following" %>"></i>
+					</button>
                   </form>
                 </div>
               <% } %>
@@ -165,11 +168,11 @@
                     <input type="hidden" name="accion" value="<%= yaSigo ? "dejar" : "seguir" %>"/>
                     <input type="hidden" name="nick" value="<%= cardNick %>"/>
                     <button type="submit"
-                            class="btn btn-sm <%= yaSigo ? "btn-outline-danger" : "btn-outline-primary" %>"
-                            title="<%= yaSigo ? "Dejar de seguir" : "Seguir" %>"
-                            aria-label="<%= yaSigo ? "Dejar de seguir a " + cardNick : "Seguir a " + cardNick %>">
-                      <i class="bi <%= yaSigo ? "bi-bell-slash-fill" : "bi-bell-fill" %>"></i>
-                    </button>
+					        class="btn btn-sm btn-outline-secondary"
+					        title="<%= yaSigo ? "Dejar de seguir" : "Seguir" %>"
+					        aria-label="<%= yaSigo ? "Dejar de seguir a " + cardNick : "Seguir a " + cardNick %>">
+					  <i class="bi bi-bell-fill icon-bell <%= yaSigo ? "icon-following" : "icon-not-following" %>"></i>
+					</button>
                   </form>
                 </div>
               <% } %>
