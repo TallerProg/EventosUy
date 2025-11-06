@@ -48,7 +48,7 @@
               <div id="eventInfo" class="event-info">
                 <p><%= evento.getDescripcion() %></p>
                 <p><strong>Sigla:</strong> <%= evento.getSigla() %></p>
-                <p><strong>Fecha de alta:</strong> <%= evento.getFAlta() %></p>
+                <p><strong>Fecha de alta:</strong> <%= evento.getFAltaS() %></p>
                 <h4>Categorías:</h4>
                 <ul>
                    <%
@@ -91,7 +91,7 @@ if (ediciones == null) { ediciones = java.util.Collections.emptyList(); }
                     <div class="card-body">
                       <h5 class="card-title"><%= edicion.getNombre() %></h5>
                       <p class="card-text">📍 <%= edicion.getCiudad() %>, <%= edicion.getPais() %></p>
-                      <p class="card-text"><small class="text-muted"><%= edicion.getFInicio() %></small></p>
+                      <p class="card-text"><small class="text-muted"><%= edicion.getFInicioS() %></small></p>
 					  <a href="<%= ctx %>/ediciones-consulta?evento=<%= URLEncoder.encode(evento.getNombre(), StandardCharsets.UTF_8) %>&edicion=<%= URLEncoder.encode(edicion.getNombre(), StandardCharsets.UTF_8) %>"class="btn btn-primary">Ver detalles de la edición</a>
                     </div>
                   </div>
