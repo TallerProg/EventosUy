@@ -1,5 +1,4 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="servidorcentral.logica.DTSesionUsuario" %>
 <%@ page import="cliente.ws.sc.DtSesionUsuario" %>
 <%
   String ctx = request.getContextPath(); 
@@ -8,14 +7,7 @@
   String sesNick = null;
   String sesRol  = null;
 
-  if (sesObj instanceof servidorcentral.logica.DTSesionUsuario s) {
-    sesNick = s.getNickname();
-    try {
-
-      sesRol = (s.getRolString() != null) ? s.getRolString()
-              : (s.getRol() != null ? s.getRol().name() : null);
-    } catch (Throwable ignore) { sesRol = null; }
-  } else if (sesObj instanceof cliente.ws.sc.DtSesionUsuario s) {
+  if (sesObj instanceof cliente.ws.sc.DtSesionUsuario s) {
     sesNick = s.getNickname();
     try {
       sesRol = String.valueOf(s.getRol());

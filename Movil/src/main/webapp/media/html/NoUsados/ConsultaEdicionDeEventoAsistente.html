@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Consulta de Edición de Evento - Asistente</title>
+
+  <!-- Favicons -->
+  <link href="../img/logoeuy.png" rel="icon">
+  <link href="../img/logoeuy.png" rel="apple-touch-icon">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Rubik:wght@400;500;600;700&family=Kanit:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+
+  <!-- Vendor CSS -->
+  <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+
+  <!-- Main CSS -->
+  <link href="../css/main.css" rel="stylesheet">
+</head>
+<body class="index-page">
+
+  <!-- Header -->
+  <header id="header" class="header d-flex align-items-center fixed-top">
+    <div
+      class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
+
+      <nav id="navmenu" class="navmenu">
+        <ul>
+          <a href="indexAsis.html" class="logo d-flex align-items-center">
+            <img src="../img/logoeuy.png" alt="">
+          </a>
+          <li><a href="usuariosOrgAsiAT.html">Usuarios</a></li>
+          <li><a href="listaEventosAsis.html">Eventos</a></li>
+          <li><a href="listaInstitucionesAsis.html">Instituciones</a></li>
+          <li class="nav-item search-item ms-auto">
+            <form class="search-form" action="search.html" method="get">
+              <input type="text" name="q" class="search-input" placeholder="Buscar eventos...">
+              <button type="submit" class="search-btn"><i class="bi bi-search"></i></button>
+            </form>
+          </li>
+          <li class="ms-auto d-flex align-items-center gap-2">
+            <a href="perfil_US01.html" class="user-info text-decoration-none d-flex align-items-center gap-2">
+              <img src="../img/usuarios/anaTorres.jpg" alt=" ">
+              <span class="fw-semibold">Ana Torres</span>
+            </a>
+		   <a href="../indexVis.html" class="btn p-0 border-0 bg-transparent">
+			  <i class="login-icon bi bi-box-arrow-in-right fs-3" title="cerrar Sesión"></i>
+		   </a>
+
+          </li>
+        </ul>
+
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main">
+    <section id="consulta-edicion" class="section">
+      <div class="container">
+
+        <div class="section-title">
+          <h2>Consulta de Edición de Evento</h2>
+          <p class="text-muted">Selecciona un evento y su edición para ver los detalles de tu registro</p>
+        </div>
+
+        <!-- Selección de evento y edición -->
+        <div class="register-card mb-4">
+          <form id="form-consulta" class="register-form row g-3">
+            <div class="col-md-6">
+              <label for="evento" class="form-label"><i class="bi bi-calendar-event"></i> Evento</label>
+              <select id="evento" class="form-control">
+                <option value="">-- Seleccione un evento --</option>
+                <option value="EV01">Conferencia de Tecnología</option>
+                <option value="EV04">Maratón de Montevideo</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label for="edicion" class="form-label"><i class="bi bi-collection"></i> Edición</label>
+              <select id="edicion" class="form-control">
+                <option value="">-- Seleccione una edición --</option>
+              </select>
+            </div>
+          </form>
+        </div>
+
+        <!-- Datos generales -->
+        <div class="edicion-layout" id="detalle-edicion" style="display:none;">
+          <div class="edicion-imagenes">
+            <img id="imagen-edicion" src="../img/events/default.jpg" alt="Imagen de la edición" class="img-fluid rounded">
+          </div>
+          <div class="edicion-detalles">
+            <h4>Datos de la Edición</h4>
+            <p><strong>Nombre:</strong> <span id="nombre-edicion"></span></p>
+            <p><strong>Sigla:</strong> <span id="sigla-edicion"></span></p>
+            <p><strong>Organizador:</strong> <span id="organizador"></span></p>
+            <p><strong>Fechas:</strong> <span id="fechas"></span></p>
+            <p><strong>Ciudad:</strong> <span id="ciudad"></span></p>
+            <p><strong>País:</strong> <span id="pais"></span></p>
+          </div>
+        </div>
+
+        <!-- Tipos de registros -->
+        <div class="mt-4" id="tipos-registro" style="display:none;">
+          <h5><i class="bi bi-ticket-perforated"></i> Tipos de Registro</h5>
+          <ul id="lista-registros"></ul>
+        </div>
+
+        <!-- Mi Registro -->
+        <div class="mt-4" id="mi-registro" style="display:none;">
+          <h5><i class="bi bi-person-badge"></i> Mi Registro</h5>
+          <p><strong>Tipo:</strong> <span id="tipo-registro"></span></p>
+          <p><strong>Fecha de Registro:</strong> <span id="fecha-registro"></span></p>
+          <p><strong>Costo:</strong> <span id="costo-registro"></span></p>
+          <p><strong>Estado:</strong> <span id="estado-registro"></span></p>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+<!-- Footer -->
+<hr class="mt-5 mb-4" style="border: 0; height: 3px; background: #bbb; border-radius: 2px;">
+
+<footer id="footer" class="footer position-relative light-background">
+  <div class="container mt-4">
+    <div class="row">
+      
+      <!-- Columna izquierda: Sobre eventos.uy -->
+      <div class="col-lg-6 col-md-6 mb-3">
+        <h5>Sobre eventos.uy</h5>
+        <p class="text-muted small">
+          En <strong>eventos.uy</strong> nos apasiona conectar personas a través de conferencias, 
+          talleres, hackatones y todo tipo de encuentros. Queremos hacer más fácil organizar, 
+          descubrir y disfrutar eventos. <br>
+          Si sos organizador, vas a encontrar herramientas para gestionar tus ediciones, 
+          inscripciones y patrocinios. Y si sos asistente, podes
+          consultar por tus eventos favoritos,  registrarte en segundos y luego queda disfrutarlos! .
+        </p>
+      </div>
+
+      <!-- Columna derecha: Contacto y redes -->
+      <div class="col-lg-6 col-md-6 mb-3 text-lg-end text-md-end text-center">
+        <h5>Contacto</h5>
+        <p class="small">
+          📧 <a href="mailto:contacto@eventos.uy">contacto@eventos.uy</a><br>
+          ☎ +598 2400 0000
+        </p>
+        <div class="social-links d-flex justify-content-lg-end justify-content-md-end justify-content-center">
+          <a href=""><i class="bi bi-twitter-x"></i></a>
+          <a href=""><i class="bi bi-facebook"></i></a>
+          <a href=""><i class="bi bi-instagram"></i></a>
+          <a href=""><i class="bi bi-linkedin"></i></a>
+          <a href="https://gitlab.fing.edu.uy/tprog/tpgr27"><i class="bi bi-gitlab"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Créditos -->
+    <div class="credits text-center mt-3">
+      © 2025 <strong>eventos.uy</strong> · Taller de Programación FING G27
+    </div>
+  </div>
+</footer>
+  <!-- Scripts -->
+  <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+	    const eventoSel = document.querySelector("#evento");
+	    const edicionSel = document.querySelector("#edicion");
+	    const detalleEdicion = document.querySelector("#detalle-edicion");
+	    const tiposRegistro = document.querySelector("#tipos-registro");
+	    const listaRegistros = document.querySelector("#lista-registros");
+	    const miRegistro = document.querySelector("#mi-registro");
+
+	    // Datos hardcodeados desde PDF
+	    const edicionesPorEvento = {
+	      EV01: [
+	        {
+	          id: "EDEV08",
+	          nombre: "Tecnología Punta del Este 2026",
+	          sigla: "CONFTECH26",
+	          organizador: "Universidad de la República",
+	          fechas: "06/04/2026 - 10/04/2026",
+	          ciudad: "Punta del Este",
+	          pais: "Uruguay",
+	          imagen: "../img/events/ConfTecnologia.jpg",
+	          registros: ["Estudiante (costo: $1000, cupos: 50)"],
+	          miRegistro: { tipo: "Estudiante", fecha: "12/09/2025", costo: "$1000", estado: "Confirmado" }
+	        },
+	        {
+	          id: "EDEV10",
+	          nombre: "Web Summit 2026",
+	          sigla: "WS26",
+	          organizador: "Corporación Tecnológica",
+	          fechas: "13/01/2026 - 01/02/2026",
+	          ciudad: "Lisboa",
+	          pais: "Portugal",
+	          imagen: "../img/events/showcase-8.webp",
+	          registros: ["Estudiante (costo: $300, cupos: 1)"],
+	          miRegistro: { tipo: "Estudiante", fecha: "20/11/2025", costo: "$300", estado: "Pendiente" }
+	        }
+	      ],
+	      EV04: [
+	        {
+	          id: "EDEV03",
+	          nombre: "Maratón de Montevideo 2024",
+	          sigla: "MARATON24",
+	          organizador: "Intendencia de Montevideo",
+	          fechas: "14/09/2024",
+	          ciudad: "Montevideo",
+	          pais: "Uruguay",
+	          imagen: "../img/events/maratonmontevideo.jpg",
+	          registros: ["Corredor 21K (costo: $500, cupos: 500)"],
+	          miRegistro: { tipo: "Corredor 21K", fecha: "01/09/2024", costo: "$500", estado: "Confirmado" }
+	        }
+	      ]
+	    };
+
+	    // Cargar ediciones
+	    eventoSel.addEventListener("change", () => {
+	      edicionSel.innerHTML = "<option value=''>-- Seleccione una edición --</option>";
+	      const eventoId = eventoSel.value;
+	      if (edicionesPorEvento[eventoId]) {
+	        edicionesPorEvento[eventoId].forEach(ed => {
+	          edicionSel.innerHTML += `<option value="${ed.id}">${ed.nombre}</option>`;
+	        });
+	      }
+	      detalleEdicion.style.display = "none";
+	      tiposRegistro.style.display = "none";
+	      miRegistro.style.display = "none";
+	    });
+
+	    // Mostrar detalle
+	    edicionSel.addEventListener("change", () => {
+	      const eventoId = eventoSel.value;
+	      const edicion = edicionesPorEvento[eventoId]?.find(e => e.id === edicionSel.value);
+	      if (edicion) {
+	        detalleEdicion.style.display = "flex";
+	        document.querySelector("#nombre-edicion").textContent = edicion.nombre;
+	        document.querySelector("#sigla-edicion").textContent = edicion.sigla;
+	        document.querySelector("#organizador").textContent = edicion.organizador;
+	        document.querySelector("#fechas").textContent = edicion.fechas;
+	        document.querySelector("#ciudad").textContent = edicion.ciudad;
+	        document.querySelector("#pais").textContent = edicion.pais;
+	        document.querySelector("#imagen-edicion").src = edicion.imagen;
+
+	        // Tipos de registro
+	        listaRegistros.innerHTML = "";
+	        edicion.registros.forEach(r => listaRegistros.innerHTML += `<li>${r}</li>`);
+	        tiposRegistro.style.display = "block";
+	     // Agregar botón "Ver detalles" si no existe
+	        let btnDetalles = document.querySelector("#btn-ver-detalles");
+	        if (!btnDetalles) {
+	          btnDetalles = document.createElement("a");
+	          btnDetalles.id = "btn-ver-detalles";
+	          btnDetalles.className = "btn btn-sm btn-primary ms-2";
+	          btnDetalles.textContent = "Ver detalles";
+
+	          // Insertar al lado del título
+	          const titulo = tiposRegistro.querySelector("h5");
+	          titulo.appendChild(btnDetalles);
+	        }
+	        //TOTALMENTE PROVISORIO ESTO SOLO FUNCIONA CON LOS CASOS DE PRUEBA
+	          if(edicion.id=="EDEV03"){
+	             btnDetalles.href = `ConsultaTipoRegistro_TR07.html`;
+			  }else if(edicion.id=="EDEV08"){
+				 btnDetalles.href = `ConsultaTipoRegistro_TR19.html`;
+			  }else if(edicion.id=="EDEV09"){
+				 btnDetalles.href = `ConsultaTipoRegistro_TR20.html`;
+			  }else if(edicion.id=="EDEV10"){
+				 btnDetalles.href = `ConsultaTipoRegistro_TR25.html`;
+	          }      
+
+	      
+
+	        // Mi registro
+	        document.querySelector("#tipo-registro").textContent = edicion.miRegistro.tipo;
+	        document.querySelector("#fecha-registro").textContent = edicion.miRegistro.fecha;
+	        document.querySelector("#costo-registro").textContent = edicion.miRegistro.costo;
+	        document.querySelector("#estado-registro").textContent = edicion.miRegistro.estado;
+	        miRegistro.style.display = "block";
+	      }
+	    });
+  });
+	    </script>
+</body>
+</html>

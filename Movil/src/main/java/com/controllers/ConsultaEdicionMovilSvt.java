@@ -17,7 +17,6 @@ import cliente.ws.sc.RolUsuario;
 
 import cliente.ws.sc.WebServices;
 import cliente.ws.sc.WebServicesService;
-import cliente.ws.sc.DtEvento;
 import cliente.ws.sc.DtEdicion;
 import cliente.ws.sc.DtOrganizador;
 import cliente.ws.sc.DtRegistro;
@@ -30,8 +29,8 @@ import jakarta.xml.ws.soap.SOAPBinding;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 
-@WebServlet(name = "ConsultaEdicionMobileSvt", urlPatterns = {"/ConsultaEdicionMobile"})
-public class ConsultaEdicionMobileSvt extends HttpServlet {
+@WebServlet(name = "ConsultaEdicionMobileSvt", urlPatterns = {"/ediciones"})
+public class ConsultaEdicionMovilSvt extends HttpServlet {
   private static final long serialVersionUID = 1L;
   private static final DateTimeFormatter FMT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
@@ -42,9 +41,8 @@ public class ConsultaEdicionMobileSvt extends HttpServlet {
     if (b instanceof SOAPBinding sb) sb.setMTOMEnabled(true);
     String wsUrl = req.getServletContext().getInitParameter("WS_URL");
     if (wsUrl != null && !wsUrl.isBlank()) {
-      ((BindingProvider) port).getRequestContext().put(
-          BindingProvider.ENDPOINT_ADDRESS_PROPERTY, wsUrl
-      );
+      ((BindingProvider) port).getRequestContext()
+          .put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, wsUrl);
     }
     return port;
   }
@@ -61,6 +59,12 @@ public class ConsultaEdicionMobileSvt extends HttpServlet {
     }
     if (req.getParameter("msgError") != null && req.getAttribute("msgError") == null) {
       req.setAttribute("msgError", decode(req.getParameter("msgError")));
+    }
+
+    if (isBlank(nombreEvento) || isBlank(nombreEdicion)) {
+      req.setAttribute("msgError", "Faltan parámetros: evento y/o edición.");
+      forwardMobile(req, resp);
+      return;
     }
 
     HttpSession session = req.getSession(false);
@@ -97,58 +101,6 @@ public class ConsultaEdicionMobileSvt extends HttpServlet {
 
     try {
       WebServices port = getPort(req);
-
-      if (isBlank(nombreEvento)) {
-        List<Map<String,String>> eventosVM = new ArrayList<>();
-
-        List<DtEvento> eventos = listOrEmpty(callListarEventos(port));
-
-        for (DtEvento e : eventos) {
-          if (e == null) continue;
-          Map<String,String> row = new LinkedHashMap<>();
-          row.put("nombre", nz(e.getNombre()));
-          String img = nz(getEventoImagenWebPath(e));
-          row.put("imagen", img.isBlank() ? null : (req.getContextPath() + img));
-          eventosVM.add(row);
-        }
-
-        req.setAttribute("EVENTOS", eventosVM);
-        forwardMobile(req, resp);
-        return;
-      }
-
-      if (!isBlank(nombreEvento) && isBlank(nombreEdicion)) {
-        List<Map<String,String>> edsVM = new ArrayList<>();
-
-        List<DtEdicion> eds = listOrEmpty(callListarEdicionesDeEvento(port, nombreEvento));
-
-        for (DtEdicion ed : eds) {
-          if (ed == null) continue;
-          if (!"Aprobada".equalsIgnoreCase(nz(ed.getEstado()))) continue;
-
-          Map<String,String> row = new LinkedHashMap<>();
-          row.put("nombre", nz(ed.getNombre()));
-          row.put("estado", nz(ed.getEstado()));
-          row.put("fechaIni", format(toLocalDate(ed.getFInicio())));
-          row.put("fechaFin", format(toLocalDate(ed.getFFin())));
-
-          List<DtOrganizador> orgs = listOrEmpty(ed.getOrganizadores());
-          row.put("organizadorNombre", joinOrganizadores(orgs));
-
-          String img = nz(ed.getImagenWebPath());
-          row.put("imagen", img.isBlank() ? null : (req.getContextPath() + img));
-
-          edsVM.add(row);
-        }
-
-        Map<String,Object> VMmin = new HashMap<>();
-        VMmin.put("eventoNombre", nombreEvento);
-        req.setAttribute("VM", VMmin);
-        req.setAttribute("EDICIONES", edsVM);
-        // Paso 2 → JSP móvil
-        forwardMobile(req, resp);
-        return;
-      }
 
       DtEdicion ed = port.consultaEdicionDeEvento(nombreEvento, nombreEdicion);
       if (ed == null || "NO_ENCONTRADA".equalsIgnoreCase(nz(ed.getEstado()))) {
@@ -244,7 +196,6 @@ public class ConsultaEdicionMobileSvt extends HttpServlet {
       req.setAttribute("ES_ASIS_ED",                esAsistenteInscriptoEd);
 
       req.setAttribute("VM", VM);
-      // Paso 3 → JSP móvil
       forwardMobile(req, resp);
 
     } catch (Exception e) {
@@ -253,28 +204,9 @@ public class ConsultaEdicionMobileSvt extends HttpServlet {
     }
   }
 
-  private List<DtEvento> callListarEventos(WebServices port) {
-    List<DtEvento> out = new ArrayList<>();
-    try {
-      List<DtEvento> tmp = (List<DtEvento>) port.listarEventos(); 
-      if (tmp != null) out.addAll(tmp);
-    } catch (Throwable ignore) { }
-    return out;
-  }
-
-  private List<DtEdicion> callListarEdicionesDeEvento(WebServices port, String nombreEvento) {
-    List<DtEdicion> out = new ArrayList<>();
-    try {
-      List<DtEdicion> tmp = (List<DtEdicion>) port.listarEdiciones(nombreEvento); 
-      if (tmp != null) out.addAll(tmp);
-    } catch (Throwable ignore) { }
-    return out;
-  }
-
-
   private static void forwardMobile(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
-    req.getRequestDispatcher("/WEB-INF/views/mobile/ConsultaEdicionMobile.jsp").forward(req, resp);
+    req.getRequestDispatcher("/WEB-INF/views/ediciones.jsp").forward(req, resp);
   }
 
   private static String decode(String s) { return (s == null) ? null : URLDecoder.decode(s, StandardCharsets.UTF_8); }
@@ -289,7 +221,8 @@ public class ConsultaEdicionMobileSvt extends HttpServlet {
     if (d == null) return null;
     if (d instanceof LocalDate ld) return ld;
     if (d instanceof XMLGregorianCalendar xc) {
-      return xc.toGregorianCalendar().toZonedDateTime().withZoneSameInstant(ZoneId.systemDefault()).toLocalDate();
+      return xc.toGregorianCalendar().toZonedDateTime()
+               .withZoneSameInstant(ZoneId.systemDefault()).toLocalDate();
     }
     return null;
   }
@@ -304,13 +237,5 @@ public class ConsultaEdicionMobileSvt extends HttpServlet {
     }
     return nombres.isEmpty() ? null : String.join(", ", nombres);
   }
-
-  private static String getEventoImagenWebPath(DtEvento e) {
-    try {
-      return String.valueOf(DtEvento.class.getMethod("getImagenWebPath").invoke(e));
-    } catch (Throwable ignore) {
-      try { return String.valueOf(DtEvento.class.getMethod("getImg").invoke(e)); }
-      catch (Throwable ignore2) { return ""; }
-    }
-  }
 }
+

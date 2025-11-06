@@ -34,6 +34,7 @@
   </properties>
 
   <dependencies>
+    <!-- JSTL / JSP / Servlet (proveídos por el contenedor para compilar, no empaquetar) -->
     <dependency>
       <groupId>jakarta.servlet.jsp.jstl</groupId>
       <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
@@ -64,19 +65,39 @@
       <scope>provided</scope>
     </dependency>
 
+    <!-- JAX-WS (Metro 4) -->
     <dependency>
       <groupId>com.sun.xml.ws</groupId>
       <artifactId>jaxws-rt</artifactId>
       <version>${jaxws.metro.version}</version>
-      <scope>runtime</scope>
+      <!-- sin scope: se empaqueta dentro del WAR (necesario en Tomcat) -->
+    </dependency>
+    <dependency>
+      <groupId>jakarta.xml.ws</groupId>
+      <artifactId>jakarta.xml.ws-api</artifactId>
+      <version>4.0.0</version>
     </dependency>
 
+    <!-- SAAJ (SOAP) explícito por compatibilidad -->
+    <dependency>
+      <groupId>jakarta.xml.soap</groupId>
+      <artifactId>jakarta.xml.soap-api</artifactId>
+      <version>3.0.0</version>
+    </dependency>
+
+    <!-- JAXB -->
     <dependency>
       <groupId>org.glassfish.jaxb</groupId>
       <artifactId>jaxb-runtime</artifactId>
       <version>${jaxb.runtime.version}</version>
     </dependency>
+    <dependency>
+      <groupId>jakarta.xml.bind</groupId>
+      <artifactId>jakarta.xml.bind-api</artifactId>
+      <version>4.0.2</version>
+    </dependency>
 
+    <!-- Activation (MIME) -->
     <dependency>
       <groupId>jakarta.activation</groupId>
       <artifactId>jakarta.activation-api</artifactId>
@@ -100,6 +121,7 @@
         </configuration>
       </plugin>
 
+      <!-- Generación de stubs Jakarta con Metro 4 -->
       <plugin>
         <groupId>com.sun.xml.ws</groupId>
         <artifactId>jaxws-maven-plugin</artifactId>
@@ -120,6 +142,7 @@
               <xnocompile>true</xnocompile>
               <keep>true</keep>
               <vmArgs>
+                <!-- Propiedades JAXP para lectura de esquemas externos -->
                 <vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
                 <vmArg>-Djavax.xml.accessExternalDTD=all</vmArg>
               </vmArgs>
@@ -158,3 +181,4 @@
     </plugins>
   </build>
 </project>
+
