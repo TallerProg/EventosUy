@@ -366,9 +366,12 @@ boolean hayEventoSeleccionado  = (evNom != null && !evNom.isBlank());
 
 <footer id="footer" class="footer position-relative light-background mt-4">
   <jsp:include page="/WEB-INF/views/template/footer.jsp" />
+  
 </footer>
 
 <script src="<%=ctx%>/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="media/js/main.js"></script>
+
 
 <%!
   private static String nv(Object o){ return (o==null || String.valueOf(o).isBlank()) ? "—" : String.valueOf(o); }

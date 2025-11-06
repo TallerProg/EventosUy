@@ -19,11 +19,11 @@
 %>
 
 <div class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
-  <nav id="navmenu" class="navmenu">
-    <ul>
-      <a href="<%= ctx %>/home" class="logo d-flex align-items-center">
+        <a href="<%= ctx %>/home" class="logo d-flex align-items-center">
         <img src="<%= ctx %>/media/img/logoeuy.png" alt="">
       </a>
+  <nav id="navmenu" class="navmenu">
+    <ul>
       <li><a href="<%= ctx %>/ListaUsuarios">Usuarios</a></li>
       <li><a href="<%= ctx %>/Eventos">Eventos</a></li>
       <li><a href="<%= ctx %>/Instituciones">Instituciones</a></li>
