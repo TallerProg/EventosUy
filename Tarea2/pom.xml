@@ -31,6 +31,7 @@
   </properties>
 
   <dependencies>
+    <!-- APIs provistas por el contenedor -->
     <dependency>
       <groupId>jakarta.servlet</groupId>
       <artifactId>jakarta.servlet-api</artifactId>
@@ -50,6 +51,7 @@
       <scope>provided</scope>
     </dependency>
 
+    <!-- JSTL -->
     <dependency>
       <groupId>jakarta.servlet.jsp.jstl</groupId>
       <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
@@ -61,12 +63,22 @@
       <version>${jakarta.jstl.impl.version}</version>
     </dependency>
 
+    <!-- *** FALTABA: API de JAX-WS (Jakarta) -->
+    <dependency>
+      <groupId>jakarta.xml.ws</groupId>
+      <artifactId>jakarta.xml.ws-api</artifactId>
+      <version>4.0.0</version>
+    </dependency>
+
+    <!-- Cliente SOAP (Metro / JAX-WS RI) -->
     <dependency>
       <groupId>com.sun.xml.ws</groupId>
       <artifactId>jaxws-rt</artifactId>
       <version>${jaxws.version}</version>
       <scope>runtime</scope>
     </dependency>
+
+    <!-- JAXB + Activation -->
     <dependency>
       <groupId>jakarta.xml.bind</groupId>
       <artifactId>jakarta.xml.bind-api</artifactId>
@@ -83,12 +95,14 @@
       <version>${activation.version}</version>
     </dependency>
 
+    <!-- Utilidades -->
     <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
       <version>2.16.1</version>
     </dependency>
 
+    <!-- Tests -->
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter</artifactId>
@@ -122,10 +136,10 @@
         <version>3.4.0</version>
         <configuration>
           <failOnMissingWebXml>false</failOnMissingWebXml>
-
         </configuration>
       </plugin>
 
+      <!-- wsimport para generar stubs -->
       <plugin>
         <groupId>com.sun.xml.ws</groupId>
         <artifactId>jaxws-maven-plugin</artifactId>
@@ -141,17 +155,32 @@
               <wsdlUrls>
                 <wsdlUrl>http://localhost:9128/webservices?wsdl</wsdlUrl>
               </wsdlUrls>
-
               <packageName>cliente.ws.sc</packageName>
-
               <keep>true</keep>
               <xnocompile>true</xnocompile>
-
               <vmArgs>
                 <vmArg>-Djavax.xml.accessExternalSchema=all</vmArg>
               </vmArgs>
-
               <sourceDestDir>${project.build.directory}/generated-sources/wsimport</sourceDestDir>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- Para que Eclipse/m2e incluya los sources generados -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>3.6.0</version>
+        <executions>
+          <execution>
+            <id>add-wsimport-sources</id>
+            <phase>generate-sources</phase>
+            <goals><goal>add-source</goal></goals>
+            <configuration>
+              <sources>
+                <source>${project.build.directory}/generated-sources/wsimport</source>
+              </sources>
             </configuration>
           </execution>
         </executions>

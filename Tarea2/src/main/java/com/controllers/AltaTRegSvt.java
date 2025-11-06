@@ -7,7 +7,6 @@ import jakarta.jws.WebMethod;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
-import servidorcentral.excepciones.NombreTRUsadoException;
 import cliente.ws.sc.WebServices;
 import cliente.ws.sc.WebServicesService;
 
