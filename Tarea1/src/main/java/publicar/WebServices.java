@@ -548,8 +548,17 @@ public class WebServices {
 	public String nombreEventoDeEdicion(String nombreEdicion) {
 		return getControllerEvento().nombreEventoDeEdicion(nombreEdicion);
 	}
+@WebMethod
+public DTevento getDTEvento(String nombreEvento) {
+	return getControllerEvento().getEvento(nombreEvento).getDTevento();
+}
+@WebMethod
+public void altaRegistro(String nomEdicion, String nickAsistente, String nomTipo)throws Exception {
+	getControllerEvento().altaRegistro(nomEdicion, nickAsistente, nomTipo);	      
+}
 
-    
-	   
-       
+@WebMethod
+public void altaRegistroP(String nomEdicion, String nickAsistente, String nomTipo, String codigoPat)throws Exception {
+	getControllerEvento().altaRegistro(nomEdicion, nickAsistente, nomTipo, codigoPat);	      
+}
 }

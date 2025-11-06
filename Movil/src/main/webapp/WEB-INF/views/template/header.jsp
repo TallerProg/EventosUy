@@ -19,11 +19,11 @@
 %>
 
 <div class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
-  <nav id="navmenu" class="navmenu">
-    <ul>
-      <a href="<%= ctx %>/home" class="logo d-flex align-items-center">
+        <a href="<%= ctx %>/home" class="logo d-flex align-items-center">
         <img src="<%= ctx %>/media/img/logoeuy.png" alt="">
       </a>
+  <nav id="navmenu" class="navmenu">
+    <ul>
       <li><a href="<%= ctx %>/ListaUsuarios">Usuarios</a></li>
       <li><a href="<%= ctx %>/Eventos">Eventos</a></li>
       <li><a href="<%= ctx %>/Instituciones">Instituciones</a></li>
@@ -31,12 +31,7 @@
         <li><a href="<%= ctx %>/MisEdiciones">Mis Ediciones</a></li>
       <% } %>
 
-      <li class="nav-item search-item ms-auto">
-        <form class="search-form" action="<%= ctx %>/search" method="get">
-          <input type="text" name="q" class="search-input" placeholder="Buscar eventos...">
-          <button type="submit" class="search-btn"><i class="bi bi-search"></i></button>
-        </form>
-      </li>
+  
 
       <% if (sesNick == null || sesNick.isBlank()) { %>
         <li class="ms-auto d-flex gap-2">

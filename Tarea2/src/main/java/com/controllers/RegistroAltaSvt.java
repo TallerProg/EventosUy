@@ -9,14 +9,11 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 
-import servidorcentral.logica.Factory;
-import servidorcentral.logica.IControllerEvento;
-import servidorcentral.logica.DTEdicion;
-import servidorcentral.logica.DTTipoRegistro;
-import servidorcentral.logica.DTevento;
-
-import servidorcentral.logica.DTSesionUsuario;
-import servidorcentral.logica.RolUsuario;
+import cliente.ws.sc.DtEdicion;
+import cliente.ws.sc.DtTipoRegistro;
+import cliente.ws.sc.DTevento;
+import cliente.ws.sc.DtSesionUsuario;
+import cliente.ws.sc.RolUsuario;
 
 @WebServlet(name = "RegistroAltaSvt", urlPatterns = {"/RegistroAlta"})
 public class RegistroAltaSvt extends HttpServlet {
@@ -28,7 +25,7 @@ public class RegistroAltaSvt extends HttpServlet {
       throws ServletException, IOException {
 
     HttpSession session = req.getSession(false);
-    DTSesionUsuario usuario = (session != null) ? (DTSesionUsuario) session.getAttribute("usuario_logueado") : null;
+    DtSesionUsuario usuario = (session != null) ? (DtSesionUsuario) session.getAttribute("usuario_logueado") : null;
 
     if (usuario == null || usuario.getRol() != RolUsuario.ASISTENTE) {
       req.setAttribute("msgError", "Debés iniciar sesión como Asistente para registrarte.");
@@ -45,13 +42,13 @@ public class RegistroAltaSvt extends HttpServlet {
       req.getRequestDispatcher("/WEB-INF/views/RegistroAlta.jsp").forward(req, resp);
       return;
     }
-
+    cliente.ws.sc.WebServicesService service = new cliente.ws.sc.WebServicesService();
+    cliente.ws.sc.WebServices port = service.getWebServicesPort();
     try {
-      IControllerEvento ctrl = Factory.getInstance().getIControllerEvento();
 
-      DTevento evento     = ctrl.getEvento(nomEvento).getDTevento();
-      DTEdicion ed      = ctrl.consultaEdicionDeEvento(nomEvento, nomEdicion);
-      DTTipoRegistro tr = ctrl.consultaTipoRegistro(nomEdicion, nomTipo);
+      DTevento evento     = port.getDTEvento(nomEvento);
+      DtEdicion ed      = port.consultaEdicionDeEvento(nomEvento, nomEdicion);
+      DtTipoRegistro tr = port.consultaTipoRegistro(nomEdicion, nomTipo);
 
       if (evento == null || ed == null || tr == null) {
         req.setAttribute("msgError", "No se pudo cargar la información solicitada.");
@@ -78,7 +75,7 @@ public class RegistroAltaSvt extends HttpServlet {
 
 
     HttpSession session = req.getSession(false);
-    DTSesionUsuario usuario = (session != null) ? (DTSesionUsuario) session.getAttribute("usuario_logueado") : null;
+    DtSesionUsuario usuario = (session != null) ? (DtSesionUsuario) session.getAttribute("usuario_logueado") : null;
 
     if (usuario == null || usuario.getRol() != RolUsuario.ASISTENTE) {
       req.setAttribute("msgError", "Debés iniciar sesión como Asistente para registrarte.");
@@ -100,13 +97,14 @@ public class RegistroAltaSvt extends HttpServlet {
       req.getRequestDispatcher("/WEB-INF/views/RegistroAlta.jsp").forward(req, resp);
       return;
     }
-
+    
+    cliente.ws.sc.WebServicesService service = new cliente.ws.sc.WebServicesService();
+    cliente.ws.sc.WebServices port = service.getWebServicesPort();
     try {
-      IControllerEvento ctrl = Factory.getInstance().getIControllerEvento();
 
-      DTevento evento     = ctrl.getEvento(nomEvento).getDTevento();
-      DTEdicion ed      = ctrl.consultaEdicionDeEvento(nomEvento, nomEdicion);
-      DTTipoRegistro tr = ctrl.consultaTipoRegistro(nomEdicion, nomTipo);
+      DTevento evento     = port.getDTEvento(nomEvento);
+      DtEdicion ed      = port.consultaEdicionDeEvento(nomEvento, nomEdicion);
+      DtTipoRegistro tr = port.consultaTipoRegistro(nomEdicion, nomTipo);
 
       if (evento == null || ed == null || tr == null) {
         req.setAttribute("msgError", "No se pudo cargar la información solicitada.");
@@ -140,7 +138,7 @@ public class RegistroAltaSvt extends HttpServlet {
       boolean conPatro = "patrocinio".equalsIgnoreCase(modalidad);
 
       if (!conPatro) {
-        ctrl.altaRegistro(nomEdicion, nickAsistente, nomTipo);
+        port.altaRegistro(nomEdicion, nickAsistente, nomTipo);
         
       } else {
         if (isBlank(codigoPat)) {
@@ -149,7 +147,7 @@ public class RegistroAltaSvt extends HttpServlet {
           req.getRequestDispatcher("/WEB-INF/views/RegistroAlta.jsp").forward(req, resp);
           return;
         }
-        ctrl.altaRegistro(nomEdicion, nickAsistente, nomTipo, codigoPat);
+        port.altaRegistroP(nomEdicion, nickAsistente, nomTipo, codigoPat);
       }
 
       req.setAttribute("success", true);
@@ -174,7 +172,7 @@ public class RegistroAltaSvt extends HttpServlet {
     return s == null || s.trim().isEmpty();
   }
 
-  private static void rellenar(HttpServletRequest req, DTevento evento, DTEdicion ed, DTTipoRegistro tr) {
+  private static void rellenar(HttpServletRequest req, DTevento evento, DtEdicion ed, DtTipoRegistro tr) {
     req.setAttribute("EVENTO", evento);
     req.setAttribute("EDICION", ed);
     req.setAttribute("TIPO_REGISTRO", tr);
@@ -182,7 +180,7 @@ public class RegistroAltaSvt extends HttpServlet {
     req.setAttribute("CUPO_TIPO",  tr.getCupo());
   }
 
-  private static String extraerNickSeguro(DTSesionUsuario u) {
+  private static String extraerNickSeguro(DtSesionUsuario u) {
     if (u == null) return null;
     try {
       Object nick = u.getClass().getMethod("getNickname").invoke(u);
