@@ -8,6 +8,7 @@ import jakarta.xml.bind.annotation.XmlAccessorType;
 public class DTRegistro {
 
 	private LocalDate fInicio;
+	private String fInicioS;
 	private Float costo;
 	private String tipoRegistroNombre;
 	private String asistenteNickname;
@@ -16,6 +17,7 @@ public class DTRegistro {
 	public DTRegistro(LocalDate fInicio, Float costo, String tipoRegistroNombre, String asistenteNickname,
 			String patrocinioCodigo, Edicion edicion) {
 		this.fInicio = fInicio;
+		this.fInicioS = (fInicio != null) ? fInicio.toString() : null;
 		this.costo = costo;
 		this.tipoRegistroNombre = tipoRegistroNombre;
 		this.asistenteNickname = asistenteNickname;
@@ -25,6 +27,9 @@ public class DTRegistro {
 
 	public LocalDate getfInicio() {
 		return fInicio;
+	}
+	public String getfInicioS() {
+		return fInicioS;
 	}
 
 	public Float getCosto() {

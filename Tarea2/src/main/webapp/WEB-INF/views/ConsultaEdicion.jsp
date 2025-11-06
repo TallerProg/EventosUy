@@ -240,14 +240,6 @@ String encEv = (evNom  != null) ? URLEncoder.encode(evNom,  StandardCharsets.UTF
           <div class="row g-2 align-items-center">
             <div class="col-md-3"><strong>Tipo:</strong> <%= nv(miReg.get("tipo")) %></div>
             <div class="col-md-3"><strong>Fecha:</strong> <%= nv(miReg.get("fecha")) %></div>
-            <div class="col-md-3">
-              <strong>Asistió:</strong>
-              <%
-                String a = (miReg.get("asistio")!=null)? miReg.get("asistio") : "No";
-                boolean asistio = "Sí".equalsIgnoreCase(a);
-              %>
-              <span class="badge <%= asistio ? "bg-success" : "bg-secondary" %>"><%= a %></span>
-            </div>
             <div class="col-md-3 text-md-end">
               <% String constUrl = (miReg!=null)? miReg.get("constanciaUrl") : null; %>
               <% if (constUrl != null && !constUrl.isBlank()) { %>
@@ -290,7 +282,35 @@ String encEv = (evNom  != null) ? URLEncoder.encode(evNom,  StandardCharsets.UTF
           </div>
         </div>
       </div>
-      <% } %>
+      <% } else { %>
+  <div class="card shadow-sm mb-4">
+    <div class="card-body">
+      <h5 class="card-title"><i class="bi bi-list"></i> Registros de Asistentes</h5>
+      <div class="table-responsive">
+        <table class="table table-bordered align-middle mb-0">
+          <thead class="table-light">
+            <tr><th>Nombre</th><th>Asistió</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if (regs != null && !regs.isEmpty()) {
+                 for (java.util.Map<String,String> r : regs) { %>
+              <tr>
+                <td><%= nv(r.get("asistente")) %></td>
+                <td>
+                  <% String a = (r.get("asistio") != null) ? r.get("asistio") : "No"; %>
+                  <span class="badge <%= "Sí".equalsIgnoreCase(a) ? "bg-success" : "bg-secondary" %>"><%= a %></span>
+                </td>
+              </tr>
+            <% } } else { %>
+              <tr><td colspan="2" class="text-center text-muted">No hay registros aún.</td></tr>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+<% } %>
 
       <div class="card shadow-sm">
         <div class="card-body">

@@ -116,13 +116,14 @@ public class ConsultaEdicionSvt extends HttpServlet {
       VM.put("nombre", nz(ed.getNombre()));
       VM.put("sigla",  nz(ed.getSigla()));
 
-      LocalDate fIni = toLocalDate(ed.getFInicio());
-      LocalDate fFin = toLocalDate(ed.getFFin());
-      VM.put("fechaIni", format(fIni));
-      VM.put("fechaFin", format(fFin));
+      String fIni = ed.getFInicioS();
+      String fFinS = ed.getFFinS();
+      VM.put("fechaIni", fIni);
+      VM.put("fechaFin", fFinS);
       VM.put("ciudad",   nz(ed.getCiudad()));
       VM.put("pais",     nz(ed.getPais()));
       VM.put("estado",   nz(ed.getEstado()));
+      LocalDate fFin = toLocalDate(ed.getFFin());
 
       boolean finalizado = (fFin != null) && LocalDate.now().isAfter(fFin);
       VM.put("finalizado", finalizado);
@@ -146,7 +147,7 @@ public class ConsultaEdicionSvt extends HttpServlet {
         Map<String,String> row = new LinkedHashMap<>();
         row.put("asistente", nz(r.getAsistenteNickname()));
         row.put("tipo",      nz(r.getTipoRegistroNombre()));
-        row.put("fecha",     format(toLocalDate(r.getFInicio())));
+        row.put("fecha",     r.getFInicioS());
         boolean asistio = getAsistioSafe(r);// aca iria el metodo que haga k100lo
         row.put("asistio", asistio ? "Sí" : "No");
         regsVM.add(row);
