@@ -31,12 +31,7 @@
         <li><a href="<%= ctx %>/MisEdiciones">Mis Ediciones</a></li>
       <% } %>
 
-      <li class="nav-item search-item ms-auto">
-        <form class="search-form" action="<%= ctx %>/search" method="get">
-          <input type="text" name="q" class="search-input" placeholder="Buscar eventos...">
-          <button type="submit" class="search-btn"><i class="bi bi-search"></i></button>
-        </form>
-      </li>
+  
 
       <% if (sesNick == null || sesNick.isBlank()) { %>
         <li class="ms-auto d-flex gap-2">
