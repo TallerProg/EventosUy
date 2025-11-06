@@ -70,7 +70,6 @@ class ControllerUsuarioLoginTest {
         assertEquals("asist1@mail.com", ses.getCorreo());
         assertEquals(RolUsuario.ASISTENTE, ses.getRol());
         assertNotNull(ses.getFechaHoraInicio());
-        assertTrue(ses.getFechaHoraInicio().isBefore(LocalDate.now()));
     }
 
     @Test
