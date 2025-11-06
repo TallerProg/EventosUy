@@ -130,7 +130,7 @@ public class ConsultaEdicionSvt extends HttpServlet {
       String img = nz(ed.getImagenWebPath());
       VM.put("imagen", !img.isBlank() ? (req.getContextPath() + img) : null);
 
-      // (Opcional) Video embebido si existiera en el stub, con nombres posibles: getVideoUrl() / getVideo() / getUrlVideo()
+      // i llegamos a hacer lo de video va aca 
       String videoUrl = safeVideoUrl(ed);
       if (!isBlank(videoUrl)) {
         VM.put("videoUrl", videoUrl);
@@ -147,7 +147,7 @@ public class ConsultaEdicionSvt extends HttpServlet {
         row.put("asistente", nz(r.getAsistenteNickname()));
         row.put("tipo",      nz(r.getTipoRegistroNombre()));
         row.put("fecha",     format(toLocalDate(r.getFInicio())));
-        boolean asistio = getAsistioSafe(r); // NUEVO
+        boolean asistio = getAsistioSafe(r);// aca iria el metodo que haga k100lo
         row.put("asistio", asistio ? "Sí" : "No");
         regsVM.add(row);
       }
@@ -265,18 +265,16 @@ public class ConsultaEdicionSvt extends HttpServlet {
     return nombres.isEmpty() ? null : String.join(", ", nombres);
   }
 
-  /** Intenta obtener el flag 'asistio' sin depender del nombre exacto del método. */
+// pa que no tire error 
   private static boolean getAsistioSafe(DtRegistro r) {
     if (r == null) return false;
     try {
-      // Opción 1: boolean isAsistio()
       var m1 = r.getClass().getMethod("isAsistio");
       Object val = m1.invoke(r);
       if (val instanceof Boolean b) return b;
       if (val != null) return Boolean.parseBoolean(String.valueOf(val));
     } catch (Exception ignore) {}
     try {
-      // Opción 2: Boolean getAsistio()
       var m2 = r.getClass().getMethod("getAsistio");
       Object val = m2.invoke(r);
       if (val instanceof Boolean b) return b;
@@ -284,8 +282,7 @@ public class ConsultaEdicionSvt extends HttpServlet {
     } catch (Exception ignore) {}
     return false;
   }
-
-  /** Intenta obtener una URL de video si existe algún getter compatible. */
+// lo mismo pero video 
   private static String safeVideoUrl(DtEdicion ed) {
     if (ed == null) return null;
     for (String m : new String[]{"getVideoUrl", "getVideo", "getUrlVideo"}) {
