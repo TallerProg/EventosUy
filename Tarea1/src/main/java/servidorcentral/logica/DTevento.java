@@ -15,6 +15,7 @@ public class DTevento {
 	private String sigla;
 	private String descripcion;
 	private LocalDate fAlta;
+	private String fAltaS;
 	private String img;
 	private Boolean finalizado;
 	@XmlTransient
@@ -33,6 +34,8 @@ public class DTevento {
 		this.sigla = sigla;
 		this.descripcion = descripcion;
 		this.fAlta = fAlta;
+        this.fAltaS = (fAlta != null) ? fAlta.toString() : null;
+
 		this.img = img;
 		this.finalizado = finalizado;
 		if (categorias != null) {
@@ -62,6 +65,9 @@ public class DTevento {
 	public LocalDate getFAlta() {
 		return fAlta;
 	}
+	public String getFAltaS() {
+		return fAltaS;
+	}
 
 	public List<Categoria> getCategorias() {
 		return categorias;
@@ -89,4 +95,14 @@ public class DTevento {
 	public Boolean getFinalizado() {
 		return finalizado;
 	}
+	
+	public void setFNacimiento(LocalDate fAlta) {
+        this.fAlta = fAlta;
+        this.fAltaS = (fAlta == null) ? null : fAlta.toString();
+    }
+    public void setFNacimientoS(String fAltaS) {
+        this.fAltaS = fAltaS;
+        this.fAlta = (fAltaS == null || fAltaS.isBlank())
+                ? null : LocalDate.parse(fAltaS);
+    }
 }

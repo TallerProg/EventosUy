@@ -12,6 +12,7 @@ public class DTEdicion {
 	private String nombre;
 	private String sigla;
 	private LocalDate fInicio;
+	private String fInicioS;
 	private LocalDate fFin;
 	private LocalDate fAlta;
 	private String ciudad;
@@ -34,6 +35,7 @@ public class DTEdicion {
 		this.nombre = nombre;
 		this.sigla = sigla;
 		this.fInicio = fInicio;
+        this.fInicioS = (fInicio != null) ? fInicio.toString() : null;
 		this.fFin = fFin;
 		this.fAlta = fAlta;
 		this.ciudad = ciudad;
@@ -61,6 +63,9 @@ public class DTEdicion {
 
 	public LocalDate getfInicio() {
 		return fInicio;
+	}
+	public String getfInicioS() {
+		return fInicioS;
 	}
 
 	public LocalDate getfFin() {

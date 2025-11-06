@@ -173,11 +173,9 @@ public class ConsultaEdicionSvt extends HttpServlet {
       }
       VM.put("miRegistro", miRegVM);
 
-      // Patrocinios directos al JSP si querés
       List<DtPatrocinio> pats = listOrEmpty(ed.getPatrocinios());
       req.setAttribute("patrocinios", pats);
 
-      // ¿Es organizador de esta edición?
       boolean esOrganizadorDeEstaEdicion = false;
       if (esOrganizador && orgs != null && nickSesion != null) {
         String nickNorm = nickSesion.trim().toLowerCase();
@@ -189,7 +187,6 @@ public class ConsultaEdicionSvt extends HttpServlet {
         }
       }
 
-      // Atributos que el JSP puede leer
       req.setAttribute("ES_ORGANIZADOR", esOrganizador);
       req.setAttribute("ES_ASISTENTE",   esAsistente);
       req.setAttribute("ES_ORG",         esOrganizador);

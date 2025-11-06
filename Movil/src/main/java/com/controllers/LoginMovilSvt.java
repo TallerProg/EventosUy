@@ -1,7 +1,7 @@
 package com.controllers;
 
-import com.movil.ws.WsClient;
 import cliente.ws.sc.WebServices;
+import cliente.ws.sc.WebServicesService;
 import cliente.ws.sc.CredencialesInvalidasException_Exception;
 import cliente.ws.sc.UsuarioNoExisteException_Exception;
 import cliente.ws.sc.DtSesionUsuario; 
@@ -39,7 +39,8 @@ public class LoginMovilSvt extends HttpServlet {
     }
 
     try {
-      WebServices port = WsClient.getPort(getServletContext());
+      WebServicesService svc = new WebServicesService();
+      WebServices port = svc.getWebServicesPort();
       DtSesionUsuario sesion = port.iniciarSesion(identifier, password);
 
       HttpSession httpSes = req.getSession(true);
