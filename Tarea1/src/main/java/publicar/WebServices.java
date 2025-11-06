@@ -561,4 +561,9 @@ public void altaRegistro(String nomEdicion, String nickAsistente, String nomTipo
 public void altaRegistroP(String nomEdicion, String nickAsistente, String nomTipo, String codigoPat)throws Exception {
 	getControllerEvento().altaRegistro(nomEdicion, nickAsistente, nomTipo, codigoPat);	      
 }
+@WebMethod
+public boolean esOrganizador(String identifier) {
+    return getControllerUsuario().esOrganizador(identifier);
+}
+
 }

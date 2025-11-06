@@ -42,6 +42,8 @@ public interface IControllerUsuario {
 	public List<Organizador> getOrganizadores();
 	
 	public List<DTUsuarioListaConsulta> getDTOrganizadores();
+	
+	public boolean esOrganizador(String identifier);
 
 	public List<String> getAsistenteRegistro(String nickname);
 

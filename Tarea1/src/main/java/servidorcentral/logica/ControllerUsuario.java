@@ -425,4 +425,8 @@ public void actualizarImagenUsuario(String nickname, String imgPath) {
 				}
 				return listaDTOrganizadores;
     }
+    public boolean esOrganizador(String identifier) {
+        Usuario u = getUsuario(identifier);
+        return (u instanceof Organizador);
+    }
 }

@@ -1,83 +1,92 @@
 package com.controllers;
 
-import cliente.ws.sc.WebServices;
-import cliente.ws.sc.WebServicesService;
-import cliente.ws.sc.CredencialesInvalidasException_Exception;
-import cliente.ws.sc.UsuarioNoExisteException_Exception;
-import cliente.ws.sc.DtSesionUsuario; 
-
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
+import java.net.URL;
 
-@WebServlet(name = "LoginMovilSvt", urlPatterns = {"/login"})
+import cliente.ws.sc.WebServices;
+import cliente.ws.sc.WebServicesService;
+import cliente.ws.sc.CredencialesInvalidasException_Exception;
+import cliente.ws.sc.DtSesionUsuario;
+import cliente.ws.sc.DtUsuarioListaConsulta;
+import cliente.ws.sc.UsuarioNoExisteException_Exception;
+
+@WebServlet("/login")
 public class LoginMovilSvt extends HttpServlet {
-  private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-  private static final String FORM_JSP = "/WEB-INF/login.jsp";
+    private static final String VIEW = "/WEB-INF/views/login.jsp";
+    private static final String WSDL_URL = "http://127.0.0.1:9128/webservices?wsdl";
 
-  @Override
-  protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-      throws ServletException, IOException {
-    req.getRequestDispatcher(FORM_JSP).forward(req, resp);
-  }
-
-  @Override
-  protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-      throws ServletException, IOException {
-    req.setCharacterEncoding(StandardCharsets.UTF_8.name());
-
-    String identifier = trim(req.getParameter("identifier"));
-    String password   = trim(req.getParameter("password"));
-
-    if (identifier.isEmpty() || password.isEmpty()) {
-      req.setAttribute("msgError", "Usuario y contraseña son obligatorios.");
-      req.getRequestDispatcher(FORM_JSP).forward(req, resp);
-      return;
+    private WebServices getPort() throws IOException {
+        try {
+            URL wsdl = new URL(WSDL_URL);
+            WebServicesService svc = new WebServicesService(wsdl);
+            return svc.getWebServicesPort();
+        } catch (Exception e) {
+            throw new IOException("No se pudo crear el cliente del WebService: " + e.getMessage(), e);
+        }
     }
 
-    try {
-      WebServicesService svc = new WebServicesService();
-      WebServices port = svc.getWebServicesPort();
-      DtSesionUsuario sesion = port.iniciarSesion(identifier, password);
-
-      HttpSession httpSes = req.getSession(true);
-      httpSes.setAttribute("MOVIL_SESION", sesion);
-
-      try {
-        String nick = null;
-        try { nick = (String)DtReflection.safeCall(sesion, "getNickname"); } catch (Throwable ignore) {}
-        if (nick == null || nick.isBlank()) nick = identifier;
-        httpSes.setAttribute("MOVIL_NICK", nick);
-      } catch (Throwable ignore) {}
-
-      String next = (String) httpSes.getAttribute("MOVIL_NEXT");
-      if (next != null) {
-        httpSes.removeAttribute("MOVIL_NEXT");
-        resp.sendRedirect(next);
-      } else {
-        resp.sendRedirect(req.getContextPath() + "/m/home");
-      }
-    } catch (UsuarioNoExisteException_Exception e) {
-      req.setAttribute("msgError", "Usuario no existe.");
-      req.getRequestDispatcher(FORM_JSP).forward(req, resp);
-    } catch (CredencialesInvalidasException_Exception e) {
-      req.setAttribute("msgError", "Credenciales inválidas.");
-      req.getRequestDispatcher(FORM_JSP).forward(req, resp);
-    } catch (Exception e) {
-      req.setAttribute("msgError", "Error al iniciar sesión: " + e.getMessage());
-      req.getRequestDispatcher(FORM_JSP).forward(req, resp);
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        req.getRequestDispatcher(VIEW).forward(req, resp);
     }
-  }
 
-  private static String trim(String s) { return s == null ? "" : s.trim(); }
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
 
-  static class DtReflection {
-    static Object safeCall(Object obj, String getter) throws Exception {
-      if (obj == null) return null;
-      return obj.getClass().getMethod(getter).invoke(obj);
+        req.setCharacterEncoding("UTF-8");
+
+        String identifier = trim(req.getParameter("identifier"));
+        String password   = trim(req.getParameter("password"));
+
+        if (isEmpty(identifier) || isEmpty(password)) {
+            req.setAttribute("error", "Completá usuario y contraseña.");
+            req.setAttribute("identifier_prev", identifier);
+            req.getRequestDispatcher(VIEW).forward(req, resp);
+            return;
+        }
+        WebServices port = getPort();
+        if(port.esOrganizador(identifier)) {
+    		req.setAttribute("error", "Los organizadorees no pueden iniciar sesión desde la aplicación móvil.");
+    		req.getRequestDispatcher(VIEW).forward(req, resp);
+    		return;
+    	}
+        try {
+
+            DtSesionUsuario sesion = port.iniciarSesion(identifier, password);
+
+            DtUsuarioListaConsulta usr = port.consultaDeUsuario(sesion.getNickname());
+
+            HttpSession httpSes = req.getSession(true);
+            httpSes.setAttribute("usuario_logueado", sesion);
+            httpSes.setAttribute("IMAGEN_LOGUEADO", usr.getImg());
+
+            resp.sendRedirect(req.getContextPath() + "/home");
+
+        } catch (UsuarioNoExisteException_Exception e) {
+            req.setAttribute("error", e.getMessage());
+            req.setAttribute("identifier_prev", identifier);
+            req.getRequestDispatcher(VIEW).forward(req, resp);
+
+        } catch (CredencialesInvalidasException_Exception e) {
+            req.setAttribute("error", e.getMessage());
+            req.setAttribute("identifier_prev", identifier);
+            req.getRequestDispatcher(VIEW).forward(req, resp);
+
+        } catch (Exception e) {
+            req.setAttribute("error", "Ocurrió un error al iniciar sesión.");
+            req.setAttribute("identifier_prev", identifier);
+            req.getRequestDispatcher(VIEW).forward(req, resp);
+        }
     }
-  }
+
+    private String trim(String s) { return s == null ? null : s.trim(); }
+    private boolean isEmpty(String s) { return s == null || s.isEmpty(); }
 }
+
