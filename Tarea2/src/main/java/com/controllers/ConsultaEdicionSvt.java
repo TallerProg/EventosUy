@@ -2,6 +2,7 @@ package com.controllers;
 
 import java.io.IOException;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -12,8 +13,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 
-import cliente.ws.sc.DtSesionUsuario;    
-import cliente.ws.sc.RolUsuario;        
+import cliente.ws.sc.DtSesionUsuario;
+import cliente.ws.sc.RolUsuario;
 
 import cliente.ws.sc.WebServices;
 import cliente.ws.sc.WebServicesService;
@@ -129,9 +130,16 @@ public class ConsultaEdicionSvt extends HttpServlet {
       String img = nz(ed.getImagenWebPath());
       VM.put("imagen", !img.isBlank() ? (req.getContextPath() + img) : null);
 
+      // (Opcional) Video embebido si existiera en el stub, con nombres posibles: getVideoUrl() / getVideo() / getUrlVideo()
+      String videoUrl = safeVideoUrl(ed);
+      if (!isBlank(videoUrl)) {
+        VM.put("videoUrl", videoUrl);
+      }
+
       List<DtOrganizador> orgs = listOrEmpty(ed.getOrganizadores());
       VM.put("organizadorNombre", joinOrganizadores(orgs));
 
+      // ----- Registros (incluye columna "asistio") -----
       List<Map<String,String>> regsVM = new ArrayList<>();
       List<DtRegistro> regs = listOrEmpty(ed.getRegistros());
       for (DtRegistro r : regs) {
@@ -139,10 +147,13 @@ public class ConsultaEdicionSvt extends HttpServlet {
         row.put("asistente", nz(r.getAsistenteNickname()));
         row.put("tipo",      nz(r.getTipoRegistroNombre()));
         row.put("fecha",     format(toLocalDate(r.getFInicio())));
+        boolean asistio = getAsistioSafe(r); // NUEVO
+        row.put("asistio", asistio ? "Sí" : "No");
         regsVM.add(row);
       }
       VM.put("registros", regsVM);
 
+      // ----- Tipos de registro -----
       List<Map<String,String>> tiposVM = new ArrayList<>();
       List<DtTipoRegistro> tregs = listOrEmpty(ed.getTipoRegistros());
       for (DtTipoRegistro tr : tregs) {
@@ -150,11 +161,12 @@ public class ConsultaEdicionSvt extends HttpServlet {
         row.put("nombre", nz(tr.getNombre()));
         row.put("costo",  toStr(tr.getCosto()));
         row.put("cupos",  toStr(tr.getCupo()));
-        row.put("cupoTotal", row.get("cupos")); 
+        row.put("cupoTotal", row.get("cupos"));
         tiposVM.add(row);
       }
       VM.put("tipos", tiposVM);
 
+      // ----- Mi registro (para asistente logueado) -----
       Map<String,String> miRegVM = null;
       boolean esAsistenteInscriptoEd = false;
       if (esAsistente && nickSesion != null) {
@@ -166,16 +178,31 @@ public class ConsultaEdicionSvt extends HttpServlet {
             miRegVM = new LinkedHashMap<>();
             miRegVM.put("tipo",  nz(r.getTipoRegistroNombre()));
             miRegVM.put("fecha", format(toLocalDate(r.getFInicio())));
-            miRegVM.put("estado", "");
+            boolean asistioMiReg = getAsistioSafe(r); // NUEVO
+            miRegVM.put("asistio", asistioMiReg ? "Sí" : "No");
+
+            // Link de constancia solo si asistió
+            if (asistioMiReg) {
+              String encEv = URLEncoder.encode(nombreEvento,  StandardCharsets.UTF_8);
+              String encEd = URLEncoder.encode(nombreEdicion, StandardCharsets.UTF_8);
+              String encNi = URLEncoder.encode(nickSesion,    StandardCharsets.UTF_8);
+              String constUrl = req.getContextPath()
+                  + "/ConstanciaAsistencia?evento=" + encEv
+                  + "&edicion=" + encEd
+                  + "&asistente=" + encNi;
+              miRegVM.put("constanciaUrl", constUrl);
+            }
             break;
           }
         }
       }
       VM.put("miRegistro", miRegVM);
 
+      // ----- Patrocinios -----
       List<DtPatrocinio> pats = listOrEmpty(ed.getPatrocinios());
       req.setAttribute("patrocinios", pats);
 
+      // ----- Es organizador de esta edición -----
       boolean esOrganizadorDeEstaEdicion = false;
       if (esOrganizador && orgs != null && nickSesion != null) {
         String nickNorm = nickSesion.trim().toLowerCase();
@@ -229,18 +256,48 @@ public class ConsultaEdicionSvt extends HttpServlet {
 
   private static String joinOrganizadores(List<DtOrganizador> orgs) {
     if (orgs == null || orgs.isEmpty()) return null;
-
     List<String> nombres = new ArrayList<>();
     for (DtOrganizador o : orgs) {
       if (o == null) continue;
-
       String nom = prefer(nz(o.getNombre()), nz(o.getNickname()));
       if (!isBlank(nom)) nombres.add(nom);
     }
-
     return nombres.isEmpty() ? null : String.join(", ", nombres);
   }
 
+  /** Intenta obtener el flag 'asistio' sin depender del nombre exacto del método. */
+  private static boolean getAsistioSafe(DtRegistro r) {
+    if (r == null) return false;
+    try {
+      // Opción 1: boolean isAsistio()
+      var m1 = r.getClass().getMethod("isAsistio");
+      Object val = m1.invoke(r);
+      if (val instanceof Boolean b) return b;
+      if (val != null) return Boolean.parseBoolean(String.valueOf(val));
+    } catch (Exception ignore) {}
+    try {
+      // Opción 2: Boolean getAsistio()
+      var m2 = r.getClass().getMethod("getAsistio");
+      Object val = m2.invoke(r);
+      if (val instanceof Boolean b) return b;
+      if (val != null) return Boolean.parseBoolean(String.valueOf(val));
+    } catch (Exception ignore) {}
+    return false;
+  }
+
+  /** Intenta obtener una URL de video si existe algún getter compatible. */
+  private static String safeVideoUrl(DtEdicion ed) {
+    if (ed == null) return null;
+    for (String m : new String[]{"getVideoUrl", "getVideo", "getUrlVideo"}) {
+      try {
+        Object v = ed.getClass().getMethod(m).invoke(ed);
+        String s = (v == null) ? null : String.valueOf(v);
+        if (!isBlank(s)) return s;
+      } catch (Exception ignore) {}
+    }
+    return null;
+  }
 }
+
 
 

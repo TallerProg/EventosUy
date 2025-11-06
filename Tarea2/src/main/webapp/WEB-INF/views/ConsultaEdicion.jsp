@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ page import="java.util.*, java.net.URLEncoder, java.nio.charset.StandardCharsets, servidorcentral.logica.DTPatrocinio" %>
+<%@ page import="java.util.*, java.net.URLEncoder, java.nio.charset.StandardCharsets" %>
+<%@ page import="cliente.ws.sc.DtPatrocinio" %>
 
 <%
 String ctx = request.getContextPath();
@@ -43,6 +44,7 @@ String estado = VM != null ? (String) VM.get("estado") : null;
 String imagen = VM != null ? (String) VM.get("imagen") : null;
 String evNom  = VM != null ? (String) VM.get("eventoNombre") : null;
 Boolean finalizado = VM != null ? (Boolean) VM.get("finalizado") : Boolean.FALSE;
+String videoUrl = VM != null ? (String) VM.get("videoUrl") : null; // (opcional)
 
 if (imagen == null || imagen.isEmpty()) {
   imagen = ctx + "/media/img/default.png";
@@ -61,7 +63,7 @@ java.util.Map<String,String> miReg =
   VM != null ? (java.util.Map<String,String>) VM.get("miRegistro") : null;
 
 @SuppressWarnings("unchecked")
-java.util.List<DTPatrocinio> pats = (List<DTPatrocinio>) request.getAttribute("patrocinios");
+java.util.List<DtPatrocinio> pats = (List<DtPatrocinio>) request.getAttribute("patrocinios");
 
 String encEd = (nombre != null) ? URLEncoder.encode(nombre, StandardCharsets.UTF_8.name()) : "";
 String encEv = (evNom  != null) ? URLEncoder.encode(evNom,  StandardCharsets.UTF_8.name()) : "";
@@ -99,17 +101,21 @@ String encEv = (evNom  != null) ? URLEncoder.encode(evNom,  StandardCharsets.UTF
           <img src="<%= imagen %>" alt="<%= nombre %>"
                class="img-fluid rounded shadow w-100"
                style="height:380px; object-fit:cover;">
+          <%-- (Opcional) Video embebido si viene URL --%>
+          <% if (videoUrl != null && !videoUrl.isBlank()) { %>
+            <div class="ratio ratio-16x9 mt-3">
+              <iframe src="<%= videoUrl %>" title="Video de la edición" allowfullscreen loading="lazy"></iframe>
+            </div>
+          <% } %>
         </div>
 
         <div class="col-lg-6">
           <div class="card shadow-sm p-3 h-100">
             <p class="mb-1"><strong>Sigla:</strong> <%= nv(sigla) %></p>
             <p class="mb-1"><strong>Organizador:</strong> <%= nv(orgNom) %></p>
-			<p class="mb-1"><strong>Fechas:</strong>
-			  <%= (VM.get("fechaIni")!=null ? VM.get("fechaIni") : "—") %>
-			  a
-			  <%= (VM.get("fechaFin")!=null ? VM.get("fechaFin") : "—") %>
-			</p>
+            <p class="mb-1"><strong>Fechas:</strong>
+              <%= (fIni!=null ? fIni : "—") %> a <%= (fFin!=null ? fFin : "—") %>
+            </p>
             <p class="mb-1"><strong>Ciudad:</strong> <%= nv(ciudad) %></p>
             <p class="mb-3"><strong>País:</strong> <%= nv(pais) %></p>
             <% if (estado != null) { %>
@@ -133,7 +139,6 @@ String encEv = (evNom  != null) ? URLEncoder.encode(evNom,  StandardCharsets.UTF
                                     || String.valueOf(miReg.get("tipo")).isBlank();
               boolean hayTipos = (tipos != null && !tipos.isEmpty());
               boolean puedeMostrarInscribirme = ES_ASISTENTE && sinRegistro && hayTipos && !finalizado;
-
 
               if (puedeMostrarInscribirme) {
                 int cantTipos = tipos.size();
@@ -232,13 +237,29 @@ String encEv = (evNom  != null) ? URLEncoder.encode(evNom,  StandardCharsets.UTF
       <div class="card shadow-sm mb-4">
         <div class="card-body">
           <h5 class="card-title"><i class="bi bi-person-badge"></i> Mi registro</h5>
-          <div class="row">
-            <div class="col-md-4"><strong>Tipo:</strong> <%= nv(miReg.get("tipo")) %></div>
-            <div class="col-md-4"><strong>Fecha:</strong> <%= nv(miReg.get("fecha")) %></div>
+          <div class="row g-2 align-items-center">
+            <div class="col-md-3"><strong>Tipo:</strong> <%= nv(miReg.get("tipo")) %></div>
+            <div class="col-md-3"><strong>Fecha:</strong> <%= nv(miReg.get("fecha")) %></div>
+            <div class="col-md-3">
+              <strong>Asistió:</strong>
+              <%
+                String a = (miReg.get("asistio")!=null)? miReg.get("asistio") : "No";
+                boolean asistio = "Sí".equalsIgnoreCase(a);
+              %>
+              <span class="badge <%= asistio ? "bg-success" : "bg-secondary" %>"><%= a %></span>
+            </div>
+            <div class="col-md-3 text-md-end">
+              <% String constUrl = (miReg!=null)? miReg.get("constanciaUrl") : null; %>
+              <% if (constUrl != null && !constUrl.isBlank()) { %>
+                <a class="btn btn-outline-primary btn-sm" href="<%= constUrl %>">
+                  <i class="bi bi-filetype-pdf me-1"></i> Descargar constancia
+                </a>
+              <% } %>
+            </div>
           </div>
         </div>
       </div>
-      <% } %>
+<% } %>
 
       <% if (ES_ORGANIZADOR_ED ) { %>
       <div class="card shadow-sm mb-4">
@@ -247,7 +268,7 @@ String encEv = (evNom  != null) ? URLEncoder.encode(evNom,  StandardCharsets.UTF
           <div class="table-responsive">
             <table class="table table-bordered align-middle mb-0">
               <thead class="table-light">
-                <tr><th>Nombre</th><th>Tipo Registro</th><th>Fecha</th></tr>
+                <tr><th>Nombre</th><th>Tipo Registro</th><th>Fecha</th><th>Asistió</th></tr>
               </thead>
               <tbody>
                 <% if (regs != null && !regs.isEmpty()) {
@@ -256,6 +277,10 @@ String encEv = (evNom  != null) ? URLEncoder.encode(evNom,  StandardCharsets.UTF
                     <td><%= nv(r.get("asistente")) %></td>
                     <td><%= nv(r.get("tipo")) %></td>
                     <td><%= nv(r.get("fecha")) %></td>
+                    <td>
+                      <% String a = (r.get("asistio")!=null)? r.get("asistio") : "No"; %>
+                      <span class="badge <%= "Sí".equalsIgnoreCase(a) ? "bg-success" : "bg-secondary" %>"><%= a %></span>
+                    </td>
                   </tr>
                 <% } } else { %>
                   <tr><td colspan="4" class="text-center text-muted">No hay registros aún.</td></tr>
@@ -302,7 +327,7 @@ String encEv = (evNom  != null) ? URLEncoder.encode(evNom,  StandardCharsets.UTF
 
 <script src="<%=ctx%>/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-<%! 
+<%!
   private static String nv(Object o){ return (o==null)?"—":String.valueOf(o); }
   private static String estadoBadge(String e) {
     if (e == null) return "bg-secondary";
@@ -310,9 +335,11 @@ String encEv = (evNom  != null) ? URLEncoder.encode(evNom,  StandardCharsets.UTF
       case "Ingresada": return "bg-success";
       case "Aceptada":  return "bg-primary";
       case "Rechazada": return "bg-danger";
+      case "Aprobada":  return "bg-primary"; // por si la edición usa "Aprobada"
       default:          return "bg-secondary";
     }
   }
 %>
 </body>
 </html>
+
