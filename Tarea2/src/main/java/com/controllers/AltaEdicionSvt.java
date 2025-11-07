@@ -117,6 +117,11 @@ public class AltaEdicionSvt extends HttpServlet {
       req.getRequestDispatcher("/WEB-INF/views/AltaEdicion.jsp").forward(req, resp);
       return;
     }
+	if (fFin.isBefore(LocalDate.now())) {
+		req.setAttribute("msgError", "La fecha de fin no puede ser anterior a la fecha actual.");
+		req.getRequestDispatcher("/WEB-INF/views/AltaEdicion.jsp").forward(req, resp);
+		return;
+	}
 
     try {
     	cliente.ws.sc.WebServicesService service = new cliente.ws.sc.WebServicesService();
