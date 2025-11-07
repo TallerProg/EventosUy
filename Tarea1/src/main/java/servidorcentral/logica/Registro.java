@@ -14,6 +14,7 @@ public class Registro {
 	private Patrocinio patrocinio;
 
 	private TipoRegistro tipoRegistro;
+	private boolean asistio;
 
 	public Registro(Float costo, Edicion edicion, Asistente asistente, TipoRegistro tipoRegistro) {
 		this.fInicio = LocalDate.now();
@@ -21,6 +22,7 @@ public class Registro {
 		this.edicion = edicion;
 		this.asistente = asistente;
 		this.tipoRegistro = tipoRegistro;
+		this.asistio = false;
 	}
 	public Registro(Float costo, Edicion edicion, Asistente asistente, TipoRegistro tipoRegistro, LocalDate fInicio) {
 		this.fInicio = fInicio;
@@ -28,7 +30,7 @@ public class Registro {
 		this.edicion = edicion;
 		this.asistente = asistente;
 		this.tipoRegistro = tipoRegistro;
-		
+		this.asistio = false;
 	}
 
 	public LocalDate getFInicio() {
@@ -67,6 +69,9 @@ public class Registro {
 	public void setPatrocinio(Patrocinio patrocinio) {
 		this.patrocinio = patrocinio;
 	}
+	public void setAsistio(boolean asistio) {
+		this.asistio = asistio;
+	}
 
 	public DTRegistroDetallado getDTRegistroDetallado() {
 		String nombreEvento = (edicion != null && edicion.getEvento() != null) ? edicion.getEvento().getNombre() : "";
@@ -75,6 +80,7 @@ public class Registro {
 		String nombrePatrocinador = (patrocinio != null) ? patrocinio.getInstitucion().getNombre() : null;
 
 		return new DTRegistroDetallado(fInicio, nombreEvento, nombreEdicion, tipoReg, nombrePatrocinador, costo);
+ 
 	}
 
 	public DTRegistro getDTRegistro() {
@@ -82,8 +88,9 @@ public class Registro {
 		String nomTipo = (tipoRegistro != null) ? tipoRegistro.getNombre() : null;
 		String codigo = (patrocinio != null) ? patrocinio.getCodigo() : null;
 
-		return new DTRegistro(fInicio, costo,  nomTipo, nomAsistente, codigo, edicion);
-
+		DTRegistro dt= new DTRegistro(fInicio, costo,  nomTipo, nomAsistente, codigo, edicion);
+		dt.setAsistio(asistio);
+		return dt;
 	}
 
 }

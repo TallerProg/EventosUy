@@ -20,7 +20,7 @@
       <!-- Ítems principales -->
       <li><a href="<%= ctx %>/home">Inicio</a></li>
       <li><a href="<%= ctx %>/ediciones">Ediciones</a></li>
-      <li><a href="<%= ctx %>/asistencia">Asistencia</a></li>
+      <li><a href="<%= ctx %>/misRegistros">Asistencia</a></li>
 
       <!-- Saludo + salir (alineado a la derecha) -->
       <li class="ms-auto d-flex align-items-center gap-2">
