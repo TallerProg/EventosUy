@@ -572,5 +572,17 @@ public void altaRegistroP(String nomEdicion, String nickAsistente, String nomTip
 public boolean esOrganizador(String identifier) {
     return getControllerUsuario().esOrganizador(identifier);
 }
+@WebMethod
+public DTEdicion[] listarEdicionesConRegistroUsuario(String nickname) {
+	List<DTEdicion> lista = getControllerUsuario().listarEdicionesConRegistroUsuario(nickname);
+	return (lista == null || lista.isEmpty())
+			? new DTEdicion[0]
+			: lista.toArray(new DTEdicion[0]);
+}
+
+@WebMethod
+public void marcarAsistido(String nombreEdicion, String nicknameAsistente){
+	getControllerUsuario().marcarAsistido(nombreEdicion, nicknameAsistente);
+}
 
 }

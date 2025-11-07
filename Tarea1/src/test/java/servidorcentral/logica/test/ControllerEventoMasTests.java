@@ -33,7 +33,7 @@ import servidorcentral.logica.ManejadorUsuario;
 import servidorcentral.logica.Organizador;
 import servidorcentral.logica.TipoRegistro;
 
-class ControllerEventoMoreTests {
+class ControllerEventoMasTests {
 
     private ControllerEvento controller;
     private DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
