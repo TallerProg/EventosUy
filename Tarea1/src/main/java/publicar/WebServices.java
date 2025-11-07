@@ -533,6 +533,18 @@ public class WebServices {
     	getControllerUsuario().sacarSeguirPersona(principal, seguido);
     }
     
+    @WebMethod
+    public String[] listarSeguidos(String usuario) {
+        java.util.List<String> lista = getControllerUsuario().listarSeguidos(usuario);
+        return (lista != null) ? lista.toArray(new String[0]) : new String[0];
+    }
+
+    @WebMethod
+    public String[] listarSeguidores(String usuario) {
+        java.util.List<String> lista = getControllerUsuario().listarSeguidores(usuario);
+        return (lista != null) ? lista.toArray(new String[0]) : new String[0];
+    }
+    
 @WebMethod
     public DTeventoOedicion[] listarEventosYEdicionesBusqueda(String busqueda) {
 		List<DTeventoOedicion> lista = getControllerEvento().listarEventosYEdicionesBusqueda(busqueda);

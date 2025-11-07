@@ -124,6 +124,17 @@ public class ControllerUsuario implements IControllerUsuario {
         usuSeguido.sacarSeguidor(principal);
     }
 
+    public List<String> listarSeguidores(String usuario) {
+        ManejadorUsuario mus = ManejadorUsuario.getInstance();
+        Usuario usu = mus.findUsuario(usuario);
+        return usu.getSeguidores();
+    }
+    
+    public List<String> listarSeguidos(String usuario) {
+        ManejadorUsuario mus = ManejadorUsuario.getInstance();
+        Usuario usu = mus.findUsuario(usuario);
+        return usu.getSeguidos();
+    }
 
     public void altaAsistente(String nicknameUsu, String correo, String nombre, String apellido,
                               LocalDate fNacimiento, Institucion ins, String contrasena, String img)
