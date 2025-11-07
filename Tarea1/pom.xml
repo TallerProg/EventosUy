@@ -16,17 +16,17 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.release>21</maven.compiler.release>
+    <maven.compiler.release>17</maven.compiler.release>
     <maven.compiler.showDeprecation>true</maven.compiler.showDeprecation>
   </properties>
 
   <dependencies>
-
     <dependency>
       <groupId>jakarta.xml.ws</groupId>
       <artifactId>jakarta.xml.ws-api</artifactId>
       <version>4.0.0</version>
     </dependency>
+
     <dependency>
       <groupId>jakarta.jws</groupId>
       <artifactId>jakarta.jws-api</artifactId>
@@ -44,6 +44,7 @@
       <artifactId>jakarta.xml.bind-api</artifactId>
       <version>4.0.0</version>
     </dependency>
+
     <dependency>
       <groupId>org.glassfish.jaxb</groupId>
       <artifactId>jaxb-runtime</artifactId>
@@ -69,12 +70,11 @@
       <artifactId>miglayout-swing</artifactId>
       <version>11.3</version>
     </dependency>
-
   </dependencies>
 
   <build>
     <plugins>
-
+      <!-- Compilador -->
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.13.0</version>
@@ -83,6 +83,7 @@
         </configuration>
       </plugin>
 
+      <!-- Tests -->
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
         <version>3.2.5</version>
@@ -91,6 +92,7 @@
         </configuration>
       </plugin>
 
+      <!-- Crear JAR ejecutable con dependencias -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-assembly-plugin</artifactId>
@@ -99,13 +101,12 @@
           <descriptorRefs>
             <descriptorRef>jar-with-dependencies</descriptorRef>
           </descriptorRefs>
-          <finalName>${project.artifactId}-${project.version}</finalName>
-          <appendAssemblyId>true</appendAssemblyId>
           <archive>
             <manifest>
               <mainClass>servidorcentral.presentacion.Principal</mainClass>
             </manifest>
           </archive>
+          <finalName>${project.artifactId}-${project.version}</finalName>
         </configuration>
         <executions>
           <execution>
@@ -117,7 +118,6 @@
           </execution>
         </executions>
       </plugin>
-
     </plugins>
 
     <resources>
@@ -130,7 +130,6 @@
         <directory>src/test/recursos</directory>
       </testResource>
     </testResources>
-
   </build>
 
   <profiles>
@@ -141,6 +140,6 @@
       </properties>
     </profile>
   </profiles>
-
 </project>
+
 
