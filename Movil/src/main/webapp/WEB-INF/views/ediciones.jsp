@@ -99,7 +99,7 @@ boolean hayEventoSeleccionado  = (evNom != null && !evNom.isBlank());
 
 <body class="index-page">
 <header id="header" class="header d-flex align-items-center fixed-top">
-  <jsp:include page="/WEB-INF/views/template/header.jsp" />
+  <jsp:include page="/WEB-INF/views/template/navbar.jsp" />
 </header>
 
 <main class="main mt-5 pt-4">
