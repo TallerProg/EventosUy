@@ -14,6 +14,7 @@ public class DTRegistro {
 	private String asistenteNickname;
 	private String patrocinioCodigo;
 	private Edicion edicion;
+	private String nombreEvento;
 	public DTRegistro(LocalDate fInicio, Float costo, String tipoRegistroNombre, String asistenteNickname,
 			String patrocinioCodigo, Edicion edicion) {
 		this.fInicio = fInicio;
@@ -23,6 +24,7 @@ public class DTRegistro {
 		this.asistenteNickname = asistenteNickname;
 		this.patrocinioCodigo = patrocinioCodigo;
 		this.edicion = edicion;
+		this.nombreEvento=edicion.getEvento().getNombre();
 	}
 
 	public LocalDate getfInicio() {
@@ -42,6 +44,9 @@ public class DTRegistro {
 
 	public String getAsistenteNickname() {
 		return asistenteNickname;
+	}
+	public String getNombreEvento() {
+		return nombreEvento;
 	}
 
 	public String getPatrocinioCodigo() {

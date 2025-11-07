@@ -20,6 +20,7 @@ public class DTEdicion {
 	private String pais;
     private String estado;
     private String imagenWebPath;
+    private String nombreEvento;
     
 	private List<DTTipoRegistro> tipoRegistros;
 	private List<DTOrganizador> organizadores;
@@ -49,6 +50,7 @@ public class DTEdicion {
         this.estado = estado; 
         this.imagenWebPath=imagenWebPath;
         this.evento = evento;
+        this.nombreEvento=evento.getNombre();
 	}
 
 	public String getNombre() {
@@ -108,6 +110,9 @@ public class DTEdicion {
 		return evento;
 	}
     
+	public String getnombreEvento() {
+		return nombreEvento;
+		}
     public String getEstado() { 
     	return estado; }
     
