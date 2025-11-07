@@ -47,7 +47,7 @@ class ControllerInstitucionTest {
         ManejadorInstitucion min = ManejadorInstitucion.getInstance();
         int sizeBefore = min.listarInstituciones().size();
 
-        controller.altaInstitucion(nombre, url, desc, img);
+        controller.altaInstitucion(nombre, desc, url, img);
 
         Institucion creada = min.findInstitucion(nombre);
         assertNotNull(creada, "La institución debería existir tras el alta");
@@ -78,7 +78,7 @@ class ControllerInstitucionTest {
     @DisplayName("findInstitucion: encuentra por nombre")
     void testFindInstitucion() throws Exception {
         String nombre = nuevoNombre();
-        controller.altaInstitucion(nombre, "https://find.com", "para find", "f.png");
+        controller.altaInstitucion(nombre, "para find", "https://find.com", "f.png");
 
         Institucion encontrada = controller.findInstitucion(nombre);
         assertNotNull(encontrada);
@@ -93,7 +93,7 @@ class ControllerInstitucionTest {
         String desc = "en lista";
         String img = "l.png";
 
-        controller.altaInstitucion(nombre, url, desc, img);
+        controller.altaInstitucion(nombre,  desc, url, img);
 
         List<Institucion> todas = controller.getInstituciones();
         assertNotNull(todas);
@@ -118,7 +118,7 @@ class ControllerInstitucionTest {
         String desc = "dto ok";
         String img = "dto.png";
 
-        controller.altaInstitucion(nombre, url, desc, img);
+        controller.altaInstitucion(nombre, desc, url, img);
 
         List<DTInstitucion> dts = controller.getDTInstituciones();
         assertNotNull(dts);
