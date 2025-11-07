@@ -64,7 +64,7 @@
             <p class="mb-3">
               <strong><%= edicion.getNombre() %></strong>
               — <%= edicion.getCiudad() %>, <%= edicion.getPais() %>
-              · <small><%= edicion.getFInicio() %></small>
+              · <small><%= edicion.getFInicioS() %></small>
             </p>
 
             <h5 class="mb-3"><i class="bi bi-ticket-perforated"></i> Tipo de Registro</h5>
