@@ -112,7 +112,9 @@ public class RegistrarSvt extends HttpServlet {
             setErrorAndForward("Las contraseñas no coinciden.", request, response);
             return;
         }
-
+        if(imagenWebPath == null) {
+        	imagenWebPath = "";
+        }
         try {
         	WebServicesService service = new WebServicesService();
             WebServices port = service.getWebServicesPort();
@@ -131,9 +133,7 @@ public class RegistrarSvt extends HttpServlet {
                     setErrorAndForward("La fecha de nacimiento no puede ser futura.", request, response);
                     return;
                 }
-                if(imagenWebPath == null) {
-                	imagenWebPath = "";
-                }
+
                 if(institucionName == null) {
                 	institucionName = "";
                 }
