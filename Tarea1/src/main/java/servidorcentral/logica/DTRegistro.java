@@ -18,18 +18,18 @@ public class DTRegistro {
 	private Edicion edicion;
 	private String nombreEdicion;
 	private boolean asistio;
-	public DTRegistro(LocalDate fInicio, Float costo, String tipoRegistroNombre, String asistenteNickname,
-			String patrocinioCodigo, Edicion edicion) {
-		this.fInicio = fInicio;
-		this.fInicioS = (fInicio != null) ? fInicio.toString() : null;
-		this.costo = costo;
-		this.tipoRegistroNombre = tipoRegistroNombre;
-		this.asistenteNickname = asistenteNickname;
-		this.patrocinioCodigo = patrocinioCodigo;
-		this.edicion = edicion;
-		this.nombreEdicion = edicion.getNombre();
-		
-	}
+	public DTRegistro(LocalDate fInicio, Float costo, String tipoRegistroNombre, 
+            String asistenteNickname, String patrocinioCodigo, Edicion edicion) {
+			this.fInicio = fInicio;
+			this.fInicioS = (fInicio != null) ? fInicio.toString() : null;
+			this.costo = costo;
+			this.tipoRegistroNombre = tipoRegistroNombre;
+			this.asistenteNickname = asistenteNickname;
+			this.patrocinioCodigo = patrocinioCodigo;
+			this.edicion = edicion;
+			this.nombreEdicion = (edicion != null) ? edicion.getNombre() : null; 
+			}
+
 
 	public LocalDate getfInicio() {
 		return fInicio;
