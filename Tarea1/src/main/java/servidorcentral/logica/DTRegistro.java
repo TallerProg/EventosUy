@@ -30,7 +30,7 @@ public class DTRegistro {
 			this.patrocinioCodigo = patrocinioCodigo;
 			this.edicion = edicion;
 			this.nombreEdicion = (edicion != null) ? edicion.getNombre() : null; 
-			this.nombreEvento=edicion.getEvento().getNombre();
+			this.nombreEvento= (edicion != null) ? edicion.getEvento().getNombre():null;
 			}
 
 
