@@ -174,7 +174,11 @@ public class Principal {
         menuBar.add(menuEventos);
 
         JMenuItem menuAltaEvento = new JMenuItem("Alta de Evento");
-        menuAltaEvento.addActionListener(e -> mostrarInternalFrame(creEveInternalFrame));
+        menuAltaEvento.addActionListener(e -> {
+            creEveInternalFrame.recargarCategorias();
+            mostrarInternalFrame(creEveInternalFrame);
+        });
+
         menuEventos.add(menuAltaEvento);
 
         JMenuItem menuConsultaEvento = new JMenuItem("Consulta de Evento");
