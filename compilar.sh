@@ -10,7 +10,6 @@ main() {
   echo "- 5. Salir                                   -"
   echo "----------------------------------------------"
   read -n 1 -p "Ingrese opcion: " mainmenuinput
-
   echo ""
 
   if [ "$mainmenuinput" = "1" ]; then
@@ -30,41 +29,31 @@ main() {
 
   echo ""
   echo ""
-  # wait for user input to exit
   read -n 1 -s -r -p "Presione cualquier tecla para continuar..."
 }
 
 compilarTarea1() {
   echo "Compilando Servidor Central..."
-  cd Tarea1
-  mvn clean package
+  cd Tarea1 || exit
+  mvn clean package assembly:single
   cd ..
-  cp Tarea1/target/servidor-central-1.0.0.jar ./servidor.jar
-  cd Tarea1
-  mvn clean
-  cd ..
+  cp Tarea1/target/servidor-central-1.0.0-jar-with-dependencies.jar ./servidor.jar
 }
 
 compilarTarea2() {
   echo "Compilando Servidor Web..."
-  cd Tarea2
+  cd Tarea2 || exit
   mvn clean package
   cd ..
   cp Tarea2/target/webapp-1.0.0.war ./web.war
-  cd Tarea2
-  mvn clean
-  cd ..
 }
 
 compilarMovil() {
   echo "Compilando Movil..."
-  cd Movil
+  cd Movil || exit
   mvn clean package
   cd ..
-  cp Movil/target/movil.war ./movil.war
-  cd Movil
-  mvn clean
-  cd ..
+  cp Movil/target/Movil-1.0.0.war ./movil.war
 }
 
 compilarTodo() {
@@ -74,3 +63,4 @@ compilarTodo() {
 }
 
 main
+

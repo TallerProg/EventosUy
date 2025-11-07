@@ -26,6 +26,8 @@ public interface IControllerUsuario {
 	public DTUsuarioListaConsulta consultaDeUsuario(String nicknameUsu);
     public void seguirPersona(String principal, String seguido);
     public void sacarSeguirPersona(String principal, String seguido);
+    public List<String> listarSeguidores(String usuario);
+    public List<String> listarSeguidos(String usuario);
 
 	public DTAsistente getDTAsistente(String nick);
 	public DTOrganizadorDetallado getDTOrganizadorDetallado(String nick);

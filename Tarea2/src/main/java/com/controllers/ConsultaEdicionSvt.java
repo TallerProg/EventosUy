@@ -35,19 +35,7 @@ public class ConsultaEdicionSvt extends HttpServlet {
   private static final long serialVersionUID = 1L;
   private static final DateTimeFormatter FMT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-  private WebServices getPort(HttpServletRequest req) {
-    WebServicesService svc = new WebServicesService();
-    WebServices port = svc.getWebServicesPort();
-    Binding b = ((BindingProvider) port).getBinding();
-    if (b instanceof SOAPBinding sb) sb.setMTOMEnabled(true);
-    String wsUrl = req.getServletContext().getInitParameter("WS_URL");
-    if (wsUrl != null && !wsUrl.isBlank()) {
-      ((BindingProvider) port).getRequestContext().put(
-          BindingProvider.ENDPOINT_ADDRESS_PROPERTY, wsUrl
-      );
-    }
-    return port;
-  }
+
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -102,7 +90,8 @@ public class ConsultaEdicionSvt extends HttpServlet {
     }
 
     try {
-      WebServices port = getPort(req);
+        WebServicesService service = new WebServicesService();
+      WebServices port = service.getWebServicesPort();
 
       DtEdicion ed = port.consultaEdicionDeEvento(nombreEvento, nombreEdicion);
       if (ed == null || "NO_ENCONTRADA".equalsIgnoreCase(nz(ed.getEstado()))) {
@@ -178,7 +167,7 @@ public class ConsultaEdicionSvt extends HttpServlet {
             esAsistenteInscriptoEd = true;
             miRegVM = new LinkedHashMap<>();
             miRegVM.put("tipo",  nz(r.getTipoRegistroNombre()));
-            miRegVM.put("fecha", format(toLocalDate(r.getFInicio())));
+            miRegVM.put("fecha", r.getFInicioS());
             boolean asistioMiReg = getAsistioSafe(r); // NUEVO
             miRegVM.put("asistio", asistioMiReg ? "Sí" : "No");
 

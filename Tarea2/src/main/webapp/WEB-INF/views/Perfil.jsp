@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.util.*" %>
 <%@ page import="cliente.ws.sc.DtSesionUsuario" %>
 <%@ page import="cliente.ws.sc.DtUsuarioListaConsulta" %>
 
@@ -10,13 +11,29 @@
 
   boolean ES_ORG  = Boolean.TRUE.equals(request.getAttribute("ES_ORG"));
   boolean ES_ASIS = Boolean.TRUE.equals(request.getAttribute("ES_ASIS"));
+
+  @SuppressWarnings("unchecked")
+  List<DtUsuarioListaConsulta> seguidores = (List<DtUsuarioListaConsulta>) request.getAttribute("SEGUIDORES");
+
+  @SuppressWarnings("unchecked")
+  List<DtUsuarioListaConsulta> seguidos = (List<DtUsuarioListaConsulta>) request.getAttribute("SEGUIDOS");
 %>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <jsp:include page="/WEB-INF/views/template/head.jsp" />
   <title>Perfil</title>
   <link href="<%= ctx %>/media/css/perfil.css" rel="stylesheet">
+
+  <style>
+    .follow-list { max-height: 400px; overflow-y: auto; }
+    .follow-item { display: flex; align-items: center; justify-content: space-between;
+                   border-bottom: 1px solid #ddd; padding: .5rem 0; }
+    .follow-user { display: flex; align-items: center; gap: .5rem; text-decoration: none; color: inherit; }
+    .follow-user img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
+    .follow-btn { white-space: nowrap; }
+  </style>
 </head>
 
 <body class="index-page">
@@ -52,14 +69,70 @@
                 <% if (ES_ORG) { %>
                   <li><strong>Descripción:</strong> <%= dtusuario.getDescripcion() %></li>
                   <li><strong>Sitio Web:</strong> <%= dtusuario.getUrl() %></li>
-                <% } else if (ES_ASIS) { %>
-                  <%
-                  	String ins = (String) request.getAttribute("INSTITUCION");
-                  %>
+                <% } else if (ES_ASIS) { 
+                     String ins = (String) request.getAttribute("INSTITUCION"); %>
                   <li><strong>Fecha de Nacimiento:</strong> <%= dtusuario.getFNacimientoS() %></li>
- 				  <li><strong>Institución:</strong> <%= (ins != null) ? ins : "(sin institución)" %></li><% } %>
+                  <li><strong>Institución:</strong> <%= (ins != null) ? ins : "(sin institución)" %></li>
+                <% } %>
               </ul>
               <a href="<%= ctx %>/editarperfil" class="btn btn-primary mt-4">Editar Perfil</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="seguimiento" class="section mt-5">
+      <div class="container">
+        <div class="row">
+          <!-- Seguidores -->
+          <div class="col-md-6 mb-4">
+            <h5 class="text-center mb-3">Seguidores</h5>
+            <div class="follow-list">
+              <% if (seguidores != null && !seguidores.isEmpty()) {
+                   for (DtUsuarioListaConsulta seg : seguidores) {
+                     String img = (seg.getImg() != null && !seg.getImg().isBlank())
+                                  ? (ctx + seg.getImg())
+                                  : (ctx + "/media/img/default.png");
+              %>
+                <div class="follow-item">
+                  <a class="follow-user" href="<%= ctx %>/ConsultaUsuario?nick=<%= seg.getNickname() %>">
+                    <img src="<%= img %>" alt="">
+                    <span><%= seg.getNickname() %></span>
+                  </a>
+                </div>
+              <% } } else { %>
+                <p class="text-muted text-center">Aún no tienes seguidores.</p>
+              <% } %>
+            </div>
+          </div>
+
+          <!-- Seguidos -->
+          <div class="col-md-6 mb-4">
+            <h5 class="text-center mb-3">Seguidos</h5>
+            <div class="follow-list">
+              <% if (seguidos != null && !seguidos.isEmpty()) {
+                   for (DtUsuarioListaConsulta seg : seguidos) {
+                     String img = (seg.getImg() != null && !seg.getImg().isBlank())
+                                  ? (ctx + seg.getImg())
+                                  : (ctx + "/media/img/default.png");
+              %>
+                <div class="follow-item">
+                  <a class="follow-user" href="<%= ctx %>/ConsultaUsuario?nick=<%= seg.getNickname() %>">
+                    <img src="<%= img %>" alt="">
+                    <span><%= seg.getNickname() %></span>
+                  </a>
+                  <form method="post" action="<%= ctx %>/perfil" class="m-0">
+                    <input type="hidden" name="accion" value="dejar">
+                    <input type="hidden" name="nick" value="<%= seg.getNickname() %>">
+                    <button type="submit" class="btn btn-outline-danger btn-sm follow-btn">
+                      Dejar de seguir
+                    </button>
+                  </form>
+                </div>
+              <% } } else { %>
+                <p class="text-muted text-center">No sigues a nadie.</p>
+              <% } %>
             </div>
           </div>
         </div>

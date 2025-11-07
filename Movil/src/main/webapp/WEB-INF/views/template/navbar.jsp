@@ -7,20 +7,17 @@
 %>
 
 <div class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-between mb-3">
-  <nav id="navmenu" class="navmenu">
-    <ul>
-      <li>
-		  <a href="<%= ctx %>/home" class="logo d-flex align-items-center">
+  <a href="<%= ctx %>/home" class="logo d-flex align-items-center">
 		    <img src="<%= ctx %>/media/img/logoeuy.png"
 		         alt="EventUY"
 		         style="height:40px;max-height:40px;width:auto;object-fit:contain;">
 		  </a>
-		</li>
-
+  <nav id="navmenu" class="navmenu">
+    <ul>
       <!-- Ítems principales -->
       <li><a href="<%= ctx %>/home">Inicio</a></li>
-      <li><a href="<%= ctx %>/ediciones">Ediciones</a></li>
-      <li><a href="<%= ctx %>/misRegistros">Asistencia</a></li>
+
+      <li><a href="<%= ctx %>/misRegistros">Mis registros</a></li>
 
       <!-- Saludo + salir (alineado a la derecha) -->
       <li class="ms-auto d-flex align-items-center gap-2">

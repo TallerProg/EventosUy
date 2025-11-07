@@ -26,7 +26,7 @@
 
   <!-- Header -->
   <header id="header" class="header d-flex align-items-center fixed-top">
-  		<jsp:include page="template/header.jsp" />
+  		<jsp:include page="template/navbar.jsp" />
   </header>
 
   <!-- Main -->
@@ -88,6 +88,8 @@
   </footer>
 
   <!-- JS -->
+  <script src="<%=ctx%>/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="media/js/main.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

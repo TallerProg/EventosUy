@@ -9,6 +9,7 @@ public class DTPatrocinio {
 
 	private String codigo;
 	private LocalDate fInicio;
+	private String fInicioS;
 	private int registroGratuito;
 	private Float monto;
 	private ETipoNivel nivel;
@@ -21,6 +22,7 @@ public class DTPatrocinio {
 			String institucion, String edicion, String tipoRegistro) {
 		this.codigo = codigo;
 		this.fInicio = fInicio;
+		this.fInicioS = (fInicio != null) ? fInicio.toString() : null;
 		this.registroGratuito = registroGratuito;
 		this.monto = monto;
 		this.nivel = nivel;
@@ -35,6 +37,10 @@ public class DTPatrocinio {
 
 	public LocalDate getFInicio() {
 		return fInicio;
+	}
+	
+	public String getFInicioS() {
+		return fInicioS;
 	}
 
 	public int getRegistroGratuito() {

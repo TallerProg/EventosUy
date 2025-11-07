@@ -219,13 +219,8 @@ public class WebServices {
 
 
       @WebMethod
-    public void altaEvento(String nombre, String descripcion, String sigla, String[] categoriasNombreOCodigo, byte[] imagenBytes, String imagenFileName) throws Exception {
+    public void altaEvento(String nombre, String descripcion, String sigla, String[] categoriasNombreOCodigo,String imagenWebPath) throws Exception {
         DTCategoria[] dtCats = resolverCategoriasPorNombreOCodigo(categoriasNombreOCodigo);
-        String imagenWebPath = null;
-        if (imagenBytes != null && imagenBytes.length > 0) {
-            imagenWebPath = subirImagenEvento(nombre, imagenFileName, imagenBytes);
-        }
-
         getControllerEvento().altaEventoDT(
                 nombre, descripcion, java.time.LocalDate.now(), sigla,
                 Arrays.asList(dtCats),
@@ -531,6 +526,18 @@ public class WebServices {
     
     public void sacarSeguirPersona(String principal, String seguido){
     	getControllerUsuario().sacarSeguirPersona(principal, seguido);
+    }
+    
+    @WebMethod
+    public String[] listarSeguidos(String usuario) {
+        java.util.List<String> lista = getControllerUsuario().listarSeguidos(usuario);
+        return (lista != null) ? lista.toArray(new String[0]) : new String[0];
+    }
+
+    @WebMethod
+    public String[] listarSeguidores(String usuario) {
+        java.util.List<String> lista = getControllerUsuario().listarSeguidores(usuario);
+        return (lista != null) ? lista.toArray(new String[0]) : new String[0];
     }
     
 @WebMethod

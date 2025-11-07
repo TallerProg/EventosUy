@@ -34,18 +34,7 @@ public class ConsultaEdicionMovilSvt extends HttpServlet {
   private static final long serialVersionUID = 1L;
   private static final DateTimeFormatter FMT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-  private WebServices getPort(HttpServletRequest req) {
-    WebServicesService svc = new WebServicesService();
-    WebServices port = svc.getWebServicesPort();
-    Binding b = ((BindingProvider) port).getBinding();
-    if (b instanceof SOAPBinding sb) sb.setMTOMEnabled(true);
-    String wsUrl = req.getServletContext().getInitParameter("WS_URL");
-    if (wsUrl != null && !wsUrl.isBlank()) {
-      ((BindingProvider) port).getRequestContext()
-          .put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, wsUrl);
-    }
-    return port;
-  }
+
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -100,7 +89,8 @@ public class ConsultaEdicionMovilSvt extends HttpServlet {
     }
 
     try {
-      WebServices port = getPort(req);
+        WebServicesService service = new WebServicesService();
+      WebServices port = service.getWebServicesPort();
 
       DtEdicion ed = port.consultaEdicionDeEvento(nombreEvento, nombreEdicion);
       if (ed == null || "NO_ENCONTRADA".equalsIgnoreCase(nz(ed.getEstado()))) {
@@ -114,13 +104,14 @@ public class ConsultaEdicionMovilSvt extends HttpServlet {
       VM.put("nombre", nz(ed.getNombre()));
       VM.put("sigla",  nz(ed.getSigla()));
 
-      LocalDate fIni = toLocalDate(ed.getFInicio());
-      LocalDate fFin = toLocalDate(ed.getFFin());
-      VM.put("fechaIni", format(fIni));
-      VM.put("fechaFin", format(fFin));
+      String fIni = ed.getFInicioS();
+      String fFinS = ed.getFFinS();
+      VM.put("fechaIni", fIni);
+      VM.put("fechaFin", fFinS);
       VM.put("ciudad",   nz(ed.getCiudad()));
       VM.put("pais",     nz(ed.getPais()));
       VM.put("estado",   nz(ed.getEstado()));
+      LocalDate fFin = toLocalDate(ed.getFFin());
 
       boolean finalizado = (fFin != null) && LocalDate.now().isAfter(fFin);
       VM.put("finalizado", finalizado);
@@ -164,8 +155,7 @@ public class ConsultaEdicionMovilSvt extends HttpServlet {
             esAsistenteInscriptoEd = true;
             miRegVM = new LinkedHashMap<>();
             miRegVM.put("tipo",  nz(r.getTipoRegistroNombre()));
-            miRegVM.put("fecha", format(toLocalDate(r.getFInicio())));
-            miRegVM.put("estado", "");
+            miRegVM.put("fecha", r.getFInicioS());
             break;
           }
         }

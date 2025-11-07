@@ -3,6 +3,8 @@ package com.controllers;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.net.URL;
 
@@ -28,8 +30,7 @@ public class AltaEveSvt extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     private static final String FORM_JSP = "/WEB-INF/views/AltaEvento.jsp";
-    private static final String EVENT_IMG_DIR = "/media/img/eventos"; // Sólo para fallback visual (no se usa directo)
-    private static final String WSDL_URL = "http://127.0.0.1:9128/webservices?wsdl";
+	private static final String INST_IMG_DIR = "/media/img/eventos";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -55,7 +56,8 @@ public class AltaEveSvt extends HttpServlet {
         if (sigla.isEmpty()) errores.add("La sigla es obligatoria.");
         if (paramCats == null || paramCats.length == 0) errores.add("Debe seleccionar al menos una categoría.");
 
-        WebServices port = getPort();
+        WebServicesService service = new WebServicesService();
+        WebServices port = service.getWebServicesPort();
 
         try {
             if (!nombre.isEmpty() && port.existeEvento(nombre)) {
@@ -89,20 +91,26 @@ public class AltaEveSvt extends HttpServlet {
 
 
         String imagenWebPath = null;
-        if (errores.isEmpty()) {
-            try {
-                Part imgPart = request.getPart("imagen");
-                if (imgPart != null && imgPart.getSize() > 0) {
-                    byte[] bytes = imgPart.getInputStream().readAllBytes();
-                    String original = submittedFileName(imgPart);
-                    imagenWebPath = port.subirImagenEvento(nombre, original, bytes);
-                }
-            } catch (IllegalStateException ise) {
-                errores.add("La imagen supera el tamaño permitido (5 MB por archivo, 10 MB por solicitud).");
-            } catch (Exception ex) {
-                errores.add("No se pudo guardar la imagen: " + safeMsg(ex));
+        Part imgPart = request.getPart("imagen");
+        if (imgPart != null && imgPart.getSize() > 0) {
+        	String original = submittedFileName(imgPart);
+            String ext = extensionOf(original);
+            String safeBase = slug(nombre.isEmpty() ? "evento" : nombre);
+            String stamp = DateTimeFormatter.ofPattern("yyyyMMddHHmmss").format(LocalDateTime.now());
+            String fileName = safeBase + "_" + stamp + (ext.isEmpty() ? "" : "." + ext);
+
+            String realDir = getServletContext().getRealPath(INST_IMG_DIR);
+            if (realDir == null) {
+                realDir = System.getProperty("java.io.tmpdir") + File.separator + "eventuy-img";
             }
-        }
+            File dir = new File(realDir);
+            if (!dir.exists()) dir.mkdirs();
+
+            File destino = new File(dir, fileName);
+            imgPart.write(destino.getAbsolutePath());
+
+            imagenWebPath = INST_IMG_DIR + "/" + fileName;
+    }
 
         if (!errores.isEmpty()) {
             mirrorBack(request, nombre, descripcion, sigla, paramCats, errores);
@@ -118,10 +126,10 @@ public class AltaEveSvt extends HttpServlet {
         	    Collections.addAll(items, paramCats);
         	}
         	
-        	
-            port.altaEvento(nombre, descripcion, sigla, catsWrap, 
-                                        (imagenWebPath == null ? new byte[0] : new byte[0]), 
-                                        (imagenWebPath == null ? "" : ""));                  
+        	if(imagenWebPath == null) {
+        		imagenWebPath = " ";
+        	}
+            port.altaEvento(nombre, descripcion, sigla, catsWrap,imagenWebPath);                  
 
 
             response.sendRedirect(request.getContextPath() + "/alta-evento?ok=1");
@@ -133,16 +141,6 @@ public class AltaEveSvt extends HttpServlet {
     }
 
     // ===== Helpers =======================================================
-
-    private WebServices getPort() throws IOException {
-        try {
-            URL wsdl = new URL(WSDL_URL);
-            WebServicesService svc = new WebServicesService(wsdl);
-            return svc.getWebServicesPort();
-        } catch (Exception e) {
-            throw new IOException("No se puede crear el cliente del WebService: " + safeMsg(e), e);
-        }
-    }
 
     private static String trim(String s) { return (s == null) ? "" : s.trim(); }
 
@@ -175,6 +173,21 @@ public class AltaEveSvt extends HttpServlet {
     private static String safeMsg(Throwable t) {
         String m = (t == null ? null : t.getMessage());
         return (m == null || m.isBlank()) ? t.getClass().getSimpleName() : m;
+    }
+    
+    
+    private static String extensionOf(String filename) {
+        if (filename == null) return "";
+        int dot = filename.lastIndexOf('.');
+        if (dot < 0 || dot == filename.length() - 1) return "";
+        return filename.substring(dot + 1).toLowerCase(Locale.ROOT);
+    }
+    
+    private static String slug(String s) {
+        String base = (s == null || s.isEmpty()) ? "evento" : s.toLowerCase(Locale.ROOT);
+        base = base.replaceAll("[^a-z0-9-_]+", "-");
+        base = base.replaceAll("-{2,}", "-");
+        return base.replaceAll("^-|-$", "");
     }
 }
 

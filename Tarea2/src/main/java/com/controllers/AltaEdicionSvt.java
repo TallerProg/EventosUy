@@ -1,8 +1,13 @@
 package com.controllers;
 
+import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Locale;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
@@ -24,20 +29,9 @@ import cliente.ws.sc.WebServices;
 )
 public class AltaEdicionSvt extends HttpServlet {
   private static final long serialVersionUID = 1L;
+	private static final String INST_IMG_DIR = "/media/img/ediciones";
 
-  private WebServices getPort(HttpServletRequest req) {
-    cliente.ws.sc.WebServicesService svc = new cliente.ws.sc.WebServicesService();
-    WebServices port = svc.getWebServicesPort();
-    Binding b = ((BindingProvider) port).getBinding();
-    if (b instanceof SOAPBinding sb) sb.setMTOMEnabled(true);
-    String wsUrl = req.getServletContext().getInitParameter("WS_URL");
-    if (wsUrl != null && !wsUrl.isBlank()) {
-      ((BindingProvider) port).getRequestContext().put(
-          BindingProvider.ENDPOINT_ADDRESS_PROPERTY, wsUrl
-      );
-    }
-    return port;
-  }
+
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -123,9 +117,15 @@ public class AltaEdicionSvt extends HttpServlet {
       req.getRequestDispatcher("/WEB-INF/views/AltaEdicion.jsp").forward(req, resp);
       return;
     }
+	if (fFin.isBefore(LocalDate.now())) {
+		req.setAttribute("msgError", "La fecha de fin no puede ser anterior a la fecha actual.");
+		req.getRequestDispatcher("/WEB-INF/views/AltaEdicion.jsp").forward(req, resp);
+		return;
+	}
 
     try {
-      WebServices port = getPort(req);
+    	cliente.ws.sc.WebServicesService service = new cliente.ws.sc.WebServicesService();
+        cliente.ws.sc.WebServices port = service.getWebServicesPort();
 
       DtUsuarioListaConsulta dtOrg = port.consultaDeUsuario(nicknameSesion);
       if (dtOrg == null || isBlank(dtOrg.getNickname())) {
@@ -147,29 +147,26 @@ public class AltaEdicionSvt extends HttpServlet {
       }
 
       String imagenWebPath = null;
-      try {
-        Part imagenPart = req.getPart("imagen");
-        if (imagenPart != null && imagenPart.getSize() > 0) {
-          String ct = imagenPart.getContentType();
-          if (!isMimeImagenPermitido(ct)) {
-            throw new IllegalArgumentException("Formato de imagen no permitido (solo JPG/PNG).");
+      Part imgPart = req.getPart("imagen");
+      if (imgPart != null && imgPart.getSize() > 0) {
+      	String original = submittedFileName(imgPart);
+          String ext = extensionOf(original);
+          String safeBase = slug(nombre.isEmpty() ? "evento" : nombre);
+          String stamp = DateTimeFormatter.ofPattern("yyyyMMddHHmmss").format(LocalDateTime.now());
+          String fileName = safeBase + "_" + stamp + (ext.isEmpty() ? "" : "." + ext);
+
+          String realDir = getServletContext().getRealPath(INST_IMG_DIR);
+          if (realDir == null) {
+              realDir = System.getProperty("java.io.tmpdir") + File.separator + "eventuy-img";
           }
-          String fileName = sanitizeFileName(getFileName(imagenPart));
-          if (fileName != null && !fileName.isBlank()) {
-            fileName = normalizarExt(fileName);
-            byte[] bytes = imagenPart.getInputStream().readAllBytes();
-            imagenWebPath = port.subirImagenEdicion(evento, nombre, fileName, bytes);
-          }
-        }
-      } catch (SOAPFaultException sfe) {
-        req.setAttribute("msgError", faultMsg(sfe));
-        req.getRequestDispatcher("/WEB-INF/views/AltaEdicion.jsp").forward(req, resp);
-        return;
-      } catch (Exception e) {
-        req.setAttribute("msgError", rootMsg(e));
-        req.getRequestDispatcher("/WEB-INF/views/AltaEdicion.jsp").forward(req, resp);
-        return;
-      }
+          File dir = new File(realDir);
+          if (!dir.exists()) dir.mkdirs();
+
+          File destino = new File(dir, fileName);
+          imgPart.write(destino.getAbsolutePath());
+
+          imagenWebPath = INST_IMG_DIR + "/" + fileName;
+  }
 
       try {
     	    port.altaEdicionDeEventoDTO(
@@ -269,6 +266,35 @@ public class AltaEdicionSvt extends HttpServlet {
     if (m != null && !m.isBlank()) return m;
     Throwable c = t.getCause();
     return (c != null && c != t) ? rootMsg(c) : t.getClass().getSimpleName();
+  }
+  
+  private static String submittedFileName(Part part) {
+      String cd = part.getHeader("content-disposition");
+      if (cd != null) {
+          for (String token : cd.split(";")) {
+              String t = token.trim();
+              if (t.startsWith("filename")) {
+                  String fn = t.substring(t.indexOf('=') + 1).trim().replace("\"", "");
+                  return new File(fn).getName();
+              }
+          }
+      }
+      try { return part.getSubmittedFileName(); } catch (Throwable ignore) {}
+      return "upload";
+  }
+  
+  private static String extensionOf(String filename) {
+      if (filename == null) return "";
+      int dot = filename.lastIndexOf('.');
+      if (dot < 0 || dot == filename.length() - 1) return "";
+      return filename.substring(dot + 1).toLowerCase(Locale.ROOT);
+  }
+  
+  private static String slug(String s) {
+      String base = (s == null || s.isEmpty()) ? "evento" : s.toLowerCase(Locale.ROOT);
+      base = base.replaceAll("[^a-z0-9-_]+", "-");
+      base = base.replaceAll("-{2,}", "-");
+      return base.replaceAll("^-|-$", "");
   }
 
 

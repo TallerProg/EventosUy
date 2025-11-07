@@ -39,7 +39,7 @@ class AltaInstitucionTest {
         String imgIns    = "institucion.png";
 
         try {
-            controllerI.altaInstitucion(nombreIns, urlIns, descIns, imgIns);
+            controllerI.altaInstitucion(nombreIns, descIns, urlIns, imgIns);
 
             Institucion insRecuperada = controllerI.findInstitucion(nombreIns);
 
