@@ -16,7 +16,7 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.release>17</maven.compiler.release>
+    <maven.compiler.release>21</maven.compiler.release>
 
     <jakarta.servlet.version>6.1.0</jakarta.servlet.version>
     <jakarta.jsp.version>3.1.1</jakarta.jsp.version>
