@@ -103,7 +103,7 @@
           <appendAssemblyId>true</appendAssemblyId>
           <archive>
             <manifest>
-              <mainClass>src.main.java.servidorcentral.presentacion.Principal</mainClass>
+              <mainClass>servidorcentral.presentacion.Principal</mainClass>
             </manifest>
           </archive>
         </configuration>
@@ -122,7 +122,7 @@
 
     <resources>
       <resource>
-        <directory>src/main/recursos</directory>
+        <directory>src/main/resources</directory>
       </resource>
     </resources>
     <testResources>
