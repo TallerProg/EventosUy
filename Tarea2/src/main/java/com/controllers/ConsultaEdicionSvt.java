@@ -167,7 +167,7 @@ public class ConsultaEdicionSvt extends HttpServlet {
             esAsistenteInscriptoEd = true;
             miRegVM = new LinkedHashMap<>();
             miRegVM.put("tipo",  nz(r.getTipoRegistroNombre()));
-            miRegVM.put("fecha", format(toLocalDate(r.getFInicio())));
+            miRegVM.put("fecha", r.getFInicioS());
             boolean asistioMiReg = getAsistioSafe(r); // NUEVO
             miRegVM.put("asistio", asistioMiReg ? "Sí" : "No");
 
