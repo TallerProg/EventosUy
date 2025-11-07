@@ -1,11 +1,9 @@
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="cliente.ws.sc.DtUsuarioListaConsulta"%>
 <%@ page import="cliente.ws.sc.DtEdicion"%>
-<%@ page import="cliente.ws.sc.DtRegistro"%>
 <%@ page import="cliente.ws.sc.DtSesionUsuario"%>
 <%@ page import="java.util.List" %>
-<%@ page import="java.util.Map" %>
-<%@ page import="java.net.URLEncoder, java.nio.charset.StandardCharsets" %>
+<%@ page import="java.net.URLEncoder" %>
 
 <%
   String ctx = request.getContextPath();
@@ -83,7 +81,7 @@
     <div class="container">
       <div class="row g-4">
 
-        <!-- Datos usuario -->
+        <!-- Columna izquierda: Datos -->
         <div class="col-lg-6">
           <div class="card p-4 h-100 user-card">
             <% if (mostrarToggle) { %>
@@ -143,16 +141,11 @@
           </div>
         </div>
 
-        <!-- Ediciones Organizador -->
+        <!-- Columna derecha: Ediciones (Organizador) -->
         <% if ("O".equals(rol)) {
              @SuppressWarnings("unchecked")
              List<DtEdicion> ediciones = (List<DtEdicion>) request.getAttribute("Ediciones");
              if (ediciones == null) ediciones = java.util.Collections.emptyList();
-
-             @SuppressWarnings("unchecked")
-             Map<String,String> evMap =
-                 (Map<String,String>) request.getAttribute("EDICION_EVENTO");
-             if (evMap == null) evMap = java.util.Collections.emptyMap();
         %>
         <div class="col-lg-6">
           <div class="card p-4 h-100">
@@ -165,33 +158,32 @@
                 <% for (DtEdicion e : ediciones) {
                      if (e == null) continue;
                      String edNom = e.getNombre();
-                     String evNom = e.getNombreEvento();
+                     String evNom = e.getNombreEvento(); // del WS
                      boolean tieneEvento = (evNom != null && !evNom.isBlank());
-                     if (!tieneEvento) evNom = "Evento no disponible";
 
                      String imgEd = (e.getImagenWebPath() != null && !e.getImagenWebPath().isBlank())
                                      ? (ctx + e.getImagenWebPath())
                                      : (ctx + "/media/img/default.png");
-
-                     String href = "#";
-                     if (tieneEvento) {
-                       href = ctx + "/ediciones-consulta?evento="
-                            + URLEncoder.encode(evNom, StandardCharsets.UTF_8)
-                            + "&edicion=" + URLEncoder.encode(edNom, StandardCharsets.UTF_8);
-                     }
                 %>
                   <div class="col-12 col-sm-6 col-md-4">
                     <div class="card h-100">
                       <img src="<%= imgEd %>" class="card-img-top" alt="<%= edNom %>">
                       <div class="card-body d-flex flex-column">
                         <h6 class="card-title mb-2"><%= edNom %></h6>
-                        <p class="card-text text-muted small mb-3"><%= evNom %></p>
+                        <p class="card-text text-muted small mb-3">
+                          <%= tieneEvento ? evNom : "Evento no disponible" %>
+                        </p>
                         <div class="mt-auto">
                           <% if (tieneEvento) { %>
-						<a href="<%= ctx %>/ediciones-consulta?evento=<%= URLEncoder.encode(evNom, StandardCharsets.UTF_8) %>&edicion=<%= URLEncoder.encode(edNom, StandardCharsets.UTF_8) %>"
-						   class="btn btn-primary btn-sm w-100">Ver detalles</a>
+                            <a
+                              href="<%= ctx %>/ediciones-consulta?evento=<%= URLEncoder.encode(evNom, "UTF-8") %>&edicion=<%= URLEncoder.encode(edNom, "UTF-8") %>"
+                              class="btn btn-primary btn-sm w-100">
+                              Ver detalles
+                            </a>
                           <% } else { %>
-                            <button class="btn btn-secondary btn-sm w-100" disabled>Ver detalles</button>
+                            <button class="btn btn-secondary btn-sm w-100" disabled>
+                              Ver detalles
+                            </button>
                           <% } %>
                         </div>
                       </div>
@@ -204,72 +196,49 @@
         </div>
         <% } %>
 
-        <!-- Ediciones Asistente (solo su perfil) -->
+        <!-- Columna derecha: Ediciones (Asistente, solo su perfil) -->
         <% if ("A".equals(rol) && s) {
              @SuppressWarnings("unchecked")
-             List<DtRegistro> registros = (List<DtRegistro>) request.getAttribute("Registros");
-             if (registros == null) registros = java.util.Collections.emptyList();
-
-             @SuppressWarnings("unchecked")
-             Map<String,String> evMapA =
-                 (Map<String,String>) request.getAttribute("EDICION_EVENTO");
-             if (evMapA == null) evMapA = java.util.Collections.emptyMap();
+             List<DtEdicion> listaEdicion = (List<DtEdicion>) request.getAttribute("listaEdicion");
+             if (listaEdicion == null) listaEdicion = java.util.Collections.emptyList();
         %>
         <div class="col-lg-6">
           <div class="card p-4 h-100">
             <h4 class="mb-3">Ediciones</h4>
 
-            <% if (registros.isEmpty()) { %>
+            <% if (listaEdicion.isEmpty()) { %>
               <div class="text-center p-5 text-muted">Sin registros</div>
             <% } else { %>
               <div class="row g-3">
-                <% for (DtRegistro r : registros) {
-                     if (r == null || r.getEdicion() == null) continue;
-
-                     Object eo = r.getEdicion();
-                     String edNom = "";
-                     String imgEd = ctx + "/media/img/default.png";
-
-                     if (eo instanceof DtEdicion de) {
-                       edNom = de.getNombre();
-                       if (de.getImagenWebPath() != null && !de.getImagenWebPath().isBlank()) {
-                         imgEd = ctx + de.getImagenWebPath();
-                       }
-                     } else if (eo != null) {
-                       try {
-                         Object v = eo.getClass().getMethod("getNombre").invoke(eo);
-                         if (v instanceof String s2 && !s2.isBlank()) edNom = s2;
-                       } catch (Exception ignore) {}
-                       try {
-                         Object v = eo.getClass().getMethod("getImagenWebPath").invoke(eo);
-                         if (v instanceof String s2 && !s2.isBlank()) imgEd = ctx + s2;
-                       } catch (Exception ignore) {}
-                     }
-
-                     if (edNom == null) edNom = "";
-                     String evNom = r.getNombreEvento();
+                <% for (DtEdicion ed : listaEdicion) {
+                     if (ed == null) continue;
+                     String edNom = ed.getNombre();
+                     String evNom = ed.getNombreEvento();
                      boolean tieneEvento = (evNom != null && !evNom.isBlank());
-                     if (!tieneEvento) evNom = "Evento no disponible";
 
-                     String href = "#";
-                     if (tieneEvento && !edNom.isBlank()) {
-                       href = ctx + "/ediciones-consulta?evento="
-                            + URLEncoder.encode(evNom, StandardCharsets.UTF_8)
-                            + "&edicion=" + URLEncoder.encode(edNom, StandardCharsets.UTF_8);
-                     }
+                     String imgEd = (ed.getImagenWebPath() != null && !ed.getImagenWebPath().isBlank())
+                                     ? (ctx + ed.getImagenWebPath())
+                                     : (ctx + "/media/img/default.png");
                 %>
                   <div class="col-12 col-sm-6 col-md-4">
                     <div class="card h-100">
                       <img src="<%= imgEd %>" class="card-img-top" alt="<%= edNom %>">
                       <div class="card-body d-flex flex-column">
                         <h6 class="card-title mb-2"><%= edNom %></h6>
-                        <p class="card-text text-muted small mb-3"><%= evNom %></p>
+                        <p class="card-text text-muted small mb-3">
+                          <%= tieneEvento ? evNom : "Evento no disponible" %>
+                        </p>
                         <div class="mt-auto">
-                          <% if (tieneEvento && !edNom.isBlank()) { %>
-                            <a href="<%= href %>" class="btn btn-primary btn-sm w-100">Ver detalles</a>
+                          <% if (tieneEvento) { %>
+                            <a
+                              href="<%= ctx %>/ediciones-consulta?evento=<%= URLEncoder.encode(evNom, "UTF-8") %>&edicion=<%= URLEncoder.encode(edNom, "UTF-8") %>"
+                              class="btn btn-primary btn-sm w-100">
+                              Ver detalles
+                            </a>
                           <% } else { %>
-							<a href="<%= ctx %>/ediciones-consulta?evento=<%= URLEncoder.encode(edNom, StandardCharsets.UTF_8) %>&edicion=<%= URLEncoder.encode(edNom, StandardCharsets.UTF_8) %>"
-							   class="btn btn-primary btn-sm w-100">Ver detalles</a>
+                            <button class="btn btn-secondary btn-sm w-100" disabled>
+                              Ver detalles
+                            </button>
                           <% } %>
                         </div>
                       </div>
@@ -294,6 +263,7 @@
 <script src="media/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
 
 
 
