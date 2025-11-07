@@ -65,7 +65,7 @@
 
                   <div class="detail-item">
 					  <i class="bi bi-calendar-event"></i>
-					  <%= f(p.getFInicio(), fmt) %>
+					  <%= p.getFInicioS() %>
 					</div>
 
 
