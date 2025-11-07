@@ -105,10 +105,14 @@ boolean hayEventoSeleccionado  = (evNom != null && !evNom.isBlank());
 <main class="main mt-5 pt-4">
   <section class="container">
     <% if (msgOk != null) { %>
-      <div class="alert alert-success d-flex align-items-center"><i class="bi bi-check2-circle me-2"></i><%= msgOk %></div>
+      <div class="alert alert-success d-flex align-items-center">
+        <i class="bi bi-check2-circle me-2"></i><%= msgOk %>
+      </div>
     <% } %>
     <% if (msgErr != null) { %>
-      <div class="alert alert-danger d-flex align-items-center"><i class="bi bi-exclamation-triangle me-2"></i><%= msgErr %></div>
+      <div class="alert alert-danger d-flex align-items-center">
+        <i class="bi bi-exclamation-triangle me-2"></i><%= msgErr %>
+      </div>
     <% } %>
 
     <% if (!hayEventoSeleccionado && !hayDetalleSeleccionado) { %>
@@ -128,7 +132,8 @@ boolean hayEventoSeleccionado  = (evNom != null && !evNom.isBlank());
                 <img class="touch-img w-100" src="<%= eImg %>" alt="<%= nv(eNom) %>">
                 <div class="card-body d-flex flex-column">
                   <h6 class="mb-3"><%= nv(eNom) %></h6>
-                  <a class="btn btn-primary btn-wide mt-auto" href="<%= ctx %>/ConsultaEdicionMobile?evento=<%= encENom %>">Ver ediciones</a>
+                  <a class="btn btn-primary btn-wide mt-auto"
+                     href="<%= ctx %>/ConsultaEvento?evento=<%= encENom %>">Ver ediciones</a>
                 </div>
               </div>
             </div>
@@ -139,8 +144,12 @@ boolean hayEventoSeleccionado  = (evNom != null && !evNom.isBlank());
 
     <% if (hayEventoSeleccionado && !hayDetalleSeleccionado) { %>
       <div class="d-flex align-items-center mb-3">
-        <a class="btn btn-link p-0 me-2" href="<%= ctx %>/ConsultaEdicionMobile"><i class="bi bi-arrow-left"></i> Eventos</a>
-        <h2 class="h5 mb-0">Ediciones de <span class="fw-semibold"><%= nv(evNom) %></span></h2>
+        <a class="btn btn-link p-0 me-2" href="<%= ctx %>/ConsultaEvento">
+          <i class="bi bi-arrow-left"></i> Eventos
+        </a>
+        <h2 class="h5 mb-0">
+          Ediciones de <span class="fw-semibold"><%= nv(evNom) %></span>
+        </h2>
       </div>
       <%
         List<Map<String,String>> aprobadas = new ArrayList<>();
@@ -172,9 +181,16 @@ boolean hayEventoSeleccionado  = (evNom != null && !evNom.isBlank());
                     <h6 class="mb-0"><%= nv(edNom) %></h6>
                     <span class="badge pill-badge bg-primary">Aprobada</span>
                   </div>
-                  <div class="small text-muted mt-1"><i class="bi bi-calendar-event"></i> <%= nv(eIni) %> — <%= nv(eFin) %></div>
-                  <div class="small text-muted"><i class="bi bi-person-workspace"></i> <%= nv(org) %></div>
-                  <a class="btn btn-success btn-wide mt-3" href="<%= ctx %>/ConsultaEdicionMobile?evento=<%= encEvNom %>&edicion=<%= encEdNom %>">Ver detalles</a>
+                  <div class="small text-muted mt-1">
+                    <i class="bi bi-calendar-event"></i> <%= nv(eIni) %> — <%= nv(eFin) %>
+                  </div>
+                  <div class="small text-muted">
+                    <i class="bi bi-person-workspace"></i> <%= nv(org) %>
+                  </div>
+                  <a class="btn btn-success btn-wide mt-3"
+                     href="<%= ctx %>/ConsultaEdicionMobile?evento=<%= encEvNom %>&edicion=<%= encEdNom %>">
+                     Ver detalles
+                  </a>
                 </div>
               </div>
             </div>
@@ -184,8 +200,8 @@ boolean hayEventoSeleccionado  = (evNom != null && !evNom.isBlank());
     <% } %>
 
     <% if (hayDetalleSeleccionado) { %>
-      <div class="d-flex align-items-center mb-3">
-        <a class="btn btn-link p-0 me-2" href="<%= ctx %>/ConsultaEdicionMobile<%= evNom!=null?("?evento="+encEv):"" %>"><i class="bi bi-arrow-left"></i> <%= evNom != null ? "Ediciones" : "Eventos" %></a>
+      <!-- Título solo, sin link "Ediciones/Eventos" con flecha -->
+      <div class="mb-3">
         <h2 class="h5 mb-0"><%= nv(nombreEd) %></h2>
       </div>
 
@@ -195,9 +211,14 @@ boolean hayEventoSeleccionado  = (evNom != null && !evNom.isBlank());
           <div class="row gy-2">
             <div class="col-12"><strong>Evento:</strong> <%= nv(evNom) %></div>
             <div class="col-6"><strong>Sigla:</strong> <%= nv(sigla) %></div>
-            <div class="col-6"><strong>Estado:</strong> <span class="badge <%= estadoBadge(estado) %>"><%= nv(estado) %></span></div>
+            <div class="col-6">
+              <strong>Estado:</strong>
+              <span class="badge <%= estadoBadge(estado) %>"><%= nv(estado) %></span>
+            </div>
             <div class="col-12"><strong>Organizador:</strong> <%= nv(orgNom) %></div>
-            <div class="col-12"><strong>Fechas:</strong> <%= nv(fIni) %> — <%= nv(fFin) %></div>
+            <div class="col-12">
+              <strong>Fechas:</strong> <%= nv(fIni) %> — <%= nv(fFin) %>
+            </div>
             <div class="col-6"><strong>Ciudad:</strong> <%= nv(ciudad) %></div>
             <div class="col-6"><strong>País:</strong> <%= nv(pais) %></div>
           </div>
@@ -206,7 +227,9 @@ boolean hayEventoSeleccionado  = (evNom != null && !evNom.isBlank());
 
       <% if (videoUrl != null && !videoUrl.isBlank()) { %>
         <div class="mb-3">
-          <h6 class="mb-2"><i class="bi bi-camera-reels"></i> Video</h6>
+          <h6 class="mb-2">
+            <i class="bi bi-camera-reels"></i> Video
+          </h6>
           <div class="video-wrap">
             <%
               String vu = videoUrl.trim();
@@ -226,72 +249,43 @@ boolean hayEventoSeleccionado  = (evNom != null && !evNom.isBlank());
       <div class="card shadow-sm mb-3">
         <div class="card-body">
           <div class="d-flex align-items-center gap-2 mb-2">
-            <h6 class="mb-0"><i class="bi bi-ticket-perforated"></i> Tipos de Registro</h6>
+            <h6 class="mb-0">
+              <i class="bi bi-ticket-perforated"></i> Tipos de Registro
+            </h6>
             <% if (ES_ORGANIZADOR_ED && !Boolean.TRUE.equals(finalizado)) { %>
-              <a href="<%= ctx %>/organizador-tipos-registro-alta?evento=<%= encEv %>&edicion=<%= encEd %>" class="btn btn-sm btn-primary ms-auto d-inline-flex align-items-center justify-content-center" style="width:36px; height:36px; border-radius:10px;" title="Alta de Tipo de Registro" aria-label="Alta de Tipo de Registro"><i class="bi bi-plus"></i></a>
+              <a href="<%= ctx %>/organizador-tipos-registro-alta?evento=<%= encEv %>&edicion=<%= encEd %>"
+                 class="btn btn-sm btn-primary ms-auto d-inline-flex align-items-center justify-content-center"
+                 style="width:36px; height:36px; border-radius:10px;"
+                 title="Alta de Tipo de Registro"
+                 aria-label="Alta de Tipo de Registro">
+                <i class="bi bi-plus"></i>
+              </a>
             <% } %>
           </div>
-
-          <%
-            boolean sinRegistro = (miReg == null) || miReg.isEmpty() || miReg.get("tipo") == null || String.valueOf(miReg.get("tipo")).isBlank();
-            boolean hayTipos = (tipos != null && !tipos.isEmpty());
-            boolean puedeInscribirse = ES_ASISTENTE && sinRegistro && hayTipos && !Boolean.TRUE.equals(finalizado);
-            if (puedeInscribirse) {
-              if (tipos.size() == 1) {
-                Map<String,String> tr0 = tipos.get(0);
-                String t0n = tr0.get("nombre");
-                String encT0 = (t0n != null) ? URLEncoder.encode(t0n, StandardCharsets.UTF_8.name()) : "";
-          %>
-              <a class="btn btn-success btn-wide mb-2" href="<%= ctx %>/RegistroAlta?evento=<%= encEv %>&edicion=<%= encEd %>&tipo=<%= encT0 %>"><i class="bi bi-check2-circle me-1"></i> Inscribirme</a>
-          <%
-              } else {
-          %>
-              <div class="dropdown mb-2">
-                <button class="btn btn-success btn-wide dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-check2-circle me-1"></i> Inscribirme</button>
-                <ul class="dropdown-menu dropdown-menu-end w-100">
-                  <% for (Map<String,String> tr : tipos) {
-                       String tnom = tr.get("nombre");
-                       String tenc = (tnom != null) ? URLEncoder.encode(tnom, StandardCharsets.UTF_8.name()) : "";
-                       String tcosto = tr.get("costo");
-                       String tcupo  = tr.get("cupos"); if (tcupo == null) tcupo = tr.get("cupoTotal");
-                  %>
-                    <li>
-                      <a class="dropdown-item d-flex justify-content-between align-items-center" href="<%= ctx %>/RegistroAlta?evento=<%= encEv %>&edicion=<%= encEd %>&tipo=<%= tenc %>">
-                        <span><strong><%= nv(tnom) %></strong></span>
-                        <small class="text-muted">Costo: <%= nv(tcosto) %> | Cupos: <%= nv(tcupo) %></small>
-                      </a>
-                    </li>
-                  <% } %>
-                </ul>
-              </div>
-          <%
-              }
-            }
-          %>
 
           <% if (tipos != null && !tipos.isEmpty()) { %>
             <div class="list-group">
               <% for (Map<String,String> tr : tipos) {
                    String tn   = tr.get("nombre");
                    String cost = tr.get("costo");
-                   String cup  = tr.get("cupos"); if (cup == null) cup = tr.get("cupoTotal");
-                   String encTn = (tn != null) ? URLEncoder.encode(tn, StandardCharsets.UTF_8.name()) : "";
-                   boolean yaInscripto = (miReg != null && tn != null && tn.equalsIgnoreCase(String.valueOf(miReg.get("tipo"))));
+                   String cup  = tr.get("cupos");
+                   if (cup == null) cup = tr.get("cupoTotal");
+                   String encTn = (tn != null)
+                                  ? URLEncoder.encode(tn, StandardCharsets.UTF_8.name())
+                                  : "";
               %>
                 <div class="list-group-item d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-2">
                   <div>
                     <div class="fw-semibold"><%= nv(tn) %></div>
-                    <div class="small text-muted">Costo: <%= nv(cost) %> — Cupos: <%= nv(cup) %></div>
+                    <div class="small text-muted">
+                      Costo: <%= nv(cost) %> — Cupos: <%= nv(cup) %>
+                    </div>
                   </div>
                   <div class="d-flex gap-2 w-100 w-sm-auto">
-                    <a class="btn btn-sm btn-outline-primary flex-fill" href="<%= ctx %>/ConsultaTipoRegistro?evento=<%= encEv %>&edicion=<%= encEd %>&tipo=<%= encTn %>">Ver detalles</a>
-                    <% if (ES_ASISTENTE && !Boolean.TRUE.equals(finalizado)) { %>
-                      <% if (yaInscripto) { %>
-                        <button class="btn btn-sm btn-secondary flex-fill" disabled>Ya inscripto</button>
-                      <% } else { %>
-                        <a class="btn btn-sm btn-success flex-fill" href="<%= ctx %>/RegistroAlta?evento=<%= encEv %>&edicion=<%= encEd %>&tipo=<%= encTn %>">Inscribirme</a>
-                      <% } %>
-                    <% } %>
+                    <a class="btn btn-sm btn-outline-primary flex-fill"
+                       href="<%= ctx %>/ConsultaTipoRegistro?evento=<%= encEv %>&edicion=<%= encEd %>&tipo=<%= encTn %>">
+                      Ver detalles
+                    </a>
                   </div>
                 </div>
               <% } %>
@@ -303,54 +297,80 @@ boolean hayEventoSeleccionado  = (evNom != null && !evNom.isBlank());
       </div>
 
       <% if (ES_ASISTENTE && miReg != null) { %>
-      <div class="card shadow-sm mb-3">
-        <div class="card-body">
-          <h6 class="card-title mb-2"><i class="bi bi-person-badge"></i> Mi registro</h6>
-          <div class="row gy-2">
-            <div class="col-12"><strong>Tipo:</strong> <%= nv(miReg.get("tipo")) %></div>
-            <div class="col-12"><strong>Fecha:</strong> <%= nv(miReg.get("fecha")) %></div>
+        <div class="card shadow-sm mb-3">
+          <div class="card-body">
+            <h6 class="card-title mb-2">
+              <i class="bi bi-person-badge"></i> Mi registro
+            </h6>
+            <div class="row gy-2">
+              <div class="col-12">
+                <strong>Tipo:</strong> <%= nv(miReg.get("tipo")) %>
+              </div>
+              <div class="col-12">
+                <strong>Fecha:</strong> <%= nv(miReg.get("fecha")) %>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
       <% } %>
 
       <% if (ES_ORGANIZADOR_ED) { %>
-      <div class="card shadow-sm mb-3">
-        <div class="card-body">
-          <h6 class="card-title mb-2"><i class="bi bi-list"></i> Registros de Asistentes</h6>
-          <div class="table-responsive">
-            <table class="table table-bordered align-middle mb-0">
-              <thead class="table-light">
-                <tr><th>Nombre</th><th>Tipo</th><th>Fecha</th></tr>
-              </thead>
-              <tbody>
-                <% if (regs != null && !regs.isEmpty()) {
-                     for (Map<String,String> r : regs) { %>
+        <div class="card shadow-sm mb-3">
+          <div class="card-body">
+            <h6 class="card-title mb-2">
+              <i class="bi bi-list"></i> Registros de Asistentes
+            </h6>
+            <div class="table-responsive">
+              <table class="table table-bordered align-middle mb-0">
+                <thead class="table-light">
                   <tr>
-                    <td><%= nv(r.get("asistente")) %></td>
-                    <td><%= nv(r.get("tipo")) %></td>
-                    <td><%= nv(r.get("fecha")) %></td>
+                    <th>Nombre</th>
+                    <th>Tipo</th>
+                    <th>Fecha</th>
                   </tr>
-                <% } } else { %>
-                  <tr><td colspan="3" class="text-center text-muted">No hay registros aún.</td></tr>
-                <% } %>
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  <% if (regs != null && !regs.isEmpty()) {
+                       for (Map<String,String> r : regs) { %>
+                    <tr>
+                      <td><%= nv(r.get("asistente")) %></td>
+                      <td><%= nv(r.get("tipo")) %></td>
+                      <td><%= nv(r.get("fecha")) %></td>
+                    </tr>
+                  <% } } else { %>
+                    <tr>
+                      <td colspan="3" class="text-center text-muted">
+                        No hay registros aún.
+                      </td>
+                    </tr>
+                  <% } %>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
-      </div>
       <% } %>
 
       <div class="card shadow-sm mb-3">
         <div class="card-body">
           <div class="d-flex align-items-center gap-2 mb-2">
-            <h6 class="card-title mb-0"><i class="bi bi-people"></i> Patrocinios</h6>
+            <h6 class="card-title mb-0">
+              <i class="bi bi-people"></i> Patrocinios
+            </h6>
             <% if (ES_ORGANIZADOR_ED && !Boolean.TRUE.equals(finalizado)) { %>
-              <a href="<%= ctx %>/organizador-patrocinios-alta?evento=<%= encEv %>&edicion=<%= encEd %>" class="btn btn-sm btn-primary ms-auto d-inline-flex align-items-center justify-content-center" style="width:36px; height:36px; border-radius:10px;" title="Alta de Patrocinio" aria-label="Alta de Patrocinio"><i class="bi bi-plus"></i></a>
+              <a href="<%= ctx %>/organizador-patrocinios-alta?evento=<%= encEv %>&edicion=<%= encEd %>"
+                 class="btn btn-sm btn-primary ms-auto d-inline-flex align-items-center justify-content-center"
+                 style="width:36px; height:36px; border-radius:10px;"
+                 title="Alta de Patrocinio"
+                 aria-label="Alta de Patrocinio">
+                <i class="bi bi-plus"></i>
+              </a>
             <% } %>
           </div>
           <% if (pats != null) { %>
-            <div id="contenido-patrocinios"><jsp:include page="/WEB-INF/views/ConsultaPatrocinio.jsp" /></div>
+            <div id="contenido-patrocinios">
+              <jsp:include page="/WEB-INF/views/ConsultaPatrocinio.jsp" />
+            </div>
           <% } else { %>
             <div class="text-muted">No hay patrocinios cargados.</div>
           <% } %>
@@ -358,7 +378,9 @@ boolean hayEventoSeleccionado  = (evNom != null && !evNom.isBlank());
       </div>
 
       <% if (Boolean.TRUE.equals(finalizado)) { %>
-        <div class="alert alert-secondary">Esta edición está finalizada.</div>
+        <div class="alert alert-secondary">
+          Esta edición está finalizada.
+        </div>
       <% } %>
     <% } %>
   </section>
@@ -366,15 +388,15 @@ boolean hayEventoSeleccionado  = (evNom != null && !evNom.isBlank());
 
 <footer id="footer" class="footer position-relative light-background mt-4">
   <jsp:include page="/WEB-INF/views/template/footer.jsp" />
-  
 </footer>
 
 <script src="<%=ctx%>/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="media/js/main.js"></script>
 
-
 <%!
-  private static String nv(Object o){ return (o==null || String.valueOf(o).isBlank()) ? "—" : String.valueOf(o); }
+  private static String nv(Object o){
+    return (o==null || String.valueOf(o).isBlank()) ? "—" : String.valueOf(o);
+  }
   private static String estadoBadge(String e) {
     if (e == null) return "bg-secondary";
     switch (e) {

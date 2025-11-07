@@ -114,13 +114,14 @@ public class ConsultaEdicionMovilSvt extends HttpServlet {
       VM.put("nombre", nz(ed.getNombre()));
       VM.put("sigla",  nz(ed.getSigla()));
 
-      LocalDate fIni = toLocalDate(ed.getFInicio());
-      LocalDate fFin = toLocalDate(ed.getFFin());
-      VM.put("fechaIni", format(fIni));
-      VM.put("fechaFin", format(fFin));
+      String fIni = ed.getFInicioS();
+      String fFinS = ed.getFFinS();
+      VM.put("fechaIni", fIni);
+      VM.put("fechaFin", fFinS);
       VM.put("ciudad",   nz(ed.getCiudad()));
       VM.put("pais",     nz(ed.getPais()));
       VM.put("estado",   nz(ed.getEstado()));
+      LocalDate fFin = toLocalDate(ed.getFFin());
 
       boolean finalizado = (fFin != null) && LocalDate.now().isAfter(fFin);
       VM.put("finalizado", finalizado);
@@ -164,8 +165,7 @@ public class ConsultaEdicionMovilSvt extends HttpServlet {
             esAsistenteInscriptoEd = true;
             miRegVM = new LinkedHashMap<>();
             miRegVM.put("tipo",  nz(r.getTipoRegistroNombre()));
-            miRegVM.put("fecha", format(toLocalDate(r.getFInicio())));
-            miRegVM.put("estado", "");
+            miRegVM.put("fecha", r.getFInicioS());
             break;
           }
         }

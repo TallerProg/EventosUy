@@ -43,7 +43,7 @@
 
   <main class="main">
     <!-- categorías -->
-    <section id="categories-carousel" class="py-3">
+    <section id="categories-carousel" class="py-0">
       <div class="container">
         <div id="categoriesCarousel" class="carousel slide" data-bs-interval="false">
           <div class="carousel-inner">
