@@ -156,11 +156,23 @@
                     <% if ("O".equals(rol)) { %>
                       <p class="mb-1">Descripción: <%= u.getDescripcion() %></p>
                       <p class="mb-1">
-                        URL:
-                        <a href="<%= u.getUrl() %>" target="_blank" rel="noopener noreferrer">
-                          <%= u.getUrl() %>
-                        </a>
-                      </p>
+					  URL:
+					  <%
+					    String url = u.getUrl();
+					    if (url != null && !url.isBlank()) {
+					  %>
+					      <a href="<%= url %>" target="_blank" rel="noopener noreferrer">
+					        <%= url %>
+					      </a>
+					  <%
+					    } else {
+					  %>
+					      <span class="text-muted">No tiene URL registrada</span>
+					  <%
+					    }
+					  %>
+					</p>
+
                     <% } %>
                   <% } else { %>
                     <div class="text-danger">Usuario no disponible.</div>
