@@ -112,7 +112,7 @@ public class ConsultaEdicionSvt extends HttpServlet {
       VM.put("ciudad",   nz(ed.getCiudad()));
       VM.put("pais",     nz(ed.getPais()));
       VM.put("estado",   nz(ed.getEstado()));
-      LocalDate fFin = toLocalDate(ed.getFFin());
+      LocalDate fFin = toLocalDate(ed.getFFinS());
 
       boolean finalizado = (fFin != null) && LocalDate.now().isAfter(fFin);
       VM.put("finalizado", finalizado);
@@ -235,15 +235,15 @@ public class ConsultaEdicionSvt extends HttpServlet {
   private static String prefer(String a, String b) { return !isBlank(a) ? a : nz(b); }
   private static <T> List<T> listOrEmpty(List<T> xs) { return (xs == null) ? java.util.List.of() : xs; }
 
-  private static LocalDate toLocalDate(Object d) {
-    if (d == null) return null;
-    if (d instanceof LocalDate ld) return ld;
-    if (d instanceof XMLGregorianCalendar xc) {
-      return xc.toGregorianCalendar().toZonedDateTime().withZoneSameInstant(ZoneId.systemDefault()).toLocalDate();
-    }
-    return null;
-  }
-
+  private LocalDate toLocalDate(String s) {
+	    if (s == null || s.isBlank()) return null;
+	    try {
+	        return LocalDate.parse(s, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+	    } catch (Exception e) {
+	        System.err.println("Error al parsear fecha: " + s);
+	        return null;
+	    }
+	}
   private static String joinOrganizadores(List<DtOrganizador> orgs) {
     if (orgs == null || orgs.isEmpty()) return null;
     List<String> nombres = new ArrayList<>();

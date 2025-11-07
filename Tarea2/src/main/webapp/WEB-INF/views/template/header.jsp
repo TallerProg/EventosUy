@@ -32,7 +32,7 @@
       <% } %>
 
       <li class="nav-item search-item ms-auto">
-        <form class="search-form" action="<%= ctx %>/search" method="get">
+        <form class="search-form" action="<%= ctx %>/Search" method="get">
           <input type="text" name="q" class="search-input" placeholder="Buscar eventos...">
           <button type="submit" class="search-btn"><i class="bi bi-search"></i></button>
         </form>
