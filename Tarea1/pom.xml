@@ -103,7 +103,7 @@
           <appendAssemblyId>true</appendAssemblyId>
           <archive>
             <manifest>
-              <mainClass>servidorcentral.presentacion.Principal</mainClass>
+              <mainClass>src.main.java.servidorcentral.presentacion.Principal</mainClass>
             </manifest>
           </archive>
         </configuration>

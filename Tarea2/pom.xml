@@ -31,7 +31,6 @@
   </properties>
 
   <dependencies>
-    <!-- APIs provistas por el contenedor -->
     <dependency>
       <groupId>jakarta.servlet</groupId>
       <artifactId>jakarta.servlet-api</artifactId>
@@ -51,7 +50,6 @@
       <scope>provided</scope>
     </dependency>
 
-    <!-- JSTL -->
     <dependency>
       <groupId>jakarta.servlet.jsp.jstl</groupId>
       <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
@@ -63,14 +61,12 @@
       <version>${jakarta.jstl.impl.version}</version>
     </dependency>
 
-    <!-- *** FALTABA: API de JAX-WS (Jakarta) -->
     <dependency>
       <groupId>jakarta.xml.ws</groupId>
       <artifactId>jakarta.xml.ws-api</artifactId>
       <version>4.0.0</version>
     </dependency>
 
-    <!-- Cliente SOAP (Metro / JAX-WS RI) -->
     <dependency>
       <groupId>com.sun.xml.ws</groupId>
       <artifactId>jaxws-rt</artifactId>
@@ -78,7 +74,6 @@
       <scope>runtime</scope>
     </dependency>
 
-    <!-- JAXB + Activation -->
     <dependency>
       <groupId>jakarta.xml.bind</groupId>
       <artifactId>jakarta.xml.bind-api</artifactId>
@@ -95,14 +90,12 @@
       <version>${activation.version}</version>
     </dependency>
 
-    <!-- Utilidades -->
     <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
       <version>2.16.1</version>
     </dependency>
 
-    <!-- Tests -->
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter</artifactId>
@@ -135,11 +128,11 @@
         <artifactId>maven-war-plugin</artifactId>
         <version>3.4.0</version>
         <configuration>
+          <warSourceDirectory>src/main/webapp</warSourceDirectory>
           <failOnMissingWebXml>false</failOnMissingWebXml>
         </configuration>
       </plugin>
 
-      <!-- wsimport para generar stubs -->
       <plugin>
         <groupId>com.sun.xml.ws</groupId>
         <artifactId>jaxws-maven-plugin</artifactId>
@@ -167,7 +160,6 @@
         </executions>
       </plugin>
 
-      <!-- Para que Eclipse/m2e incluya los sources generados -->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>

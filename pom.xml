@@ -19,7 +19,6 @@
     <maven.compiler.target>17</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-    <!-- Tomcat 11 / Jakarta EE 10 -->
     <jakarta.servlet.version>6.0.0</jakarta.servlet.version>
     <jakarta.jsp.version>3.1.1</jakarta.jsp.version>
     <jakarta.el.version>5.0.1</jakarta.el.version>
