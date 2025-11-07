@@ -36,27 +36,12 @@ public class RegistrarSvt extends HttpServlet {
     private static final String EMAIL_REGEX =
             "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
 
-    /** Crea el port con MTOM y WS_URL del web.xml */
-    private WebServices getPort(HttpServletRequest req) {
-        WebServicesService svc = new WebServicesService();
-        WebServices port = svc.getWebServicesPort();
 
-        Binding b = ((BindingProvider) port).getBinding();
-        if (b instanceof SOAPBinding sb) sb.setMTOMEnabled(true);
-
-        String wsUrl = req.getServletContext().getInitParameter("WS_URL");
-        if (wsUrl != null && !wsUrl.isBlank()) {
-            ((BindingProvider) port).getRequestContext().put(
-                BindingProvider.ENDPOINT_ADDRESS_PROPERTY, wsUrl
-            );
-        }
-        return port;
-    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        cargarInstitucionesYHoyWS(req); // ahora via WS
+        cargarInstitucionesYHoyWS(req);
         req.getRequestDispatcher("/WEB-INF/views/Registrarse.jsp").forward(req, resp);
     }
 
@@ -129,7 +114,8 @@ public class RegistrarSvt extends HttpServlet {
         }
 
         try {
-            WebServices port = getPort(request);
+        	WebServicesService service = new WebServicesService();
+            WebServices port = service.getWebServicesPort();
 
             if ("asistente".equalsIgnoreCase(tipo)) {
                 if (isBlank(apellido)) {
@@ -185,12 +171,12 @@ public class RegistrarSvt extends HttpServlet {
 
     private void cargarInstitucionesYHoyWS(HttpServletRequest req) {
         try {
-            WebServices port = getPort(req);
+        	WebServicesService service = new WebServicesService();
+            WebServices port = service.getWebServicesPort();
             DtInstitucionArray arr = port.listarDTInstituciones();
             List<DtInstitucion> instituciones = (arr != null && arr.getItem() != null) ? arr.getItem() : java.util.List.of();
             req.setAttribute("instituciones", instituciones);
         } catch (Exception e) {
-            // Si falla el WS, dejamos la lista vacía y mostramos hoy
             req.setAttribute("instituciones", java.util.List.of());
         }
         req.setAttribute("hoy", LocalDate.now().toString());

@@ -20,15 +20,6 @@ public class LoginSvt extends HttpServlet {
     private static final String VIEW = "/WEB-INF/views/InicioSesion.jsp";
     private static final String WSDL_URL = "http://127.0.0.1:9128/webservices?wsdl";
 
-    private WebServices getPort() throws IOException {
-        try {
-            URL wsdl = new URL(WSDL_URL);
-            WebServicesService svc = new WebServicesService(wsdl);
-            return svc.getWebServicesPort();
-        } catch (Exception e) {
-            throw new IOException("No se pudo crear el cliente del WebService: " + e.getMessage(), e);
-        }
-    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -53,7 +44,8 @@ public class LoginSvt extends HttpServlet {
         }
 
         try {
-            WebServices port = getPort();
+        	WebServicesService service = new WebServicesService();
+            WebServices port = service.getWebServicesPort();
 
  
             DtSesionUsuario sesion = port.iniciarSesion(identifier, password);

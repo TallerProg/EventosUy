@@ -25,19 +25,6 @@ import cliente.ws.sc.WebServices;
 public class AltaEdicionSvt extends HttpServlet {
   private static final long serialVersionUID = 1L;
 
-  private WebServices getPort(HttpServletRequest req) {
-    cliente.ws.sc.WebServicesService svc = new cliente.ws.sc.WebServicesService();
-    WebServices port = svc.getWebServicesPort();
-    Binding b = ((BindingProvider) port).getBinding();
-    if (b instanceof SOAPBinding sb) sb.setMTOMEnabled(true);
-    String wsUrl = req.getServletContext().getInitParameter("WS_URL");
-    if (wsUrl != null && !wsUrl.isBlank()) {
-      ((BindingProvider) port).getRequestContext().put(
-          BindingProvider.ENDPOINT_ADDRESS_PROPERTY, wsUrl
-      );
-    }
-    return port;
-  }
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -125,7 +112,8 @@ public class AltaEdicionSvt extends HttpServlet {
     }
 
     try {
-      WebServices port = getPort(req);
+    	cliente.ws.sc.WebServicesService service = new cliente.ws.sc.WebServicesService();
+        cliente.ws.sc.WebServices port = service.getWebServicesPort();
 
       DtUsuarioListaConsulta dtOrg = port.consultaDeUsuario(nicknameSesion);
       if (dtOrg == null || isBlank(dtOrg.getNickname())) {

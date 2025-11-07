@@ -27,21 +27,6 @@ import jakarta.xml.ws.soap.SOAPBinding;
 public class ConsultaUsuarioSvt extends HttpServlet {
   private static final long serialVersionUID = 1L;
 
-  private WebServices getPort(HttpServletRequest req) {
-    WebServicesService svc = new WebServicesService();
-    WebServices port = svc.getWebServicesPort();
-
-    Binding b = ((BindingProvider) port).getBinding();
-    if (b instanceof SOAPBinding sb) sb.setMTOMEnabled(true);
-
-    String wsUrl = req.getServletContext().getInitParameter("WS_URL");
-    if (wsUrl != null && !wsUrl.isBlank()) {
-      ((BindingProvider) port).getRequestContext().put(
-          BindingProvider.ENDPOINT_ADDRESS_PROPERTY, wsUrl
-      );
-    }
-    return port;
-  }
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -70,7 +55,8 @@ public class ConsultaUsuarioSvt extends HttpServlet {
     final String nick = nickParam.trim();
 
     try {
-      WebServices port = getPort(req);
+        WebServicesService service = new WebServicesService();
+      WebServices port = service.getWebServicesPort();
 
       String rol = "v"; 
       boolean esAsistente = false;

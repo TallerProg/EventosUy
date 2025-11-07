@@ -28,8 +28,6 @@ public class AltaEveSvt extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     private static final String FORM_JSP = "/WEB-INF/views/AltaEvento.jsp";
-    private static final String EVENT_IMG_DIR = "/media/img/eventos"; // Sólo para fallback visual (no se usa directo)
-    private static final String WSDL_URL = "http://127.0.0.1:9128/webservices?wsdl";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -55,7 +53,8 @@ public class AltaEveSvt extends HttpServlet {
         if (sigla.isEmpty()) errores.add("La sigla es obligatoria.");
         if (paramCats == null || paramCats.length == 0) errores.add("Debe seleccionar al menos una categoría.");
 
-        WebServices port = getPort();
+        WebServicesService service = new WebServicesService();
+        WebServices port = service.getWebServicesPort();
 
         try {
             if (!nombre.isEmpty() && port.existeEvento(nombre)) {
@@ -133,16 +132,6 @@ public class AltaEveSvt extends HttpServlet {
     }
 
     // ===== Helpers =======================================================
-
-    private WebServices getPort() throws IOException {
-        try {
-            URL wsdl = new URL(WSDL_URL);
-            WebServicesService svc = new WebServicesService(wsdl);
-            return svc.getWebServicesPort();
-        } catch (Exception e) {
-            throw new IOException("No se puede crear el cliente del WebService: " + safeMsg(e), e);
-        }
-    }
 
     private static String trim(String s) { return (s == null) ? "" : s.trim(); }
 

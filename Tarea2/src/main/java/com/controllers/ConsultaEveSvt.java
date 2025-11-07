@@ -32,21 +32,10 @@ import jakarta.servlet.http.HttpSession;
 public class ConsultaEveSvt extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
-    private static final String WSDL_URL = "http://127.0.0.1:9128/webservices?wsdl";
     private static final String VIEW = "/WEB-INF/views/ConsultaEvento.jsp";
 
     // ---------- Helpers ----------
     private static boolean isBlank(String s) { return s == null || s.trim().isEmpty(); }
-
-    private WebServices getPort() throws IOException {
-        try {
-            URL wsdl = new URL(WSDL_URL);
-            WebServicesService svc = new WebServicesService(wsdl);
-            return svc.getWebServicesPort();
-        } catch (Exception e) {
-            throw new IOException("No se pudo crear el cliente del WebService: " + e.getMessage(), e);
-        }
-    }
 
     private DtSesionUsuario sesion(HttpServletRequest req) {
         HttpSession s = req.getSession(false);
@@ -64,7 +53,8 @@ public class ConsultaEveSvt extends HttpServlet {
         }
 
         try {
-            WebServices port = getPort();
+        	WebServicesService service = new WebServicesService();
+            WebServices port = service.getWebServicesPort();
 
             DTevento evento = port.consultaEventoPorNombre(nombreEvento);
             if (evento == null) {
@@ -139,7 +129,8 @@ public class ConsultaEveSvt extends HttpServlet {
         }
 
         try {
-            WebServices port = getPort();
+        	WebServicesService service = new WebServicesService();
+            WebServices port = service.getWebServicesPort();
             port.finalizarEvento(nombreEvento);
 
             String ok = URLEncoder.encode("Evento finalizado correctamente.", StandardCharsets.UTF_8);

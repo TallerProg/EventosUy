@@ -73,7 +73,6 @@ public class PerfilSvt extends HttpServlet {
             req.setAttribute("INSTITUCION", null);
         }
 
-        // Preferir dominio; si no hay, usar lo recién subido en sesión
         String imgSesion = (String) session.getAttribute("IMAGEN_LOGUEADO");
         String elegido = (imgDominio != null && !imgDominio.isBlank()) ? imgDominio : imgSesion;
 
