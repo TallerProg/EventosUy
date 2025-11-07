@@ -219,13 +219,8 @@ public class WebServices {
 
 
       @WebMethod
-    public void altaEvento(String nombre, String descripcion, String sigla, String[] categoriasNombreOCodigo, byte[] imagenBytes, String imagenFileName) throws Exception {
+    public void altaEvento(String nombre, String descripcion, String sigla, String[] categoriasNombreOCodigo,String imagenWebPath) throws Exception {
         DTCategoria[] dtCats = resolverCategoriasPorNombreOCodigo(categoriasNombreOCodigo);
-        String imagenWebPath = null;
-        if (imagenBytes != null && imagenBytes.length > 0) {
-            imagenWebPath = subirImagenEvento(nombre, imagenFileName, imagenBytes);
-        }
-
         getControllerEvento().altaEventoDT(
                 nombre, descripcion, java.time.LocalDate.now(), sigla,
                 Arrays.asList(dtCats),
