@@ -51,7 +51,7 @@ public class LoginMovilSvt extends HttpServlet {
         try {
 
             DtSesionUsuario sesion = port.iniciarSesion(identifier, password);
-
+            
             DtUsuarioListaConsulta usr = port.consultaDeUsuario(sesion.getNickname());
 
             HttpSession httpSes = req.getSession(true);

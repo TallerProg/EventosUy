@@ -440,4 +440,25 @@ public void actualizarImagenUsuario(String nickname, String imgPath) {
         Usuario u = getUsuario(identifier);
         return (u instanceof Organizador);
     }
-}
+    public List<DTEdicion> listarEdicionesConRegistroUsuario(String nickname){
+    	ManejadorUsuario mus = ManejadorUsuario.getInstance();
+    	Asistente asi = mus.findAsistente(nickname);
+    	List<DTEdicion> listaDTEdiciones = new ArrayList<>();
+    	List<Registro> reg =asi.getRegistros();
+    	for (Registro r: reg) {
+    		r.getEdicion();
+    		listaDTEdiciones.add(r.getEdicion().getDTEdicion());
+		}
+    	return listaDTEdiciones;					
+    }
+    
+    public void marcarAsistido(String nombreEdicion, String nicknameAsistente){
+    	ManejadorUsuario mus = ManejadorUsuario.getInstance();
+		Asistente asi = mus.findAsistente(nicknameAsistente);
+		List<Registro> reg =asi.getRegistros();
+		for (Registro r: reg) {
+			if(r.getEdicion().getNombre().equals(nombreEdicion)) {
+				r.setAsistio(true);
+			} }
+    
+}}

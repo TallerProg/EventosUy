@@ -16,6 +16,7 @@
     <ul>
       <!-- Ítems principales -->
       <li><a href="<%= ctx %>/home">Inicio</a></li>
+
       <li><a href="<%= ctx %>/misRegistros">Mis registros</a></li>
 
       <!-- Saludo + salir (alineado a la derecha) -->

@@ -38,5 +38,6 @@ public class DTRegistroDetallado {
 	public float getCosto() {
 		return costo;
 	}
-
+	
+	
 }
