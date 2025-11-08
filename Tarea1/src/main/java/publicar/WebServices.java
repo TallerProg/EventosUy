@@ -363,6 +363,10 @@ public class WebServices {
 	    if (fFin.isBefore(fInicio)) {
 	        throw new IllegalArgumentException("La fecha de fin no puede ser anterior a la fecha de inicio.");
 	    }
+	    LocalDate hoy = LocalDate.now();
+	    if (fInicio.isBefore(hoy)) {
+	        throw new IllegalArgumentException("La fecha de inicio no puede ser anterior a hoy.");
+	    }
 
 	    // Normalizá imagen opcional a null si viene vacía
 	    String img = (imagenWebPath != null && !imagenWebPath.isBlank()) ? imagenWebPath : null;
