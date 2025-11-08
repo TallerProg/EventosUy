@@ -35,7 +35,7 @@ main() {
 compilarTarea1() {
   echo "Compilando Servidor Central..."
   cd Tarea1 || exit
-  mvn clean package assembly:single
+  mvn package assembly:single
   cd ..
   cp Tarea1/target/servidor-central-1.0.0-jar-with-dependencies.jar ./servidor.jar
 }
@@ -43,7 +43,7 @@ compilarTarea1() {
 compilarTarea2() {
   echo "Compilando Servidor Web..."
   cd Tarea2 || exit
-  mvn clean package
+  mvn package
   cd ..
   cp Tarea2/target/webapp-1.0.0.war ./web.war
 }
@@ -51,7 +51,7 @@ compilarTarea2() {
 compilarMovil() {
   echo "Compilando Movil..."
   cd Movil || exit
-  mvn clean package
+  mvn package
   cd ..
   cp Movil/target/Movil-1.0.0.war ./movil.war
 }
