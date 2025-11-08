@@ -516,7 +516,7 @@ public class WebServices {
 
     //AltaInstitucion
 	public void altaInstitucion(String nombreIns, String url, String descripcion, String img)throws Exception{
-		getControllerInstitucion().altaInstitucion(nombreIns, url, descripcion, img);
+		getControllerInstitucion().altaInstitucion(nombreIns, descripcion, url, img);
 	}
 
 	//Seguidores
