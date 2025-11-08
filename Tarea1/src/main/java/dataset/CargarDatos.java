@@ -57,6 +57,9 @@ public class CargarDatos {
 			Ice.altaEvento("Montevideo Comics", "Convención de historietas, cine y cultura geek", LocalDate.parse("10/04/2024", formatter), "COMICS", Arrays.asList(CA04, CA08), "/media/img/eventos/Montevideo_Comics.png");
 			Ice.altaEvento("Expointer Uruguay", "Exposición internacional agropecuaria y ganadera", LocalDate.parse("12/12/2024", formatter), "EXPOAGRO", Arrays.asList(CA09, CA10), "/media/img/eventos/Expointer_Uruguay.png");
 			Ice.altaEvento("Montevideo Fashion Week", "Pasarela de moda uruguaya e internacional", LocalDate.parse("20/07/2025", formatter), "MFASHION", Arrays.asList(CA04, CA11), null);
+			Ice.altaEvento("Global", "Aventureros en grupo ", LocalDate.parse("01/01/2025", formatter), "GBL", Arrays.asList(CA04), "/media/img/eventos/Global.png");
+
+			Ice.getEvento("Global").finalizarEvento();
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
@@ -102,6 +105,21 @@ public class CargarDatos {
 			ICU.altaOrganizador("imm", "contacto@imm.gub.uy", "Intendencia de Montevideo", "Gobierno departamental de Montevideo.", "https://montevideo.gub.uy", "imm2025", "/media/img/usuarios/imm.png");
 			ICU.altaOrganizador("udelar", "contacto@udelar.edu.uy", "Universidad de la República", "Universidad pública de Uruguay.", "https://udelar.edu.uy", "25udelar", null);
 			ICU.altaOrganizador("mec", "mec@mec.gub.uy", "ministerio de Educación y Cultura", "Institución pública promotora de cultura.", "https://mec.gub.uy", "mec2025ok", "/media/img/usuarios/mec.png");
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+				// ------------------
+				// Crear Seguidos
+				// ------------------
+		try {
+			ICU.seguirPersona("atorres","sofirod");
+			ICU.seguirPersona("atorres","imm");
+			ICU.seguirPersona("sofirod","imm");
+			ICU.seguirPersona("sofirod","atorres");
+			ICU.seguirPersona("udelar","techcorp");
+			ICU.seguirPersona("udelar","mec");
+			ICU.seguirPersona("techcorp","sofirod");
+
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
@@ -162,8 +180,13 @@ public class CargarDatos {
 
 		    Ice.altaEdicionDeEvento("Montevideo Fashion Week 2026", "MFW26", "Nueva York", "Estados Unidos",
 		            LocalDate.parse("16/02/2026", formatter), LocalDate.parse("20/02/2026", formatter), LocalDate.parse("02/10/2025", formatter),
-		            Ice.getEvento("Montevideo Fashion Week"), ICU.getOrganizador("mec"), null);
+		            Ice.getEvento("Montevideo Fashion Week"), ICU.getOrganizador("mec"), "/media/img/ediciones/Montevideo_Fashion_Week_2026.jpeg");
 		    Ice.findEdicion("Montevideo Fashion Week 2026").setEstado(EstadoEdicion.Ingresada);
+		    
+		    Ice.altaEdicionDeEvento("Descubre la Magia de Machu Picchu", "MAPI25", "Cusco", "Perú",
+		            LocalDate.parse("10/11/2025", formatter), LocalDate.parse("30/11/2025", formatter), LocalDate.parse("07/08/2025", formatter),
+		            Ice.getEvento("Global"), ICU.getOrganizador("miseventos"), "/media/img/ediciones/Descubre_la_magia_Machu_Picchu.");
+		    Ice.findEdicion("Descubre la Magia de Machu Picchu").setEstado(EstadoEdicion.Aceptada);
 		} catch (Exception e) {
 		    JOptionPane.showMessageDialog(null, e.getMessage());
 		}
@@ -199,6 +222,8 @@ public class CargarDatos {
 			Ice.altaTipoRegistro("Estudiante", "Acceso para estudiantes", 300.0f, 1, Ice.findEdicion("Web Summit 2026"));
 			Ice.altaTipoRegistro("Full", "Acceso a todos los eventos de la semana", 450.0f, 50, Ice.findEdicion("Montevideo Fashion Week 2026"));
 			Ice.altaTipoRegistro("Visitante", "Acceso parcial a los eventos de la semana", 150.0f, 25, Ice.findEdicion("Montevideo Fashion Week 2026"));
+			Ice.altaTipoRegistro("plus50", "Viaje para personas con más de 50 años", 250.0f, 10, Ice.findEdicion("Descubre la Magia de Machu Picchu"));
+			Ice.altaTipoRegistro("Mayores", "Viaje para personas mayores de 18 años", 300.0f, 20, Ice.findEdicion("Descubre la Magia de Machu Picchu"));
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
@@ -240,9 +265,26 @@ public class CargarDatos {
 			Ice.altaRegistro("Maratón de Montevideo 2025", "JaviL", "Corredor 21K", LocalDate.parse("10/04/2025", formatter));
 			Ice.altaRegistro("Montevideo Comics 2025", "MariR", "Cosplayer", LocalDate.parse("03/08/2025", formatter));
 			Ice.altaRegistro("Montevideo Comics 2024", "SofiM", "General", LocalDate.parse("16/07/2024", formatter));
-			Ice.altaRegistro("Tecnología Punta del Este 2026", "msilva", "Estudiante", LocalDate.parse("01/10/2025", formatter));
-			Ice.altaRegistro("Tecnología Punta del Este 2026", "andrearod", "General", LocalDate.parse("06/10/2025", formatter));
+			Ice.altaRegistro("Tecnología Punta del Este 2026", "msilva", "Estudiante","TECHUDELAR", LocalDate.parse("01/10/2025", formatter));
+			Ice.altaRegistro("Tecnología Punta del Este 2026", "andrearod", "General","TECHANII", LocalDate.parse("06/10/2025", formatter));
 			Ice.altaRegistro("Tecnología Punta del Este 2026", "MariR", "General", LocalDate.parse("10/10/2025", formatter));
+			Ice.altaRegistro("Descubre la Magia de Machu Picchu", "atorres", "Mayores", LocalDate.parse("07/11/2025", formatter));
+			Ice.altaRegistro("Descubre la Magia de Machu Picchu", "msilva", "Mayores", LocalDate.parse("10/08/2025", formatter));
+			Ice.altaRegistro("Descubre la Magia de Machu Picchu", "AnaG", "plus50", LocalDate.parse("30/09/2025", formatter));
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+		
+		// ------------------
+		// Agregar Asistencias
+		// ------------------		
+		try {
+			ICU.marcarAsistido("Montevideo Rock 2025", "sofirod");
+			ICU.marcarAsistido("Maratón de Montevideo 2025", "sofirod");
+			ICU.marcarAsistido("Maratón de Montevideo 2025", "AnaG");
+			ICU.marcarAsistido("Montevideo Comics 2024", "SofiM");
+			ICU.marcarAsistido("Descubre la Magia de Machu Picchu", "atorres");
+			ICU.marcarAsistido("Descubre la Magia de Machu Picchu", "AnaG");
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}

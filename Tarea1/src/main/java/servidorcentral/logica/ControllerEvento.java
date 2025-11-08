@@ -242,7 +242,7 @@ public class ControllerEvento implements IControllerEvento {
 		}
 	
 		Patrocinio pat = asistente.getInstitucion().findPatrocinio(codigo);
-		if (pat.consultarRegistros()) {
+		if (!pat.consultarRegistros()) {
 			throw new Exception("Ya no quedan cupos gratuitos");
 		}
 
