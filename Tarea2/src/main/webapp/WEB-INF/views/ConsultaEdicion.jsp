@@ -240,14 +240,7 @@ String encEv = (evNom  != null) ? URLEncoder.encode(evNom,  StandardCharsets.UTF
           <div class="row g-2 align-items-center">
             <div class="col-md-3"><strong>Tipo:</strong> <%= nv(miReg.get("tipo")) %></div>
             <div class="col-md-3"><strong>Fecha:</strong> <%= nv(miReg.get("fecha")) %></div>
-            <div class="col-md-3 text-md-end">
-              <% String constUrl = (miReg!=null)? miReg.get("constanciaUrl") : null; %>
-              <% if (constUrl != null && !constUrl.isBlank()) { %>
-                <a class="btn btn-outline-primary btn-sm" href="<%= constUrl %>">
-                  <i class="bi bi-filetype-pdf me-1"></i> Descargar constancia
-                </a>
-              <% } %>
-            </div>
+
           </div>
         </div>
       </div>

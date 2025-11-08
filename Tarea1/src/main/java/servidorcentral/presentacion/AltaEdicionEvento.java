@@ -203,9 +203,10 @@ public class AltaEdicionEvento extends JInternalFrame {
         gbc_txtFechaAlta.gridx = 1;
         gbc_txtFechaAlta.gridy = row;
         getContentPane().add(txtFechaAlta, gbc_txtFechaAlta);
+        txtFechaAlta.setEditable(false);
+
 
         JLabel lblFechaAlta = new JLabel("Fecha Alta:");
-        lblFechaAlta.setEnabled(false);
         GridBagConstraints gbc_lblFechaAlta = new GridBagConstraints();
         gbc_lblFechaAlta.insets = new Insets(5, 5, 5, 5);
         gbc_lblFechaAlta.gridx = 0;
@@ -239,7 +240,6 @@ public class AltaEdicionEvento extends JInternalFrame {
             txtPais.setText("");
             txtFechaIni.setText("");
             txtFechaFin.setText("");
-            txtFechaAlta.setText("");
             if (comboEvento.getItemCount() > 0) comboEvento.setSelectedIndex(0);
             if (comboOrganizador.getItemCount() > 0) comboOrganizador.setSelectedIndex(0);
             dispose();
