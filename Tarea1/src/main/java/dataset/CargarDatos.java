@@ -185,7 +185,7 @@ public class CargarDatos {
 		    
 		    Ice.altaEdicionDeEvento("Descubre la Magia de Machu Picchu", "MAPI25", "Cusco", "Perú",
 		            LocalDate.parse("10/11/2025", formatter), LocalDate.parse("30/11/2025", formatter), LocalDate.parse("07/08/2025", formatter),
-		            Ice.getEvento("Global"), ICU.getOrganizador("miseventos"), "/media/img/ediciones/Descubre_la_magia_Machu_Picchu.");
+		            Ice.getEvento("Global"), ICU.getOrganizador("miseventos"), "/media/img/ediciones/Descubre_la_magia_Machu_Picchu.jpeg");
 		    Ice.findEdicion("Descubre la Magia de Machu Picchu").setEstado(EstadoEdicion.Aceptada);
 		} catch (Exception e) {
 		    JOptionPane.showMessageDialog(null, e.getMessage());
