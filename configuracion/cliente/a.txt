@@ -1,0 +1,23 @@
+static {
+    	Properties defaultProps = new Properties();
+    	try (FileInputStream in = new FileInputStream("culturarte.properties")) {
+            defaultProps.load(in);
+        } catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        URL url = null;
+        WebServiceException e = null;
+        try {
+            url = new URL("http://" + defaultProps.getProperty("maquinaWeb") + ":" + defaultProps.getProperty("puertoWeb") +"/culturarte");
+        } catch (MalformedURLException ex) {
+            e = new WebServiceException(ex);
+        }
+        PUBLICADORSERVICE_WSDL_LOCATION = url;
+        PUBLICADORSERVICE_EXCEPTION = e;
+    }
+    
+    esto  en servicessercvice del remplasando el otro static

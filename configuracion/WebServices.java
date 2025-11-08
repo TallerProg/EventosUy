@@ -219,8 +219,13 @@ public class WebServices {
 
 
       @WebMethod
-    public void altaEvento(String nombre, String descripcion, String sigla, String[] categoriasNombreOCodigo,String imagenWebPath) throws Exception {
+    public void altaEvento(String nombre, String descripcion, String sigla, String[] categoriasNombreOCodigo, byte[] imagenBytes, String imagenFileName) throws Exception {
         DTCategoria[] dtCats = resolverCategoriasPorNombreOCodigo(categoriasNombreOCodigo);
+        String imagenWebPath = null;
+        if (imagenBytes != null && imagenBytes.length > 0) {
+            imagenWebPath = subirImagenEvento(nombre, imagenFileName, imagenBytes);
+        }
+
         getControllerEvento().altaEventoDT(
                 nombre, descripcion, java.time.LocalDate.now(), sigla,
                 Arrays.asList(dtCats),
@@ -362,10 +367,6 @@ public class WebServices {
 
 	    if (fFin.isBefore(fInicio)) {
 	        throw new IllegalArgumentException("La fecha de fin no puede ser anterior a la fecha de inicio.");
-	    }
-	    LocalDate hoy = LocalDate.now();
-	    if (fInicio.isBefore(hoy)) {
-	        throw new IllegalArgumentException("La fecha de inicio no puede ser anterior a hoy.");
 	    }
 
 	    // Normalizá imagen opcional a null si viene vacía
@@ -520,7 +521,7 @@ public class WebServices {
 
     //AltaInstitucion
 	public void altaInstitucion(String nombreIns, String url, String descripcion, String img)throws Exception{
-		getControllerInstitucion().altaInstitucion(nombreIns, descripcion, url, img);
+		getControllerInstitucion().altaInstitucion(nombreIns, url, descripcion, img);
 	}
 
 	//Seguidores
@@ -530,18 +531,6 @@ public class WebServices {
     
     public void sacarSeguirPersona(String principal, String seguido){
     	getControllerUsuario().sacarSeguirPersona(principal, seguido);
-    }
-    
-    @WebMethod
-    public String[] listarSeguidos(String usuario) {
-        java.util.List<String> lista = getControllerUsuario().listarSeguidos(usuario);
-        return (lista != null) ? lista.toArray(new String[0]) : new String[0];
-    }
-
-    @WebMethod
-    public String[] listarSeguidores(String usuario) {
-        java.util.List<String> lista = getControllerUsuario().listarSeguidores(usuario);
-        return (lista != null) ? lista.toArray(new String[0]) : new String[0];
     }
     
 @WebMethod
@@ -575,18 +564,6 @@ public void altaRegistroP(String nomEdicion, String nickAsistente, String nomTip
 @WebMethod
 public boolean esOrganizador(String identifier) {
     return getControllerUsuario().esOrganizador(identifier);
-}
-@WebMethod
-public DTEdicion[] listarEdicionesConRegistroUsuario(String nickname) {
-	List<DTEdicion> lista = getControllerUsuario().listarEdicionesConRegistroUsuario(nickname);
-	return (lista == null || lista.isEmpty())
-			? new DTEdicion[0]
-			: lista.toArray(new DTEdicion[0]);
-}
-
-@WebMethod
-public void marcarAsistido(String nombreEdicion, String nicknameAsistente){
-	getControllerUsuario().marcarAsistido(nombreEdicion, nicknameAsistente);
 }
 
 }
