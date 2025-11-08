@@ -157,10 +157,10 @@
               <div class="row g-3">
                 <% for (DtEdicion e : ediciones) {
                      if (e == null) continue;
+                     if((LOG_NICK != null && LOG_NICK.equals(u.getNickname())) || "Aceptada".equals(e.getEstado())){
                      String edNom = e.getNombre();
                      String evNom = e.getNombreEvento(); // del WS
                      boolean tieneEvento = (evNom != null && !evNom.isBlank());
-
                      String imgEd = (e.getImagenWebPath() != null && !e.getImagenWebPath().isBlank())
                                      ? (ctx + e.getImagenWebPath())
                                      : (ctx + "/media/img/default.png");
@@ -189,6 +189,7 @@
                       </div>
                     </div>
                   </div>
+                   <% } %>
                 <% } %>
               </div>
             <% } %>
@@ -215,7 +216,7 @@
                      String edNom = ed.getNombre();
                      String evNom = ed.getNombreEvento();
                      boolean tieneEvento = (evNom != null && !evNom.isBlank());
-
+                     
                      String imgEd = (ed.getImagenWebPath() != null && !ed.getImagenWebPath().isBlank())
                                      ? (ctx + ed.getImagenWebPath())
                                      : (ctx + "/media/img/default.png");
