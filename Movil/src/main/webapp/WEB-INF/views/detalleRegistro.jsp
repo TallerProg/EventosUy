@@ -76,6 +76,8 @@
 
 <footer id="footer" class="footer position-relative light-background mt-5">
   <jsp:include page="/WEB-INF/views/template/footer.jsp" />
+  <script src="<%= ctx %>/media/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="<%= ctx %>/media/js/main.js"></script>
 </footer>
 
 </body>

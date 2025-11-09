@@ -1,0 +1,22 @@
+
+/* Saca padding global del bloque speakers */
+#speakers.section {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+
+#speakers .container.section-title {
+  padding: 0 !important;
+}
+
+#categories-carousel {
+  margin: 0 !important;
+  padding: 1 !important;
+}
+
+#categories-carousel .carousel-control-prev-icon,
+#categories-carousel .carousel-control-next-icon {
+  filter: invert(1) grayscale(100); /* se ven negras sobre fondo blanco */
+}
+
