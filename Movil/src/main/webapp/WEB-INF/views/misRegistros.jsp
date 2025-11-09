@@ -65,5 +65,9 @@
 <hr class="mt-5 mb-4" style="border: 0; height: 3px; background: #bbb; border-radius: 2px;">
 <footer id="footer" class="footer position-relative light-background">
   <jsp:include page="/WEB-INF/views/template/footer.jsp" />
+  
+   <script src="<%= ctx %>/media/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="<%= ctx %>/media/js/main.js"></script>
+  
 </footer></body>
 </html>
