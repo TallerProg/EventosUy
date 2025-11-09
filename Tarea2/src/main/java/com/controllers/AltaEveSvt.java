@@ -1,5 +1,6 @@
 package com.controllers;
 
+import com.config.WSClientProvider;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -56,7 +57,7 @@ public class AltaEveSvt extends HttpServlet {
         if (sigla.isEmpty()) errores.add("La sigla es obligatoria.");
         if (paramCats == null || paramCats.length == 0) errores.add("Debe seleccionar al menos una categoría.");
 
-        WebServicesService service = new WebServicesService();
+        WebServicesService service = WSClientProvider.newService();
         WebServices port = service.getWebServicesPort();
 
         try {

@@ -1,5 +1,6 @@
 package com.controllers;
 
+import com.config.WSClientProvider;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
@@ -49,7 +50,7 @@ public class ConsultaUsuarioSvt extends HttpServlet {
     final String nick = nickParam.trim();
 
     try {
-      WebServicesService service = new WebServicesService();
+      WebServicesService service = WSClientProvider.newService();
       WebServices port = service.getWebServicesPort();
 
       // ---- Determinar rol del usuario consultado ----
@@ -196,7 +197,7 @@ public class ConsultaUsuarioSvt extends HttpServlet {
     }
 
     try {
-      WebServicesService service = new WebServicesService();
+      WebServicesService service = WSClientProvider.newService();
       WebServices port = service.getWebServicesPort();
 
       if ("seguir".equalsIgnoreCase(accion)) {

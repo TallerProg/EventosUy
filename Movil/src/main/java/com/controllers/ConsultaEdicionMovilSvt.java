@@ -12,6 +12,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 
+import com.config.WSClientProvider;
 import cliente.ws.sc.DtSesionUsuario;
 import cliente.ws.sc.RolUsuario;
 
@@ -89,7 +90,7 @@ public class ConsultaEdicionMovilSvt extends HttpServlet {
     }
 
     try {
-        WebServicesService service = new WebServicesService();
+        WebServicesService service = WSClientProvider.newService();
       WebServices port = service.getWebServicesPort();
 
       DtEdicion ed = port.consultaEdicionDeEvento(nombreEvento, nombreEdicion);

@@ -14,6 +14,7 @@ import cliente.ws.sc.DtEdicionArray;
 import cliente.ws.sc.DtEdicion;
 import cliente.ws.sc.WebServices;
 import cliente.ws.sc.WebServicesService;
+import com.config.WSClientProvider;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -38,15 +39,6 @@ public class ConsultaEveMovilSvt extends HttpServlet {
     // ---------- Helpers ----------
     private static boolean isBlank(String s) { return s == null || s.trim().isEmpty(); }
 
-    private WebServices getPort() throws IOException {
-        try {
-            URL wsdl = new URL(WSDL_URL);
-            WebServicesService svc = new WebServicesService(wsdl);
-            return svc.getWebServicesPort();
-        } catch (Exception e) {
-            throw new IOException("No se pudo crear el cliente del WebService: " + e.getMessage(), e);
-        }
-    }
 
     private DtSesionUsuario sesion(HttpServletRequest req) {
         HttpSession s = req.getSession(false);
@@ -64,7 +56,8 @@ public class ConsultaEveMovilSvt extends HttpServlet {
         }
 
         try {
-            WebServices port = getPort();
+            WebServicesService service = WSClientProvider.newService();
+            WebServices port = service.getWebServicesPort();
 
             DTevento evento = port.consultaEventoPorNombre(nombreEvento);
             if (evento == null) {
@@ -139,8 +132,9 @@ public class ConsultaEveMovilSvt extends HttpServlet {
         }
 
         try {
-            WebServices port = getPort();
-            port.finalizarEvento(nombreEvento);
+            WebServicesService service = WSClientProvider.newService();
+            WebServices port = service.getWebServicesPort();
+        	port.finalizarEvento(nombreEvento);
 
             String ok = URLEncoder.encode("Evento finalizado correctamente.", StandardCharsets.UTF_8);
             resp.sendRedirect(req.getContextPath() + "/Eventos?ok=" + ok);

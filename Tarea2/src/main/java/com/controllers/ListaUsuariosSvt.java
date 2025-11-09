@@ -1,5 +1,6 @@
 package com.controllers;
 
+import com.config.WSClientProvider;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
@@ -52,7 +53,7 @@ public class ListaUsuariosSvt extends HttpServlet {
 	 
     try {
 
-      cliente.ws.sc.WebServicesService service = new cliente.ws.sc.WebServicesService();
+      cliente.ws.sc.WebServicesService service = WSClientProvider.newService();
       cliente.ws.sc.WebServices port = service.getWebServicesPort();
       DtUsuarioListaConsultaArray asisDTA= port.listarDTAsistentes();
       DtUsuarioListaConsultaArray orgDTA= port.listarDTOrganizadores();
@@ -113,7 +114,7 @@ public class ListaUsuariosSvt extends HttpServlet {
     }
 
     try {
-      cliente.ws.sc.WebServicesService service = new cliente.ws.sc.WebServicesService();
+      cliente.ws.sc.WebServicesService service = WSClientProvider.newService();
       cliente.ws.sc.WebServices port = service.getWebServicesPort();
 
       if ("seguir".equalsIgnoreCase(accion)) {

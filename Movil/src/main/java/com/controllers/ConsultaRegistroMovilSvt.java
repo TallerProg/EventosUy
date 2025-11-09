@@ -13,11 +13,14 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
+import com.config.WSClientProvider;
 import cliente.ws.sc.DtOrganizadorDetallado;
 import cliente.ws.sc.DtEdicion;
 import cliente.ws.sc.DtEdicionArray;
 import cliente.ws.sc.DtSesionUsuario;
 import cliente.ws.sc.RolUsuario;
+import cliente.ws.sc.WebServices;
+import cliente.ws.sc.WebServicesService;
 
 @WebServlet("/misRegistros")
 public class ConsultaRegistroMovilSvt extends HttpServlet {
@@ -37,8 +40,8 @@ public class ConsultaRegistroMovilSvt extends HttpServlet {
 
         try {
         	
-        	cliente.ws.sc.WebServicesService service = new cliente.ws.sc.WebServicesService();
-            cliente.ws.sc.WebServices port = service.getWebServicesPort();
+            WebServicesService service = WSClientProvider.newService();
+            WebServices port = service.getWebServicesPort();
 
             // Convertir las ediciones del organizador a DTEdiciones 
             DtEdicionArray edicionesA  =(DtEdicionArray) port.listarEdicionesConRegistroUsuario(movNick);

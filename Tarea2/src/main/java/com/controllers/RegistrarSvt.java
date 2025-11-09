@@ -1,5 +1,6 @@
 package com.controllers;
 
+import com.config.WSClientProvider;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -116,7 +117,7 @@ public class RegistrarSvt extends HttpServlet {
         	imagenWebPath = "";
         }
         try {
-        	WebServicesService service = new WebServicesService();
+        	WebServicesService service = WSClientProvider.newService();
             WebServices port = service.getWebServicesPort();
 
             if ("asistente".equalsIgnoreCase(tipo)) {
@@ -171,7 +172,7 @@ public class RegistrarSvt extends HttpServlet {
 
     private void cargarInstitucionesYHoyWS(HttpServletRequest req) {
         try {
-        	WebServicesService service = new WebServicesService();
+        	WebServicesService service = WSClientProvider.newService();
             WebServices port = service.getWebServicesPort();
             DtInstitucionArray arr = port.listarDTInstituciones();
             List<DtInstitucion> instituciones = (arr != null && arr.getItem() != null) ? arr.getItem() : java.util.List.of();

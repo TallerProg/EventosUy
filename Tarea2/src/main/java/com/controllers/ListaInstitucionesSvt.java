@@ -1,5 +1,6 @@
 package com.controllers;
 
+import com.config.WSClientProvider;
 import java.io.IOException;
 import java.util.List;
 
@@ -35,7 +36,7 @@ public class ListaInstitucionesSvt extends HttpServlet {
     }
     req.setAttribute("ES_ORG", esOrg);
 
-    cliente.ws.sc.WebServicesService service = new cliente.ws.sc.WebServicesService();
+    cliente.ws.sc.WebServicesService service = WSClientProvider.newService();
     cliente.ws.sc.WebServices port = service.getWebServicesPort();
     
     // Carga de instituciones 

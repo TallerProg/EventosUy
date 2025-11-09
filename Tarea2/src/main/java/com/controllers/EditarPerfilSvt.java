@@ -1,5 +1,6 @@
 	package com.controllers;
 	
+	import com.config.WSClientProvider;
 	import java.io.File;
 	import java.io.IOException;
 	import java.nio.file.Files;
@@ -26,7 +27,7 @@
 	    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 	            throws ServletException, IOException {
 	    	
-	    	 cliente.ws.sc.WebServicesService service = new cliente.ws.sc.WebServicesService();
+	    	 cliente.ws.sc.WebServicesService service = WSClientProvider.newService();
 	         cliente.ws.sc.WebServices port = service.getWebServicesPort();
 	    	
 	    	boolean esAsis = false;
@@ -77,7 +78,7 @@
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 	        throws ServletException, IOException {
-		cliente.ws.sc.WebServicesService service = new cliente.ws.sc.WebServicesService();
+		cliente.ws.sc.WebServicesService service = WSClientProvider.newService();
 	    cliente.ws.sc.WebServices port = service.getWebServicesPort();
 	
 	    req.setCharacterEncoding("UTF-8");

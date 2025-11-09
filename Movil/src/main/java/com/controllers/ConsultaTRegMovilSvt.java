@@ -5,11 +5,14 @@ import java.io.IOException;
 import cliente.ws.sc.DTevento;
 import cliente.ws.sc.DtEdicion;
 import cliente.ws.sc.DtTipoRegistro;
+import cliente.ws.sc.WebServices;
+import cliente.ws.sc.WebServicesService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import com.config.WSClientProvider;
 
 @WebServlet("/ConsultaTipoRegistro")
 public class ConsultaTRegMovilSvt extends HttpServlet {
@@ -32,8 +35,8 @@ public class ConsultaTRegMovilSvt extends HttpServlet {
     }
 
     try {
-      cliente.ws.sc.WebServicesService service = new cliente.ws.sc.WebServicesService();
-      cliente.ws.sc.WebServices port = service.getWebServicesPort();
+        WebServicesService service = WSClientProvider.newService();
+        WebServices port = service.getWebServicesPort();
     	
       // Evento (DT)
       DTevento evento = port.consultaEventoPorNombre(nomEvento);

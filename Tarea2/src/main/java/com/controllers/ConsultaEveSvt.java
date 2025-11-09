@@ -1,5 +1,6 @@
 package com.controllers;
 
+import com.config.WSClientProvider;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -53,7 +54,7 @@ public class ConsultaEveSvt extends HttpServlet {
         }
 
         try {
-        	WebServicesService service = new WebServicesService();
+        	WebServicesService service = WSClientProvider.newService();
             WebServices port = service.getWebServicesPort();
 
             DTevento evento = port.consultaEventoPorNombre(nombreEvento);
@@ -129,7 +130,7 @@ public class ConsultaEveSvt extends HttpServlet {
         }
 
         try {
-        	WebServicesService service = new WebServicesService();
+        	WebServicesService service = WSClientProvider.newService();
             WebServices port = service.getWebServicesPort();
             port.finalizarEvento(nombreEvento);
 

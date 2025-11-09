@@ -1,5 +1,6 @@
 package com.controllers;
 
+import com.config.WSClientProvider;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
@@ -44,7 +45,7 @@ public class LoginSvt extends HttpServlet {
         }
 
         try {
-        	WebServicesService service = new WebServicesService();
+        	WebServicesService service = WSClientProvider.newService();
             WebServices port = service.getWebServicesPort();
 
  

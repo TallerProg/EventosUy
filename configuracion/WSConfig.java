@@ -6,16 +6,19 @@ import java.util.Properties;
 
 public final class WSConfig {
     private static final Properties P = new Properties();
+    // Ruta externa única solicitada
+    private static final String EXTERNAL_PATH = "/ens/devel01/tpgr27/eventsUy/ws.properties";
 
     static {
-        try (InputStream in = new FileInputStream("../wsConfig.properties")) {
+        try (InputStream in = new FileInputStream(EXTERNAL_PATH)) {
             if (in != null) {
                 P.load(in);
+                System.out.println("[WSConfig] Cargado desde " + EXTERNAL_PATH);
             } else {
-                System.err.println("[WSConfig] No se encontró /ws.properties en el classpath.");
+                System.err.println("[WSConfig] No se encontró " + EXTERNAL_PATH);
             }
         } catch (Exception e) {
-            System.err.println("[WSConfig] Error cargando ws.properties: " + e.getMessage());
+            System.err.println("[WSConfig] Error cargando " + EXTERNAL_PATH + ": " + e.getMessage());
         }
         System.out.println("[WSConfig] working dir = " + new java.io.File(".").getAbsolutePath());
     }

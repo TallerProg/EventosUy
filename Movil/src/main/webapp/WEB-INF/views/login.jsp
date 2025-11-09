@@ -57,12 +57,7 @@
       <button type="submit" class="btn btn-primary w-100">Iniciar Sesión</button>
     </form>
 
-    <div class="text-center mt-3">
-      <p class="mb-0">¿No tienes cuenta?
-        <a href="<%= request.getContextPath() %>/Registrarse" class="text-decoration-none">Regístrate</a>
-      </p>
-    </div>
-  </div>
+
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

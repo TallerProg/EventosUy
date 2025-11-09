@@ -1,5 +1,6 @@
 package com.controllers;
 
+import com.config.WSClientProvider;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
@@ -28,7 +29,7 @@ public class SearchSvt extends HttpServlet {
   protected void doGet(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
 	  String busqueda = req.getParameter("q");
-	  cliente.ws.sc.WebServicesService service = new cliente.ws.sc.WebServicesService();
+	  cliente.ws.sc.WebServicesService service = WSClientProvider.newService();
       cliente.ws.sc.WebServices port = service.getWebServicesPort();
       DTeventoOedicionArray evenoediDTA= port.listarEventosYEdicionesBusqueda(busqueda);
       List<DTeventoOedicion> evenOedi=evenoediDTA.getItem();

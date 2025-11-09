@@ -1,5 +1,6 @@
 package com.controllers;
 
+import com.config.WSClientProvider;
 import cliente.ws.sc.DtSesionUsuario;
 import cliente.ws.sc.DtUsuarioListaConsulta;
 import cliente.ws.sc.RolUsuario;
@@ -48,7 +49,7 @@ public class PerfilSvt extends HttpServlet {
             return;
         }
 
-        cliente.ws.sc.WebServicesService service = new cliente.ws.sc.WebServicesService();
+        cliente.ws.sc.WebServicesService service = WSClientProvider.newService();
         cliente.ws.sc.WebServices port = service.getWebServicesPort();
 
         // Datos principales del usuario logueado
@@ -149,7 +150,7 @@ public class PerfilSvt extends HttpServlet {
         }
 
         try {
-            cliente.ws.sc.WebServicesService service = new cliente.ws.sc.WebServicesService();
+            cliente.ws.sc.WebServicesService service = WSClientProvider.newService();
             cliente.ws.sc.WebServices port = service.getWebServicesPort();
 
             // Solo necesitamos dejar de seguir desde el perfil

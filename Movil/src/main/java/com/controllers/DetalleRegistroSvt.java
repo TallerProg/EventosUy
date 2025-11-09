@@ -15,6 +15,7 @@ import cliente.ws.sc.DtRegistro;
 import cliente.ws.sc.DtRegistroArray;
 import cliente.ws.sc.WebServices;
 import cliente.ws.sc.WebServicesService;
+import com.config.WSClientProvider;
 
 @WebServlet("/detalleRegistro")
 public class DetalleRegistroSvt extends HttpServlet {
@@ -38,7 +39,7 @@ public class DetalleRegistroSvt extends HttpServlet {
         }
 
         try {
-            WebServicesService service = new WebServicesService();
+            WebServicesService service = WSClientProvider.newService();
             WebServices port = service.getWebServicesPort();
 
             DtRegistroArray registrosArray = port.listarRegistrosDeAsistente(nickname);

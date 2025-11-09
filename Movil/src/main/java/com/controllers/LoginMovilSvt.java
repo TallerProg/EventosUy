@@ -12,6 +12,7 @@ import cliente.ws.sc.CredencialesInvalidasException_Exception;
 import cliente.ws.sc.DtSesionUsuario;
 import cliente.ws.sc.DtUsuarioListaConsulta;
 import cliente.ws.sc.UsuarioNoExisteException_Exception;
+import com.config.WSClientProvider;
 
 @WebServlet("/login")
 public class LoginMovilSvt extends HttpServlet {
@@ -41,7 +42,7 @@ public class LoginMovilSvt extends HttpServlet {
             req.getRequestDispatcher(VIEW).forward(req, resp);
             return;
         }
-        WebServicesService service = new WebServicesService();
+        WebServicesService service = WSClientProvider.newService();
         WebServices port = service.getWebServicesPort();
         if(port.esOrganizador(identifier)) {
     		req.setAttribute("error", "Los organizadorees no pueden iniciar sesión desde la aplicación móvil.");

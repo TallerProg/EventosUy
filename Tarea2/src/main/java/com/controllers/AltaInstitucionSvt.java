@@ -1,5 +1,6 @@
 package com.controllers;
 
+import com.config.WSClientProvider;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -111,7 +112,7 @@ public class AltaInstitucionSvt extends HttpServlet {
         	setErrorMessage("No se pudo guardar la imagen: " + ex.getMessage(),request);
         }
 
-        cliente.ws.sc.WebServicesService service = new cliente.ws.sc.WebServicesService();
+        cliente.ws.sc.WebServicesService service = WSClientProvider.newService();
         cliente.ws.sc.WebServices port = service.getWebServicesPort();
 
         try {

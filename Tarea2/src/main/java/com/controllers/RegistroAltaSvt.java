@@ -1,5 +1,6 @@
 package com.controllers;
 
+import com.config.WSClientProvider;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -42,7 +43,7 @@ public class RegistroAltaSvt extends HttpServlet {
       req.getRequestDispatcher("/WEB-INF/views/RegistroAlta.jsp").forward(req, resp);
       return;
     }
-    cliente.ws.sc.WebServicesService service = new cliente.ws.sc.WebServicesService();
+    cliente.ws.sc.WebServicesService service = WSClientProvider.newService();
     cliente.ws.sc.WebServices port = service.getWebServicesPort();
     try {
 
@@ -98,7 +99,7 @@ public class RegistroAltaSvt extends HttpServlet {
       return;
     }
     
-    cliente.ws.sc.WebServicesService service = new cliente.ws.sc.WebServicesService();
+    cliente.ws.sc.WebServicesService service = WSClientProvider.newService();
     cliente.ws.sc.WebServices port = service.getWebServicesPort();
     try {
 

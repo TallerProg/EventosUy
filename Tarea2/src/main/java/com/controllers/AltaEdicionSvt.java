@@ -1,5 +1,6 @@
 package com.controllers;
 
+import com.config.WSClientProvider;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -124,7 +125,7 @@ public class AltaEdicionSvt extends HttpServlet {
 	}
 
     try {
-    	cliente.ws.sc.WebServicesService service = new cliente.ws.sc.WebServicesService();
+    	cliente.ws.sc.WebServicesService service = WSClientProvider.newService();
         cliente.ws.sc.WebServices port = service.getWebServicesPort();
 
       DtUsuarioListaConsulta dtOrg = port.consultaDeUsuario(nicknameSesion);

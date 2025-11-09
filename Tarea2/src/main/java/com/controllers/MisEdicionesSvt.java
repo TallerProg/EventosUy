@@ -1,5 +1,6 @@
 package com.controllers;
 
+import com.config.WSClientProvider;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -47,7 +48,7 @@ public class MisEdicionesSvt extends HttpServlet {
         req.setAttribute("ES_ORG", esOrg);
 
         try {
-        	cliente.ws.sc.WebServicesService service = new cliente.ws.sc.WebServicesService();
+        	cliente.ws.sc.WebServicesService service = WSClientProvider.newService();
             cliente.ws.sc.WebServices port = service.getWebServicesPort();
             DtOrganizadorDetallado org = port.getDTOrganizadorDetallado(nickname);
 

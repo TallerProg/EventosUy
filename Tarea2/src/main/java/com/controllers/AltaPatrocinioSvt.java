@@ -1,5 +1,6 @@
 package com.controllers;
 
+import com.config.WSClientProvider;
 import java.io.IOException;
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class AltaPatrocinioSvt extends HttpServlet {
       throws ServletException, IOException {
 
     req.setCharacterEncoding("UTF-8");
-	cliente.ws.sc.WebServicesService service = new cliente.ws.sc.WebServicesService();
+	cliente.ws.sc.WebServicesService service = WSClientProvider.newService();
     cliente.ws.sc.WebServices port = service.getWebServicesPort();
     if ("1".equals(req.getParameter("calc"))) {
       resp.setContentType("application/json;charset=UTF-8");
@@ -113,7 +114,7 @@ public class AltaPatrocinioSvt extends HttpServlet {
       Integer cantidad = (cantidadStr == null || cantidadStr.isBlank()) ? null : Integer.valueOf(cantidadStr);
       ETipoNivel nivel = parseNivel(nivelStr);
 
-  		cliente.ws.sc.WebServicesService service = new cliente.ws.sc.WebServicesService();
+  		cliente.ws.sc.WebServicesService service = WSClientProvider.newService();
   		cliente.ws.sc.WebServices port = service.getWebServicesPort();
   		java.time.LocalDate javaLocalDate = java.time.LocalDate.now();
   		String fechaString = javaLocalDate.toString();
@@ -147,7 +148,7 @@ public class AltaPatrocinioSvt extends HttpServlet {
       req.setAttribute("form_codigo", codigo);
 
       try {
-    	cliente.ws.sc.WebServicesService service = new cliente.ws.sc.WebServicesService();
+    	cliente.ws.sc.WebServicesService service = WSClientProvider.newService();
       	cliente.ws.sc.WebServices port = service.getWebServicesPort();
       	StringArray  stringArray  =  port.listarNombresTiposRegistroDTO(edicion);
       	List<String> nombresTR = stringArray.getItem(); 
@@ -184,7 +185,7 @@ public class AltaPatrocinioSvt extends HttpServlet {
   // SOLO DTOs
   private static void cargarInstitucionesDTO(HttpServletRequest req) {
     try {
-      cliente.ws.sc.WebServicesService service = new cliente.ws.sc.WebServicesService();
+      cliente.ws.sc.WebServicesService service = WSClientProvider.newService();
       cliente.ws.sc.WebServices port = service.getWebServicesPort();
       DtInstitucionArray instDTA= port.listarDTInstituciones();
       List<DtInstitucion> dts=instDTA.getItem();

@@ -1,5 +1,6 @@
 package com.controllers;
 
+import com.config.WSClientProvider;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
@@ -38,7 +39,7 @@ public class ListaEventosSvt extends HttpServlet {
     req.setAttribute("ES_ORG", esOrg);
 
     try {
-        WebServicesService service = new WebServicesService();
+        WebServicesService service = WSClientProvider.newService();
       WebServices port = service.getWebServicesPort();
 
       DTeventoArray arr = port.listarDTEventos();

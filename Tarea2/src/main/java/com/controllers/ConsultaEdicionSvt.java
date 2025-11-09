@@ -1,5 +1,6 @@
 package com.controllers;
 
+import com.config.WSClientProvider;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -90,7 +91,7 @@ public class ConsultaEdicionSvt extends HttpServlet {
     }
 
     try {
-        WebServicesService service = new WebServicesService();
+        WebServicesService service = WSClientProvider.newService();
       WebServices port = service.getWebServicesPort();
 
       DtEdicion ed = port.consultaEdicionDeEvento(nombreEvento, nombreEdicion);

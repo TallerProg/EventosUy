@@ -13,6 +13,7 @@ import cliente.ws.sc.DtCategoria;
 import cliente.ws.sc.DtCategoriaArray;
 import cliente.ws.sc.WebServices;
 import cliente.ws.sc.WebServicesService;
+import com.config.WSClientProvider;
 
 
 @WebServlet(urlPatterns = "/home")
@@ -24,8 +25,8 @@ public class HomeMovilSvt extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         
-        cliente.ws.sc.WebServicesService service = new cliente.ws.sc.WebServicesService();
-        cliente.ws.sc.WebServices port = service.getWebServicesPort();
+        WebServicesService service = WSClientProvider.newService();
+        WebServices port = service.getWebServicesPort();
         
         DTeventoArray eventosDTA = port.listarDTEventos();
         List<DTevento> eventos = eventosDTA.getItem();
