@@ -1,0 +1,73 @@
+
+
+    .patro-card {
+        display: flex;
+        flex-direction: row;
+        background: #fff;
+        border-radius: 15px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+        min-height: 200px;
+        position: relative;
+        transition: all 0.3s ease;
+    }
+
+    .patro-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .patro-image {
+        flex: 0 0 220px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f7f7f7;
+    }
+
+    .patro-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .patro-content {
+        flex: 1;
+        padding: 20px 25px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        position: relative;
+    }
+
+    .patro-title {
+        font-size: 1.3rem;
+        font-weight: 700;
+        margin-bottom: 0.3rem;
+    }
+
+    .patro-company {
+        color: #666;
+        margin-bottom: 1rem;
+    }
+
+    .detail-item {
+        font-size: 0.9rem;
+        margin-bottom: 0.3rem;
+    }
+
+    /* Detalles ocultos */
+    .patro-extra {
+        opacity: 0;
+        max-height: 0;
+        overflow: hidden;
+        transition: all 0.4s ease;
+    }
+
+    /* Al pasar el mouse sobre la card, mostrar */
+    .patro-card:hover .patro-extra {
+        opacity: 1;
+        max-height: 300px;
+        /* suficiente para expandirse */
+        margin-top: 1rem;
+    }

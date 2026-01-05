@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Registro - EventUY</title>
+  <link href="../img/logoeuy.png" rel="icon">
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Rubik:wght@400;500;600;700&family=Kanit:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+  <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="../css/main.css" rel="stylesheet">
+  <link href="../css/RegistroEdicionEvento.css" rel="stylesheet">
+  <script src="../js/RegistroEdicionEvento.js"></script>
+  <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+</head>
+<body class="index-page">
+
+   <header id="header" class="header d-flex align-items-center fixed-top">
+    <div class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
+      <nav id="navmenu" class="navmenu">
+        <ul>
+          <li>
+            <a href="../index.html" class="logo d-flex align-items-center">
+              <img src="../img/logoeuy.png" alt="">
+            </a>
+          </li>
+          <li><a href="usuarios.html">Usuarios</a></li>
+          <li><a href="listaEventos.html">Eventos</a></li>
+          <li><a href="listaInstituciones.html">Instituciones</a></li>
+          <li class="nav-item search-item ms-auto">
+            <form class="search-form" action="search.html" method="get">
+              <input type="text" name="q" class="search-input" placeholder="Buscar eventos...">
+              <button type="submit" class="search-btn"><i class="bi bi-search"></i></button>
+            </form>
+          </li>
+          <li>
+            <a href="login.html" class="login-icon" data-bs-toggle="tooltip" data-bs-placement="bottom"
+              title="Login / Registrarse">
+              <i class="bi bi-person-circle"></i>
+            </a>
+          </li>
+        </ul>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main">
+    <section id="registro" class="section">
+      <div class="container section-title">
+        <h2>Registro a Edición de Evento</h2>
+      </div>
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-8">
+            <div id="successMessage" class="success-message" style="display: none;">
+              <i class="bi bi-check-circle-fill"></i>
+              ¡Registro completado exitosamente!
+            </div>
+            
+            <div id="tiposRegistro" class="tipos-registro-container">
+              <h4>Selecciona un Tipo de Registro</h4>
+              <div class="tipos-registro">
+                <div class="card-registro">
+                  <div class="card-content">
+                    <i class="bi bi-person-circle"></i>
+                    <h5>Registro General</h5>
+                    <p>Acceso completo al evento.</p>
+                  </div>
+                  <button class="btn-seleccionar" onclick="procesarRegistroGeneral()">Seleccionar</button>
+                </div>
+                
+                <div class="card-registro">
+                  <div class="card-content">
+                    <i class="bi bi-gift"></i>
+                    <h5>Con Código de Patrocinio</h5>
+                    <p>Acceso gratuito al evento con código.</p>
+                  </div>
+                  <button class="btn-seleccionar" onclick="abrirModal('patrocinio')">Seleccionar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="registroModal" tabindex="-1" aria-labelledby="registroModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="registroModalLabel">Registro con Código de Patrocinio</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="codigo">Código de Patrocinio</label>
+            <input type="text" id="codigo" class="form-control" placeholder="Ingresa tu código de patrocinio">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">cerrar</button>
+          <button type="button" class="btn btn-primary" onclick="confirmarRegistro()">Confirmar Registro</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <hr class="mt-5 mb-4" style="border: 0; height: 3px; background: #bbb; border-radius: 2px;">
+<footer id="footer" class="footer position-relative light-background">
+  <div class="container mt-4">
+    <div class="row">
+      
+      <!-- Columna izquierda: Sobre eventos.uy -->
+      <div class="col-lg-6 col-md-6 mb-3">
+        <h5>Sobre eventos.uy</h5>
+        <p class="text-muted small">
+          En <strong>eventos.uy</strong> nos apasiona conectar personas a través de conferencias, 
+          talleres, hackatones y todo tipo de encuentros. Queremos hacer más fácil organizar, 
+          descubrir y disfrutar eventos. <br>
+          Si sos organizador, vas a encontrar herramientas para gestionar tus ediciones, 
+          inscripciones y patrocinios. Y si sos asistente, podes
+          consultar por tus eventos favoritos,  registrarte en segundos y luego queda disfrutarlos! .
+        </p>
+      </div>
+
+      <!-- Columna derecha: Contacto y redes -->
+      <div class="col-lg-6 col-md-6 mb-3 text-lg-end text-md-end text-center">
+        <h5>Contacto</h5>
+        <p class="small">
+          📧 <a href="mailto:contacto@eventos.uy">contacto@eventos.uy</a><br>
+          ☎ +598 2400 0000
+        </p>
+        <div class="social-links d-flex justify-content-lg-end justify-content-md-end justify-content-center">
+          <a href=""><i class="bi bi-twitter-x"></i></a>
+          <a href=""><i class="bi bi-facebook"></i></a>
+          <a href=""><i class="bi bi-instagram"></i></a>
+          <a href=""><i class="bi bi-linkedin"></i></a>
+          <a href="https://gitlab.fing.edu.uy/tprog/tpgr27"><i class="bi bi-gitlab"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Créditos -->
+    <div class="credits text-center mt-3">
+      © 2025 <strong>eventos.uy</strong> · Taller de Programación FING G27
+    </div>
+  </div>
+</footer>
+</body>
+</html>
