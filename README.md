@@ -98,7 +98,7 @@
   <li>Apache Tomcat 11</li>
 </ul>
 
-<h3>Aplicación de administración</h3>
+<h3>Aplicación de administrador</h3>
 <ul>
   <li>Java Swing</li>
 </ul>
