@@ -115,3 +115,19 @@
 <ul>
   <li>Git</li>
 </ul>
+<h3>  Algunas vistas de la pagina</h3>
+<p>
+  <img
+    src="EventosUy/muestra/visualizacion-evento-organizadores-1.png"
+    alt="Visualización de evento para organizadores"
+    width="800"
+  />
+</p>
+
+<p>
+  <img
+    src="EventosUy/muestra/visualizacion-evento-organizadores-2.png"
+    alt="Visualización de evento para organizadores – vista detallada"
+    width="800"
+  />
+</p>
