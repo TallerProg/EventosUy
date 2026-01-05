@@ -1,86 +1,117 @@
-eventos.uy
+<h1 align="center">eventos.uy</h1>
 
-Plataforma web para la gestión integral de eventos desarrollada como proyecto del curso Taller de Programación (FING – UdelaR).
+<p align="center">
+  Plataforma web para la <strong>gestión integral de eventos</strong> desarrollada como proyecto del curso
+  <strong>Taller de Programación</strong> (FING – UdelaR).
+</p>
 
-El sistema permite a organizadores publicar y administrar eventos y ediciones, y a los usuarios registrarse, recibir recomendaciones y obtener certificados de asistencia.
+<p>
+  El sistema permite a organizadores publicar y administrar eventos y ediciones, y a los usuarios
+  registrarse, recibir recomendaciones y obtener certificados de asistencia.
+</p>
 
-Contexto del proyecto
+<hr />
 
-El proyecto fue desarrollado siguiendo un proceso iterativo e incremental, dividido en tres tareas, cada una con foco en una parte distinta del sistema:
+<h2>Contexto del proyecto</h2>
 
-Tarea 1: Servidor Central + aplicación de administración (Java Swing)
+<p>
+  El proyecto fue desarrollado siguiendo un <strong>proceso iterativo e incremental</strong>, dividido en tres tareas,
+  cada una con foco en una parte distinta del sistema:
+</p>
 
-Tarea 2: Servidor Web (Servlets + JSP) sin comunicación remota
+<ul>
+  <li>
+    <strong>Tarea 1</strong>: Servidor Central + aplicación de administración (Java Swing)
+  </li>
+  <li>
+    <strong>Tarea 2</strong>: Servidor Web (Servlets + JSP) sin comunicación remota
+  </li>
+  <li>
+    <strong>Tarea 3</strong>: Integración distribuida mediante Web Services
+  </li>
+</ul>
 
-Tarea 3: Integración distribuida mediante Web Services
+<p>
+  La aplicación está inspirada en plataformas reales de gestión de eventos y fue diseñada con énfasis en
+  <strong>buenas prácticas de diseño orientado a objetos</strong>, <strong>arquitectura en capas</strong> y
+  <strong>calidad de código</strong>.
+</p>
 
-La aplicación está inspirada en plataformas reales de gestión de eventos y fue diseñada con énfasis en buenas prácticas de diseño orientado a objetos, arquitectura en capas y calidad de código.
+<hr />
 
-Arquitectura
+<h2>Arquitectura</h2>
 
-El sistema sigue una arquitectura distribuida, separando claramente responsabilidades entre los distintos componentes:
+<p>
+  El sistema sigue una <strong>arquitectura distribuida</strong>, separando claramente responsabilidades entre
+  los distintos componentes:
+</p>
 
-Servidor Central
+<h3>Servidor Central</h3>
 
-Lógica de negocio y gestión de datos
+<ul>
+  <li>Lógica de negocio y gestión de datos</li>
+  <li>Persistencia del sistema</li>
+  <li>Servicios expuestos vía Web Services (SOAP)</li>
+  <li>Aplicación de administración desarrollada en Java Swing</li>
+</ul>
 
-Persistencia del sistema
+<h3>Servidor Web (Apache Tomcat)</h3>
 
-Servicios expuestos vía Web Services (SOAP)
+<ul>
+  <li>Interfaz web para usuarios finales</li>
+  <li>Implementado con Servlets y JSP</li>
+  <li>Consume los servicios del Servidor Central</li>
+</ul>
 
-Aplicación de administración desarrollada en Java Swing
+<h3>Clientes</h3>
 
-Servidor Web (Apache Tomcat)
+<ul>
+  <li>Navegadores web de escritorio</li>
+  <li>Navegadores web en dispositivos móviles</li>
+</ul>
 
-Interfaz web para usuarios finales
+<hr />
 
-Implementado con Servlets y JSP
+<h2>Tecnologías utilizadas</h2>
 
-Consume los servicios del Servidor Central
+<h3>Lenguaje</h3>
+<ul>
+  <li>Java 21</li>
+</ul>
 
-Clientes
+<h3>Backend</h3>
+<ul>
+  <li>Java SE / Java EE</li>
+  <li>Web Services (SOAP)</li>
+  <li>Servlets y JSP</li>
+</ul>
 
-Navegadores web de escritorio y dispositivos móviles
+<h3>Frontend</h3>
+<ul>
+  <li>JSP</li>
+  <li>HTML5 / CSS3</li>
+  <li>Bootstrap (diseño responsive y componentes visuales)</li>
+</ul>
 
-Tecnologías utilizadas
-Lenguaje
+<h3>Infraestructura</h3>
+<ul>
+  <li>Apache Tomcat 11</li>
+</ul>
 
-Java 21
+<h3>Aplicación de administración</h3>
+<ul>
+  <li>Java Swing</li>
+</ul>
 
-Backend
+<h3>Build, testing y calidad</h3>
+<ul>
+  <li>Maven</li>
+  <li>JUnit</li>
+  <li>Checkstyle</li>
+  <li>PMD</li>
+</ul>
 
-Java SE / Java EE
-
-Web Services (SOAP)
-
-Servlets y JSP
-
-Frontend
-
-JSP
-
-HTML5 / CSS3
-
-Bootstrap (diseño responsive y componentes visuales)
-
-Infraestructura
-
-Apache Tomcat 11
-
-Aplicación de administración
-
-Java Swing
-
-Build, testing y calidad
-
-Maven
-
-JUnit
-
-Checkstyle
-
-PMD
-
-Control de versiones
-
-Git
+<h3>Control de versiones</h3>
+<ul>
+  <li>Git</li>
+</ul>
