@@ -6,7 +6,7 @@
 </p>
 
 <p>
-  El sistema permite a organizadores publicar y administrar eventos y ediciones, y a los usuarios
+  El sistema permite a organizadores publicar y administrar tanto eventos como ediciones, y a los usuarios
   registrarse, recibir recomendaciones y obtener certificados de asistencia.
 </p>
 
