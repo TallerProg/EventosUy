@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app
+    xmlns="https://jakarta.ee/xml/ns/jakartaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
+    version="6.0">
+
+  <context-param>
+    <param-name>WS_URL</param-name>
+    <param-value>http://127.0.0.1:9128/webservices</param-value>
+  </context-param>
+
+  <filter>
+    <filter-name>AuthMovil</filter-name>
+    <filter-class>com.movil.filters.AuthMovilFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>AuthMovil</filter-name>
+    <url-pattern>/m/*</url-pattern>
+  </filter-mapping>
+
+  <servlet>
+    <servlet-name>LoginMovil</servlet-name>
+    <servlet-class>com.movil.controllers.LoginMovilSvt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LoginMovil</servlet-name>
+    <url-pattern>/login</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>LogoutMovil</servlet-name>
+    <servlet-class>com.movil.controllers.LogoutMovilSvt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LogoutMovil</servlet-name>
+    <url-pattern>/logout</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>HomeMovil</servlet-name>
+    <servlet-class>com.movil.controllers.HomeMovilSvt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>HomeMovil</servlet-name>
+    <url-pattern>/m/home</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>ConsultaEdicionMovil</servlet-name>
+    <servlet-class>com.movil.controllers.ConsultaEdicionMovilSvt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ConsultaEdicionMovil</servlet-name>
+    <url-pattern>/m/ediciones</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>ConsultaRegistroMovil</servlet-name>
+    <servlet-class>com.movil.controllers.ConsultaRegistroMovilSvt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ConsultaRegistroMovil</servlet-name>
+    <url-pattern>/m/registro</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>MarcarAsistenciaMovil</servlet-name>
+    <servlet-class>com.movil.controllers.MarcarAsistenciaMovilSvt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MarcarAsistenciaMovil</servlet-name>
+    <url-pattern>/m/asistencia</url-pattern>
+  </servlet-mapping>
+</web-app>
