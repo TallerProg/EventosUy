@@ -120,70 +120,60 @@
 <p>
   <img
     src="https://github.com/TallerProg/EventosUy/blob/main/muestra/1.png"
-    width="800"
   />
 </p>
 
 <p>
   <img
     src="https://github.com/TallerProg/EventosUy/blob/main/muestra/2.png"
-    width="800"
   />
 </p>
 
 <p>
   <img
     src="https://github.com/TallerProg/EventosUy/blob/main/muestra/4.png"
-    width="800"
   />
 </p>
 
 <p>
   <img
     src="https://github.com/TallerProg/EventosUy/blob/main/muestra/7.png"
-    width="800"
   />
 </p>
 
 <p>
   <img
     src="https://github.com/TallerProg/EventosUy/blob/main/muestra/11.png"
-    width="800"
   />
 </p>
 
 <p>
   <img
     src="https://github.com/TallerProg/EventosUy/blob/main/muestra/12.png"
-    width="800"
   />
 </p>
 
 <p>
   <img
     src="https://github.com/TallerProg/EventosUy/blob/main/muestra/13.png"
-    width="800"
   />
 </p>
 
 <p>
   <img
     src="https://github.com/TallerProg/EventosUy/blob/main/muestra/16.png"
-    width="800"
   />
 </p>
 
 <p>
   <img
     src="https://github.com/TallerProg/EventosUy/blob/main/muestra/18.png"
-    width="800"
   />
 </p>
 
 <p>
   <img
     src="https://github.com/TallerProg/EventosUy/blob/main/muestra/24.png"
-    width="800"
   />
 </p>
 
